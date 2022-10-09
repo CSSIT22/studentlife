@@ -27,7 +27,7 @@ const PORT = 8000
 const app = express()
 
 app.get("/", (_, res) => {
-    return res.send("Welcome to integrated project 2022!")
+    return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
 })
 
 app.use("/airdrop", airdropRoutes)
