@@ -1,8 +1,8 @@
 {
     "prettier.enable": true,
     "typescript.format.enable": true,
-    "editor.formatOnSave": true,       
+    "editor.formatOnSave": true,
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-      },
+    }
 }
