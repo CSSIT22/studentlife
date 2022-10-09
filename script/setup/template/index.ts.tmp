@@ -1,5 +1,0 @@
-import express from "express"
-
-const moduleName = express()
-
-export default moduleName
