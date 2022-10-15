@@ -1,0 +1,55 @@
+name: Deployment staging-front
+
+on:
+    push:
+        branches:
+            - staging
+        path:
+            - "frontend/**"
+
+jobs:
+    frontend-build:
+        name: Build React.js Frontend
+        runs-on: [self-hosted, linux, x64]
+        timeout-minutes: 5
+        container: node:16-alpine
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Compile React.js production build
+              run: |
+                  cd ./frontend
+                  npm i
+                  npm run build
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: frontend-build-artifact
+                  path: ./frontend/build
+
+    # upload: ยังก่อน ssh ยังบ่ได้
+    #     name: Preview Server Uploading
+    #     runs-on: [self-hosted, linux, x64]
+    #     timeout-minutes: 2
+    #     container: alpine
+    #     needs: [frontend-build]
+    #     env:
+    #         REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP_LOGIN }}
+    #         REMOTE_SSH_ARGS: ${{ secrets.REMOTE_SSH_ARGS }}
+    #         REMOTE_SSH_PASSWORD: ${{ secrets.REMOTE_SSH_PASSWORD }}
+    #     steps:
+    #         - name: Download artifacts
+    #           uses: actions/download-artifact@v2
+    #           with:
+    #               path: .
+
+    #         - name: Install packages
+    #           run: |
+    #               apk add openssh-client sshpass lftp
+    #         - name: Upload artifacts to server
+    #           run: |
+    #               lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /mnt/builds/${GITHUB_REF##*/}; bye"
+    #         - name: Trigger server reload
+    #           run: |
+    #               sshpass -p $REMOTE_SSH_PASSWORD ssh $REMOTE_SSH_ARGS -o StrictHostKeyChecking=no "nohup /mnt/data/branch.sh add ${GITHUB_REF##*/} > /dev/null"
