@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "nodemon ./src/index.ts",
-        "build": "tsc",
+        "build": "tsc && webpack --config webpack.config.js",
         "db:migrateDev": "prisma migrate dev",
         "db:gen": "prisma generate",
         "db:pull": "prisma db pull",
@@ -28,8 +28,11 @@
         "@types/node": "^18.8.3",
         "nodemon": "^2.0.20",
         "prisma": "^4.4.0",
+        "ts-loader": "^9.4.1",
         "ts-node": "^10.9.1",
-        "typescript": "^4.8.4"
+        "typescript": "^4.8.4",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0"
     },
     "dependencies": {
         "@prisma/client": "^4.4.0",
