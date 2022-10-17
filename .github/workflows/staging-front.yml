@@ -1,4 +1,4 @@
-name: Deployment staging-front
+name: 👻 Deployment staging-front
 
 on:
     push:
@@ -10,27 +10,27 @@ on:
 
 jobs:
     frontend-build:
-        name: Build React.js Frontend
+        name: 🐳 Build React.js Frontend
         runs-on: [self-hosted, linux, x64]
         timeout-minutes: 5
         container: node:16-alpine
         steps:
-            - name: Checkout
+            - name: 🎤 Checkout
               uses: actions/checkout@v2
 
-            - name: Compile React.js production build
+            - name: ⌚ Compile React.js production build
               run: |
                   cd ./frontend
                   npm i
                   npm run build
-            - name: Upload artifact
+            - name: 🆙 Upload artifact
               uses: actions/upload-artifact@v2
               with:
                   name: frontend-build-artifact
                   path: ./frontend/dist
 
     upload:
-        name: Preview Server Uploading
+        name: 🍱 Preview Server Uploading
         runs-on: [self-hosted, linux, x64]
         timeout-minutes: 2
         container: alpine
@@ -40,7 +40,7 @@ jobs:
             # REMOTE_SSH_ARGS: ${{ secrets.REMOTE_SSH_ARGS }}
             # REMOTE_SSH_PASSWORD: ${{ secrets.REMOTE_SSH_PASSWORD }}
         steps:
-            - name: Download artifacts
+            - name: 📥 Download artifacts
               uses: actions/download-artifact@v2
               with:
                   path: .
@@ -48,7 +48,7 @@ jobs:
             - name: Install packages
               run: |
                   apk add openssh-client sshpass lftp
-            - name: Upload artifacts to server
+            - name: 🖨️ Upload artifacts to server
               run: |
                   lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /mnt/web; bye"
             # - name: Trigger server reload
