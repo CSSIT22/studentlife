@@ -9,3 +9,47 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+//User Profile Module
+model User_profile {
+  studentId String @id
+  fName String
+  lName String
+  email String
+  details Detail?
+  major Major?
+  faculty Faculty?
+  role Role?
+}
+
+model Detail {
+  userId String @unique
+  birth DateTime
+  sex String
+  address String
+  hobby String
+  phone String
+  year Int
+  student User_profile @relation(fields: [userId], references: [studentId])
+}
+
+model Major {
+  userId String @id
+  major String
+  studentMajor User_profile @relation(fields: [userId], references: [studentId])
+}
+
+model Faculty {
+  userId String @id
+  faculty String
+  studentFaculty User_profile @relation(fields: [userId], references: [studentId])
+}
+
+model Role {
+  roleId Int @id @default(autoincrement())
+  userId String @unique
+  club String
+  rank String
+  expire_date DateTime
+  studentRole User_profile @relation(fields: [userId], references: [studentId])
+}
