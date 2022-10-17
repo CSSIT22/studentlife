@@ -12,44 +12,48 @@ datasource db {
 
 //User Profile Module
 model User_profile {
-  studentId String @id
+  userId String @id @default(uuid())
+  studentId String
   fName String
   lName String
-  email String
+  email String @unique
+  image Bytes?
   details Detail?
-  major Major?
-  faculty Faculty?
+  studentMajor Major @relation(fields: [userId], references: [majorId], map: "student_major")
+  studentFaculty Faculty @relation(fields: [userId], references: [facultyId], map: "student_faculty")
   role Role?
 }
 
 model Detail {
-  userId String @unique
+  id String @unique
   birth DateTime
   sex String
   address String
   hobby String
   phone String
   year Int
-  student User_profile @relation(fields: [userId], references: [studentId])
+  student User_profile @relation(fields: [id], references: [userId])
 }
 
 model Major {
-  userId String @id
-  major String
-  studentMajor User_profile @relation(fields: [userId], references: [studentId])
+  majorId String @id
+  majorName String
+  facultyId String
+  student User_profile[]
+  majorFaculty Faculty @relation(fields: [facultyId], references: [facultyId])
 }
 
 model Faculty {
-  userId String @id
-  faculty String
-  studentFaculty User_profile @relation(fields: [userId], references: [studentId])
+  facultyId String @id
+  facultyName String
+  major Major[]
+  student User_profile[]
 }
 
 model Role {
-  roleId Int @id @default(autoincrement())
-  userId String @unique
+  userId String @id
   club String
   rank String
   expire_date DateTime
-  studentRole User_profile @relation(fields: [userId], references: [studentId])
+  studentRole User_profile @relation(fields: [userId], references: [userId])
 }
