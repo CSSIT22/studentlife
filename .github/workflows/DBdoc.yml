@@ -31,7 +31,7 @@ jobs:
               run: |
                   mkdir Documentation
                   cd ./Documentation/
-                  echo 'Here is our ER diagram ```mermaid
+                  echo -e 'Here is our ER diagram ```mermaid 
                   ${{ steps.request.outputs.response }}```' > ./Database.md
             - name: Upload Documentation to Wiki
               uses: SwiftDocOrg/github-wiki-publish-action@v1
