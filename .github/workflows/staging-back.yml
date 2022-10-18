@@ -14,7 +14,7 @@ jobs:
         environment: develop
         runs-on: [self-hosted, linux, x64]
         timeout-minutes: 5
-         container: node:16-alpine
+        container: node:16-alpine
         steps:
             - name: 😊 checkout
               uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
                   cd ./backend
                   npm i
                   npm run build
-            
+
             - name: login to docker
               uses: docker/login-action@v2
               with:
