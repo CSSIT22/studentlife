@@ -26,6 +26,6 @@ jobs:
                   url: "https://prisma-erd.simonknott.de/api/render-dml-to-mermaid"
                   method: "POST"
                   customHeaders: '{"Content-Type": "text/plain"}'
-                  data: "${{ steps.package.outputs.content }}"
+                  data: "${{ steps.schema.outputs.content }}"
             - name: Get Er
               run: echo ${{ steps.myRequest.outputs.response }}
