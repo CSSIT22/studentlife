@@ -33,7 +33,7 @@ jobs:
                   cd ./Documentation/
                   echo -e 'Here is our ER diagram 
                   ```mermaid
-                  ${${{ steps.request.outputs.response }}:1:-1} ```' > ./Database.md
+                  ${{ steps.request.outputs.response }:1:-1} ```' > ./Database.md
             - name: Upload Documentation to Wiki
               uses: SwiftDocOrg/github-wiki-publish-action@v1
               with:
