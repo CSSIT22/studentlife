@@ -10,7 +10,7 @@ on:
 
 jobs:
     build:
-        name: 🐳 build and push docker image
+        name: 🐳 build
         environment: develop
         runs-on: [self-hosted, linux, x64]
         timeout-minutes: 5
@@ -24,6 +24,23 @@ jobs:
                   cd ./backend
                   npm i
                   npm run build
+                  rm -r node_modules
+
+            - name: 🆙 Upload artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: backend-artifact
+                  path: ./backend/
+
+    containerize:
+        name: push docker image
+        runs-on: [self-hosted, linux, x64]
+        timeout-minutes: 5
+        steps:
+            - name: 📥 Download artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  path: .
 
             - name: login to docker
               uses: docker/login-action@v2
@@ -37,7 +54,7 @@ jobs:
             - name: ☁️ Build and push
               uses: docker/build-push-action@v2
               with:
-                  context: ./backend
+                  context: ./backend-artifact
                   file: ./Dockerfile
                   push: true
                   tags: modlifes/backend:latest
