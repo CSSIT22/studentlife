@@ -26,4 +26,4 @@ jobs:
                   customHeaders: '{"Content-Type": "text/plain"}'
                   data: "${{ steps.schema.outputs.content }}"
             - name: Get Er
-              run: echo ${{ steps.myRequest.outputs.response }}
+              run: echo ${{ steps.request.outputs.response }}
