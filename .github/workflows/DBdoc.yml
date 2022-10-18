@@ -25,5 +25,17 @@ jobs:
                   method: "POST"
                   customHeaders: '{"Content-Type": "text/plain"}'
                   data: "${{ steps.schema.outputs.content }}"
-            - name: Get Er
-              run: echo ${{ steps.request.outputs.response }}
+            # - name: Get Er
+            #   run: echo ${{ steps.request.outputs.response }}
+            - name: make file
+              run: |
+                  mkdir Documentation
+                  cd /Documentation
+                  echo 'Here is our ER diagram ```mermaid
+                  ${{ steps.request.outputs.response }}```' > ./Database.md
+            - name: Upload Documentation to Wiki
+              uses: SwiftDocOrg/github-wiki-publish-action@v1
+              with:
+                  path: "Documentation"
+              env:
+                  GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
