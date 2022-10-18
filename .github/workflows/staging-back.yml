@@ -36,6 +36,7 @@ jobs:
         name: push docker image
         runs-on: [self-hosted, linux, x64]
         timeout-minutes: 5
+        needs: [build]
         steps:
             - name: 📥 Download artifacts
               uses: actions/download-artifact@v2
