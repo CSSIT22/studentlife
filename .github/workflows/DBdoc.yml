@@ -5,7 +5,7 @@ on:
         branches:
             - DB
 
-job:
+jobs:
     genER:
         run-on: ubuntu-latest
         steps:
