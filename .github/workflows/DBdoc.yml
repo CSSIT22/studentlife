@@ -30,7 +30,7 @@ jobs:
             - name: make file
               run: |
                   mkdir Documentation
-                  cd /Documentation
+                  cd ./Documentation/
                   echo 'Here is our ER diagram ```mermaid
                   ${{ steps.request.outputs.response }}```' > ./Database.md
             - name: Upload Documentation to Wiki
