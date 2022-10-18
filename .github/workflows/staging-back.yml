@@ -87,4 +87,4 @@ jobs:
                   script: |
                       cd ${{secrets.PATH_STAGING}}
                       docker-compose pull
-                      docker-compose up --detach
+                      docker-compose up backend --detach
