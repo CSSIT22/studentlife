@@ -4,9 +4,9 @@ WORKDIR /modlifes
 
 COPY ./dist/modlifes-bundled.js .
 
-COPY --from=builder /modlifes/prisma/ ./prisma/
+COPY ./prisma/ ./prisma/
 
-RUN npm ci --only=production
+# RUN npm ci --only=production
 
 # RUN npm run db:gen
 
