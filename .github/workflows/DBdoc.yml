@@ -18,7 +18,7 @@ jobs:
                   path: ./backend/prisma/schema.prisma
 
             - name: Check schema
-              run: echo ${{ steps.package.outputs.content }}
+              run: echo "${{ steps.package.outputs.content }}"
             - name: Make request
               id: request
               uses: fjogeleit/http-request-action@v1
