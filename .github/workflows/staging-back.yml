@@ -73,9 +73,9 @@ jobs:
             - name: remote ssh
               uses: appleboy/ssh-action@master
               with:
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USERNAME }}
-                  password: ${{ secrets.SSH_PASSWORD }}
+                  host: ${{ secrets.STAGING_SSH_HOST }}
+                  username: ${{ secrets.STAGING_SSH_USERNAME }}
+                  password: ${{ secrets.STAGING_SSH_PASSWORD }}
                   # script: |
                   #     echo '${{secrets.CONTAINER_ENV}}' > ${{secrets.ENV_PATH}}
                   #     echo '${{secrets.CONTAINER_LABEL}}' > ${{secrets.LABEL_PATH}}
