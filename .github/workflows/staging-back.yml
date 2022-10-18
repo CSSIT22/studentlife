@@ -86,5 +86,5 @@ jobs:
                   #     docker system prune -af
                   script: |
                       cd ${{secrets.PATH_STAGING}}
-                      docker-compose pull
-                      docker-compose up backend --detach
+                      docker pull modlifes/backend:latest
+                      docker-compose up --detach backend
