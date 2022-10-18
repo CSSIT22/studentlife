@@ -68,7 +68,7 @@ jobs:
         runs-on: [self-hosted, linux, x64]
         environment: develop
         timeout-minutes: 5
-        needs: [build]
+        needs: [containerize]
         steps:
             - name: remote ssh
               uses: appleboy/ssh-action@master
