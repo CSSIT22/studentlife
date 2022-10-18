@@ -27,14 +27,21 @@ jobs:
                   data: "${{ steps.schema.outputs.content }}"
             # - name: Get Er
             #   run: echo ${{ steps.request.outputs.response }}
+            - name: cleanup string
+              id: res
+              uses: actions/github-script@0.9.0
+              with:
+                  script: |
+                      let er = ${steps.request.outputs.response }}
+                      er.substring(1,er.length-1)
+                      core.setOutput('er', er)
             - name: make file
               run: |
                   mkdir Documentation
                   cd ./Documentation/
-                  STR = ${{ steps.request.outputs.response }}
                   echo -e 'Here is our ER diagram 
                   ```mermaid
-                  ${STR:1:-1} ```' > ./Database.md
+                  ${{ steps.res.outputs.er }} ```' > ./Database.md
             - name: Upload Documentation to Wiki
               uses: SwiftDocOrg/github-wiki-publish-action@v1
               with:
