@@ -50,7 +50,7 @@ jobs:
                   apk add openssh-client sshpass lftp
             - name: 🖨️ Upload artifacts to server
               run: |
-                  lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /root/staging/web; bye"
+                  lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact ${{secrets.PATH_STAGING}}/web; bye"
             # - name: Trigger server reload
             #   run: |
             #       sshpass -p $REMOTE_SSH_PASSWORD ssh $REMOTE_SSH_ARGS -o StrictHostKeyChecking=no "nohup /mnt/data/branch.sh add ${GITHUB_REF##*/} > /dev/null"
