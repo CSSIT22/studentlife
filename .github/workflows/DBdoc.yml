@@ -1,0 +1,27 @@
+name: Generate ER Diagram
+
+on:
+    push:
+        branches:
+            - DB
+
+job:
+    genER:
+        run-on: ubuntu-latest
+        steps:
+            - name: Read Schema
+              id: schema
+              uses: juliangruber/read-file-action@v1
+              with:
+                  path: ./backend/prisma/schema.prisma
+
+            - name: Make request
+              id: request
+              uses: fjogeleit/http-request-action@v1
+              with:
+                  url: "https://prisma-erd.simonknott.de/api/render-dml-to-mermaid"
+                  method: "POST"
+                  customHeaders: '{"Content-Type": "text/plain"}'
+                  data: "${{ steps.package.outputs.content }}"
+            - name: Get Er
+              run: echo ${{ steps.myRequest.outputs.response }}
