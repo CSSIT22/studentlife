@@ -58,7 +58,7 @@ jobs:
             - name: ☁️ Build and push
               uses: docker/build-push-action@v2
               with:
-                  context: ./backend-artifact/backend
+                  context: ./backend
                   file: ./Dockerfile
                   push: true
                   tags: modlifes/backend:latest
