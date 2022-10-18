@@ -7,7 +7,7 @@ on:
 
 jobs:
     genER:
-        run-on: ubuntu-latest
+        runs-on: ubuntu-latest
         steps:
             - name: Read Schema
               id: schema
