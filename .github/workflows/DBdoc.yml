@@ -9,6 +9,8 @@ jobs:
     genER:
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout
+              uses: actions/checkout@v3
             - name: Read Schema
               id: schema
               uses: juliangruber/read-file-action@v1
