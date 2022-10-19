@@ -18,6 +18,9 @@ import timelineRoutes from "./modules/timeline"
 import todolistRoutes from "./modules/todolist"
 import transactionRoutes from "./modules/transaction"
 import userRoutes from "./modules/user"
+import passport from "passport"
+import microsoft from "./modules/middleware/microsoft"
+import { loginRoutes } from "./modules/middleware/login/loginRoutes"
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -49,5 +52,12 @@ app.use("/timeline", timelineRoutes)
 app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
+
+// route for authentication with microsoft
+app.use("/auth", loginRoutes)
+// config passport for microsoft strategy
+microsoft()
+// config app to use passport
+app.use(passport.initialize())
 
 app.listen(PORT, () => console.log(`running on ${PORT} !`))
