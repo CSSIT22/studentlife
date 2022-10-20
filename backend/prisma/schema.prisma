@@ -12,15 +12,22 @@ datasource db {
 
 //User Profile Module
 model User_profile {
-  userId         String  @id @default(uuid())
-  studentId      String
-  fName          String
-  lName          String
-  email          String  @unique
-  image          Bytes?
-  details        Detail?
-  studentMajor   Major   @relation(fields: [userId], references: [majorId], map: "student_major")
-  role           Role?
+  userId          String   @id @default(uuid())
+  studentId       String
+  fName           String
+  lName           String
+  email           String   @unique
+  image           Bytes?
+  details         Detail?
+  student_major   String
+  studentMajor    Major    @relation(fields: [student_major], references: [majorId])
+  role            Role?
+  userFollowers   Follow[] @relation("following")
+  userFollowing   Follow[] @relation("follower")
+  friends         Friend[] @relation("friends")
+  friendsRelation Friend[] @relation("friendsWith")
+  userReporters   Report[] @relation("reporting")
+  userReporting   Report[] @relation("reporter")
 }
 
 model Detail {
@@ -43,7 +50,7 @@ model Major {
 }
 
 model Faculty {
-  facultyId   String         @id
+  facultyId   String  @id
   facultyName String
   major       Major[]
 }
@@ -54,4 +61,38 @@ model Role {
   rank        String
   expire_date DateTime
   studentRole User_profile @relation(fields: [userId], references: [userId])
+}
+
+model Follow {
+  userId        String
+  anotherUserId String
+  status        Boolean
+  date          DateTime     @default(now())
+  follower      User_profile @relation("follower", fields: [userId], references: [userId])
+  following     User_profile @relation("following", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
+}
+
+model Friend {
+  userId        String
+  anotherUserId String
+  status        Boolean
+  date          DateTime     @default(now())
+  friends       User_profile @relation("friends", fields: [userId], references: [userId])
+  friendsWith   User_profile @relation("friendsWith", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
+}
+
+model Report {
+  userId        String
+  anotherUserId String
+  limit         Int
+  reason        String
+  date          DateTime
+  reporter      User_profile @relation("reporter", fields: [userId], references: [userId])
+  reporting     User_profile @relation("reporting", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
 }
