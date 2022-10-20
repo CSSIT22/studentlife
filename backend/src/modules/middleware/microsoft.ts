@@ -30,9 +30,7 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                 responseType: "arraybuffer",
             })
         } catch (err) {
-            profile_pic = {
-                error: err,
-            }
+            profile_pic = {}
         }
 
         // getting student id (onPremisesSamAccountName)
