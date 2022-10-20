@@ -22,6 +22,10 @@ model User_profile {
   student_major String
   studentMajor  Major   @relation(fields: [student_major], references: [majorId])
   role          Role?
+  userFollowers Follow[] @relation("following")
+  userFollowing Follow[] @relation("follower")
+  friends         Friend[] @relation("friends")
+  friendsRelation Friend[] @relation("friendsWith")
 }
 
 model Detail {
@@ -55,4 +59,24 @@ model Role {
   rank        String
   expire_date DateTime
   studentRole User_profile @relation(fields: [userId], references: [userId])
+}
+
+model Follow {
+  userId String
+  anotherUserId String
+  status Boolean
+  date DateTime @default(now())
+  @@id([userId, anotherUserId])
+  follower User_profile @relation("follower", fields: [userId], references: [userId])
+  following User_profile @relation("following", fields: [anotherUserId], references: [userId])
+}
+
+model Friend {
+  userId String
+  anotherUserId String
+  status Boolean
+  date DateTime @default(now())
+  @@id([userId, anotherUserId])
+  friends User_profile @relation("friends", fields: [userId], references: [userId])
+  friendsWith User_profile @relation("friendsWith", fields: [anotherUserId], references: [userId])
 }
