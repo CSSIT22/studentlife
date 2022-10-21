@@ -6,7 +6,7 @@ on:
         #     - staging
         #     - infra-*
         path:
-            - "backend/**"
+            - "./backend/**"
 
 jobs:
     build:
