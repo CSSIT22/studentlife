@@ -12,22 +12,25 @@ datasource db {
 
 //User Profile Module
 model User_profile {
-  userId          String   @id @default(uuid())
+  userId          String         @id @default(uuid())
   studentId       String
   fName           String
   lName           String
-  email           String   @unique
+  email           String         @unique
   image           Bytes?
   details         Detail?
   student_major   String
-  studentMajor    Major    @relation(fields: [student_major], references: [majorId])
+  studentMajor    Major          @relation(fields: [student_major], references: [majorId])
   role            Role?
-  userFollowers   Follow[] @relation("following")
-  userFollowing   Follow[] @relation("follower")
-  friends         Friend[] @relation("friends")
-  friendsRelation Friend[] @relation("friendsWith")
-  userReporters   Report[] @relation("reporting")
-  userReporting   Report[] @relation("reporter")
+  userFollowers   Follow[]       @relation("following")
+  userFollowing   Follow[]       @relation("follower")
+  friends         Friend[]       @relation("friends")
+  friendsRelation Friend[]       @relation("friendsWith")
+  userReporters   Report[]       @relation("reporting")
+  userReporting   Report[]       @relation("reporter")
+  userBlockers    Block_Friend[] @relation("blocking")
+  userBlocking    Block_Friend[] @relation("blocker")
+  levels          EXP?
 }
 
 model Detail {
@@ -90,9 +93,35 @@ model Report {
   anotherUserId String
   limit         Int
   reason        String
-  date          DateTime
+  date          DateTime     @default(now())
   reporter      User_profile @relation("reporter", fields: [userId], references: [userId])
   reporting     User_profile @relation("reporting", fields: [anotherUserId], references: [userId])
 
   @@id([userId, anotherUserId])
+}
+
+model Block_Friend {
+  userId        String
+  anotherUserId String
+  status        Boolean
+  blocker       User_profile @relation("blocker", fields: [userId], references: [userId])
+  blocking      User_profile @relation("blocking", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
+}
+
+model EXP {
+  userId    String        @id
+  currentXP Int           @default(0)
+  level     Int           @default(1)
+  student   User_profile  @relation(fields: [userId], references: [userId])
+  userXp    Action_to_XP?
+}
+
+model Action_to_XP {
+  userId     String   @id
+  actionType String
+  actionXp   Int
+  date       DateTime
+  xpGain     EXP      @relation(fields: [userId], references: [userId])
 }
