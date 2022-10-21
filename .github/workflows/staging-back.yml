@@ -4,9 +4,9 @@ on:
     push:
         branches:
             - staging
-            - infra-*
-        path:
-            - "!backend/**"
+            - infra-/*/backend/**
+        # path:
+        # - "backend/**"
 
 jobs:
     build:
