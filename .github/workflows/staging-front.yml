@@ -4,9 +4,10 @@ on:
     push:
         branches:
             - staging
-            - infra-*/frontend/**"
-        # path:
-        #     - "frontend/**"
+            - infra-*
+            path:
+                - "frontend/**"
+                
 
 jobs:
     frontend-build:
