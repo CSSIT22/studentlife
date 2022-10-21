@@ -2,11 +2,11 @@ name: ✨ Deploy to staging
 
 on:
     push:
-        # branches:
-        #     - staging
-        #     - infra-*
+        branches:
+            - staging
+            - infra-*
         path:
-            - "./backend/**"
+            - "backend/**"
 
 jobs:
     build:

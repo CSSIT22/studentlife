@@ -2,11 +2,11 @@ name: 👻 Deployment staging-front
 
 on:
     push:
-        # branches:
-        #     - staging
-        #     - infra-*
+        branches:
+            - staging
+            - infra-*
         path:
-            - "./frontend/**"
+            - "frontend/**"
 
 jobs:
     frontend-build:
