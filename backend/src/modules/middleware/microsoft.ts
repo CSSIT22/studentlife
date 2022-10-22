@@ -53,28 +53,25 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
 
             // extract firstname and lastname
             const fullname = _json.displayName.split(" ")
+
+            const studentInfo = {
+                studentId: onPremisesSamAccountName.onPremisesSamAccountName,
+                fName: fullname[0],
+                lName: fullname[1],
+                email: _json.mail,
+                image: profile_pic.data || null,
+                student_major: "",
+            }
             
             // doing upsert operation
             const user = await prisma.user_profile.upsert({
                 where: {
                     userId: _json.id,
                 },
-                update: {
-                    studentId: onPremisesSamAccountName.onPremisesSamAccountName,
-                    fName: fullname[0],
-                    lName: fullname[1],
-                    email: _json.mail,
-                    image: profile_pic.data || null,
-                    student_major: "111",
-                },
+                update: studentInfo,
                 create: {
                     userId: _json.id,
-                    studentId: onPremisesSamAccountName.onPremisesSamAccountName,
-                    fName: fullname[0],
-                    lName: fullname[1],
-                    email: _json.mail,
-                    image: profile_pic.data || null,
-                    student_major: "111",
+                    ...studentInfo
                 }
             })
             // return a callback
@@ -104,7 +101,7 @@ export default (prisma: PrismaClient) => {
             clientID: process.env.CLIENT_ID || "",
             clientSecret: process.env.CLIENT_SECRET || "",
             callbackURL: process.env.CALLBACK_URL,
-            scope: ["user.read", "mail.read", "offline_access"],
+            scope: ["User.ReadBasic.All"],
             authorizationURL: process.env.AUTH_URL,
             tokenURL: process.env.TOKEN_URL,
         },
