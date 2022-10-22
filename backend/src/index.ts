@@ -19,7 +19,7 @@ import todolistRoutes from "./modules/todolist"
 import transactionRoutes from "./modules/transaction"
 import userRoutes from "./modules/user"
 import passport from "passport"
-import microsoft from "./modules/middleware/microsoft"
+import microsoft from "./modules/middleware/passport/microsoft"
 import { loginRoutes } from "./modules/middleware/login/loginRoutes"
 
 if (process.env.NODE_ENV !== "production") {
