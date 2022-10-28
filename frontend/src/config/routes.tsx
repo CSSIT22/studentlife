@@ -7,8 +7,8 @@ const routes: RouteObject[] = Object.keys(ROUTES).map((route) => {
         .replace(/\/src\/pages|index|\.tsx$/g, "")
         .replace(/\[\.{3}.+\]/, "*")
         .replace(/\[(.+)\]/, ":$1")
-
-    return { path, element: ROUTES[route].default() }
+    const Element = ROUTES[route].default
+    return { path, element: <Element /> }
 })
 
 export const router = createBrowserRouter(routes)
