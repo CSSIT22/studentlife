@@ -21,6 +21,9 @@ import userRoutes from "./modules/user"
 import passport from "passport"
 import microsoft from "./modules/middleware/passport/microsoft"
 import { loginRoutes } from "./modules/middleware/login/loginRoutes"
+import { PrismaClient } from "@prisma/client"
+
+const prisma = new PrismaClient
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -33,6 +36,7 @@ app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
 })
 
+app.use("/auth", loginRoutes)
 app.use("/airdrop", airdropRoutes)
 app.use("/announcement", announcementRoutes)
 app.use("/blog", blogRoutes)
@@ -52,12 +56,6 @@ app.use("/timeline", timelineRoutes)
 app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
-
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient
-
-// route for authentication with microsoft
-app.use("/auth", loginRoutes)
 
 // config passport for microsoft strategy
 passport.use(microsoft(prisma))
