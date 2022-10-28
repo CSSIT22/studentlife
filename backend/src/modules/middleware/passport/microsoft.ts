@@ -2,6 +2,7 @@ import { Strategy as MicrosoftStrategy } from "passport-microsoft"
 import OAuth2Strategy from "passport-oauth2"
 import axios from "axios"
 import { PrismaClient } from "@prisma/client"
+import { nanoid } from "nanoid"
 
 /**
  *
@@ -35,41 +36,68 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
 
         // getting student id (onPremisesSamAccountName)
         try {
-            const { data } = await axios.get(
-                `https://graph.microsoft.com/v1.0/users/${profile.id}?$select=onPremisesSamAccountName,department`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
+            const { data } = await axios.get(`https://graph.microsoft.com/v1.0/users/${profile.id}?$select=onPremisesSamAccountName,department`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "Content-Type": "application/json",
+                },
+            })
 
             // extract data as json from profile
             const { _json } = profile
 
             // check if the user is a student of KMUTT or not
+            // NOTE: Students with @mail.kmutt.ac.th don't have jobTitle as Student
             if (_json.jobTitle !== "Student") throw new Error("You must be student of KMUTT")
 
             // extract firstname and lastname
             const fullname = _json.displayName.split(" ")
 
-            // NOTE: Students with @mail.kmutt.ac.th don't have jobTitle as Student
-
-            const studentInfo = {
-                studentId: data.onPremisesSamAccountName,
-                fName: fullname[0],
-                lName: fullname[1],
-                email: _json.mail,
-                image: profile_pic.data || null,
-                student_major: _json.officeLocation,
+            // Database operations
+            const faculty = await prisma.faculty.findMany()
+            let studentFaculty = faculty.find((item) => item.facultyName === data.department)
+            if (!studentFaculty) {
+                studentFaculty = await prisma.faculty.create({
+                    data: {
+                        facultyId: nanoid(),
+                        facultyName: data.department,
+                    },
+                })
             }
 
-            // Database operations
-            const student = await prisma.user_profile.create({
-                data: {
-                    ...studentInfo,
-                }
+            const major = await prisma.major.findMany()
+            let studentMajor = major.find((item) => item.majorName === _json.officeLocation)
+            if (!studentMajor) {
+                studentMajor = await prisma.major.create({
+                    data: {
+                        majorId: nanoid(),
+                        majorName: _json.officeLocation,
+                        facultyId: studentFaculty.facultyId,
+                    },
+                })
+            }
+
+            const student = await prisma.user_profile.upsert({
+                where: {
+                    email: _json.mail,
+                },
+                update: {
+                    userId: nanoid(),
+                    studentId: data.onPremisesSamAccountName,
+                    fName: fullname[0],
+                    lName: fullname[1],
+                    image: profile_pic.data || null,
+                    student_major: studentMajor.majorId,
+                },
+                create: {
+                    userId: nanoid(),
+                    studentId: data.onPremisesSamAccountName,
+                    fName: fullname[0],
+                    lName: fullname[1],
+                    email: _json.mail,
+                    image: profile_pic.data || null,
+                    student_major: studentMajor.majorId,
+                },
             })
 
             // return a callback
