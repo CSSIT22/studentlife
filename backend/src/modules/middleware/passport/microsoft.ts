@@ -82,7 +82,6 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                     email: _json.mail,
                 },
                 update: {
-                    userId: nanoid(),
                     studentId: data.onPremisesSamAccountName,
                     fName: fullname[0],
                     lName: fullname[1],
