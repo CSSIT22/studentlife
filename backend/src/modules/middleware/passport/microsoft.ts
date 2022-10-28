@@ -35,8 +35,8 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
 
         // getting student id (onPremisesSamAccountName)
         try {
-            const { data: onPremisesSamAccountName } = await axios.get(
-                `https://graph.microsoft.com/v1.0/users/${profile.id}?$select=onPremisesSamAccountName`,
+            const { data } = await axios.get(
+                `https://graph.microsoft.com/v1.0/users/${profile.id}?$select=onPremisesSamAccountName,department`,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -54,34 +54,26 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
             // extract firstname and lastname
             const fullname = _json.displayName.split(" ")
 
+            // NOTE: Students with @mail.kmutt.ac.th don't have jobTitle as Student
+
             const studentInfo = {
-                studentId: onPremisesSamAccountName.onPremisesSamAccountName,
+                studentId: data.onPremisesSamAccountName,
                 fName: fullname[0],
                 lName: fullname[1],
                 email: _json.mail,
                 image: profile_pic.data || null,
-                student_major: "",
+                student_major: _json.officeLocation,
             }
-            
-            // doing upsert operation
-            const user = await prisma.user_profile.upsert({
-                where: {
-                    userId: _json.id,
-                },
-                update: studentInfo,
-                create: {
-                    userId: _json.id,
-                    ...studentInfo
+
+            // Database operations
+            const student = await prisma.user_profile.create({
+                data: {
+                    ...studentInfo,
                 }
             })
+
             // return a callback
-            return done(null, {
-                studentId: user.studentId,
-                fName: user.fName,
-                lName: user.lName,
-                email: user.email,
-                image: user.image,
-            })
+            return done(null, student)
         } catch (err: any) {
             console.error(err)
             return done(err)
