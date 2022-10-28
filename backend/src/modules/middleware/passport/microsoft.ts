@@ -54,8 +54,12 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
             const fullname = _json.displayName.split(" ")
 
             // Database operations
-            const faculty = await prisma.faculty.findMany()
-            let studentFaculty = faculty.find((item) => item.facultyName === data.department)
+            const faculty = await prisma.faculty.findFirst({
+                where: {
+                    facultyName: data.department
+                }
+            })
+            let studentFaculty = faculty 
             if (!studentFaculty) {
                 studentFaculty = await prisma.faculty.create({
                     data: {
@@ -65,8 +69,12 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                 })
             }
 
-            const major = await prisma.major.findMany()
-            let studentMajor = major.find((item) => item.majorName === _json.officeLocation)
+            const major = await prisma.major.findFirst({
+                where: {
+                    majorName: _json.officeLocation 
+                }
+            })
+            let studentMajor = major 
             if (!studentMajor) {
                 studentMajor = await prisma.major.create({
                     data: {
