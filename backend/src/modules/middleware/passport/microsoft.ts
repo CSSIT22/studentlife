@@ -54,37 +54,6 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
             const fullname = _json.displayName.split(" ")
 
             // Database operations
-            const faculty = await prisma.faculty.findFirst({
-                where: {
-                    facultyName: data.department
-                }
-            })
-            let studentFaculty = faculty 
-            if (!studentFaculty) {
-                studentFaculty = await prisma.faculty.create({
-                    data: {
-                        facultyId: nanoid(),
-                        facultyName: data.department,
-                    },
-                })
-            }
-
-            const major = await prisma.major.findFirst({
-                where: {
-                    majorName: _json.officeLocation 
-                }
-            })
-            let studentMajor = major 
-            if (!studentMajor) {
-                studentMajor = await prisma.major.create({
-                    data: {
-                        majorId: nanoid(),
-                        majorName: _json.officeLocation,
-                        facultyId: studentFaculty.facultyId,
-                    },
-                })
-            }
-
             const student = await prisma.user_profile.upsert({
                 where: {
                     email: _json.mail,
@@ -94,7 +63,28 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                     fName: fullname[0],
                     lName: fullname[1],
                     image: profile_pic.data || null,
-                    student_major: studentMajor.majorId,
+                    studentMajor: {
+                        connectOrCreate: {
+                            where: {
+                                majorId: _json.officeLocation
+                            },
+                            create: {
+                                majorId: _json.officeLocation,
+                                majorName: _json.officeLocation,
+                                majorFaculty: {
+                                    connectOrCreate: {
+                                        where: {
+                                            facultyId: data.department
+                                        },
+                                        create: {
+                                            facultyId: data.department,
+                                            facultyName: data.department,
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
                 },
                 create: {
                     userId: nanoid(),
@@ -103,7 +93,28 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                     lName: fullname[1],
                     email: _json.mail,
                     image: profile_pic.data || null,
-                    student_major: studentMajor.majorId,
+                    studentMajor: {
+                        connectOrCreate: {
+                            where: {
+                                majorId: _json.officeLocation
+                            },
+                            create: {
+                                majorId: _json.officeLocation,
+                                majorName: _json.officeLocation,
+                                majorFaculty: {
+                                    connectOrCreate: {
+                                        where: {
+                                            facultyId: data.department
+                                        },
+                                        create: {
+                                            facultyId: data.department,
+                                            facultyName: data.department,
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } ,
                 },
             })
 
