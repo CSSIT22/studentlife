@@ -11,6 +11,7 @@ const AppBody: ChakraComponent<"div", ContainerProps> = (props) => {
             <Container w="100%" maxW="container.lg" {...props}>
                 {props.children}
             </Container>
+            {!isMobile && <Box h={"60px"} mb={5}></Box>}
         </>
     )
 }
