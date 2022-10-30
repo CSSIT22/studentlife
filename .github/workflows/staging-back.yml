@@ -1,0 +1,90 @@
+name: ✨ Deploy to staging
+
+on:
+    push:
+        branches:
+            - staging
+            - infra-*
+        paths:
+            - "backend/**"
+
+jobs:
+    build:
+        name: 🐳 build
+        environment: develop
+        runs-on: [self-hosted, linux, x64]
+        timeout-minutes: 5
+        container: node:16-alpine
+        steps:
+            - name: 😊 checkout
+              uses: actions/checkout@v2
+
+            - name: 🏃‍♀️ I Am the Flash
+              run: |
+                  cd ./backend
+                  npm i
+                  npm run build
+                  rm -r node_modules
+
+            - name: 🆙 Upload artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: backend-artifact
+                  path: ./backend/
+
+    containerize:
+        name: push docker image
+        runs-on: [self-hosted, linux, x64]
+        timeout-minutes: 5
+        needs: [build]
+        steps:
+            - name: 📥 Download artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  path: .
+
+            - name: login to docker
+              uses: docker/login-action@v2
+              with:
+                  username: ${{secrets.DOCKER_USERNAME}}
+                  password: ${{secrets.DOCKER_TOKEN}}
+
+            - name: 🏗️ Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            # - name: ls
+            #   run: tree
+
+            - name: ☁️ Build and push
+              uses: docker/build-push-action@v2
+              with:
+                  context: ./backend
+                  file: ./backend/Dockerfile
+                  push: true
+                  tags: modlifes/backend:latest
+
+    deploy:
+        name: 🖨️ deploy to server
+        runs-on: [self-hosted, linux, x64]
+        environment: develop
+        timeout-minutes: 5
+        needs: [containerize]
+        steps:
+            - name: remote ssh
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.STAGING_SSH_HOST }}
+                  username: ${{ secrets.STAGING_SSH_USERNAME }}
+                  password: ${{ secrets.STAGING_SSH_PASSWORD }}
+                  # script: |
+                  #     echo '${{secrets.CONTAINER_ENV}}' > ${{secrets.ENV_PATH}}
+                  #     echo '${{secrets.CONTAINER_LABEL}}' > ${{secrets.LABEL_PATH}}
+                  #     docker pull ${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_IMAGE}}:latest
+                  #     docker stop ${{secrets.CONTAINER_NAME}}
+                  #     docker rm ${{secrets.CONTAINER_NAME}}
+                  #     docker run -d --name ${{secrets.CONTAINER_NAME}} --env-file ${{secrets.ENV_PATH}} --label-file ${{secrets.LABEL_PATH}} --network proxy ${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_IMAGE}}
+                  #     docker system prune -af
+                  script: |
+                      cd ${{secrets.PATH_STAGING}}
+                      docker pull modlifes/backend:latest
+                      docker-compose up --detach backend
