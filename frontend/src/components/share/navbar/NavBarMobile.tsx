@@ -1,46 +1,9 @@
-import {
-    Avatar,
-    Box,
-    Container,
-    Flex,
-    Heading,
-    HStack,
-    Menu,
-    MenuButton,
-    MenuGroup,
-    MenuItem,
-    MenuList,
-    SimpleGrid,
-    Stack,
-    Text,
-    Tooltip,
-} from "@chakra-ui/react"
-import React from "react"
-import { IoMdArrowDropdown } from "react-icons/io"
-import { CgMenuRound } from "react-icons/cg"
-import { AiOutlineMail, AiFillBell, AiOutlineHome, AiOutlineHeart } from "react-icons/ai"
-import { HiSpeakerphone } from "react-icons/hi"
-import { BiGroup, BiLogOut } from "react-icons/bi"
-import { FaHistory, FaUserAlt } from "react-icons/fa"
-import { BsPatchQuestion } from "react-icons/bs"
-import { Link, NavLink } from "react-router-dom"
+import { Avatar, Box, Container, Heading, HStack, SimpleGrid } from "@chakra-ui/react"
+
+import { AiOutlineMail, AiFillBell } from "react-icons/ai"
+import { Link } from "react-router-dom"
+import { NavBarMenu } from "./NavBar"
 import NavBarWithNoti from "./NavBarWithNoti"
-import SecondaryNav from "./SecondaryNav"
-
-const NavBarMenu = [
-    { to: "/", Icon: AiOutlineHome, name: "Home" },
-    { to: "/dating", Icon: AiOutlineHeart, name: "Dating" },
-    { to: "/qa", Icon: BsPatchQuestion, name: "Q&A" },
-    { to: "/groups", Icon: BiGroup, name: "Communities" },
-]
-
-const moreMenu = [
-    { to: "/announcement", Icon: HiSpeakerphone, name: "Announcement" },
-    { to: "/airdrop", Icon: HiSpeakerphone, name: "Airdrop" },
-    { to: "/shop", Icon: HiSpeakerphone, name: "Shop" },
-    { to: "/restaurant", Icon: HiSpeakerphone, name: "Restaurant" },
-    { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
-]
 
 const NavBarMobile = () => {
     return (
