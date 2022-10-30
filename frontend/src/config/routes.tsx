@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom"
+import NotFound from "./pages/NotFound"
 
 const ROUTES: Record<string, any> = import.meta.globEager("/src/pages/**/[a-z[]*.tsx")
 
@@ -11,4 +12,4 @@ const routes: RouteObject[] = Object.keys(ROUTES).map((route) => {
     return { path, element: <Element /> }
 })
 
-export const router = createBrowserRouter(routes)
+export const router = createBrowserRouter([...routes, { path: "*", element: <NotFound /> }])
