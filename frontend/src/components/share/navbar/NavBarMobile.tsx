@@ -1,7 +1,7 @@
-import { Avatar, Box, Container, Heading, HStack, SimpleGrid } from "@chakra-ui/react"
+import { Avatar, Box, Container, Heading, HStack, SimpleGrid, useBreakpointValue } from "@chakra-ui/react"
 
 import { AiOutlineMail, AiFillBell } from "react-icons/ai"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { NavBarMenu } from "./NavBar"
 import NavBarWithNoti from "./NavBarWithNoti"
 
@@ -28,23 +28,24 @@ const NavBarMobile = () => {
                 <Container w="100%" maxW="container.md">
                     <SimpleGrid columns={5}>
                         {[...NavBarMenu, { to: "/more", Icon: Avatar, name: "More" }].map(({ Icon, to }) => (
-                            <HStack
-                                py={3}
-                                key={to}
-                                _hover={{ bg: "orange.300", color: "white" }}
-                                transition="0.2s"
-                                cursor="pointer"
-                                justifyContent="center"
-                                alignItems={"center"}
-                            >
-                                {to !== "/more" ? (
-                                    <Heading>
-                                        <Icon />
-                                    </Heading>
-                                ) : (
-                                    <Icon size="sm" />
-                                )}
-                            </HStack>
+                            <Link to={to} key={to}>
+                                <HStack
+                                    py={3}
+                                    _hover={{ bg: "orange.300", color: "white" }}
+                                    transition="0.2s"
+                                    cursor="pointer"
+                                    justifyContent="center"
+                                    alignItems={"center"}
+                                >
+                                    {to !== "/more" ? (
+                                        <Heading>
+                                            <Icon />
+                                        </Heading>
+                                    ) : (
+                                        <Icon size="sm" />
+                                    )}
+                                </HStack>
+                            </Link>
                         ))}
                     </SimpleGrid>
                 </Container>
