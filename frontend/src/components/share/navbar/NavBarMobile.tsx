@@ -33,6 +33,7 @@ import { NavBarMenu } from "./NavBar"
 import NavBarMobileButton from "./NavBarMobileButton"
 import NavBarMobileSubNav from "./NavBarMobileSubNav"
 import NavBarWithNoti from "./NavBarWithNoti"
+import logo from "./pic/logo.png"
 
 const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -88,7 +89,7 @@ const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav
                                     <AiOutlineMenu />
                                 </Button>
                             )}
-                            <Heading>Logo</Heading>
+                            <img src={logo} style={{ width: "100px" }} />
                         </HStack>
                         <HStack gap={5}>
                             <Link to="/chat">
@@ -103,7 +104,7 @@ const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav
             </Box>
 
             <Box w="100%" bg="white" pos={"fixed"} bottom={0} shadow="md">
-                <SimpleGrid columns={5}>
+                <SimpleGrid columns={5} px={5}>
                     {[...NavBarMenu, { to: "/more", Icon: Avatar, name: "More" }].map(({ Icon, to }) => (
                         <Link to={to} key={to}>
                             <NavBarMobileButton {...{ Icon, to }} />
