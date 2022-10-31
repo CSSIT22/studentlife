@@ -23,7 +23,7 @@ const NavBarWithNoti: FC<{ label: string; notiCount?: number; Icon: IconType }> 
                         </Text>
                     </Flex>
                 )}
-                <Heading _hover={{ color: "black" }} transition="0.5s">
+                <Heading _hover={{ color: "black" }} fontWeight="normal" color="gray.600" transition="0.5s">
                     <Icon />
                 </Heading>
             </Box>

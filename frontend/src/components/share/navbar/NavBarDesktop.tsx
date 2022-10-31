@@ -8,14 +8,19 @@ import { Link } from "react-router-dom"
 import NavBarWithNoti from "./NavBarWithNoti"
 import SecondaryNav from "./SecondaryNav"
 import { moreMenu, NavBarMenu } from "./NavBar"
+import { FC } from "react"
+import { secondaryNavProps } from "../app/AppBody"
+import ExtarSecondaryNav from "./ExtarSecondaryNav"
+import logo from "./pic/logo.png"
 
-const NavBarDesktop = () => {
+const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     return (
         <Box shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
                 <Container w="container.lg" maxW={"100%"}>
                     <Stack maxW="100%" direction={"row"} justifyContent="space-between">
-                        <Heading>Logo</Heading>
+                        {/* <Heading>Logo</Heading> */}
+                        <img src={logo} style={{ width: "150px" }} />
                         <Stack gap={5} alignItems="center" direction="row">
                             <Link to="/chat">
                                 <NavBarWithNoti label="Chat" notiCount={20} Icon={AiOutlineMail} />
@@ -28,10 +33,12 @@ const NavBarDesktop = () => {
                                     <>
                                         <MenuButton>
                                             <HStack
-                                                p={3}
-                                                px={5}
-                                                bg={isOpen ? "orange.200" : "orange.100"}
-                                                rounded={"full"}
+                                                p={2}
+                                                px={3}
+                                                // bg={isOpen ? "orange.200" : "orange.300"}
+                                                bgGradient="linear(to-b,orange.100,orange.300)"
+                                                rounded={"2xl"}
+                                                color="white"
                                                 cursor="pointer"
                                                 transition="0.5s"
                                             >
@@ -58,7 +65,7 @@ const NavBarDesktop = () => {
                     </Stack>
                 </Container>
             </Box>
-            <Box w="100%" py={2} bg="gray.100">
+            <Box w="100%" py={2} bg="white">
                 <Container w="container.lg" maxW={"100%"}>
                     <Stack direction={"row"} justifyContent="space-between">
                         <Stack direction={"row"} gap={5}>
@@ -72,25 +79,22 @@ const NavBarDesktop = () => {
                                     <Heading size="md">
                                         <CgMenuRound />
                                     </Heading>
-                                    <Heading size="md">Menu</Heading>
+                                    <Heading fontWeight={"normal"} size="md">
+                                        Menu
+                                    </Heading>
                                 </HStack>
                             </MenuButton>
                             <MenuList w="700">
-                                <SimpleGrid columns={3} gap={5} p={5}>
+                                <SimpleGrid columns={2} gap={2} p={5}>
                                     {moreMenu.map(({ to, name, Icon }) => (
-                                        <HStack
-                                            key={to}
-                                            cursor="pointer"
-                                            p={5}
-                                            py={8}
-                                            bgGradient="linear(to-b,purple.100,purple.300)"
-                                            rounded={"3xl"}
-                                        >
-                                            <Heading size="md">
+                                        <HStack key={to} cursor="pointer" p={3} bg={"gray.100"} _hover={{ bg: "gray.200" }} rounded={"lg"}>
+                                            <Heading fontWeight={"normal"} size="sm">
                                                 <Icon />
                                             </Heading>
 
-                                            <Heading size="md">{name}</Heading>
+                                            <Heading fontWeight={"normal"} size="md">
+                                                {name}
+                                            </Heading>
                                         </HStack>
                                     ))}
                                 </SimpleGrid>
@@ -99,6 +103,15 @@ const NavBarDesktop = () => {
                     </Stack>
                 </Container>
             </Box>
+            {secondarynav && (
+                <Box w="100%" bg="orange.300">
+                    <Container w="container.lg" maxW={"100%"}>
+                        {secondarynav.map((props) => (
+                            <ExtarSecondaryNav key={props.name} {...props} />
+                        ))}
+                    </Container>
+                </Box>
+            )}
         </Box>
     )
 }

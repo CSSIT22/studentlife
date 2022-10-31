@@ -5,6 +5,8 @@ import { BiGroup } from "react-icons/bi"
 import { BsPatchQuestion } from "react-icons/bs"
 import NavBarDesktop from "./NavBarDesktop"
 import NavBarMobile from "./NavBarMobile"
+import { FC } from "react"
+import { secondaryNavProps } from "../app/AppBody"
 
 export const NavBarMenu = [
     { to: "/", Icon: AiOutlineHome, name: "Home" },
@@ -21,9 +23,9 @@ export const moreMenu = [
     { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
 ]
 
-const NavBar = () => {
+const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
     const isMobile = useBreakpointValue({ base: false, md: true }, { ssr: false })
-    return <>{!isMobile ? <NavBarMobile /> : <NavBarDesktop />}</>
+    return <>{!isMobile ? <NavBarMobile secondarynav={secondarynav} /> : <NavBarDesktop secondarynav={secondarynav} />}</>
 }
 
 export default NavBar
