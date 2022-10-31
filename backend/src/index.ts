@@ -22,8 +22,11 @@ import passport from "passport"
 import microsoft from "./modules/middleware/passport/microsoft"
 import { loginRoutes } from "./modules/middleware/login/loginRoutes"
 import { PrismaClient } from "@prisma/client"
+import session from "express-session"
+import { createClient } from "redis"
+import connectRedis from "connect-redis"
 
-const prisma = new PrismaClient
+const prisma = new PrismaClient()
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -31,6 +34,36 @@ if (process.env.NODE_ENV !== "production") {
 
 const PORT = 8000
 const app = express()
+
+const RedisStore = connectRedis(session)
+const redisClient = createClient({ legacyMode: true, url: "http://localhost:8000/", password: "123" })
+redisClient.connect().catch((err) => console.log(err))
+
+// config passport for microsoft strategy
+passport.use(microsoft(prisma))
+
+app.use(
+    session({
+        secret: "session secret here",
+        resave: false,
+        saveUninitialized: false,
+        name: "connect.sid",
+        cookie: { domain: "localhost", maxAge: 1000 * 60 * 60 * 24 * 30 },
+        store: new RedisStore({ client: redisClient}) as session.Store
+    })
+)
+
+// config app to use passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.serializeUser((user, done) => {
+    done(null, user)
+})
+
+passport.deserializeUser((user: any, done) => {
+    done(null, user)
+})
 
 app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
@@ -56,11 +89,5 @@ app.use("/timeline", timelineRoutes)
 app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
-
-// config passport for microsoft strategy
-passport.use(microsoft(prisma))
-
-// config app to use passport
-app.use(passport.initialize())
 
 app.listen(PORT, () => console.log(`running on ${PORT} !`))
