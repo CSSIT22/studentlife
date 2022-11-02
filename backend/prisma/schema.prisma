@@ -12,23 +12,27 @@ datasource db {
 
 //User Profile Module
 model User_profile {
-  userId        String         @id @default(uuid())
+  userId        String             @id @default(uuid())
   studentId     String
   fName         String
   lName         String
-  email         String         @unique
+  email         String             @unique
   image         Bytes?
   details       Detail?
   student_major String
-  studentMajor  Major          @relation(fields: [student_major], references: [majorId])
+  studentMajor  Major              @relation(fields: [student_major], references: [majorId])
   role          Role?
-  userFollowers Follow[]       @relation("following")
-  userFollowing Follow[]       @relation("follower")
-  userReporters Report[]       @relation("reporting")
-  userReporting Report[]       @relation("reporter")
-  userBlockers  Block_Friend[] @relation("blocking")
-  userBlocking  Block_Friend[] @relation("blocker")
+  userFollowers Follow[]           @relation("following")
+  userFollowing Follow[]           @relation("follower")
+  userReporters Report[]           @relation("reporting")
+  userReporting Report[]           @relation("reporter")
+  userBlockers  Block_Friend[]     @relation("blocking")
+  userBlocking  Block_Friend[]     @relation("blocker")
   levels        EXP?
+  posts         Student_Post[]
+  relationScore Following_Rating[]
+  reacted       Student_Reacted[]
+  comment       Student_Comment[]
 }
 
 model Detail {
@@ -111,4 +115,78 @@ model Action_to_XP {
   actionXp   Int
   date       DateTime
   xpGain     EXP      @relation(fields: [userId], references: [userId])
+}
+
+//Timeline
+model Student_Post {
+  postId          String            @id
+  userId          String
+  date            DateTime
+  score           Int
+  seen            Boolean
+  postOwner       User_profile      @relation(fields: [userId], references: [userId])
+  postBody        Post_Body?
+  images          Image_Container[]
+  vids            Video_Container[]
+  studentsReacted Student_Reacted[]
+  studentsComment Student_Comment[]
+  rePost Repost[]
+}
+
+model Following_Rating {
+  userId      String
+  followingId String
+  score       Int
+  scoreGiver  User_profile @relation(fields: [userId], references: [userId])
+
+  @@id([userId, followingId])
+}
+
+model Post_Body {
+  postId String       @id
+  text   String
+  bodyOf Student_Post @relation(fields: [postId], references: [postId])
+}
+
+model Image_Container {
+  imgId        String       @id
+  postId       String
+  imageAddress String
+  postImage    Student_Post @relation(fields: [postId], references: [postId])
+}
+
+model Video_Container {
+  vidId      String       @id
+  postId     String
+  vidAddress String
+  postVid    Student_Post @relation(fields: [postId], references: [postId])
+}
+
+model Student_Reacted {
+  user    User_profile @relation(fields: [userId], references: [userId])
+  userId  String
+  post    Student_Post @relation(fields: [postId], references: [postId])
+  postId  String
+  emoteId String
+
+  @@id([userId, postId])
+}
+
+model Student_Comment {
+  user    User_profile @relation(fields: [userId], references: [userId])
+  userId  String
+  post    Student_Post @relation(fields: [postId], references: [postId])
+  postId  String
+  comment String
+  cmTime  DateTime
+
+  @@id([userId, postId])
+}
+
+model Repost {
+  newPostId String @id
+  postId String
+  newUserId String
+  newPostTime DateTime @default(now())
+  originalPost Student_Post @relation(fields: [postId], references: [postId])
 }
