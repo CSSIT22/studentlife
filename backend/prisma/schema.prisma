@@ -283,7 +283,7 @@ model Module {
 
 model Noti_Type {
   notiTypeId   String              @id
-  notiType     String
+  notiType     String              @default("All")
   notiTypeName String
   notiTypeDesc String
   emailSetting Noti_Setting_Email?
