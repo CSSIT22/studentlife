@@ -106,9 +106,11 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
             {secondarynav && (
                 <Box w="100%" bg="orange.300">
                     <Container w="container.lg" maxW={"100%"}>
-                        {secondarynav.map((props) => (
-                            <ExtarSecondaryNav key={props.name} {...props} />
-                        ))}
+                        <HStack>
+                            {secondarynav.map((props) => (
+                                <ExtarSecondaryNav key={props.name} {...props} />
+                            ))}
+                        </HStack>
                     </Container>
                 </Box>
             )}
