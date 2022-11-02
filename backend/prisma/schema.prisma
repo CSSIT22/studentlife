@@ -130,7 +130,7 @@ model Student_Post {
   vids            Video_Container[]
   studentsReacted Student_Reacted[]
   studentsComment Student_Comment[]
-  rePost Repost[]
+  rePost          Repost[]
 }
 
 model Following_Rating {
@@ -163,9 +163,9 @@ model Video_Container {
 }
 
 model Student_Reacted {
-  user    User_profile @relation(fields: [userId], references: [userId])
+  reacter User_profile @relation(fields: [userId], references: [userId])
   userId  String
-  post    Student_Post @relation(fields: [postId], references: [postId])
+  reactOn Student_Post @relation(fields: [postId], references: [postId])
   postId  String
   emoteId String
 
@@ -173,20 +173,20 @@ model Student_Reacted {
 }
 
 model Student_Comment {
-  user    User_profile @relation(fields: [userId], references: [userId])
-  userId  String
-  post    Student_Post @relation(fields: [postId], references: [postId])
-  postId  String
-  comment String
-  cmTime  DateTime
+  commenter User_profile @relation(fields: [userId], references: [userId])
+  userId    String
+  commentOn Student_Post @relation(fields: [postId], references: [postId])
+  postId    String
+  comment   String
+  cmTime    DateTime
 
   @@id([userId, postId])
 }
 
 model Repost {
-  newPostId String @id
-  postId String
-  newUserId String
-  newPostTime DateTime @default(now())
+  newPostId    String       @id
+  postId       String
+  newUserId    String
+  newPostTime  DateTime     @default(now())
   originalPost Student_Post @relation(fields: [postId], references: [postId])
 }
