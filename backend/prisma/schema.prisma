@@ -12,22 +12,22 @@ datasource db {
 
 //User Profile Module
 model User_profile {
-  userId        String             @id @default(uuid())
+  userId        String              @id @default(uuid())
   studentId     String
   fName         String
   lName         String
-  email         String             @unique
+  email         String              @unique
   image         Bytes?
   details       Detail?
   student_major String
-  studentMajor  Major              @relation(fields: [student_major], references: [majorId])
+  studentMajor  Major               @relation(fields: [student_major], references: [majorId])
   role          Role?
-  userFollowers Follow[]           @relation("following")
-  userFollowing Follow[]           @relation("follower")
-  userReporters User_Report[]      @relation("reporting")
-  userReporting User_Report[]      @relation("reporter")
-  userBlockers  Block_Friend[]     @relation("blocking")
-  userBlocking  Block_Friend[]     @relation("blocker")
+  userFollowers Follow[]            @relation("following")
+  userFollowing Follow[]            @relation("follower")
+  userReporters User_Report[]       @relation("reporting")
+  userReporting User_Report[]       @relation("reporter")
+  userBlockers  Block_Friend[]      @relation("blocking")
+  userBlocking  Block_Friend[]      @relation("blocker")
   levels        EXP?
   posts         Student_Post[]
   relationScore Following_Rating[]
@@ -37,6 +37,9 @@ model User_profile {
   cReported     Comment_Report[]
   pHided        Hide_Post[]
   cHided        Hide_Comment[]
+  notis         User_Noti_Object[]
+  emailNotis    Noti_Setting_Email?
+  appNotis      Noti_Setting_App?
 }
 
 model Detail {
@@ -121,7 +124,7 @@ model Action_to_XP {
   xpGain     EXP      @relation(fields: [userId], references: [userId])
 }
 
-//Timeline & Post
+//Timeline & Post Module
 model Student_Post {
   postId          String            @id
   userId          String
@@ -234,4 +237,69 @@ model Hide_Comment {
   commentId String
 
   @@id([userId, commentId])
+}
+
+//Notification Module
+model User_Noti_Object {
+  notiObject   Noti_Object  @relation(fields: [notiObjectId], references: [notiObjectId])
+  notiObjectId String
+  user         User_profile @relation(fields: [userId], references: [userId])
+  userId       String
+
+  @@id([notiObjectId, userId])
+}
+
+model Noti_Object {
+  notiObjectId String             @id
+  templateId   String
+  date         DateTime
+  isRead       Boolean
+  moduleId     String
+  url          String
+  users        User_Noti_Object[]
+  template     Template           @relation(fields: [templateId], references: [templateId])
+  values       Value[]
+  module       Module             @relation(fields: [moduleId], references: [moduleId])
+}
+
+model Template {
+  templateId  String        @id
+  template    String
+  notiObjects Noti_Object[]
+}
+
+model Value {
+  valueId      String      @id
+  value        String
+  notiObjectId String
+  valueOf      Noti_Object @relation(fields: [notiObjectId], references: [notiObjectId])
+}
+
+model Module {
+  moduleId   String        @id
+  moduleName String
+  notiObject Noti_Object[]
+}
+
+model Noti_Type {
+  notiTypeId   String              @id
+  notiType     String
+  notiTypeName String
+  notiTypeDesc String
+  emailSetting Noti_Setting_Email?
+  appSetting   Noti_Setting_App?
+}
+
+model Noti_Setting_Email {
+  userId      String       @unique
+  userSetting User_profile @relation(fields: [userId], references: [userId])
+  notiTypeId  String       @unique
+  notiSetting Noti_Type    @relation(fields: [notiTypeId], references: [notiTypeId])
+}
+
+model Noti_Setting_App {
+  userId      String       @unique
+  userSetting User_profile @relation(fields: [userId], references: [userId])
+  notiTypeId  String       @unique
+  notiSetting Noti_Type    @relation(fields: [notiTypeId], references: [notiTypeId])
 }
