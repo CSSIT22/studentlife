@@ -24,8 +24,8 @@ model User_profile {
   role          Role?
   userFollowers Follow[]           @relation("following")
   userFollowing Follow[]           @relation("follower")
-  userReporters Report[]           @relation("reporting")
-  userReporting Report[]           @relation("reporter")
+  userReporters User_Report[]      @relation("reporting")
+  userReporting User_Report[]      @relation("reporter")
   userBlockers  Block_Friend[]     @relation("blocking")
   userBlocking  Block_Friend[]     @relation("blocker")
   levels        EXP?
@@ -33,6 +33,10 @@ model User_profile {
   relationScore Following_Rating[]
   reacted       Student_Reacted[]
   comment       Student_Comment[]
+  pReported     Post_Report[]
+  cReported     Comment_Report[]
+  pHided        Hide_Post[]
+  cHided        Hide_Comment[]
 }
 
 model Detail {
@@ -79,7 +83,7 @@ model Follow {
   @@id([userId, anotherUserId])
 }
 
-model Report {
+model User_Report {
   userId        String
   anotherUserId String
   limit         Int
@@ -117,11 +121,11 @@ model Action_to_XP {
   xpGain     EXP      @relation(fields: [userId], references: [userId])
 }
 
-//Timeline
+//Timeline & Post
 model Student_Post {
   postId          String            @id
   userId          String
-  date            DateTime
+  lastEdit        DateTime          @default(now())
   score           Int
   seen            Boolean
   postOwner       User_profile      @relation(fields: [userId], references: [userId])
@@ -131,6 +135,8 @@ model Student_Post {
   studentsReacted Student_Reacted[]
   studentsComment Student_Comment[]
   rePost          Repost[]
+  userReported    Post_Report[]
+  postHided       Hide_Post[]
 }
 
 model Following_Rating {
@@ -173,14 +179,15 @@ model Student_Reacted {
 }
 
 model Student_Comment {
-  commenter User_profile @relation(fields: [userId], references: [userId])
-  userId    String
-  commentOn Student_Post @relation(fields: [postId], references: [postId])
-  postId    String
-  comment   String
-  cmTime    DateTime
-
-  @@id([userId, postId])
+  commentId       String           @id
+  commenter       User_profile     @relation(fields: [userId], references: [userId])
+  userId          String
+  commentOn       Student_Post     @relation(fields: [postId], references: [postId])
+  postId          String
+  comment         String
+  cmTime          DateTime
+  commentReported Comment_Report[]
+  commentHided    Hide_Comment[]
 }
 
 model Repost {
@@ -189,4 +196,42 @@ model Repost {
   newUserId    String
   newPostTime  DateTime     @default(now())
   originalPost Student_Post @relation(fields: [postId], references: [postId])
+}
+
+model Post_Report {
+  reporter User_profile @relation(fields: [userId], references: [userId])
+  userId   String
+  reported Student_Post @relation(fields: [postId], references: [postId])
+  postId   String
+  reason   String
+
+  @@id([userId, postId])
+}
+
+model Comment_Report {
+  reporter  User_profile    @relation(fields: [userId], references: [userId])
+  userId    String
+  reported  Student_Comment @relation(fields: [commentId], references: [commentId])
+  commentId String
+  reason    String
+
+  @@id([userId, commentId])
+}
+
+model Hide_Post {
+  hider  User_profile @relation(fields: [userId], references: [userId])
+  userId String
+  hided  Student_Post @relation(fields: [postId], references: [postId])
+  postId String
+
+  @@id([userId, postId])
+}
+
+model Hide_Comment {
+  hider     User_profile    @relation(fields: [userId], references: [userId])
+  userId    String
+  hided     Student_Comment @relation(fields: [commentId], references: [commentId])
+  commentId String
+
+  @@id([userId, commentId])
 }
