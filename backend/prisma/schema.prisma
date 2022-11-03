@@ -41,6 +41,11 @@ model User_Profile {
   emailNotis    Noti_Setting_Email?
   appNotis      Noti_Setting_App?
   userTimetable Timetable[]
+  tasks         Task[]
+  groups        User_To_Group[]
+  taskTracking  Task_Track?
+  taskChecking Task_Check[]
+  taskEditing Task_History?
 }
 
 model Detail {
@@ -55,7 +60,7 @@ model Detail {
 }
 
 model Major {
-  majorId      Int         @id @default(autoincrement())
+  majorId      Int            @id @default(autoincrement())
   majorName    String
   facultyId    Int
   student      User_Profile[]
@@ -63,7 +68,7 @@ model Major {
 }
 
 model Faculty {
-  facultyId   Int  @id @default(autoincrement())
+  facultyId   Int     @id @default(autoincrement())
   facultyName String
   major       Major[]
 }
@@ -153,7 +158,7 @@ model Following_Rating {
 }
 
 model Post_Body {
-  bodyId String @id @default(cuid())
+  bodyId String       @id @default(cuid())
   postId String       @unique
   text   String
   bodyOf Student_Post @relation(fields: [postId], references: [postId])
@@ -174,19 +179,19 @@ model Video_Container {
 }
 
 model Student_Reacted {
-  reacter User_Profile @relation(fields: [userId], references: [userId])
+  reacter User_Profile     @relation(fields: [userId], references: [userId])
   userId  String
-  reactOn Student_Post @relation(fields: [postId], references: [postId])
+  reactOn Student_Post     @relation(fields: [postId], references: [postId])
   postId  String
   emoteId String
-  emotes Emote_Collection @relation(fields: [emoteId], references: [emoteId])
+  emotes  Emote_Collection @relation(fields: [emoteId], references: [emoteId])
 
   @@id([userId, postId])
 }
 
 model Emote_Collection {
-  emoteId String @id @default(cuid())
-  posts Student_Reacted[]
+  emoteId String            @id @default(cuid())
+  posts   Student_Reacted[]
 }
 
 model Student_Comment {
@@ -321,54 +326,119 @@ model Timetable {
 }
 
 model Event {
-  eventId String @id @default(cuid())
-  eventName String
-  placeId String
-  stTime DateTime
-  endTime DateTime
+  eventId     String       @id @default(cuid())
+  eventName   String
+  placeId     String
+  stTime      DateTime
+  endTime     DateTime
   eventTypeId String
-  descId String @unique
-  hostAt Event_Place @relation(fields: [placeId], references: [placeId])
-  desc Description?
-  alert Schedule_Alert?
+  descId      String       @unique
+  hostAt      Event_Place  @relation(fields: [placeId], references: [placeId])
+  desc        Description?
+  // alert Schedule_Alert?
 }
 
 model Event_Place {
-  placeId String @id @default(cuid())
+  placeId  String  @id @default(cuid())
   building String
-  room String
-  events Event[]
+  room     String
+  events   Event[]
 }
 
 model Description {
   descId String @id @default(cuid())
-  desc String
-  descOf Event @relation(fields: [descId], references: [descId])
+  desc   String
+  descOf Event  @relation(fields: [descId], references: [descId])
 }
 
 model Event_Type {
   eventTypeId String @id @default(cuid())
-  eventType String
+  eventType   String
 }
 
 model Course {
-  courseId String @id @default(cuid())
-  courseName String
-  lecturer String
+  courseId    String       @id @default(cuid())
+  courseName  String
+  lecturer    String
   assignments Assignment[]
 }
 
 model Assignment {
-  assignmentId String @id @default(cuid())
-  courseId String @default("0")
-  assignmentName String
+  assignmentId       String @id @default(cuid())
+  courseId           String @default("0")
+  assignmentName     String
   assignmentOfCourse Course @relation(fields: [courseId], references: [courseId])
 }
 
-model Schedule_Alert {
-  alertId String @id @default(cuid())
-  eventId String @unique
-  eventAlert Event @relation(fields: [eventId], references: [eventId])
-}
+// model Schedule_Alert {
+//   alertId String @id @default(cuid())
+//   eventId String @unique
+//   eventAlert Event @relation(fields: [eventId], references: [eventId])
+// }
 
 //TodoList Module
+model Task {
+  taskId     String       @id @default(cuid())
+  userId     String
+  taskName   String
+  taskDesc   String
+  created    DateTime     @default(now())
+  due        DateTime
+  taskType   String
+  folderId   String
+  groupId    String
+  taskOfUser User_Profile @relation(fields: [userId], references: [userId])
+  inFolder   Task_Folder  @relation(fields: [folderId], references: [folderId])
+  inGroup    Task_Group   @relation(fields: [groupId], references: [groupId])
+  checkTask Task_Check?
+  edits Task_History[]
+}
+
+model Task_Folder {
+  folderId   String @id @default(cuid())
+  folderName String
+  tasks      Task[]
+}
+
+model Task_Group {
+  groupId   String          @id @default(cuid())
+  groupName String
+  groups    Task[]
+  users     User_To_Group[]
+}
+
+model User_To_Group {
+  user    User_Profile @relation(fields: [userId], references: [userId])
+  userId  String
+  group   Task_Group   @relation(fields: [groupId], references: [groupId])
+  groupId String
+
+  @@id([userId, groupId])
+}
+
+model Task_Track {
+  trackingId String       @id @default(cuid())
+  userId     String       @unique
+  percentage Float
+  userTask   User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Task_Check {
+  taskId  String @unique
+  userId  String
+  isCheck Boolean @default(false)
+  taskCheck Task @relation(fields: [taskId], references: [taskId])
+  userCheck User_Profile @relation(fields: [userId], references: [userId])
+
+  @@id([taskId, userId])
+}
+
+model Task_History {
+  taskId String
+  userId String @unique
+  date DateTime
+  editTask Task @relation(fields: [taskId], references: [taskId])
+  editor User_Profile @relation(fields: [userId], references: [userId])
+
+  @@id([taskId, userId])
+}
