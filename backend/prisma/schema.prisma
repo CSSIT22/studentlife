@@ -12,40 +12,44 @@ datasource db {
 
 //User Profile Module
 model User_Profile {
-  userId        String              @id @default(uuid())
-  studentId     String
-  fName         String
-  lName         String
-  email         String              @unique
-  image         Bytes?
-  details       Detail?
-  student_major Int
-  studentMajor  Major               @relation(fields: [student_major], references: [majorId])
-  role          Role?
-  userFollowers Follow[]            @relation("following")
-  userFollowing Follow[]            @relation("follower")
-  userReporters User_Report[]       @relation("reporting")
-  userReporting User_Report[]       @relation("reporter")
-  userBlockers  Block_Friend[]      @relation("blocking")
-  userBlocking  Block_Friend[]      @relation("blocker")
-  levels        EXP?
-  posts         Student_Post[]
-  relationScore Following_Rating[]
-  reacted       Student_Reacted[]
-  comment       Student_Comment[]
-  pReported     Post_Report[]
-  cReported     Comment_Report[]
-  pHided        Hide_Post[]
-  cHided        Hide_Comment[]
-  notis         User_Noti_Object[]
-  emailNotis    Noti_Setting_Email?
-  appNotis      Noti_Setting_App?
-  userTimetable Timetable[]
-  tasks         Task[]
-  groups        User_To_Group[]
-  taskTracking  Task_Track?
-  taskChecking Task_Check[]
-  taskEditing Task_History?
+  userId              String              @id @default(uuid())
+  studentId           String
+  fName               String
+  lName               String
+  email               String              @unique
+  image               Bytes?
+  details             Detail?
+  student_major       Int
+  studentMajor        Major               @relation(fields: [student_major], references: [majorId])
+  role                Role?
+  userFollowers       Follow[]            @relation("following")
+  userFollowing       Follow[]            @relation("follower")
+  userReporters       User_Report[]       @relation("reporting")
+  userReporting       User_Report[]       @relation("reporter")
+  userBlockers        Block_Friend[]      @relation("blocking")
+  userBlocking        Block_Friend[]      @relation("blocker")
+  levels              EXP?
+  posts               Student_Post[]
+  relationScore       Following_Rating[]
+  reacted             Student_Reacted[]
+  comment             Student_Comment[]
+  pReported           Post_Report[]
+  cReported           Comment_Report[]
+  pHided              Hide_Post[]
+  cHided              Hide_Comment[]
+  notis               User_Noti_Object[]
+  emailNotis          Noti_Setting_Email?
+  appNotis            Noti_Setting_App?
+  userTimetable       Timetable[]
+  tasks               Task[]
+  groups              User_To_Group[]
+  taskTracking        Task_Track?
+  taskChecking        Task_Check[]
+  taskEditing         Task_History?
+  announcement        Announcement[]
+  userPinAnnouncement Announcement_Pin[]
+  userSeeAnnouncement Announcement_Seen[]
+  annApproved Announcement_Approve[]
 }
 
 model Detail {
@@ -378,20 +382,20 @@ model Assignment {
 
 //TodoList Module
 model Task {
-  taskId     String       @id @default(cuid())
+  taskId     String         @id @default(cuid())
   userId     String
   taskName   String
   taskDesc   String
-  created    DateTime     @default(now())
+  created    DateTime       @default(now())
   due        DateTime
   taskType   String
   folderId   String
   groupId    String
-  taskOfUser User_Profile @relation(fields: [userId], references: [userId])
-  inFolder   Task_Folder  @relation(fields: [folderId], references: [folderId])
-  inGroup    Task_Group   @relation(fields: [groupId], references: [groupId])
-  checkTask Task_Check?
-  edits Task_History[]
+  taskOfUser User_Profile   @relation(fields: [userId], references: [userId])
+  inFolder   Task_Folder    @relation(fields: [folderId], references: [folderId])
+  inGroup    Task_Group     @relation(fields: [groupId], references: [groupId])
+  checkTask  Task_Check?
+  edits      Task_History[]
 }
 
 model Task_Folder {
@@ -424,21 +428,105 @@ model Task_Track {
 }
 
 model Task_Check {
-  taskId  String @unique
-  userId  String
-  isCheck Boolean @default(false)
-  taskCheck Task @relation(fields: [taskId], references: [taskId])
+  taskId    String       @unique
+  userId    String
+  isCheck   Boolean      @default(false)
+  taskCheck Task         @relation(fields: [taskId], references: [taskId])
   userCheck User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([taskId, userId])
 }
 
 model Task_History {
-  taskId String
-  userId String @unique
-  date DateTime
-  editTask Task @relation(fields: [taskId], references: [taskId])
-  editor User_Profile @relation(fields: [userId], references: [userId])
+  taskId   String
+  userId   String       @unique
+  date     DateTime
+  editTask Task         @relation(fields: [taskId], references: [taskId])
+  editor   User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([taskId, userId])
 }
+
+//Announcement Module
+model Announcement {
+  postId      String              @id @default(cuid())
+  userId      String
+  languageId  Int
+  annTopic    String
+  annDetail   String
+  filterId    Int
+  annCreated  DateTime            @default(now())
+  annExpired  DateTime
+  isApprove   Boolean             @default(false)
+  annCreator  User_Profile        @relation(fields: [userId], references: [userId])
+  annLanguage Post_To_Language[]
+  annPost     Announcement_Post?
+  annPin      Announcement_Pin[]
+  annSee      Announcement_Seen[]
+  annApprove Announcement_Approve?
+}
+
+model Announcement_Filter {
+  filterId   Int    @id @default(autoincrement())
+  filterType String
+  value      String
+}
+
+model Announcement_Language {
+  languageId       Int                @id @default(autoincrement())
+  language         String
+  announcementPost Post_To_Language[]
+}
+
+model Post_To_Language {
+  post       Announcement          @relation(fields: [postId], references: [postId])
+  postId     String
+  language   Announcement_Language @relation(fields: [languageId], references: [languageId])
+  languageId Int
+
+  @@id([postId, languageId])
+}
+
+model Announcement_Post {
+  statusId     Int          @id @default(autoincrement())
+  postId       String       @unique
+  status       String       @default("Waiting for Approve")
+  announcement Announcement @relation(fields: [postId], references: [postId])
+}
+
+model Announcement_Delete {
+  delId    Int      @id @default(autoincrement())
+  postId   String
+  deleteAt DateTime @default(now())
+}
+
+model Announcement_Pin {
+  post   Announcement @relation(fields: [postId], references: [postId])
+  postId String
+  user   User_Profile @relation(fields: [userId], references: [userId])
+  userId String
+  status Boolean      @default(false)
+
+  @@id([postId, userId])
+}
+
+model Announcement_Seen {
+  post   Announcement @relation(fields: [postId], references: [postId])
+  postId String
+  user   User_Profile @relation(fields: [userId], references: [userId])
+  userId String
+  seenAt DateTime     @default(now())
+
+  @@id([postId, userId])
+}
+
+model Announcement_Approve {
+  userId String
+  postId String @unique
+  approveTime DateTime @default(now())
+  approvedBy User_Profile @relation(fields: [userId], references: [userId])
+  postApprove Announcement @relation(fields: [postId], references: [postId])
+
+  @@id([userId, postId])
+}
+
