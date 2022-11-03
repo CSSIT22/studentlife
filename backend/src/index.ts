@@ -36,7 +36,11 @@ const PORT = 8000
 const app = express()
 
 const RedisStore = connectRedis(session)
-const redisClient = createClient({ legacyMode: true, url: "http://localhost:8000/", password: "123" })
+const redisClient = createClient({
+    legacyMode: true,
+    url: `redis://${process.env.REDIS_URL}:${process.env.REDIS_URL_PORT}`,
+    password: process.env.REDIS_PASSWORD,
+})
 redisClient.connect().catch((err) => console.log(err))
 
 // config passport for microsoft strategy
@@ -49,7 +53,7 @@ app.use(
         saveUninitialized: false,
         name: "connect.sid",
         cookie: { domain: "localhost", maxAge: 1000 * 60 * 60 * 24 * 30 },
-        store: new RedisStore({ client: redisClient}) as session.Store
+        store: new RedisStore({ client: redisClient }) as session.Store,
     })
 )
 
