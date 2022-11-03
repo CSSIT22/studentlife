@@ -52,7 +52,18 @@ model User_Profile {
   annApproved         Announcement_Approve[]
   cUser               Chat_User?
   inRoom              Chat_Room[]
-  User_To_Room        User_To_Room[]
+  user_To_Room        User_To_Room[]
+  userDating          Dating_Options?
+  frontUserQueue      Card_Queue[]           @relation("Front User")
+  backUserQueue       Card_Queue[]           @relation("Back User")
+  giveRate            User_Rating[]          @relation("Receiver")
+  receiveRate         User_Rating[]          @relation("Giver")
+  giveHeart           Heart_History[]        @relation("HReceiver")
+  receiveHeart        Heart_History[]        @relation("HGiver")
+  interests           User_Interest[]
+  datingSetting       Dating_Enroll?
+  createPoll          Activity_Poll[]
+  polls               Poll_Applicant[]
 }
 
 model Detail {
@@ -535,31 +546,31 @@ model Announcement_Approve {
 
 //Chat Module
 model Chat_User {
-  cUserId     String            @unique
+  cUserId     String       @unique
   username    String
-  cUserToUser User_Profile      @relation(fields: [cUserId], references: [userId])
+  cUserToUser User_Profile @relation(fields: [cUserId], references: [userId])
 }
 
 model Chat_Room {
-  roomId             String           @id @default(cuid())
+  roomId             String         @id @default(cuid())
   roomName           String
   chatColor          String
-  created            DateTime         @default(now())
+  created            DateTime       @default(now())
   deleted            DateTime
   roomType           Room_Type
   roomGroup          Chat_Group?
   haveUser           User_To_Room[]
-  User_Profile       User_Profile?    @relation(fields: [user_ProfileUserId], references: [userId])
+  User_Profile       User_Profile?  @relation(fields: [user_ProfileUserId], references: [userId])
   user_ProfileUserId String?
-  messages Message[]
-  quotes Chat_Quote[]
+  messages           Message[]
+  quotes             Chat_Quote[]
 }
 
 model User_To_Room {
-  user   User_Profile @relation(fields: [userId], references: [userId])
-  userId String
-  room   Chat_Room    @relation(fields: [roomId], references: [roomId])
-  roomId String
+  user     User_Profile @relation(fields: [userId], references: [userId])
+  userId   String
+  room     Chat_Room    @relation(fields: [roomId], references: [roomId])
+  roomId   String
   nickname String
 
   @@id([userId, roomId])
@@ -574,42 +585,42 @@ model Chat_Group {
 }
 
 model Message {
-  messageId String @id @default(cuid())
-  roomId String
-  senderId String
-  messageType Message_Type
-  created DateTime @default(now())
-  isRead Boolean @default(false)
-  messageInRoom Chat_Room @relation(fields: [roomId], references: [roomId])
+  messageId     String       @id @default(cuid())
+  roomId        String
+  senderId      String
+  messageType   Message_Type
+  created       DateTime     @default(now())
+  isRead        Boolean      @default(false)
+  messageInRoom Chat_Room    @relation(fields: [roomId], references: [roomId])
 }
 
 model Chat_Quote {
-  quoteId Int @id @default(autoincrement())
-  roomId String
-  userId String
-  created DateTime @default(now())
-  text String
+  quoteId  Int       @id @default(autoincrement())
+  roomId   String
+  userId   String
+  created  DateTime  @default(now())
+  text     String
   quoteFor Chat_Room @relation(fields: [roomId], references: [roomId])
 }
 
 model Chat_Sticker {
-  stickerId Int @id @default(autoincrement())
+  stickerId   Int    @id @default(autoincrement())
   stickerName String
   stickerLink String
 }
 
 model Chat_Restaurant {
-  rKey Int @id @default(autoincrement())
-  restaurantId String
+  rKey           Int    @id @default(autoincrement())
+  restaurantId   String
   restaurantName String
 }
 
 model Chat_Transaction {
-  tKey Int @id @default(autoincrement())
+  tKey          Int    @id @default(autoincrement())
   transactionId Int
-  payerId String
-  receiverId String
-  qrGen String
+  payerId       String
+  receiverId    String
+  qrGen         String
 }
 
 enum Room_Type {
@@ -623,3 +634,110 @@ enum Message_Type {
   STICKER
 }
 
+//Dating Module
+model Dating_Options {
+  userId     String         @unique
+  ageMin     Int
+  ageMax     Int
+  genderPref String
+  useAge     Boolean
+  user       User_Profile   @relation(fields: [userId], references: [userId])
+  faculties  Faculty_Pref[]
+}
+
+model Faculty_Pref {
+  userId      String
+  facultyPref String
+  user        Dating_Options @relation(fields: [userId], references: [userId])
+
+  @@id([userId, facultyPref])
+}
+
+model Card_Queue {
+  userId      String       @unique
+  frontUserId String
+  backUserId  String
+  frontUser   User_Profile @relation("Front User", fields: [frontUserId], references: [userId])
+  backUser    User_Profile @relation("Back User", fields: [backUserId], references: [userId])
+}
+
+model User_Rating {
+  userId        String
+  anotherUserId String
+  score         Int
+  scoreGiver    User_Profile @relation("Giver", fields: [userId], references: [userId])
+  scoreReceiver User_Profile @relation("Receiver", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
+}
+
+model Heart_History {
+  userId        String
+  anotherUserId String
+  heartedAt     DateTime     @default(now())
+  isSkipped     Boolean
+  heartGiver    User_Profile @relation("HGiver", fields: [userId], references: [userId])
+  heartReceiver User_Profile @relation("HReceiver", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
+}
+
+model Interest {
+  interestId   Int             @id @default(autoincrement())
+  interestName String
+  users        User_Interest[]
+  polls        Poll_Interest[]
+}
+
+model User_Interest {
+  user       User_Profile @relation(fields: [userId], references: [userId])
+  userId     String
+  interest   Interest     @relation(fields: [interestId], references: [interestId])
+  interestId Int
+
+  @@id([userId, interestId])
+}
+
+model Dating_Enroll {
+  userId              String       @unique
+  hasCompleteTutorial Boolean
+  hasCompleteSetting  Boolean
+  userDating          User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Activity_Poll {
+  pollId         String           @id @default(cuid())
+  userId         String
+  pollName       String
+  pollPlace      String
+  pollAppointAt  DateTime
+  pollText       String
+  participantMin Int
+  participantMax Int
+  isOpen         Boolean
+  pollcreated    DateTime         @default(now())
+  // roomId         String
+  pollCreator    User_Profile     @relation(fields: [userId], references: [userId])
+  participants   Poll_Applicant[]
+  interests      Poll_Interest[]
+}
+
+model Poll_Applicant {
+  user         User_Profile  @relation(fields: [userId], references: [userId])
+  userId       String
+  poll         Activity_Poll @relation(fields: [pollId], references: [pollId])
+  pollId       String
+  isAccepted   Boolean
+  registerTime DateTime
+
+  @@id([userId, pollId])
+}
+
+model Poll_Interest {
+  pollId             String
+  activityInterestId Int
+  pollInterest       Activity_Poll @relation(fields: [pollId], references: [pollId])
+  interest           Interest      @relation(fields: [activityInterestId], references: [interestId])
+
+  @@id([pollId, activityInterestId])
+}
