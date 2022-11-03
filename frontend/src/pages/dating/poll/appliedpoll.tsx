@@ -1,8 +1,8 @@
 import React from "react"
 import AppBody from "../../../components/share/app/AppBody"
 
-const yourappliedactivitypoll = () => {
+const yourAppliedActivityPoll = () => {
     return <AppBody>All activity poll</AppBody>
 }
 
-export default yourappliedactivitypoll
+export default yourAppliedActivityPoll

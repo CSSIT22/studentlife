@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react"
 import React from "react"
 
-const swipeleft = () => {
+const swipeLeft = () => {
     return <Box>Swipe left</Box>
 }
 
-export default swipeleft
+export default swipeLeft
