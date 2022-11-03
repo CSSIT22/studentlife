@@ -12,22 +12,22 @@ datasource db {
 
 //User Profile Module
 model User_Profile {
-  userId              String              @id @default(uuid())
-  studentId           String
+  userId              String                 @id @default(uuid())
+  studentId           String                 @unique
   fName               String
   lName               String
-  email               String              @unique
+  email               String                 @unique
   image               Bytes?
   details             Detail?
   student_major       Int
-  studentMajor        Major               @relation(fields: [student_major], references: [majorId])
+  studentMajor        Major                  @relation(fields: [student_major], references: [majorId])
   role                Role?
-  userFollowers       Follow[]            @relation("following")
-  userFollowing       Follow[]            @relation("follower")
-  userReporters       User_Report[]       @relation("reporting")
-  userReporting       User_Report[]       @relation("reporter")
-  userBlockers        Block_Friend[]      @relation("blocking")
-  userBlocking        Block_Friend[]      @relation("blocker")
+  userFollowers       Follow[]               @relation("following")
+  userFollowing       Follow[]               @relation("follower")
+  userReporters       User_Report[]          @relation("reporting")
+  userReporting       User_Report[]          @relation("reporter")
+  userBlockers        User_Blocked[]         @relation("blocking")
+  userBlocking        User_Blocked[]         @relation("blocker")
   levels              EXP?
   posts               Student_Post[]
   relationScore       Following_Rating[]
@@ -49,7 +49,10 @@ model User_Profile {
   announcement        Announcement[]
   userPinAnnouncement Announcement_Pin[]
   userSeeAnnouncement Announcement_Seen[]
-  annApproved Announcement_Approve[]
+  annApproved         Announcement_Approve[]
+  cUser               Chat_User?
+  inRoom              Chat_Room[]
+  User_To_Room        User_To_Room[]
 }
 
 model Detail {
@@ -108,7 +111,7 @@ model User_Report {
   @@id([userId, anotherUserId])
 }
 
-model Block_Friend {
+model User_Blocked {
   userId        String
   anotherUserId String
   status        Boolean
@@ -449,21 +452,21 @@ model Task_History {
 
 //Announcement Module
 model Announcement {
-  postId      String              @id @default(cuid())
+  postId      String                @id @default(cuid())
   userId      String
   languageId  Int
   annTopic    String
   annDetail   String
   filterId    Int
-  annCreated  DateTime            @default(now())
+  annCreated  DateTime              @default(now())
   annExpired  DateTime
-  isApprove   Boolean             @default(false)
-  annCreator  User_Profile        @relation(fields: [userId], references: [userId])
+  isApprove   Boolean               @default(false)
+  annCreator  User_Profile          @relation(fields: [userId], references: [userId])
   annLanguage Post_To_Language[]
   annPost     Announcement_Post?
   annPin      Announcement_Pin[]
   annSee      Announcement_Seen[]
-  annApprove Announcement_Approve?
+  annApprove  Announcement_Approve?
 }
 
 model Announcement_Filter {
@@ -521,12 +524,102 @@ model Announcement_Seen {
 }
 
 model Announcement_Approve {
-  userId String
-  postId String @unique
-  approveTime DateTime @default(now())
-  approvedBy User_Profile @relation(fields: [userId], references: [userId])
+  userId      String
+  postId      String       @unique
+  approveTime DateTime     @default(now())
+  approvedBy  User_Profile @relation(fields: [userId], references: [userId])
   postApprove Announcement @relation(fields: [postId], references: [postId])
 
   @@id([userId, postId])
+}
+
+//Chat Module
+model Chat_User {
+  cUserId     String            @unique
+  username    String
+  cUserToUser User_Profile      @relation(fields: [cUserId], references: [userId])
+}
+
+model Chat_Room {
+  roomId             String           @id @default(cuid())
+  roomName           String
+  chatColor          String
+  created            DateTime         @default(now())
+  deleted            DateTime
+  roomType           Room_Type
+  roomGroup          Chat_Group?
+  haveUser           User_To_Room[]
+  User_Profile       User_Profile?    @relation(fields: [user_ProfileUserId], references: [userId])
+  user_ProfileUserId String?
+  messages Message[]
+  quotes Chat_Quote[]
+}
+
+model User_To_Room {
+  user   User_Profile @relation(fields: [userId], references: [userId])
+  userId String
+  room   Chat_Room    @relation(fields: [roomId], references: [roomId])
+  roomId String
+  nickname String
+
+  @@id([userId, roomId])
+}
+
+model Chat_Group {
+  roomId   String    @unique
+  joined   DateTime  @default(now())
+  lefted   DateTime
+  groupImg String
+  room     Chat_Room @relation(fields: [roomId], references: [roomId])
+}
+
+model Message {
+  messageId String @id @default(cuid())
+  roomId String
+  senderId String
+  messageType Message_Type
+  created DateTime @default(now())
+  isRead Boolean @default(false)
+  messageInRoom Chat_Room @relation(fields: [roomId], references: [roomId])
+}
+
+model Chat_Quote {
+  quoteId Int @id @default(autoincrement())
+  roomId String
+  userId String
+  created DateTime @default(now())
+  text String
+  quoteFor Chat_Room @relation(fields: [roomId], references: [roomId])
+}
+
+model Chat_Sticker {
+  stickerId Int @id @default(autoincrement())
+  stickerName String
+  stickerLink String
+}
+
+model Chat_Restaurant {
+  rKey Int @id @default(autoincrement())
+  restaurantId String
+  restaurantName String
+}
+
+model Chat_Transaction {
+  tKey Int @id @default(autoincrement())
+  transactionId Int
+  payerId String
+  receiverId String
+  qrGen String
+}
+
+enum Room_Type {
+  INDIVIDUAL
+  GROUP
+}
+
+enum Message_Type {
+  TEXT
+  QUOTE
+  STICKER
 }
 
