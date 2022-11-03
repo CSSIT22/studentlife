@@ -66,7 +66,7 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                     studentMajor: {
                         connectOrCreate: {
                             where: {
-                                majorId: _json.officeLocation
+                                majorId: _json.officeLocation,
                             },
                             create: {
                                 majorId: _json.officeLocation,
@@ -74,17 +74,17 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                                 majorFaculty: {
                                     connectOrCreate: {
                                         where: {
-                                            facultyId: data.department
+                                            facultyId: data.department,
                                         },
                                         create: {
                                             facultyId: data.department,
                                             facultyName: data.department,
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } 
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
                 create: {
                     userId: nanoid(),
@@ -96,7 +96,7 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                     studentMajor: {
                         connectOrCreate: {
                             where: {
-                                majorId: _json.officeLocation
+                                majorId: _json.officeLocation,
                             },
                             create: {
                                 majorId: _json.officeLocation,
@@ -104,17 +104,17 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
                                 majorFaculty: {
                                     connectOrCreate: {
                                         where: {
-                                            facultyId: data.department
+                                            facultyId: data.department,
                                         },
                                         create: {
                                             facultyId: data.department,
                                             facultyName: data.department,
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } ,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
             })
 
