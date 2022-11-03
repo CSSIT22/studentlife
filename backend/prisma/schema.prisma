@@ -11,7 +11,7 @@ datasource db {
 }
 
 //User Profile Module
-model User_profile {
+model User_Profile {
   userId        String              @id @default(uuid())
   studentId     String
   fName         String
@@ -19,7 +19,7 @@ model User_profile {
   email         String              @unique
   image         Bytes?
   details       Detail?
-  student_major String
+  student_major Int
   studentMajor  Major               @relation(fields: [student_major], references: [majorId])
   role          Role?
   userFollowers Follow[]            @relation("following")
@@ -40,29 +40,30 @@ model User_profile {
   notis         User_Noti_Object[]
   emailNotis    Noti_Setting_Email?
   appNotis      Noti_Setting_App?
+  userTimetable Timetable[]
 }
 
 model Detail {
-  id      String       @unique
+  userId  String       @unique
   birth   DateTime
   sex     String
   address String
   hobby   String
   phone   String
   year    Int
-  student User_profile @relation(fields: [id], references: [userId])
+  student User_Profile @relation(fields: [userId], references: [userId])
 }
 
 model Major {
-  majorId      String         @id
+  majorId      Int         @id @default(autoincrement())
   majorName    String
-  facultyId    String
-  student      User_profile[]
+  facultyId    Int
+  student      User_Profile[]
   majorFaculty Faculty        @relation(fields: [facultyId], references: [facultyId])
 }
 
 model Faculty {
-  facultyId   String  @id
+  facultyId   Int  @id @default(autoincrement())
   facultyName String
   major       Major[]
 }
@@ -72,7 +73,7 @@ model Role {
   club        String
   rank        String
   expire_date DateTime
-  studentRole User_profile @relation(fields: [userId], references: [userId])
+  studentRole User_Profile @relation(fields: [userId], references: [userId])
 }
 
 model Follow {
@@ -80,8 +81,8 @@ model Follow {
   anotherUserId String
   status        Boolean
   date          DateTime     @default(now())
-  follower      User_profile @relation("follower", fields: [userId], references: [userId])
-  following     User_profile @relation("following", fields: [anotherUserId], references: [userId])
+  follower      User_Profile @relation("follower", fields: [userId], references: [userId])
+  following     User_Profile @relation("following", fields: [anotherUserId], references: [userId])
 
   @@id([userId, anotherUserId])
 }
@@ -92,8 +93,8 @@ model User_Report {
   limit         Int
   reason        String
   date          DateTime     @default(now())
-  reporter      User_profile @relation("reporter", fields: [userId], references: [userId])
-  reporting     User_profile @relation("reporting", fields: [anotherUserId], references: [userId])
+  reporter      User_Profile @relation("reporter", fields: [userId], references: [userId])
+  reporting     User_Profile @relation("reporting", fields: [anotherUserId], references: [userId])
 
   @@id([userId, anotherUserId])
 }
@@ -102,8 +103,8 @@ model Block_Friend {
   userId        String
   anotherUserId String
   status        Boolean
-  blocker       User_profile @relation("blocker", fields: [userId], references: [userId])
-  blocking      User_profile @relation("blocking", fields: [anotherUserId], references: [userId])
+  blocker       User_Profile @relation("blocker", fields: [userId], references: [userId])
+  blocking      User_Profile @relation("blocking", fields: [anotherUserId], references: [userId])
 
   @@id([userId, anotherUserId])
 }
@@ -112,7 +113,7 @@ model EXP {
   userId    String        @id
   currentXP Int           @default(0)
   level     Int           @default(1)
-  student   User_profile  @relation(fields: [userId], references: [userId])
+  student   User_Profile  @relation(fields: [userId], references: [userId])
   userXp    Action_to_XP?
 }
 
@@ -126,12 +127,12 @@ model Action_to_XP {
 
 //Timeline & Post Module
 model Student_Post {
-  postId          String            @id
+  postId          String            @id @default(cuid())
   userId          String
   lastEdit        DateTime          @default(now())
   score           Int
   seen            Boolean
-  postOwner       User_profile      @relation(fields: [userId], references: [userId])
+  postOwner       User_Profile      @relation(fields: [userId], references: [userId])
   postBody        Post_Body?
   images          Image_Container[]
   vids            Video_Container[]
@@ -146,44 +147,51 @@ model Following_Rating {
   userId      String
   followingId String
   score       Int
-  scoreGiver  User_profile @relation(fields: [userId], references: [userId])
+  scoreGiver  User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([userId, followingId])
 }
 
 model Post_Body {
-  postId String       @id
+  bodyId String @id @default(cuid())
+  postId String       @unique
   text   String
   bodyOf Student_Post @relation(fields: [postId], references: [postId])
 }
 
 model Image_Container {
-  imgId        String       @id
+  imgId        String       @id @default(cuid())
   postId       String
   imageAddress String
   postImage    Student_Post @relation(fields: [postId], references: [postId])
 }
 
 model Video_Container {
-  vidId      String       @id
+  vidId      String       @id @default(cuid())
   postId     String
   vidAddress String
   postVid    Student_Post @relation(fields: [postId], references: [postId])
 }
 
 model Student_Reacted {
-  reacter User_profile @relation(fields: [userId], references: [userId])
+  reacter User_Profile @relation(fields: [userId], references: [userId])
   userId  String
   reactOn Student_Post @relation(fields: [postId], references: [postId])
   postId  String
   emoteId String
+  emotes Emote_Collection @relation(fields: [emoteId], references: [emoteId])
 
   @@id([userId, postId])
 }
 
+model Emote_Collection {
+  emoteId String @id @default(cuid())
+  posts Student_Reacted[]
+}
+
 model Student_Comment {
   commentId       String           @id
-  commenter       User_profile     @relation(fields: [userId], references: [userId])
+  commenter       User_Profile     @relation(fields: [userId], references: [userId])
   userId          String
   commentOn       Student_Post     @relation(fields: [postId], references: [postId])
   postId          String
@@ -202,7 +210,7 @@ model Repost {
 }
 
 model Post_Report {
-  reporter User_profile @relation(fields: [userId], references: [userId])
+  reporter User_Profile @relation(fields: [userId], references: [userId])
   userId   String
   reported Student_Post @relation(fields: [postId], references: [postId])
   postId   String
@@ -212,7 +220,7 @@ model Post_Report {
 }
 
 model Comment_Report {
-  reporter  User_profile    @relation(fields: [userId], references: [userId])
+  reporter  User_Profile    @relation(fields: [userId], references: [userId])
   userId    String
   reported  Student_Comment @relation(fields: [commentId], references: [commentId])
   commentId String
@@ -222,7 +230,7 @@ model Comment_Report {
 }
 
 model Hide_Post {
-  hider  User_profile @relation(fields: [userId], references: [userId])
+  hider  User_Profile @relation(fields: [userId], references: [userId])
   userId String
   hided  Student_Post @relation(fields: [postId], references: [postId])
   postId String
@@ -231,7 +239,7 @@ model Hide_Post {
 }
 
 model Hide_Comment {
-  hider     User_profile    @relation(fields: [userId], references: [userId])
+  hider     User_Profile    @relation(fields: [userId], references: [userId])
   userId    String
   hided     Student_Comment @relation(fields: [commentId], references: [commentId])
   commentId String
@@ -243,7 +251,7 @@ model Hide_Comment {
 model User_Noti_Object {
   notiObject   Noti_Object  @relation(fields: [notiObjectId], references: [notiObjectId])
   notiObjectId String
-  user         User_profile @relation(fields: [userId], references: [userId])
+  user         User_Profile @relation(fields: [userId], references: [userId])
   userId       String
 
   @@id([notiObjectId, userId])
@@ -292,14 +300,75 @@ model Noti_Type {
 
 model Noti_Setting_Email {
   userId      String       @unique
-  userSetting User_profile @relation(fields: [userId], references: [userId])
+  userSetting User_Profile @relation(fields: [userId], references: [userId])
   notiTypeId  String       @unique
   notiSetting Noti_Type    @relation(fields: [notiTypeId], references: [notiTypeId])
 }
 
 model Noti_Setting_App {
   userId      String       @unique
-  userSetting User_profile @relation(fields: [userId], references: [userId])
+  userSetting User_Profile @relation(fields: [userId], references: [userId])
   notiTypeId  String       @unique
   notiSetting Noti_Type    @relation(fields: [notiTypeId], references: [notiTypeId])
 }
+
+//Schedule Module
+model Timetable {
+  tableId   String       @id @default(cuid())
+  userId    String
+  eventId   String
+  tableUser User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Event {
+  eventId String @id @default(cuid())
+  eventName String
+  placeId String
+  stTime DateTime
+  endTime DateTime
+  eventTypeId String
+  descId String @unique
+  hostAt Event_Place @relation(fields: [placeId], references: [placeId])
+  desc Description?
+  alert Schedule_Alert?
+}
+
+model Event_Place {
+  placeId String @id @default(cuid())
+  building String
+  room String
+  events Event[]
+}
+
+model Description {
+  descId String @id @default(cuid())
+  desc String
+  descOf Event @relation(fields: [descId], references: [descId])
+}
+
+model Event_Type {
+  eventTypeId String @id @default(cuid())
+  eventType String
+}
+
+model Course {
+  courseId String @id @default(cuid())
+  courseName String
+  lecturer String
+  assignments Assignment[]
+}
+
+model Assignment {
+  assignmentId String @id @default(cuid())
+  courseId String @default("0")
+  assignmentName String
+  assignmentOfCourse Course @relation(fields: [courseId], references: [courseId])
+}
+
+model Schedule_Alert {
+  alertId String @id @default(cuid())
+  eventId String @unique
+  eventAlert Event @relation(fields: [eventId], references: [eventId])
+}
+
+//TodoList Module
