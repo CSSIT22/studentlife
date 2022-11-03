@@ -8,7 +8,7 @@ router.get(
     "/microsoft",
     passport.authenticate("microsoft", {
         prompt: "select_account",
-        session: false,
+        session: true,
     })
 )
 
@@ -17,7 +17,7 @@ router.get(
     passport.authenticate("microsoft", {
         failureRedirect: "/auth/microsoft",
         successRedirect: process.env.SUCCESS_REDIRECT_URL,
-        session: false,
+        session: true,
     }),
     (req: Request, res: Response) => {
         res.json(req.user)
