@@ -32,7 +32,7 @@ model User_Profile {
   posts               Student_Post[]
   relationScore       Following_Rating[]
   reacted             Student_Reacted[]
-  comment             Student_Comment[]
+  pComments           Post_Comment[]
   pReported           Post_Report[]
   cReported           Comment_Report[]
   pHided              Hide_Post[]
@@ -67,6 +67,10 @@ model User_Profile {
   community           Community_User[]
   communityBlacklist  Community_Blacklist[]
   communityRole       Community_Role[]
+  files               User_Show_File[]
+  fComments           File_Comment[]
+  sendFile Direct_Access[] @relation("FReceiver")
+  receiverFile Direct_Access[] @relation("FSender")
 }
 
 model Detail {
@@ -86,6 +90,7 @@ model Major {
   facultyId    Int
   student      User_Profile[]
   majorFaculty Faculty        @relation(fields: [facultyId], references: [facultyId])
+  accessTo Major_Access[]
 }
 
 model Faculty {
@@ -164,7 +169,7 @@ model Student_Post {
   images          Image_Container[]
   vids            Video_Container[]
   studentsReacted Student_Reacted[]
-  studentsComment Student_Comment[]
+  studentsComment Post_Comment[]
   rePost          Repost[]
   userReported    Post_Report[]
   postHided       Hide_Post[]
@@ -217,7 +222,7 @@ model Emote_Collection {
   posts   Student_Reacted[]
 }
 
-model Student_Comment {
+model Post_Comment {
   commentId       String           @id
   commenter       User_Profile     @relation(fields: [userId], references: [userId])
   userId          String
@@ -248,9 +253,9 @@ model Post_Report {
 }
 
 model Comment_Report {
-  reporter  User_Profile    @relation(fields: [userId], references: [userId])
+  reporter  User_Profile @relation(fields: [userId], references: [userId])
   userId    String
-  reported  Student_Comment @relation(fields: [commentId], references: [commentId])
+  reported  Post_Comment @relation(fields: [commentId], references: [commentId])
   commentId String
   reason    String
 
@@ -267,9 +272,9 @@ model Hide_Post {
 }
 
 model Hide_Comment {
-  hider     User_Profile    @relation(fields: [userId], references: [userId])
+  hider     User_Profile @relation(fields: [userId], references: [userId])
   userId    String
-  hided     Student_Comment @relation(fields: [commentId], references: [commentId])
+  hided     Post_Comment @relation(fields: [commentId], references: [commentId])
   commentId String
 
   @@id([userId, commentId])
@@ -760,6 +765,7 @@ model Community {
   tags             Community_Tag[]
   posts            Community_Post[]
   files            Community_File[]
+  accessTo Community_Access[]
 }
 
 model Community_User {
@@ -817,8 +823,106 @@ model Community_Post {
 }
 
 model Community_File {
-  file        Airdrop   @relation(fields: [fileId], references: [fileId])
+  file        File_Info @relation(fields: [fileId], references: [fileId])
   fileId      String    @unique
   community   Community @relation(fields: [communityId], references: [communityId])
   communityId String
+}
+
+//Airdrop Module
+model File_Info {
+  fileId      String           @id @default(cuid())
+  fileName    String
+  fileSender  String
+  sendType    String
+  fileDesc    String
+  fileExpired DateTime
+  users       User_Show_File[]
+  community   Community_File?
+  comments    File_Comment[]
+  folders     File_In_Folder[]
+}
+
+model User_Show_File {
+  user   User_Profile @relation(fields: [userId], references: [userId])
+  userId String
+  file   File_Info    @relation(fields: [fileId], references: [fileId])
+  fileId String
+
+  @@id([userId, fileId])
+}
+
+model File_Comment {
+  commentId   String       @id
+  fileId      String
+  userId      String
+  commentText String
+  commentedAt DateTime     @default(now())
+  commentOn   File_Info    @relation(fields: [fileId], references: [fileId])
+  commentor   User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Folder {
+  folderId   String       @id @default(cuid())
+  folderName String
+  subFolder  Sub_Folder[]
+}
+
+model Sub_Folder {
+  sFolderId    String           @id @default(cuid())
+  sFolderName  String
+  folderId     String
+  parentFolder Folder           @relation(fields: [folderId], references: [folderId])
+  files        File_In_Folder[]
+}
+
+model File_In_Folder {
+  file      File_Info  @relation(fields: [fileId], references: [fileId])
+  fileId    String
+  folder    Sub_Folder @relation(fields: [sFolderId], references: [sFolderId])
+  sFolderId String
+
+  @@id([fileId, sFolderId])
+}
+
+model File_Access {
+  accessId String @id @default(cuid())
+  fileId String
+  accessType String
+  everyone Everyone_Access[]
+  community Community_Access[]
+  major Major_Access[]
+  direct Direct_Access[]
+}
+
+model Everyone_Access {
+  eaId String @id @default(cuid())
+  accessId String
+  eaFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
+}
+
+model Community_Access {
+  caId String @id @default(cuid())
+  accessId String
+  communityId String
+  cFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
+  haveAccess Community @relation(fields: [communityId], references: [communityId])
+}
+
+model Major_Access {
+  maId String @id @default(cuid())
+  accessId String
+  majorId Int
+  mFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
+  haveAccess Major @relation(fields: [majorId], references: [majorId])
+}
+
+model Direct_Access {
+  daId String @id @default(cuid())
+  accessId String
+  userId String
+  anotherUserId String
+  dFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
+  sender User_Profile @relation("FSender", fields: [userId], references: [userId])
+  receiver User_Profile @relation("FReceiver", fields: [anotherUserId], references: [userId])
 }
