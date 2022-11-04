@@ -1,5 +1,4 @@
 import React from "react"
-import { AiFillCamera } from "react-icons/ai"
 import AppBody from "../../components/share/app/AppBody"
 import YouAreMatchWithWhiteImg from "../../components/dating/pic/youarematchwithwhite.png"
 import YouAreMatchWithBlackImg from "../../components/dating/pic/youarematchwithblack.png"
@@ -7,6 +6,8 @@ import HeartCheckingWhiteImg from "../../components/dating/pic/heartcheckingwhit
 import HeartCheckingBlackImg from "../../components/dating/pic/heartcheckingblack.png"
 import ActivityPollWhiteImg from "../../components/dating/pic/activitypollwhite.png"
 import ActivityPollBlackImg from "../../components/dating/pic/activitypollblack.png"
+import RandomizationWhiteImg from "../../components/dating/pic/randomizationwhite.png"
+import RandomizationBlackImg from "../../components/dating/pic/randomizationblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
 
 const DatingRandomization = () => {
@@ -20,11 +21,12 @@ const DatingRandomization = () => {
                 {
                     name: "Randomization",
                     to: "/dating",
-                    Icon: isMobile ? HeartCheckingWhiteImg : HeartCheckingBlackImg,
+                    Icon: isMobile ? RandomizationWhiteImg : RandomizationBlackImg,
                 },
                 {
                     name: "Heart Checking",
                     to: "/dating/likedyou",
+                    Icon: isMobile ? HeartCheckingWhiteImg : HeartCheckingBlackImg,
                 },
                 {
                     name: "You are match with",
