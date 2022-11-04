@@ -32,7 +32,7 @@ const DatingRandomization = () => {
                     Icon: isMobile ? RandomizationWhiteImg : RandomizationBlackImg,
                 },
                 {
-                    name: "Heart Checking",
+                    name: "Heart checking",
                     to: "/dating/likedyou",
                     Icon: isMobile ? HeartCheckingWhiteImg : HeartCheckingBlackImg,
                 },
