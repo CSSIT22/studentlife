@@ -1,8 +1,9 @@
 import { Box } from "@chakra-ui/react"
 import React from "react"
+import AppBody from "../../../components/share/app/AppBody"
 
-const swipeLeft = () => {
-    return <Box>Swipe left</Box>
+const TutorialSwipeLeft = () => {
+    return <AppBody>Swipe left</AppBody>
 }
 
-export default swipeLeft
+export default TutorialSwipeLeft

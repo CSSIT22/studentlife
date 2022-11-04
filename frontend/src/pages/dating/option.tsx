@@ -2,10 +2,10 @@ import { Box } from '@chakra-ui/react'
 import React from 'react'
 import AppBody from '../../components/share/app/AppBody'
 
-const option = () => {
+const DatingOption = () => {
   return (
-    <Box>Dating Option</Box>
+    <AppBody>Dating Option</AppBody>
   )
 }
 
-export default option
+export default DatingOption

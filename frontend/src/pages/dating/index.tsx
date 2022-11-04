@@ -1,10 +1,10 @@
 import React from 'react'
 import AppBody from '../../components/share/app/AppBody'
 
-const index = () => {
+const DatingRandomization = () => {
   return (
     <AppBody>Randomization</AppBody>
   )
 }
 
-export default index
+export default DatingRandomization

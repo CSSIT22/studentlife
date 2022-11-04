@@ -1,10 +1,10 @@
 import React from 'react'
 import AppBody from '../../components/share/app/AppBody'
 
-const interest = () => {
+const TagOfInterest = () => {
   return (
     <AppBody>Tag Of Interest</AppBody>
   )
 }
 
-export default interest
+export default TagOfInterest

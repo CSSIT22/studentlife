@@ -1,10 +1,10 @@
 import React from 'react'
 import AppBody from '../../components/share/app/AppBody'
 
-const match = () => {
+const DatingMatch = () => {
   return (
     <AppBody>You are match with</AppBody>
   )
 }
 
-export default match
+export default DatingMatch

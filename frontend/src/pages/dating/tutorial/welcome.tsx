@@ -1,8 +1,9 @@
 import { Box } from "@chakra-ui/react"
 import React from "react"
+import AppBody from "../../../components/share/app/AppBody"
 
-const welcome = () => {
-    return <Box>Welcome</Box>
+const TutorialWelcome = () => {
+    return <AppBody>Welcome</AppBody>
 }
 
-export default welcome
+export default TutorialWelcome
