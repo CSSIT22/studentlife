@@ -64,6 +64,9 @@ model User_Profile {
   datingSetting       Dating_Enroll?
   createPoll          Activity_Poll[]
   polls               Poll_Applicant[]
+  community           Community_User[]
+  communityBlacklist  Community_Blacklist[]
+  communityRole       Community_Role[]
 }
 
 model Detail {
@@ -92,11 +95,12 @@ model Faculty {
 }
 
 model Role {
-  userId      String       @id
-  club        String
-  rank        String
-  expire_date DateTime
-  studentRole User_Profile @relation(fields: [userId], references: [userId])
+  userId          String           @id
+  club            String
+  rank            String
+  expire_date     DateTime
+  studentRole     User_Profile     @relation(fields: [userId], references: [userId])
+  roleInCommunity Community_Role[]
 }
 
 model Follow {
@@ -164,6 +168,7 @@ model Student_Post {
   rePost          Repost[]
   userReported    Post_Report[]
   postHided       Hide_Post[]
+  communityPost   Community_Post?
 }
 
 model Following_Rating {
@@ -740,4 +745,80 @@ model Poll_Interest {
   interest           Interest      @relation(fields: [activityInterestId], references: [interestId])
 
   @@id([pollId, activityInterestId])
+}
+
+//Community
+model Community {
+  communityId      String                @id @default(cuid())
+  communityName    String
+  communityOwnerId String
+  communityDesc    String
+  communityPrivacy Boolean
+  member           Community_User[]
+  blacklist        Community_Blacklist[]
+  admin            Community_Role[]
+  tags             Community_Tag[]
+  posts            Community_Post[]
+  files            Community_File[]
+}
+
+model Community_User {
+  user        User_Profile @relation(fields: [userId], references: [userId])
+  userId      String
+  community   Community    @relation(fields: [communityId], references: [communityId])
+  communityId String
+  joined      DateTime
+
+  @@id([userId, communityId])
+}
+
+model Community_Blacklist {
+  user        User_Profile @relation(fields: [userId], references: [userId])
+  userId      String
+  community   Community    @relation(fields: [communityId], references: [communityId])
+  communityId String
+  since       DateTime
+
+  @@id([userId, communityId])
+}
+
+model Community_Role {
+  user        User_Profile @relation(fields: [userId], references: [userId])
+  userId      String
+  community   Community    @relation(fields: [communityId], references: [communityId])
+  communityId String
+  role        Role         @relation(fields: [roleId], references: [userId])
+  roleId      String
+
+  @@id([userId, communityId])
+}
+
+model Community_Tag {
+  community   Community @relation(fields: [communityId], references: [communityId])
+  communityId String
+  tag         Tag       @relation(fields: [tagId], references: [tagId])
+  tagId       Int
+
+  @@id([communityId, tagId])
+}
+
+model Tag {
+  tagId        Int             @id @default(autoincrement())
+  tagName      String
+  tagDesc      String
+  communityTag Community_Tag[]
+}
+
+model Community_Post {
+  post        Student_Post @relation(fields: [postId], references: [postId])
+  postId      String       @unique
+  community   Community    @relation(fields: [communityId], references: [communityId])
+  communityId String
+}
+
+model Community_File {
+  file        Airdrop   @relation(fields: [fileId], references: [fileId])
+  fileId      String    @unique
+  community   Community @relation(fields: [communityId], references: [communityId])
+  communityId String
 }
