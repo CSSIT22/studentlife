@@ -51,9 +51,11 @@ const ExtarSecondaryNav: FC<secondaryNavProps> = ({ to, name, Icon, subNav, disa
                                                     )}
                                                 </>
                                             )}
-                                            <Heading fontWeight={"normal"} size="sm">
-                                                {name}
-                                            </Heading>
+                                            {!disableText && (
+                                                <Heading fontWeight={"normal"} size="sm">
+                                                    {name}
+                                                </Heading>
+                                            )}
                                         </HStack>
                                     </MenuItem>
                                 </Link>
