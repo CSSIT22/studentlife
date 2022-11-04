@@ -74,8 +74,20 @@ const ExtarSecondaryNav: FC<secondaryNavProps> = ({ to, name, Icon, subNav, disa
                         w="fit-content"
                         p={2}
                     >
-                        <Heading size="sm">{Icon && <Icon />}</Heading>
-                        <Heading size="sm">{name}</Heading>
+                        {Icon && (
+                            <>
+                                {typeof Icon !== "string" ? (
+                                    <Heading size="sm">
+                                        <Icon />
+                                    </Heading>
+                                ) : (
+                                    <img src={Icon} style={{ height: "17px" }} />
+                                )}
+                            </>
+                        )}
+                        {/* <Heading size="sm">{Icon && <Icon />}</Heading> */}
+                        {!disableText && <Heading size="sm">{name}</Heading>}
+                        {/* <Heading size="sm">{name}</Heading> */}
                     </HStack>
                 </Link>
             )}
