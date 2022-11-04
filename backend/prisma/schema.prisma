@@ -72,6 +72,12 @@ model User_Profile {
   accessTo            Direct_Access[]
   banInstances        Ban_Status[]
   wordReport          wordReport[]
+  shortNotes          Sn_Head[]
+  voteTo              Sn_Votedetail[]
+  snComments          Sn_Comment[]
+  favSn               Sn_Fav[]
+  recentSn            Sn_Recent[]
+  accessSn            Sn_Access[]
 }
 
 model Detail {
@@ -224,7 +230,7 @@ model Emote_Collection {
 }
 
 model Post_Comment {
-  commentId       String           @id
+  commentId       String           @id @default(cuid())
   commenter       User_Profile     @relation(fields: [userId], references: [userId])
   userId          String
   commentOn       Student_Post     @relation(fields: [postId], references: [postId])
@@ -390,6 +396,7 @@ model Course {
   courseName  String
   lecturer    String
   assignments Assignment[]
+  shortNotes  Sn_Head[]
 }
 
 model Assignment {
@@ -856,7 +863,7 @@ model User_Show_File {
 }
 
 model File_Comment {
-  commentId   String       @id
+  commentId   String       @id @default(cuid())
   fileId      String
   userId      String
   commentText String
@@ -987,7 +994,7 @@ model wordReport {
   userId       String
   reporter     User_Profile      @relation(fields: [userId], references: [userId])
   detail       wordReportDetail?
-  reportedWord Filtered_Word @relation(fields: [wordReportId], references: [wordReportId])
+  reportedWord Filtered_Word     @relation(fields: [wordReportId], references: [wordReportId])
 }
 
 model wordReportDetail {
@@ -1000,7 +1007,95 @@ model wordReportDetail {
 }
 
 model Filtered_Word {
-  wordReportId Int @id
-  word String
-  wordReport wordReport[]
+  wordReportId Int          @id
+  word         String
+  wordReport   wordReport[]
+}
+
+//ShortNotes Module
+model Sn_Head {
+  snId       String          @id @default(cuid())
+  courseId   String
+  created    DateTime        @default(now())
+  userId     String
+  isPublic   Boolean
+  snName     String
+  snDesc     String
+  snLink     String
+  votes      Int             @default(0)
+  course     Course          @relation(fields: [courseId], references: [courseId])
+  owner      User_Profile    @relation(fields: [userId], references: [userId])
+  voteDetail Sn_Votedetail[]
+  comments   Sn_Comment[]
+  userFav    Sn_Fav[]
+  userRecent Sn_Recent[]
+  userAccess Sn_Access[]
+  inTheseLib Sn_In_Library[]
+}
+
+model Sn_Votedetail {
+  voteId   Int          @id @default(autoincrement())
+  snId     String
+  userId   String
+  voteType Vote_Type
+  votedBy  User_Profile @relation(fields: [userId], references: [userId])
+  voteTo   Sn_Head      @relation(fields: [snId], references: [snId])
+
+  @@unique([snId, userId])
+}
+
+enum Vote_Type {
+  UPVOTE
+  DOWNVOTE
+}
+
+model Sn_Comment {
+  commentId   String       @id @default(cuid())
+  snId        String
+  userId      String
+  comment     String
+  commentedAt DateTime     @default(now())
+  commentOn   Sn_Head      @relation(fields: [snId], references: [snId])
+  commentor   User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Sn_Fav {
+  favId     Int          @id @default(autoincrement())
+  shortNote Sn_Head      @relation(fields: [snId], references: [snId])
+  snId      String
+  favBy     User_Profile @relation(fields: [userId], references: [userId])
+  userId    String
+}
+
+model Sn_Recent {
+  recentId     Int          @id @default(autoincrement())
+  snId         String
+  userId       String
+  viewedAt     DateTime
+  shortNote    Sn_Head      @relation(fields: [snId], references: [snId])
+  recentViewBy User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Sn_Access {
+  accessId  Int          @id @default(autoincrement())
+  snId      String
+  userId    String
+  shortNote Sn_Head      @relation(fields: [snId], references: [snId])
+  accessBy  User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Sn_Library {
+  libId Int @id @default(autoincrement())
+  libName String
+  userId String
+  shortNotes Sn_In_Library[]
+  @@unique([libName, userId])
+}
+
+model Sn_In_Library {
+  inLibId Int @id @default(autoincrement())
+  libId Int
+  snId String
+  lib Sn_Library @relation(fields: [libId], references: [libId])
+  sn Sn_Head @relation(fields: [snId], references: [snId])
 }
