@@ -1,21 +1,25 @@
-import React from 'react';
-import AppBody from '../../components/share/app/AppBody';
-import SecondaryNav from '../../components/share/navbar/SecondaryNav';
+import React from 'react'
+import AppBody from '../../components/share/app/AppBody'
 
-const index = () => {
+
+const likeOrNope = () => {
   return (
-   <AppBody 
-   secondarynav={[
-    {
-        name: "Test",
-        to: "/ad",
-        Icon: AiFillAccountBook,
-        subNav: [{ name: "Sub1", to: "/asd", Icon: AiFillAccountBook }],
-    },
-   ]}>
-    
-   </AppBody>
-  );
+    <AppBody
+        secondarynav={[
+            {name: "Like or Nope", to: "/restaurant"},
+            {name: "My Favorite", to: "/restaurant/favorite"},
+            {name: "My History", to: "/restaurant/history"},
+            {name: "Detail อันนี้ใส่ไว้ก่อง", to: "/restaurant/detail"}
+        ]}
+    >
+        
+        
+        //likeOrNope Here
+
+
+        
+    </AppBody>
+  )
 }
 
-export default index;
+export default likeOrNope
