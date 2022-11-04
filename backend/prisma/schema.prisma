@@ -80,6 +80,9 @@ model User_Profile {
   accessSn            Sn_Access[]
   transactions        Transaction[]
   kmuttPoint          Kmutt_Point?
+  coupons             User_Coupon[]
+  carts               Shop_Cart[]
+  reviewProduct       Shop_Product_Review[]
 }
 
 model Detail {
@@ -1118,6 +1121,7 @@ model Transaction {
   type            Transaction_Paytype?
   pointAccumulate Kmutt_Point_History?
   moneyChat       Chat_Transaction?
+  moneyShop       Shop_Order?
 }
 
 model Transaction_Detail {
@@ -1206,4 +1210,119 @@ model Kmutt_Point_History {
   pointTransactionAt DateTime    @default(now())
   pointHistoryFrom   Transaction @relation(fields: [transId], references: [transId])
   pointHistoryOf     Kmutt_Point @relation(fields: [kpId], references: [kpId])
+}
+
+//Shop Module
+model Shop_Order {
+  orderId           String               @id @default(cuid())
+  userId            String
+  transId           String               @unique
+  couponCode        String               @unique
+  totalPrice        Float
+  totalDeliveryFees Float
+  shipping          String
+  orderPlaced       DateTime             @default(now())
+  orderStatus       String
+  transaction       Transaction          @relation(fields: [transId], references: [transId])
+  useCoupon         User_Coupon          @relation(fields: [couponCode], references: [couponCode])
+  products          Shop_Order_Product[]
+}
+
+model Shop_Coupon {
+  couponCode   String        @id
+  couponDesc   String
+  discount     Float
+  validFrom    DateTime
+  validTill    DateTime
+  minimumSpend Float
+  productId    Int
+  quota        Int
+  userCoupon   User_Coupon[]
+}
+
+model User_Coupon {
+  userId     String
+  couponCode String       @unique
+  user       User_Profile @relation(fields: [userId], references: [userId])
+  coupon     Shop_Coupon  @relation(fields: [couponCode], references: [couponCode])
+  useCoupon  Shop_Order?
+
+  @@id([userId, couponCode])
+}
+
+model Shop_Product {
+  productId    Int                   @id @default(autoincrement())
+  categoryId   Int
+  contactId    Int
+  productName  String
+  productDesc  String
+  productColor String
+  productSize  String
+  productPrice Float
+  productStock Int
+  brandName    String
+  deliveryFees Float
+  views        BigInt
+  images       Shop_Product_Images[]
+  inCategory   Shop_Categories       @relation(fields: [categoryId], references: [categoryId])
+  contactTo    Shop_Contact          @relation(fields: [contactId], references: [contactId])
+  orders       Shop_Order_Product[]
+  carts        Shop_Cart[]
+  userReview   Shop_Product_Review[]
+}
+
+model Shop_Categories {
+  categoryId   Int            @id
+  categoryName String
+  image        String
+  products     Shop_Product[]
+}
+
+model Shop_Contact {
+  contactId     Int            @id
+  contactPerson String
+  phoneNo       String
+  address       String
+  lineId        String
+  products      Shop_Product[]
+}
+
+model Shop_Product_Images {
+  piId      Int          @id @default(autoincrement())
+  productId Int
+  image     String
+  imageOf   Shop_Product @relation(fields: [productId], references: [productId])
+}
+
+model Shop_Order_Product {
+  orderId   String
+  order     Shop_Order   @relation(fields: [orderId], references: [orderId])
+  productId Int
+  product   Shop_Product @relation(fields: [productId], references: [productId])
+  quantity  Int
+
+  @@id([orderId, productId])
+}
+
+model Shop_Cart {
+  userId    String
+  user      User_Profile @relation(fields: [userId], references: [userId])
+  productId Int
+  product   Shop_Product @relation(fields: [productId], references: [productId])
+  quantity  Int
+
+  @@id([userId, productId])
+}
+
+model Shop_Product_Review {
+  reviewId     Int          @id
+  userId       String
+  user         User_Profile @relation(fields: [userId], references: [userId])
+  productId    Int
+  product      Shop_Product @relation(fields: [productId], references: [productId])
+  reviewName   String
+  reviewDesc   String
+  reviewRating Int
+  reviewAt     DateTime     @default(now())
+  image        String
 }
