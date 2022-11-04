@@ -101,6 +101,9 @@ model User_Profile {
   shortlinkQuota       ShortLink_Quota?
   shortlink            ShortLink[]
   shortlinkAccess      ShortLink_Permission_User[]
+  userAccess           Analytic_User_Access?
+  genReportModule      Analytic_Report_Module[]
+  userReport           Analytic_User_Report[]
 }
 
 model Detail {
@@ -125,9 +128,9 @@ model Major {
 }
 
 model Faculty {
-  facultyId   Int     @id @default(autoincrement())
-  facultyName String
-  major       Major[]
+  facultyId       Int                            @id @default(autoincrement())
+  facultyName     String
+  major           Major[]
   shortlinkAccess ShortLink_Permission_Faculty[]
 }
 
@@ -1647,16 +1650,16 @@ model ShortLink_Quota {
 }
 
 model ShortLink {
-  slId         String                       @id @default(cuid())
-  userId       String
-  originalLink String
-  shortenLink  String
-  password     String                       @default("")
-  expired      DateTime
-  linkCreator  User_Profile                 @relation(fields: [userId], references: [userId])
-  permission   ShortLink_Permission?
-  userAccess   ShortLink_Permission_User[]
-  majorAccess  ShortLink_Permission_Major[]
+  slId          String                         @id @default(cuid())
+  userId        String
+  originalLink  String
+  shortenLink   String
+  password      String                         @default("")
+  expired       DateTime
+  linkCreator   User_Profile                   @relation(fields: [userId], references: [userId])
+  permission    ShortLink_Permission?
+  userAccess    ShortLink_Permission_User[]
+  majorAccess   ShortLink_Permission_Major[]
   facultyAccess ShortLink_Permission_Faculty[]
 }
 
@@ -1690,14 +1693,118 @@ model ShortLink_Permission_Major {
 }
 
 model ShortLink_Permission_Faculty {
-  permId Int          @id @default(autoincrement())
-  slId   String
+  permId    Int       @id @default(autoincrement())
+  slId      String
   facultyId Int
-  sl     ShortLink    @relation(fields: [slId], references: [slId])
-  faculty   Faculty @relation(fields: [facultyId], references: [facultyId])
+  sl        ShortLink @relation(fields: [slId], references: [slId])
+  faculty   Faculty   @relation(fields: [facultyId], references: [facultyId])
 }
 
 model ShortLink_Delete_Link {
-  slId String @id
+  slId      String   @id
   deletedAt DateTime @default(now())
+}
+
+//Analytic Module
+model Analytic_User_Access {
+  userId             String       @id
+  isGenUserReport    Boolean
+  isGenOverallReport Boolean
+  isGenModuleReport  Boolean
+  isViewModuleReport Boolean
+  user               User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Analytic_Report {
+  reportId Int                      @id @default(autoincrement())
+  modules  Analytic_Report_Module[]
+}
+
+model Analytic_Report_Module {
+  reportId         Int             @id @default(autoincrement())
+  moduleName       String
+  userId           String
+  reportTime       DateTime        @default(now())
+  unAuthorizedView Int
+  authorizedView   Int
+  periodHours      Int
+  totalRequest     Int
+  userActive       Int
+  mostCountry      String
+  genBy            User_Profile    @relation(fields: [userId], references: [userId])
+  moduleOf         Analytic_Report @relation(fields: [reportId], references: [reportId])
+}
+
+model Analytic_View {
+  viewId           String                            @id @default(cuid())
+  time             DateTime
+  url              String
+  module           String
+  location         String //GeoJson
+  ip               String
+  externalPlatform String
+  reports          Analytic_View_In_User_Report[]
+  requests         Analytic_Request_In_User_Report[]
+}
+
+model Analytic_External_Platform {
+  devId      Int             @id
+  epName     String
+  created    DateTime
+  platformOf Analytic_Device @relation(fields: [devId], references: [devId])
+}
+
+model Analytic_User_Report {
+  reportId       String                         @id @default(cuid())
+  userId         String
+  reportedAt     DateTime
+  timeActive     Int
+  usedTimePerDay Int
+  totalRequest   Int
+  start          DateTime
+  end            DateTime
+  genBy          User_Profile                   @relation(fields: [userId], references: [userId])
+  views          Analytic_View_In_User_Report[]
+}
+
+model Analytic_View_In_User_Report {
+  reportId   String
+  userreport Analytic_User_Report @relation(fields: [reportId], references: [reportId])
+  viewId     String
+  view       Analytic_View        @relation(fields: [viewId], references: [viewId])
+
+  @@id([reportId, viewId])
+}
+
+model Analytic_Request {
+  reqId      String                            @id @default(cuid())
+  userId     String
+  module     String
+  time       DateTime
+  body       String //Jsonb
+  ip         String
+  deviceName String
+  location   String //GeoJson
+  status     String
+  views      Analytic_Request_In_User_Report[]
+  devices    Analytic_Device[]
+}
+
+model Analytic_Device {
+  devId    Int                         @id @default(autoincrement())
+  reqId    String
+  devName  String
+  devOS    String
+  created  DateTime
+  deviceOf Analytic_Request            @relation(fields: [reqId], references: [reqId])
+  platform Analytic_External_Platform?
+}
+
+model Analytic_Request_In_User_Report {
+  reqId   String
+  request Analytic_Request @relation(fields: [reqId], references: [reqId])
+  viewId  String
+  view    Analytic_View    @relation(fields: [viewId], references: [viewId])
+
+  @@id([reqId, viewId])
 }
