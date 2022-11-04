@@ -1,6 +1,7 @@
 import React from "react"
 import { AiFillCamera } from "react-icons/ai"
 import AppBody from "../../components/share/app/AppBody"
+import YouAreMatchWithImg from "../../components/dating/pic/youarematchwith.png"
 
 const DatingRandomization = () => {
     return (
@@ -17,6 +18,7 @@ const DatingRandomization = () => {
                 {
                     name: "You are match with",
                     to: "/dating/match",
+                    Icon: YouAreMatchWithImg,
                 },
                 {
                     name: "Activity poll",
