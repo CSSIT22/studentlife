@@ -1,4 +1,3 @@
-import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import YouAreMatchWithWhiteImg from "../../components/dating/pic/youarematchwithwhite.png"
 import YouAreMatchWithBlackImg from "../../components/dating/pic/youarematchwithblack.png"
@@ -15,8 +14,6 @@ import DatingOptionsBlackImg from "../../components/dating/pic/datingoptionblack
 import DatingTutorialWhiteImg from "../../components/dating/pic/datingtutorialwhite.png"
 import DatingTutorialBlackImg from "../../components/dating/pic/datingtutorialblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
-import TagOfInterest from "./interest"
-import DatingOption from "./option"
 
 const DatingRandomization = () => {
     const isMobile = useBreakpointValue({
