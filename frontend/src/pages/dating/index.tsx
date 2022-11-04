@@ -8,7 +8,10 @@ import ActivityPollWhiteImg from "../../components/dating/pic/activitypollwhite.
 import ActivityPollBlackImg from "../../components/dating/pic/activitypollblack.png"
 import RandomizationWhiteImg from "../../components/dating/pic/randomizationwhite.png"
 import RandomizationBlackImg from "../../components/dating/pic/randomizationblack.png"
+import TagOfInterestWhiteImg from "../../components/dating/pic/tagofinterestwhite.png"
+import TagOfInterestBlackImg from "../../components/dating/pic/tagofinterestblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
+import TagOfInterest from "./interest"
 
 const DatingRandomization = () => {
     const isMobile = useBreakpointValue({
@@ -43,6 +46,7 @@ const DatingRandomization = () => {
                     to: "/dating/interest",
                     isRight: true,
                     disableText: true,
+                    Icon: isMobile ? TagOfInterestWhiteImg : TagOfInterestBlackImg,
                 },
                 {
                     name: "Option",
