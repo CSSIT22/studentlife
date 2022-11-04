@@ -15,7 +15,7 @@ import DatingTutorialWhiteImg from "../../../components/dating/pic/datingtutoria
 import DatingTutorialBlackImg from "../../../components/dating/pic/datingtutorialblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
 
-const TutorialWelcome = () => {
+const TutorialPoll = () => {
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
@@ -66,9 +66,9 @@ const TutorialWelcome = () => {
                 },
             ]}
         >
-            Welcome tutorial
+            Activity Poll Tutorial
         </AppBody>
     )
 }
 
-export default TutorialWelcome
+export default TutorialPoll

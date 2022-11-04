@@ -15,7 +15,7 @@ import DatingTutorialWhiteImg from "../../../components/dating/pic/datingtutoria
 import DatingTutorialBlackImg from "../../../components/dating/pic/datingtutorialblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
 
-const TutorialSwipeLeft = () => {
+const TutorialOption = () => {
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
@@ -66,9 +66,9 @@ const TutorialSwipeLeft = () => {
                 },
             ]}
         >
-            Swipe left
+            Option Tutorial
         </AppBody>
     )
 }
 
-export default TutorialSwipeLeft
+export default TutorialOption
