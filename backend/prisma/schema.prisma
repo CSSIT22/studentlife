@@ -69,8 +69,9 @@ model User_Profile {
   communityRole       Community_Role[]
   files               User_Show_File[]
   fComments           File_Comment[]
-  sendFile Direct_Access[] @relation("FReceiver")
-  receiverFile Direct_Access[] @relation("FSender")
+  accessTo            Direct_Access[]
+  banInstances        Ban_Status[]
+  wordReport          wordReport[]
 }
 
 model Detail {
@@ -90,7 +91,7 @@ model Major {
   facultyId    Int
   student      User_Profile[]
   majorFaculty Faculty        @relation(fields: [facultyId], references: [facultyId])
-  accessTo Major_Access[]
+  accessTo     Major_Access[]
 }
 
 model Faculty {
@@ -562,18 +563,19 @@ model Chat_User {
 }
 
 model Chat_Room {
-  roomId             String         @id @default(cuid())
+  roomId             String             @id @default(cuid())
   roomName           String
   chatColor          String
-  created            DateTime       @default(now())
+  created            DateTime           @default(now())
   deleted            DateTime
   roomType           Room_Type
   roomGroup          Chat_Group?
   haveUser           User_To_Room[]
-  User_Profile       User_Profile?  @relation(fields: [user_ProfileUserId], references: [userId])
+  User_Profile       User_Profile?      @relation(fields: [user_ProfileUserId], references: [userId])
   user_ProfileUserId String?
   messages           Message[]
   quotes             Chat_Quote[]
+  wordReport         wordReportDetail[]
 }
 
 model User_To_Room {
@@ -759,13 +761,14 @@ model Community {
   communityOwnerId String
   communityDesc    String
   communityPrivacy Boolean
+  communityPhoto   Bytes?
   member           Community_User[]
   blacklist        Community_Blacklist[]
   admin            Community_Role[]
   tags             Community_Tag[]
   posts            Community_Post[]
   files            Community_File[]
-  accessTo Community_Access[]
+  accessTo         Community_Access[]
 }
 
 model Community_User {
@@ -886,43 +889,118 @@ model File_In_Folder {
 }
 
 model File_Access {
-  accessId String @id @default(cuid())
-  fileId String
+  accessId   String             @id @default(cuid())
+  fileId     String
   accessType String
-  everyone Everyone_Access[]
-  community Community_Access[]
-  major Major_Access[]
-  direct Direct_Access[]
+  everyone   Everyone_Access[]
+  community  Community_Access[]
+  major      Major_Access[]
+  direct     Direct_Access[]
 }
 
 model Everyone_Access {
-  eaId String @id @default(cuid())
-  accessId String
+  eaId           String      @id @default(cuid())
+  accessId       String
   eaFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
 }
 
 model Community_Access {
-  caId String @id @default(cuid())
-  accessId String
-  communityId String
+  caId          String      @id @default(cuid())
+  accessId      String
+  communityId   String
   cFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
-  haveAccess Community @relation(fields: [communityId], references: [communityId])
+  haveAccess    Community   @relation(fields: [communityId], references: [communityId])
 }
 
 model Major_Access {
-  maId String @id @default(cuid())
-  accessId String
-  majorId Int
+  maId          String      @id @default(cuid())
+  accessId      String
+  majorId       Int
   mFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
-  haveAccess Major @relation(fields: [majorId], references: [majorId])
+  haveAccess    Major       @relation(fields: [majorId], references: [majorId])
 }
 
 model Direct_Access {
-  daId String @id @default(cuid())
-  accessId String
-  userId String
-  anotherUserId String
-  dFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
-  sender User_Profile @relation("FSender", fields: [userId], references: [userId])
-  receiver User_Profile @relation("FReceiver", fields: [anotherUserId], references: [userId])
+  daId          String       @id @default(cuid())
+  accessId      String
+  userId        String
+  dFileAccessId File_Access  @relation(fields: [accessId], references: [accessId])
+  haveAccess    User_Profile @relation(fields: [userId], references: [userId])
+}
+
+//Backend Module
+model User_Back {
+  userId        String
+  token         String
+  loginSession  Login_Info[]
+  logoutSession Logout_Info[]
+
+  @@id([userId, token])
+}
+
+model Login_Info {
+  loginId String        @id @default(cuid())
+  userId  String
+  token   String
+  login   User_Back     @relation(fields: [userId, token], references: [userId, token])
+  detail  Login_Detail?
+}
+
+model Login_Detail {
+  loginId      String     @id
+  loginDate    DateTime   @default(now())
+  tokenExpired DateTime
+  deviceInfo   String
+  ip           String
+  detailOf     Login_Info @relation(fields: [loginId], references: [loginId])
+}
+
+model Logout_Info {
+  logoutId String         @id @default(cuid())
+  userId   String
+  token    String
+  logout   User_Back      @relation(fields: [userId, token], references: [userId, token])
+  detail   Logout_Detail?
+}
+
+model Logout_Detail {
+  logoutId   String      @id
+  logoutDate DateTime    @default(now())
+  deviceInfo String
+  ip         String
+  detailOf   Logout_Info @relation(fields: [logoutId], references: [logoutId])
+}
+
+model Ban_Status {
+  banId    String       @id @default(cuid())
+  userId   String
+  reason   String
+  instance Int
+  banFrom  DateTime     @default(now())
+  banTo    DateTime
+  user     User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model wordReport {
+  wordReportId Int               @id @default(autoincrement())
+  word         String
+  userId       String
+  reporter     User_Profile      @relation(fields: [userId], references: [userId])
+  detail       wordReportDetail?
+  reportedWord Filtered_Word @relation(fields: [wordReportId], references: [wordReportId])
+}
+
+model wordReportDetail {
+  wordReportDetailId Int        @id
+  roomId             String
+  reason             String
+  reportedAt         DateTime   @default(now())
+  detailOf           wordReport @relation(fields: [wordReportDetailId], references: [wordReportId])
+  reportFrom         Chat_Room  @relation(fields: [roomId], references: [roomId])
+}
+
+model Filtered_Word {
+  wordReportId Int @id
+  word String
+  wordReport wordReport[]
 }
