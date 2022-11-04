@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@chakra-ui/react": "^2.3.6",
+        "@dropzone-ui/react": "^6.7.20",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "framer-motion": "^7.6.2",
