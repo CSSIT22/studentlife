@@ -1,14 +1,14 @@
 import React from "react"
 import { AiFillCamera } from "react-icons/ai"
 import AppBody from "../../components/share/app/AppBody"
-import YouAreMatchWithImg from "../../components/dating/pic/youarematchwith.png"
+import YouAreMatchWithWhiteImg from "../../components/dating/pic/youarematchwithwhite.png"
 import YouAreMatchWithBlackImg from "../../components/dating/pic/youarematchwithblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
 
 const DatingRandomization = () => {
-    const icon = useBreakpointValue({
-        base: YouAreMatchWithBlackImg,
-        md: YouAreMatchWithImg,
+    const isMobile = useBreakpointValue({
+        base: false,
+        md: true,
     })
     return (
         <AppBody
@@ -24,7 +24,7 @@ const DatingRandomization = () => {
                 {
                     name: "You are match with",
                     to: "/dating/match",
-                    Icon: icon,
+                    Icon: isMobile ? YouAreMatchWithWhiteImg : YouAreMatchWithBlackImg,
                 },
                 {
                     name: "Activity poll",
