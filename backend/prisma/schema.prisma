@@ -98,6 +98,9 @@ model User_Profile {
   answers              Question_Answer[]
   answerComments       Question_Answer_Comment[]
   modvotes             Question_Modvote[]
+  shortlinkQuota       ShortLink_Quota?
+  shortlink            ShortLink[]
+  shortlinkAccess      ShortLink_Permission_User[]
 }
 
 model Detail {
@@ -112,18 +115,20 @@ model Detail {
 }
 
 model Major {
-  majorId      Int            @id @default(autoincrement())
-  majorName    String
-  facultyId    Int
-  student      User_Profile[]
-  majorFaculty Faculty        @relation(fields: [facultyId], references: [facultyId])
-  accessTo     Major_Access[]
+  majorId         Int                          @id @default(autoincrement())
+  majorName       String
+  facultyId       Int
+  student         User_Profile[]
+  majorFaculty    Faculty                      @relation(fields: [facultyId], references: [facultyId])
+  accessTo        Major_Access[]
+  shortlinkAccess ShortLink_Permission_Major[]
 }
 
 model Faculty {
   facultyId   Int     @id @default(autoincrement())
   facultyName String
   major       Major[]
+  shortlinkAccess ShortLink_Permission_Faculty[]
 }
 
 model Role {
@@ -1632,4 +1637,67 @@ model Question_Modvote {
   lastUpdated DateTime     @default(now())
   voteFor     Question     @relation(fields: [qId], references: [qId])
   voteBy      User_Profile @relation(fields: [userId], references: [userId])
+}
+
+//ShortLink Module
+model ShortLink_Quota {
+  userId    String       @id
+  remaining Int
+  user      User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model ShortLink {
+  slId         String                       @id @default(cuid())
+  userId       String
+  originalLink String
+  shortenLink  String
+  password     String                       @default("")
+  expired      DateTime
+  linkCreator  User_Profile                 @relation(fields: [userId], references: [userId])
+  permission   ShortLink_Permission?
+  userAccess   ShortLink_Permission_User[]
+  majorAccess  ShortLink_Permission_Major[]
+  facultyAccess ShortLink_Permission_Faculty[]
+}
+
+model ShortLink_Permission {
+  slId     String                    @id
+  permType ShortLink_Permission_Type
+  permOf   ShortLink                 @relation(fields: [slId], references: [slId])
+}
+
+enum ShortLink_Permission_Type {
+  USER
+  MAJOR
+  FACULTY
+  YEAR
+}
+
+model ShortLink_Permission_User {
+  permId Int          @id @default(autoincrement())
+  slId   String
+  userId String
+  sl     ShortLink    @relation(fields: [slId], references: [slId])
+  user   User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model ShortLink_Permission_Major {
+  permId  Int       @id @default(autoincrement())
+  slId    String
+  majorId Int
+  sl      ShortLink @relation(fields: [slId], references: [slId])
+  major   Major     @relation(fields: [majorId], references: [majorId])
+}
+
+model ShortLink_Permission_Faculty {
+  permId Int          @id @default(autoincrement())
+  slId   String
+  facultyId Int
+  sl     ShortLink    @relation(fields: [slId], references: [slId])
+  faculty   Faculty @relation(fields: [facultyId], references: [facultyId])
+}
+
+model ShortLink_Delete_Link {
+  slId String @id
+  deletedAt DateTime @default(now())
 }
