@@ -12,22 +12,22 @@ datasource db {
 
 //User Profile Module
 model User_Profile {
-  userId              String                 @id @default(uuid())
-  studentId           String                 @unique
+  userId              String                        @id @default(uuid())
+  studentId           String                        @unique
   fName               String
   lName               String
-  email               String                 @unique
+  email               String                        @unique
   image               Bytes?
   details             Detail?
   student_major       Int
-  studentMajor        Major                  @relation(fields: [student_major], references: [majorId])
+  studentMajor        Major                         @relation(fields: [student_major], references: [majorId])
   role                Role?
-  userFollowers       Follow[]               @relation("following")
-  userFollowing       Follow[]               @relation("follower")
-  userReporters       User_Report[]          @relation("reporting")
-  userReporting       User_Report[]          @relation("reporter")
-  userBlockers        User_Blocked[]         @relation("blocking")
-  userBlocking        User_Blocked[]         @relation("blocker")
+  userFollowers       Follow[]                      @relation("following")
+  userFollowing       Follow[]                      @relation("follower")
+  userReporters       User_Report[]                 @relation("reporting")
+  userReporting       User_Report[]                 @relation("reporter")
+  userBlockers        User_Blocked[]                @relation("blocking")
+  userBlocking        User_Blocked[]                @relation("blocker")
   levels              EXP?
   posts               Student_Post[]
   relationScore       Following_Rating[]
@@ -54,12 +54,12 @@ model User_Profile {
   inRoom              Chat_Room[]
   user_To_Room        User_To_Room[]
   userDating          Dating_Options?
-  frontUserQueue      Card_Queue[]           @relation("Front User")
-  backUserQueue       Card_Queue[]           @relation("Back User")
-  giveRate            User_Rating[]          @relation("Receiver")
-  receiveRate         User_Rating[]          @relation("Giver")
-  giveHeart           Heart_History[]        @relation("HReceiver")
-  receiveHeart        Heart_History[]        @relation("HGiver")
+  frontUserQueue      Card_Queue[]                  @relation("Front User")
+  backUserQueue       Card_Queue[]                  @relation("Back User")
+  giveRate            User_Rating[]                 @relation("Receiver")
+  receiveRate         User_Rating[]                 @relation("Giver")
+  giveHeart           Heart_History[]               @relation("HReceiver")
+  receiveHeart        Heart_History[]               @relation("HGiver")
   interests           User_Interest[]
   datingSetting       Dating_Enroll?
   createPoll          Activity_Poll[]
@@ -83,6 +83,9 @@ model User_Profile {
   coupons             User_Coupon[]
   carts               Shop_Cart[]
   reviewProduct       Shop_Product_Review[]
+  likeRestaurants     Restaurant_Like_By_User[]
+  favRestaurants      Restaurant_Favorite_By_User[]
+  seenRestaurants     Restaurant_Seen_By_User[]
 }
 
 model Detail {
@@ -1325,4 +1328,82 @@ model Shop_Product_Review {
   reviewRating Int
   reviewAt     DateTime     @default(now())
   image        String
+}
+
+//Restaurant Module
+model Restaurant {
+  resId       String                        @id @default(cuid())
+  resName     String
+  lastupdated DateTime                      @default(now())
+  likes       Int
+  isSeen      Boolean
+  detail      Restaurant_Detail?
+  images      Restaurant_Image[]
+  openAt      Restaurant_Open[]
+  closeAt     Restaurant_Close[]
+  userLike    Restaurant_Like_By_User[]
+  userFav     Restaurant_Favorite_By_User[]
+  userSeen    Restaurant_Seen_By_User[]
+}
+
+model Restaurant_Detail {
+  resId     String     @id
+  phoneNo   String
+  website   String
+  location  String
+  vicinity  String
+  latitude  Float
+  longitude Float
+  detailOf  Restaurant @relation(fields: [resId], references: [resId])
+}
+
+model Restaurant_Image {
+  imageId Int        @id @default(autoincrement())
+  resId   String
+  image   String
+  imageOf Restaurant @relation(fields: [resId], references: [resId])
+}
+
+model Restaurant_Open {
+  openId Int        @id @default(autoincrement())
+  resId  String
+  open   DateTime
+  day    Int
+  openOf Restaurant @relation(fields: [resId], references: [resId])
+}
+
+model Restaurant_Close {
+  closeId Int        @id @default(autoincrement())
+  resId   String
+  close   DateTime
+  day     Int
+  openOf  Restaurant @relation(fields: [resId], references: [resId])
+}
+
+model Restaurant_Like_By_User {
+  userId     String
+  user       User_Profile @relation(fields: [userId], references: [userId])
+  resId      String
+  restaurant Restaurant   @relation(fields: [resId], references: [resId])
+
+  @@id([userId, resId])
+}
+
+model Restaurant_Favorite_By_User {
+  userId     String
+  user       User_Profile @relation(fields: [userId], references: [userId])
+  resId      String
+  restaurant Restaurant   @relation(fields: [resId], references: [resId])
+
+  @@id([userId, resId])
+}
+
+model Restaurant_Seen_By_User {
+  userId     String
+  user       User_Profile @relation(fields: [userId], references: [userId])
+  resId      String
+  restaurant Restaurant   @relation(fields: [resId], references: [resId])
+  seenAt     DateTime     @default(now())
+
+  @@id([userId, resId])
 }
