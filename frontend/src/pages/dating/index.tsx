@@ -12,7 +12,8 @@ import TagOfInterestWhiteImg from "../../components/dating/pic/tagofinterestwhit
 import TagOfInterestBlackImg from "../../components/dating/pic/tagofinterestblack.png"
 import DatingOptionsWhiteImg from "../../components/dating/pic/datingoptionwhite.png"
 import DatingOptionsBlackImg from "../../components/dating/pic/datingoptionblack.png"
-
+import DatingTutorialWhiteImg from "../../components/dating/pic/datingtutorialwhite.png"
+import DatingTutorialBlackImg from "../../components/dating/pic/datingtutorialblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
 import TagOfInterest from "./interest"
 import DatingOption from "./option"
@@ -64,6 +65,7 @@ const DatingRandomization = () => {
                     to: "/dating/tutorial/welcome",
                     isRight: true,
                     disableText: true,
+                    Icon: isMobile ? DatingTutorialWhiteImg : DatingTutorialBlackImg,
                 },
             ]}
         >
