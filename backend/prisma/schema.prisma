@@ -92,6 +92,12 @@ model User_Profile {
   restaurantReviewLike SReview_Restaurant_Review_Like[]
   commentLike          SReview_Comment_Like[]
   suggestions          SReview_Suggestion[]
+  questions            Question[]
+  questionSetting      Question_Setting?
+  questionComments     Question_Comment[]
+  answers              Question_Answer[]
+  answerComments       Question_Answer_Comment[]
+  modvotes             Question_Modvote[]
 }
 
 model Detail {
@@ -1526,4 +1532,104 @@ model SReview_Suggestion {
   userId     String
   suggestion String
   user       User_Profile @relation(fields: [userId], references: [userId])
+}
+
+//QA Module
+model Question {
+  qId         String               @id @default(cuid())
+  userId      String
+  created     DateTime             @default(now())
+  lastUpdated DateTime             @default(now())
+  qTitle      String
+  qDesc       String
+  voteCount   Int
+  qCreator    User_Profile         @relation(fields: [userId], references: [userId])
+  tags        Question_Tag[]
+  file        Question_Embed_File?
+  comments    Question_Comment[]
+  answers     Question_Answer[]
+  votes       Question_Modvote[]
+}
+
+model Question_Setting {
+  userId      String       @id
+  isAnonymous Boolean
+  user        User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Question_Tag {
+  tagKey Int                  @id
+  tagId  Int
+  qId    String
+  tagOf  Question             @relation(fields: [qId], references: [qId])
+  tagIs  Question_Default_Tag @relation(fields: [tagKey], references: [tagKey])
+}
+
+model Question_Default_Tag {
+  tagKey  Int           @id @default(autoincrement())
+  tagId   Int
+  tagName String
+  tag     Question_Tag?
+}
+
+model Question_Embed_File {
+  qId      String   @id
+  fileName String
+  link     String
+  fileOf   Question @relation(fields: [qId], references: [qId])
+}
+
+model Question_Comment {
+  commentId   Int          @id @default(autoincrement())
+  qId         String
+  userId      String
+  created     DateTime     @default(now())
+  lastUpdated DateTime     @default(now())
+  comment     String
+  commentOf   Question     @relation(fields: [qId], references: [qId])
+  commentor   User_Profile @relation(fields: [userId], references: [userId])
+}
+
+model Question_Answer {
+  answerId    String                      @id @default(cuid())
+  qId         String
+  userId      String
+  created     DateTime                    @default(now())
+  lastUpdated DateTime                    @default(now())
+  qTitle      String
+  qDesc       String
+  voteCount   Int
+  aCreator    User_Profile                @relation(fields: [userId], references: [userId])
+  answerOf    Question                    @relation(fields: [qId], references: [qId])
+  file        Question_Answer_Embed_File?
+  comments    Question_Answer_Comment[]
+}
+
+model Question_Answer_Embed_File {
+  answerId String          @id
+  fileName String
+  link     String
+  fileOf   Question_Answer @relation(fields: [answerId], references: [answerId])
+}
+
+model Question_Answer_Comment {
+  commentId   Int             @id @default(autoincrement())
+  answerId    String
+  userId      String
+  created     DateTime        @default(now())
+  lastUpdated DateTime        @default(now())
+  comment     String
+  commentOf   Question_Answer @relation(fields: [answerId], references: [answerId])
+  commentor   User_Profile    @relation(fields: [userId], references: [userId])
+}
+
+model Question_Modvote {
+  voteId      Int          @id @default(autoincrement())
+  qId         String
+  userId      String
+  isUp        Boolean      @default(false)
+  isDown      Boolean      @default(false)
+  lastUpdated DateTime     @default(now())
+  voteFor     Question     @relation(fields: [qId], references: [qId])
+  voteBy      User_Profile @relation(fields: [userId], references: [userId])
 }
