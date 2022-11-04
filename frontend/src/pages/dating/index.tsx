@@ -2,8 +2,14 @@ import React from "react"
 import { AiFillCamera } from "react-icons/ai"
 import AppBody from "../../components/share/app/AppBody"
 import YouAreMatchWithImg from "../../components/dating/pic/youarematchwith.png"
+import YouAreMatchWithBlackImg from "../../components/dating/pic/youarematchwithblack.png"
+import { useBreakpointValue } from "@chakra-ui/react"
 
 const DatingRandomization = () => {
+    const icon = useBreakpointValue({
+        base: YouAreMatchWithBlackImg,
+        md: YouAreMatchWithImg,
+    })
     return (
         <AppBody
             secondarynav={[
@@ -18,7 +24,7 @@ const DatingRandomization = () => {
                 {
                     name: "You are match with",
                     to: "/dating/match",
-                    Icon: YouAreMatchWithImg,
+                    Icon: icon,
                 },
                 {
                     name: "Activity poll",
