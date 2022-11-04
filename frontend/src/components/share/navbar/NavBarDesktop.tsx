@@ -87,15 +87,17 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                             <MenuList w="700">
                                 <SimpleGrid columns={2} gap={2} p={5}>
                                     {moreMenu.map(({ to, name, Icon }) => (
-                                        <HStack key={to} cursor="pointer" p={3} bg={"gray.100"} _hover={{ bg: "gray.200" }} rounded={"lg"}>
-                                            <Heading fontWeight={"normal"} size="sm">
-                                                <Icon />
-                                            </Heading>
+                                        <Link to={to} key={to}>
+                                            <HStack cursor="pointer" p={3} bg={"gray.100"} _hover={{ bg: "gray.200" }} rounded={"lg"}>
+                                                <Heading fontWeight={"normal"} size="sm">
+                                                    <Icon />
+                                                </Heading>
 
-                                            <Heading fontWeight={"normal"} size="md">
-                                                {name}
-                                            </Heading>
-                                        </HStack>
+                                                <Heading fontWeight={"normal"} size="md">
+                                                    {name}
+                                                </Heading>
+                                            </HStack>
+                                        </Link>
                                     ))}
                                 </SimpleGrid>
                             </MenuList>
@@ -106,9 +108,22 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
             {secondarynav && (
                 <Box w="100%" bg="orange.300">
                     <Container w="container.lg" maxW={"100%"}>
-                        {secondarynav.map((props) => (
-                            <ExtarSecondaryNav key={props.name} {...props} />
-                        ))}
+                        <HStack w="100%" justifyContent={"space-between"}>
+                            <HStack>
+                                {secondarynav
+                                    .filter((item) => !item.isRight)
+                                    .map((props) => (
+                                        <ExtarSecondaryNav key={props.name} {...props} />
+                                    ))}
+                            </HStack>
+                            <HStack>
+                                {secondarynav
+                                    .filter((item) => item.isRight)
+                                    .map((props) => (
+                                        <ExtarSecondaryNav key={props.name} {...props} />
+                                    ))}
+                            </HStack>
+                        </HStack>
                     </Container>
                 </Box>
             )}

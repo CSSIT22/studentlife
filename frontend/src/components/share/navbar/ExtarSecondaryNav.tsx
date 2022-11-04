@@ -5,7 +5,7 @@ import { AiFillCaretDown } from "react-icons/ai"
 import { Link, useLocation } from "react-router-dom"
 import { secondaryNavProps } from "../app/AppBody"
 
-const ExtarSecondaryNav: FC<secondaryNavProps> = ({ to, name, Icon, subNav }) => {
+const ExtarSecondaryNav: FC<secondaryNavProps> = ({ to, name, Icon, subNav, disableText }) => {
     let router = useLocation()
     return (
         <>
@@ -15,13 +15,21 @@ const ExtarSecondaryNav: FC<secondaryNavProps> = ({ to, name, Icon, subNav }) =>
                         <MenuButton cursor={"pointer"} _hover={{ color: "gray.100", bg: "orange.400" }} p={2} color="white">
                             <HStack>
                                 {Icon && (
+                                    <>
+                                        {typeof Icon !== "string" ? (
+                                            <Heading fontWeight={"normal"} size="sm">
+                                                <Icon />
+                                            </Heading>
+                                        ) : (
+                                            <img src={Icon} style={{ height: "17px" }} />
+                                        )}
+                                    </>
+                                )}
+                                {!disableText && (
                                     <Heading fontWeight={"normal"} size="sm">
-                                        <Icon />
+                                        {name}
                                     </Heading>
                                 )}
-                                <Heading fontWeight={"normal"} size="sm">
-                                    {name}
-                                </Heading>
                                 <Heading fontWeight={"normal"} size="sm">
                                     <AiFillCaretDown />
                                 </Heading>
@@ -33,13 +41,21 @@ const ExtarSecondaryNav: FC<secondaryNavProps> = ({ to, name, Icon, subNav }) =>
                                     <MenuItem bg="orange.300" _hover={{ bg: "orange.400" }} color="white">
                                         <HStack>
                                             {Icon && (
+                                                <>
+                                                    {typeof Icon !== "string" ? (
+                                                        <Heading fontWeight={"normal"} size="sm">
+                                                            <Icon />
+                                                        </Heading>
+                                                    ) : (
+                                                        <img src={Icon} style={{ height: "17px" }} />
+                                                    )}
+                                                </>
+                                            )}
+                                            {!disableText && (
                                                 <Heading fontWeight={"normal"} size="sm">
-                                                    <Icon />
+                                                    {name}
                                                 </Heading>
                                             )}
-                                            <Heading fontWeight={"normal"} size="sm">
-                                                {name}
-                                            </Heading>
                                         </HStack>
                                     </MenuItem>
                                 </Link>
@@ -58,8 +74,20 @@ const ExtarSecondaryNav: FC<secondaryNavProps> = ({ to, name, Icon, subNav }) =>
                         w="fit-content"
                         p={2}
                     >
-                        <Heading size="sm">{Icon && <Icon />}</Heading>
-                        <Heading size="sm">{name}</Heading>
+                        {Icon && (
+                            <>
+                                {typeof Icon !== "string" ? (
+                                    <Heading size="sm">
+                                        <Icon />
+                                    </Heading>
+                                ) : (
+                                    <img src={Icon} style={{ height: "17px" }} />
+                                )}
+                            </>
+                        )}
+                        {/* <Heading size="sm">{Icon && <Icon />}</Heading> */}
+                        {!disableText && <Heading size="sm">{name}</Heading>}
+                        {/* <Heading size="sm">{name}</Heading> */}
                     </HStack>
                 </Link>
             )}
