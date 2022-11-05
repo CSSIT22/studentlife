@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client"
 import express from "express"
 import airdropRoutes from "./modules/airdrop"
 import announcementRoutes from "./modules/announcement"
@@ -21,12 +22,19 @@ import userRoutes from "./modules/user"
 import passport from "passport"
 import microsoft from "./modules/middleware/passport/microsoft"
 import { loginRoutes } from "./modules/middleware/login/loginRoutes"
-import { PrismaClient } from "@prisma/client"
 import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 
 const prisma = new PrismaClient()
+
+declare global {
+    namespace Express {
+        export interface Response {
+            prisma: PrismaClient
+        }
+    }
+}
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -74,6 +82,11 @@ app.get("/", (_, res) => {
 })
 
 app.use("/auth", loginRoutes)
+app.use((_, res, next) => {
+    res.prisma = prisma
+    next()
+})
+
 app.use("/airdrop", airdropRoutes)
 app.use("/announcement", announcementRoutes)
 app.use("/blog", blogRoutes)
