@@ -80,7 +80,7 @@ const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav
                 </DrawerContent>
             </Drawer>
 
-            <Box w="100%" bg="white" py={3} pos={"fixed"} shadow="md">
+            <Box zIndex={9999} w="100%" bg="white" py={3} pos={"fixed"} shadow="md">
                 <Container w="100%" maxW="container.md">
                     <HStack w="100%" justifyContent="space-between">
                         <HStack>
