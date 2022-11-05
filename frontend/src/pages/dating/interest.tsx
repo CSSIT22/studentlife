@@ -13,13 +13,50 @@ import DatingOptionsWhiteImg from "../../components/dating/pic/datingoptionwhite
 import DatingOptionsBlackImg from "../../components/dating/pic/datingoptionblack.png"
 import DatingTutorialWhiteImg from "../../components/dating/pic/datingtutorialwhite.png"
 import DatingTutorialBlackImg from "../../components/dating/pic/datingtutorialblack.png"
-import { useBreakpointValue } from "@chakra-ui/react"
+import { INTERESTS } from "../../components/dating/shared/interests"
+import { Heading, useBreakpointValue, Text, Box, Button, Grid, GridItem, Input, Stack, Checkbox, CheckboxGroup } from "@chakra-ui/react"
+import { Form } from "react-router-dom"
+import React, { ReactNodeArray, useState } from "react"
+import { ChakraProvider } from "@chakra-ui/react"
+import DatingTag from "../../components/dating/DatingTag"
 
 const TagOfInterest = () => {
+    const [interests, setInterests] = useState(INTERESTS);
+    const [numOfInterest, setNumOfInterest] = useState(0);
+    const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
+
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
+
+    function handleSearch(event: React.KeyboardEvent<HTMLInputElement>) {
+        var searchQuery = (document.getElementById("search") as HTMLInputElement).value
+        if (event.key === "Enter") {
+            alert("Query: " + searchQuery);
+        }
+        return false
+    }
+
+    function handleTag(interest: React.ChangeEvent<HTMLInputElement>) {
+        if (interest.target.checked) {
+            setNumOfInterest(numOfInterest + 1);
+            if(numOfInterest < 5) {
+                setSelectedInterest(selectedInterests.concat(interest.target.value)); 
+            }
+
+        } else {
+            setNumOfInterest(numOfInterest - 1);
+            if(numOfInterest <= 5) {
+                setSelectedInterest((selectedInterests as string[]).filter(arr => arr != interest.target.value))
+            }
+        }
+    }
+
+    function handleClick() {
+        alert(selectedInterests);
+    }
+
     return (
         <AppBody
             secondarynav={[
@@ -66,7 +103,53 @@ const TagOfInterest = () => {
                 },
             ]}
         >
-            Tag Of Interest
+            <Grid
+                templateAreas={`"topic button" "desc desc"`}
+                gridTemplateRows={"50px 75px"}
+                gridTemplateColumns={"12rem px"}
+                h="150px"
+                gap="2"
+                color="blackAlpha.700"
+                fontWeight="bold"
+                pt="5"
+            >
+                <GridItem pl="2" area={"topic"}>
+                    <Heading>Interest</Heading>
+                </GridItem>
+                <GridItem pl="2" area={"desc"}>
+                    <Box display="flex">
+                        <Text>Please select your interest: (</Text>
+                        {numOfInterest}
+                        <Text>&nbsp;of 5 selected)</Text>
+                    </Box>
+                    {numOfInterest > 5 ? (
+                        <Text color="red">You have selected more than 5 interests! You will not be able to submit your answers. </Text>
+                    ) : null}
+                </GridItem>
+                <GridItem pl="2" area={"button"}>
+                    {numOfInterest <= 5 ? (
+                        <Button colorScheme="gray" size="lg" borderRadius="full" float="right" onClick={handleClick}>
+                            Done
+                        </Button>
+                    ) : null}
+                </GridItem>
+            </Grid>
+            <Box pb="10">
+                <Input
+                    type="search"
+                    placeholder="🔍  Search"
+                    size="md"
+                    borderRadius="full"
+                    id="search"
+                    name="search"
+                    onKeyPress={(e) => handleSearch(e)}
+                />
+            </Box>
+            <CheckboxGroup colorScheme="orange">
+                {interests.map(({ interestId, interestName }) => (
+                    <DatingTag key={interestId} interestId={interestId} interestName={interestName} handleTag={handleTag} />
+                ))}
+            </CheckboxGroup>
         </AppBody>
     )
 }
