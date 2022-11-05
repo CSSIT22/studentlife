@@ -134,11 +134,9 @@ const TagOfInterest = () => {
                     ) : null}
                 </GridItem>
                 <GridItem pl="2" area={"button"}>
-                    {numOfInterest <= 5 ? (
-                        <Button colorScheme="gray" size="lg" borderRadius="full" float="right" onClick={handleClick}>
-                            Done
-                        </Button>
-                    ) : null}
+                    <Button colorScheme="gray" size="lg" borderRadius="full" float="right" onClick={handleClick}>
+                        Done
+                    </Button>
                 </GridItem>
             </Grid>
             <Box pb="10">
