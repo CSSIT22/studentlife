@@ -1,14 +1,18 @@
 import { Box, Flex, Heading, Spacer, Stack, Text } from "@chakra-ui/react"
 import React from "react"
 import { GrClose } from "react-icons/gr"
+import { Link } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
 
 const detail = () => {
+    // อย่าลืมเพิ่มส่วนที่ apply ข้อมูลตาม announcement ที่คลิก
     return (
         <AppBody>
             <Flex alignItems={"center"}>
                 <Text as={"b"} fontSize="xl">
-                    <GrClose />
+                    <Link to="/announcement">
+                        <GrClose />
+                    </Link>
                 </Text>
                 {/* <Spacer /> */}
             </Flex>
