@@ -11,7 +11,7 @@ const NotiTable = () => {
             borderWidth="1px"
             borderColor="black"
             backgroundColor="white"
-            width={{ base: "100%", md: "40%" }}
+            width={{ sm: "80%", md: "50%" }}
             height={{ base: "80vh" }}
             padding={4}
         >
@@ -21,15 +21,15 @@ const NotiTable = () => {
                 </Box>
                 <Spacer />
                 <Box>
-                    <Button> Mark all as read</Button>
+                    <Stack direction={"row"}>
+                        <Button> Mark all as read</Button>
+                        <Center>
+                            <FiSettings />
+                        </Center>
+                    </Stack>
                 </Box>
             </Flex>
             <Stack padding={4}>
-                <Stack direction={"row"}>
-                    <Text>Today</Text>
-                    <Spacer />
-                    <FiSettings />
-                </Stack>
                 <NotiList />
             </Stack>
         </Box>
