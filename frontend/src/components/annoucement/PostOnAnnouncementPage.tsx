@@ -5,17 +5,19 @@ import { BsPinAngle, BsPinAngleFill } from "react-icons/all"
 const PostOnAnnouncementPage: FC<{
     topic: string
     sender: string
-    status: string
+    status: boolean
 }> = ({ topic, sender, status }) => {
-    const state = (stat: string) => {
-        if (stat == "pin") {
+    const state = (stat: boolean) => {
+        if (stat) {
             return <BsPinAngleFill fontSize={"2rem"} />
         } else {
             return <BsPinAngle fontSize="2rem" />
         }
     }
+    const [pin , setPin] = React.useState(status);
+
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg">
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => setPin(!pin)}>
             <Flex alignItems={"center"}>
                 <Box>
                     <Heading size={"sm"}>{topic}</Heading>
@@ -23,7 +25,7 @@ const PostOnAnnouncementPage: FC<{
                 </Box>
                 <Spacer />
                 <Box textAlign={"right"} pr={"1rem"} width="">
-                    {state(status)}
+                    {state(pin)}
                 </Box>
             </Flex>
         </Box>
