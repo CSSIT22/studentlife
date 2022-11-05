@@ -10,6 +10,7 @@ const history = () => {
             {name: "My History", to: "/restaurant/history"},
             
         ]}
+        
     ></AppBody>
   )
 }

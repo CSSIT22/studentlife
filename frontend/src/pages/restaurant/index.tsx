@@ -20,6 +20,7 @@ import {
     VStack,
     GridItem,
     Flex,
+    Text,
     
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
@@ -50,41 +51,63 @@ function likeOrNope() {
                 height={"auto"}
             ></img> */}
 
-            <VStack spacing={6} align="stretch">
+            <VStack spacing={10} align="stretch">
                 <Box>
                     <Searchbar />
                 </Box>
-                <Box h="40px">
+                <Box h="20px">
                     <Heading textAlign={"center"}> Restaurant name</Heading>
                 </Box>
-                <Box h="auto">
+                <Box h="auto" >
                     <Center>
                         <Image
                             borderRadius='3xl'
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006"
                             width={"auto"}
-                            height={"auto"}
+                            height='400px'
                             
                         ></Image>
                     </Center>
                 </Box>
-                <br />
-                <br />
-                <br />
-                <br />
-                <Box h="40px" rowGap={"100px"}>
-                    <Flex marginLeft={"40px"} marginRight={"40px"}>
-                        <Box>
-                            <Button colorScheme="green" size="lg" borderRadius={"md"}>
-                                <AiOutlineLike />
+
+                <Box h="60px" >
+                    <Flex>
+                        <Box marginLeft='40px' >
+                            <Button colorScheme="green"  width='80px' h='80px' borderRadius={"full"}>
+                                <AiOutlineLike size={'xl'}/>
                             </Button>
                         </Box>
                         <Spacer />
-                        <Box>
-                            <Button colorScheme="red" size="lg" borderRadius={"md"}>
-                                <AiOutlineDislike />
-                            </Button>
-                        </Box>
+                        
+                            <>
+                            <Button onClick={onOpen} colorScheme="red" width='80px' h='80px' borderRadius={"full"} marginRight='40px'><AiOutlineDislike size={'xl'} /></Button>
+
+                            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                                <ModalOverlay />
+                                <ModalContent textAlign={'center'}>
+                                <ModalHeader fontWeight='800' fontSize={'35px'}>Random Time!!!
+
+                                </ModalHeader>
+                                    <VStack spacing={3} pt='30px'>
+                                        <Text fontSize={'20px'} fontWeight='500'>Can not choose the restaurant?</Text>
+                                    
+                                        <Text fontSize={'20px'} fontWeight='500'>Do you want to random the restaurant</Text>
+                                    </VStack>
+                                <ModalCloseButton />
+                                <ModalFooter justifyContent={'center'} pt='60px'>
+                                    <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                    Random
+                                    </Button>
+                                    <Button colorScheme='red' mr={3} onClick={onClose}>
+                                    Cancel
+                                    </Button>
+                                </ModalFooter>
+                                </ModalContent>
+                            </Modal>
+                            </>
+                        
+                        
+  
                     </Flex>
                 </Box>
             </VStack>
