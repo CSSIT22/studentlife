@@ -158,7 +158,7 @@ const TagOfInterest = () => {
                     interests.map(({ interestId, interestName }) => (
                     <DatingTag key={interestId} bool={true} interestId={interestId} interestName={interestName} handleTag={handleTag} />)) :
                     interests.map(({ interestId, interestName }) => (
-                        <DatingTag key={interestId} bool={false} interestId={interestId} interestName={interestName} handleTag={handleTag} />))}
+                    <DatingTag key={interestId} bool={false} interestId={interestId} interestName={interestName} handleTag={handleTag} />))}
             </CheckboxGroup>
         </AppBody>
     )
