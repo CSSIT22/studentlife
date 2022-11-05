@@ -23,6 +23,7 @@ import {
     Select,
     Checkbox,
 } from "@chakra-ui/react"
+import { Dropzone, FileItem } from "@dropzone-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -107,22 +108,20 @@ export default function Index() {
             >
                 <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"80%"}>
                     <VStack w={"full"} spacing={"5%"}>
-                        <Box w={"full"} h={"200px"} backgroundColor={"orange.200"} shadow={"lg"}>
-                            This is for dropzone
-                            {/* <Dropzone onChange={()=>{}} value={files} style={{borderRadius:"50px",padding:"10%"}}>
-              {files.map((file: any) => (
-                <FileItem {...file} preview />
-              ))}
-              {files.length == 0 ? (
-                <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-                  <HiUpload fontSize={"84px"} />
-                  <Text fontSize={"2xl"}>Drop the file</Text>
-                  <Text fontSize={"md"}>Maximum file size can be up to 200MB</Text>
-                </Flex>
-              ) : null}
-            </Dropzone> */}
-                        </Box>
-                        <Box w={"100%"}>
+                        <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }}>
+                            {files.map((file: any) => (
+                                <FileItem {...file} preview />
+                            ))}
+                            {files.length == 0 ? (
+                                <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                    <HiUpload fontSize={"84px"} />
+                                    <Text fontSize={"2xl"}>Drop the file</Text>
+                                    <Text fontSize={"md"}>Maximum file size can be up to 200MB</Text>
+                                </Flex>
+                            ) : null}
+                        </Dropzone>
+
+                        <Box w={"100%"} position={"relative"} mt={"10%"}>
                             <Text fontWeight={"bold"} mb={"2%"}>
                                 Receiver
                             </Text>
@@ -253,8 +252,12 @@ export default function Index() {
                             py={[3, 6]}
                             shadow={"xl"}
                             onClick={async () => {
-                                const wfc = await setClickDrop(true)
-                                onOpen()
+                                if (files.length == 0) {
+                                    alert("Please select file")
+                                } else {
+                                    const wfc = await setClickDrop(true)
+                                    onOpen()
+                                }
                             }}
                         >
                             Drop
