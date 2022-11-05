@@ -13,7 +13,7 @@ function checkId(interestId: string) {
     return false
 }
 
-const DatingTag: FC<{ interestId: string; interestName: string; handleTag: (e: any) => void }> = ({ interestId, interestName, handleTag }) => {
+const DatingTag: FC<{ bool: boolean, interestId: string; interestName: string; handleTag: (e: any) => void }> = ({ bool, interestId, interestName, handleTag }) => {
     return checkId(interestId) ? (
         <Checkbox
             borderWidth="2px"
@@ -45,6 +45,7 @@ const DatingTag: FC<{ interestId: string; interestName: string; handleTag: (e: a
             name="interest"
             onChange={handleTag}
             value={interestId}
+            isDisabled={bool}
         >
             {interestName}
         </Checkbox>

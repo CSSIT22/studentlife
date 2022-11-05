@@ -57,6 +57,13 @@ const TagOfInterest = () => {
         alert(selectedInterests);
     }
 
+    function checkNum() {
+        if(numOfInterest === 5) {
+            return true;
+        }
+        return false;
+    }
+
     return (
         <AppBody
             secondarynav={[
@@ -122,8 +129,8 @@ const TagOfInterest = () => {
                         {numOfInterest}
                         <Text>&nbsp;of 5 selected)</Text>
                     </Box>
-                    {numOfInterest > 5 ? (
-                        <Text color="red">You have selected more than 5 interests! You will not be able to submit your answers. </Text>
+                    {numOfInterest == 5 ? (
+                        <Text color="red">You have selected 5 interests! If you want to select other interests, uncheck one of your interests.</Text>
                     ) : null}
                 </GridItem>
                 <GridItem pl="2" area={"button"}>
@@ -146,9 +153,11 @@ const TagOfInterest = () => {
                 />
             </Box>
             <CheckboxGroup colorScheme="orange">
-                {interests.map(({ interestId, interestName }) => (
-                    <DatingTag key={interestId} interestId={interestId} interestName={interestName} handleTag={handleTag} />
-                ))}
+                {checkNum() ? 
+                    interests.map(({ interestId, interestName }) => (
+                    <DatingTag key={interestId} bool={true} interestId={interestId} interestName={interestName} handleTag={handleTag} />)) :
+                    interests.map(({ interestId, interestName }) => (
+                        <DatingTag key={interestId} bool={false} interestId={interestId} interestName={interestName} handleTag={handleTag} />))}
             </CheckboxGroup>
         </AppBody>
     )
