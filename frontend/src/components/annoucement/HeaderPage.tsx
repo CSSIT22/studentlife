@@ -1,10 +1,19 @@
 import { Flex, Spacer, Heading, Box, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
+import { IconType } from "react-icons"
 import { GrClose } from "react-icons/gr"
 
 const HeaderPage: FC<{
-    head: string
-}> = ({ head }) => {
+    head: string,
+    Icon:IconType
+}> = ({ head,Icon }) => {
+    const checkIcon = (Icon:IconType) => {
+        if(Icon == null){
+            return "";
+        }else {
+            return <Icon fontSize={"2rem"}/>
+        }
+    }
     return (
         <Flex alignItems={"center"}>
             <Text as={"b"} fontSize="xl">
@@ -13,7 +22,9 @@ const HeaderPage: FC<{
             <Spacer />
             <Heading>{head}</Heading>
             <Spacer />
-            <Box></Box>
+            <Box>
+                {checkIcon(Icon)}
+            </Box>
         </Flex>
     )
 }

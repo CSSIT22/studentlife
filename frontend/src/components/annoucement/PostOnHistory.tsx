@@ -6,8 +6,9 @@ import { TbLoader } from "react-icons/tb"
 const PostOnHistory: FC<{
     topic: string
     sender: string
-    status: string
-}> = ({ topic, sender, status }) => {
+    status: string,
+    onClick:Function
+}> = ({ topic, sender, status ,onClick}) => {
     const state = (stat: string) => {
         if (stat == "approve") {
             return <HiCheckCircle fontSize={"2rem"} />
@@ -18,7 +19,7 @@ const PostOnHistory: FC<{
         }
     }
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg">
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => onClick()}>
             <Flex alignItems={"center"}>
                 <Box pr={"1rem"} width="">
                     {state(status)}
