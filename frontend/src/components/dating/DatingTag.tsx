@@ -1,5 +1,5 @@
 import { Checkbox } from "@chakra-ui/react"
-import React, { FC } from "react"
+import { FC } from "react"
 
 function checkId(interestId: string) {
     var id = document.getElementById(interestId) as HTMLInputElement
