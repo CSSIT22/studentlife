@@ -14,10 +14,8 @@ import DatingOptionsBlackImg from "../../components/dating/pic/datingoptionblack
 import DatingTutorialWhiteImg from "../../components/dating/pic/datingtutorialwhite.png"
 import DatingTutorialBlackImg from "../../components/dating/pic/datingtutorialblack.png"
 import { INTERESTS } from "../../components/dating/shared/interests"
-import { Heading, useBreakpointValue, Text, Box, Button, Grid, GridItem, Input, Stack, Checkbox, CheckboxGroup } from "@chakra-ui/react"
-import { Form } from "react-router-dom"
-import React, { ReactNodeArray, useState } from "react"
-import { ChakraProvider } from "@chakra-ui/react"
+import { Heading, useBreakpointValue, Text, Box, Button, Grid, GridItem, Input, CheckboxGroup } from "@chakra-ui/react"
+import React, { useState } from "react"
 import DatingTag from "../../components/dating/DatingTag"
 
 const TagOfInterest = () => {
