@@ -1,41 +1,93 @@
 import React from "react"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Button, Image } from "@chakra-ui/react"
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    Button,
+    Image,
+    Heading,
+    Input,
+    Center,
+    Select,
+    Spacer,
+    Box,
+    StackDivider,
+    VStack,
+    GridItem,
+    Flex,
+    
+} from "@chakra-ui/react"
+import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import ExtarSecondaryNav from "../../components/share/navbar/ExtarSecondaryNav"
+import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
+import { BiBorderRadius } from "react-icons/bi"
 
 function likeOrNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
-        <AppBody 
-            secondarynav={[ 
+        <AppBody
+            secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            
-            //likeOrNope Here
-            <br/>
-            <br/>
-            <br/>
-            <Button onClick={onOpen}>Open Modal</Button>
-            <Modal  isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader fontSize={'3xl'} textAlign={'center'}>Restaurant Name</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                      <Image src="https://cdn.discordapp.com/attachments/900658140704559116/1025051073842532412/received_1863984997105459.jpg"></Image>
-                    </ModalBody>
+            {/* Like or nope */}
+            {/* <Searchbar /> */}
+            {/* <br /> */}
 
-                    {/* <ModalFooter>
-                        <Button colorScheme="red" mr={255} onClick={onClose}>
-                            Add to fav
-                        </Button>
-                        <Button variant="ghost">GO</Button>
-                    </ModalFooter> */}
-                </ModalContent>
-            </Modal>
+            {/* <Heading textAlign={"center"}> Restaurant name</Heading> */}
+            {/* <br /> */}
+            {/* <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006"
+                width={"auto"}
+                height={"auto"}
+            ></img> */}
+
+            <VStack spacing={6} align="stretch">
+                <Box>
+                    <Searchbar />
+                </Box>
+                <Box h="40px">
+                    <Heading textAlign={"center"}> Restaurant name</Heading>
+                </Box>
+                <Box h="auto">
+                    <Center>
+                        <Image
+                            borderRadius='3xl'
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006"
+                            width={"auto"}
+                            height={"auto"}
+                            
+                        ></Image>
+                    </Center>
+                </Box>
+                <br />
+                <br />
+                <br />
+                <br />
+                <Box h="40px" rowGap={"100px"}>
+                    <Flex marginLeft={"40px"} marginRight={"40px"}>
+                        <Box>
+                            <Button colorScheme="green" size="lg" borderRadius={"md"}>
+                                <AiOutlineLike />
+                            </Button>
+                        </Box>
+                        <Spacer />
+                        <Box>
+                            <Button colorScheme="red" size="lg" borderRadius={"md"}>
+                                <AiOutlineDislike />
+                            </Button>
+                        </Box>
+                    </Flex>
+                </Box>
+            </VStack>
         </AppBody>
     )
 }
