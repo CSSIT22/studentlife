@@ -15,7 +15,7 @@ const NotiTable = () => {
             height={{ base: "80vh" }}
             padding={4}
         >
-            <Flex>
+            <Flex padding={3}>
                 <Box>
                     <Modulelist />
                 </Box>
@@ -24,14 +24,19 @@ const NotiTable = () => {
                     <Stack direction={"row"}>
                         <Button> Mark all as read</Button>
                         <Center>
-                            <FiSettings />
+                            <FiSettings size={"1.5em"} />
                         </Center>
                     </Stack>
                 </Box>
             </Flex>
-            <Stack padding={4}>
+            <Stack padding={4} height="85%" overflow="auto">
+                <NotiList />
+                <NotiList />
                 <NotiList />
             </Stack>
+            <Center padding={3}>
+                <Button>View all</Button>
+            </Center>
         </Box>
     )
 }
