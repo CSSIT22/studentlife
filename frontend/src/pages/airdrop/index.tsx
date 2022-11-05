@@ -90,7 +90,7 @@ export default function Index() {
     return (
         <AppBody secondarynav={linkMenu}>
             <Flex
-                backgroundColor={"snow"}
+                backgroundColor={"white"}
                 borderRadius={"50px"}
                 minHeight={"auto"}
                 px={"0"}

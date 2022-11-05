@@ -1,8 +1,6 @@
 import { Box, Heading, VStack, Text } from "@chakra-ui/react"
 import AppBody from "../components/share/app/AppBody"
-import Bottomnav from "../components/airdrop/bottomnav"
 import { AiFillAccountBook } from "react-icons/ai"
-
 import img from "../components/share/navbar/pic/logo.png"
 
 const Home = () => {
@@ -37,7 +35,6 @@ const Home = () => {
                     </Heading>
                 </Box>
             </VStack>
-            <Bottomnav/>
         </AppBody>
     )
 }

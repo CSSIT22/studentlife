@@ -29,7 +29,7 @@ export default function Receivedrop() {
     return (
         <AppBody secondarynav={linkMenu}>
             <Flex
-                backgroundColor={"snow"}
+                backgroundColor={"white"}
                 borderRadius={"50px"}
                 minHeight={"auto"}
                 px={10}

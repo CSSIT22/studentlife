@@ -20,7 +20,7 @@ export default function Drophistory() {
     return (
         <AppBody secondarynav={linkMenu}>
             <Flex
-                backgroundColor={"snow"}
+                backgroundColor={"white"}
                 borderRadius={"50px"}
                 minHeight={"auto"}
                 px={10}
