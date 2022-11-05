@@ -11,6 +11,10 @@ const ButtonForEvent:FC<{
             return "Delete announcement"
         }else if(status == 'waiting'){
             return "Edit announcement"
+        }else if(status == 'recover'){
+            return "Recover announcement"
+        }else {
+            return "";
         }
     }
     return (

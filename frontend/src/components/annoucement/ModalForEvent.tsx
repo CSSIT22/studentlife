@@ -8,9 +8,9 @@ const ModalForEvent: FC<{
     detail: string
     status: string
     allPost: Array<any>
-    setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>,
-    selectPost:number
-}> = ({ isOpen, onClose, topic, detail, status,allPost,setAllPost,selectPost }) => {
+    setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
+    selectPost: number
+}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost }) => {
     const toggle = () => {
         setAllPost(
             allPost.map((el) => {
@@ -21,20 +21,25 @@ const ModalForEvent: FC<{
             })
         )
     }
-    console.log(allPost);
-    console.log(selectPost);
-    
-    
-    const checkstatus = (status:string) => {
+    // console.log(allPost);
+    // console.log(selectPost);
+
+    const checkstatus = (status: string) => {
         if (status == "OK") {
             return ""
-        } else if(status == 'disapprove' || status == 'approve'){
+        } else if (status == "disapprove" || status == "approve") {
             return (
                 <Button colorScheme="blue" mr={3} onClick={toggle}>
                     Delete
                 </Button>
             )
-        } 
+        } else if (status == "recover") {
+            return (
+                <Button colorScheme="blue" mr={3} onClick={toggle}>
+                    Recover
+                </Button>
+            )
+        }
     }
     return (
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={() => onClose()} size={"xs"} isCentered>

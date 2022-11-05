@@ -39,8 +39,6 @@ const recyclebin = () => {
     const modalRecycle = {
         topic:"Recover the announcement",
         detail:"Are you sure to recover this announcement?",
-        event:"Recover",
-        button:"Recover announcement"
       }
 
     return (
@@ -51,13 +49,10 @@ const recyclebin = () => {
             <PostOnRecycle topic="Hi" sender="SAMO-MEDIA" expired="48:12:02" onClick={recoverClick}/>
             <PostOnRecycle topic="Hi kub" sender="SAMO-SCI" expired="48:12:02" onClick={recoverClick}/>
             <PostOnRecycle topic="Hi kub" sender="SAMO-SCI" expired="48:12:02" onClick={recoverClick}/>
-            <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalRecycle.topic} detail={modalRecycle.detail} event={modalRecycle.event} />
-            {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} button={modalRecycle.button}/>}
+            <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalRecycle.topic} detail={modalRecycle.detail} status={"recover"} />
+            {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={"recover"}/>}
         </AppBody>
     )
 }
 
 export default recyclebin
-function useState(arg0: boolean) {
-    throw new Error("Function not implemented.")
-}
