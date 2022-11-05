@@ -1,4 +1,4 @@
-import { useState,useEffect} from "react"
+import { useState, useEffect } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import SecondaryNav from "../../components/share/navbar/SecondaryNav"
 import { HiDownload, HiUpload, HiUser } from "react-icons/hi"
@@ -58,16 +58,29 @@ const openModal = () => {}
 export default function Index() {
     // state for file upload
     const [files, setFiles] = useState([])
+    //state for click drop
+    const [clickDrop, setClickDrop] = useState(false)
     //state for modal
     const { isOpen, onOpen, onClose } = useDisclosure()
     // state for user select
-    const [selectedType, setSelectedType] = useState("everyone")
+    const [selectedType, setSelectedType] = useState("Everyone")
     //state for select receiver
-    const [selectedReceiver, setSelectedReceiver] = useState("")
+    const [info, setInfo] = useState({
+        receiver: "",
+        description: "",
+    })
 
-    useEffect(()=>{
-        setSelectedType("everyone")
-    },[isOpen]);
+    useEffect(() => {
+        if (clickDrop == false) {
+            setSelectedType("Everyone")
+            if (selectedType === "Everyone") {
+                setInfo({
+                    receiver: "Everyone",
+                    description: "",
+                })
+            }
+        }
+    }, [isOpen])
 
     const updateFile = (file: any) => {
         setFiles(file)
@@ -120,9 +133,12 @@ export default function Index() {
                                     placeholder={"Select Receiver"}
                                     variant={"outline"}
                                     borderColor={"gray.400"}
-                                    onClick={onOpen}
+                                    onClick={async () => {
+                                        const wfc = await setClickDrop(false)
+                                        onOpen()
+                                    }}
                                     rounded={"2xl"}
-                                    value={selectedReceiver?selectedReceiver:"Please select Receiver"}
+                                    value={info.receiver ? info.receiver : "Please select Receiver"}
                                     textAlign={"center"}
                                     _focus={{
                                         borderColor: "gray.400",
@@ -135,61 +151,82 @@ export default function Index() {
                             <ModalOverlay bg={"none"} />
                             <ModalContent>
                                 <ModalHeader>
-                                    <Text align={"center"}>Select Receiver</Text>
+                                    <Text align={"center"}>{!clickDrop ? "Select Receiver" : "Set Drop Duration"}</Text>
                                 </ModalHeader>
                                 <ModalCloseButton />
                                 <ModalBody>
                                     <Flex flexDirection={"column"} justifyContent={"space-around"} w={"80%"} m={"auto"} gap={4}>
-                                        <HStack spacing={5}>
-                                            <Text fontSize={"lg"}>Type: </Text>
-                                            <Select
-                                                rounded={"xl"}
-                                                textAlign={"center"}
-                                                onChange={(e) => {
-                                                    setSelectedType(e.target.value)
-                                                }}
-                                                
-                                            >
-                                                <option value="everyone">Everyone</option>
-                                                <option value="community">Community</option>
-                                                <option value="department">Department</option>
-                                                <option value="specific">Specific receiver</option>
-                                            </Select>
-                                        </HStack>
-                                        {selectedType == "everyone" ? null : (
+                                        {!clickDrop ? (
                                             <>
-                                                <Input
-                                                    type={""}
-                                                    placeholder={"Search by name"}
-                                                    variant={"outline"}
-                                                    borderColor={"gray.200"}
-                                                    onClick={onOpen}
-                                                    rounded={"2xl"}
-                                                    
-                                                    textAlign={"center"}
-                                                    _focus={{
-                                                        borderColor: "gray.400",
-                                                    }}
-                                                ></Input>
-                                                <Select size="3" multiple onChange={(e)=>{setSelectedReceiver(e.target.value)}}>
-                                                {
-                                                    dummyData2.map((data)=>{
-                                                        return(
-                                                            <option value={data.name}>{data.name}</option>
-                                                        )
-                                                    })
-                                                }
-                                                </Select>
-                                                
-
+                                                <HStack spacing={5}>
+                                                    <Text fontSize={"lg"}>Type: </Text>
+                                                    <Select
+                                                        rounded={"xl"}
+                                                        textAlign={"center"}
+                                                        onChange={(e) => {
+                                                            setSelectedType(e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="Everyone">Everyone</option>
+                                                        <option value="Community">Community</option>
+                                                        <option value="Department">Department</option>
+                                                        <option value="Specific">Specific receiver</option>
+                                                    </Select>
+                                                </HStack>
+                                                {selectedType == "Everyone" ? null : (
+                                                    <>
+                                                        <Input
+                                                            type={""}
+                                                            placeholder={"Search by name"}
+                                                            variant={"outline"}
+                                                            borderColor={"gray.200"}
+                                                            onClick={onOpen}
+                                                            rounded={"2xl"}
+                                                            textAlign={"center"}
+                                                            _focus={{
+                                                                borderColor: "gray.400",
+                                                            }}
+                                                        ></Input>
+                                                        <Select
+                                                            size="3"
+                                                            multiple
+                                                            onChange={(e) => {
+                                                                setInfo({ receiver: e.target.value, description: "" })
+                                                            }}
+                                                        >
+                                                            {dummyData2.map((data) => {
+                                                                return <option value={data.name}>{data.name}</option>
+                                                            })}
+                                                        </Select>
+                                                    </>
+                                                )}
                                             </>
+                                        ) : (
+                                            <></>
                                         )}
                                     </Flex>
                                 </ModalBody>
-                                <ModalFooter>
-                                    <Button colorScheme="blue" mr={3} onClick={onClose} alignItems={"center"} alignSelf={"center"}>
-                                        Close
-                                    </Button>
+                                <ModalFooter alignItems={"center"} textAlign={"center"} alignSelf={"center"}>
+                                    {!clickDrop ? (
+                                        <>
+                                            <Button colorScheme="orange" mr={3} onClick={onClose} alignItems={"center"} alignSelf={"center"}>
+                                                Close
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Button
+                                                colorScheme="orange"
+                                                mr={3}
+                                                onClick={onClose}
+                                                alignItems={"center"}
+                                                alignSelf={"center"}
+                                                textAlign={"center"}
+                                            >
+                                                Confirm
+                                            </Button>
+                                        </>
+                                    )}
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
@@ -203,10 +240,23 @@ export default function Index() {
                                 borderColor={"gray.400"}
                                 h={16}
                                 rounded={"2xl"}
-                                value={dummyData[0].description}
+                                value={info.description}
+                                onChange={(e) => {
+                                    setInfo({ ...info, description: e.target.value })
+                                }}
                             ></Input>
                         </Box>
-                        <Button colorScheme={"orange"} rounded={"3xl"} px={14} py={[3, 6]} shadow={"xl"}>
+                        <Button
+                            colorScheme={"orange"}
+                            rounded={"3xl"}
+                            px={14}
+                            py={[3, 6]}
+                            shadow={"xl"}
+                            onClick={async () => {
+                                const wfc = await setClickDrop(true)
+                                onOpen()
+                            }}
+                        >
                             Drop
                         </Button>
                     </VStack>
