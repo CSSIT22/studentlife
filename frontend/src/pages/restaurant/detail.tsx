@@ -1,4 +1,31 @@
-import { Badge, Box, Button, ButtonGroup, Center, CloseButton, Flex, IconButton, Image, Link, Spacer, Text } from "@chakra-ui/react"
+import {
+    Avatar,
+    Box,
+    Center,
+    CloseButton,
+    Flex,
+    Image,
+    Link,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalHeader,
+    ModalOverlay,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverFooter,
+    PopoverHeader,
+    PopoverTrigger,
+    Spacer,
+    Text,
+    useDisclosure,
+    Wrap,
+    WrapItem,
+} from "@chakra-ui/react"
 import React from "react"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../components/restaurant/searchbar"
@@ -17,6 +44,25 @@ function detail() {
         website: "https://www.instagram.com/nn_nattawat/",
         rating: 4,
     }
+    const shareInfo = {
+        name1: "realไร่",
+        picture1: "https://cdn.discordapp.com/attachments/900658140704559116/1023630299717963848/92C5C070-F9DC-44BA-AF57-F4162FFDCA03.jpg",
+        name2: "ยืนหนึง",
+        picture2: "https://cdn.discordapp.com/attachments/900658140704559116/1023887278273208360/2FB66B55-BCAA-4DE2-BE62-02B193D6369E.jpg",
+        name3: "ผมรู้ผมเห็น",
+        picture3: "https://cdn.discordapp.com/attachments/900658140704559116/1022175158334656573/IMG_20220918_224548.jpg",
+        name4: "Night N",
+        picture4: "",
+        name5: "Pun J",
+        picture5: "",
+        name6: "Ping T",
+        picture6: "",
+        name7: "Eve N",
+        picture7: "",
+        name8: "Bung K",
+        picture8: "",
+    }
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
         <AppBody
@@ -85,9 +131,60 @@ function detail() {
                                 Heart
                             </Box>
                             <Spacer />
-                            <Box as="button" bg={"gray.300"} color="gray.700" border={1} borderRadius={"md"} px={6} py={1}>
-                                Share
-                            </Box>
+                            <Popover placement="top">
+                                <PopoverTrigger>
+                                    <Box as="button" bg={"gray.300"} color="gray.700" border={1} borderRadius={"md"} px={6} py={1} onClick={onOpen}>
+                                        Share
+                                    </Box>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <PopoverArrow />
+                                    <PopoverCloseButton />
+                                    <PopoverHeader textAlign={"center"}>Share</PopoverHeader>
+                                    <PopoverBody>
+                                        <Flex>
+                                            <Wrap spacing="30px">
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name1} src={shareInfo.picture1} />
+                                                </WrapItem>
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name2} src={shareInfo.picture2} />
+                                                </WrapItem>
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name3} src={shareInfo.picture3} />
+                                                </WrapItem>
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name4} src={shareInfo.picture4} />
+                                                </WrapItem>
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name5} src={shareInfo.picture5} />
+                                                </WrapItem>
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name6} src={shareInfo.picture6} />
+                                                </WrapItem>
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name7} src={shareInfo.picture7} />
+                                                </WrapItem>
+                                                <WrapItem>
+                                                    <Avatar as={"button"} name={shareInfo.name8} src={shareInfo.picture8} />
+                                                </WrapItem>
+                                            </Wrap>
+                                        </Flex>
+                                    </PopoverBody>
+                                    <PopoverFooter>
+                                        <Flex my={2}>
+                                            <Box as="button" bg={"green.400"} color="white" border={1} borderRadius={"md"} px={4} py={2}>
+                                                OK
+                                            </Box>
+                                            <Spacer />
+                                            <Box as="button" bg={"tomato"} color="white" border={1} borderRadius={"md"} px={4} py={2}>
+                                                Cancel
+                                            </Box>
+                                        </Flex>
+                                    </PopoverFooter>
+                                </PopoverContent>
+                            </Popover>
+
                             <Spacer />
                             <Box as="button" bg={"green.400"} color="white" border={1} borderRadius={"full"} p={2}>
                                 GO

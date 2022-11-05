@@ -1,19 +1,22 @@
-import { Box, Center, Flex, Input, Select } from "@chakra-ui/react"
+import { Box, Center, GridItem, Input, InputGroup, InputLeftElement, Select, SimpleGrid } from "@chakra-ui/react"
 import React from "react"
-
+import { TfiSearch } from "react-icons/tfi"
 const Searchbar = () => {
     return (
-      <Box >
-        <Flex >
-            <Input variant="outline" placeholder="Search" htmlSize={80} width={"auto"} borderRadius={"3xl"} size={"sm"} />
-           
-            <Select placeholder="5 Km" size="sm" borderRadius={"3xl"} width={"220px"}>
-                <option value="option1">2 Km</option>
-                <option value="option2">4 Km</option>
-                <option value="option3">5 Km</option>
-            </Select>
-            </Flex>
-            </Box>
+        <Center>
+                    <InputGroup width={"full"}>
+                        <InputLeftElement pointerEvents="none" children={<TfiSearch/>} />
+                        <Input placeholder="Search"  borderRadius={"3xl"} size={"sm"}  />
+                    </InputGroup>
+                
+                  
+
+                    <Select placeholder="5Km" size="sm" borderRadius={"3xl"} width={"100px"}>
+                        <option value="option1">2 Km</option>
+                        <option value="option2">4 Km</option>
+                        <option value="option3">5 Km</option>
+                    </Select>
+        </Center>
     )
 }
 
