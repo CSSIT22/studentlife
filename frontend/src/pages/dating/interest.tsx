@@ -132,9 +132,14 @@ const TagOfInterest = () => {
                     ) : null}
                 </GridItem>
                 <GridItem pl="2" area={"button"}>
+                    {numOfInterest == 0 ? 
+                    <Button colorScheme="gray" size="lg" borderRadius="full" float="right">
+                        Skip
+                    </Button> : 
                     <Button colorScheme="gray" size="lg" borderRadius="full" float="right" onClick={handleClick}>
                         Done
-                    </Button>
+                    </Button>}
+
                 </GridItem>
             </Grid>
             <Box pb="10">
