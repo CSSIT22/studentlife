@@ -96,6 +96,8 @@ function detail() {
                     </Box>
                 </Box>
             </Center>
+
+            
         </AppBody>
     )
 }
