@@ -1,6 +1,7 @@
 import {
     Avatar,
     Box,
+    Button,
     Center,
     CloseButton,
     Flex,
@@ -27,6 +28,7 @@ import {
     WrapItem,
 } from "@chakra-ui/react"
 import React from "react"
+import { AiOutlineHeart } from "react-icons/ai"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -128,15 +130,15 @@ function detail() {
                         </Box>
 
                         <Flex mt={10}>
-                            <Box as="button" bg={"tomato"} color="white" border={1} borderRadius={"md"} p={1}>
-                                Heart
-                            </Box>
+                            <Button bg={"tomato"} color="white" width="50px" h="50px" border={1} borderRadius={"full"} p={4}>
+                                <AiOutlineHeart size={"full"} />
+                            </Button>
                             <Spacer />
                             <Popover placement="top">
                                 <PopoverTrigger>
-                                    <Box as="button" bg={"gray.300"} color="gray.700" border={1} borderRadius={"md"} px={6} py={1} onClick={onOpen}>
+                                    <Button bg={"gray.300"} color="gray.700" h="50px" border={1} borderRadius={"md"} px={6} py={1} onClick={onOpen}>
                                         Share
-                                    </Box>
+                                    </Button>
                                 </PopoverTrigger>
                                 <PopoverContent>
                                     <PopoverArrow />
@@ -187,15 +189,13 @@ function detail() {
                             </Popover>
 
                             <Spacer />
-                            <Box as="button" bg={"green.400"} color="white" border={1} borderRadius={"full"} p={2}>
-                            <Link href="https://www.instagram.com/_jakrapat_/">GO</Link>
-                            </Box>
+                            <Button bg={"green.400"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
+                                <Link href="https://www.google.co.th/maps/">GO</Link>
+                            </Button>
                         </Flex>
                     </Box>
                 </Box>
             </Center>
-
-            
         </AppBody>
     )
 }
