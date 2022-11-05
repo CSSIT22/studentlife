@@ -32,6 +32,11 @@ import {
     RangeSliderMark,
     Divider,
     SimpleGrid,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+    Accordion,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { RadioBox } from "../../components/dating/RadioBox"
@@ -52,36 +57,46 @@ const DatingOption = () => {
     //For RadioBox
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "Gender",
-        defaultValue: "Everyone",
-        onChange: console.log,
-        // onChange: handleGender,
+        defaultValue: globalThis.gender,
+        //onChange: console.log,
     })
     const group = getRootProps()
 
+    //For faculty
+
     globalThis.useAge = true //need db + condition
-    //globalThis.gender = "Everyone"
-    const [sliderValue, setSliderValue] = useState([19, 25]) //need db + condition
-    const [selected, setSelected] = useState("Everyone")
+    globalThis.age = [19, 25] //need db + condition
+    globalThis.gender = "Everyone" //need db + condition
+    const [useAgeValue, setUseAgeValue] = useState(globalThis.useAge) //For use age to be criteria
+    const [sliderValue, setSliderValue] = useState(globalThis.age) //For age min,max
+    const [selected, setSelected] = useState(globalThis.gender) //For gender
+
     function handleAge() {
         //Passing data + debug
         globalThis.age = sliderValue
         console.log(globalThis.age)
     }
+
     function handleCheck() {
         //Passing data + debug
-        globalThis.useAge = !globalThis.useAge
+        globalThis.useAge = useAgeValue
         console.log(globalThis.useAge)
     }
-    console.log("Out na " + selected)
+
     function handleGender(gender: string) {
         //Passing data
         setSelected(gender)
     }
+
     function handleSubmit() {
         //Submit data to database + show the alert result (debug)
+        globalThis.useAge = useAgeValue
         globalThis.age = sliderValue
         globalThis.gender = selected
-        alert("Age min =" + globalThis.age[0] + " Age max =" + globalThis.age[1] + " Use age: " + useAge + " Gender : " + globalThis.gender)
+
+        alert(
+            "Age min =" + globalThis.age[0] + " Age max =" + globalThis.age[1] + " Use age: " + globalThis.useAge + " Gender : " + globalThis.gender
+        )
     }
 
     return (
@@ -148,10 +163,12 @@ const DatingOption = () => {
                             {/* Is user use age as criteria? */}
                             <Checkbox
                                 colorScheme="white"
-                                defaultChecked={globalThis.useAge}
+                                defaultChecked
                                 p="30px"
                                 size="lg"
-                                onChange={() => handleCheck()}
+                                onChange={(val) => {
+                                    handleCheck(), setUseAgeValue(!useAgeValue)
+                                }}
                             ></Checkbox>
                             {/* Age min and Age max */}
                             <RangeSlider
@@ -160,7 +177,7 @@ const DatingOption = () => {
                                 max={40}
                                 defaultValue={[19, 25]}
                                 onChange={(val) => {
-                                    handleAge(val), setSliderValue(val)
+                                    handleAge(), setSliderValue(val)
                                 }}
                                 ml={"20px"}
                                 mr={"45px"}
@@ -201,7 +218,16 @@ const DatingOption = () => {
                             </Stack>
                         </Box>
                     </Box>
-                    <Center></Center>
+                    <Box>
+                        <Center>
+                            {/* Chose multi Faculty preference */}
+                            <Box pb={5}>
+                                <Text fontSize="xl" as="b">
+                                    Faculty Preference
+                                </Text>
+                            </Box>
+                        </Center>
+                    </Box>
                     {/* Submit button */}
                     <Center>
                         <Button type="submit" form="new-note" onClick={() => handleSubmit()}>
