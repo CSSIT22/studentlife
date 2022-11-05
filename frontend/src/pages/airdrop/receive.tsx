@@ -1,7 +1,7 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import { HiUpload, HiDownload } from "react-icons/hi"
-import { MdOutlineHistory, MdImage } from "react-icons/md"
+import { MdOutlineHistory, MdImage, MdDone , MdOutlineClose} from "react-icons/md"
 import { Container, Flex, HStack, Icon, Text, VStack, Box, Divider } from "@chakra-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },

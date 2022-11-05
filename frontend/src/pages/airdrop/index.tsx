@@ -1,9 +1,8 @@
-import { useState } from "react"
+import { useState,useEffect} from "react"
 import AppBody from "../../components/share/app/AppBody"
 import SecondaryNav from "../../components/share/navbar/SecondaryNav"
 import { HiDownload, HiUpload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory } from "react-icons/md"
-import { useEffect } from "react"
 import {
     Container,
     Flex,
@@ -65,6 +64,11 @@ export default function Index() {
     const [selectedType, setSelectedType] = useState("everyone")
     //state for select receiver
     const [selectedReceiver, setSelectedReceiver] = useState("")
+
+    useEffect(()=>{
+        setSelectedType("everyone")
+    },[isOpen]);
+
     const updateFile = (file: any) => {
         setFiles(file)
         console.log(file)
@@ -144,6 +148,7 @@ export default function Index() {
                                                 onChange={(e) => {
                                                     setSelectedType(e.target.value)
                                                 }}
+                                                
                                             >
                                                 <option value="everyone">Everyone</option>
                                                 <option value="community">Community</option>
