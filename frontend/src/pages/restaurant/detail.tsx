@@ -97,9 +97,10 @@ function detail() {
                                 textTransform="uppercase"
                                 borderWidth="1px"
                                 borderRadius="lg"
-                                p={1}
+                                px={2}
+                                py={1}
                             >
-                                comment
+                                <Link href="/restaurant/review">REVIEW</Link>
                             </Box>
                         </Box>
 
@@ -187,7 +188,7 @@ function detail() {
 
                             <Spacer />
                             <Box as="button" bg={"green.400"} color="white" border={1} borderRadius={"full"} p={2}>
-                                GO
+                            <Link href="https://www.instagram.com/_jakrapat_/">GO</Link>
                             </Box>
                         </Flex>
                     </Box>

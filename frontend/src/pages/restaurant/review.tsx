@@ -88,9 +88,10 @@ function review() {
                                 textTransform="uppercase"
                                 borderWidth="1px"
                                 borderRadius="lg"
-                                p={1}
+                                px={2}
+                                py={1}
                             >
-                                comment
+                                <Link href="/restaurant/detail">REVIEW</Link>
                             </Box>
                         </Box>
                         <ReviewContent name={reviewer.name} picture={reviewer.name} rate={reviewer.rate} review={reviewer.review} />

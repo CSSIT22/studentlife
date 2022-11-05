@@ -21,6 +21,7 @@ import {
     GridItem,
     Flex,
     Text,
+    Link,
     
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
@@ -28,6 +29,7 @@ import AppBody from "../../components/share/app/AppBody"
 import ExtarSecondaryNav from "../../components/share/navbar/ExtarSecondaryNav"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import { BiBorderRadius } from "react-icons/bi"
+
 
 function likeOrNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -74,7 +76,7 @@ function likeOrNope() {
                     <Flex>
                         <Box marginLeft='40px' >
                             <Button colorScheme="green"  width='80px' h='80px' borderRadius={"full"}>
-                                <AiOutlineLike size={'xl'}/>
+                                <Link href="/restaurant/detail"><AiOutlineLike size={'xl'}/></Link>
                             </Button>
                         </Box>
                         <Spacer />
