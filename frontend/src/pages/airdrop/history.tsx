@@ -20,7 +20,7 @@ export default function Drophistory() {
     return (
         <AppBody secondarynav={linkMenu}>
            <Flex
-                backgroundColor={"#e4e4e4"}
+                backgroundColor={"snow"}
                 borderRadius={"50px"}
                 minHeight={"auto"}
                 px={10}
@@ -30,7 +30,10 @@ export default function Drophistory() {
                 // change height later
                 h={"60vh"}
                 m={"auto"}
+                shadow={"md"}
                 mt={["25%","15%","5%"]}
+                border={"1px"}
+                borderColor={"gray.200"}
             >
               <Box mb={3}>
                 <Text fontSize={"3xl"}>History</Text>

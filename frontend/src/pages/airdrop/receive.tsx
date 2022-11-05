@@ -29,7 +29,7 @@ export default function Receivedrop() {
     return (
         <AppBody secondarynav={linkMenu}>
             <Flex
-                backgroundColor={"#e4e4e4"}
+                backgroundColor={"snow"}
                 borderRadius={"50px"}
                 minHeight={"auto"}
                 px={10}
@@ -39,7 +39,10 @@ export default function Receivedrop() {
                 m={"auto"}
                 // change height later
                 h={"60vh"}
+                shadow={"md"}
                 mt={["25%", "15%", "5%"]}
+                border={"1px"}
+                borderColor={"gray.200"}
             >
                 <Box mb={5}>
                     <Text fontSize={"3xl"}>Receive Files</Text>
