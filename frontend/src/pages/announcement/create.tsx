@@ -2,20 +2,37 @@ import { Box, Button, Flex, FormControl, FormLabel, Input, Select, Spacer, Stack
 import React from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
+import { Link } from "react-router-dom"
+import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import AppBody from "../../components/share/app/AppBody"
 
 const create = () => {
+    const [isOpen, setIsOpen] = React.useState(false)
+    const onOpen = () => {
+        setIsOpen(true)
+    }
+    const onClose = () => {
+        setIsOpen(false)
+    }
+    const modalCreate = {
+        topic: "Sent announcement",
+        detail: " The announcement request has been sent.",
+        event: "OK",
+    }
     return (
         <AppBody>
             <Flex alignItems={"center"}>
                 <Text as={"b"} fontSize="xl">
-                    <GrClose />
+                    <Link to={"/announcement"}>
+                        <GrClose />
+                    </Link>
                 </Text>
                 <Spacer />
                 {/* <Box textAlign={"right"}> */}
-                <Button colorScheme="orange" size="sm">
+                <Button colorScheme="orange" size="sm" onClick={onOpen}>
                     Announce
                 </Button>
+                <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalCreate.topic} detail={modalCreate.detail} event={modalCreate.event} />
                 {/* </Box> */}
             </Flex>
             <Stack spacing={3} p="5">
@@ -26,7 +43,7 @@ const create = () => {
                         <option>Japanese</option>
                     </Select>
                 </FormControl> */}
-                <FormControl >
+                <FormControl>
                     <FormLabel>Language</FormLabel>
                     <Select isDisabled placeholder="English"></Select>
                 </FormControl>
@@ -41,7 +58,7 @@ const create = () => {
                 <FormControl isRequired>
                     <FormLabel>Target Group</FormLabel>
                     <Flex>
-                        <Select placeholder="Select Type">
+                        <Select placeholder="Select Type" pr={"2"}>
                             <option>Everyone</option>
                             <option>Year</option>
                             <option>Major</option>

@@ -13,41 +13,51 @@ import {
     Box,
 } from "@chakra-ui/react"
 import React from "react"
+import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
+import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
 import AppBody from "../../components/share/app/AppBody"
+import detail from "./detail"
 
 const recyclebin = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    // const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isOpen, setIsOpen] = React.useState(false)
+    const onOpen = () => {
+        setIsOpen(true)
+    }
+    const onClose = () => {
+        setIsOpen(false)
+    }
+    const [showButton, setShowButton] = React.useState(false)
+    const recoverClick = () => {
+        setShowButton(true)
+    }
+    const cancelRecover = () => {
+        setShowButton(false)
+    }
+    const modalRecycle = {
+        topic:"Recover the announcement",
+        detail:"Are you sure to recover this announcement?",
+        event:"Recover",
+        button:"Recover announcement"
+      }
+
     return (
         <AppBody>
             <HeaderPage head="Recycle bin" />
-            <PostOnRecycle topic="Hello world" sender="SAMO-SIT" expired="48:12:02" />
-            <PostOnRecycle topic="Hi" sender="SAMO-MEDIA" expired="48:12:02" />
-            <PostOnRecycle topic="Hi kub" sender="SAMO-SCI" expired="48:12:02" />
-            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={"xs"} isCentered>
-                <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px) hue-rotate(90deg)" />
-                <ModalContent>
-                    <ModalHeader>Recover the announcement</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody pb={6}>
-                        <Text>Are you sure to recover this announcement?</Text>
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme="blue" mr={3}>
-                            Recover
-                        </Button>
-                        <Button onClick={onClose}>Cancel</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-            <Stack position={"fixed"} bottom="5rem" width="91%">
-                <Button onClick={onOpen} height="3.5rem">Recover announcement</Button>
-                <Button>Cancel</Button>
-            </Stack>
+            {/* เดี๋ยวใส่ map ทีหลัง */}
+            <PostOnRecycle topic="Hello world" sender="SAMO-SIT" expired="48:12:02" onClick={recoverClick} />
+            <PostOnRecycle topic="Hi" sender="SAMO-MEDIA" expired="48:12:02" onClick={recoverClick}/>
+            <PostOnRecycle topic="Hi kub" sender="SAMO-SCI" expired="48:12:02" onClick={recoverClick}/>
+            <PostOnRecycle topic="Hi kub" sender="SAMO-SCI" expired="48:12:02" onClick={recoverClick}/>
+            <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalRecycle.topic} detail={modalRecycle.detail} event={modalRecycle.event} />
+            {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} button={modalRecycle.button}/>}
         </AppBody>
     )
 }
 
 export default recyclebin
+function useState(arg0: boolean) {
+    throw new Error("Function not implemented.")
+}
