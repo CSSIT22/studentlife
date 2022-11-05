@@ -1,8 +1,8 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import { HiUpload, HiDownload } from "react-icons/hi"
-import { MdOutlineHistory, MdImage, MdDone , MdOutlineClose} from "react-icons/md"
-import { Container, Flex, HStack, Icon, Text, VStack, Box, Divider } from "@chakra-ui/react"
+import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose } from "react-icons/md"
+import { Container, Flex, HStack, Icon, Text, VStack, Box, Divider, Hide } from "@chakra-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -48,20 +48,27 @@ export default function Receivedrop() {
                     <Text fontSize={"3xl"}>Receive Files</Text>
                 </Box>
                 {/* dummydatawill map to this component */}
-                <Divider w={'30%'}/>
-                <Flex direction={"row"} justifyContent={"space-around"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Text>{dummyData[0].name}</Text>
-                    <Text>{dummyData[0].sender}</Text>
-                    <Box> Button Group</Box>
-                </Flex>
-                <Flex direction={"row"} justifyContent={"space-around"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Text>{dummyData[0].name}</Text>
-                    <Text>{dummyData[0].sender}</Text>
-                    <Box> Button Group</Box>
-                </Flex>
                 <Divider/>
+                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
+                    <Box as={dummyData[0].icon} size={"3rem"} />
+                    <Hide below={"md"}>
+                        <Text>{dummyData[0].name}</Text>
+                    </Hide>
+
+                    <Text>{dummyData[0].sender}</Text>
+                    <Box> Button Group</Box>
+                </Flex>
+                <Divider />
+                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
+                    <Box as={dummyData[0].icon} size={"3rem"} />
+                    <Hide below={"md"}>
+                        <Text>{dummyData[0].name}</Text>
+                    </Hide>
+
+                    <Text>{dummyData[0].sender}</Text>
+                    <Box> Button Group</Box>
+                </Flex>
+                <Divider />
             </Flex>
             {/* <BottomNav/> */}
         </AppBody>
