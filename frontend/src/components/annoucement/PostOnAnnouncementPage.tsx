@@ -5,8 +5,11 @@ import { BsPinAngle, BsPinAngleFill } from "react-icons/all"
 const PostOnAnnouncementPage: FC<{
     topic: string
     sender: string
-    status: boolean
-}> = ({ topic, sender, status }) => {
+    status: boolean,
+    allPost:Array<any>,
+    id:number
+    setAllPost:React.Dispatch<React.SetStateAction<Array<any>>>
+}> = ({ topic, sender, status ,allPost,setAllPost,id}) => {
     const state = (stat: boolean) => {
         if (stat) {
             return <BsPinAngleFill fontSize={"2rem"} />
@@ -14,10 +17,21 @@ const PostOnAnnouncementPage: FC<{
             return <BsPinAngle fontSize="2rem" />
         }
     }
-    const [pin , setPin] = React.useState(status);
+    const toggle = () => {
+        setAllPost(
+            allPost.map((el) => {
+                if(el.id == id ){
+                    el.status = !el.status
+                }
+                return el
+            })
+        )
+    }
+    
+    
 
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => setPin(!pin)}>
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={toggle}>
             <Flex alignItems={"center"}>
                 <Box>
                     <Heading size={"sm"}>{topic}</Heading>
@@ -25,7 +39,7 @@ const PostOnAnnouncementPage: FC<{
                 </Box>
                 <Spacer />
                 <Box textAlign={"right"} pr={"1rem"} width="">
-                    {state(pin)}
+                    {state(status)}
                 </Box>
             </Flex>
         </Box>
