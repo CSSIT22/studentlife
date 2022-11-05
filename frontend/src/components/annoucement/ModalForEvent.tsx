@@ -6,18 +6,35 @@ const ModalForEvent: FC<{
     onClose: Function
     topic: string
     detail: string
-    event: string
-}> = ({ isOpen, onClose, topic, detail, event }) => {
-    const checkEvent = (event:string) => {
-        if (event == "OK") {
+    status: string
+    allPost: Array<any>
+    setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>,
+    selectPost:number
+}> = ({ isOpen, onClose, topic, detail, status,allPost,setAllPost,selectPost }) => {
+    const toggle = () => {
+        setAllPost(
+            allPost.map((el) => {
+                if (el.id == selectPost) {
+                    el.status = "delete"
+                }
+                return el
+            })
+        )
+    }
+    console.log(allPost);
+    console.log(selectPost);
+    
+    
+    const checkstatus = (status:string) => {
+        if (status == "OK") {
             return ""
-        } else {
+        } else if(status == 'disapprove' || status == 'approve'){
             return (
-                <Button colorScheme="blue" mr={3}>
-                    {event}
+                <Button colorScheme="blue" mr={3} onClick={toggle}>
+                    Delete
                 </Button>
             )
-        }
+        } 
     }
     return (
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={() => onClose()} size={"xs"} isCentered>
@@ -28,9 +45,9 @@ const ModalForEvent: FC<{
                 <ModalBody pb={6}>
                     <Text>{detail}</Text>
                 </ModalBody>
-                    {checkEvent(event)}
                 <ModalFooter>
-                    <Button onClick={() => onClose()}>Cancel</Button>
+                    {checkstatus(status)}
+                    <Button onClick={() => onClose()}>Close</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
