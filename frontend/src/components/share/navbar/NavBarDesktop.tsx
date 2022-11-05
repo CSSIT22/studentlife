@@ -15,7 +15,7 @@ import logo from "./pic/logo.png"
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     return (
-        <Box shadow={"md"} position="fixed" w="100%">
+        <Box zIndex={9999} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
                 <Container w="container.lg" maxW={"100%"}>
                     <Stack maxW="100%" direction={"row"} justifyContent="space-between">
