@@ -128,7 +128,7 @@ const TagOfInterest = () => {
                         <Text>&nbsp;of 5 selected)</Text>
                     </Box>
                     {numOfInterest == 5 ? (
-                        <Text color="red">You have selected 5 interests! Uncheck one of your interests to select others.</Text>
+                        <Text color="gray.500">You have selected 5 interests! Uncheck one of your interests to select others.</Text>
                     ) : null}
                 </GridItem>
                 <GridItem pl="2" area={"button"}>
