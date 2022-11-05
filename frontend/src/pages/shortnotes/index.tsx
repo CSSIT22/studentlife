@@ -29,6 +29,7 @@ import {
     InputGroup,
     InputRightElement,
     Stack,
+    Square,
 } from "@chakra-ui/react"
 import React from "react"
 import { Link } from "react-router-dom"
@@ -40,7 +41,7 @@ const index = () => {
     return (
         <AppBody>
             {/*Recent view list section*/}
-            <Flex>
+            <Flex mt={10}>
                 <Text alignSelf={"end"}>Recent view</Text>
                 <Spacer />
                 <Link to={"./library"}>
