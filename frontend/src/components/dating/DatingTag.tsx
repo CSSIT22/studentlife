@@ -32,13 +32,13 @@ const DatingTag: FC<{ bool: boolean, interestId: string; interestName: string; h
         >
             {interestName}
         </Checkbox>
-    ) : (
+    ) : bool == true ? (
         <Checkbox
             borderWidth="2px"
             p="1"
             pr="5"
             pl="2"
-            borderColor="gray"
+            borderColor="gray.300"
             borderRadius="full"
             id={interestId}
             m="1"
@@ -49,7 +49,25 @@ const DatingTag: FC<{ bool: boolean, interestId: string; interestName: string; h
         >
             {interestName}
         </Checkbox>
-    )
+        ) : 
+        (
+            <Checkbox
+                borderWidth="2px"
+                p="1"
+                pr="5"
+                pl="2"
+                borderColor="gray"
+                borderRadius="full"
+                id={interestId}
+                m="1"
+                name="interest"
+                onChange={handleTag}
+                value={interestId}
+                isDisabled={bool}
+            >
+                {interestName}
+            </Checkbox>
+        )
 }
 
 export default DatingTag
