@@ -1,76 +1,27 @@
 import { INTERESTS } from "../../components/dating/shared/interests"
-import { Heading, Text, Box, Button, Grid, GridItem, Input, CheckboxGroup, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react"
-import React, { useState } from "react"
-import DatingTag from "../../components/dating/DatingTag"
+import { Heading, Text, Box, Grid, GridItem, CheckboxGroup, useDisclosure } from "@chakra-ui/react"
+import { useState } from "react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
+import DatingInterestModal from "../../components/dating/DatingInterestModal"
+import DatingInterestSearch from "../../components/dating/DatingInterestSearch"
+import DatingInterestTag from "../../components/dating/DatingInterestTag"
+import DatingInterestDynamicButton from "../../components/dating/DatingInterestDynamicButton"
 
 const TagOfInterest = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    
-    const [interests] = useState(INTERESTS)
+
+    const [allInterests] = useState(INTERESTS)
     const [numOfInterest, setNumOfInterest] = useState(0)
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
-    
-    function handleSearch(event: React.KeyboardEvent<HTMLInputElement>) {
-        var searchQuery = (document.getElementById("search") as HTMLInputElement).value
-        if (event.key === "Enter" && searchQuery != "") {
-            alert("Query: " + searchQuery)
-        }
-        return false
-    }
-
-    function handleTag(interest: React.ChangeEvent<HTMLInputElement>) {
-        if (interest.target.checked) {
-            setNumOfInterest(numOfInterest + 1)
-            if (numOfInterest < 5) {
-                setSelectedInterest(selectedInterests.concat(interest.target.value))
-            }
-        } else {
-            setNumOfInterest(numOfInterest - 1)
-            if (numOfInterest <= 5) {
-                setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
-            }
-        }
-    }
-
-    function handleExceedTag(interest: React.ChangeEvent<HTMLInputElement>) {
-        alert(interest.target.checked)
-        if (interest.target.checked) {
-            onOpen()
-        }
-        alert(interest.target.checked)
-    }
-
-    function handleSubmit() {
-        alert("List of Interest ID: " + selectedInterests)
-    }
-
-    function checkId(interestId: string) {
-        for(var i = 0; i < selectedInterests.length; i++) {
-            if (selectedInterests[i] == interestId) {
-                return true
-        }
-        }
-        return false
-    }
-
-    function checkNum() {
-        if (numOfInterest === 5) {
-            return true
-        }
-        return false
-    }
 
     return (
         <DatingAppBody>
             <Grid
                 templateAreas={`"topic button" "desc desc"`}
-                gridTemplateRows={"50px 75px"}
+                gridTemplateRows={"50px 50px"}
                 gridTemplateColumns={"12rem px"}
-                h="150px"
+                h="125px"
                 gap="2"
-                color="blackAlpha.700"
-                fontWeight="bold"
                 pt="5"
             >
                 <GridItem pl="2" area={"topic"}>
@@ -84,58 +35,28 @@ const TagOfInterest = () => {
                     </Box>
                 </GridItem>
                 <GridItem pl="2" area={"button"}>
-                    {numOfInterest == 0 ? (
-                        <Button colorScheme="gray" size="lg" borderRadius="full" float="right">
-                            Skip
-                        </Button>
-                    ) : (
-                        <Button colorScheme="gray" size="lg" borderRadius="full" float="right" onClick={handleSubmit}>
-                            Done
-                        </Button>
-                    )}
+                    <DatingInterestDynamicButton numOfInterest={numOfInterest} selectedInterests={selectedInterests} />
                 </GridItem>
             </Grid>
             <Box pb="10">
-                <Input
-                    type="search"
-                    placeholder="🔍  Search"
-                    size="md"
-                    borderRadius="full"
-                    id="search"
-                    name="search"
-                    onKeyPress={(e) => handleSearch(e)}
-                />
+                <DatingInterestSearch />
             </Box>
             <CheckboxGroup colorScheme="white">
-                {checkNum()
-                    ? interests.map(({ interestId, interestName }) => (
-                          <DatingTag key={interestId} bool={true} interestId={interestId} interestName={interestName} handleTag={handleTag} checkId={checkId} onOpen={onOpen}/>
-                      ))
-                    : interests.map(({ interestId, interestName }) => (
-                          <DatingTag key={interestId} bool={false} interestId={interestId} interestName={interestName} handleTag={handleTag} checkId={checkId} onOpen={onOpen}/>
-                      ))}
+                {allInterests.map(({ interestId, interestName }) => (
+                    <DatingInterestTag
+                        key={interestId}
+                        interestId={interestId}
+                        interestName={interestName}
+                        onOpen={onOpen}
+                        selectedInterests={selectedInterests}
+                        numOfInterest={numOfInterest}
+                        setNumOfInterest={setNumOfInterest}
+                        setSelectedInterest={setSelectedInterest}
+                    />
+                ))}
             </CheckboxGroup>
-            <>
-        <Button onClick={onOpen}>Open Modal</Button>
-  
-        <Modal isCentered isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay backdropFilter='blur(10px) hue-rotate(90deg)'/>
-          <ModalContent>
-            <ModalHeader>Max Selection Reached</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-                <Text>You can only select up to 5 interests!</Text>
-                <Text>To add more, deselect some of your chosen interests</Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="orange" mr={3} onClick={onClose} borderRadius="full">
-                I understand!
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
-    </DatingAppBody>
+            <DatingInterestModal isOpen={isOpen} onClose={onClose} />
+        </DatingAppBody>
     )
 }
 
