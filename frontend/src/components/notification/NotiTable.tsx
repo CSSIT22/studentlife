@@ -4,18 +4,11 @@ import Modulelist from "./Modulelist"
 import NotiList from "./NotiList"
 import { FiSettings } from "react-icons/fi"
 import MarkRead from "./MarkRead"
+import { Link } from "react-router-dom"
 
 const NotiTable = () => {
     return (
-        <Box
-            borderRadius="lg"
-            borderWidth="1px"
-            borderColor="black"
-            backgroundColor="white"
-            width={{ sm: "80%", md: "50%" }}
-            height={{ base: "80vh" }}
-            padding={4}
-        >
+        <Box>
             <Flex padding={3}>
                 <Box>
                     Module :
@@ -25,19 +18,21 @@ const NotiTable = () => {
                 <Box>
                     <Stack direction={"row"}>
                         <MarkRead />
-                        <Button bg={"transparent"}>
-                            <FiSettings size={"1.5em"} />
+                        <Button size={"1em"} bg={"transparent"}>
+                            <FiSettings size={"1.2em"} />
                         </Button>
                     </Stack>
                 </Box>
             </Flex>
-            <Stack padding={4} height="85%" overflow="auto">
+            <Stack padding={4} height="50vh" overflow="auto">
                 <NotiList />
                 <NotiList />
                 <NotiList />
             </Stack>
-            <Center padding={3}>
-                <Button>View All</Button>
+            <Center paddingTop={2}>
+                <Button size={"sm"}>
+                    <Link to="/notification/viewAll">View All</Link>
+                </Button>
             </Center>
         </Box>
     )

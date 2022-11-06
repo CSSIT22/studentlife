@@ -4,7 +4,7 @@ import React from "react"
 const Modulelist = () => {
     return (
         <Menu>
-            <MenuButton as={Button} bg={"transparent"}>
+            <MenuButton size="sm" as={Button} bg={"transparent"}>
                 All
             </MenuButton>
             <MenuList>
