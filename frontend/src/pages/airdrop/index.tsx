@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import AppBody from "../../components/share/app/AppBody"
-import SecondaryNav from "../../components/share/navbar/SecondaryNav"
+import PageBox from "../../components/airdrop/pageBox"
+import SetDropBox from "../../components/airdrop/setDropBox"
 import { HiDownload, HiUpload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory } from "react-icons/md"
 import {
@@ -22,6 +23,7 @@ import {
     ModalCloseButton,
     Select,
     Checkbox,
+    Switch,
 } from "@chakra-ui/react"
 import { Dropzone, FileItem } from "@dropzone-ui/react"
 const linkMenu = [
@@ -61,6 +63,8 @@ export default function Index() {
     const [files, setFiles] = useState([])
     //state for click drop
     const [clickDrop, setClickDrop] = useState(false)
+    // drop duration check
+    const [dropDuration, setDropDuration] = useState(0)
     //state for modal
     const { isOpen, onOpen, onClose } = useDisclosure()
     // state for user select
@@ -89,23 +93,7 @@ export default function Index() {
     }
     return (
         <AppBody secondarynav={linkMenu}>
-            <Flex
-                backgroundColor={"white"}
-                borderRadius={"50px"}
-                minHeight={"auto"}
-                px={"0"}
-                py={"5%"}
-                flexDirection={"row"}
-                justifyContent={"center"}
-                w={["100%", "90%", "80%", "70%"]}
-                m={"auto"}
-                mt={["25%", "15%", "5%"]}
-                shadow={"md"}
-                border={"1px"}
-                borderColor={"gray.200"}
-                // transition={"all 0.2s ease-in-out"}
-                // _focusWithin={{ transform: "scale(1.02)" }}
-            >
+            <PageBox pageName="drop">
                 <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"80%"}>
                     <VStack w={"full"} spacing={"5%"}>
                         <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }}>
@@ -187,7 +175,7 @@ export default function Index() {
                                                             }}
                                                         ></Input>
                                                         <Select
-                                                            size="3"
+                                                            size="1"
                                                             multiple
                                                             onChange={(e) => {
                                                                 setInfo({ receiver: e.target.value, description: "" })
@@ -201,7 +189,31 @@ export default function Index() {
                                                 )}
                                             </>
                                         ) : (
-                                            <></>
+                                            <>
+                                                <VStack spacing={5}>
+                                                    <SetDropBox>
+                                                        <HStack>
+                                                            <Switch onClick={() => {}} />
+                                                            <Text>Temporary</Text>
+                                                        </HStack>
+                                                        <Text color={"gray.400"}>Set Timer</Text>
+                                                        <HStack>
+                                                            <Input placeholder="00" type={"number"} />
+                                                            <Text>H</Text>
+                                                            <Input placeholder="00" type={"number"} />
+                                                            <Text>M</Text>
+                                                            <Input placeholder="00" type={"number"} />
+                                                            <Text>S</Text>
+                                                        </HStack>
+                                                    </SetDropBox>
+                                                    <SetDropBox>
+                                                        <HStack>
+                                                            <Switch />
+                                                            <Text>Permanent</Text>
+                                                        </HStack>
+                                                    </SetDropBox>
+                                                </VStack>
+                                            </>
                                         )}
                                     </Flex>
                                 </ModalBody>
@@ -264,7 +276,7 @@ export default function Index() {
                         </Button>
                     </VStack>
                 </Flex>
-            </Flex>
+            </PageBox>
         </AppBody>
     )
 }

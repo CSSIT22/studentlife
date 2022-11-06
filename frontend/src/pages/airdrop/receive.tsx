@@ -1,5 +1,6 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
+import PageBox from "../../components/airdrop/pageBox"
 import { HiUpload, HiDownload } from "react-icons/hi"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose } from "react-icons/md"
 import { Container, Flex, HStack, Icon, Text, VStack, Box, Divider, Hide } from "@chakra-ui/react"
@@ -28,36 +29,11 @@ const dummyData = [
 export default function Receivedrop() {
     return (
         <AppBody secondarynav={linkMenu}>
-            <Flex
-                backgroundColor={"white"}
-                borderRadius={"50px"}
-                minHeight={"auto"}
-                px={10}
-                py={"5%"}
-                flexDirection={"column"}
-                w={["100%"]}
-                m={"auto"}
-                // change height later
-                h={"60vh"}
-                shadow={"md"}
-                mt={["25%", "15%", "5%"]}
-                border={"1px"}
-                borderColor={"gray.200"}
-            >
+            <PageBox pageName="receive">
                 <Box mb={5}>
                     <Text fontSize={"3xl"}>Receive Files</Text>
                 </Box>
-                {/* dummydatawill map to this component */}
-                <Divider/>
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
-
-                    <Text>{dummyData[0].sender}</Text>
-                    <Box> Button Group</Box>
-                </Flex>
+                {/* component for list will coming sooner */}
                 <Divider />
                 <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
                     <Box as={dummyData[0].icon} size={"3rem"} />
@@ -69,7 +45,17 @@ export default function Receivedrop() {
                     <Box> Button Group</Box>
                 </Flex>
                 <Divider />
-            </Flex>
+                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
+                    <Box as={dummyData[0].icon} size={"3rem"} />
+                    <Hide below={"md"}>
+                        <Text>{dummyData[0].name}</Text>
+                    </Hide>
+
+                    <Text>{dummyData[0].sender}</Text>
+                    <Box> Button Group</Box>
+                </Flex>
+                <Divider />
+            </PageBox>
             {/* <BottomNav/> */}
         </AppBody>
     )

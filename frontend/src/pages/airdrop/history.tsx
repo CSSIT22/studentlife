@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import AppBody from "../../components/share/app/AppBody"
+import PageBox from "../../components/airdrop/pageBox"
 import { HiUpload, HiDownload } from "react-icons/hi"
 import { MdOutlineHistory, MdImage } from "react-icons/md"
 import { Container, Flex, Box, Text, Divider, Hide } from "@chakra-ui/react"
@@ -19,25 +20,12 @@ const dummyData = [
 export default function Drophistory() {
     return (
         <AppBody secondarynav={linkMenu}>
-            <Flex
-                backgroundColor={"white"}
-                borderRadius={"50px"}
-                minHeight={"auto"}
-                px={10}
-                py={"5%"}
-                flexDirection={"column"}
-                w={["100%"]}
-                // change height later
-                h={"60vh"}
-                m={"auto"}
-                shadow={"md"}
-                mt={["25%", "15%", "5%"]}
-                border={"1px"}
-                borderColor={"gray.200"}
+            <PageBox pageName="history"
             >
                 <Box mb={3}>
                     <Text fontSize={"3xl"}>History</Text>
                 </Box>
+                {/* component for list will coming sooner */}
                 <Divider orientation="horizontal" />
                 <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
                     <Box as={dummyData[0].icon} size={"3rem"} />
@@ -70,7 +58,7 @@ export default function Drophistory() {
                 </Flex>
 
                 <Divider orientation="horizontal" />
-            </Flex>
+            </PageBox>
         </AppBody>
     )
 }
