@@ -49,7 +49,7 @@ function ShowSetting() {
                 <FiSettings size={"1.2em"} />
             </Button>
             <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} isCentered>
-                <ModalOverlay paddingTop={{ sm: "30%", md: "15%" }}>
+                <ModalOverlay paddingTop={{ base: "35%", sm: "30%", md: "25%", lg: "15%" }}>
                     <Box
                         borderRadius="lg"
                         borderWidth="1px"
