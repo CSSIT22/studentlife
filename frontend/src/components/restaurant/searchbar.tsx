@@ -3,8 +3,8 @@ import React from "react"
 import { TfiSearch } from "react-icons/tfi"
 const Searchbar = () => {
     return (
-        <Center>
-                    <InputGroup width={"full"}>
+        <Center zIndex={100}>
+                    <InputGroup width={"full"} >
                         <InputLeftElement pointerEvents="none" children={<TfiSearch/>} />
                         <Input placeholder="Search"  borderRadius={"3xl"} size={"sm"}  />
                     </InputGroup>

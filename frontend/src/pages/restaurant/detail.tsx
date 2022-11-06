@@ -26,6 +26,9 @@ import { AiOutlineHeart } from "react-icons/ai"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { EffectCards } from "swiper"
+
 
 function detail() {
     const property = {
@@ -68,16 +71,55 @@ function detail() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar />
+            <Searchbar  />
             <Center mt={4}>
                 <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
                     <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
                         <Link href="/restaurant"><CloseButton my={-4} ml={-1} /> </Link>{property.title}
                     </Box>
-                    <Center>
-                        <Image h={"sm"} w={"sm"} borderWidth="1px" borderRadius="lg" src={property.imageUrl} alt={property.imageAlt} />
-                    </Center>
-                    <Box p="6">
+                    <Swiper effect={"cards"} grabCursor={true} modules={[EffectCards]} className="mySwiper">
+                            <SwiperSlide> <Image
+                            borderRadius="3xl"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006"
+                            width={"auto"}
+                            height="400px"
+                        ></Image></SwiperSlide>
+                            <SwiperSlide>
+                                    <Image
+                                borderRadius="3xl"
+                                src="https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000"
+                                width={"auto"}
+                                height="400px"
+                            ></Image>
+                        </SwiperSlide>
+                            <SwiperSlide> 
+                                <Image
+                                borderRadius="3xl"
+                                src="https://img.freepik.com/free-photo/grunge-paint-background_1409-1337.jpg?w=2000"
+                                width={"auto"}
+                                height="400px"
+                            ></Image>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <Image
+                                    borderRadius="3xl"
+                                    src="https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_23-2148999934.jpg?w=2000"
+                                    width={"auto"}
+                                    height="400px"
+                                ></Image>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                            <Image
+                                borderRadius="3xl"
+                                src="https://img.freepik.com/free-vector/abstract-blue-geometric-shapes-background_1035-17545.jpg?w=2000"
+                                width={"auto"}
+                                height="400px"
+                            ></Image>
+                            </SwiperSlide>
+                        </Swiper>
+                        
+                    <Box p="5" >
+                        <Box backgroundColor={"white"} p={"7"} borderRadius="lg" shadow={"lg"}>
                         <Box display="flex" alignItems="baseline">
                             <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
                                 {property.amountLike} liked &bull;
@@ -122,6 +164,7 @@ function detail() {
                                 </Link>
                             </Box>
                         </Box>
+                        </Box>
 
                         <Flex mt={10}>
                             <Button bg={"tomato"} color="white" width="50px" h="50px" border={1} borderRadius={"full"} p={4}>
@@ -129,6 +172,8 @@ function detail() {
                             </Button>
                             <Spacer />
                             <Popover placement="top">
+                            {({ isOpen, onClose }) => (
+                                <>
                                 <PopoverTrigger>
                                     <Button bg={"gray.300"} color="gray.700" h="50px" border={1} borderRadius={"md"} px={6} py={1} onClick={onOpen}>
                                         Share
@@ -170,16 +215,20 @@ function detail() {
                                     </PopoverBody>
                                     <PopoverFooter>
                                         <Flex my={2}>
-                                            <Box as="button" bg={"green.400"} color="white" border={1} borderRadius={"md"} px={4} py={2}>
+                                            <Box as="button" bg={"green.400"} color="white" border={1} borderRadius={"md"} px={4} py={2} onClick={onClose}>
                                                 OK
                                             </Box>
                                             <Spacer />
-                                            <Box as="button" bg={"tomato"} color="white" border={1} borderRadius={"md"} px={4} py={2}>
+                                            <Box as="button" bg={"tomato"} color="white" border={1} borderRadius={"md"} px={4} py={2} onClick={onClose}>
                                                 Cancel
                                             </Box>
                                         </Flex>
                                     </PopoverFooter>
                                 </PopoverContent>
+                                </>
+                            )
+                          }
+                          
                             </Popover>
 
                             <Spacer />
@@ -189,6 +238,7 @@ function detail() {
                         </Flex>
                     </Box>
                 </Box>
+               
             </Center>
         </AppBody>
     )

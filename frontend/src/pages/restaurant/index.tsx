@@ -22,11 +22,12 @@ import {
     Flex,
     Text,
     Link,
-    
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { EffectCards } from "swiper"
 
 
 function likeOrNope() {
@@ -58,56 +59,96 @@ function likeOrNope() {
                 <Box h="20px">
                     <Heading textAlign={"center"}> Restaurant name</Heading>
                 </Box>
-                <Box h="auto" >
+                <Box h="auto">
                     <Center>
-                        <Image
-                            borderRadius='3xl'
+                        <Swiper effect={"cards"} grabCursor={true} modules={[EffectCards]} className="mySwiper">
+                            <SwiperSlide> <Image
+                            borderRadius="3xl"
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006"
                             width={"auto"}
-                            height='400px'
-                            
-                        ></Image>
+                            height="400px"
+                        ></Image></SwiperSlide>
+                            <SwiperSlide>
+                                    <Image
+                                borderRadius="3xl"
+                                src="https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000"
+                                width={"auto"}
+                                height="400px"
+                            ></Image>
+                        </SwiperSlide>
+                            <SwiperSlide> 
+                                <Image
+                                borderRadius="3xl"
+                                src="https://img.freepik.com/free-photo/grunge-paint-background_1409-1337.jpg?w=2000"
+                                width={"auto"}
+                                height="400px"
+                            ></Image>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <Image
+                                    borderRadius="3xl"
+                                    src="https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_23-2148999934.jpg?w=2000"
+                                    width={"auto"}
+                                    height="400px"
+                                ></Image>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                            <Image
+                                borderRadius="3xl"
+                                src="https://img.freepik.com/free-vector/abstract-blue-geometric-shapes-background_1035-17545.jpg?w=2000"
+                                width={"auto"}
+                                height="400px"
+                            ></Image>
+                            </SwiperSlide>
+                        </Swiper>
+                        
+                       
                     </Center>
                 </Box>
 
-                <Box h="60px" >
+                <Box h="60px">
                     <Flex>
-                        <Box marginLeft='40px' >
-                            <Button colorScheme="green"  width='80px' h='80px' borderRadius={"full"}>
-                                <Link href="/restaurant/detail"><AiOutlineLike size={'xl'}/></Link>
+                        <Box marginLeft="40px">
+                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
+                                <Link href="/restaurant/detail">
+                                    <AiOutlineLike size={"xl"} />
+                                </Link>
                             </Button>
                         </Box>
                         <Spacer />
-                        
-                            <>
-                            <Button onClick={onOpen} colorScheme="red" width='80px' h='80px' borderRadius={"full"} marginRight='40px'><AiOutlineDislike size={'xl'} /></Button>
+
+                        <>
+                            <Button onClick={onOpen} colorScheme="red" width="80px" h="80px" borderRadius={"full"} marginRight="40px">
+                                <AiOutlineDislike size={"xl"} />
+                            </Button>
 
                             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                                 <ModalOverlay />
-                                <ModalContent textAlign={'center'}>
-                                <ModalHeader fontWeight='800' fontSize={'35px'}>Random Time!!!
+                                <ModalContent textAlign={"center"}>
+                                    <ModalHeader fontWeight="800" fontSize={"35px"}>
+                                        Random Time!!!
+                                    </ModalHeader>
+                                    <VStack spacing={3} pt="30px">
+                                        <Text fontSize={"20px"} fontWeight="500">
+                                            Can not choose the restaurant?
+                                        </Text>
 
-                                </ModalHeader>
-                                    <VStack spacing={3} pt='30px'>
-                                        <Text fontSize={'20px'} fontWeight='500'>Can not choose the restaurant?</Text>
-                                    
-                                        <Text fontSize={'20px'} fontWeight='500'>Do you want to random the restaurant</Text>
+                                        <Text fontSize={"20px"} fontWeight="500">
+                                            Do you want to random the restaurant
+                                        </Text>
                                     </VStack>
-                                <ModalCloseButton />
-                                <ModalFooter justifyContent={'center'} pt='60px'>
-                                    <Button colorScheme='blue' mr={3} onClick={onClose}>
-                                    Random
-                                    </Button>
-                                    <Button colorScheme='red' mr={3} onClick={onClose}>
-                                    Cancel
-                                    </Button>
-                                </ModalFooter>
+                                    <ModalCloseButton />
+                                    <ModalFooter justifyContent={"center"} pt="60px">
+                                        <Button colorScheme="blue" mr={3} onClick={onClose}>
+                                            Random
+                                        </Button>
+                                        <Button colorScheme="red" mr={3} onClick={onClose}>
+                                            Cancel
+                                        </Button>
+                                    </ModalFooter>
                                 </ModalContent>
                             </Modal>
-                            </>
-                        
-                        
-  
+                        </>
                     </Flex>
                 </Box>
             </VStack>

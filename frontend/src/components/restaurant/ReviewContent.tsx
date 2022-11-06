@@ -8,8 +8,7 @@ const ReviewContent: FC<{
     review: string
 }> = ({ name, picture, rate, review }) => {
     return (
-        <Box mt={6}>
-            <VStack divider={<StackDivider borderColor="gray.200" />} spacing={4} align="stretch">
+        <Box mt={6} backgroundColor={"white"} p={"5"} borderRadius="lg" shadow={"lg"}>
                 <Box>
                     <Grid templateRows="repeat(3, 0fr)" templateColumns="repeat(7, 3fr)" gap={1}>
                         <GridItem rowSpan={3} colSpan={1} mr={4}>
@@ -28,8 +27,8 @@ const ReviewContent: FC<{
                         </GridItem>
                     </Grid>
                 </Box>
-            </VStack>
-            <Divider my={3} />
+          
+           
         </Box>
     )
 }
