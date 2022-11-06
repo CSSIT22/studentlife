@@ -23,21 +23,19 @@ const index = () => {
     console.log(statusPostRequest + " " + selectPost)
 
     return (
-        <AppBody>
+        <AppBody
+            secondarynav={[
+                { name: "Announcement", to: "/announcement" },
+                { name: "Approval", to: "/announcement/approval" },
+                { name: "History", to: "/announcement/history" },
+                { name: "Recycle bin", to: "/announcement/recyclebin" },
+            ]}
+        >
             <HeaderPage head="Approval" />
             {allPost
                 .filter((fl) => fl.status == "waiting")
                 .map((el) => {
-                    return (
-                        <PostOnApproval
-                            topic={el.topic}
-                            sender={el.sender}
-                            status={el.status}
-                            id={el.id}
-                            onClick={onClick}
-                            key={el.id}
-                        />
-                    )
+                    return <PostOnApproval topic={el.topic} sender={el.sender} status={el.status} id={el.id} onClick={onClick} key={el.id} />
                 })}
         </AppBody>
     )

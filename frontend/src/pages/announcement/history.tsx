@@ -18,10 +18,10 @@ const history = () => {
     const [showButton, setShowButton] = React.useState(false)
     const [statusPostRequest, setStatusPostRequest] = React.useState("")
     const [selectPost, setSelectPost] = React.useState(Number)
-    const onClick = (status: string, postId:number) => {
-        setShowButton(true);
-        setStatusPostRequest(status);
-        setSelectPost(postId);
+    const onClick = (status: string, postId: number) => {
+        setShowButton(true)
+        setStatusPostRequest(status)
+        setSelectPost(postId)
     }
     // console.log(statusPostRequest)
 
@@ -53,6 +53,7 @@ const history = () => {
                         allPost={allPost}
                         setAllPost={setAllPost}
                         selectPost={selectPost}
+                        cancelButtonForEvent={cancelRecover}
                     />
                     {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />}
                 </>
@@ -71,20 +72,22 @@ const history = () => {
     }
 
     return (
-        <AppBody>
+        <AppBody
+            secondarynav={[
+                { name: "Announcement", to: "/announcement" },
+                { name: "Approval", to: "/announcement/approval" },
+                { name: "History", to: "/announcement/history" },
+                { name: "Recycle bin", to: "/announcement/recyclebin" },
+            ]}
+        >
             <HeaderPage head="History" />
-            {allPost.filter((fl) => fl.status != 'delete').map((el) => {
-                return (
-                    <PostOnHistory
-                        topic={el.topic}
-                        sender={el.sender}
-                        status={el.status}
-                        onClick={onClick}
-                        id={el.id}
-                        onSelectPost={onClick}
-                    />
-                )
-            })}
+            {allPost
+                .filter((fl) => fl.status == "waiting" || fl.status == "approve" || fl.status == "disapprove")
+                .map((el) => {
+                    return (
+                        <PostOnHistory topic={el.topic} sender={el.sender} status={el.status} onClick={onClick} id={el.id} onSelectPost={onClick} />
+                    )
+                })}
             {deleteOrEdit(statusPostRequest)}
         </AppBody>
     )

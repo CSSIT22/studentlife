@@ -33,7 +33,7 @@ const recyclebin = () => {
 
     const [selectPost, setSelectPost] = React.useState(Number)
     const [showButton, setShowButton] = React.useState(false)
-    const recoverClick = (postId: number,status:string) => {
+    const recoverClick = (postId: number, status: string) => {
         setShowButton(true)
         setSelectPost(postId)
         setStatusPostRequest(status)
@@ -56,13 +56,29 @@ const recyclebin = () => {
     const [allPost, setAllPost] = React.useState(post)
 
     return (
-        <AppBody>
+        <AppBody
+            secondarynav={[
+                { name: "Announcement", to: "/announcement" },
+                { name: "Approval", to: "/announcement/approval" },
+                { name: "History", to: "/announcement/history" },
+                { name: "Recycle bin", to: "/announcement/recyclebin" },
+            ]}
+        >
             <HeaderPage head="Recycle bin" />
             {/* เดี๋ยวใส่ map ทีหลัง */}
             {allPost
                 .filter((fl) => fl.status == "delete")
                 .map((el) => {
-                    return <PostOnRecycle topic={el.topic} sender={el.sender} expired={el.expired} onClick={recoverClick} id={el.id} status={el.status}/>
+                    return (
+                        <PostOnRecycle
+                            topic={el.topic}
+                            sender={el.sender}
+                            expired={el.expired}
+                            onClick={recoverClick}
+                            id={el.id}
+                            status={el.status}
+                        />
+                    )
                 })}
             <ModalForEvent
                 isOpen={isOpen}
@@ -73,6 +89,7 @@ const recyclebin = () => {
                 allPost={allPost}
                 setAllPost={setAllPost}
                 selectPost={selectPost}
+                cancelButtonForEvent={cancelRecover}
             />
             {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={"recover"} />}
         </AppBody>

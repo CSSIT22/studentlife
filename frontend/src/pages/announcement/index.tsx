@@ -26,7 +26,14 @@ const index = () => {
     //     )
     // }
     return (
-        <AppBody>
+        <AppBody
+            secondarynav={[
+                { name: "Announcement", to: "/announcement" },
+                { name: "Approval", to: "/announcement/approval" },
+                { name: "History", to: "/announcement/history" },
+                { name: "Recycle bin", to: "/announcement/recyclebin" },
+            ]}
+        >
             <HeaderPage head="Announcement" Icon={IoIosAddCircle} />
             {allPost
                 .filter((p) => {
