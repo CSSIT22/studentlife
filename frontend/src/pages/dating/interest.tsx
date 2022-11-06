@@ -30,7 +30,7 @@ const TagOfInterest = () => {
 
     function handleSearch(event: React.KeyboardEvent<HTMLInputElement>) {
         var searchQuery = (document.getElementById("search") as HTMLInputElement).value
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && searchQuery != "") {
             alert("Query: " + searchQuery)
         }
         return false
