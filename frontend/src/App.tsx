@@ -1,7 +1,7 @@
 import AppConfig from "./config/_app"
 import { BrowserRouter, Route, RouterProvider, Routes } from "react-router-dom"
 import { router } from "./config/routes"
-import AuthContextProvider from "./components/backendService/context/AuthContext"
+import AuthContextProvider from "./context/AuthContext"
 
 function App() {
     return (
