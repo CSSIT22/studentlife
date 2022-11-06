@@ -3,6 +3,7 @@ import React from "react"
 import Modulelist from "./Modulelist"
 import NotiList from "./NotiList"
 import { FiSettings } from "react-icons/fi"
+import MarkRead from "./MarkRead"
 
 const NotiTable = () => {
     return (
@@ -15,23 +16,29 @@ const NotiTable = () => {
             height={{ base: "80vh" }}
             padding={4}
         >
-            <Flex>
+            <Flex padding={3}>
                 <Box>
+                    Module :
                     <Modulelist />
                 </Box>
                 <Spacer />
                 <Box>
                     <Stack direction={"row"}>
-                        <Button bg={"transparent"}> Mark all as read</Button>
+                        <MarkRead />
                         <Button bg={"transparent"}>
                             <FiSettings size={"1.5em"} />
                         </Button>
                     </Stack>
                 </Box>
             </Flex>
-            <Stack padding={4}>
+            <Stack padding={4} height="85%" overflow="auto">
+                <NotiList />
+                <NotiList />
                 <NotiList />
             </Stack>
+            <Center padding={3}>
+                <Button>View All</Button>
+            </Center>
         </Box>
     )
 }
