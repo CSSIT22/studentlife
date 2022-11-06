@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { EXP, PrismaClient } from "@prisma/client"
 import express from "express"
 import airdropRoutes from "./modules/airdrop"
 import announcementRoutes from "./modules/announcement"
@@ -23,8 +23,9 @@ import passport from "passport"
 import microsoft from "./modules/middleware/passport/microsoft"
 import { loginRoutes } from "./modules/middleware/login/loginRoutes"
 import session from "express-session"
-import { createClient, RedisClientType } from "redis"
+import { createClient } from "redis"
 import connectRedis from "connect-redis"
+import cors from "cors"
 const device = require("express-device")
 
 const PORT = 8000
@@ -43,6 +44,14 @@ const redisClient = createClient({
 
 declare global {
     namespace Express {
+        export interface User {
+            fName: string
+            lName: string
+            email: string
+            userId: string
+            levels: EXP | null
+        }
+
         export interface Response {
             prisma: PrismaClient
             redis: typeof redisClient
@@ -59,12 +68,19 @@ passport.use(microsoft(prisma))
 app.use(device.capture())
 
 app.use(
+    cors({
+        origin: [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])],
+        credentials: true,
+    })
+)
+
+app.use(
     session({
-        secret: "session secret here",
+        secret: process.env.COOKIE_SECRET || "",
         resave: false,
         saveUninitialized: false,
-        name: "connect.sid",
-        cookie: { domain: "localhost", maxAge: 1000 * 60 * 60 * 24 * 30 },
+        name: process.env.COOKIE_NAME,
+        cookie: { domain: process.env.COOKIE_LOCATION, maxAge: 1000 * 60 * 60 * 24 * 30 },
         store: new RedisStore({ client: redisClient }) as session.Store,
     })
 )

@@ -54,7 +54,7 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
             const fullname = _json.displayName.split(" ")
 
             // Database operations
-            const student = await prisma.user_profile.upsert({
+            const student = await prisma.user_Profile.upsert({
                 where: {
                     email: _json.mail,
                 },
@@ -119,7 +119,7 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
             })
 
             // return a callback
-            return done(null, student)
+            return done(null, { userId: student.userId } as any)
         } catch (err: any) {
             console.error(err)
             return done(err)
