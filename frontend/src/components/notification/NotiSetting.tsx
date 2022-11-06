@@ -1,22 +1,10 @@
 import React from "react"
-import { Box, Spacer, Stack, Text, RadioGroup, Radio, CloseButton} from "@chakra-ui/react"
+import { Stack, Text, RadioGroup, Radio } from "@chakra-ui/react"
 //import { SlClose } from "react-icons/sl";
 const NotiSetting = () => {
     return (
-        <Box
-                borderRadius="lg"
-                borderWidth="1px"
-                borderColor="black"
-                backgroundColor="white"
-                width={{ base: "70%", md: "30%" }}
-                height={{ base: "45vh" }}
-                padding={4}
-                margin ="auto"
-            >
+        <>
                 <Stack>
-                    <Stack direction={"row"}>
-                        <Spacer /> <CloseButton />
-                    </Stack>
                     <Stack direction={"row"} padding={4} paddingBottom={0} paddingTop={0}>
                         <Text
                             bgColor="#060005"
@@ -37,7 +25,7 @@ const NotiSetting = () => {
                         <RadioExample />
                     </Stack>
                 </Stack>
-        </Box>
+        </>
     )
 }
 
@@ -46,9 +34,9 @@ function RadioExample() {
     return (
       <RadioGroup onChange={setValue} value={value} defaultValue='1' colorScheme='green'>
         <Stack>
-          <Radio value='1'>All</Radio>
-          <Radio value='2'>Mention</Radio>
-          <Radio value='3'>Ignore</Radio>
+          <Radio spacing={4} value='1'>All</Radio>
+          <Radio spacing={4} value='2'>Mention</Radio>
+          <Radio spacing={4} value='3'>Ignore</Radio>
         </Stack>
       </RadioGroup>
     )
