@@ -37,7 +37,7 @@ import { DatingRadioBox } from "../../components/dating/RadioBox"
 import { useRadioGroup } from "@chakra-ui/react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import { useCheckboxGroup } from "@chakra-ui/react"
-import { MultiChose } from "./../../components/dating/MultiChose"
+import { DatingMultiChose } from "../../components/dating/DatingMultiChose"
 
 declare global {
     var age: number[], gender: string, faculty: string[], useAge: boolean
@@ -66,10 +66,10 @@ const DatingOption = () => {
     globalThis.age = [19, 25] //need db + condition
     globalThis.gender = "Everyone" //need db + condition
     globalThis.faculty = ["All Faculty"] //need db + condition
-    const [useAgeValue, setUseAgeValue] = useState(globalThis.useAge) //For use age to be criteria
-    const [sliderValue, setSliderValue] = useState(globalThis.age) //For age min,max
-    const [selected, setSelected] = useState(globalThis.gender) //For gender
-    const [selectedFac, setSelectedFac] = useState(globalThis.faculty) //For Faculties
+    const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
+    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
+    const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
+    const [selectedFac, setSelectedFac] = useState<string[]>(globalThis.faculty) //For Faculties
 
     function handleAge() {
         //Passing data + debug
@@ -90,10 +90,17 @@ const DatingOption = () => {
 
     function handleFac(fac: string[]) {
         //Passing data + condition checking
-        if (fac[0] == "All Faculty") {
-            console.log("All")
-        }
         setSelectedFac(fac)
+        console.log("This :" + fac)
+        // if (fac[0] == "All Faculty") {
+        //     globalThis.faculty = faculties
+        //     var arr: string[]
+        //     for (let i = 1; i < faculties.length; i++) {
+        //         arr.push(faculties[i])
+        //     }
+        //     setSelectedFac(arr)
+        //     console.log("All " + arr)
+        // }
     }
 
     function handleSubmit() {
@@ -103,6 +110,7 @@ const DatingOption = () => {
         globalThis.gender = selected
         globalThis.faculty = selectedFac
         if (globalThis.faculty[0] == "All Faculty") {
+            // globalThis.faculty = faculties
             console.log("All Fac")
         }
         alert(
@@ -225,34 +233,45 @@ const DatingOption = () => {
                                     <AccordionPanel pb={4}>
                                         <Stack>
                                             <Text>You have select from: {value.sort().join(" and ")}</Text>
-                                            <MultiChose
+
+                                            <DatingMultiChose
                                                 {...getCheckboxProps({ value: faculties[0] })}
                                                 onClick={() => {
-                                                    setSelectedFac(value), handleFac(value)
+                                                    setSelectedFac(value)
+                                                    handleFac //(value)
+                                                    console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <MultiChose
+                                            <DatingMultiChose
                                                 {...getCheckboxProps({ value: faculties[1] })}
                                                 onClick={() => {
-                                                    setSelectedFac(value), handleFac(value)
+                                                    setSelectedFac(value)
+                                                    handleFac //(value)
+                                                    console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <MultiChose
+                                            <DatingMultiChose
                                                 {...getCheckboxProps({ value: faculties[2] })}
                                                 onClick={() => {
-                                                    setSelectedFac(value), handleFac(value)
+                                                    setSelectedFac(value)
+                                                    handleFac //(value)
+                                                    console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <MultiChose
+                                            <DatingMultiChose
                                                 {...getCheckboxProps({ value: faculties[3] })}
                                                 onClick={() => {
-                                                    setSelectedFac(value), handleFac(value)
+                                                    setSelectedFac(value)
+                                                    handleFac //(value)
+                                                    console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <MultiChose
+                                            <DatingMultiChose
                                                 {...getCheckboxProps({ value: faculties[4] })}
                                                 onClick={() => {
-                                                    setSelectedFac(value), handleFac(value)
+                                                    setSelectedFac(value)
+                                                    handleFac //(value)
+                                                    console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
                                         </Stack>
@@ -262,15 +281,15 @@ const DatingOption = () => {
                                             {faculties.map((value) => {
                                                 const facs = getCheckboxProps({ value })
                                                 return (
-                                                    <MultiChose
+                                                    <DatingMultiChose
                                                         key={value}
                                                         {...facs}
                                                         onClick={() => {
-                                                            handleFac(value), setSelectedFac(value)
+                                                            handleFac(value)
                                                         }}
                                                     >
                                                         {value}
-                                                    </MultiChose>
+                                                    </DatingMultiChose>
                                                 )
                                             })}
                                         </Stack> */}

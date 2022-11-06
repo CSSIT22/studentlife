@@ -1,7 +1,7 @@
 /* A custom multiple choose button component. */
 import { chakra, useCheckbox, Flex, Box, Text } from "@chakra-ui/react"
 
-export function MultiChose(props: any) {
+export function DatingMultiChose(props: any) {
     const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
     // For multiple chose of faculties
     return (
@@ -20,7 +20,7 @@ export function MultiChose(props: any) {
             cursor="pointer"
             {...htmlProps}
             onClick={() => {
-                props.onClick(props.value), console.log("Val = " + props.value)
+                props.onClick(props.value), console.log("Original : " + props.value)
             }}
         >
             <input {...getInputProps()} hidden />
