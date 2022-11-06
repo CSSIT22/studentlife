@@ -1,4 +1,3 @@
-import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import YouAreMatchWithWhiteImg from "../../components/dating/pic/youarematchwithwhite.png"
 import YouAreMatchWithBlackImg from "../../components/dating/pic/youarematchwithblack.png"
