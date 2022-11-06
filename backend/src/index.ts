@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client"
 import express from "express"
 import airdropRoutes from "./modules/airdrop"
 import announcementRoutes from "./modules/announcement"
@@ -18,6 +19,15 @@ import timelineRoutes from "./modules/timeline"
 import todolistRoutes from "./modules/todolist"
 import transactionRoutes from "./modules/transaction"
 import userRoutes from "./modules/user"
+const prisma = new PrismaClient()
+
+declare global {
+    namespace Express {
+        export interface Response {
+            prisma: PrismaClient
+        }
+    }
+}
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -28,6 +38,11 @@ const app = express()
 
 app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
+})
+
+app.use((_, res, next) => {
+    res.prisma = prisma
+    next()
 })
 
 app.use("/airdrop", airdropRoutes)
