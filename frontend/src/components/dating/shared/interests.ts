@@ -1,403 +1,402 @@
-export const INTERESTS = 
-[
+export const INTERESTS = [
     {
         interestId: "1",
-        interestName: "Football"
+        interestName: "Football",
     },
     {
         interestId: "2",
-        interestName: "Thai food"
+        interestName: "Thai food",
     },
     {
         interestId: "3",
-        interestName: "Cryptocurrency"
+        interestName: "Cryptocurrency",
     },
     {
         interestId: "4",
-        interestName: "Bollywood"
+        interestName: "Bollywood",
     },
     {
         interestId: "5",
-        interestName: "Social Science"
+        interestName: "Social Science",
     },
     {
         interestId: "6",
-        interestName: "Technology"
+        interestName: "Technology",
     },
     {
         interestId: "7",
-        interestName: "Gaming"
+        interestName: "Gaming",
     },
     {
         interestId: "8",
-        interestName: "Jogging"
+        interestName: "Jogging",
     },
     {
         interestId: "9",
-        interestName: "J-Pop"
+        interestName: "J-Pop",
     },
     {
         interestId: "10",
-        interestName: "Travelling"
+        interestName: "Travelling",
     },
     {
         interestId: "11",
-        interestName: "Sport"
+        interestName: "Sport",
     },
     {
         interestId: "12",
-        interestName: "Car"
+        interestName: "Car",
     },
     {
         interestId: "13",
-        interestName: "Thai music"
+        interestName: "Thai music",
     },
     {
         interestId: "14",
-        interestName: "Football"
+        interestName: "Football",
     },
     {
         interestId: "15",
-        interestName: "Badminton"
+        interestName: "Badminton",
     },
     {
         interestId: "16",
-        interestName: "K-Pop"
+        interestName: "K-Pop",
     },
     {
         interestId: "17",
-        interestName: "E-Sport"
+        interestName: "E-Sport",
     },
     {
         interestId: "18",
-        interestName: "Concert"
+        interestName: "Concert",
     },
     {
         interestId: "19",
-        interestName: "Aquarium"
+        interestName: "Aquarium",
     },
     {
         interestId: "20",
-        interestName: "Walking"
+        interestName: "Walking",
     },
     {
         interestId: "21",
-        interestName: "Boxing"
+        interestName: "Boxing",
     },
     {
         interestId: "22",
-        interestName: "Sushi"
+        interestName: "Sushi",
     },
     {
         interestId: "23",
-        interestName: "Idol"
+        interestName: "Idol",
     },
     {
         interestId: "24",
-        interestName: "Anime"
+        interestName: "Anime",
     },
     {
         interestId: "25",
-        interestName: "Self Care"
+        interestName: "Self Care",
     },
     {
         interestId: "26",
-        interestName: "Reading"
+        interestName: "Reading",
     },
     {
         interestId: "27",
-        interestName: "Studying"
+        interestName: "Studying",
     },
     {
         interestId: "28",
-        interestName: "Animal"
+        interestName: "Animal",
     },
     {
         interestId: "29",
-        interestName: "Shabu"
+        interestName: "Shabu",
     },
     {
         interestId: "30",
-        interestName: "Boba Tea"
+        interestName: "Boba Tea",
     },
     {
         interestId: "31",
-        interestName: "Hot Pot"
+        interestName: "Hot Pot",
     },
     {
         interestId: "32",
-        interestName: "Street food"
+        interestName: "Street food",
     },
     {
         interestId: "33",
-        interestName: "Dancing"
+        interestName: "Dancing",
     },
     {
         interestId: "34",
-        interestName: "Shopping"
+        interestName: "Shopping",
     },
     {
         interestId: "35",
-        interestName: "Exhibition"
+        interestName: "Exhibition",
     },
     {
         interestId: "36",
-        interestName: "Mala"
+        interestName: "Mala",
     },
     {
         interestId: "37",
-        interestName: "Running"
+        interestName: "Running",
     },
     {
         interestId: "38",
-        interestName: "Marvel"
+        interestName: "Marvel",
     },
     {
         interestId: "39",
-        interestName: "Cat"
+        interestName: "Cat",
     },
     {
         interestId: "40",
-        interestName: "Baseball"
+        interestName: "Baseball",
     },
     {
         interestId: "41",
-        interestName: "Indian Food"
+        interestName: "Indian Food",
     },
     {
         interestId: "42",
-        interestName: "E-Book"
+        interestName: "E-Book",
     },
     {
         interestId: "43",
-        interestName: "Coding"
+        interestName: "Coding",
     },
     {
         interestId: "44",
-        interestName: "Karaoke"
+        interestName: "Karaoke",
     },
     {
         interestId: "45",
-        interestName: "Fishing"
+        interestName: "Fishing",
     },
     {
         interestId: "46",
-        interestName: "Suki"
+        interestName: "Suki",
     },
     {
         interestId: "47",
-        interestName: "Tik-tok"
+        interestName: "Tik-tok",
     },
     {
         interestId: "48",
-        interestName: "Manga"
+        interestName: "Manga",
     },
     {
         interestId: "49",
-        interestName: "Car Care"
+        interestName: "Car Care",
     },
     {
         interestId: "50",
-        interestName: "Drawing"
+        interestName: "Drawing",
     },
     {
         interestId: "51",
-        interestName: "Biking"
+        interestName: "Biking",
     },
     {
         interestId: "52",
-        interestName: "Cooking"
+        interestName: "Cooking",
     },
     {
         interestId: "53",
-        interestName: "Netflix"
+        interestName: "Netflix",
     },
     {
         interestId: "54",
-        interestName: "Bakery"
+        interestName: "Bakery",
     },
     {
         interestId: "55",
-        interestName: "Korean Food"
+        interestName: "Korean Food",
     },
     {
         interestId: "56",
-        interestName: "Night Life"
+        interestName: "Night Life",
     },
     {
         interestId: "57",
-        interestName: "Rooftop"
+        interestName: "Rooftop",
     },
     {
         interestId: "58",
-        interestName: "Shopping"
+        interestName: "Shopping",
     },
     {
         interestId: "59",
-        interestName: "Rock"
+        interestName: "Rock",
     },
     {
         interestId: "60",
-        interestName: "Cinema"
+        interestName: "Cinema",
     },
     {
         interestId: "61",
-        interestName: "Blackpink"
+        interestName: "Blackpink",
     },
     {
         interestId: "62",
-        interestName: "Disney"
+        interestName: "Disney",
     },
     {
         interestId: "63",
-        interestName: "Twitch"
+        interestName: "Twitch",
     },
     {
         interestId: "64",
-        interestName: "BTS"
+        interestName: "BTS",
     },
     {
         interestId: "65",
-        interestName: "League of Legends"
+        interestName: "League of Legends",
     },
     {
         interestId: "66",
-        interestName: "Activism"
+        interestName: "Activism",
     },
     {
         interestId: "67",
-        interestName: "Art"
+        interestName: "Art",
     },
     {
         interestId: "68",
-        interestName: "Entrepreneurship"
+        interestName: "Entrepreneurship",
     },
     {
         interestId: "69",
-        interestName: "Wine"
+        interestName: "Wine",
     },
     {
         interestId: "70",
-        interestName: "Vlogging"
+        interestName: "Vlogging",
     },
     {
         interestId: "71",
-        interestName: "Cosplay"
+        interestName: "Cosplay",
     },
     {
         interestId: "72",
-        interestName: "Skateboarding"
+        interestName: "Skateboarding",
     },
     {
         interestId: "73",
-        interestName: "Start ups"
+        interestName: "Start ups",
     },
     {
         interestId: "74",
-        interestName: "Instagram"
+        interestName: "Instagram",
     },
     {
         interestId: "75",
-        interestName: "Kra pao"
+        interestName: "Kra pao",
     },
     {
         interestId: "76",
-        interestName: "Grilled Pork"
+        interestName: "Grilled Pork",
     },
     {
         interestId: "77",
-        interestName: "Western drama series"
+        interestName: "Western drama series",
     },
     {
         interestId: "78",
-        interestName: "Choir"
+        interestName: "Choir",
     },
     {
         interestId: "79",
-        interestName: "Surfing"
+        interestName: "Surfing",
     },
     {
         interestId: "80",
-        interestName: "Exchange Program"
+        interestName: "Exchange Program",
     },
     {
         interestId: "81",
-        interestName: "Among Us"
+        interestName: "Among Us",
     },
     {
         interestId: "82",
-        interestName: "Baking"
+        interestName: "Baking",
     },
     {
         interestId: "83",
-        interestName: "Archery"
+        interestName: "Archery",
     },
     {
         interestId: "84",
-        interestName: "Memes"
+        interestName: "Memes",
     },
     {
         interestId: "85",
-        interestName: "Art Galleries"
+        interestName: "Art Galleries",
     },
     {
         interestId: "86",
-        interestName: "Picnicking"
+        interestName: "Picnicking",
     },
     {
         interestId: "87",
-        interestName: "DIY"
+        interestName: "DIY",
     },
     {
         interestId: "88",
-        interestName: "Trivia"
+        interestName: "Trivia",
     },
     {
         interestId: "89",
-        interestName: "LGBTQ+ Rights"
+        interestName: "LGBTQ+ Rights",
     },
     {
         interestId: "90",
-        interestName: "Language Exchange"
+        interestName: "Language Exchange",
     },
     {
         interestId: "91",
-        interestName: "Reggaeton"
+        interestName: "Reggaeton",
     },
     {
         interestId: "92",
-        interestName: "Cheerleading"
+        interestName: "Cheerleading",
     },
     {
         interestId: "93",
-        interestName: "Gardening"
+        interestName: "Gardening",
     },
     {
         interestId: "94",
-        interestName: "Makeup"
+        interestName: "Makeup",
     },
     {
         interestId: "95",
-        interestName: "Bar Hopping"
+        interestName: "Bar Hopping",
     },
     {
         interestId: "96",
-        interestName: "NFTs"
+        interestName: "NFTs",
     },
     {
         interestId: "97",
-        interestName: "Disability Rights"
+        interestName: "Disability Rights",
     },
     {
         interestId: "98",
-        interestName: "Triathlon"
+        interestName: "Triathlon",
     },
     {
         interestId: "99",
-        interestName: "Tattoos"
+        interestName: "Tattoos",
     },
     {
         interestId: "100",
-        interestName: "Environmentalism"
-    }     
+        interestName: "Environmentalism",
+    },
 ]

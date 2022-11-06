@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react"
 import { useRadio } from "@chakra-ui/react"
 
 // RadioBox component for dating option page
-export function RadioBox(props: any) {
+export function DatingRadioBox(props: any) {
     const { getInputProps, getCheckboxProps } = useRadio(props)
 
     const input = getInputProps()

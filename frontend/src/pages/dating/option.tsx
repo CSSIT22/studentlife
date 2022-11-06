@@ -1,18 +1,3 @@
-import AppBody from "../../components/share/app/AppBody"
-import YouAreMatchWithWhiteImg from "../../components/dating/pic/youarematchwithwhite.png"
-import YouAreMatchWithBlackImg from "../../components/dating/pic/youarematchwithblack.png"
-import HeartCheckingWhiteImg from "../../components/dating/pic/heartcheckingwhite.png"
-import HeartCheckingBlackImg from "../../components/dating/pic/heartcheckingblack.png"
-import ActivityPollWhiteImg from "../../components/dating/pic/activitypollwhite.png"
-import ActivityPollBlackImg from "../../components/dating/pic/activitypollblack.png"
-import RandomizationWhiteImg from "../../components/dating/pic/randomizationwhite.png"
-import RandomizationBlackImg from "../../components/dating/pic/randomizationblack.png"
-import TagOfInterestWhiteImg from "../../components/dating/pic/tagofinterestwhite.png"
-import TagOfInterestBlackImg from "../../components/dating/pic/tagofinterestblack.png"
-import DatingOptionsWhiteImg from "../../components/dating/pic/datingoptionwhite.png"
-import DatingOptionsBlackImg from "../../components/dating/pic/datingoptionblack.png"
-import DatingTutorialWhiteImg from "../../components/dating/pic/datingtutorialwhite.png"
-import DatingTutorialBlackImg from "../../components/dating/pic/datingtutorialblack.png"
 import {
     Heading,
     useBreakpointValue,
@@ -48,21 +33,21 @@ import {
     WrapItem,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
-import { RadioBox } from "../../components/dating/RadioBox"
+import { DatingRadioBox } from "../../components/dating/RadioBox"
 import { useRadioGroup } from "@chakra-ui/react"
+import DatingAppBody from "../../components/dating/DatingAppBody"
+import { useCheckboxGroup } from "@chakra-ui/react"
+import { MultiChose } from "./../../components/dating/MultiChose"
 
 declare global {
     var age: number[], gender: string, faculty: string[], useAge: boolean
 }
 const DatingOption = () => {
-    const isMobile = useBreakpointValue({
-        base: false,
-        md: true,
-    })
     //set default value from database by using condition from here
     //
     //
     const options = ["Male", "Female", "Everyone"] // Gender type
+    const faculties = ["All Faculty", "Com-sci", "Help", "Me", "Sad"] // All faculties
 
     //For RadioBox
     const { getRootProps, getRadioProps } = useRadioGroup({
@@ -73,24 +58,29 @@ const DatingOption = () => {
     const group = getRootProps()
 
     //For faculty
+    const { value, getCheckboxProps } = useCheckboxGroup({
+        defaultValue: globalThis.faculty,
+    })
 
     globalThis.useAge = true //need db + condition
     globalThis.age = [19, 25] //need db + condition
     globalThis.gender = "Everyone" //need db + condition
+    globalThis.faculty = ["All Faculty"] //need db + condition
     const [useAgeValue, setUseAgeValue] = useState(globalThis.useAge) //For use age to be criteria
     const [sliderValue, setSliderValue] = useState(globalThis.age) //For age min,max
     const [selected, setSelected] = useState(globalThis.gender) //For gender
+    const [selectedFac, setSelectedFac] = useState(globalThis.faculty) //For Faculties
 
     function handleAge() {
         //Passing data + debug
         globalThis.age = sliderValue
-        console.log(globalThis.age)
+        // console.log(globalThis.age)
     }
 
     function handleCheck() {
         //Passing data + debug
         globalThis.useAge = useAgeValue
-        console.log(globalThis.useAge)
+        // console.log(globalThis.useAge)
     }
 
     function handleGender(gender: string) {
@@ -98,12 +88,23 @@ const DatingOption = () => {
         setSelected(gender)
     }
 
+    function handleFac(fac: string[]) {
+        //Passing data + condition checking
+        if (fac[0] == "All Faculty") {
+            console.log("All")
+        }
+        setSelectedFac(fac)
+    }
+
     function handleSubmit() {
         //Submit data to database + show the alert result (debug)
         globalThis.useAge = useAgeValue
         globalThis.age = sliderValue
         globalThis.gender = selected
-
+        globalThis.faculty = selectedFac
+        if (globalThis.faculty[0] == "All Faculty") {
+            console.log("All Fac")
+        }
         alert(
             "Age min =" +
                 globalThis.age[0] +
@@ -112,56 +113,14 @@ const DatingOption = () => {
                 " | Use age: " +
                 globalThis.useAge +
                 " | Gender : " +
-                globalThis.gender
+                globalThis.gender +
+                " | Selected Faculty: " +
+                globalThis.faculty
         )
     }
 
     return (
-        <AppBody
-            secondarynav={[
-                {
-                    name: "Randomization",
-                    to: "/dating",
-                    Icon: isMobile ? RandomizationWhiteImg : RandomizationBlackImg,
-                },
-                {
-                    name: "Heart checking",
-                    to: "/dating/likedyou",
-                    Icon: isMobile ? HeartCheckingWhiteImg : HeartCheckingBlackImg,
-                },
-                {
-                    name: "You are match with",
-                    to: "/dating/match",
-                    Icon: isMobile ? YouAreMatchWithWhiteImg : YouAreMatchWithBlackImg,
-                },
-                {
-                    name: "Activity poll",
-                    to: "/dating/poll",
-                    Icon: isMobile ? ActivityPollWhiteImg : ActivityPollBlackImg,
-                },
-                {
-                    name: "Tag of interest",
-                    to: "/dating/interest",
-                    isRight: true,
-                    disableText: true,
-                    Icon: isMobile ? TagOfInterestWhiteImg : TagOfInterestBlackImg,
-                },
-                {
-                    name: "Option",
-                    to: "/dating/option",
-                    isRight: true,
-                    disableText: true,
-                    Icon: isMobile ? DatingOptionsWhiteImg : DatingOptionsBlackImg,
-                },
-                {
-                    name: "Tutorial",
-                    to: "/dating/tutorial/welcome",
-                    isRight: true,
-                    disableText: true,
-                    Icon: isMobile ? DatingTutorialWhiteImg : DatingTutorialBlackImg,
-                },
-            ]}
-        >
+        <DatingAppBody>
             <Stack pt="5">
                 {/* Heading and heading description part */}
                 <Heading>Dating Option</Heading>
@@ -183,7 +142,7 @@ const DatingOption = () => {
                                 <span tabIndex={0}>
                                     <Checkbox
                                         colorScheme="white"
-                                        defaultChecked
+                                        defaultChecked={globalThis.useAge}
                                         p="30px"
                                         size="lg"
                                         onChange={(val) => {
@@ -233,9 +192,9 @@ const DatingOption = () => {
                                 {options.map((value) => {
                                     const radio = getRadioProps({ value })
                                     return (
-                                        <RadioBox key={value} {...radio} onClick={handleGender}>
+                                        <DatingRadioBox key={value} {...radio} onClick={handleGender}>
                                             {value}
-                                        </RadioBox>
+                                        </DatingRadioBox>
                                     )
                                 })}
                             </Stack>
@@ -263,7 +222,59 @@ const DatingOption = () => {
                                             <AccordionIcon />
                                         </AccordionButton>
                                     </h2>
-                                    <AccordionPanel pb={4}>Use select here</AccordionPanel>
+                                    <AccordionPanel pb={4}>
+                                        <Stack>
+                                            <Text>You have select from: {value.sort().join(" and ")}</Text>
+                                            <MultiChose
+                                                {...getCheckboxProps({ value: faculties[0] })}
+                                                onClick={() => {
+                                                    setSelectedFac(value), handleFac(value)
+                                                }}
+                                            />
+                                            <MultiChose
+                                                {...getCheckboxProps({ value: faculties[1] })}
+                                                onClick={() => {
+                                                    setSelectedFac(value), handleFac(value)
+                                                }}
+                                            />
+                                            <MultiChose
+                                                {...getCheckboxProps({ value: faculties[2] })}
+                                                onClick={() => {
+                                                    setSelectedFac(value), handleFac(value)
+                                                }}
+                                            />
+                                            <MultiChose
+                                                {...getCheckboxProps({ value: faculties[3] })}
+                                                onClick={() => {
+                                                    setSelectedFac(value), handleFac(value)
+                                                }}
+                                            />
+                                            <MultiChose
+                                                {...getCheckboxProps({ value: faculties[4] })}
+                                                onClick={() => {
+                                                    setSelectedFac(value), handleFac(value)
+                                                }}
+                                            />
+                                        </Stack>
+                                        {/* This is the map version which is not worked (The array contain only 1 element) */}
+                                        {/* <Text>You have select from: {value.sort().join(" and ")}</Text>
+                                        <Stack {...group} direction="column">
+                                            {faculties.map((value) => {
+                                                const facs = getCheckboxProps({ value })
+                                                return (
+                                                    <MultiChose
+                                                        key={value}
+                                                        {...facs}
+                                                        onClick={() => {
+                                                            handleFac(value), setSelectedFac(value)
+                                                        }}
+                                                    >
+                                                        {value}
+                                                    </MultiChose>
+                                                )
+                                            })}
+                                        </Stack> */}
+                                    </AccordionPanel>
                                 </AccordionItem>
                             </Accordion>
                         </Box>
@@ -276,7 +287,7 @@ const DatingOption = () => {
                     </Button>
                 </Center>
             </Stack>
-        </AppBody>
+        </DatingAppBody>
     )
 }
 

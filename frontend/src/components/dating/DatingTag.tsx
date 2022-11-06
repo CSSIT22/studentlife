@@ -13,14 +13,19 @@ function checkId(interestId: string) {
     return false
 }
 
-const DatingTag: FC<{ bool: boolean, interestId: string; interestName: string; handleTag: (e: any) => void }> = ({ bool, interestId, interestName, handleTag }) => {
+const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; handleTag: (e: any) => void }> = ({
+    bool,
+    interestId,
+    interestName,
+    handleTag,
+}) => {
     return checkId(interestId) ? (
         <Checkbox
             borderWidth="2px"
             p="1"
             pr="5"
             pl="2"
-            borderColor="orange"
+            borderColor="orange.500"
             color="orange.800"
             borderRadius="full"
             id={interestId}
@@ -28,7 +33,7 @@ const DatingTag: FC<{ bool: boolean, interestId: string; interestName: string; h
             name="interest"
             onChange={handleTag}
             value={interestId}
-            
+            iconColor="orange.500"
         >
             {interestName}
         </Checkbox>
@@ -45,29 +50,28 @@ const DatingTag: FC<{ bool: boolean, interestId: string; interestName: string; h
             name="interest"
             onChange={handleTag}
             value={interestId}
-            isDisabled={bool}
+            readOnly={bool}
         >
             {interestName}
         </Checkbox>
-        ) : 
-        (
-            <Checkbox
-                borderWidth="2px"
-                p="1"
-                pr="5"
-                pl="2"
-                borderColor="gray"
-                borderRadius="full"
-                id={interestId}
-                m="1"
-                name="interest"
-                onChange={handleTag}
-                value={interestId}
-                isDisabled={bool}
-            >
-                {interestName}
-            </Checkbox>
-        )
+    ) : (
+        <Checkbox
+            borderWidth="2px"
+            p="1"
+            pr="5"
+            pl="2"
+            borderColor="gray"
+            borderRadius="full"
+            id={interestId}
+            m="1"
+            name="interest"
+            onChange={handleTag}
+            value={interestId}
+            readOnly={bool}
+        >
+            {interestName}
+        </Checkbox>
+    )
 }
 
 export default DatingTag
