@@ -5,15 +5,13 @@ const liList: FC<{
     name: String
 }> = ({ name }) => {
     return (
-        <Box bg="white" h={100} rounded={8} boxShadow={"xl"}>
-            <Grid h={"100%"} templateRows="repeat(3, 1fr)">
-                <Spacer />
-                <Heading size={"md"} p={2} textAlign={"center"}>
-                    {name}
-                </Heading>
-                <Spacer />
-            </Grid>
-        </Box>
+        <Grid bg="white" rounded={8} boxShadow={"xl"} templateRows={"repeat(3, 1fr)"} h={100}>
+            <Spacer />
+            <Heading size={"md"} p={2} textAlign={"center"}>
+                {name}
+            </Heading>
+            <Spacer />
+        </Grid>
     )
 }
 
