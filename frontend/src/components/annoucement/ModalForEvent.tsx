@@ -9,8 +9,9 @@ const ModalForEvent: FC<{
     status: string
     allPost: Array<any>
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
-    selectPost: number
-}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost }) => {
+    selectPost: number,
+    cancelButtonForEvent:Function
+}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost,cancelButtonForEvent }) => {
     const toggle = () => {
         if (status == "approve" ) {
             setAllPost(
@@ -50,13 +51,13 @@ const ModalForEvent: FC<{
             return ""
         } else if (status == "disapprove" || status == "approve") {
             return (
-                <Button colorScheme="blue" mr={3} onClick={toggle}>
+                <Button colorScheme="blue" mr={3} onClick={() =>  {onClose(),toggle(), cancelButtonForEvent()} }>
                     Delete
                 </Button>
             )
         } else if (status == "delete") {
             return (
-                <Button colorScheme="blue" mr={3} onClick={toggle}>
+                <Button colorScheme="blue" mr={3} onClick={() =>  {onClose(),toggle(), cancelButtonForEvent()}}>
                     Recover
                 </Button>
             )
@@ -73,7 +74,7 @@ const ModalForEvent: FC<{
                 </ModalBody>
                 <ModalFooter>
                     {checkstatus(status)}
-                    <Button onClick={() => onClose()}>Close</Button>
+                    <Button onClick={() => {onClose(), cancelButtonForEvent()}}>Close</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
