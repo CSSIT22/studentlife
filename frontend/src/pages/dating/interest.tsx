@@ -19,8 +19,8 @@ import React, { useState } from "react"
 import DatingTag from "../../components/dating/DatingTag"
 
 const TagOfInterest = () => {
-    const [interests, setInterests] = useState(INTERESTS);
-    const [numOfInterest, setNumOfInterest] = useState(0);
+    const [interests] = useState(INTERESTS)
+    const [numOfInterest, setNumOfInterest] = useState(0)
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
 
     const isMobile = useBreakpointValue({
@@ -31,35 +31,34 @@ const TagOfInterest = () => {
     function handleSearch(event: React.KeyboardEvent<HTMLInputElement>) {
         var searchQuery = (document.getElementById("search") as HTMLInputElement).value
         if (event.key === "Enter") {
-            alert("Query: " + searchQuery);
+            alert("Query: " + searchQuery)
         }
         return false
     }
 
     function handleTag(interest: React.ChangeEvent<HTMLInputElement>) {
         if (interest.target.checked) {
-            setNumOfInterest(numOfInterest + 1);
-            if(numOfInterest < 5) {
-                setSelectedInterest(selectedInterests.concat(interest.target.value)); 
+            setNumOfInterest(numOfInterest + 1)
+            if (numOfInterest < 5) {
+                setSelectedInterest(selectedInterests.concat(interest.target.value))
             }
-
         } else {
-            setNumOfInterest(numOfInterest - 1);
-            if(numOfInterest <= 5) {
-                setSelectedInterest((selectedInterests as string[]).filter(arr => arr != interest.target.value))
+            setNumOfInterest(numOfInterest - 1)
+            if (numOfInterest <= 5) {
+                setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
             }
         }
     }
 
-    function handleClick() {
-        alert(selectedInterests);
+    function handleSubmit() {
+        alert("List of Interest ID: " + selectedInterests)
     }
 
     function checkNum() {
-        if(numOfInterest === 5) {
-            return true;
+        if (numOfInterest === 5) {
+            return true
         }
-        return false;
+        return false
     }
 
     return (
@@ -128,18 +127,19 @@ const TagOfInterest = () => {
                         <Text>&nbsp;of 5 selected)</Text>
                     </Box>
                     {numOfInterest == 5 ? (
-                        <Text color="gray.500">You have selected 5 interests! Uncheck one of your interests to select others.</Text>
+                        <Text color="gray.500">You have selected 5 interests! Deselect one of your interests to select others</Text>
                     ) : null}
                 </GridItem>
                 <GridItem pl="2" area={"button"}>
-                    {numOfInterest == 0 ? 
-                    <Button colorScheme="gray" size="lg" borderRadius="full" float="right">
-                        Skip
-                    </Button> : 
-                    <Button colorScheme="gray" size="lg" borderRadius="full" float="right" onClick={handleClick}>
-                        Done
-                    </Button>}
-
+                    {numOfInterest == 0 ? (
+                        <Button colorScheme="gray" size="lg" borderRadius="full" float="right">
+                            Skip
+                        </Button>
+                    ) : (
+                        <Button colorScheme="gray" size="lg" borderRadius="full" float="right" onClick={handleSubmit}>
+                            Done
+                        </Button>
+                    )}
                 </GridItem>
             </Grid>
             <Box pb="10">
@@ -153,12 +153,14 @@ const TagOfInterest = () => {
                     onKeyPress={(e) => handleSearch(e)}
                 />
             </Box>
-            <CheckboxGroup colorScheme="orange">
-                {checkNum() ? 
-                    interests.map(({ interestId, interestName }) => (
-                    <DatingTag key={interestId} bool={true} interestId={interestId} interestName={interestName} handleTag={handleTag} />)) :
-                    interests.map(({ interestId, interestName }) => (
-                    <DatingTag key={interestId} bool={false} interestId={interestId} interestName={interestName} handleTag={handleTag} />))}
+            <CheckboxGroup colorScheme="white">
+                {checkNum()
+                    ? interests.map(({ interestId, interestName }) => (
+                          <DatingTag key={interestId} bool={true} interestId={interestId} interestName={interestName} handleTag={handleTag} />
+                      ))
+                    : interests.map(({ interestId, interestName }) => (
+                          <DatingTag key={interestId} bool={false} interestId={interestId} interestName={interestName} handleTag={handleTag} />
+                      ))}
             </CheckboxGroup>
         </AppBody>
     )
