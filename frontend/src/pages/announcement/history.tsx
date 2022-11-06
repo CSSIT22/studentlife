@@ -40,10 +40,6 @@ const history = () => {
         { topic: "SIT Valentine", sender: "SAMO-SIT", status: "disapprove", id: 13 },
     ]
     const [allPost, setAllPost] = React.useState(post)
-    const onSelectPost = (postId: number) => {
-        
-        // console.log(postId);
-    }
     const deleteOrEdit = (status: string) => {
         if (status == "approve" || status == "disapprove") {
             return (
