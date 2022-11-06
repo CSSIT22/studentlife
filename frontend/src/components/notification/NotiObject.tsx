@@ -19,7 +19,7 @@ const NotiObject = () => {
                     </Text>
                 </Stack>
                 <Center>
-                    <Circle size="0.6em" bg="green" />
+                    <Circle size="0.6em" bg="blackAlpha.600" />
                 </Center>
             </Stack>
         </Box>

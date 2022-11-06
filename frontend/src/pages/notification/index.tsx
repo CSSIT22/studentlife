@@ -6,18 +6,20 @@ import AppBody from "../../components/share/app/AppBody"
 const notiTable = () => {
     return (
         <AppBody>
-            <Popover>
-                <PopoverTrigger>
-                    <Button>Noti</Button>
-                </PopoverTrigger>
-                <Portal>
-                    <PopoverContent bg="whiteAlpha.200" shadow={"2xl"}>
-                        <PopoverBody>
-                            <NotiTable />
-                        </PopoverBody>
-                    </PopoverContent>
-                </Portal>
-            </Popover>
+            <Box textAlign={"right"}>
+                <Popover>
+                    <PopoverTrigger>
+                        <Button>🍒</Button>
+                    </PopoverTrigger>
+                    <Portal>
+                        <PopoverContent bg="whiteAlpha.200" shadow={"2xl"}>
+                            <PopoverBody>
+                                <NotiTable />
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Portal>
+                </Popover>
+            </Box>
         </AppBody>
     )
 }
