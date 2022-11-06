@@ -37,10 +37,20 @@ import {
     AccordionPanel,
     AccordionIcon,
     Accordion,
+    FormControl,
+    FormLabel,
+    Code,
+    Select,
+    color,
+    border,
+    Tooltip,
+    Wrap,
+    WrapItem,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { RadioBox } from "../../components/dating/RadioBox"
 import { useRadioGroup } from "@chakra-ui/react"
+
 declare global {
     var age: number[], gender: string, faculty: string[], useAge: boolean
 }
@@ -95,7 +105,14 @@ const DatingOption = () => {
         globalThis.gender = selected
 
         alert(
-            "Age min =" + globalThis.age[0] + " Age max =" + globalThis.age[1] + " Use age: " + globalThis.useAge + " Gender : " + globalThis.gender
+            "Age min =" +
+                globalThis.age[0] +
+                " | Age max =" +
+                globalThis.age[1] +
+                " | Use age: " +
+                globalThis.useAge +
+                " | Gender : " +
+                globalThis.gender
         )
     }
 
@@ -152,6 +169,7 @@ const DatingOption = () => {
                     <Text>Set the criteria to be used for the profile randomization.</Text>
                 </Box>
 
+                {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}
                 <SimpleGrid gap={12} pt={8} columns={{ base: "1", md: "2" }}>
                     <Box>
                         <Box pb={5}>
@@ -161,15 +179,20 @@ const DatingOption = () => {
                         </Box>
                         <Center bg="orange.200" h={20} borderRadius="20px">
                             {/* Is user use age as criteria? */}
-                            <Checkbox
-                                colorScheme="white"
-                                defaultChecked
-                                p="30px"
-                                size="lg"
-                                onChange={(val) => {
-                                    handleCheck(), setUseAgeValue(!useAgeValue)
-                                }}
-                            ></Checkbox>
+                            <Tooltip label="Use age as a criteria?" aria-label="A tooltip">
+                                <span tabIndex={0}>
+                                    <Checkbox
+                                        colorScheme="white"
+                                        defaultChecked
+                                        p="30px"
+                                        size="lg"
+                                        onChange={(val) => {
+                                            handleCheck(), setUseAgeValue(!useAgeValue)
+                                        }}
+                                    ></Checkbox>
+                                </span>
+                            </Tooltip>
+
                             {/* Age min and Age max */}
                             <RangeSlider
                                 aria-label={["min", "max"]}
@@ -219,22 +242,39 @@ const DatingOption = () => {
                         </Box>
                     </Box>
                     <Box>
-                        <Center>
-                            {/* Chose multi Faculty preference */}
-                            <Box pb={5}>
-                                <Text fontSize="xl" as="b">
-                                    Faculty Preference
-                                </Text>
-                            </Box>
-                        </Center>
+                        {/* Chose multi Faculty preference */}
+                        <Box pb={5}>
+                            <Text fontSize="xl" as="b">
+                                Faculty Preference
+                            </Text>
+                        </Box>
+                        <Box>
+                            <Accordion allowToggle flex="left">
+                                <AccordionItem>
+                                    <h2>
+                                        <AccordionButton
+                                            bg={"orange.200"}
+                                            color="white"
+                                            borderRadius="20px"
+                                            _expanded={{ bg: "orange.200", color: "white" }}
+                                            _hover={{ bg: "orange.300", color: "white", border: "orange.800" }}
+                                        >
+                                            <Box textAlign="left">Selected Faculty</Box>
+                                            <AccordionIcon />
+                                        </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel pb={4}>Use select here</AccordionPanel>
+                                </AccordionItem>
+                            </Accordion>
+                        </Box>
                     </Box>
-                    {/* Submit button */}
-                    <Center>
-                        <Button type="submit" form="new-note" onClick={() => handleSubmit()}>
-                            Done
-                        </Button>
-                    </Center>
                 </SimpleGrid>
+                {/* Submit button */}
+                <Center>
+                    <Button type="submit" form="new-note" onClick={() => handleSubmit()} m={"80px"}>
+                        Done
+                    </Button>
+                </Center>
             </Stack>
         </AppBody>
     )
