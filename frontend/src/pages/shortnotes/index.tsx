@@ -66,7 +66,12 @@ const index = () => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            <Heading size={"lg"}> My library</Heading>
+                            <HStack gap={4}>
+                                <Heading size={"lg"}> My library</Heading>
+                                <Link to={"./library/newLibrary"}>
+                                    <Button colorScheme="orange">New library</Button>
+                                </Link>
+                            </HStack>
                         </DrawerHeader>
                         <DrawerBody>
                             <Stack gap={4}>
@@ -81,11 +86,7 @@ const index = () => {
                             </Stack>
                         </DrawerBody>
 
-                        <DrawerFooter>
-                            <Link to={"./library/newLibrary"}>
-                                <Button colorScheme="orange">New library</Button>
-                            </Link>
-                        </DrawerFooter>
+                        <DrawerFooter></DrawerFooter>
                     </DrawerContent>
                 </Drawer>
                 {/*
@@ -122,7 +123,7 @@ const index = () => {
                                         <Box w={"60%"}>
                                             <Select variant="filled" placeholder="Course" size={"sm"} rounded={4}>
                                                 <option value="option1">CSC218</option>
-                                                <option value="option2">MTH110</option>
+                                                <option value="option2">MTH1</option>
                                             </Select>
                                         </Box>
                                     </Flex>
