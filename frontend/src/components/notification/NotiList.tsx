@@ -1,17 +1,17 @@
-import { Stack, Text } from "@chakra-ui/react"
+import { Box, Stack, Text } from "@chakra-ui/react"
 import React from "react"
 import NotiObject from "./NotiObject"
 
 const NotiList = () => {
     return (
-        <div>
-            <Text>Today</Text>
+        <Box>
+            <Text fontSize={"sm"}>Today</Text>
             <Stack spacing={3}>
                 <NotiObject />
                 <NotiObject />
                 <NotiObject />
             </Stack>
-        </div>
+        </Box>
     )
 }
 

@@ -4,7 +4,9 @@ import React from "react"
 const Modulelist = () => {
     return (
         <Menu>
-            <MenuButton as={Button}>module: All</MenuButton>
+            <MenuButton size="sm" as={Button} bg={"transparent"}>
+                All
+            </MenuButton>
             <MenuList>
                 <Stack direction={"column"} padding={4} height="75%" overflow="auto">
                     <MenuItem>All</MenuItem>

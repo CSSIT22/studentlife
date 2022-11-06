@@ -3,15 +3,15 @@ import React from "react"
 
 const NotiObject = () => {
     return (
-        <Box shadow={"lg"} borderRadius="2xl" bg="white" padding={4}>
-            <Stack direction={"row"} spacing={8}>
+        <Box shadow={"lg"} borderRadius="2xl" bg="white" padding={2}>
+            <Stack direction={"row"} spacing={3}>
                 <Center>
-                    <Avatar bg="pink.200">
-                        <AvatarBadge boxSize="1.25em" bg="green.500" />
+                    <Avatar bg="blackAlpha.200" size={"sm"}>
+                        <AvatarBadge boxSize="1em" bg="green.500" />
                     </Avatar>
                 </Center>
                 <Stack>
-                    <Text>
+                    <Text fontSize={"sm"}>
                         <b>User123456</b> Create a post asdfkj asdf asdad
                     </Text>
                     <Text fontSize={"xs"} color="gray.400">
@@ -19,7 +19,7 @@ const NotiObject = () => {
                     </Text>
                 </Stack>
                 <Center>
-                    <Circle size="0.75em" bg="green" />
+                    <Circle size="0.6em" bg="blackAlpha.600" />
                 </Center>
             </Stack>
         </Box>
