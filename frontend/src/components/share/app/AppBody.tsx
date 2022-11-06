@@ -4,11 +4,13 @@ import NavBar from "../navbar/NavBar"
 
 export interface secondaryNavProps {
     name: string
-    Icon?: IconType
+    Icon?: IconType | string
     to?: string
+    isRight?: boolean
+    disableText?: boolean
     subNav?: {
         name: string
-        Icon?: IconType
+        Icon?: IconType | string
         to: string
     }[]
 }
