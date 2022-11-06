@@ -8,14 +8,18 @@ import DatingInterestTag from "../../components/dating/DatingInterestTag"
 import DatingInterestDynamicButton from "../../components/dating/DatingInterestDynamicButton"
 
 const TagOfInterest = () => {
+    // Used for DatingInterestModal & DatingInterestTag components to trigger the modal
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
+    // to be used with some functions & Some of them are used in this file.
     const [allInterests] = useState(INTERESTS)
     const [numOfInterest, setNumOfInterest] = useState(0)
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
 
     return (
         <DatingAppBody>
+            {/* Grid: Used for separating topic, button, and description into three areas */}
             <Grid
                 templateAreas={`"topic button" "desc desc"`}
                 gridTemplateRows={"50px 50px"}
@@ -24,25 +28,32 @@ const TagOfInterest = () => {
                 gap="2"
                 pt="5"
             >
+                {/* Interests topic */}
                 <GridItem pl="2" area={"topic"}>
                     <Heading>Interests</Heading>
                 </GridItem>
                 <GridItem pl="2" area={"desc"}>
+                    {/* Interest description */}
                     <Box display="flex">
                         <Text>Please select your interest: (</Text>
+                        {/* numOfInterest will change when you select/deselect the tags */}
                         {numOfInterest}
                         <Text>&nbsp;of 5 selected)</Text>
                     </Box>
                 </GridItem>
+                {/* DatingInterestDynamicButton component: Skip & Done button */}
                 <GridItem pl="2" area={"button"}>
                     <DatingInterestDynamicButton numOfInterest={numOfInterest} selectedInterests={selectedInterests} />
                 </GridItem>
             </Grid>
+            {/* DatingInterestSearch component: Search Bar */}
             <Box pb="10">
                 <DatingInterestSearch />
             </Box>
+            {/* CheckboxGroup : List of tags of interest */}
             <CheckboxGroup colorScheme="white">
                 {allInterests.map(({ interestId, interestName }) => (
+                    // DatingInterestTag component: Used for generating interactive tag
                     <DatingInterestTag
                         key={interestId}
                         interestId={interestId}
@@ -55,6 +66,7 @@ const TagOfInterest = () => {
                     />
                 ))}
             </CheckboxGroup>
+            {/* DatingInterestModal: Modal that will appear when you select more than 5 tags of interest */}
             <DatingInterestModal isOpen={isOpen} onClose={onClose} />
         </DatingAppBody>
     )
