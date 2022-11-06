@@ -1,18 +1,15 @@
-import { Box, Checkbox, useDisclosure } from "@chakra-ui/react"
+import { Box, Checkbox } from "@chakra-ui/react"
 import { FC } from "react"
-import DatingInterestModal from "./DatingInterestModal";
 
-const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; handleTag: (e: any) => void, checkId: (interestId: string) => boolean, onOpen: () => void}> = ({
-    bool,
-    interestId,
-    interestName,
-    handleTag,
-    checkId,
-    onOpen
-}) => {
-
+const DatingInterestTag: FC<{
+    bool: boolean
+    interestId: string
+    interestName: string
+    handleTag: (e: any) => void
+    checkId: (interestId: string) => boolean
+    onOpen: () => void
+}> = ({ bool, interestId, interestName, handleTag, checkId, onOpen }) => {
     return checkId(interestId) ? (
-    
         <Checkbox
             borderWidth="2px"
             p="1"
@@ -32,21 +29,23 @@ const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; h
         </Checkbox>
     ) : bool == true ? (
         <Box onClick={onOpen} display="inline">
-        <Checkbox
-            borderWidth="2px"
-            p="1"
-            pr="5"
-            pl="2"
-            borderColor="gray.300"
-            color="gray.500"
-            borderRadius="full"
-            id={interestId}
-            m="1"
-            name="interest"
-            value={interestId}
-            readOnly={true}
-        >{interestName}</Checkbox>
-        </Box>   
+            <Checkbox
+                borderWidth="2px"
+                p="1"
+                pr="5"
+                pl="2"
+                borderColor="gray.300"
+                color="gray.500"
+                borderRadius="full"
+                id={interestId}
+                m="1"
+                name="interest"
+                value={interestId}
+                readOnly={true}
+            >
+                {interestName}
+            </Checkbox>
+        </Box>
     ) : (
         <Checkbox
             borderWidth="2px"
@@ -63,8 +62,7 @@ const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; h
         >
             {interestName}
         </Checkbox>
-        
     )
 }
 
-export default DatingTag
+export default DatingInterestTag

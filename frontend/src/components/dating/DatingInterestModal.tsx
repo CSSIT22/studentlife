@@ -1,19 +1,7 @@
-import {
-    Button,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Text,
-    useDisclosure,
-} from "@chakra-ui/react"
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
 import { FC } from "react"
 
-const DatingInterestModal: FC<{isOpen: boolean, onOpen: () => void, onClose: () => void}> = ({isOpen, onOpen, onClose}) => {
-
+const DatingInterestModal: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void }> = ({ isOpen, onOpen, onClose }) => {
     return (
         <>
             <Modal isCentered isOpen={isOpen} onClose={onClose}>
