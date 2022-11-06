@@ -15,28 +15,30 @@ const NotiTable = () => {
             height={{ base: "80vh" }}
             padding={4}
         >
-            <Flex padding={3}>
+            <Flex>
                 <Box>
                     <Modulelist />
                 </Box>
                 <Spacer />
                 <Box>
                     <Stack direction={"row"}>
+<<<<<<< HEAD
                         <Button bg={"transparent"}> Mark all as read</Button>
                         <Button bg={"transparent"}>
                             <FiSettings size={"1.5em"} />
                         </Button>
+=======
+                        <Button> Mark all as read</Button>
+                        <Center>
+                            <FiSettings />
+                        </Center>
+>>>>>>> parent of 662f303 (ADD Scroll + viewAll button)
                     </Stack>
                 </Box>
             </Flex>
-            <Stack padding={4} height="85%" overflow="auto">
-                <NotiList />
-                <NotiList />
+            <Stack padding={4}>
                 <NotiList />
             </Stack>
-            <Center padding={3}>
-                <Button>View all</Button>
-            </Center>
         </Box>
     )
 }
