@@ -12,16 +12,37 @@ const ModalForEvent: FC<{
     selectPost: number
 }> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost }) => {
     const toggle = () => {
-        setAllPost(
-            allPost.map((el) => {
-                if (el.id == selectPost) {
-                    el.status = "delete"
-                }
-                return el
-            })
-        )
+        if (status == "approve" ) {
+            setAllPost(
+                allPost.map((el) => {
+                    if (el.id == selectPost) {
+                        el.status = "delete"
+                    }
+                    return el
+                })
+            )
+        }else if(status == "disapprove"){
+            setAllPost(
+                allPost.map((el) => {
+                    if (el.id == selectPost) {
+                        el.status = "deleted"
+                    }
+                    return el
+                })
+            )
+        }
+        else if(status == 'delete'){
+            setAllPost(
+                allPost.map((el) => {
+                    if (el.id == selectPost) {
+                        el.status = 'approve'
+                    }
+                    return el
+                })
+            )
+        }
     }
-    // console.log(allPost);
+    console.log(allPost);
     // console.log(selectPost);
 
     const checkstatus = (status: string) => {
@@ -33,7 +54,7 @@ const ModalForEvent: FC<{
                     Delete
                 </Button>
             )
-        } else if (status == "recover") {
+        } else if (status == "delete") {
             return (
                 <Button colorScheme="blue" mr={3} onClick={toggle}>
                     Recover
