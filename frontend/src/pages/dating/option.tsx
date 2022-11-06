@@ -33,7 +33,7 @@ import {
     WrapItem,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
-import { DatingRadioBox } from "../../components/dating/RadioBox"
+import { DatingRadioBox } from "../../components/dating/DatingRadioBox"
 import { useRadioGroup } from "@chakra-ui/react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import { useCheckboxGroup } from "@chakra-ui/react"
