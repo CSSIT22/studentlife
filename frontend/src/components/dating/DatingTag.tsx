@@ -1,10 +1,8 @@
-import { Box, Checkbox } from "@chakra-ui/react"
+import { Box, Checkbox, useDisclosure } from "@chakra-ui/react"
 import { FC } from "react"
+import DatingInterestModal from "./DatingInterestModal";
 
-declare global {
-    var setBoolean: boolean
-}
-const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; handleTag: (e: any) => void, checkId: (interestId: string) => boolean, onOpen: () => void }> = ({
+const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; handleTag: (e: any) => void, checkId: (interestId: string) => boolean, onOpen: () => void}> = ({
     bool,
     interestId,
     interestName,
@@ -14,6 +12,7 @@ const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; h
 }) => {
 
     return checkId(interestId) ? (
+    
         <Checkbox
             borderWidth="2px"
             p="1"
@@ -45,7 +44,6 @@ const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; h
             m="1"
             name="interest"
             value={interestId}
-            defaultChecked={globalThis.setBoolean}
             readOnly={true}
         >{interestName}</Checkbox>
         </Box>   
@@ -65,6 +63,7 @@ const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; h
         >
             {interestName}
         </Checkbox>
+        
     )
 }
 

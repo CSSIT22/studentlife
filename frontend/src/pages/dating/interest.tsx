@@ -3,8 +3,10 @@ import { Heading, Text, Box, Button, Grid, GridItem, Input, CheckboxGroup, useDi
 import React, { useState } from "react"
 import DatingTag from "../../components/dating/DatingTag"
 import DatingAppBody from "../../components/dating/DatingAppBody"
+import DatingInterestModal from "../../components/dating/DatingInterestModal"
 
 const TagOfInterest = () => {
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     
     const [interests] = useState(INTERESTS)
@@ -31,14 +33,6 @@ const TagOfInterest = () => {
                 setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
             }
         }
-    }
-
-    function handleExceedTag(interest: React.ChangeEvent<HTMLInputElement>) {
-        alert(interest.target.checked)
-        if (interest.target.checked) {
-            onOpen()
-        }
-        alert(interest.target.checked)
     }
 
     function handleSubmit() {
@@ -109,32 +103,13 @@ const TagOfInterest = () => {
             <CheckboxGroup colorScheme="white">
                 {checkNum()
                     ? interests.map(({ interestId, interestName }) => (
-                          <DatingTag key={interestId} bool={true} interestId={interestId} interestName={interestName} handleTag={handleTag} checkId={checkId} onOpen={onOpen}/>
+                          <DatingTag key={interestId} bool={true} interestId={interestId} interestName={interestName} handleTag={handleTag} checkId={checkId} onOpen={onOpen} />
                       ))
                     : interests.map(({ interestId, interestName }) => (
                           <DatingTag key={interestId} bool={false} interestId={interestId} interestName={interestName} handleTag={handleTag} checkId={checkId} onOpen={onOpen}/>
                       ))}
             </CheckboxGroup>
-            <>
-        <Button onClick={onOpen}>Open Modal</Button>
-  
-        <Modal isCentered isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay backdropFilter='blur(10px) hue-rotate(90deg)'/>
-          <ModalContent>
-            <ModalHeader>Max Selection Reached</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-                <Text>You can only select up to 5 interests!</Text>
-                <Text>To add more, deselect some of your chosen interests</Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button colorScheme="orange" mr={3} onClick={onClose} borderRadius="full">
-                I understand!
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
+            <DatingInterestModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </DatingAppBody>
     )
 }
