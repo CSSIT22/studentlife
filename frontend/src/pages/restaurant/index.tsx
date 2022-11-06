@@ -26,9 +26,7 @@ import {
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
-import ExtarSecondaryNav from "../../components/share/navbar/ExtarSecondaryNav"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
-import { BiBorderRadius } from "react-icons/bi"
 
 
 function likeOrNope() {

@@ -1,34 +1,11 @@
 import {
-    Avatar,
     Box,
     Center,
     CloseButton,
-    Flex,
-    Grid,
-    GridItem,
     Image,
     Link,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
-    Popover,
-    PopoverArrow,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverFooter,
-    PopoverHeader,
-    PopoverTrigger,
+
     Spacer,
-    StackDivider,
-    Text,
-    useDisclosure,
-    VStack,
-    Wrap,
-    WrapItem,
 } from "@chakra-ui/react"
 import React from "react"
 import ReviewContent from "../../components/restaurant/ReviewContent"
@@ -67,7 +44,7 @@ function review() {
             <Center mt={4}>
                 <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
                     <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
-                        <CloseButton my={-4} ml={-1} /> {property.title}
+                    <Link href="/restaurant"><CloseButton my={-4} ml={-1} /> </Link> {property.title}
                     </Box>
                     <Center>
                         <Image h={"sm"} w={"sm"} borderWidth="1px" borderRadius="lg" src={property.imageUrl} alt={property.imageAlt} />

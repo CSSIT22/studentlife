@@ -7,7 +7,7 @@ const Historycontent: FC <{
     status: boolean
 }> = ({resName, date, status}) => {
   return (
-    <Box width={"100%"} mt={"25px"}>
+    <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" shadow={"lg"}>
     <Flex  mb={"15px"}>
         <Box  width={"30%"}>
             <Image boxSize='100px' src='https://bit.ly/dan-abramov' alt='Dan Abramov' borderRadius={"lg"}/>
@@ -21,8 +21,7 @@ const Historycontent: FC <{
           </Flex>
         </Box>
     </Flex>
-
-    <hr/>
+    
 </Box>
   );
 }
