@@ -50,7 +50,7 @@ const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; h
             name="interest"
             onChange={handleTag}
             value={interestId}
-            isDisabled={bool}
+            readOnly={bool}
         >
             {interestName}
         </Checkbox>
@@ -67,7 +67,7 @@ const DatingTag: FC<{ bool: boolean; interestId: string; interestName: string; h
             name="interest"
             onChange={handleTag}
             value={interestId}
-            isDisabled={bool}
+            readOnly={bool}
         >
             {interestName}
         </Checkbox>
