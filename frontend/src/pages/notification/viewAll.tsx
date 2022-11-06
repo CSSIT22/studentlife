@@ -21,10 +21,10 @@ const viewAll = () => {
                 <MarkRead />
             </Flex>
             <Box borderRadius="lg" shadow={"2xl"} backgroundColor="white" padding={4} height="75vh">
-                <Stack spacing={3}>
-                    <NotiObjectViewAll />
-                    <NotiObjectViewAll />
-                    <NotiObjectViewAll />
+                <Stack padding={4} height="100%" overflow="auto">
+                    <NotiListViewAll />
+                    <NotiListViewAll />
+                    <NotiListViewAll />
                 </Stack>
             </Box>
             <Box padding={4}>

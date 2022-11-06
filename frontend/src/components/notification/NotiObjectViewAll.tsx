@@ -1,4 +1,4 @@
-import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Stack, Text } from "@chakra-ui/react"
+import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Stack, Text, Flex, Spacer } from "@chakra-ui/react"
 import React from "react"
 
 const NotiObjectViewAll = () => {
@@ -13,15 +13,19 @@ const NotiObjectViewAll = () => {
                         <AvatarBadge boxSize="1.25em" bg="green.500" />
                     </Avatar>
                 </Center>
-                <Stack>
+                <Stack direction={"row"} spacing={150}>
                     <Text>
-                        <b>User123456</b> Create a post asdfkj asdf asdad
-                    </Text>
-                    <Text fontSize={"xs"} color="gray.400"  >
+                        <b>User123456</b> Create a post asdfkj asdf asdad</Text>
+                    <Spacer />
+                    <Center fontSize={"xs"} color="gray.400">
+                10 hours ago
+            </Center>
+                    {/* <Box fontSize={"xs"} color="gray.400"  >
                         10 hours ago
-                    </Text>
+                    </Box> */}
                 </Stack>
             </Stack>
+            
         </Box>
     )
 }
