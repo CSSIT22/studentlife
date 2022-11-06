@@ -1,15 +1,46 @@
 import { Box, Checkbox } from "@chakra-ui/react"
-import { FC } from "react"
+import { Dispatch, FC, SetStateAction } from "react"
 
 const DatingInterestTag: FC<{
-    bool: boolean
     interestId: string
     interestName: string
-    handleTag: (e: any) => void
-    checkId: (interestId: string) => boolean
     onOpen: () => void
-}> = ({ bool, interestId, interestName, handleTag, checkId, onOpen }) => {
-    return checkId(interestId) ? (
+    selectedInterests: String | String[]
+    numOfInterest: number
+    setNumOfInterest: Dispatch<SetStateAction<number>>
+    setSelectedInterest: Dispatch<any>
+}> = ({ interestId, interestName, onOpen, selectedInterests, numOfInterest, setNumOfInterest, setSelectedInterest }) => {
+    function idExists(interestId: string) {
+        for (var i = 0; i < selectedInterests.length; i++) {
+            if (selectedInterests[i] == interestId) {
+                return true
+            }
+        }
+        return false
+    }
+
+    function checkNum() {
+        if (numOfInterest === 5) {
+            return true
+        }
+        return false
+    }
+
+    function handleTag(interest: React.ChangeEvent<HTMLInputElement>) {
+        if (interest.target.checked) {
+            setNumOfInterest(numOfInterest + 1)
+            if (numOfInterest < 5) {
+                setSelectedInterest(selectedInterests.concat(interest.target.value))
+            }
+        } else {
+            setNumOfInterest(numOfInterest - 1)
+            if (numOfInterest <= 5) {
+                setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
+            }
+        }
+    }
+
+    return idExists(interestId) ? (
         <Checkbox
             borderWidth="2px"
             p="1"
@@ -27,7 +58,7 @@ const DatingInterestTag: FC<{
         >
             {interestName}
         </Checkbox>
-    ) : bool == true ? (
+    ) : checkNum() == true ? (
         <Box onClick={onOpen} display="inline">
             <Checkbox
                 borderWidth="2px"
