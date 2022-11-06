@@ -22,17 +22,10 @@ const NotiTable = () => {
                 <Spacer />
                 <Box>
                     <Stack direction={"row"}>
-<<<<<<< HEAD
                         <Button bg={"transparent"}> Mark all as read</Button>
                         <Button bg={"transparent"}>
                             <FiSettings size={"1.5em"} />
                         </Button>
-=======
-                        <Button> Mark all as read</Button>
-                        <Center>
-                            <FiSettings />
-                        </Center>
->>>>>>> parent of 662f303 (ADD Scroll + viewAll button)
                     </Stack>
                 </Box>
             </Flex>
