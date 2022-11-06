@@ -33,11 +33,11 @@ import {
     WrapItem,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
-import { DatingRadioBox } from "../../components/dating/DatingRadioBox"
+import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioBox"
 import { useRadioGroup } from "@chakra-ui/react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import { useCheckboxGroup } from "@chakra-ui/react"
-import { DatingMultiChose } from "../../components/dating/DatingMultiChose"
+import { DatingOptionMultiChose } from "../../components/dating/DatingOptionMultiChose"
 
 declare global {
     var age: number[], gender: string, faculty: string[], useAge: boolean
@@ -200,9 +200,9 @@ const DatingOption = () => {
                                 {options.map((value) => {
                                     const radio = getRadioProps({ value })
                                     return (
-                                        <DatingRadioBox key={value} {...radio} onClick={handleGender}>
+                                        <DatingOptionRadioBox key={value} {...radio} onClick={handleGender}>
                                             {value}
-                                        </DatingRadioBox>
+                                        </DatingOptionRadioBox>
                                     )
                                 })}
                             </Stack>
@@ -234,7 +234,7 @@ const DatingOption = () => {
                                         <Stack>
                                             <Text>You have select from: {value.sort().join(" and ")}</Text>
 
-                                            <DatingMultiChose
+                                            <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[0] })}
                                                 onClick={() => {
                                                     setSelectedFac(value)
@@ -242,7 +242,7 @@ const DatingOption = () => {
                                                     console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <DatingMultiChose
+                                            <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[1] })}
                                                 onClick={() => {
                                                     setSelectedFac(value)
@@ -250,7 +250,7 @@ const DatingOption = () => {
                                                     console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <DatingMultiChose
+                                            <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[2] })}
                                                 onClick={() => {
                                                     setSelectedFac(value)
@@ -258,7 +258,7 @@ const DatingOption = () => {
                                                     console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <DatingMultiChose
+                                            <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[3] })}
                                                 onClick={() => {
                                                     setSelectedFac(value)
@@ -266,7 +266,7 @@ const DatingOption = () => {
                                                     console.log("Now I am :" + Object.values(value))
                                                 }}
                                             />
-                                            <DatingMultiChose
+                                            <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[4] })}
                                                 onClick={() => {
                                                     setSelectedFac(value)

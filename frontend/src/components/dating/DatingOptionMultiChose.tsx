@@ -1,7 +1,7 @@
 /* A custom multiple choose button component. */
 import { chakra, useCheckbox, Flex, Box, Text } from "@chakra-ui/react"
 
-export function DatingMultiChose(props: any) {
+export function DatingOptionMultiChose(props: any) {
     const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
     // For multiple chose of faculties
     return (
