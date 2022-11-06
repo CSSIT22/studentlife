@@ -1,4 +1,4 @@
-import AppBody from "../../components/share/app/AppBody"
+import AppBody from "../share/app/AppBody"
 import YouAreMatchWithWhiteImg from "./pic/youarematchwithwhite.png"
 import YouAreMatchWithBlackImg from "./pic/youarematchwithblack.png"
 import HeartCheckingWhiteImg from "./pic/heartcheckingwhite.png"
@@ -16,12 +16,14 @@ import DatingTutorialBlackImg from "./pic/datingtutorialblack.png"
 import { useBreakpointValue } from "@chakra-ui/react"
 
 const DatingAppBody = (props: any) => {
+    // Used for switching between white icon in desktop and black icon in mobile
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
 
     return (
+        // We use AppBody from shared component.
         <AppBody
             secondarynav={[
                 {
@@ -67,6 +69,7 @@ const DatingAppBody = (props: any) => {
                 },
             ]}
         >
+            {/* Used so that we can show elements inside DatingAppBody */}
             {props.children}
         </AppBody>
     )

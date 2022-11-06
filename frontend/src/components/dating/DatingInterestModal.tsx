@@ -3,6 +3,7 @@ import { FC } from "react"
 
 const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
     return (
+        // Modal to be used for Interest Page when you select more than 5 tags of interest
         <>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size="md">
                 <ModalOverlay backdropFilter="blur(10px) hue-rotate(90deg)" />
