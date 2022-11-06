@@ -1,9 +1,9 @@
 import React from "react"
-import { Stack, Text, RadioGroup, Radio } from "@chakra-ui/react"
+import { Stack, Text, RadioGroup, Radio, Box } from "@chakra-ui/react"
 //import { SlClose } from "react-icons/sl";
 const NotiSetting = () => {
     return (
-        <div>
+        <Box>
             <Stack>
                 <Stack direction={"row"} padding={4} paddingBottom={0} paddingTop={0}>
                     <Text bgColor="#060005" bgClip="text" fontSize="xl" fontWeight="bold" padding="auto">
@@ -11,7 +11,7 @@ const NotiSetting = () => {
                     </Text>
                 </Stack>
             </Stack>
-            <Stack padding={4}>
+            <Stack padding={4} paddingLeft={"2em"}>
                 <Stack padding={4} paddingTop={0} paddingBottom={6}>
                     <Text fontWeight="semibold">Application</Text>
                     <RadioExample />
@@ -21,7 +21,7 @@ const NotiSetting = () => {
                     <RadioExample />
                 </Stack>
             </Stack>
-        </div>
+        </Box>
     )
 }
 
