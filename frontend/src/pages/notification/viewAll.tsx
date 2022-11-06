@@ -3,6 +3,8 @@ import React from "react"
 import MarkRead from "../../components/notification/MarkRead"
 import Modulelist from "../../components/notification/Modulelist"
 import NotiList from "../../components/notification/NotiList"
+import NotiListViewAll from "../../components/notification/NotiListViewAll"
+import NotiObjectViewAll from "../../components/notification/NotiObjectViewAll"
 import AppBody from "../../components/share/app/AppBody"
 
 const viewAll = () => {
@@ -20,8 +22,9 @@ const viewAll = () => {
             </Flex>
             <Box borderRadius="lg" shadow={"2xl"} backgroundColor="white" padding={4} height="75vh">
                 <Stack spacing={3}>
-                    <NotiList />
-                    <NotiList />
+                    <NotiObjectViewAll />
+                    <NotiObjectViewAll />
+                    <NotiObjectViewAll />
                 </Stack>
             </Box>
             <Box padding={4}>
