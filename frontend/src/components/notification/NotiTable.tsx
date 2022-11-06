@@ -22,10 +22,10 @@ const NotiTable = () => {
                 <Spacer />
                 <Box>
                     <Stack direction={"row"}>
-                        <Button> Mark all as read</Button>
-                        <Center>
+                        <Button bg={"transparent"}> Mark all as read</Button>
+                        <Button bg={"transparent"}>
                             <FiSettings size={"1.5em"} />
-                        </Center>
+                        </Button>
                     </Stack>
                 </Box>
             </Flex>
