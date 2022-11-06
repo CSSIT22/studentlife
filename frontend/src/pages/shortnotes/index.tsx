@@ -192,8 +192,11 @@ const index = () => {
             </Flex>
             <VStack gap={2} pt={4}>
                 <ShortnoteLists topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></ShortnoteLists>
-                <ShortnoteLists topic={"Datalink layer"} course={"CSC110"} date={"22/07/19"} lock={"🔒"}></ShortnoteLists>
-                <ShortnoteLists topic={"Basic java programigng"} course={"course"} date={"05/12/22"} lock={"🔒"}></ShortnoteLists>
+                <ShortnoteLists topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={""}></ShortnoteLists>
+                <ShortnoteLists topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></ShortnoteLists>
+                <ShortnoteLists topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></ShortnoteLists>
+                <ShortnoteLists topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={"🔒"}></ShortnoteLists>
+                <ShortnoteLists topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></ShortnoteLists>
             </VStack>
         </AppBody>
     )
