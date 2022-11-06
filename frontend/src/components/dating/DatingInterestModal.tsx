@@ -4,7 +4,7 @@ import { FC } from "react"
 const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
     return (
         <>
-            <Modal isCentered isOpen={isOpen} onClose={onClose}>
+            <Modal isCentered isOpen={isOpen} onClose={onClose} size="md">
                 <ModalOverlay backdropFilter="blur(10px) hue-rotate(90deg)" />
                 <ModalContent>
                     <ModalHeader>Max Selection Reached</ModalHeader>
