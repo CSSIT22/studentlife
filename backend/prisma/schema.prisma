@@ -19,8 +19,8 @@ model User_Profile {
   email                String                           @unique
   image                Bytes?
   details              Detail?
-  student_major        Int
-  studentMajor         Major                            @relation(fields: [student_major], references: [majorId])
+  majorId              String
+  studentMajor         Major                            @relation(fields: [majorId], references: [majorId])
   role                 Role?
   userFollowers        Follow[]                         @relation("following")
   userFollowing        Follow[]                         @relation("follower")
@@ -118,9 +118,9 @@ model Detail {
 }
 
 model Major {
-  majorId         Int                          @id @default(autoincrement())
+  majorId         String                       @id @default(cuid())
   majorName       String
-  facultyId       Int
+  facultyId       String
   student         User_Profile[]
   majorFaculty    Faculty                      @relation(fields: [facultyId], references: [facultyId])
   accessTo        Major_Access[]
@@ -128,7 +128,7 @@ model Major {
 }
 
 model Faculty {
-  facultyId       Int                            @id @default(autoincrement())
+  facultyId       String                         @id @default(cuid())
   facultyName     String
   major           Major[]
   shortlinkAccess ShortLink_Permission_Faculty[]
@@ -952,7 +952,7 @@ model Community_Access {
 model Major_Access {
   maId          String      @id @default(cuid())
   accessId      String
-  majorId       Int
+  majorId       String
   mFileAccessId File_Access @relation(fields: [accessId], references: [accessId])
   haveAccess    Major       @relation(fields: [majorId], references: [majorId])
 }
@@ -1687,7 +1687,7 @@ model ShortLink_Permission_User {
 model ShortLink_Permission_Major {
   permId  Int       @id @default(autoincrement())
   slId    String
-  majorId Int
+  majorId String
   sl      ShortLink @relation(fields: [slId], references: [slId])
   major   Major     @relation(fields: [majorId], references: [majorId])
 }
@@ -1695,7 +1695,7 @@ model ShortLink_Permission_Major {
 model ShortLink_Permission_Faculty {
   permId    Int       @id @default(autoincrement())
   slId      String
-  facultyId Int
+  facultyId String
   sl        ShortLink @relation(fields: [slId], references: [slId])
   faculty   Faculty   @relation(fields: [facultyId], references: [facultyId])
 }
