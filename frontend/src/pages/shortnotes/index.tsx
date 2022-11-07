@@ -91,7 +91,7 @@ const index = () => {
                                                     <Heading size={"lg"}>Create new library</Heading>
 
                                                     <Box w={"100%"}>
-                                                        <Text>Library's name</Text>
+                                                        <Text>Name</Text>
                                                         <Input variant="outline" placeholder="" />
                                                     </Box>
                                                     <Button colorScheme="orange" w={"100%"}>
@@ -178,25 +178,34 @@ const index = () => {
                                 <GridItem colSpan={1}>
                                     <RadioGroup defaultValue="TRUE" mt={4}>
                                         <Stack spacing={5} direction="row">
-                                            <Radio
-                                                colorScheme="orange"
-                                                value="TRUE"
+                                            <Box
                                                 onClick={() => {
                                                     setRadio("Public")
+                                                    console.log(radio)
                                                 }}
                                             >
-                                                Public
-                                            </Radio>
+                                                <Radio
+                                                    colorScheme="orange"
+                                                    value="TRUE"
+                                                    onClick={() => {
+                                                        setRadio("Public")
+                                                        console.log(radio)
+                                                    }}
+                                                >
+                                                    Public
+                                                </Radio>
+                                            </Box>
                                             <Spacer />
-                                            <Radio
-                                                colorScheme="orange"
-                                                value="FALSE"
+                                            <Box
                                                 onClick={() => {
                                                     setRadio("Private")
+                                                    console.log(radio)
                                                 }}
                                             >
-                                                Private
-                                            </Radio>
+                                                <Radio colorScheme="orange" value="FALSE">
+                                                    Private
+                                                </Radio>
+                                            </Box>
                                         </Stack>
                                     </RadioGroup>
                                 </GridItem>
