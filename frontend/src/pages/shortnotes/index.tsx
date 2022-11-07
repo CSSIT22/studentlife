@@ -40,7 +40,7 @@ import {
     RadioGroup,
     Radio,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
 import ResentLists from "../../components/shortnotes/index/rsnList"
@@ -49,9 +49,12 @@ import LiList from "../../components/shortnotes/library/liList"
 
 const index = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
     const { isOpen: mIsOpen, onOpen: mOnOpen, onClose: mOnClose } = useDisclosure()
+
     const btnRef = React.useRef()
 
+    const [radio, setRadio] = useState("Public")
     return (
         <AppBody>
             {/*Recent view list section*/}
@@ -68,9 +71,39 @@ const index = () => {
                         <DrawerHeader>
                             <HStack gap={4}>
                                 <Heading size={"lg"}> My library</Heading>
-                                <Link to={"./library/newLibrary"}>
+                                {/*<Link to={"./library/newLibrary"}>
                                     <Button colorScheme="orange">New library</Button>
-                                </Link>
+                                </Link>*/}
+                                <Button colorScheme={"orange"} onClick={nlOnOpen}>
+                                    New library
+                                </Button>
+                                <Drawer isOpen={nlIsOpen} placement="right" onClose={nlOnClose} size={"sm"}>
+                                    <DrawerContent>
+                                        <DrawerCloseButton />
+                                        <DrawerHeader>
+                                            <HStack gap={4}>
+                                                <Heading size={"lg"}> New library</Heading>
+                                            </HStack>
+                                        </DrawerHeader>
+                                        <DrawerBody>
+                                            <Box bg={"white"} rounded={8} p={10} w={"100%"}>
+                                                <VStack spacing={4}>
+                                                    <Heading size={"lg"}>Create new library</Heading>
+
+                                                    <Box w={"100%"}>
+                                                        <Text>Library's name</Text>
+                                                        <Input variant="outline" placeholder="" />
+                                                    </Box>
+                                                    <Button colorScheme="orange" w={"100%"}>
+                                                        Create
+                                                    </Button>
+                                                </VStack>
+                                            </Box>
+                                        </DrawerBody>
+
+                                        <DrawerFooter></DrawerFooter>
+                                    </DrawerContent>
+                                </Drawer>
                             </HStack>
                         </DrawerHeader>
                         <DrawerBody>
@@ -145,17 +178,32 @@ const index = () => {
                                 <GridItem colSpan={1}>
                                     <RadioGroup defaultValue="TRUE" mt={4}>
                                         <Stack spacing={5} direction="row">
-                                            <Radio colorScheme="orange" value="TRUE">
+                                            <Radio
+                                                colorScheme="orange"
+                                                value="TRUE"
+                                                onClick={() => {
+                                                    setRadio("Public")
+                                                }}
+                                            >
                                                 Public
                                             </Radio>
                                             <Spacer />
-                                            <Radio colorScheme="orange" value="FALSE">
+                                            <Radio
+                                                colorScheme="orange"
+                                                value="FALSE"
+                                                onClick={() => {
+                                                    setRadio("Private")
+                                                }}
+                                            >
                                                 Private
                                             </Radio>
                                         </Stack>
                                     </RadioGroup>
                                 </GridItem>
+                                <Spacer />
                             </Grid>
+
+                            <Box>{radio == "Private" ? "Add people" : null}</Box>
                         </ModalBody>
                         <ModalFooter>
                             <Button colorScheme="orange" w={"100%"}>
