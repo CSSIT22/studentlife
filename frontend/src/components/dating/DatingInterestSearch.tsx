@@ -6,7 +6,7 @@ const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>
     const didMount = useDidMount()
 
     useEffect(() => {
-        if (didMount) alert(searchQuery)
+        if (didMount) alert("Query: \"" + searchQuery + "\"")
     }, [searchQuery])
 
     function useDidMount() {
@@ -27,7 +27,7 @@ const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>
         setTimer(
             setTimeout(() => {
                 setSearchQuery(event.target.value)
-            }, 1000)
+            }, 500)
         )
     }
 
