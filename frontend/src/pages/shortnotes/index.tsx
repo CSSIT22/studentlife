@@ -55,6 +55,11 @@ const index = () => {
     const btnRef = React.useRef()
 
     const [radio, setRadio] = useState("Public")
+
+    const closeSN = () => {
+        mOnClose()
+        setRadio("Public")
+    }
     return (
         <AppBody>
             {/*Recent view list section*/}
@@ -143,7 +148,7 @@ const index = () => {
                 <Button colorScheme={"orange"} onClick={mOnOpen}>
                     New shortnote
                 </Button>
-                <Modal size={"xl"} onClose={mOnClose} isOpen={mIsOpen} isCentered>
+                <Modal size={"xl"} onClose={closeSN} isOpen={mIsOpen} isCentered>
                     <ModalOverlay />
                     <ModalContent>
                         <ModalHeader>Create new shortnote</ModalHeader>
@@ -181,17 +186,9 @@ const index = () => {
                                             <Box
                                                 onClick={() => {
                                                     setRadio("Public")
-                                                    console.log(radio)
                                                 }}
                                             >
-                                                <Radio
-                                                    colorScheme="orange"
-                                                    value="TRUE"
-                                                    onClick={() => {
-                                                        setRadio("Public")
-                                                        console.log(radio)
-                                                    }}
-                                                >
+                                                <Radio colorScheme="orange" value="TRUE">
                                                     Public
                                                 </Radio>
                                             </Box>
@@ -199,7 +196,6 @@ const index = () => {
                                             <Box
                                                 onClick={() => {
                                                     setRadio("Private")
-                                                    console.log(radio)
                                                 }}
                                             >
                                                 <Radio colorScheme="orange" value="FALSE">
@@ -212,7 +208,17 @@ const index = () => {
                                 <Spacer />
                             </Grid>
 
-                            <Box>{radio == "Private" ? "Add people" : null}</Box>
+                            <Box>
+                                {radio == "Private" ? (
+                                    <Box>
+                                        Add people
+                                        <br />
+                                        <Button colorScheme={"orange"} rounded={"full"} boxShadow="xl">
+                                            +
+                                        </Button>
+                                    </Box>
+                                ) : null}
+                            </Box>
                         </ModalBody>
                         <ModalFooter>
                             <Button colorScheme="orange" w={"100%"}>
