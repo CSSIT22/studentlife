@@ -14,6 +14,7 @@ const TagOfInterest = () => {
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
     const [allInterests] = useState(INTERESTS)
+    const [searchQuery, setSearchQuery] = useState("")
     const [numOfInterest, setNumOfInterest] = useState(0)
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
 
@@ -48,7 +49,7 @@ const TagOfInterest = () => {
             </Grid>
             {/* DatingInterestSearch component: Search Bar */}
             <Box pb="10">
-                <DatingInterestSearch />
+                <DatingInterestSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
             </Box>
             {/* CheckboxGroup : List of tags of interest */}
             <CheckboxGroup colorScheme="white">
