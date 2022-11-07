@@ -11,6 +11,7 @@ import {
     useDisclosure,
     Stack,
     Box,
+    Flex,
 } from "@chakra-ui/react"
 import React from "react"
 import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
@@ -64,8 +65,9 @@ const recyclebin = () => {
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
         >
-            <HeaderPage head="Recycle bin" />
-            {/* เดี๋ยวใส่ map ทีหลัง */}
+            <Flex alignItems={"center"}>
+                <HeaderPage head="Recycle bin" />
+            </Flex>
             {allPost
                 .filter((fl) => fl.status == "delete")
                 .map((el) => {

@@ -4,7 +4,7 @@ import AppBody from "../../components/share/app/AppBody"
 import PostOnHistory from "../../components/annoucement/PostOnHistory"
 import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
-import { Box } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 
 const history = () => {
@@ -80,7 +80,9 @@ const history = () => {
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
         >
-            <HeaderPage head="History" />
+            <Flex alignItems={"center"}>
+                <HeaderPage head="History" />
+            </Flex>
             {allPost
                 .filter((fl) => fl.status == "waiting" || fl.status == "approve" || fl.status == "disapprove")
                 .map((el) => {

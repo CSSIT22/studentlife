@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import PostOnAnnouncementPage from "../../components/annoucement/PostOnAnnouncementPage"
 import AppBody from "../../components/share/app/AppBody"
+import { Box, Flex, SimpleGrid, Spacer } from "@chakra-ui/react"
 
 const index = () => {
     const post = [
@@ -34,7 +35,10 @@ const index = () => {
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
         >
-            <HeaderPage head="Announcement" Icon={IoIosAddCircle} />
+            <Flex alignItems={"center"}>
+                <HeaderPage head="Announcement" />
+                <IoIosAddCircle fontSize={"2rem"}/>
+            </Flex>
             {allPost
                 .filter((p) => {
                     return p.status == true

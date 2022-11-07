@@ -31,7 +31,9 @@ const index = () => {
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
         >
-            <HeaderPage head="Approval" />
+            <Flex alignItems={"center"}>
+                <HeaderPage head="Approval" />
+            </Flex>
             {allPost
                 .filter((fl) => fl.status == "waiting")
                 .map((el) => {
