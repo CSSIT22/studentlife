@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import SetDropBox from "../../components/airdrop/setDropBox"
@@ -24,6 +24,11 @@ import {
     Select,
     Checkbox,
     Switch,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
 } from "@chakra-ui/react"
 import { Dropzone, FileItem } from "@dropzone-ui/react"
 const linkMenu = [
@@ -59,12 +64,19 @@ const dummyData2 = [
 ]
 const openModal = () => {}
 export default function Index() {
+    //ref
+    const ref1 = useRef(null)
+    const ref2 = useRef(null)
+
     // state for file upload
     const [files, setFiles] = useState([])
     //state for click drop
     const [clickDrop, setClickDrop] = useState(false)
     // drop duration check
-    const [dropDuration, setDropDuration] = useState(0)
+    const [dropDuration, setDropDuration] = useState({
+        temp: true,
+        perm: false,
+    })
     //state for modal
     const { isOpen, onOpen, onClose } = useDisclosure()
     // state for user select
@@ -75,6 +87,40 @@ export default function Index() {
         description: "",
     })
 
+    //fucntion
+    const updateFile = (file: any) => {
+        setFiles(file)
+        console.log(file)
+    }
+    const handleDuration = async (e: any) => {
+        if (e.target.id == "temp") {
+            if (e.target.checked == true) {
+                setDropDuration({
+                    temp: true,
+                    perm: false,
+                })
+            } else if (e.target.checked == false) {
+                setDropDuration({
+                    temp: false,
+                    perm: false,
+                })
+            }
+        } else if (e.target.id == "perm") {
+            if (e.target.checked) {
+                setDropDuration({
+                    temp: false,
+                    perm: true,
+                })
+            } else {
+                setDropDuration({
+                    temp: false,
+                    perm: false,
+                })
+            }
+        }
+    }
+
+    //useEffect
     useEffect(() => {
         if (clickDrop == false) {
             setSelectedType("Everyone")
@@ -86,11 +132,6 @@ export default function Index() {
             }
         }
     }, [isOpen])
-
-    const updateFile = (file: any) => {
-        setFiles(file)
-        console.log(file)
-    }
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="drop">
@@ -134,7 +175,7 @@ export default function Index() {
                             </HStack>
                         </Box>
                         {/* select receiver modal */}
-                        <Modal isOpen={isOpen} onClose={onClose} isCentered size={["sm", "md"]}>
+                        <Modal isOpen={isOpen} onClose={onClose} isCentered size={["sm", "md", "lg"]}>
                             <ModalOverlay bg={"none"} />
                             <ModalContent>
                                 <ModalHeader>
@@ -193,22 +234,75 @@ export default function Index() {
                                                 <VStack spacing={5}>
                                                     <SetDropBox>
                                                         <HStack>
-                                                            <Switch onClick={() => {}} />
+                                                            <Switch
+                                                                id="temp"
+                                                                isChecked={dropDuration.temp}
+                                                                onChange={(e) => {
+                                                                    handleDuration(e)
+                                                                }}
+                                                            />
+
                                                             <Text>Temporary</Text>
                                                         </HStack>
                                                         <Text color={"gray.400"}>Set Timer</Text>
-                                                        <HStack>
-                                                            <Input placeholder="00" type={"number"} />
+                                                        <HStack spacing={[1, 2, 3]}>
+                                                            <NumberInput
+                                                                defaultValue={0}
+                                                                min={0}
+                                                                max={20}
+                                                                placeholder={"00"}
+                                                                minW={["60px", "65px"]}
+                                                                size={["sm", "md"]}
+                                                            >
+                                                                <NumberInputField />
+                                                                <NumberInputStepper>
+                                                                    <NumberIncrementStepper />
+                                                                    <NumberDecrementStepper />
+                                                                </NumberInputStepper>
+                                                            </NumberInput>
                                                             <Text>H</Text>
-                                                            <Input placeholder="00" type={"number"} />
+
+                                                            <NumberInput
+                                                                defaultValue={0}
+                                                                min={0}
+                                                                max={60}
+                                                                placeholder={"00"}
+                                                                minW={"65px"}
+                                                                size={["sm", "md"]}
+                                                            >
+                                                                <NumberInputField />
+                                                                <NumberInputStepper>
+                                                                    <NumberIncrementStepper />
+                                                                    <NumberDecrementStepper />
+                                                                </NumberInputStepper>
+                                                            </NumberInput>
                                                             <Text>M</Text>
-                                                            <Input placeholder="00" type={"number"} />
+                                                            <NumberInput
+                                                                defaultValue={0}
+                                                                min={0}
+                                                                max={60}
+                                                                placeholder={"00"}
+                                                                minW={"65px"}
+                                                                size={["sm", "md"]}
+                                                            >
+                                                                <NumberInputField />
+                                                                <NumberInputStepper>
+                                                                    <NumberIncrementStepper />
+                                                                    <NumberDecrementStepper />
+                                                                </NumberInputStepper>
+                                                            </NumberInput>
                                                             <Text>S</Text>
                                                         </HStack>
                                                     </SetDropBox>
                                                     <SetDropBox>
                                                         <HStack>
-                                                            <Switch />
+                                                            <Switch
+                                                                id="perm"
+                                                                isChecked={dropDuration.perm}
+                                                                onChange={(e) => {
+                                                                    handleDuration(e)
+                                                                }}
+                                                            />
                                                             <Text>Permanent</Text>
                                                         </HStack>
                                                     </SetDropBox>
