@@ -162,7 +162,7 @@ const DatingOption = () => {
                 </Box>
 
                 {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}
-                <SimpleGrid gap={12} pt={8} columns={{ base: "1", md: "2" }}>
+                <SimpleGrid gap={12} pt={8} columns={{ base: 1, md: 2 }}>
                     <Box>
                         <Box pb={5}>
                             <Text fontSize="xl" as="b">
