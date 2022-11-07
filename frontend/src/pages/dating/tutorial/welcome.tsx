@@ -1,8 +1,7 @@
-import { Box } from "@chakra-ui/react"
-import React from "react"
+import DatingAppBody from "../../../components/dating/DatingAppBody"
 
-const welcome = () => {
-    return <Box>Welcome</Box>
+const TutorialWelcome = () => {
+    return <DatingAppBody>Welcome tutorial</DatingAppBody>
 }
 
-export default welcome
+export default TutorialWelcome

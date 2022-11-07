@@ -1,8 +1,7 @@
-import React from "react"
-import AppBody from "../../../components/share/app/AppBody"
+import DatingAppBody from "../../../components/dating/DatingAppBody"
 
-const allActivityPoll = () => {
-    return <AppBody>All activity poll</AppBody>
+const AllActivityPoll = () => {
+    return <DatingAppBody>All activity poll</DatingAppBody>
 }
 
-export default allActivityPoll
+export default AllActivityPoll
