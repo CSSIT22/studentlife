@@ -5,8 +5,8 @@ on:
         branches:
             - staging
             - infra-*
-        # paths:
-        #     - "frontend/**"
+        paths:
+            - "frontend/**"
 
 jobs:
     frontend-build:
