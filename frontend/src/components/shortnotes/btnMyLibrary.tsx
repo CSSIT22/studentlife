@@ -41,7 +41,7 @@ import {
     Radio,
 } from "@chakra-ui/react"
 import React from "react"
-import Li from "../library/liList"
+import Li from "./liList"
 
 const btnMyLibrary = () => {
     const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()

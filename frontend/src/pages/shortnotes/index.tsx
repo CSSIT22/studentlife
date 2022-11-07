@@ -43,11 +43,11 @@ import {
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
-import Rsn from "../../components/shortnotes/index/rsnList"
-import Sn from "../../components/shortnotes/index/snList"
-import Li from "../../components/shortnotes/library/liList"
-import BtnMl from "../../components/shortnotes/index/btnMyLibrary"
-import BtnNs from "../../components/shortnotes/index/btnNewShortnote"
+import Rsn from "../../components/shortnotes/rsnList"
+import Sn from "../../components/shortnotes/snList"
+import Li from "../../components/shortnotes/liList"
+import BtnMl from "../../components/shortnotes/btnMyLibrary"
+import BtnNs from "../../components/shortnotes/btnNewShortnote"
 const index = () => {
     const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
     const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
