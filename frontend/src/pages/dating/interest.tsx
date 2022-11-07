@@ -7,13 +7,20 @@ import DatingInterestSearch from "../../components/dating/DatingInterestSearch"
 import DatingInterestTag from "../../components/dating/DatingInterestTag"
 import DatingInterestDynamicButton from "../../components/dating/DatingInterestDynamicButton"
 
+interface state {
+    allInterests: {
+        interestId: string;
+        interestName: string;
+    }[]
+}
 const TagOfInterest = () => {
     // Used for DatingInterestModal & DatingInterestTag components to trigger the modal
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
-    const [allInterests] = useState(INTERESTS)
+    let IState = {allInterests: INTERESTS}
+    const [searchQuery, setSearchQuery] = useState("")
     const [numOfInterest, setNumOfInterest] = useState(0)
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
 
@@ -48,11 +55,11 @@ const TagOfInterest = () => {
             </Grid>
             {/* DatingInterestSearch component: Search Bar */}
             <Box pb="10">
-                <DatingInterestSearch />
+                <DatingInterestSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
             </Box>
             {/* CheckboxGroup : List of tags of interest */}
             <CheckboxGroup colorScheme="white">
-                {allInterests.map(({ interestId, interestName }) => (
+                {IState.allInterests.map(({ interestId, interestName }) => (
                     // DatingInterestTag component: Used for generating interactive tag
                     <DatingInterestTag
                         key={interestId}
