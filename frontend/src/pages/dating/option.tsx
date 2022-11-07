@@ -88,10 +88,21 @@ const DatingOption = () => {
         setSelected(gender)
     }
 
-    function handleFac(fac: string[]) {
-        //Passing data + condition checking
-        setSelectedFac(fac)
-        console.log("This :" + fac)
+    function handleFac(fac: string) {
+        let arr: string[] = selectedFac
+        //for (let index in arr) {
+        if (arr.includes(fac) !== true) {
+            arr.push(fac)
+            arr.sort()
+            console.log("This add? :" + arr.indexOf(fac))
+        }
+        // else {
+        //     console.log("This remove? :" + arr.indexOf(fac))
+        //     arr.splice(arr.indexOf(fac))
+        // }
+        //}
+        setSelectedFac(arr)
+        console.log("This :" + arr)
         // if (fac[0] == "All Faculty") {
         //     globalThis.faculty = faculties
         //     var arr: string[]
@@ -236,42 +247,32 @@ const DatingOption = () => {
 
                                             <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[0] })}
-                                                onClick={() => {
-                                                    setSelectedFac(value)
-                                                    handleFac //(value)
-                                                    console.log("Now I am :" + Object.values(value))
+                                                onClick={(e: any) => {
+                                                    handleFac(e)
                                                 }}
                                             />
                                             <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[1] })}
-                                                onClick={() => {
-                                                    setSelectedFac(value)
-                                                    handleFac //(value)
-                                                    console.log("Now I am :" + Object.values(value))
+                                                onClick={(e: any) => {
+                                                    handleFac(e)
                                                 }}
                                             />
                                             <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[2] })}
-                                                onClick={() => {
-                                                    setSelectedFac(value)
-                                                    handleFac //(value)
-                                                    console.log("Now I am :" + Object.values(value))
+                                                onClick={(e: any) => {
+                                                    handleFac(e)
                                                 }}
                                             />
                                             <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[3] })}
-                                                onClick={() => {
-                                                    setSelectedFac(value)
-                                                    handleFac //(value)
-                                                    console.log("Now I am :" + Object.values(value))
+                                                onClick={(e: any) => {
+                                                    handleFac(e)
                                                 }}
                                             />
                                             <DatingOptionMultiChose
                                                 {...getCheckboxProps({ value: faculties[4] })}
-                                                onClick={() => {
-                                                    setSelectedFac(value)
-                                                    handleFac //(value)
-                                                    console.log("Now I am :" + Object.values(value))
+                                                onClick={(e: any) => {
+                                                    handleFac(e)
                                                 }}
                                             />
                                         </Stack>
