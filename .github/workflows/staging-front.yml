@@ -22,6 +22,8 @@ jobs:
               run: |
                   cd ./frontend
                   npm i
+                  tocuh .env
+                  echo '${{secrets.FRONTEND_STAGING_ENV}}' > .env
                   npm run build
             - name: 🆙 Upload artifact
               uses: actions/upload-artifact@v2
