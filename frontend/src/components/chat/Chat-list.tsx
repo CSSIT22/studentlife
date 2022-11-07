@@ -1,6 +1,7 @@
-import { Box, Flex } from "@chakra-ui/react"
+import { Box, Button, Flex } from "@chakra-ui/react"
+import { FC } from "react"
 
-const Clist = () => {
+const Clist: FC<any> = () => {
     return (
         <Box minH={"80vh"} background="orange.200kk">
             <Flex
@@ -9,14 +10,16 @@ const Clist = () => {
                 justify={"space-around"}
                 p={5}
                 rounded={"lg"}
-                fontSize={"lg"}
                 fontWeight={"bold"}
                 color={"white"}
+                alignItems="center"
             >
-                <Box>Chat</Box>
+                <Box  textDecoration={"underline"} fontSize={"xl"}>
+                    Chat
+                </Box>
                 <Box>Group</Box>
             </Flex>
         </Box>
     )
 }
-export default Clist;
+export default Clist
