@@ -12,7 +12,7 @@ const DatingInterestTag: FC<{
 }> = ({ interestId, interestName, onOpen, selectedInterests, numOfInterest, setNumOfInterest, setSelectedInterest }) => {
     // Check if interestId is in the selectedInterest state or not
     function idExists(interestId: string) {
-        for (var i = 0; i < selectedInterests.length; i++) {
+        for (let i = 0; i < selectedInterests.length; i++) {
             if (selectedInterests[i] == interestId) {
                 return true
             }
