@@ -43,21 +43,21 @@ import {
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
-import ResentLists from "../../components/shortnotes/index/rsnList"
-import ShortnoteLists from "../../components/shortnotes/index/snList"
-import LiList from "../../components/shortnotes/library/liList"
+import Rsn from "../../components/shortnotes/index/rsnList"
+import Sn from "../../components/shortnotes/index/snList"
+import Li from "../../components/shortnotes/library/liList"
 
 const index = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
     const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
-    const { isOpen: mIsOpen, onOpen: mOnOpen, onClose: mOnClose } = useDisclosure()
+    const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
 
     const btnRef = React.useRef()
 
-    const [radio, setRadio] = useState("Public")
+    const [useRadio, setRadio] = useState("Public")
 
-    const closeSN = () => {
-        mOnClose()
+    const closeSnModal = () => {
+        nsOnClose()
         setRadio("Public")
     }
     return (
@@ -66,10 +66,10 @@ const index = () => {
             <Flex mt={10}>
                 <Text alignSelf={"end"}>Recent view</Text>
                 <Spacer />
-                <Button colorScheme="orange" onClick={onOpen}>
+                <Button colorScheme="orange" onClick={mlOnOpen}>
                     My library
                 </Button>
-                <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"sm"}>
+                <Drawer isOpen={mlIsOpen} placement="right" onClose={mlOnClose} size={"sm"}>
                     <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
@@ -113,14 +113,14 @@ const index = () => {
                         </DrawerHeader>
                         <DrawerBody>
                             <Stack gap={4}>
-                                <LiList name={"midterm y2/1"}></LiList>
-                                <LiList name={"Network"}></LiList>
-                                <LiList name={"Algo p1"}></LiList>
-                                <LiList name={"Java"}></LiList>
-                                <LiList name={"midterm y2/1"}></LiList>
-                                <LiList name={"Network"}></LiList>
-                                <LiList name={"Algo p1"}></LiList>
-                                <LiList name={"Java"}></LiList>
+                                <Li name={"midterm y2/1"}></Li>
+                                <Li name={"Network"}></Li>
+                                <Li name={"Algo p1"}></Li>
+                                <Li name={"Java"}></Li>
+                                <Li name={"midterm y2/1"}></Li>
+                                <Li name={"Network"}></Li>
+                                <Li name={"Algo p1"}></Li>
+                                <Li name={"Java"}></Li>
                             </Stack>
                         </DrawerBody>
 
@@ -137,18 +137,18 @@ const index = () => {
             </Flex>
             <Box mt={4} mb={12}>
                 <SimpleGrid columns={3} gap={6} textAlign={"center"}>
-                    <ResentLists topic={"Shortnote 001"}></ResentLists>
-                    <ResentLists topic={"Shortnote 002"}></ResentLists>
-                    <ResentLists topic={"Shortnote 003"}></ResentLists>
+                    <Rsn topic={"Shortnote 001"}></Rsn>
+                    <Rsn topic={"Shortnote 002"}></Rsn>
+                    <Rsn topic={"Shortnote 003"}></Rsn>
                 </SimpleGrid>
             </Box>
 
             {/*Shortnote list section*/}
             <Flex alignItems={"end"}>
-                <Button colorScheme={"orange"} onClick={mOnOpen}>
+                <Button colorScheme={"orange"} onClick={nsOnOpen}>
                     New shortnote
                 </Button>
-                <Modal size={"xl"} onClose={closeSN} isOpen={mIsOpen} isCentered>
+                <Modal size={"xl"} onClose={closeSnModal} isOpen={nsIsOpen} isCentered>
                     <ModalOverlay />
                     <ModalContent>
                         <ModalHeader>Create new shortnote</ModalHeader>
@@ -209,7 +209,7 @@ const index = () => {
                             </Grid>
 
                             <Box>
-                                {radio == "Private" ? (
+                                {useRadio == "Private" ? (
                                     <Box>
                                         Add people
                                         <br />
@@ -254,12 +254,12 @@ const index = () => {
                 </Stack>
             </Flex>
             <VStack gap={2} pt={4}>
-                <ShortnoteLists topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></ShortnoteLists>
-                <ShortnoteLists topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={""}></ShortnoteLists>
-                <ShortnoteLists topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></ShortnoteLists>
-                <ShortnoteLists topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></ShortnoteLists>
-                <ShortnoteLists topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={"🔒"}></ShortnoteLists>
-                <ShortnoteLists topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></ShortnoteLists>
+                <Sn topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></Sn>
+                <Sn topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={""}></Sn>
+                <Sn topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></Sn>
+                <Sn topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></Sn>
+                <Sn topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={"🔒"}></Sn>
+                <Sn topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></Sn>
             </VStack>
         </AppBody>
     )
