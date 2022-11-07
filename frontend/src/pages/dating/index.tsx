@@ -1,10 +1,7 @@
-import React from 'react'
-import AppBody from '../../components/share/app/AppBody'
+import DatingAppBody from "../../components/dating/DatingAppBody"
 
-const index = () => {
-  return (
-    <AppBody>Randomization</AppBody>
-  )
+const DatingRandomization = () => {
+    return <DatingAppBody>Randomization</DatingAppBody>
 }
 
-export default index
+export default DatingRandomization
