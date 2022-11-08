@@ -1,4 +1,23 @@
-import { Avatar, Box, Container, Heading, HStack, Menu, MenuButton, MenuGroup, MenuItem, MenuList, SimpleGrid, Stack } from "@chakra-ui/react"
+import {
+    Avatar,
+    Box,
+    Button,
+    Container,
+    Heading,
+    HStack,
+    Menu,
+    MenuButton,
+    MenuGroup,
+    MenuItem,
+    MenuList,
+    Popover,
+    PopoverBody,
+    PopoverContent,
+    PopoverTrigger,
+    Portal,
+    SimpleGrid,
+    Stack,
+} from "@chakra-ui/react"
 import { IoMdArrowDropdown } from "react-icons/io"
 import { CgMenuRound } from "react-icons/cg"
 import { AiOutlineMail, AiFillBell } from "react-icons/ai"
@@ -13,6 +32,7 @@ import { secondaryNavProps } from "../app/AppBody"
 import ExtarSecondaryNav from "./ExtarSecondaryNav"
 import logo from "./pic/logo.png"
 import { authContext } from "src/context/AuthContext"
+import NotiTable from "src/components/notification/NotiTable"
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
@@ -27,9 +47,18 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                             <Link to="/chat">
                                 <NavBarWithNoti label="Chat" notiCount={20} Icon={AiOutlineMail} />
                             </Link>
-                            <Link to="/notification">
-                                <NavBarWithNoti label="Notification" notiCount={1} Icon={AiFillBell} />
-                            </Link>
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button variant={"unstyled"}>
+                                        <NavBarWithNoti label="Notification" notiCount={1} Icon={AiFillBell} />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <PopoverBody>
+                                        <NotiTable />
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Popover>
                             <Menu>
                                 {({ isOpen }) => (
                                     <>
