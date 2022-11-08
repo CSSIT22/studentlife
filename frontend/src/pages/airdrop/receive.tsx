@@ -1,32 +1,129 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import { HiUpload, HiDownload } from "react-icons/hi"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
-import { Container, Flex, HStack, Icon, Text, VStack, Box, Divider, Hide, IconButton } from "@chakra-ui/react"
+import {
+    Container,
+    Flex,
+    HStack,
+    Icon,
+    Text,
+    VStack,
+    Box,
+    Divider,
+    Hide,
+    IconButton,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+    useDisclosure,
+    Button,
+    ButtonGroup,
+    ModalBody,
+    Modal,
+    ModalCloseButton,
+    ModalContent,
+    ModalHeader,
+    ModalOverlay,
+    Heading,
+    ModalFooter,
+} from "@chakra-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
-const dummyData = [
-    {
-        icon: MdImage,
-        name: "pic1.jpeg",
-        sender: "MR.ABC DEF",
-    },
-    {
-        icon: MdImage,
-        name: "pic2.jpeg",
-        sender: "MR.ABC DEF",
-    },
-    {
-        icon: MdImage,
-        name: "pic3.jpeg",
-        sender: "MR.ABC DEF",
-    },
-]
+const dummyData = {
+    allfile: [
+        {
+            icon: MdImage,
+            name: "pic1.jpeg",
+            sender: "MR.ABC DEF",
+            comments: [
+                {
+                    name: "MR.ABC DEF",
+                    comment: "great work",
+                },
+                {
+                    name: "MR.ABC GGG",
+                    comment: "Love it",
+                },
+            ],
+        },
+        {
+            icon: MdImage,
+            name: "pic2.jpeg",
+            sender: "MR.ABC DEF",
+            comments: [
+                {
+                    name: "MR.ABC DEF",
+                    comment: "great work",
+                },
+                {
+                    name: "MR.ABC GGG",
+                    comment: "Love it",
+                },
+            ],
+        },
+        {
+            icon: MdImage,
+            name: "pic3.jpeg",
+            sender: "MR.ABC DEF",
+            comments: [
+                {
+                    name: "MR.ABC DEF",
+                    comment: "GGEZ",
+                },
+                {
+                    name: "MR.ABC GGG",
+                    comment: "DDDD",
+                },
+            ],
+        },
+    ],
+}
 export default function Receivedrop() {
+    const { isOpen, onOpen, onToggle, onClose } = useDisclosure()
+    //modal page
+    const [modalPage, setModalPage] = useState(0)
+    const [modalData, setModalData] = useState({})
+
+    const RenderModalInfo = () => {
+        const componentArr = []
+        for (const [key, value] of Object.entries(modalData)) {
+            if (key !== "comments") {
+                componentArr.push(
+                    <HStack>
+                        <Text fontSize={"xl"}>{key}:</Text>
+                        <Text>{value}</Text>
+                    </HStack>
+                )
+            }
+        }
+
+        return componentArr
+    }
+    const RenderModalComments = () => {
+        const componentArr = []
+        modalData.comments.map((item) => {
+            componentArr.push(
+                <HStack>
+                    <Text fontSize={"xl"}>{item.name}:</Text>
+                    <Text>{item.comment}</Text>
+                </HStack>
+            )
+        })
+
+        return componentArr;
+    }
+
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="receive">
@@ -35,84 +132,114 @@ export default function Receivedrop() {
                 </Box>
                 {/* component for list will coming sooner */}
                 <Divider />
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} gap={3}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
+                {dummyData.allfile.map((item, index) => {
+                    return (
+                        <>
+                            <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} gap={3}>
+                                <Box as={item.icon} size={"3rem"} />
+                                <Hide below={"md"}>
+                                    <Text>{item.name}</Text>
+                                </Hide>
 
-                    <Text fontSize={["0.76rem","md"]}>{dummyData[0].name}</Text>
+                                <Text fontSize={["0.76rem", "md"]}>{item.sender}</Text>
 
-                    <HStack>
-                        <IconButton
-                            aria-label="accept"
-                            icon={<MdDone />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="deny"
-                            icon={<MdOutlineClose />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-                <Divider />
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} w={"100%"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
+                                <HStack>
+                                    <IconButton
+                                        aria-label="accept"
+                                        icon={<MdDone />}
+                                        rounded={"3xl"}
+                                        border={"1px"}
+                                        borderColor={"gray.300"}
+                                        shadow={"xs"}
+                                        bgColor={"white"}
+                                    ></IconButton>
+                                    <IconButton
+                                        aria-label="deny"
+                                        icon={<MdOutlineClose />}
+                                        rounded={"3xl"}
+                                        border={"1px"}
+                                        borderColor={"gray.300"}
+                                        shadow={"xs"}
+                                        bgColor={"white"}
+                                    ></IconButton>
+                                    <IconButton
+                                        aria-label="infomation"
+                                        icon={<MdInfoOutline />}
+                                        rounded={"3xl"}
+                                        border={"1px"}
+                                        borderColor={"gray.300"}
+                                        shadow={"xs"}
+                                        bgColor={"white"}
+                                        onClick={async () => {
+                                            const setModal = await setModalData(item)
+                                            onOpen()
+                                        }}
+                                    ></IconButton>
+                                </HStack>
+                            </Flex>
+                            <Divider />
+                        </>
+                    )
+                })}
 
-                    <Text fontSize={["0.76rem","md"]}>{dummyData[0].name}</Text>
-                    <HStack>
-                        <IconButton
-                            aria-label="accept"
-                            icon={<MdDone />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="deny"
-                            icon={<MdOutlineClose />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                            
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-                <Divider />
+                {/* //this section is for modal */}
+                <Modal isOpen={isOpen} onClose={()=>{
+                    onClose();
+                    setModalPage(0);
+                }} isCentered>
+                    <ModalOverlay />
+                    <ModalContent textAlign={"center"}>
+                        <ModalHeader>{modalPage == 0 ? "File Properties" : "File Comment"}</ModalHeader>
+                        <ModalBody>
+                            {modalPage == 0 ? (
+                                <>
+                                    {RenderModalInfo()}
+                                    <Text
+                                        color={"gray.600"}
+                                        decoration={"underline"}
+                                        onClick={() => {
+                                            setModalPage(1)
+                                        }}
+                                    >
+                                        See all comment
+                                    </Text>
+                                </>
+                            ) : (
+                                <>
+                                    {RenderModalComments()}
+                                    <Text
+                                        color={"gray.600"}
+                                        decoration={"underline"}
+                                        onClick={() => {
+                                            setModalPage(0)
+                                        }}
+                                    >
+                                        Go back to file properties
+                                    </Text>
+                                </>
+                            )}
+                        </ModalBody>
+                        <ModalFooter textAlign={"center"}>
+                            <Text color={"gray.300"} decoration={"underline"}>
+                                (Tap any where to close)
+                            </Text>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+                {/* <Popover returnFocusOnClose={false} isOpen={isOpen} onClose={onClose} placement="right" closeOnBlur={false}>
+                    <PopoverContent>
+                        <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverBody>Are you sure you want to continue with your action?</PopoverBody>
+                        <PopoverFooter display="flex" justifyContent="flex-end">
+                            <ButtonGroup size="sm">
+                                <Button variant="outline">Cancel</Button>
+                                <Button colorScheme="red">Apply</Button>
+                            </ButtonGroup>
+                        </PopoverFooter>
+                    </PopoverContent>
+                </Popover> */}
             </PageBox>
             {/* <BottomNav/> */}
         </AppBody>

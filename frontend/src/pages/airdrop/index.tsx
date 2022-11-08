@@ -96,7 +96,7 @@ export default function Index() {
         setFiles(file)
         console.log(file)
     }
-    const handleSee = (imageSource) => {
+    const handleSee = (imageSource:any) => {
         setImageSrc(imageSource)
     }
     const handleDuration = async (e: any) => {
@@ -193,7 +193,7 @@ export default function Index() {
                         </Box>
                         {/* select receiver modal */}
                         <Modal isOpen={isOpen} onClose={onClose} isCentered size={["sm", "md", "lg"]}>
-                            <ModalOverlay bg={"none"} />
+                            <ModalOverlay/>
                             <ModalContent>
                                 <ModalHeader>
                                     <Text align={"center"}>{!clickDrop ? "Select Receiver" : "Set Drop Duration"}</Text>
