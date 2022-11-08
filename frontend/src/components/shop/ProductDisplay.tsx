@@ -10,7 +10,7 @@ const ProductDisplay: FC<{
 }> = ({ name, image, brandName, price, link }) => {
     return (
         <div>
-            <Box pt-6 background="white" width="15rem" height="16rem" borderWidth="1px" borderRadius="lg" overflow="hidden">
+            <Box pt-6 background="white" width="14rem" height="16rem" borderWidth="1px" borderRadius="lg" overflow="hidden">
             <LinkBox>
                 <Flex direction="column">
                     <Spacer />
