@@ -12,7 +12,7 @@ export const CategoryItem: FC<{
 
          
         <Box bg={"white"} w="100px" borderRadius="lg" borderWidth="0px" rounded="md" shadow="sm" position="relative" overflow={"hidden"}>
-            <Box background="gray">
+            <Box bg= "whitesmoke">
                 <Center>
                     <Image src={image} alt={`Picture of ${name}`} h="5rem" w="6rem" p="2" objectFit="contain" />
                 </Center>

@@ -10,13 +10,13 @@ const ProductDisplay: FC<{
 }> = ({ name, image, brandName, price, link }) => {
     return (
         <div>
-            <Box pt-6 background="white" width="223px" height="261px" borderWidth="1px" borderRadius="lg" overflow="hidden">
+            <Box pt-6 background="white" width="15rem" height="16rem" borderWidth="1px" borderRadius="lg" overflow="hidden">
             <LinkBox>
                 <Flex direction="column">
                     <Spacer />
                     <LinkOverlay href={link}></LinkOverlay>
                     <Center pt="2">
-                        <Image width="188px" height="141px" src={image} alt="Img" />
+                        <Image width="188px" height="9rem" src={image} alt="Img" objectFit="cover" />
                     </Center>
                     <Box pt="2" px ="6">
                         {/* // Uncomment to add Badge
