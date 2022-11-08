@@ -11,7 +11,7 @@ export const CategoryItem: FC<{
          <LinkOverlay href={link}>
 
          
-        <Box bg={"white"} maxW="15rem" borderRadius="lg" borderWidth="0px" rounded="lg" shadow="sm" position="relative" overflow={"hidden"}>
+        <Box bg={"white"} w="100px" borderRadius="lg" borderWidth="0px" rounded="md" shadow="sm" position="relative" overflow={"hidden"}>
             <Box background="gray">
                 <Center>
                     <Image src={image} alt={`Picture of ${name}`} h="5rem" w="6rem" p="2" objectFit="contain" />
@@ -19,7 +19,7 @@ export const CategoryItem: FC<{
             </Box>
 
             <Center p="4">
-                <Box fontSize="xl" fontWeight="semibold" as="h4" alignContent={"center"}>
+                <Box fontSize="lg" fontWeight="semibold" as="h4" alignContent={"center"} lineHeight="tight" noOfLines={ 2 }>
                    {name}
                 </Box>
             </Center>
