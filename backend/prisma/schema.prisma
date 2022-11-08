@@ -21,7 +21,7 @@ model User_Profile {
   details              Detail?
   majorId              String
   studentMajor         Major                            @relation(fields: [majorId], references: [majorId])
-  role                 Role?
+  roles                User_To_Role[]
   userFollowers        Follow[]                         @relation("following")
   userFollowing        Follow[]                         @relation("follower")
   userReporters        User_Report[]                    @relation("reporting")
@@ -66,7 +66,6 @@ model User_Profile {
   polls                Poll_Applicant[]
   community            Community_User[]
   communityBlacklist   Community_Blacklist[]
-  communityRole        Community_Role[]
   files                User_Show_File[]
   fComments            File_Comment[]
   accessTo             Direct_Access[]
@@ -135,12 +134,24 @@ model Faculty {
 }
 
 model Role {
-  userId          String           @id
-  club            String
-  rank            String
-  expire_date     DateTime
-  studentRole     User_Profile     @relation(fields: [userId], references: [userId])
-  roleInCommunity Community_Role[]
+  roleId   String         @id @default(cuid())
+  roleName Role_Type
+  expired  DateTime
+  users    User_To_Role[]
+}
+
+enum Role_Type {
+  ANNOUCEMENT_ANNOUNCER
+  SCHEDULE_CREATER
+}
+
+model User_To_Role {
+  userId String
+  user   User_Profile @relation(fields: [userId], references: [userId])
+  roleId String
+  role   Role         @relation(fields: [roleId], references: [roleId])
+
+  @@id([userId, roleId])
 }
 
 model Follow {
@@ -800,7 +811,6 @@ model Community {
   communityPhoto   Bytes?
   member           Community_User[]
   blacklist        Community_Blacklist[]
-  admin            Community_Role[]
   tags             Community_Tag[]
   posts            Community_Post[]
   files            Community_File[]
@@ -808,13 +818,27 @@ model Community {
 }
 
 model Community_User {
-  user        User_Profile @relation(fields: [userId], references: [userId])
+  user        User_Profile   @relation(fields: [userId], references: [userId])
   userId      String
-  community   Community    @relation(fields: [communityId], references: [communityId])
+  community   Community      @relation(fields: [communityId], references: [communityId])
   communityId String
+  role        Community_Role @relation(fields: [roleId], references: [roleId])
+  roleId      String         @unique
   joined      DateTime
 
   @@id([userId, communityId])
+}
+
+model Community_Role {
+  roleId   String          @id @default(cuid())
+  roleName CRole_Type      @default(MEMBER)
+  roleOf   Community_User?
+}
+
+enum CRole_Type {
+  ADMIN
+  CO_ADMIN
+  MEMBER
 }
 
 model Community_Blacklist {
@@ -823,17 +847,6 @@ model Community_Blacklist {
   community   Community    @relation(fields: [communityId], references: [communityId])
   communityId String
   since       DateTime
-
-  @@id([userId, communityId])
-}
-
-model Community_Role {
-  user        User_Profile @relation(fields: [userId], references: [userId])
-  userId      String
-  community   Community    @relation(fields: [communityId], references: [communityId])
-  communityId String
-  role        Role         @relation(fields: [roleId], references: [userId])
-  roleId      String
 
   @@id([userId, communityId])
 }
