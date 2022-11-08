@@ -2,9 +2,9 @@ FROM node:16.15-alpine3.16
 
 WORKDIR /modlifes
 
-COPY ./dist/modlifes-bundled.js .
+COPY . .
 
-COPY ./prisma/ ./prisma/
+RUN npm i
 
 # RUN npm ci --only=production
 
@@ -12,4 +12,4 @@ COPY ./prisma/ ./prisma/
 
 EXPOSE 8000
 
-CMD [ "node", "modlifes-bundled.js" ]
+CMD [ "npm", "run", "start" ]
