@@ -1,6 +1,5 @@
 /* A custom radio button component. */
-import { Box } from "@chakra-ui/react"
-import { useRadio } from "@chakra-ui/react"
+import { Box, useRadio } from "@chakra-ui/react"
 
 // RadioBox component for dating option page
 export function DatingOptionRadioBox(props: any) {

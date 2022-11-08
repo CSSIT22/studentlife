@@ -1,13 +1,13 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch } from "react-icons/ai"
 
 const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>>; searchQuery: string }> = ({ setSearchQuery, searchQuery }) => {
     const [timer, setTimer] = useState<number | null>(null)
     const didMount = useDidMount()
 
     useEffect(() => {
-        if (didMount) alert("Query: \"" + searchQuery + "\"")
+        if (didMount) alert('Query: "' + searchQuery + '"')
     }, [searchQuery])
 
     function useDidMount() {
@@ -34,10 +34,7 @@ const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>
 
     return (
         <InputGroup>
-            <InputLeftElement
-                pointerEvents='none'
-                children={<AiOutlineSearch color='gray.300' />}
-            />
+            <InputLeftElement pointerEvents="none" children={<AiOutlineSearch color="gray.300" />} />
             <Input
                 type="search"
                 placeholder="Search"
@@ -48,7 +45,6 @@ const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>
                 onChange={(e) => handleSearchChange(e)}
             />
         </InputGroup>
-
     )
 }
 
