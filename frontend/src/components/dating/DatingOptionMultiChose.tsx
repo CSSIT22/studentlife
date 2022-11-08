@@ -17,6 +17,7 @@ export function DatingOptionMultiChose(props: any) {
             border="1px solid"
             borderColor="orange.500"
             rounded="lg"
+            borderRadius="full"
             px={3}
             py={1}
             cursor="pointer"

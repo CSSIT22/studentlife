@@ -156,13 +156,13 @@ const DatingOption = () => {
         <DatingAppBody>
             <Stack pt="5">
                 {/* Heading and heading description part */}
-                <Heading>Dating Option</Heading>
+                <Heading>Options</Heading>
                 <Box pt="3">
                     <Text>Set the criteria to be used for the profile randomization.</Text>
                 </Box>
 
                 {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}
-                <SimpleGrid gap={12} pt={8} columns={{ base: "1", md: "2" }}>
+                <SimpleGrid gap={12} pt={8} columns={{ base: 1, md: 2 }}>
                     <Box>
                         <Box pb={5}>
                             <Text fontSize="xl" as="b">
@@ -178,8 +178,9 @@ const DatingOption = () => {
                                         defaultChecked={globalThis.useAge}
                                         p="30px"
                                         size="lg"
-                                        onChange={(val) => {
-                                            handleCheck(), setUseAgeValue(!useAgeValue)
+                                        onChange={() => {
+                                            handleCheck()
+                                            setUseAgeValue(!useAgeValue)
                                         }}
                                     ></Checkbox>
                                 </span>
@@ -188,11 +189,12 @@ const DatingOption = () => {
                             {/* Age min and Age max */}
                             <RangeSlider
                                 aria-label={["min", "max"]}
-                                min={16}
+                                min={18}
                                 max={40}
                                 defaultValue={[19, 25]}
                                 onChange={(val) => {
-                                    handleAge(), setSliderValue(val)
+                                    handleAge()
+                                    setSliderValue(val)
                                 }}
                                 ml={"20px"}
                                 mr={"45px"}
@@ -251,7 +253,9 @@ const DatingOption = () => {
                                             _expanded={{ bg: "orange.200", color: "white" }}
                                             _hover={{ bg: "orange.300", color: "white", border: "orange.800" }}
                                         >
-                                            <Box textAlign="left">Selected Faculty</Box>
+                                            <Box textAlign="left" borderRadius="full">
+                                                Selected Faculty
+                                            </Box>
                                             <AccordionIcon />
                                         </AccordionButton>
                                     </h2>
@@ -365,7 +369,7 @@ const DatingOption = () => {
                 </SimpleGrid>
                 {/* Submit button */}
                 <Center>
-                    <Button type="submit" form="new-note" onClick={() => handleSubmit()} m={"80px"}>
+                    <Button type="submit" form="new-note" borderRadius={"full"} colorScheme="orange" onClick={() => handleSubmit()} m={"80px"}>
                         Done
                     </Button>
                 </Center>
