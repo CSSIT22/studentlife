@@ -156,7 +156,7 @@ const DatingOption = () => {
         <DatingAppBody>
             <Stack pt="5">
                 {/* Heading and heading description part */}
-                <Heading>Options</Heading>
+                <Heading>Option</Heading>
                 <Box pt="3">
                     <Text>Set the criteria to be used for the profile randomization.</Text>
                 </Box>
