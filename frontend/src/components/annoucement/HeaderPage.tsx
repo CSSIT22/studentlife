@@ -17,7 +17,7 @@ const HeaderPage: FC<{
     return (
         // <Flex alignItems={"center"}>
         <>
-            <Text as={"b"} fontSize="xl">
+            <Text as={"b"} fontSize="xl" opacity={{base:100,lg:0}}>
                 <GrClose />
             </Text>
             <Spacer />

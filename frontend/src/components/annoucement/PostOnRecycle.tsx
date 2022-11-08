@@ -7,10 +7,11 @@ const PostOnRecycle: FC<{
     expired: string,
     onClick:Function,
     id:number,
-    status:string
-}> = ({ topic, sender, expired,onClick,id,status}) => {
+    status:string,
+    onOpen:Function
+}> = ({ topic, sender, expired,onClick,id,status,onOpen}) => {
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => onClick(id,status)}>
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => {onClick(id,status),onOpen()}}>
             <Flex alignItems={"center"}>
                 <Box>
                     <Heading size={"sm"}>{topic}</Heading>

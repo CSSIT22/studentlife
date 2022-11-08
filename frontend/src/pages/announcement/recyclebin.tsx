@@ -1,25 +1,12 @@
-import {
-    Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    ModalFooter,
-    Text,
-    useDisclosure,
-    Stack,
-    Box,
-    Flex,
-} from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 import React from "react"
 import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
 import AppBody from "../../components/share/app/AppBody"
-import detail from "./detail"
+import detail from "./detail/[postId]"
+import { postInfoTest } from "./postInfoTest"
 
 const recyclebin = () => {
     // const { isOpen, onOpen, onClose } = useDisclosure()
@@ -48,13 +35,13 @@ const recyclebin = () => {
         topic: "Recover the announcement",
         detail: "Are you sure to recover this announcement?",
     }
-    const post = [
-        { topic: "hello World", sender: "SAMO-SIT", status: "delete", id: 10, expired: "45:12:11" },
-        { topic: "SIT Esport", sender: "SAMO-SIT", status: "delete", id: 11, expired: "45:52:11" },
-        { topic: "SIT Valentine", sender: "SAMO-SIT", status: "delete", id: 12, expired: "45:23:11" },
-        { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
-    ]
-    const [allPost, setAllPost] = React.useState(post)
+    // const post = [
+    //     { topic: "hello World", sender: "SAMO-SIT", status: "delete", id: 10, expired: "45:12:11" },
+    //     { topic: "SIT Esport", sender: "SAMO-SIT", status: "delete", id: 11, expired: "45:52:11" },
+    //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "delete", id: 12, expired: "45:23:11" },
+    //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
+    // ]
+    const [allPost, setAllPost] = React.useState(postInfoTest)
 
     return (
         <AppBody
@@ -64,6 +51,7 @@ const recyclebin = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
+            p={{md:"3rem"}}
         >
             <Flex alignItems={"center"}>
                 <HeaderPage head="Recycle bin" />
@@ -75,11 +63,12 @@ const recyclebin = () => {
                         <PostOnRecycle
                             topic={el.topic}
                             sender={el.sender}
-                            expired={el.expired}
+                            expired={el.expiredAfterDelete}
                             onClick={recoverClick}
-                            id={el.id}
+                            id={el.postId}
                             status={el.status}
-                            key={el.id}
+                            key={el.postId}
+                            onOpen={onOpen}
                         />
                     )
                 })}
@@ -94,7 +83,6 @@ const recyclebin = () => {
                 selectPost={selectPost}
                 cancelButtonForEvent={cancelRecover}
             />
-            {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={"recover"} />}
         </AppBody>
     )
 }
