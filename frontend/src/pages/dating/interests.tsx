@@ -42,7 +42,7 @@ const TagOfInterest = () => {
                 <GridItem pl="2" area={"desc"}>
                     {/* Interest description */}
                     <Box display="flex">
-                        <Text>Please select your interest: (</Text>
+                        <Text>Please select your interests: (</Text>
                         {/* numOfInterest will change when you select/deselect the tags */}
                         {numOfInterest}
                         <Text>&nbsp;of 5 selected)</Text>

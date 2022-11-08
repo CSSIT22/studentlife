@@ -47,8 +47,8 @@ const DatingAppBody = (props: any) => {
                     Icon: isMobile ? ActivityPollWhiteImg : ActivityPollBlackImg,
                 },
                 {
-                    name: "Interest",
-                    to: "/dating/interest",
+                    name: "Interests",
+                    to: "/dating/interests",
                     isRight: true,
                     disableText: true,
                     Icon: isMobile ? TagOfInterestWhiteImg : TagOfInterestBlackImg,
