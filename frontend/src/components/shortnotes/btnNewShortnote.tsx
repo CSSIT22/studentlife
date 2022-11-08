@@ -39,6 +39,8 @@ import {
     DrawerCloseButton,
     RadioGroup,
     Radio,
+    Collapse,
+    useBoolean,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { MdPostAdd } from "react-icons/md"
@@ -50,7 +52,19 @@ const btnNewShortnote = () => {
     const closeSnModal = () => {
         nsOnClose()
         setRadio("Public")
+        setFlag.off()
     }
+
+    const [flag, setFlag] = useBoolean()
+    const setPrivate = () => {
+        setRadio("Private")
+        setFlag.on()
+    }
+    async function setPublic() {
+        await setFlag.off()
+        setRadio("Public")
+    }
+
     return (
         <Box>
             <Button colorScheme={"orange"} onClick={nsOnOpen}>
@@ -91,21 +105,13 @@ const btnNewShortnote = () => {
                             <GridItem colSpan={1}>
                                 <RadioGroup defaultValue="TRUE" mt={4}>
                                     <Stack spacing={5} direction="row">
-                                        <Box
-                                            onClick={() => {
-                                                setRadio("Public")
-                                            }}
-                                        >
+                                        <Box onClick={setPublic}>
                                             <Radio colorScheme="orange" value="TRUE">
                                                 Public
                                             </Radio>
                                         </Box>
                                         <Spacer />
-                                        <Box
-                                            onClick={() => {
-                                                setRadio("Private")
-                                            }}
-                                        >
+                                        <Box onClick={setPrivate}>
                                             <Radio colorScheme="orange" value="FALSE">
                                                 Private
                                             </Radio>
@@ -116,17 +122,19 @@ const btnNewShortnote = () => {
                             <Spacer />
                         </Grid>
 
-                        <Box>
-                            {useRadio == "Private" ? (
-                                <Box>
-                                    Add people
-                                    <br />
-                                    <Button colorScheme={"orange"} rounded={"full"} boxShadow="xl">
-                                        +
-                                    </Button>
-                                </Box>
-                            ) : null}
-                        </Box>
+                        <Collapse in={flag} animateOpacity>
+                            <Box>
+                                {useRadio == "Private" ? (
+                                    <Box>
+                                        Add people
+                                        <br />
+                                        <Button colorScheme={"orange"} rounded={8} boxShadow="xl">
+                                            +
+                                        </Button>
+                                    </Box>
+                                ) : null}
+                            </Box>
+                        </Collapse>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="orange" w={"100%"}>
