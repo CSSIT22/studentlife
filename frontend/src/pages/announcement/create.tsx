@@ -26,54 +26,6 @@ import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 
 const create = () => {
-    const [isOpen, setIsOpen] = React.useState(false)
-    const onOpen = () => {
-        setIsOpen(true)
-    }
-    const onClose = () => {
-        setIsOpen(false)
-    }
-    const modalCreate = {
-        topic: "Sent announcement",
-        detail: " The announcement request has been sent.",
-        event: "OK",
-    }
-    const [post, setPost] = React.useState(Array<any>)
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
-        setPost([
-            {
-                postId: Math.random(),
-                userId: "123456",
-                lang_id: 1334,
-                topic: title,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: Date.now(),
-                expired: expired,
-                status: "waiting",
-                isApprove: false,
-                addMoreLang: addMoreLang,
-            },
-            ...post,
-        ])
-    }
-    // console.log(post);
-
-    const [topic, setTopic] = React.useState(String)
-    const [detail, setDetail] = React.useState(String)
-    const [targetType, setTargetType] = React.useState(String)
-    const [targetValue, setTargetValue] = React.useState(String)
-    const [expired, setExpired] = React.useState(Date)
-    const [addMoreLang, setAddMoreLang] = React.useState(Array<any>)
-    // console.log(expired);
-    const addLang = (lang_id: number, topic: string, detail: string) => {
-        setAddMoreLang([{ lang_id: lang_id, topic: topic, detail: detail }, ...addMoreLang])
-    }
-    const ALERT = () => {
-        alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
-        window.history.go(-1)
-    }
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
             return (
@@ -106,6 +58,57 @@ const create = () => {
             return ""
         }
     }
+    const [isOpen, setIsOpen] = React.useState(false)
+    const onOpen = () => {
+        setIsOpen(true)
+    }
+    const onClose = () => {
+        setIsOpen(false)
+    }
+    const modalCreate = {
+        topic: "Sent announcement",
+        detail: " The announcement request has been sent.",
+        event: "OK",
+    }
+    const [post, setPost] = React.useState(Array<any>)
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
+        setPost([
+            {
+                postId: Math.random(),
+                userId: "123456",
+                lang: "English",
+                topic: title,
+                detail: detail,
+                targetType: targetType,
+                targetValue: targetValue,
+                postAt: Date.now(),
+                expired: expired,
+                status: "waiting",
+                isApprove: false,
+                addMoreLang: addMoreLang,
+            },
+            ...post,
+        ])
+    }
+    // console.log(post);
+
+    const [topic, setTopic] = React.useState(String)
+    const [detail, setDetail] = React.useState(String)
+    const [targetType, setTargetType] = React.useState(String)
+    const [targetValue, setTargetValue] = React.useState(String)
+    const [expired, setExpired] = React.useState(Date)
+    const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
+    // console.log(expired);
+    const addLang = (lang: string, topic: string, detail: string) => {
+        setAddMoreLang([{ lang: lang, topic: topic, detail: detail }, ...addMoreLang])
+    }
+    console.log(addMoreLang);
+    
+    const ALERT = () => {
+        alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
+        window.history.go(-1)
+    }
+
     const [count, setCount] = React.useState(0)
     const increaseCount = () => {
         setCount(count + 1)
@@ -113,17 +116,21 @@ const create = () => {
     }
     const decreaseCount = () => {
         setCount(count - 1)
-        // decreaseLang()
+        decreaseLang()
+        setAddMoreLang(addMoreLang.pop())
     }
     console.log(count)
-    const [moreLangField, setMoreLangField] = React.useState(Array<any>)
+    const [moreLangField, setMoreLangField] = React.useState <any[]>([])
     const AddLang = () => {
         setMoreLangField([{ count: count }, ...moreLangField])
     }
+    console.log(moreLangField);
+    
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
     // console.log(moreLangField);
+console.log(post);
 
     return (
         <AppBody
@@ -191,9 +198,9 @@ const create = () => {
                         </Text> */}
                         <>
                             {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} />
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang}/>
                             })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount}>
+                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"}>
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>
