@@ -1,5 +1,6 @@
-import { Input } from "@chakra-ui/react"
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
+import { AiOutlineSearch } from "react-icons/ai";
 
 const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>>; searchQuery: string }> = ({ setSearchQuery, searchQuery }) => {
     const [timer, setTimer] = useState<number | null>(null)
@@ -32,15 +33,22 @@ const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>
     }
 
     return (
-        <Input
-            type="search"
-            placeholder="🔍  Search"
-            size="md"
-            borderRadius="full"
-            id="search"
-            name="search"
-            onChange={(e) => handleSearchChange(e)}
-        />
+        <InputGroup>
+            <InputLeftElement
+                pointerEvents='none'
+                children={<AiOutlineSearch color='gray.300' />}
+            />
+            <Input
+                type="search"
+                placeholder="Search"
+                size="md"
+                borderRadius="full"
+                id="search"
+                name="search"
+                onChange={(e) => handleSearchChange(e)}
+            />
+        </InputGroup>
+
     )
 }
 
