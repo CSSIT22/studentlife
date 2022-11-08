@@ -50,6 +50,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons"
 import { HiDotsHorizontal } from "react-icons/hi"
 import CmList from "../../components/shortnotes/cmList"
+import SnDetail from "../../components/shortnotes/snDetail"
 
 const snDetail = () => {
     return (
@@ -57,37 +58,14 @@ const snDetail = () => {
             <Grid templateColumns="repeat(14, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
                 <Spacer />
                 <GridItem colSpan={12} py={6}>
-                    <HStack>
-                        <Heading size={"lg"} mb={1}>
-                            Shortnote name
-                        </Heading>
-                        <Spacer />
-                        <Menu>
-                            <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
-                            <MenuList>
-                                <MenuItem>Add to library</MenuItem>
-                                <MenuItem>Upload file</MenuItem>
-                                <MenuItem>Delete</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </HStack>
-
-                    <Heading size={"sm"} bg={"orange"} rounded={8} w={20} py={1} textAlign={"center"} mb={4} boxShadow={"xl"}>
-                        CSC213
-                    </Heading>
-                    <Box mb={4}>
-                        <Heading size={"md"}>Description</Heading>
-                        <Text>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis ut cumque consequuntur vel, inventore hic suscipit
-                            perspiciatis at non! Sequi autem earum odio rem ipsum voluptatibus officia molestiae pariatur culpa!Lorem ipsum dolor sit,
-                            amet consectetur adipisicing elit. Debitis ut cumque consequuntur vel, inventore hic suscipit perspiciatis at non! Sequi
-                            autem earum odio rem ipsum voluptatibus officia molestiae pariatur culpa!{" "}
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Heading size={"md"}>Link</Heading>
-                        <Text>modlink.me/shortnote/filename.pdf</Text>
-                    </Box>
+                    <SnDetail
+                        topic={"Shortnote name"}
+                        course={"CSC213"}
+                        desc={
+                            " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum sint, odio ut praesentium explicabo hic harum voluptatem veniam architecto, recusandae, nisi aliquid? Fuga placeat dolore voluptates eligendi ut, aut dignissimos."
+                        }
+                        link={"modlink.me/shortnote/filename.pdf"}
+                    />
                 </GridItem>
             </Grid>
             <Grid templateColumns="repeat(14, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
