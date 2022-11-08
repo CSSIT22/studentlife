@@ -37,7 +37,9 @@ const index = () => {
         >
             <Flex alignItems={"center"}>
                 <HeaderPage head="Announcement" />
-                <IoIosAddCircle fontSize={"2rem"}/>
+                <Link to={"/announcement/create"}>
+                    <IoIosAddCircle fontSize={"2rem"} />
+                </Link>
             </Flex>
             {allPost
                 .filter((p) => {
@@ -53,6 +55,7 @@ const index = () => {
                             setAllPost={setAllPost}
                             id={el.id}
                             onSelectPost={onSelectPost}
+                            key={el.id}
                         />
                     )
                 })}
@@ -70,6 +73,7 @@ const index = () => {
                             setAllPost={setAllPost}
                             id={el.id}
                             onSelectPost={onSelectPost}
+                            key={el.id}
                         />
                     )
                 })}

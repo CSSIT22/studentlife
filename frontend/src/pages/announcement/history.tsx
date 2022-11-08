@@ -87,7 +87,7 @@ const history = () => {
                 .filter((fl) => fl.status == "waiting" || fl.status == "approve" || fl.status == "disapprove")
                 .map((el) => {
                     return (
-                        <PostOnHistory topic={el.topic} sender={el.sender} status={el.status} onClick={onClick} id={el.id} onSelectPost={onClick} />
+                        <PostOnHistory topic={el.topic} sender={el.sender} status={el.status} onClick={onClick} id={el.id} onSelectPost={onClick} key={el.id}/>
                     )
                 })}
             {deleteOrEdit(statusPostRequest)}

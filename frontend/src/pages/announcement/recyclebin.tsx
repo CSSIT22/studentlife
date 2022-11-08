@@ -79,6 +79,7 @@ const recyclebin = () => {
                             onClick={recoverClick}
                             id={el.id}
                             status={el.status}
+                            key={el.id}
                         />
                     )
                 })}
