@@ -19,7 +19,7 @@ const index = () => {
                     size="lg"
                     rounded="full"
                     as="a"
-                    href={`${import.meta.env.VITE_AUTH_URL}`}
+                    href={`${import.meta.env.VITE_APP_ORIGIN}/auth/microsoft`}
                     style={{ cursor: "pointer" }}
                 >
                     <Box mr={5}>
