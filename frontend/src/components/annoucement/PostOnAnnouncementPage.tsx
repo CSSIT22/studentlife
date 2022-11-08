@@ -22,8 +22,8 @@ const PostOnAnnouncementPage: FC<{
     const toggle = () => {
         setAllPost(
             allPost.map((el) => {
-                if (el.id == id) {
-                    el.status = !el.status
+                if (el.postId == id) {
+                    el.pinStatus = !el.pinStatus
                 }
                 return el
             })
