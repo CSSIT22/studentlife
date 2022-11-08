@@ -31,7 +31,7 @@ const PostOnAnnouncementPage: FC<{
     }
 
     return (
-        // <Link to={`/announcement/detail/${id}`}>
+        <Link to={`/announcement/detail/${id}`}>
             <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => onSelectPost(id)}>
                 <Flex alignItems={"center"}>
                     <Box>
@@ -44,7 +44,7 @@ const PostOnAnnouncementPage: FC<{
                     </Box>
                 </Flex>
             </Box>
-        // </Link>
+        </Link>
     )
 }
 

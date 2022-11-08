@@ -9,6 +9,7 @@ const MoreLang: FC<{
     const [otherLang, setOtherLang] = React.useState(String)
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
+    const [disable,setDisable] = React.useState(false)
     return (
         <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#DDDDDD"} my="10">
             <Tag
@@ -26,23 +27,23 @@ const MoreLang: FC<{
             </Tag>
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
-                <Select placeholder="Select language" onChange={(e) => setOtherLang(e.target.value)}>
+                <Select placeholder="Select language" onChange={(e) => setOtherLang(e.target.value)} disabled={disable}>
                     <option>Thai</option>
                     <option>Japanese</option>
                 </Select>
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Title</FormLabel>
-                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} />
+                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={disable}/>
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Detail</FormLabel>
-                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} />
+                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={disable}/>
             </FormControl>
             <Text color={"red.300"} fontSize={"0.8rem"} my={"2"}>
                 Note: if you added, you can't edit it anymore
             </Text>
-            <Button onClick={() => addLang(otherLang,topic,detail)}>Add</Button>
+            <Button onClick={() => {addLang(otherLang,topic,detail),setDisable(true)}} disabled={disable} >Add</Button>
         </Box>
     )
 }

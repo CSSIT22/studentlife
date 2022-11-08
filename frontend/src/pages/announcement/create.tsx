@@ -100,7 +100,7 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
     // console.log(expired);
     const addLang = (lang: string, topic: string, detail: string) => {
-        setAddMoreLang([{ lang: lang, topic: topic, detail: detail }, ...addMoreLang])
+        setAddMoreLang([...addMoreLang,{ lang: lang, topic: topic, detail: detail } ])
     }
     console.log(addMoreLang);
     
@@ -122,7 +122,7 @@ const create = () => {
     console.log(count)
     const [moreLangField, setMoreLangField] = React.useState <any[]>([])
     const AddLang = () => {
-        setMoreLangField([{ count: count }, ...moreLangField])
+        setMoreLangField([...moreLangField,{ count: count }])
     }
     console.log(moreLangField);
     
@@ -130,7 +130,7 @@ const create = () => {
         setAddMoreLang(moreLangField.pop())
     }
     // console.log(moreLangField);
-console.log(post);
+// console.log(post);
 
     return (
         <AppBody
@@ -141,26 +141,27 @@ console.log(post);
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
         >
-            <Form>
+            {/* <Form> */}
                 <Flex alignItems={"center"}>
                     <Text as={"b"} fontSize="xl">
-                        {/* <Link to={"/announcement"}> */}
+                        <Link to={"/announcement"}>
                         <GrClose />
-                        {/* </Link> */}
+                        </Link>
                     </Text>
                     <Spacer />
-                    {/* <Box textAlign={"right"}> */}
+                    <Box textAlign={"right"}>
                     <Button
-                        colorScheme="orange"
                         size="sm"
-                        onClick={() => addPost(topic, detail, targetType, targetValue, expired, addMoreLang)}
+                        bg="#E65300"
+                        onClick={() => {addPost(topic, detail, targetType, targetValue, expired, addMoreLang),onOpen()}}
                         type="submit"
+                        color="white"
                     >
-                        {/* onClick={onOpen} */}
+                        
                         Announce
                     </Button>
-                    {/* <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalCreate.topic} detail={modalCreate.detail} event={modalCreate.event} /> */}
-                    {/* </Box> */}
+                    <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalCreate.topic} detail={modalCreate.detail} status={modalCreate.event} />
+                    </Box>
                 </Flex>
                 <Stack spacing={3} p="5">
                     <FormControl>
@@ -192,10 +193,6 @@ console.log(post);
                         <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} />
                     </FormControl>
                     <FormControl>
-                        {/* <FormLabel>Add More Language</FormLabel>
-                        <Text as={"b"} fontSize="xl">
-                            <BsPlusCircleFill />
-                        </Text> */}
                         <>
                             {moreLangField.map((el) => {
                                 return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang}/>
@@ -204,38 +201,10 @@ console.log(post);
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>
-                            {/* <Stack direction="row" h="100px" p={4}>
-                            <Tag height={"1.5"} size={"lg"} key={"lg"} borderRadius="full" variant="solid" colorScheme="green">
-                                <TagLabel>Second Language</TagLabel>
-                                <TagCloseButton />
-                            </Tag>
-                        </Stack> */}
                         </>
                     </FormControl>
-
-                    {/* <FormControl isRequired>
-                        <FormLabel>Select Language</FormLabel>
-                        <Select placeholder="Select language">
-                            <option>Thai</option>
-                            <option>Japanese</option>
-                        </Select>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} />
-                    </FormControl> 
-                     <FormControl>
-                        <FormLabel>Add More Language</FormLabel>
-                        <Text as={"b"} fontSize="xl">
-                            <BsPlusCircleFill />
-                        </Text>
-                    </FormControl>*/}
                 </Stack>
-            </Form>
+            {/* </Form> */}
         </AppBody>
     )
 }
