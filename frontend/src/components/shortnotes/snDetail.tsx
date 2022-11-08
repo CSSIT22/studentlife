@@ -74,7 +74,7 @@ const liList: FC<{
                 </Menu>
             </HStack>
 
-            <Heading size={"sm"} bg={"orange"} rounded={8} w={20} py={1} textAlign={"center"} mb={6} boxShadow={"xl"}>
+            <Heading size={"sm"} bg={"orange.500"} color={"white"} rounded={8} w={20} py={1} textAlign={"center"} mb={6} boxShadow={"xl"}>
                 {course}
             </Heading>
             <Box mb={4}>

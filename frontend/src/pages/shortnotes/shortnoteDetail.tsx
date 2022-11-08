@@ -71,14 +71,18 @@ const snDetail = () => {
             <Grid templateColumns="repeat(14, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
                 <Spacer />
                 <GridItem colSpan={12} py={6}>
-                    <Heading size={"md"} mb={1}>
-                        Comments
-                    </Heading>
+                    <Box mb={4} boxShadow={"base"} rounded={8} p={4}>
+                        <Box>
+                            <Heading size={"md"} mb={1}>
+                                Comments
+                            </Heading>
+                            <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} />
+                            <Flex direction={"row"} justifyContent={"end"}>
+                                <Button colorScheme={"orange"}>Comment</Button>
+                            </Flex>
+                        </Box>
+                    </Box>
 
-                    <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} />
-                    <Flex direction={"row"} justifyContent={"end"} mb={4}>
-                        <Button colorScheme={"orange"}>Comment</Button>
-                    </Flex>
                     <VStack gap={4}>
                         <CmList
                             name={"Firstname Lastname"}
