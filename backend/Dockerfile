@@ -18,7 +18,6 @@ COPY --from=builder /modlifes/backend/build/ ./build/
 
 COPY --from=builder /modlifes/backend/package*.json ./
 
-
 COPY --from=builder /modlifes/backend/prisma/ ./prisma/
 
 RUN npm ci --only=production
