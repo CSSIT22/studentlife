@@ -1,4 +1,4 @@
-import { Flex, Center, Box, Image, useColorModeValue } from "@chakra-ui/react"
+import { Flex, Center, Box, Image, useColorModeValue, LinkBox, LinkOverlay } from "@chakra-ui/react"
 import React, { FC } from "react"
 
 export const CategoryItem: FC<{
@@ -7,7 +7,11 @@ export const CategoryItem: FC<{
     link: string
 }> = ({ name, image, link }) => {
     return (
-        <Box bg={"white"} maxW="15rem" borderRadius="lg" borderWidth="0px" rounded="lg" shadow="lg" position="relative" overflow={"hidden"}>
+        <LinkBox>
+         <LinkOverlay href={link}>
+
+         
+        <Box bg={"white"} maxW="15rem" borderRadius="lg" borderWidth="0px" rounded="lg" shadow="sm" position="relative" overflow={"hidden"}>
             <Box background="gray">
                 <Center>
                     <Image src={image} alt={`Picture of ${name}`} h="5rem" w="6rem" p="2" objectFit="contain" />
@@ -16,9 +20,11 @@ export const CategoryItem: FC<{
 
             <Center p="4">
                 <Box fontSize="xl" fontWeight="semibold" as="h4" alignContent={"center"}>
-                    {name}
+                   {name}
                 </Box>
             </Center>
         </Box>
+        </LinkOverlay>
+        </LinkBox>
     )
 }
