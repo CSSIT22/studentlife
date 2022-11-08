@@ -30,7 +30,7 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
 } from "@chakra-ui/react"
-import { Dropzone, FileItem } from "@dropzone-ui/react"
+import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -67,7 +67,8 @@ export default function Index() {
     //ref
     const ref1 = useRef(null)
     const ref2 = useRef(null)
-
+    //state for img preview
+    const [imageSrc, setImageSrc] = useState(undefined)
     // state for file upload
     const [files, setFiles] = useState([])
     //state for click drop
@@ -87,10 +88,16 @@ export default function Index() {
         description: "",
     })
 
-    //fucntion
+    //fucntion'
+    const handleDelete = (prop: any) => {
+        setFiles(files.filter((item) => item !== prop))
+    }
     const updateFile = (file: any) => {
         setFiles(file)
         console.log(file)
+    }
+    const handleSee = (imageSource) => {
+        setImageSrc(imageSource)
     }
     const handleDuration = async (e: any) => {
         if (e.target.id == "temp") {
@@ -137,9 +144,18 @@ export default function Index() {
             <PageBox pageName="drop">
                 <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"80%"}>
                     <VStack w={"full"} spacing={"5%"}>
-                        <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }}>
+                        <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }} >
                             {files.map((file: any) => (
-                                <FileItem {...file} preview />
+                                <FileItem
+                                    {...file}
+                                    preview
+                                    onDelete={() => {
+                                        handleDelete(file)
+                                    }}
+                                    hd
+                                    resultOnTooltip
+                                    onSee={handleSee}
+                                />
                             ))}
                             {files.length == 0 ? (
                                 <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
@@ -149,6 +165,7 @@ export default function Index() {
                                 </Flex>
                             ) : null}
                         </Dropzone>
+                        <FullScreenPreview imgSource={imageSrc} openImage={imageSrc} onClose={() => handleSee(undefined)} />
 
                         <Box w={"100%"} position={"relative"} mt={"10%"}>
                             <Text fontWeight={"bold"} mb={"2%"}>
