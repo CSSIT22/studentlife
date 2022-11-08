@@ -18,7 +18,6 @@ jobs:
     steps:
       - name: 😊 checkout
         uses: actions/checkout@v2
-
       - name: 🆙 Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -35,7 +34,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: .
-
       - name: login to docker
         uses: docker/login-action@v2
         with:
@@ -47,7 +45,7 @@ jobs:
       - name: ☁️ Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./backend
+          context: .
           file: ./backend/Dockerfile
           push: true
           tags: modlifes/backend:latest
