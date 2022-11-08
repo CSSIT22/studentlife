@@ -369,7 +369,15 @@ const DatingOption = () => {
                 </SimpleGrid>
                 {/* Submit button */}
                 <Center>
-                    <Button type="submit" form="new-note" borderRadius={"full"} colorScheme="orange" onClick={() => handleSubmit()} m={"80px"}>
+                    <Button
+                        type="submit"
+                        form="new-note"
+                        borderRadius={"full"}
+                        colorScheme="orange"
+                        onClick={() => handleSubmit()}
+                        m={"80px"}
+                        p="30px"
+                    >
                         Done
                     </Button>
                 </Center>

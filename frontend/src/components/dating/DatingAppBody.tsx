@@ -62,7 +62,7 @@ const DatingAppBody = (props: any) => {
                 },
                 {
                     name: "Tutorial",
-                    to: "/dating/tutorial/welcome",
+                    to: "/dating/tutorial",
                     isRight: true,
                     disableText: true,
                     Icon: isMobile ? DatingTutorialWhiteImg : DatingTutorialBlackImg,
