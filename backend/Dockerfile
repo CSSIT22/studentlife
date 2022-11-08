@@ -1,14 +1,28 @@
+FROM node:16.15-alpine3.16 AS builder
+
+WORKDIR /modlifes
+
+COPY ./backend ./backend
+
+COPY ./types ./types
+
+RUN npm i
+
+RUN npm run build
+
 FROM node:16.15-alpine3.16
 
 WORKDIR /modlifes
 
-COPY . .
+COPY --from=builder /modlifes/backend/build/ ./build/
 
-RUN npm i
+COPY --from=builder /modlifes/backend/package*.json ./
 
-# RUN npm ci --only=production
+COPY --from=builder /modlifes/backend/prisma/ ./prisma/
 
-# RUN npm run db:gen
+RUN npm ci --only=production
+
+RUN npm run db:gen
 
 EXPOSE 8000
 
