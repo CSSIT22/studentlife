@@ -1,5 +1,5 @@
 import { HStack, Heading } from "@chakra-ui/react"
-import React, { FC } from "react"
+import { FC } from "react"
 import { IconType } from "react-icons"
 import { Link, useLocation } from "react-router-dom"
 
