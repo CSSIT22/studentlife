@@ -1,0 +1,114 @@
+import React from "react"
+import {
+    Box,
+    Heading,
+    Text,
+    Button,
+    Flex,
+    Spacer,
+    HStack,
+    SimpleGrid,
+    VStack,
+    Select,
+    ButtonGroup,
+    Divider,
+    GridItem,
+    Grid,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    Input,
+    Textarea,
+    useRadioGroup,
+    useRadio,
+    Center,
+    InputGroup,
+    InputRightElement,
+    Stack,
+    Square,
+    Drawer,
+    DrawerBody,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    RadioGroup,
+    Radio,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    IconButton,
+} from "@chakra-ui/react"
+import AppBody from "../../components/share/app/AppBody"
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons"
+import { HiDotsHorizontal } from "react-icons/hi"
+
+const snDetail = () => {
+    return (
+        <AppBody>
+            <Grid templateColumns="repeat(10, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
+                <Spacer />
+                <GridItem colSpan={8} p={4}>
+                    <HStack>
+                        <Heading size={"lg"} mb={1}>
+                            Shortnote name
+                        </Heading>
+                        <Spacer />
+                        <Menu>
+                            <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
+                            <MenuList>
+                                <MenuItem command="">Add to library</MenuItem>
+                                <MenuItem command="">Upload file</MenuItem>
+                                <MenuItem command="">Delete</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </HStack>
+
+                    <Text bg={"orange"} rounded={8} w={20} textAlign={"center"} mb={4}>
+                        CSC213
+                    </Text>
+                    <Box mb={4}>
+                        <Heading size={"md"}>Description</Heading>
+                        <Text>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis ut cumque consequuntur vel, inventore hic suscipit
+                            perspiciatis at non! Sequi autem earum odio rem ipsum voluptatibus officia molestiae pariatur culpa!{" "}
+                        </Text>
+                    </Box>
+
+                    <Box mb={4}>
+                        <Heading size={"md"}>Link</Heading>
+                        <Text>modlink.me/shortnote/filename.pdf</Text>
+                    </Box>
+
+                    <Box>
+                        <Textarea h={150} mb={2} />
+                        <Flex direction={"row"} justifyContent={"end"}>
+                            <Button colorScheme={"orange"}>Comment</Button>
+                        </Flex>
+                    </Box>
+                    <VStack gap={4}>
+                        <Box bg={"white"} boxShadow={"xl"} rounded={8} p={4}>
+                            <Heading size={"sm"}>Firstname lastname</Heading>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modi?
+                            Non, id! Quae illo iste id cum quia aut doloribus eligendi?
+                        </Box>
+                        <Box bg={"white"} boxShadow={"xl"} rounded={8} p={4}>
+                            <Heading size={"sm"}>Firstname lastname</Heading>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modi?
+                            Non, id! Quae illo iste id cum quia aut doloribus eligendi?
+                        </Box>
+                    </VStack>
+                </GridItem>
+            </Grid>
+        </AppBody>
+    )
+}
+
+export default snDetail
