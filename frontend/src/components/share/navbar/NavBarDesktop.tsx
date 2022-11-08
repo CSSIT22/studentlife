@@ -8,12 +8,14 @@ import { Link } from "react-router-dom"
 import NavBarWithNoti from "./NavBarWithNoti"
 import SecondaryNav from "./SecondaryNav"
 import { moreMenu, NavBarMenu } from "./NavBar"
-import { FC } from "react"
+import { FC, useContext } from "react"
 import { secondaryNavProps } from "../app/AppBody"
 import ExtarSecondaryNav from "./ExtarSecondaryNav"
 import logo from "./pic/logo.png"
+import { authContext } from "src/context/AuthContext"
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
+    const user = useContext(authContext)
     return (
         <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
@@ -42,8 +44,11 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                                 cursor="pointer"
                                                 transition="0.5s"
                                             >
-                                                <Avatar size="sm"></Avatar>
-                                                <Heading size="sm">@CS22</Heading>
+                                                <Avatar
+                                                    size="sm"
+                                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user?.userId}
+                                                ></Avatar>
+                                                <Heading size="sm">{user?.fName}</Heading>
                                                 <Heading size="md" m={0} p={0} transform={`rotate(${isOpen ? "180" : "0"}deg)`} transition="0.5s">
                                                     <IoMdArrowDropdown />
                                                 </Heading>
