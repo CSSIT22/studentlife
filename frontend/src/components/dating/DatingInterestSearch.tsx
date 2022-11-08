@@ -1,21 +1,22 @@
-import { Box, Input, Text } from "@chakra-ui/react"
-import React, { Component, Dispatch, FC, SetStateAction, useCallback, useEffect, useRef, useState } from "react"
+import { Input } from "@chakra-ui/react"
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 
 const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>>; searchQuery: string }> = ({ setSearchQuery, searchQuery }) => {
     const [timer, setTimer] = useState<number | null>(null)
     const didMount = useDidMount()
 
     useEffect(() => {
-        if (didMount) alert(searchQuery)
-      }, [searchQuery])
+        if (didMount) alert("Query: \"" + searchQuery + "\"")
+    }, [searchQuery])
 
     function useDidMount() {
         const [didMount, setDidMount] = useState(false)
-        useEffect(() => { setDidMount(true) }, [])
-      
+        useEffect(() => {
+            setDidMount(true)
+        }, [])
+
         return didMount
     }
-
 
     // Check if user has press enter when currently in the search bar
     function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -26,7 +27,7 @@ const DatingInterestSearch: FC<{ setSearchQuery: Dispatch<SetStateAction<string>
         setTimer(
             setTimeout(() => {
                 setSearchQuery(event.target.value)
-            }, 1000)
+            }, 500)
         )
     }
 
