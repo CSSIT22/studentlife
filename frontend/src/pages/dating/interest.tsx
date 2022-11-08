@@ -9,8 +9,8 @@ import DatingInterestDynamicButton from "../../components/dating/DatingInterestD
 
 interface state {
     allInterests: {
-        interestId: string;
-        interestName: string;
+        interestId: string
+        interestName: string
     }[]
 }
 const TagOfInterest = () => {
@@ -19,7 +19,7 @@ const TagOfInterest = () => {
 
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
-    let IState = {allInterests: INTERESTS}
+    let IState = { allInterests: INTERESTS }
     const [searchQuery, setSearchQuery] = useState("")
     const [numOfInterest, setNumOfInterest] = useState(0)
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
@@ -55,7 +55,7 @@ const TagOfInterest = () => {
             </Grid>
             {/* DatingInterestSearch component: Search Bar */}
             <Box pb="10">
-                <DatingInterestSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                <DatingInterestSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
             {/* CheckboxGroup : List of tags of interest */}
             <CheckboxGroup colorScheme="white">
