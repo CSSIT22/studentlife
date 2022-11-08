@@ -6,7 +6,7 @@ const cmList: FC<{
     desc: String
 }> = ({ name, desc }) => {
     return (
-        <Grid templateRows="repeat(3, 1fr)" bg={"white"} boxShadow={"lg"} rounded={8} p={4}>
+        <Grid templateRows="repeat(3, 1fr)" bg={"white"} boxShadow={"base"} rounded={8} p={4}>
             <GridItem rowSpan={1}>
                 <Heading size={"sm"}>{name}</Heading>
             </GridItem>

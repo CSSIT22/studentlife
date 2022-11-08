@@ -41,18 +41,22 @@ import {
     Radio,
 } from "@chakra-ui/react"
 import React from "react"
-import Li from "./liList"
+import { BiLibrary } from "react-icons/bi"
+import LiList from "./liList"
+import InLiList from "./inLiList"
+import { Link } from "react-router-dom"
 
 const btnMyLibrary = () => {
-    const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
-    const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
+    const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
+    const { isOpen: nliIsOpen, onOpen: nliOnOpen, onClose: nliOnClose } = useDisclosure()
+    const { isOpen: inliIsOpen, onOpen: inliOnOpen, onClose: inliOnClose } = useDisclosure()
 
     return (
         <Box>
-            <Button colorScheme="orange" onClick={mlOnOpen}>
-                My library
+            <Button colorScheme="orange" onClick={mliOnOpen}>
+                <BiLibrary /> My library
             </Button>
-            <Drawer isOpen={mlIsOpen} placement="right" onClose={mlOnClose} size={"sm"}>
+            <Drawer isOpen={mliIsOpen} placement="right" onClose={mliOnClose} size={"sm"}>
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
@@ -62,10 +66,10 @@ const btnMyLibrary = () => {
                             {/*<Link to={"./library/newLibrary"}>
                                     <Button colorScheme="orange">New library</Button>
                                 </Link>*/}
-                            <Button colorScheme={"orange"} onClick={nlOnOpen}>
+                            <Button colorScheme={"orange"} onClick={nliOnOpen}>
                                 New library
                             </Button>
-                            <Drawer isOpen={nlIsOpen} placement="right" onClose={nlOnClose} size={"sm"}>
+                            <Drawer isOpen={nliIsOpen} placement="right" onClose={nliOnClose} size={"sm"}>
                                 <DrawerContent>
                                     <DrawerCloseButton />
                                     <DrawerHeader>
@@ -96,15 +100,43 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            <Li name={"midterm y2/1"}></Li>
-                            <Li name={"Network"}></Li>
-                            <Li name={"Algo p1"}></Li>
-                            <Li name={"Java"}></Li>
-                            <Li name={"midterm y2/1"}></Li>
-                            <Li name={"Network"}></Li>
-                            <Li name={"Algo p1"}></Li>
-                            <Li name={"Java"}></Li>
+                            <Box as="button" onClick={inliOnOpen}>
+                                <LiList name={"midterm y2/1"}></LiList>
+                            </Box>
+                            <LiList name={"Network"}></LiList>
+                            <LiList name={"Algo p1"}></LiList>
+                            <LiList name={"Java"}></LiList>
+                            <LiList name={"midterm y2/1"}></LiList>
+                            <LiList name={"Network"}></LiList>
+                            <LiList name={"Algo p1"}></LiList>
+                            <LiList name={"Java"}></LiList>
                         </Stack>
+                    </DrawerBody>
+                    <DrawerFooter></DrawerFooter>
+                </DrawerContent>
+            </Drawer>
+            <Drawer isOpen={inliIsOpen} placement="right" onClose={inliOnClose} size={"sm"}>
+                <DrawerContent>
+                    <DrawerCloseButton />
+
+                    <DrawerHeader>
+                        <HStack gap={4}>
+                            <Heading size={"lg"}>Library's name</Heading>
+                        </HStack>
+                    </DrawerHeader>
+                    <DrawerBody>
+                        <VStack spacing={4}>
+                            <Box w={"100%"}>
+                                <Link to={"./shortnoteDetail"}>
+                                    <InLiList name={"Shortnote 001"} course={"CSC213"} />
+                                </Link>
+                            </Box>
+                            <InLiList name={"Shortnote 002"} course={"CSC214"} />
+                            <InLiList name={"Shortnote 003"} course={"CSC215"} />
+                            <InLiList name={"Shortnote 001"} course={"CSC213"} />
+                            <InLiList name={"Shortnote 002"} course={"CSC214"} />
+                            <InLiList name={"Shortnote 003"} course={"CSC215"} />
+                        </VStack>
                     </DrawerBody>
 
                     <DrawerFooter></DrawerFooter>

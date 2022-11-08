@@ -47,6 +47,9 @@ import {
     IconButton,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
+import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
+import { MdDeleteOutline } from "react-icons/md"
+import { BiLibrary } from "react-icons/bi"
 
 const liList: FC<{
     topic: String
@@ -64,14 +67,14 @@ const liList: FC<{
                 <Menu>
                     <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
                     <MenuList>
-                        <MenuItem>Add to library</MenuItem>
-                        <MenuItem>Upload file</MenuItem>
-                        <MenuItem>Delete</MenuItem>
+                        <MenuItem icon={<BiLibrary />}>Add to library</MenuItem>
+                        <MenuItem icon={<AiOutlineUpload />}>Upload file</MenuItem>
+                        <MenuItem icon={<MdDeleteOutline />}>Delete</MenuItem>
                     </MenuList>
                 </Menu>
             </HStack>
 
-            <Heading size={"sm"} bg={"orange"} rounded={8} w={20} py={1} textAlign={"center"} mb={4} boxShadow={"xl"}>
+            <Heading size={"sm"} bg={"orange"} rounded={8} w={20} py={1} textAlign={"center"} mb={6} boxShadow={"xl"}>
                 {course}
             </Heading>
             <Box mb={4}>

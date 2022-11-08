@@ -75,19 +75,19 @@ const snDetail = () => {
                         Comments
                     </Heading>
 
-                    <Textarea h={150} mb={2} py={4} placeholder={"What are your thought..."} />
-                    <Flex direction={"row"} justifyContent={"end"}>
+                    <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} />
+                    <Flex direction={"row"} justifyContent={"end"} mb={4}>
                         <Button colorScheme={"orange"}>Comment</Button>
                     </Flex>
                     <VStack gap={4}>
                         <CmList
-                            name={"firstname lastname"}
+                            name={"Firstname Lastname"}
                             desc={
                                 "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"
                             }
                         />
                         <CmList
-                            name={"firstname lastname"}
+                            name={"Firstname Lastname"}
                             desc={
                                 "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"
                             }

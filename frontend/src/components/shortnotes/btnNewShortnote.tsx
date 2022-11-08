@@ -41,6 +41,7 @@ import {
     Radio,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
+import { MdPostAdd } from "react-icons/md"
 
 const btnNewShortnote = () => {
     const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
@@ -53,7 +54,7 @@ const btnNewShortnote = () => {
     return (
         <Box>
             <Button colorScheme={"orange"} onClick={nsOnOpen}>
-                New shortnote
+                <MdPostAdd /> New shortnote
             </Button>
             <Modal size={"xl"} onClose={closeSnModal} isOpen={nsIsOpen} isCentered>
                 <ModalOverlay />

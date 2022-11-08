@@ -44,7 +44,7 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
 import Rsn from "../../components/shortnotes/rsnList"
-import Sn from "../../components/shortnotes/snList"
+import SnList from "../../components/shortnotes/snList"
 import Li from "../../components/shortnotes/liList"
 import BtnMl from "../../components/shortnotes/btnMyLibrary"
 import BtnNs from "../../components/shortnotes/btnNewShortnote"
@@ -100,12 +100,16 @@ const index = () => {
                 </Stack>
             </Flex>
             <VStack gap={2} pt={4}>
-                <Sn topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></Sn>
-                <Sn topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={""}></Sn>
-                <Sn topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></Sn>
-                <Sn topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></Sn>
-                <Sn topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={"🔒"}></Sn>
-                <Sn topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></Sn>
+                <Box w={"100%"}>
+                    <Link to={"./shortnoteDetail"}>
+                        <SnList topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></SnList>
+                    </Link>
+                </Box>
+                <SnList topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={""}></SnList>
+                <SnList topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></SnList>
+                <SnList topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></SnList>
+                <SnList topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={"🔒"}></SnList>
+                <SnList topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></SnList>
             </VStack>
         </AppBody>
     )
