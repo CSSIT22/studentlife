@@ -1,4 +1,4 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Text} from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { Link } from "react-router-dom"
 
@@ -50,9 +50,7 @@ const ModalForEvent: FC<{
     // console.log(selectPost);
 
     const checkstatus = (status: string) => {
-        if (status == "OK") {
-            return ""
-        } else if (status == "disapprove" || status == "approve") {
+       if (status == "disapprove" || status == "approve") {
             return (
                 <Button
                     colorScheme="blue"
@@ -82,7 +80,7 @@ const ModalForEvent: FC<{
             )
         } else if (status == "waiting") {
             return (
-                // <Link to="/announcement/create">
+                <Link to={`/announcement/history/${selectPost}`}>
                     <Button
                         colorScheme="blue"
                         mr={3}
@@ -94,7 +92,47 @@ const ModalForEvent: FC<{
                     >
                         Edit
                     </Button>
-                // </Link>
+                </Link>
+            )
+        }else {
+            return ""
+        }
+    }
+    // console.log(status);
+    const backToHistory = (status: string) => {
+        if (status == "edit") {
+            return (
+                <Link to="/announcement/history">
+                    <Button
+                        onClick={() => {
+                            onClose(), cancelButtonForEvent()
+                        }}
+                    >
+                        Close
+                    </Button>
+                </Link>
+            )
+        } else if(status == 'OK'){
+            return (
+                <Link to="/announcement">
+                    <Button
+                        onClick={() => {
+                            onClose(), cancelButtonForEvent()
+                        }}
+                    >
+                        Close
+                    </Button>
+                </Link>
+            )
+        }else {
+            return (
+                <Button
+                    onClick={() => {
+                        onClose(), cancelButtonForEvent()
+                    }}
+                >
+                    Close
+                </Button>
             )
         }
     }
@@ -103,19 +141,12 @@ const ModalForEvent: FC<{
             <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
             <ModalContent>
                 <ModalHeader>{topic}</ModalHeader>
-                <ModalCloseButton />
                 <ModalBody pb={6}>
                     <Text>{detail}</Text>
                 </ModalBody>
                 <ModalFooter>
                     {checkstatus(status)}
-                    <Button
-                        onClick={() => {
-                            onClose(), cancelButtonForEvent()
-                        }}
-                    >
-                        Close
-                    </Button>
+                    {backToHistory(status)}
                 </ModalFooter>
             </ModalContent>
         </Modal>
