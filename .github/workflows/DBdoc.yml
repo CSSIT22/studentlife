@@ -1,0 +1,50 @@
+name: Generate ER Diagram
+
+on:
+    push:
+        branches:
+            - DB
+
+jobs:
+    genER:
+        runs-on: ubuntu-latest
+        environment: DB
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Read Schema
+              id: schema
+              uses: juliangruber/read-file-action@v1
+              with:
+                  path: ./backend/prisma/schema.prisma
+            - name: Make request
+              id: request
+              uses: fjogeleit/http-request-action@v1
+              with:
+                  url: "${{secrets.API_URL}}"
+                  method: "POST"
+                  customHeaders: '{"Content-Type": "text/plain"}'
+                  data: "${{ steps.schema.outputs.content }}"
+            # - name: Get Er
+            #   run: echo ${{ steps.request.outputs.response }}
+            - name: cleanup string
+              id: res
+              uses: actions/github-script@0.9.0
+              with:
+                  script: |
+                      let er = ${{steps.request.outputs.response }}
+                      er.substring(1,er.length-1)
+                      core.setOutput('er', er)
+            - name: make file
+              run: |
+                  mkdir Documentation
+                  cd ./Documentation/
+                  echo -e 'Here is our ER diagram 
+                  ```mermaid
+                  ${{ steps.res.outputs.er }} ```' > ./Database.md
+            - name: Upload Documentation to Wiki
+              uses: SwiftDocOrg/github-wiki-publish-action@v1
+              with:
+                  path: "Documentation"
+              env:
+                  GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
