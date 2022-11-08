@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
-import { HiUpload, HiDownload } from "react-icons/hi"
+import { HiUpload, HiDownload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
 import {
     Container,
@@ -114,14 +114,20 @@ export default function Receivedrop() {
         const componentArr = []
         modalData.comments.map((item) => {
             componentArr.push(
-                <HStack>
-                    <Text fontSize={"xl"}>{item.name}:</Text>
-                    <Text>{item.comment}</Text>
-                </HStack>
+                <>
+                    <HStack p={3}>
+                        <HiUser fontSize={"2.5rem"} />
+                        <VStack>
+                            <Text fontSize={"xl"}>{item.name}</Text>
+                            <Text>{item.comment}</Text>
+                        </VStack>
+                    </HStack>
+                    <Divider />
+                </>
             )
         })
 
-        return componentArr;
+        return componentArr
     }
 
     return (
@@ -183,10 +189,14 @@ export default function Receivedrop() {
                 })}
 
                 {/* //this section is for modal */}
-                <Modal isOpen={isOpen} onClose={()=>{
-                    onClose();
-                    setModalPage(0);
-                }} isCentered>
+                <Modal
+                    isOpen={isOpen}
+                    onClose={() => {
+                        onClose()
+                        setModalPage(0)
+                    }}
+                    isCentered
+                >
                     <ModalOverlay />
                     <ModalContent textAlign={"center"}>
                         <ModalHeader>{modalPage == 0 ? "File Properties" : "File Comment"}</ModalHeader>
@@ -206,6 +216,7 @@ export default function Receivedrop() {
                                 </>
                             ) : (
                                 <>
+                                    <Divider />
                                     {RenderModalComments()}
                                     <Text
                                         color={"gray.600"}

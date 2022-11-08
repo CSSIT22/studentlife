@@ -11,9 +11,24 @@ const linkMenu = [
 ]
 const dummyData = [
     {
-        icon: MdImage,
+
         name: "pic1.jpeg",
-        type: HiDownload,
+        sender: "ABC DEF",
+        type: "Download",
+        date: "10/10/2021 10:43:00",
+    },
+    {
+
+        name: "pic2.jpeg",
+        sender: "KNL AWF",
+        type: "Upload",
+        date: "10/10/2021 10:43:00",
+    },
+    {
+
+        name: "pic3.jpeg",
+        sender: "GHI JKL",
+        type: "Download",
         date: "10/10/2021 10:43:00",
     },
 ]
