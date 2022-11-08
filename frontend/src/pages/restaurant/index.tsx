@@ -28,6 +28,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectCards } from "swiper"
+import ShowImage from "../../components/restaurant/ShowImage"
 
 
 function likeOrNope() {
@@ -59,7 +60,8 @@ function likeOrNope() {
                 <Box h="20px">
                     <Heading textAlign={"center"}> Restaurant name</Heading>
                 </Box>
-                <Box h="auto">
+                <ShowImage />
+                {/* <Box h="auto">
                     <Center>
                         <Swiper effect={"cards"} grabCursor={true} modules={[EffectCards]} className="mySwiper">
                             <SwiperSlide> <Image
@@ -104,7 +106,7 @@ function likeOrNope() {
                         
                        
                     </Center>
-                </Box>
+                </Box> */}
 
                 <Box h="60px">
                     <Flex>
