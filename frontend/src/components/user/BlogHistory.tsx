@@ -10,19 +10,15 @@ function BlogHistory() {
 
             <Container padding="5">
                 <Box rounded="lg" mx={6} my={5} bg="black" p={10} color="white" textAlign={"center"}>
-                    This is the Box
+                    Blog1
                 </Box>
 
                 <Box rounded="lg" mx={6} my={5} bg="black" p={10} color="white" textAlign={"center"}>
-                    This is the Box
+                    Blog2
                 </Box>
 
                 <Box rounded="lg" mx={6} my={5} bg="black" p={10} color="white" textAlign={"center"}>
-                    This is the Box
-                </Box>
-
-                <Box bg="tomato" w="100%" p={4} color="white">
-                    This is the Box
+                    Blog3
                 </Box>
             </Container>
         </Flex>
