@@ -10,6 +10,7 @@ RUN npm --prefix ./backend i
 
 RUN npm --prefix ./backend run build
 
+
 FROM node:16.15-alpine3.16
 
 WORKDIR /modlifes

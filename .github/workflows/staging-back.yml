@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: 🐳 build
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     container: node:16-alpine
     steps:
@@ -33,7 +33,7 @@ jobs:
           tags: modlifes/backend:latest
   deploy:
     name: 🖨️ deploy to server
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     environment: develop
     timeout-minutes: 5
     needs: [build]
