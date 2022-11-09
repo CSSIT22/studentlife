@@ -6,7 +6,9 @@ const multer = require("multer");
 //config destionation here
 const storage = multer.diskStorage({
     destination: function (req:any, file:any, cb:any) {
-      cb(null, path.join(__dirname,"/files"))
+     const fileType = req.body.type;
+     
+      cb(null, path.join(__dirname,"/files"+"/"+fileType));
     },
     filename: function (req:any, file:any, cb:any) {
       cb(null, file.originalname + path.extname(file.originalname)) 
@@ -21,4 +23,4 @@ fileRoutes.post("/upload",upload.array('files'),(req:Request,res:Response)=>{
     console.log("Upload sucessful");
     console.log(req.body);
 });
-export default fileRoutes;
+export default fileRoutes;45
