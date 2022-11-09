@@ -53,5 +53,7 @@ jobs:
           script: |
             cd ${{secrets.PATH_STAGING}}
             docker pull modlifes/backend:latest
-            docker-compose up --detach backend
+            touch .env
+            echo '${{secrets.BACKEND_STAGING_ENV}}' > .env
+            docker-compose --env-file ./.env up --detach backend
             docker system prune -af
