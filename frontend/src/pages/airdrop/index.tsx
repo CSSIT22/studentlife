@@ -4,8 +4,12 @@ import PageBox from "../../components/airdrop/pageBox"
 import SetDropBox from "../../components/airdrop/setDropBox"
 import { HiDownload, HiUpload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory } from "react-icons/md"
+import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
+import Lottie from "lottie-react"
+import axios from "axios"
+import uploadAnimation from "../../components/airdrop/animation/upload.json"
 import {
-    Container,
+    Tag,
     Flex,
     Box,
     Text,
@@ -29,10 +33,9 @@ import {
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,
+    SimpleGrid,
+    Stack,
 } from "@chakra-ui/react"
-import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
-import Lottie from "lottie-react"
-import uploadAnimation from "../../components/airdrop/animation/upload.json"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -44,7 +47,7 @@ const dummyData = [
         description: "HELLOOOOOOOOOOOOOOOOOOOOOO",
     },
 ]
-const dummyData2 = [
+const dummyData22 = [
     {
         name: "MR.ABC DEF",
     },
@@ -58,17 +61,18 @@ const dummyData2 = [
         name: "MR.STU VWX",
     },
     {
-        name: "MR.STU VWX",
+        name: "MR.YZ GG",
     },
     {
-        name: "MR.STU VWX",
+        name: "MR.PPP PPP",
     },
 ]
-const openModal = () => {}
 export default function Index() {
     //ref
     const ref1 = useRef(null)
     const ref2 = useRef(null)
+    //dummy
+    const [dummyData2, setDummyData2] = useState(dummyData22)
     //state for img preview
     const [imageSrc, setImageSrc] = useState(undefined)
     // state for file upload
@@ -86,18 +90,15 @@ export default function Index() {
     // state for user select
     const [selectedType, setSelectedType] = useState("Everyone")
     //state for select receiver
-    const [info, setInfo] = useState({
-        receiver: "",
-        description: "",
-    })
-
+    const [receiver, setReceiver] = useState([])
+    //state for description
+    const [description, setdescription] = useState("")
     //fucntion'
     const handleDelete = (prop: any) => {
         setFiles(files.filter((item) => item !== prop))
     }
     const updateFile = (file: any) => {
         setFiles(file)
-        console.log(file)
     }
     const handleSee = (imageSource: any) => {
         setImageSrc(imageSource)
@@ -129,38 +130,65 @@ export default function Index() {
             }
         }
     }
+    const handleDrop = async () => {
+        const fd = new FormData()
+        files.map((item) => {
+            fd.append("files", item.file)
+        })
+        if (selectedType == "everyone") {
+            fd.append("receiver", receiver[0])
+            fd.append("description", description)
+            fd.append("duration", dropDuration.temp ? "temp" : "perm")
+        } else {
+            fd.append("type", selectedType)
+            receiver.map((receive) => {
+                fd.append("receiver", receive)
+            })
+            fd.append("description", description)
+            fd.append("duration", dropDuration.temp ? "temp" : "perm")
+        }
 
+        try {
+            const res = await axios.post("http://localhost:8000/airdrop/file/upload", fd, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            console.log(res)
+        } catch {
+            console.log("error")
+        }
+    }
     //useEffect
     useEffect(() => {
         if (clickDrop == false) {
-            setSelectedType("Everyone")
-            if (selectedType === "Everyone") {
-                setInfo({
-                    receiver: "Everyone",
-                    description: "",
-                })
-            }
+            // setSelectedType("Everyone")
+            // if (selectedType === "Everyone") {
+            //     setReceiver(["everyone"])
+            // }
         }
     }, [isOpen])
+    useEffect(() => {
+        console.log(receiver)
+    }, [receiver])
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="drop">
                 <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"80%"}>
                     {confirmDrop ? (
-                        <Box py={["40%","0%"]}>
+                        <Box py={["40%", "0%"]}>
                             <Lottie
                                 animationData={uploadAnimation}
                                 onLoopComplete={() => {
-                                    window.location.reload();
+                                    window.location.reload()
                                 }}
-                                
                             />
                         </Box>
                     ) : (
                         <>
                             <VStack w={"full"} spacing={"5%"}>
                                 <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }}>
-                                    {files.map((file: any,key) => (
+                                    {files.map((file: any, key) => (
                                         <FileItem
                                             {...file}
                                             preview
@@ -199,7 +227,13 @@ export default function Index() {
                                                 onOpen()
                                             }}
                                             rounded={"2xl"}
-                                            value={info.receiver ? info.receiver : "Please select Receiver"}
+                                            value={
+                                                receiver
+                                                    ? receiver.length > 1
+                                                        ? `${receiver.length} receiver selected`
+                                                        : receiver[0]
+                                                    : "Please select Receiver"
+                                            }
                                             textAlign={"center"}
                                             _focus={{
                                                 borderColor: "gray.400",
@@ -218,14 +252,22 @@ export default function Index() {
                                         <ModalBody>
                                             <Flex flexDirection={"column"} justifyContent={"space-around"} w={"80%"} m={"auto"} gap={4}>
                                                 {!clickDrop ? (
+                                                    // Select receiver part
                                                     <>
                                                         <HStack spacing={5}>
                                                             <Text fontSize={"lg"}>Type: </Text>
                                                             <Select
+                                                                defaultValue={selectedType}
                                                                 rounded={"xl"}
                                                                 textAlign={"center"}
                                                                 onChange={(e) => {
-                                                                    setSelectedType(e.target.value)
+                                                                    if (e.target.value == "Everyone") {
+                                                                        setSelectedType(e.target.value)
+                                                                        setReceiver(["everyone"])
+                                                                    } else {
+                                                                        setSelectedType(e.target.value)
+                                                                        setReceiver([])
+                                                                    }
                                                                 }}
                                                             >
                                                                 <option value="Everyone">Everyone</option>
@@ -247,22 +289,50 @@ export default function Index() {
                                                                     _focus={{
                                                                         borderColor: "gray.400",
                                                                     }}
-                                                                ></Input>
+                                                                />
                                                                 <Select
-                                                                    size="1"
                                                                     multiple
                                                                     onChange={(e) => {
-                                                                        setInfo({ receiver: e.target.value, description: "" })
+                                                                        const receiv = e.target.value
+                                                                        if (receiver.includes(receiv)) {
+                                                                        } else {
+                                                                            const newArr = receiver.concat(receiv)
+                                                                            setReceiver(newArr)
+                                                                        }
                                                                     }}
+                                                                    size={"xl"}
+                                                                    textAlign={"center"}
                                                                 >
+                                                                    {/* //map user data into this */}
                                                                     {dummyData2.map((data) => {
                                                                         return <option value={data.name}>{data.name}</option>
                                                                     })}
                                                                 </Select>
+                                                                <SimpleGrid columns={[1,2,3]}>
+                                                                    {receiver.map((name) => {
+                                                                        return (
+                                                                            <>
+                                                                                <Box>
+                                                                                    <Tag
+                                                                                        onClick={() => {
+                                                                                            const index = receiver.indexOf(name)
+                                                                                            const newArr = receiver.filter((item) => item != name)
+                                                                                            setReceiver(newArr)
+                                                                                        }}
+                                                                                        _hover={{ cursor: "pointer" }}
+                                                                                    >
+                                                                                        {name + " x"}
+                                                                                    </Tag>
+                                                                                </Box>
+                                                                            </>
+                                                                        )
+                                                                    })}
+                                                                </SimpleGrid>
                                                             </>
                                                         )}
                                                     </>
                                                 ) : (
+                                                    // Dropduration part
                                                     <>
                                                         <VStack spacing={5}>
                                                             <SetDropBox>
@@ -360,6 +430,7 @@ export default function Index() {
                                                         alignSelf={"center"}
                                                         textAlign={"center"}
                                                         onClick={() => {
+                                                            handleDrop()
                                                             setConfirmDrop(true)
                                                         }}
                                                     >
@@ -380,9 +451,9 @@ export default function Index() {
                                         borderColor={"gray.400"}
                                         h={16}
                                         rounded={"2xl"}
-                                        value={info.description}
+                                        value={description}
                                         onChange={(e) => {
-                                            setInfo({ ...info, description: e.target.value })
+                                            setdescription(e.target.value)
                                         }}
                                     ></Input>
                                 </Box>
