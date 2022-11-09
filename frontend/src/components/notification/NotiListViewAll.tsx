@@ -12,6 +12,14 @@ const NotiListViewAll = () => {
                 <NotiObjectViewAll />
                 <Divider />
                 <NotiObjectViewAll />
+                <Divider />
+                <NotiObjectViewAll />
+                <Divider />
+                <NotiObjectViewAll />
+                <Divider />
+                <NotiObjectViewAll />
+                <Divider />
+                <NotiObjectViewAll />
             </Stack>
         </div>
     )
