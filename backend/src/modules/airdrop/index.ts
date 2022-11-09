@@ -1,6 +1,6 @@
 import express,{Request,Response} from "express"
-import fileRoutes from "./fileRoutes";
-import userRoutes from "./userRoutes";
+import fileRoutes from "./routes/fileRoutes";
+import userRoutes from "./routes/userRoutes";
 const airdropRoutes = express()
 
 airdropRoutes.get("/",(req:Request,res:Response)=>{
