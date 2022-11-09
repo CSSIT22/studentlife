@@ -45,6 +45,7 @@ import { BiLibrary } from "react-icons/bi"
 import LiList from "./liList"
 import InLiList from "./inLiList"
 import { Link } from "react-router-dom"
+import { IoIosArrowBack } from "react-icons/io"
 
 const btnMyLibrary = () => {
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
@@ -114,7 +115,10 @@ const btnMyLibrary = () => {
                     <DrawerCloseButton />
                     <DrawerHeader>
                         <HStack gap={4}>
-                            <Heading size={"lg"}> New library</Heading>
+                            <Button variant={"ghost"} onClick={nliOnClose}>
+                                <IoIosArrowBack />
+                            </Button>
+                            <Heading size={"lg"}>New library</Heading>
                         </HStack>
                     </DrawerHeader>
                     <DrawerBody>
@@ -141,6 +145,9 @@ const btnMyLibrary = () => {
 
                     <DrawerHeader>
                         <HStack gap={4}>
+                            <Button variant={"ghost"} onClick={inliOnClose}>
+                                <IoIosArrowBack />
+                            </Button>
                             <Heading size={"lg"}>Library's name</Heading>
                         </HStack>
                     </DrawerHeader>
