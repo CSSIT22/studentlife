@@ -139,9 +139,6 @@ export default function Index() {
     //Function for handle file drop
     const handleDrop = async () => {
         const fd = new FormData()
-        files.map((item:any) => {
-            fd.append("files", item.file)
-        })
         if (selectedType == "everyone") {
             fd.append("receiver", "everyone")
             fd.append("description", description)
@@ -173,6 +170,9 @@ export default function Index() {
                 fd.append("expireDate",expiredDate);
             }
         }
+        files.map((item:any) => {
+            fd.append("files", item.file)
+        })
 
         try {
             const res = await axios.post("http://localhost:8000/airdrop/file/upload", fd, {
