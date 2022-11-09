@@ -18,9 +18,7 @@ import AppBody from "../../components/share/app/AppBody"
 const Chat = () => {
     return (
         <AppBody>
-            <Portal>
-                <Clist/>
-            </Portal>
+            <Clist />
         </AppBody>
     )
 }

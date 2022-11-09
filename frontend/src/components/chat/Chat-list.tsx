@@ -2,6 +2,8 @@ import { Box, Button, Flex, Img } from "@chakra-ui/react"
 import { Avatar } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { FC, useState } from "react"
+import Cmenu from "./Cmenu"
+import { Input } from "@chakra-ui/react"
 
 type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
 
@@ -20,12 +22,15 @@ const mockRoom: room = [
 const Clist: FC<any> = () => {
     const [userRoom, setuserRoom] = useState<room>(mockRoom)
     const [target, setTarget] = useState(1)
+    const [search, setSearch] = useState("")
     const navigate = useNavigate()
     //function handle
     function Navigate(target: any) {
         return navigate(`/chat/${target}`)
     }
-
+    function Seach(e: any) {
+        return setSearch(e.target.value)
+    }
     const renderButton = () => {
         return (
             <Flex fontSize={"2xl"} marginBottom={5} alignSelf="center">
@@ -74,35 +79,46 @@ const Clist: FC<any> = () => {
                         <Avatar name={e.Roomname} src={e.img} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
-                    <Button>:</Button>
+                    <Cmenu />
                 </Flex>
             )
         }
         if (target === 2 && e.roomtype === "group") {
             return (
-                <Flex
-                    justify={""}
-                    alignItems={"center"}
-                    key={e.roomID}
-                    marginY={2}
-                    _hover={{
-                        transform: "scale(1.1)",
-                    }}
-                    transitionDuration="300ms"
-                >
-                    <Avatar name={e.Roomname} src={e.img} />
-                    <Box marginLeft={2}>{e.roomName}</Box>
+                <Flex justify={"space-between"} alignItems={"center"}>
+                    <Flex
+                        alignItems={"center"}
+                        key={e.roomID}
+                        marginY={3}
+                        _hover={{
+                            transform: "scale(1.1)",
+                        }}
+                        transitionDuration="300ms"
+                        onClick={() => Navigate(e.roomID)}
+                    >
+                        <Avatar name={e.Roomname} src={e.img} />
+                        <Box marginLeft={"5"}>{e.roomName} </Box>
+                    </Flex>
+                    <Cmenu />
                 </Flex>
             )
         }
     }
+    const renderSearch = (search: string) => {
+        if (search === "") {
+            return userRoom.map((e) => renderRoom(e))
+        } else {
+            const result = userRoom.filter((e) => e.roomName.includes(search));
+            return result.map((e) => renderRoom(e))
+        }
+    }
+
     return (
         <Box minH={{ base: "80vh", md: "700px" }} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
-                {userRoom.map((e: any) => {
-                    return renderRoom(e)
-                })}
+                <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
+                {renderSearch(search)}
             </Flex>
         </Box>
     )
