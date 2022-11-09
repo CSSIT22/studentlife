@@ -24,4 +24,5 @@ function BlogHistory() {
         </Flex>
     )
 }
+
 export default BlogHistory

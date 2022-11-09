@@ -1,11 +1,21 @@
-import UserProfile from "../../components/user/Userprofile"
+import UserProfile from "../../components/user/UserProfile"
 import AboutMe from "../../components/user/AboutMe"
 import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
-import { Flex, Grid, GridItem } from "@chakra-ui/react"
+import { extendTheme, Flex, Grid, GridItem } from "@chakra-ui/react"
 
 function index() {
+    const breakpoints = {
+        sm: "320px",
+        md: "768px",
+        lg: "960px",
+        xl: "1200px",
+        "2xl": "1536px",
+    }
+
+    // 3. Extend the theme
+    const theme = extendTheme({ breakpoints })
     return (
         <>
             <Flex display="flex" position="static">
@@ -15,8 +25,8 @@ function index() {
                 margin={"5"}
                 templateAreas={`"header header"
                   "nav main"
-                  "nav footer"`}
-                gridTemplateColumns={"35% 1fr"}
+                  "nav2 footer"`}
+                gridTemplateColumns={{ base: "100%", md: "35% 1fr" }}
                 gap="1"
                 color="blackAlpha.700"
                 fontWeight="bold"
@@ -29,7 +39,7 @@ function index() {
                     <ExpSystem />
                     <AboutMe />
                 </GridItem>
-                <GridItem area={"main"}>
+                <GridItem area={{ base: "nav2", md: "main" }}>
                     <BlogHistory />
                 </GridItem>
             </Grid>

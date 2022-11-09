@@ -15,8 +15,8 @@ function index() {
                 margin={"5"}
                 templateAreas={`"header header"
                   "nav main"
-                  "nav footer"`}
-                gridTemplateColumns={"35% 1fr"}
+                  "nav2 footer"`}
+                gridTemplateColumns={{ base: "100%", md: "35% 1fr" }}
                 gap="1"
                 color="blackAlpha.700"
                 fontWeight="bold"
@@ -29,7 +29,7 @@ function index() {
                     <ExpSystem />
                     <AboutMe />
                 </GridItem>
-                <GridItem area={"main"}>
+                <GridItem area={{ base: "nav2", md: "main" }}>
                     <BlogHistory />
                 </GridItem>
             </Grid>
