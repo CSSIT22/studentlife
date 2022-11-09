@@ -1,13 +1,12 @@
 import { Box, Image, Center } from "@chakra-ui/react"
 import React from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper"
-
+import { Navigation, Pagination } from "swiper"
 
 const ShowImage = () => {
     return (
         <Box>
-            <Swiper grabCursor={true} navigation={true} modules={[Navigation]} className="mySwiper">
+            <Swiper grabCursor={true} navigation={true} modules={[Navigation, Pagination]} className="mySwiper" pagination={{ clickable: true }}>
                 <SwiperSlide>
                     <Center>
                         <Image

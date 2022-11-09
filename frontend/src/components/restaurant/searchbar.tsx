@@ -4,7 +4,7 @@ import { TfiSearch } from "react-icons/tfi"
 const Searchbar = () => {
     return (
         <Center zIndex={100}>
-                    <InputGroup width={"full"} >
+                    <InputGroup width={"full"} mr="2">
                         <InputLeftElement pointerEvents="none" children={<TfiSearch/>} />
                         <Input placeholder="Search"  borderRadius={"3xl"} size={"sm"}  />
                     </InputGroup>
