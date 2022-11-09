@@ -50,6 +50,7 @@ import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiLibrary } from "react-icons/bi"
+import LiList from "./liList"
 
 const liList: FC<{
     topic: String
@@ -57,6 +58,9 @@ const liList: FC<{
     desc: String
     link: String
 }> = ({ topic, course, desc, link }) => {
+    const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <Box>
             <HStack>
@@ -67,9 +71,13 @@ const liList: FC<{
                 <Menu>
                     <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
                     <MenuList>
-                        <MenuItem icon={<BiLibrary />}>Add to library</MenuItem>
+                        <MenuItem icon={<BiLibrary />} onClick={mliOnOpen}>
+                            Add to library
+                        </MenuItem>
                         <MenuItem icon={<AiOutlineUpload />}>Upload file</MenuItem>
-                        <MenuItem icon={<MdDeleteOutline />}>Delete</MenuItem>
+                        <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
+                            Delete
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </HStack>
@@ -85,6 +93,47 @@ const liList: FC<{
                 <Heading size={"md"}>Link</Heading>
                 <Text>{link}</Text>
             </Box>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Delete shortnote</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>Are you sure to delete this shortnote?</ModalBody>
+                    <ModalFooter>
+                        <Button onClick={onClose} colorScheme={"red"}>
+                            Delete
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Drawer isOpen={mliIsOpen} placement="right" onClose={mliOnClose} size={"sm"}>
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>
+                        <HStack gap={4}>
+                            <Heading size={"lg"}> My library</Heading>
+                            {/*<Link to={"./library/newLibrary"}>
+                                    <Button colorScheme="orange">New library</Button>
+                                </Link>*/}
+                        </HStack>
+                    </DrawerHeader>
+                    <DrawerBody>
+                        <Stack gap={4}>
+                            <LiList name={"Network"}></LiList>
+                            <LiList name={"Algo p1"}></LiList>
+                            <LiList name={"Java"}></LiList>
+                            <LiList name={"midterm y2/1"}></LiList>
+                            <LiList name={"Network"}></LiList>
+                            <LiList name={"Algo p1"}></LiList>
+                            <LiList name={"Java"}></LiList>
+                            <LiList name={"Algo p1"}></LiList>
+                            <LiList name={"Java"}></LiList>
+                        </Stack>
+                    </DrawerBody>
+                    <DrawerFooter></DrawerFooter>
+                </DrawerContent>
+            </Drawer>
         </Box>
     )
 }
