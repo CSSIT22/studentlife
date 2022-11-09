@@ -3,14 +3,16 @@ import AboutMe from "../../components/user/AboutMe"
 import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
-import { Grid, GridItem } from "@chakra-ui/react"
+import { Flex, Grid, GridItem } from "@chakra-ui/react"
 
 function index() {
     return (
         <>
-            <AppBody />
+            <Flex display="flex" position="static">
+                <AppBody />
+            </Flex>
             <Grid
-                margin={"10"}
+                margin={"5"}
                 templateAreas={`"header header"
                   "nav main"
                   "nav footer"`}
@@ -18,6 +20,7 @@ function index() {
                 gap="1"
                 color="blackAlpha.700"
                 fontWeight="bold"
+                justifyContent="center"
             >
                 <GridItem area={"header"}>
                     <UserProfile />

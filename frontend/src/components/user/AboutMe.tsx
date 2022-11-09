@@ -4,7 +4,7 @@ import { Box, Flex, Spacer, Text, SimpleGrid } from "@chakra-ui/react"
 function AboutMe() {
     return (
         <div>
-            <Flex rounded="xl" direction="column" my={4} mx="5" bg="orange.400">
+            <Flex rounded="xl" direction="column" my={4} ml={5} bg="orange.400" position="initial">
                 <Text color="white" p="5" fontSize="xl" fontWeight="500">
                     ABOUT ME
                 </Text>
