@@ -5,6 +5,9 @@ import {
     Center,
     CloseButton,
     Flex,
+    Grid,
+    GridItem,
+    Hide,
     Image,
     Link,
     Popover,
@@ -15,6 +18,7 @@ import {
     PopoverFooter,
     PopoverHeader,
     PopoverTrigger,
+    Show,
     Spacer,
     Text,
     useDisclosure,
@@ -22,13 +26,15 @@ import {
     WrapItem,
 } from "@chakra-ui/react"
 import React from "react"
-import { AiOutlineHeart } from "react-icons/ai"
+import { AiFillPhone, AiOutlineGlobal, AiOutlineHeart } from "react-icons/ai"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { EffectCards, Navigation } from "swiper"
+import { EffectCards, FreeMode, Mousewheel, Navigation, Scrollbar } from "swiper"
 import ShowImage from "../../components/restaurant/ShowImage"
+import { Md10K } from "react-icons/md"
+import ReviewContent from "src/components/restaurant/ReviewContent"
 
 function detail() {
     const property = {
@@ -72,19 +78,19 @@ function detail() {
             ]}
         >
             <Searchbar />
-            <Center mt={4}>
-                <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
+            <Center w={"full"} mt={4}>
+                <Box px={2} width="full" borderWidth="1px" borderRadius="lg">
                     <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
                         <Link href="/restaurant">
-                            <CloseButton my={-4} ml={-1} />{" "}
+                            <CloseButton my={-4} ml={-1} />
                         </Link>
                         {property.title}
                     </Box>
-                    
-                    <ShowImage />
-                    <Box p="5">
-                        <Box backgroundColor={"white"} p={"7"} borderRadius="lg" shadow={"lg"}>
-                            <Box display="flex" alignItems="baseline">
+
+                    <Grid p={{ base: 0, md: 5 }} templateRows="repeat(1, 1fr)" templateColumns="repeat(9, 1fr)" columnGap={1} rowGap={1}>
+                        <GridItem colSpan={{ base: 9, md: 3 }}>
+                            <ShowImage />
+                            <Box px={4} py={3} display="flex" alignItems="baseline">
                                 <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
                                     {property.amountLike} liked &bull;
                                 </Box>
@@ -100,36 +106,76 @@ function detail() {
                                     borderWidth="1px"
                                     borderRadius="lg"
                                     px={2}
-                                    py={1}
+                                    pt={1}
                                 >
                                     <Link href="/restaurant/review">REVIEW</Link>
                                 </Box>
                             </Box>
+                        </GridItem>
 
-                            <Box>
-                                <Box as="span" color="" fontSize="sm">
-                                    OPEN - CLOSE : {property.openTime} - {property.closeTime}
-                                </Box>
-                            </Box>
+                        <GridItem colSpan={{ base: 9, md: 3 }}>
+                            <Box w={"full"} backgroundColor={"white"} px={"7"} py={5} borderRadius="10px" shadow={"md"}>
+                                <Text color="" fontSize="md">
+                                    OPEN - CLOSE : {property.openTime} - {property.closeTime} <br />
+                                    <Show above="md">
+                                        <br />
+                                    </Show>
+                                </Text>
 
-                            <Box>
-                                <Box as="span" color="" fontSize="sm">
-                                    STYLE : {property.style}
-                                </Box>
-                            </Box>
+                                <Text as="span" color="" fontSize="md">
+                                    STYLE : {property.style} <br />
+                                    <Show above="md">
+                                        <br />
+                                    </Show>
+                                </Text>
 
-                            <Box>
-                                <Box as="span" color="" fontSize="sm" textTransform="uppercase">
+                                <Text color="" fontSize="md" textTransform="uppercase">
                                     CONTACT :
-                                    <br /> Phone Number : {property.phoneNum}
-                                    <br /> Website :{" "}
+                                    <br />
+                                    <AiFillPhone /> : {property.phoneNum}
+                                    <br /> <AiOutlineGlobal /> :
                                     <Link href={property.website} isExternal>
                                         <Text as="u">Click here</Text>
                                     </Link>
-                                </Box>
+                                </Text>
                             </Box>
-                        </Box>
+                        </GridItem>
 
+                        <Show above="md">
+                            <GridItem colSpan={3}>
+                                <Box w={"full"}>
+                                    <Swiper
+                                        direction={"vertical"}
+                                        slidesPerView={"auto"}
+                                        freeMode={true}
+                                        scrollbar={true}
+                                        mousewheel={true}
+                                        modules={[FreeMode, Scrollbar, Mousewheel]}
+                                        className="mySwiper"
+                                    >
+                                        <SwiperSlide>
+                                            <Box p={5}>
+                                                <ReviewContent
+                                                    name={"joji"}
+                                                    picture={""}
+                                                    rate={"4"}
+                                                    review={"This restaurant is so good but it is a little pricey will come back"}
+                                                />
+                                                <ReviewContent
+                                                    name={"joji"}
+                                                    picture={""}
+                                                    rate={"4"}
+                                                    review={"This restaurant is so good but it is a little pricey will come back"}
+                                                />
+                                            </Box>
+                                        </SwiperSlide>
+                                    </Swiper>
+                                </Box>
+                            </GridItem>
+                        </Show>
+                    </Grid>
+
+                    <Box p="5">
                         <Flex mt={10}>
                             <Button bg={"tomato"} color="white" width="50px" h="50px" border={1} borderRadius={"full"} p={4}>
                                 <AiOutlineHeart size={"full"} />
