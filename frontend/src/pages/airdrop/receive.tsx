@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import { HiUpload, HiDownload, HiUser } from "react-icons/hi"
@@ -34,6 +34,7 @@ import {
     ModalOverlay,
     Heading,
     ModalFooter,
+    Input,
 } from "@chakra-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
@@ -90,6 +91,7 @@ const dummyData = {
     ],
 }
 export default function Receivedrop() {
+    const ref1 = useRef();
     const { isOpen, onOpen, onToggle, onClose } = useDisclosure()
     //modal page
     const [modalPage, setModalPage] = useState(0)
@@ -207,6 +209,7 @@ export default function Receivedrop() {
                                     <Text
                                         color={"gray.600"}
                                         decoration={"underline"}
+                                        mt={3}
                                         onClick={() => {
                                             setModalPage(1)
                                         }}
@@ -218,9 +221,15 @@ export default function Receivedrop() {
                                 <>
                                     <Divider />
                                     {RenderModalComments()}
+                                    <HStack>
+                                        <Input type={"text"} id="commentin" />
+                                        <Button onClick={()=>{alert("comment")}}>Comment </Button>
+                                    </HStack>
+
                                     <Text
                                         color={"gray.600"}
                                         decoration={"underline"}
+                                        mt={3}
                                         onClick={() => {
                                             setModalPage(0)
                                         }}
@@ -229,11 +238,12 @@ export default function Receivedrop() {
                                     </Text>
                                 </>
                             )}
-                        </ModalBody>
-                        <ModalFooter textAlign={"center"}>
-                            <Text color={"gray.300"} decoration={"underline"}>
+                             <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
                                 (Tap any where to close)
                             </Text>
+                        </ModalBody>
+                        <ModalFooter>
+                           
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
