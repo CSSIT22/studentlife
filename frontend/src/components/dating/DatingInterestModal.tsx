@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
+import { Button, Center, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
 import { FC } from "react"
 
 const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
@@ -7,12 +7,16 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
         <>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size="md">
                 <ModalOverlay backdropFilter="blur(10px)" />
-                <ModalContent>
+                <ModalContent alignItems="center">
                     <ModalHeader>Max Selection Reached</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text>You can only select up to 5 interests!</Text>
-                        <Text>To add more, deselect some of your chosen interests</Text>
+                        <Center>
+                            <Text>You can only select up to 5 interests!</Text>
+                        </Center>
+                        <Center>
+                            <Text>To add more, deselect some of your chosen interests</Text>
+                        </Center>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="orange" mr={3} onClick={onClose} borderRadius="full">
