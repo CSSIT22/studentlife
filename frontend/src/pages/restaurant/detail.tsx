@@ -80,6 +80,7 @@ function detail() {
                         </Link>
                         {property.title}
                     </Box>
+                    
                     <ShowImage />
                     <Box p="5">
                         <Box backgroundColor={"white"} p={"7"} borderRadius="lg" shadow={"lg"}>
