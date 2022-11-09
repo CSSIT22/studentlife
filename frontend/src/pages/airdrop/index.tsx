@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, FC } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import SetDropBox from "../../components/airdrop/setDropBox"
@@ -67,7 +67,7 @@ const dummyData22 = [
         name: "MR.PPP PPP",
     },
 ]
-export default function Index() {
+export default function Index<FC>() {
     //ref
     const ref1 = useRef(null)
     const ref2 = useRef(null)
@@ -90,14 +90,14 @@ export default function Index() {
     // state for user select
     const [selectedType, setSelectedType] = useState("Everyone")
     //state for select receiver
-    const [receiver, setReceiver] = useState([])
+    const [receiver, setReceiver] = useState<string[]>([])
     //state for description
     const [description, setdescription] = useState("")
     //state for expired time
     const [expiredTime, setExpiredTime] = useState({
-        h:0,
-        m:0,
-        s:0
+        h: 0,
+        m: 0,
+        s: 0,
     })
     //fucntion'
     const handleDelete = (prop: any) => {
@@ -142,35 +142,34 @@ export default function Index() {
         if (selectedType == "everyone") {
             fd.append("receiver", "everyone")
             fd.append("description", description)
-            if(dropDuration.perm){
+            if (dropDuration.perm) {
                 fd.append("duration", "permanent")
-            }else{
-                const timeNow = Date.now();
-                const addTime = (expiredTime.h*60*60*1000)+(expiredTime.m*60*1000)+(expiredTime.s*1000);
-                const expired = timeNow+addTime;
-                const expiredDate = new Date(expired);
-                fd.append("duration","temporary");
-                fd.append("expireDate",expiredDate);
+            } else {
+                const timeNow = Date.now()
+                const addTime = expiredTime.h * 60 * 60 * 1000 + expiredTime.m * 60 * 1000 + expiredTime.s * 1000
+                const expired = timeNow + addTime
+                const expiredDate = new Date(expired).toISOString()
+                fd.append("duration", "temporary")
+                fd.append("expireDate", expiredDate)
             }
-
         } else {
             fd.append("type", selectedType)
-            receiver.map((receive) => {
+            receiver.map((receive: any) => {
                 fd.append("receiver", receive)
             })
             fd.append("description", description)
-            if(dropDuration.perm){
+            if (dropDuration.perm) {
                 fd.append("duration", "permanent")
-            }else{
-                const timeNow = Date.now();
-                const addTime = (expiredTime.h*60*60*1000)+(expiredTime.m*60*1000)+(expiredTime.s*1000);
-                const expired = timeNow+addTime;
-                const expiredDate = new Date(expired);
-                fd.append("duration","temporary");
-                fd.append("expireDate",expiredDate);
+            } else {
+                const timeNow = Date.now()
+                const addTime = expiredTime.h * 60 * 60 * 1000 + expiredTime.m * 60 * 1000 + expiredTime.s * 1000
+                const expired = timeNow + addTime
+                const expiredDate = new Date(expired).toISOString()
+                fd.append("duration", "temporary")
+                fd.append("expireDate", expiredDate)
             }
         }
-        files.map((item:any) => {
+        files.map((item: any) => {
             fd.append("files", item.file)
         })
 
@@ -331,15 +330,17 @@ export default function Index() {
                                                                         return <option value={data.name}>{data.name}</option>
                                                                     })}
                                                                 </Select>
-                                                                <SimpleGrid columns={[1,2,3]}>
-                                                                    {receiver.map((name) => {
+                                                                <SimpleGrid columns={[1, 2, 3]}>
+                                                                    {receiver.map((name: any) => {
                                                                         return (
                                                                             <>
                                                                                 <Box>
                                                                                     <Tag
                                                                                         onClick={() => {
                                                                                             const index = receiver.indexOf(name)
-                                                                                            const newArr = receiver.filter((item) => item != name)
+                                                                                            const newArr = receiver.filter(
+                                                                                                (item: any) => item != name
+                                                                                            )
                                                                                             setReceiver(newArr)
                                                                                         }}
                                                                                         _hover={{ cursor: "pointer" }}
@@ -380,12 +381,11 @@ export default function Index() {
                                                                         placeholder={"00"}
                                                                         minW={["60px", "65px"]}
                                                                         size={["sm", "md"]}
-                                                                        onChange={(num)=>{
-                                                                            setExpiredTime({...expiredTime, h:parseInt(num)})
-                                                                            
-                                                                           }}
+                                                                        onChange={(num) => {
+                                                                            setExpiredTime({ ...expiredTime, h: parseInt(num) })
+                                                                        }}
                                                                     >
-                                                                        <NumberInputField/>
+                                                                        <NumberInputField />
                                                                         <NumberInputStepper>
                                                                             <NumberIncrementStepper />
                                                                             <NumberDecrementStepper />
@@ -401,12 +401,11 @@ export default function Index() {
                                                                         minW={"65px"}
                                                                         size={["sm", "md"]}
                                                                         id={"M"}
-                                                                        onChange={(num)=>{
-                                                                            setExpiredTime({...expiredTime, m:parseInt(num)})
-                                                                            
-                                                                           }}
+                                                                        onChange={(num) => {
+                                                                            setExpiredTime({ ...expiredTime, m: parseInt(num) })
+                                                                        }}
                                                                     >
-                                                                        <NumberInputField/>
+                                                                        <NumberInputField />
                                                                         <NumberInputStepper>
                                                                             <NumberIncrementStepper />
                                                                             <NumberDecrementStepper />
@@ -421,12 +420,11 @@ export default function Index() {
                                                                         minW={"65px"}
                                                                         size={["sm", "md"]}
                                                                         id={"S"}
-                                                                       onChange={(num)=>{
-                                                                        setExpiredTime({...expiredTime, s:parseInt(num)})
-                                                                        
-                                                                       }}
+                                                                        onChange={(num) => {
+                                                                            setExpiredTime({ ...expiredTime, s: parseInt(num) })
+                                                                        }}
                                                                     >
-                                                                        <NumberInputField/>
+                                                                        <NumberInputField />
                                                                         <NumberInputStepper>
                                                                             <NumberIncrementStepper />
                                                                             <NumberDecrementStepper />

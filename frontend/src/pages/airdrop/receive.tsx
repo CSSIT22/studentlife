@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, FC } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import { HiUpload, HiDownload, HiUser } from "react-icons/hi"
@@ -77,18 +77,26 @@ const dummyData = {
             icon: MdImage,
             name: "pic3.jpeg",
             sender: "MR.ABC DEF",
-            comments: [
-                
-            ],
+            comments: [],
         },
     ],
 }
-export default function Receivedrop() {
-    const ref1 = useRef();
+export default function Receivedrop<FC>() {
+    const ref1 = useRef()
     const { isOpen, onOpen, onToggle, onClose } = useDisclosure()
     //modal page
     const [modalPage, setModalPage] = useState(0)
-    const [modalData, setModalData] = useState({})
+    const [modalData, setModalData] = useState<{
+        icon: any
+        name: string
+        sender: string
+        comments: { name: string; comment: string }[]
+    }>({
+        icon: MdImage,
+        name: "",
+        sender: "",
+        comments: [],
+    })
 
     const RenderModalInfo = () => {
         const componentArr = []
@@ -106,9 +114,8 @@ export default function Receivedrop() {
         return componentArr
     }
     const RenderModalComments = () => {
-        type componentType = any;
-        const componentArr:componentType = []
-        modalData.comments.map((item:any) => {
+        const componentArr:any = []
+        modalData.comments.map((item: any) => {
             componentArr.push(
                 <>
                     <HStack p={3}>
@@ -217,7 +224,13 @@ export default function Receivedrop() {
                                     {RenderModalComments()}
                                     <HStack>
                                         <Input type={"text"} id="commentin" />
-                                        <Button onClick={()=>{alert("comment")}}>Comment </Button>
+                                        <Button
+                                            onClick={() => {
+                                                alert("comment")
+                                            }}
+                                        >
+                                            Comment{" "}
+                                        </Button>
                                     </HStack>
 
                                     <Text
@@ -232,13 +245,11 @@ export default function Receivedrop() {
                                     </Text>
                                 </>
                             )}
-                             <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
+                            <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
                                 (Tap outside to close)
                             </Text>
                         </ModalBody>
-                        <ModalFooter>
-                           
-                        </ModalFooter>
+                        <ModalFooter></ModalFooter>
                     </ModalContent>
                 </Modal>
                 {/* <Popover returnFocusOnClose={false} isOpen={isOpen} onClose={onClose} placement="right" closeOnBlur={false}>

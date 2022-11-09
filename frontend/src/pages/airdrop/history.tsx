@@ -48,9 +48,19 @@ const dummyData = [
         date: "10/10/2021 10:45:00",
     },
 ]
-const Drophistory: FC<{ selectHis: { name: string; sender: string; type: string; date: string } }> = ({ selectHis = {} }) => {
+export default function Drophistory<FC>() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [selectedHistory, setSelectedHistory] = useState(selectHis)
+    const [selectedHistory, setSelectedHistory] = useState<{
+        name: string
+        sender: string
+        type: string
+        date: string
+    }>({
+        name: "",
+        sender: "",
+        type: "",
+        date: "",
+    })
     const renderFileHistory = () => {
         return (
             <>
@@ -132,4 +142,3 @@ const Drophistory: FC<{ selectHis: { name: string; sender: string; type: string;
         </AppBody>
     )
 }
-export default Drophistory
