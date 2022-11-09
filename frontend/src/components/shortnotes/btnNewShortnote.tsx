@@ -128,9 +128,16 @@ const btnNewShortnote = () => {
                                     <Box>
                                         Add people
                                         <br />
-                                        <Button colorScheme={"orange"} rounded={8} boxShadow="xl">
-                                            +
-                                        </Button>
+                                        <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+                                            <GridItem colSpan={4}>
+                                                <Input placeholder="studentID, comma seperated"></Input>
+                                            </GridItem>
+                                            <GridItem colSpan={1}>
+                                                <Button colorScheme={"orange"} rounded={8} boxShadow="xl" w={"100%"}>
+                                                    Add
+                                                </Button>
+                                            </GridItem>
+                                        </Grid>
                                     </Box>
                                 ) : null}
                             </Box>

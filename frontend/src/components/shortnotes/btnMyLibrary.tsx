@@ -51,6 +51,27 @@ const btnMyLibrary = () => {
     const { isOpen: nliIsOpen, onOpen: nliOnOpen, onClose: nliOnClose } = useDisclosure()
     const { isOpen: inliIsOpen, onOpen: inliOnOpen, onClose: inliOnClose } = useDisclosure()
 
+    {
+        /*}
+    async function openNli() {
+        await nliOnOpen()
+        await mliOnClose()
+    }
+    async function closeNli() {
+        await nliOnClose()
+        await mliOnOpen()
+    }
+    async function openInLi() {
+        await inliOnOpen()
+        await mliOnClose()
+    }
+    async function closeInli() {
+        await inliOnClose()
+        await mliOnOpen()
+    }
+*/
+    }
+
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -69,33 +90,6 @@ const btnMyLibrary = () => {
                             <Button colorScheme={"orange"} onClick={nliOnOpen}>
                                 New library
                             </Button>
-                            <Drawer isOpen={nliIsOpen} placement="right" onClose={nliOnClose} size={"sm"}>
-                                <DrawerContent>
-                                    <DrawerCloseButton />
-                                    <DrawerHeader>
-                                        <HStack gap={4}>
-                                            <Heading size={"lg"}> New library</Heading>
-                                        </HStack>
-                                    </DrawerHeader>
-                                    <DrawerBody>
-                                        <Box bg={"white"} rounded={8} p={10} w={"100%"}>
-                                            <VStack spacing={4}>
-                                                <Heading size={"lg"}>Create new library</Heading>
-
-                                                <Box w={"100%"}>
-                                                    <Text>Name</Text>
-                                                    <Input variant="outline" placeholder="" />
-                                                </Box>
-                                                <Button colorScheme="orange" w={"100%"}>
-                                                    Create
-                                                </Button>
-                                            </VStack>
-                                        </Box>
-                                    </DrawerBody>
-
-                                    <DrawerFooter></DrawerFooter>
-                                </DrawerContent>
-                            </Drawer>
                         </HStack>
                     </DrawerHeader>
                     <DrawerBody>
@@ -111,6 +105,32 @@ const btnMyLibrary = () => {
                             <LiList name={"Algo p1"}></LiList>
                             <LiList name={"Java"}></LiList>
                         </Stack>
+                    </DrawerBody>
+                    <DrawerFooter></DrawerFooter>
+                </DrawerContent>
+            </Drawer>
+            <Drawer isOpen={nliIsOpen} placement="right" onClose={nliOnClose} size={"sm"}>
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>
+                        <HStack gap={4}>
+                            <Heading size={"lg"}> New library</Heading>
+                        </HStack>
+                    </DrawerHeader>
+                    <DrawerBody>
+                        <Box bg={"white"} rounded={8} p={10} w={"100%"}>
+                            <VStack spacing={4}>
+                                <Heading size={"lg"}>Create new library</Heading>
+
+                                <Box w={"100%"}>
+                                    <Text>Name</Text>
+                                    <Input variant="outline" placeholder="" />
+                                </Box>
+                                <Button colorScheme="orange" w={"100%"}>
+                                    Create
+                                </Button>
+                            </VStack>
+                        </Box>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>
