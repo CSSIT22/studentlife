@@ -20,6 +20,7 @@ import {
     useDisclosure,
     Wrap,
     WrapItem,
+    Icon,
 } from "@chakra-ui/react"
 import React from "react"
 import { AiOutlineHeart } from "react-icons/ai"
@@ -29,6 +30,8 @@ import AppBody from "../../components/share/app/AppBody"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectCards, Navigation } from "swiper"
 import ShowImage from "../../components/restaurant/ShowImage"
+import { SlActionRedo } from "react-icons/sl"
+
 
 function detail() {
     const property = {
@@ -144,9 +147,10 @@ function detail() {
                                                 h="50px"
                                                 border={1}
                                                 borderRadius={"md"}
-                                                px={6}
+                                                pr={8}
                                                 py={1}
                                                 onClick={onOpen}
+                                                leftIcon={<Icon as={SlActionRedo}  w={4} h={4} /> }
                                             >
                                                 Share
                                             </Button>
@@ -158,10 +162,10 @@ function detail() {
                                             <PopoverBody>
                                                 <Flex>
                                                     <Wrap spacing="30px">
-                                                        <WrapItem>
-                                                            <Avatar as={"button"} name={shareInfo.name1} src={shareInfo.picture1} />
+                                                        <WrapItem _hover={{background: "red.600",color: "teal.500", borderRadius:"22px"}}>
+                                                            <Avatar as={"button"} name={shareInfo.name1} src={shareInfo.picture1 } />
                                                         </WrapItem>
-                                                        <WrapItem>
+                                                        <WrapItem> 
                                                             <Avatar as={"button"} name={shareInfo.name2} src={shareInfo.picture2} />
                                                         </WrapItem>
                                                         <WrapItem>
