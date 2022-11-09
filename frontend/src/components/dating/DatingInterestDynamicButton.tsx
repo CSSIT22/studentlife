@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react"
+import { Box, Button } from "@chakra-ui/react"
 import { FC } from "react"
 
 const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: String | String[]; tagIsClicked: boolean }> = ({
@@ -17,13 +17,9 @@ const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedI
 
     // If you have not choose any interest tag, the skip button will show up.
     // Else, the done button will show up.
-    return tagIsClicked || numOfSelectedInterest != 0 ? (
+    return (
         <Button colorScheme="orange" size="lg" borderRadius="full" float="right" onClick={handleSubmit}>
-            Done
-        </Button>
-    ) : (
-        <Button colorScheme="orange" size="lg" borderRadius="full" float="right" onClick={handleSubmit}>
-            Skip
+            {tagIsClicked || numOfSelectedInterest != 0 ? <Box w="50px">Done</Box> : <Box w="50px">Skip</Box>}
         </Button>
     )
 }
