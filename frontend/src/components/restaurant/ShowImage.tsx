@@ -6,7 +6,7 @@ import { Navigation, Pagination } from "swiper"
 const ShowImage = () => {
     return (
         <Box>
-            <Swiper grabCursor={true} navigation={true} modules={[Navigation, Pagination]} className="mySwiper" pagination={{ clickable: true }}>
+            <Swiper grabCursor={true} navigation={true} modules={[Navigation, Pagination]} className="mySwiper" loop={true} pagination={{ clickable: true }}>
                 <SwiperSlide>
                     <Center>
                         <Image

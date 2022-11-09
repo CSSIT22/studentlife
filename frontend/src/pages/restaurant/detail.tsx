@@ -24,6 +24,7 @@ import {
     useDisclosure,
     Wrap,
     WrapItem,
+    Icon,
 } from "@chakra-ui/react"
 import React from "react"
 import { AiFillPhone, AiOutlineGlobal, AiOutlineHeart } from "react-icons/ai"
@@ -35,6 +36,7 @@ import { EffectCards, FreeMode, Mousewheel, Navigation, Scrollbar } from "swiper
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Md10K } from "react-icons/md"
 import ReviewContent from "src/components/restaurant/ReviewContent"
+import { SlActionRedo } from "react-icons/sl"
 
 function detail() {
     const property = {
@@ -191,9 +193,10 @@ function detail() {
                                                 h="50px"
                                                 border={1}
                                                 borderRadius={"md"}
-                                                px={6}
+                                                pr={8}
                                                 py={1}
                                                 onClick={onOpen}
+                                                leftIcon={<Icon as={SlActionRedo} w={4} h={4} />}
                                             >
                                                 Share
                                             </Button>
@@ -205,7 +208,7 @@ function detail() {
                                             <PopoverBody>
                                                 <Flex>
                                                     <Wrap spacing="30px">
-                                                        <WrapItem>
+                                                        <WrapItem _hover={{ background: "red.600", color: "teal.500", borderRadius: "22px" }}>
                                                             <Avatar as={"button"} name={shareInfo.name1} src={shareInfo.picture1} />
                                                         </WrapItem>
                                                         <WrapItem>
