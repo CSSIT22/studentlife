@@ -21,7 +21,6 @@ const TagOfInterest = () => {
     // to be used with some functions & Some of them are used in this file.
     let IState = { allInterests: INTERESTS }
     const [searchQuery, setSearchQuery] = useState("")
-    const [numOfInterest, setNumOfInterest] = useState(0)
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
 
     return (
@@ -44,13 +43,13 @@ const TagOfInterest = () => {
                     <Box display="flex">
                         <Text>Please select your interests: (</Text>
                         {/* numOfInterest will change when you select/deselect the tags */}
-                        {numOfInterest}
+                        {selectedInterests.length}
                         <Text>&nbsp;of 5 selected)</Text>
                     </Box>
                 </GridItem>
                 {/* DatingInterestDynamicButton component: Skip & Done button */}
                 <GridItem pl="2" area={"button"}>
-                    <DatingInterestDynamicButton numOfInterest={numOfInterest} selectedInterests={selectedInterests} />
+                    <DatingInterestDynamicButton numOfSelectedInterest={selectedInterests.length} selectedInterests={selectedInterests} />
                 </GridItem>
             </Grid>
             {/* DatingInterestSearch component: Search Bar */}
@@ -67,8 +66,7 @@ const TagOfInterest = () => {
                         interestName={interestName}
                         onOpen={onOpen}
                         selectedInterests={selectedInterests}
-                        numOfInterest={numOfInterest}
-                        setNumOfInterest={setNumOfInterest}
+                        numOfSelectedInterest={selectedInterests.length}
                         setSelectedInterest={setSelectedInterest}
                     />
                 ))}

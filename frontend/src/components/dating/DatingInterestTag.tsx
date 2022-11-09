@@ -6,10 +6,9 @@ const DatingInterestTag: FC<{
     interestName: string
     onOpen: () => void
     selectedInterests: String | String[]
-    numOfInterest: number
-    setNumOfInterest: Dispatch<SetStateAction<number>>
+    numOfSelectedInterest: number
     setSelectedInterest: Dispatch<any>
-}> = ({ interestId, interestName, onOpen, selectedInterests, numOfInterest, setNumOfInterest, setSelectedInterest }) => {
+}> = ({ interestId, interestName, onOpen, selectedInterests, numOfSelectedInterest, setSelectedInterest }) => {
     // Check if interestId is in the selectedInterest state or not
     function idExists(interestId: string) {
         for (let i = 0; i < selectedInterests.length; i++) {
@@ -21,7 +20,7 @@ const DatingInterestTag: FC<{
     }
     // Check if numOfInterest state is equal to 5 or not
     function checkNum() {
-        if (numOfInterest === 5) {
+        if (numOfSelectedInterest === 5) {
             return true
         }
         return false
@@ -29,13 +28,11 @@ const DatingInterestTag: FC<{
     // Update numOfInterest and selectedInterests when you select/deselect the tags of interest
     function handleTag(interest: React.ChangeEvent<HTMLInputElement>) {
         if (interest.target.checked) {
-            setNumOfInterest(numOfInterest + 1)
-            if (numOfInterest < 5) {
+            if (numOfSelectedInterest < 5) {
                 setSelectedInterest(selectedInterests.concat(interest.target.value))
             }
         } else {
-            setNumOfInterest(numOfInterest - 1)
-            if (numOfInterest <= 5) {
+            if (numOfSelectedInterest <= 5) {
                 setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
             }
         }
