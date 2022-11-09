@@ -25,6 +25,14 @@ import {
     CheckboxGroup,
     useToast,
     AlertDialogCloseButton,
+    FormErrorMessage,
+    FormHelperText,
+    Select,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -36,9 +44,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import { BsThreeDotsVertical, BsFillFlagFill } from "react-icons/bs"
 
 export default function SimpleThreeColumns() {
-    const { isOpen: isFirstModalOpen, onOpen: onFirstModalOpen, onClose: onFirstModalClose } = useDisclosure()
-
-    const { isOpen: isSecondModalOpen, onOpen: onSecondModalOpen, onClose: onSecondModalClose } = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -82,68 +88,57 @@ export default function SimpleThreeColumns() {
                 </GridItem>
                 <GridItem pl="2" area={"footer"}>
                     <ButtonGroup color="white" variant="outline" spacing="6">
-                        <Button pl={5} bg="orange.400" position="initial">
-                            Follow
+                        <Button pl={5} bg="orange.400" position="initial" onClick={onOpen}>
+                            Edit
                         </Button>
+                        <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>About Me</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody pb={6}>
+                                    <FormControl>
+                                        <FormLabel>Phone</FormLabel>
+                                        <Input ref={initialRef} placeholder="Phone Number" />
+                                    </FormControl>
+
+                                    <FormControl mt={4}>
+                                        <FormLabel>Age</FormLabel>
+                                        <NumberInput max={999} min={0}>
+                                            <NumberInputField />
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper />
+                                                <NumberDecrementStepper />
+                                            </NumberInputStepper>
+                                        </NumberInput>
+                                    </FormControl>
+
+                                    <FormControl mt={4}>
+                                        <FormLabel>Sex</FormLabel>
+                                        <Select>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>LGBTQ+</option>
+                                        </Select>
+                                    </FormControl>
+
+                                    <FormControl mt={4}>
+                                        <FormLabel>Hobby</FormLabel>
+                                        <Input placeholder="your favorite free time activity" />
+                                    </FormControl>
+                                </ModalBody>
+
+                                <ModalFooter>
+                                    <Button colorScheme="blue" mr={3}>
+                                        Save
+                                    </Button>
+                                    <Button onClick={onClose}>Cancel</Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
                         <Button pl={5} bg="orange.400" position="initial">
-                            Message
+                            Create blog
                         </Button>{" "}
-                        <Menu>
-                            <MenuButton
-                                as={IconButton}
-                                icon={<BsThreeDotsVertical />}
-                                color="orange.400"
-                                aria-label="Options"
-                                position="initial"
-                                variant="outline"
-                            />
-                            <MenuList>
-                                <MenuItem color="orange.700" onClick={onFirstModalOpen}>
-                                    <BsFillFlagFill />
-                                    Report
-                                </MenuItem>
-
-                                <Modal
-                                    initialFocusRef={initialRef}
-                                    finalFocusRef={finalRef}
-                                    isOpen={isFirstModalOpen}
-                                    onClose={onFirstModalClose}
-                                    motionPreset="slideInBottom"
-                                >
-                                    <ModalOverlay />
-                                    <ModalContent>
-                                        <ModalHeader>REPORT</ModalHeader>
-                                        <ModalCloseButton />
-                                        <ModalBody pb={6}>
-                                            <FormLabel>Why are you reporting this account?</FormLabel>
-                                            <Stack spacing={5} direction="column">
-                                                <Checkbox colorScheme="orange">Post inappropriate content</Checkbox>
-                                                <Checkbox colorScheme="orange">Making anxious/guilty</Checkbox>
-                                                <Checkbox colorScheme="orange">Toxic</Checkbox>
-                                                <Checkbox colorScheme="orange">Bullying</Checkbox>
-                                                <Checkbox colorScheme="orange">Harassment</Checkbox>
-                                            </Stack>
-
-                                            <FormControl mt={4}>
-                                                <FormLabel>Other :</FormLabel>
-                                                <Input placeholder="Details" />
-                                            </FormControl>
-                                        </ModalBody>
-
-                                        <ModalFooter>
-                                            <Button colorScheme="orange" mr={3}>
-                                                Report
-                                            </Button>
-
-                                            <Button onClick={onFirstModalClose}>Cancel</Button>
-                                        </ModalFooter>
-                                    </ModalContent>
-                                </Modal>
-                                <MenuItem>New Window</MenuItem>
-                                <MenuItem>Open Closed Tab</MenuItem>
-                                <MenuItem>Open File...</MenuItem>
-                            </MenuList>
-                        </Menu>
                     </ButtonGroup>
                 </GridItem>
             </Grid>
@@ -151,156 +146,5 @@ export default function SimpleThreeColumns() {
 
         // Help me goddddd it almost finish but my eyes can handle much any more sorry for what i done this is the end of me nowww thank you everyone for support me and help me love you mom dad and my bro sry to be a
         // croward is sorry
-
-        // <Center py={6}>
-        //     <Flex maxW={"95%"} w={"full"} bg={useColorModeValue("red", "gray.900")} boxShadow={"2xl"} rounded={"lg"} p={6} textAlign={"center"}>
-        //         <VStack spacing={4} align="stretch">
-        //             <Avatar size="2xl" name="Christian Nwamba" src="https://bit.ly/code-beast" />{" "}
-        //             <Heading mb={4} fontSize={"1xl"} fontWeight={100} fontFamily={"body"}>
-        //                 Rateing:9999
-        //             </Heading>
-        //         </VStack>
-        //         <SimpleGrid paddingLeft={25} columns={1} spacingX="10px" spacingY="20px">
-        //             <Box textAlign="left" fontSize={"2xl"} height="25px">
-        //                 Name: John Doe
-        //             </Box>
-        //             <Box textAlign="left" fontSize={"2xl"} height="25px">
-        //                 ID: 64130500XXX
-        //             </Box>
-        //             <Box textAlign="left" fontSize={"2xl"} height="25px">
-        //                 Facuty: SIT
-        //             </Box>
-        //         </SimpleGrid>
-        //     </Flex>
-        // </Center>
-
-        // <Popover placement="bottom" isLazy>
-        //                     <PopoverTrigger>
-        //                         <IconButton
-        //                             color="orange.400"
-        //                             aria-label="More server options"
-        //                             icon={<BsThreeDotsVertical />}
-        //                             variant="outline"
-        //                             w="fit-content"
-        //                             position="initial"
-        //                         />
-        //                     </PopoverTrigger>
-        //                     <PopoverContent w="fit-content" _focus={{ boxShadow: "none" }}>
-        //                         <PopoverArrow />
-        //                         <PopoverBody>
-        //                             <Stack>
-        //                                 <div>
-        //                                     <Button
-        //                                         w="194px"
-        //                                         variant="ghost"
-        //                                         justifyContent="space-between"
-        //                                         fontWeight="normal"
-        //                                         colorScheme="red"
-        //                                         fontSize="sm"
-        //                                         onClick={onFirstModalOpen}
-        //                                     >
-        //                                         Report
-        //                                     </Button>
-
-        //                                     <Modal
-        //                                         initialFocusRef={initialRef}
-        //                                         finalFocusRef={finalRef}
-        //                                         isOpen={isFirstModalOpen}
-        //                                         onClose={onFirstModalClose}
-        //                                         motionPreset="slideInBottom"
-        //                                     >
-        //                                         <ModalOverlay />
-        //                                         <ModalContent>
-        //                                             <ModalHeader>REPORT</ModalHeader>
-        //                                             <ModalCloseButton />
-        //                                             <ModalBody pb={6}>
-        //                                                 <FormLabel>Why are you reporting this account?</FormLabel>
-        //                                                 <Stack spacing={5} direction="column">
-        //                                                     <Checkbox colorScheme="orange">Post inappropriate content</Checkbox>
-        //                                                     <Checkbox colorScheme="orange">Making anxious/guilty</Checkbox>
-        //                                                     <Checkbox colorScheme="orange">Toxic</Checkbox>
-        //                                                     <Checkbox colorScheme="orange">Bullying</Checkbox>
-        //                                                     <Checkbox colorScheme="orange">Harassment</Checkbox>
-        //                                                 </Stack>
-
-        //                                                 <FormControl mt={4}>
-        //                                                     <FormLabel>Other :</FormLabel>
-        //                                                     <Input placeholder="Details" />
-        //                                                 </FormControl>
-        //                                             </ModalBody>
-
-        //                                             <ModalFooter>
-        //                                                 <Button
-        //                                                     onClick={() =>
-        //                                                         toast({
-        //                                                             title: "Report sent.",
-        //                                                             description: "Your report has been sent.",
-        //                                                             status: "success",
-        //                                                             duration: 9000,
-        //                                                             isClosable: true,
-        //                                                         })
-        //                                                     }
-        //                                                     colorScheme="orange"
-        //                                                     mr={3}
-        //                                                 >
-        //                                                     Report
-        //                                                 </Button>
-
-        //                                                 <Button onClick={onFirstModalClose}>Cancel</Button>
-        //                                             </ModalFooter>
-        //                                         </ModalContent>
-        //                                     </Modal>
-        //                                 </div>
-        //                                 <Button
-        //                                     onClick={onSecondModalOpen}
-        //                                     w="194px"
-        //                                     variant="ghost"
-        //                                     justifyContent="space-between"
-        //                                     fontWeight="normal"
-        //                                     colorScheme="red"
-        //                                     fontSize="sm"
-        //                                 >
-        //                                     Block
-        //                                 </Button>
-
-        //                                 <AlertDialog
-        //                                     motionPreset="slideInBottom"
-        //                                     leastDestructiveRef={cancelRef}
-        //                                     onClose={onSecondModalClose}
-        //                                     isOpen={isSecondModalOpen}
-        //                                     isCentered
-        //                                 >
-        //                                     <AlertDialogOverlay />
-
-        //                                     <AlertDialogContent>
-        //                                         <AlertDialogHeader>Discard Changes?</AlertDialogHeader>
-        //                                         <AlertDialogCloseButton />
-        //                                         <AlertDialogBody>
-        //                                             Are you sure you want to discard all of your notes? 44 words will be deleted.
-        //                                         </AlertDialogBody>
-        //                                         <AlertDialogFooter>
-        //                                             <Button ref={cancelRef} onClick={onSecondModalClose}>
-        //                                                 No
-        //                                             </Button>
-        //                                             <Button colorScheme="red" ml={3}>
-        //                                                 Yes
-        //                                             </Button>
-        //                                         </AlertDialogFooter>
-        //                                     </AlertDialogContent>
-        //                                 </AlertDialog>
-        //                                 <Button
-        //                                     w="194px"
-        //                                     variant="ghost"
-        //                                     justifyContent="space-between"
-        //                                     fontWeight="normal"
-        //                                     colorScheme="red"
-        //                                     fontSize="sm"
-        //                                 >
-        //                                     Poke
-        //                                 </Button>
-        //                             </Stack>
-        //                         </PopoverBody>
-        //                     </PopoverContent>
-        //                 </Popover>
     )
 }

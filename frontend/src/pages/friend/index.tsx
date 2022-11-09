@@ -1,4 +1,4 @@
-import UserProfile from "../../components/user/Userprofile"
+import FriendProfile from "../../components/user/FriendProfile"
 import AboutMe from "../../components/user/AboutMe"
 import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
@@ -23,7 +23,7 @@ function index() {
                 justifyContent="center"
             >
                 <GridItem area={"header"}>
-                    <UserProfile />
+                    <FriendProfile />
                 </GridItem>
                 <GridItem area={"nav"}>
                     <ExpSystem />
