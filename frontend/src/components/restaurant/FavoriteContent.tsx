@@ -58,7 +58,7 @@ const FavoriteContent: FC<{
                 {({ isOpen, onClose }) => (
                   <>
                     <PopoverTrigger>
-                        <Button colorScheme="red" variant="solid" size={"xs"}>
+                        <Button colorScheme="red" variant="solid" size={"sm"}>
                             <AiOutlineClose /> Delete
                         </Button>
                     </PopoverTrigger>
@@ -69,9 +69,9 @@ const FavoriteContent: FC<{
                         <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
                         <PopoverFooter display="flex" justifyContent="center">
                             <ButtonGroup size="sm">
-                                <Button colorScheme="green" onClick={onClose}>Yes</Button>
+                                <Button colorScheme="green" onClick={onClose} mr={2}>Yes</Button>
                                 
-                                <Button colorScheme="red" onClick={onClose}>No</Button>
+                                <Button colorScheme="red" onClick={onClose} ml={2}>No</Button>
                             </ButtonGroup>
                         </PopoverFooter>
                     </PopoverContent>

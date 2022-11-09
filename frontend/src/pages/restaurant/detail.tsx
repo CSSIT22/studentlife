@@ -106,9 +106,10 @@ function detail() {
                                     fontSize="xs"
                                     textTransform="uppercase"
                                     borderWidth="1px"
-                                    borderRadius="lg"
-                                    px={2}
+                                    borderRadius="5px"
+                                    px={3}
                                     pt={1}
+                                    pb={1}
                                 >
                                     <Link href="/restaurant/review">REVIEW</Link>
                                 </Box>
@@ -116,7 +117,7 @@ function detail() {
                         </GridItem>
 
                         <GridItem colSpan={{ base: 9, md: 3 }}>
-                            <Box w={"full"} backgroundColor={"white"} px={"7"} py={5} borderRadius="10px" shadow={"md"}>
+                            <Box w={"full"} backgroundColor={"white"} px={"7"} py={5} borderRadius="5px" shadow={"md"}>
                                 <Text color="" fontSize="md">
                                     OPEN - CLOSE : {property.openTime} - {property.closeTime} <br />
                                     <Show above="md">
@@ -134,9 +135,9 @@ function detail() {
                                 <Text color="" fontSize="md" textTransform="uppercase">
                                     CONTACT :
                                     <br />
-                                    <AiFillPhone /> : {property.phoneNum}
-                                    <br /> <AiOutlineGlobal /> :
-                                    <Link href={property.website} isExternal>
+                                    <Icon as={AiFillPhone} w={4} h={4} /> : {property.phoneNum}
+                                    <br /> 
+                                    <Icon as={AiOutlineGlobal} w={4} h={4} /> :<Link href={property.website} isExternal>
                                         <Text as="u">Click here</Text>
                                     </Link>
                                 </Text>
@@ -192,7 +193,7 @@ function detail() {
                                                 color="gray.700"
                                                 h="50px"
                                                 border={1}
-                                                borderRadius={"md"}
+                                                borderRadius={"5px"}
                                                 pr={8}
                                                 py={1}
                                                 onClick={onOpen}
@@ -242,7 +243,7 @@ function detail() {
                                                         bg={"green.400"}
                                                         color="white"
                                                         border={1}
-                                                        borderRadius={"md"}
+                                                        borderRadius={"5px"}
                                                         px={4}
                                                         py={2}
                                                         onClick={onClose}
@@ -255,9 +256,9 @@ function detail() {
                                                         bg={"tomato"}
                                                         color="white"
                                                         border={1}
-                                                        borderRadius={"md"}
-                                                        px={4}
-                                                        py={2}
+                                                        borderRadius={"5px"}
+                                                        px={2}
+                                                        py={1}
                                                         onClick={onClose}
                                                     >
                                                         Cancel
