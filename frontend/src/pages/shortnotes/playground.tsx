@@ -12,8 +12,11 @@ const List = () => {
             <input value={pName} onChange={(e) => setName(e.target.value)} />
             <button
                 onClick={() => {
-                    let x = people.concat(pName)
-                    setPeoples(x)
+                    let x = people.concat(pName) //add to last
+                    const newPeople = [pName, ...people] //add to begin
+                    console.log(x)
+                    console.log(newPeople)
+                    setPeoples(newPeople)
                     setName("")
                 }}
             >
@@ -21,7 +24,7 @@ const List = () => {
             </button>
             <ul>
                 {people.map((people, key) => (
-                    <li>{people}</li>
+                    <li key={key}>{people}</li>
                 ))}
             </ul>
         </>

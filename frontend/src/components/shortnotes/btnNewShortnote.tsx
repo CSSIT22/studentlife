@@ -69,12 +69,14 @@ const btnNewShortnote = () => {
     const [pName, setName] = useState("")
     const [people, setPeoples] = useState<string[]>([])
 
+    const [scrollBehavior, setScrollBehavior] = React.useState("inside")
+
     return (
         <Box>
             <Button colorScheme={"orange"} onClick={nsOnOpen}>
                 <MdPostAdd /> New shortnote
             </Button>
-            <Modal size={"xl"} onClose={closeSnModal} isOpen={nsIsOpen} isCentered>
+            <Modal scrollBehavior={"inside"} size={"xl"} onClose={closeSnModal} isOpen={nsIsOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Create new shortnote</ModalHeader>
@@ -146,8 +148,8 @@ const btnNewShortnote = () => {
                                                     rounded={8}
                                                     w={"100%"}
                                                     onClick={() => {
-                                                        let x = people.concat(pName)
-                                                        setPeoples(x)
+                                                        let newPeople = [pName, ...people] //add to begin
+                                                        setPeoples(newPeople)
                                                         setName("")
                                                     }}
                                                 >
