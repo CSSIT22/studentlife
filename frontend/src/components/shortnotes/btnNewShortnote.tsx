@@ -53,6 +53,7 @@ const btnNewShortnote = () => {
         nsOnClose()
         setRadio("Public")
         setFlag.off()
+        console.log(people)
     }
 
     const [flag, setFlag] = useBoolean()
@@ -64,6 +65,9 @@ const btnNewShortnote = () => {
         await setFlag.off()
         setRadio("Public")
     }
+
+    const [pName, setName] = useState("")
+    const [people, setPeoples] = useState<string[]>([])
 
     return (
         <Box>
@@ -130,14 +134,34 @@ const btnNewShortnote = () => {
                                         <br />
                                         <Grid templateColumns="repeat(5, 1fr)" gap={4}>
                                             <GridItem colSpan={4}>
-                                                <Input placeholder="studentID, comma seperated"></Input>
+                                                <Input
+                                                    placeholder="studentID, comma seperated"
+                                                    value={pName}
+                                                    onChange={(e) => setName(e.target.value)}
+                                                ></Input>
                                             </GridItem>
                                             <GridItem colSpan={1}>
-                                                <Button colorScheme={"orange"} rounded={8} boxShadow="xl" w={"100%"}>
+                                                <Button
+                                                    colorScheme={"orange"}
+                                                    rounded={8}
+                                                    w={"100%"}
+                                                    onClick={() => {
+                                                        let x = people.concat(pName)
+                                                        setPeoples(x)
+                                                        setName("")
+                                                    }}
+                                                >
                                                     Add
                                                 </Button>
                                             </GridItem>
                                         </Grid>
+                                        <VStack gap={2} mt={4}>
+                                            {people.map((people, key) => (
+                                                <Box bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={3}>
+                                                    {people}
+                                                </Box>
+                                            ))}
+                                        </VStack>
                                     </Box>
                                 ) : null}
                             </Box>
