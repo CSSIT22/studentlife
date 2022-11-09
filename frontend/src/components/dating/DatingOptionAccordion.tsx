@@ -21,14 +21,14 @@ const DatingOptionAccordion: FC<{
             arr = [...arr, fac]
             arr.sort()
             setSelectedFac([...arr])
-            console.log("array: " + selectedFac)
-            console.log("This add? :" + arr.indexOf(fac))
+            //console.log("array: " + selectedFac)
+            //console.log("This add? :" + arr.indexOf(fac))
         } else {
             // filter?
             arr = arr.filter((item) => item !== fac)
             setSelectedFac([...arr])
 
-            console.log("This remove? :" + arr.splice(arr.indexOf(fac), arr.indexOf(fac) + 1))
+            //console.log("This remove? :" + arr.splice(arr.indexOf(fac), arr.indexOf(fac) + 1))
         }
         let arrWithoutAllfact = faculties.filter((item) => item !== faculties[0])
         let isAll = true
@@ -42,12 +42,12 @@ const DatingOptionAccordion: FC<{
         } else {
             setSelectedFac(arr.filter((item) => item !== faculties[0]))
         }
-        console.log("This :" + arr)
+        // console.log("This :" + arr)
     }
 
     return (
         <Accordion allowToggle flex="left">
-            <AccordionItem>
+            <AccordionItem border={0}>
                 <h2>
                     <AccordionButton
                         bg={"orange.200"}
