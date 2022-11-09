@@ -33,6 +33,7 @@ import {
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,
+    useBreakpointValue,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -49,8 +50,6 @@ export default function SimpleThreeColumns() {
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const cancelRef = React.useRef()
-
-    const toast = useToast()
 
     return (
         <Box maxW="95%" borderRadius="none" overflow="hidden" p="5">
@@ -145,6 +144,6 @@ export default function SimpleThreeColumns() {
         </Box>
 
         // Help me goddddd it almost finish but my eyes can handle much any more sorry for what i done this is the end of me nowww thank you everyone for support me and help me love you mom dad and my bro sry to be a
-        // croward is sorry
+        // croward sorry
     )
 }

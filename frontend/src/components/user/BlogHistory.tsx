@@ -3,7 +3,7 @@ import { Box, Flex, Spacer, Text, Container } from "@chakra-ui/react"
 
 function BlogHistory() {
     return (
-        <Flex rounded="xl" direction="column" mt={4} mx="5" bg="orange.400" p={2} position="initial">
+        <Flex rounded="xl" direction="column" mt={4} ml={5} bg="orange.400" p={2} position="initial">
             <Text color="white" p="5" fontSize="xl" fontWeight="500">
                 BLOG HISTORY
             </Text>
@@ -24,5 +24,4 @@ function BlogHistory() {
         </Flex>
     )
 }
-
 export default BlogHistory
