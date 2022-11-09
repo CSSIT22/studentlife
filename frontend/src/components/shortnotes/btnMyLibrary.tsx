@@ -112,7 +112,6 @@ const btnMyLibrary = () => {
             </Drawer>
             <Drawer isOpen={nliIsOpen} placement="right" onClose={nliOnClose} size={"sm"}>
                 <DrawerContent>
-                    <DrawerCloseButton />
                     <DrawerHeader>
                         <HStack gap={4}>
                             <Button variant={"ghost"} onClick={nliOnClose}>
@@ -141,8 +140,6 @@ const btnMyLibrary = () => {
             </Drawer>
             <Drawer isOpen={inliIsOpen} placement="right" onClose={inliOnClose} size={"sm"}>
                 <DrawerContent>
-                    <DrawerCloseButton />
-
                     <DrawerHeader>
                         <HStack gap={4}>
                             <Button variant={"ghost"} onClick={inliOnClose}>
