@@ -82,7 +82,7 @@ const DatingOption = () => {
 
     return (
         <DatingAppBody>
-            <Stack pt="5" backgroundColor="red">
+            <Stack pt="5">
                 {/* Heading and heading description part */}
                 <Heading>Option</Heading>
                 <Box pt="3">
