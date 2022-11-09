@@ -93,6 +93,12 @@ export default function Index() {
     const [receiver, setReceiver] = useState([])
     //state for description
     const [description, setdescription] = useState("")
+    //state for expired time
+    const [expiredTime, setExpiredTime] = useState({
+        h:0,
+        m:0,
+        s:0
+    })
     //fucntion'
     const handleDelete = (prop: any) => {
         setFiles(files.filter((item) => item !== prop))
@@ -130,22 +136,42 @@ export default function Index() {
             }
         }
     }
+    //Function for handle file drop
     const handleDrop = async () => {
         const fd = new FormData()
-        files.map((item) => {
+        files.map((item:any) => {
             fd.append("files", item.file)
         })
         if (selectedType == "everyone") {
-            fd.append("receiver", receiver[0])
+            fd.append("receiver", "everyone")
             fd.append("description", description)
-            fd.append("duration", dropDuration.temp ? "temp" : "perm")
+            if(dropDuration.perm){
+                fd.append("duration", "permanent")
+            }else{
+                const timeNow = Date.now();
+                const addTime = (expiredTime.h*60*60*1000)+(expiredTime.m*60*1000)+(expiredTime.s*1000);
+                const expired = timeNow+addTime;
+                const expiredDate = new Date(expired);
+                fd.append("duration","temporary");
+                fd.append("expireDate",expiredDate);
+            }
+
         } else {
             fd.append("type", selectedType)
             receiver.map((receive) => {
                 fd.append("receiver", receive)
             })
             fd.append("description", description)
-            fd.append("duration", dropDuration.temp ? "temp" : "perm")
+            if(dropDuration.perm){
+                fd.append("duration", "permanent")
+            }else{
+                const timeNow = Date.now();
+                const addTime = (expiredTime.h*60*60*1000)+(expiredTime.m*60*1000)+(expiredTime.s*1000);
+                const expired = timeNow+addTime;
+                const expiredDate = new Date(expired);
+                fd.append("duration","temporary");
+                fd.append("expireDate",expiredDate);
+            }
         }
 
         try {
@@ -168,9 +194,6 @@ export default function Index() {
             // }
         }
     }, [isOpen])
-    useEffect(() => {
-        console.log(receiver)
-    }, [receiver])
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="drop">
@@ -350,14 +373,19 @@ export default function Index() {
                                                                 <Text color={"gray.400"}>Set Timer</Text>
                                                                 <HStack spacing={[1, 2, 3]}>
                                                                     <NumberInput
+                                                                        id={"H"}
                                                                         defaultValue={0}
                                                                         min={0}
-                                                                        max={20}
+                                                                        max={167}
                                                                         placeholder={"00"}
                                                                         minW={["60px", "65px"]}
                                                                         size={["sm", "md"]}
+                                                                        onChange={(num)=>{
+                                                                            setExpiredTime({...expiredTime, h:parseInt(num)})
+                                                                            
+                                                                           }}
                                                                     >
-                                                                        <NumberInputField />
+                                                                        <NumberInputField/>
                                                                         <NumberInputStepper>
                                                                             <NumberIncrementStepper />
                                                                             <NumberDecrementStepper />
@@ -372,8 +400,13 @@ export default function Index() {
                                                                         placeholder={"00"}
                                                                         minW={"65px"}
                                                                         size={["sm", "md"]}
+                                                                        id={"M"}
+                                                                        onChange={(num)=>{
+                                                                            setExpiredTime({...expiredTime, m:parseInt(num)})
+                                                                            
+                                                                           }}
                                                                     >
-                                                                        <NumberInputField />
+                                                                        <NumberInputField/>
                                                                         <NumberInputStepper>
                                                                             <NumberIncrementStepper />
                                                                             <NumberDecrementStepper />
@@ -387,8 +420,13 @@ export default function Index() {
                                                                         placeholder={"00"}
                                                                         minW={"65px"}
                                                                         size={["sm", "md"]}
+                                                                        id={"S"}
+                                                                       onChange={(num)=>{
+                                                                        setExpiredTime({...expiredTime, s:parseInt(num)})
+                                                                        
+                                                                       }}
                                                                     >
-                                                                        <NumberInputField />
+                                                                        <NumberInputField/>
                                                                         <NumberInputStepper>
                                                                             <NumberIncrementStepper />
                                                                             <NumberDecrementStepper />
