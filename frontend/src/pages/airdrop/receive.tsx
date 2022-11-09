@@ -78,14 +78,7 @@ const dummyData = {
             name: "pic3.jpeg",
             sender: "MR.ABC DEF",
             comments: [
-                {
-                    name: "MR.ABC DEF",
-                    comment: "GGEZ",
-                },
-                {
-                    name: "MR.ABC GGG",
-                    comment: "DDDD",
-                },
+                
             ],
         },
     ],
@@ -113,15 +106,16 @@ export default function Receivedrop() {
         return componentArr
     }
     const RenderModalComments = () => {
-        const componentArr = []
-        modalData.comments.map((item) => {
+        type componentType = any;
+        const componentArr:componentType = []
+        modalData.comments.map((item:any) => {
             componentArr.push(
                 <>
                     <HStack p={3}>
                         <HiUser fontSize={"2.5rem"} />
                         <VStack>
                             <Text fontSize={"xl"}>{item.name}</Text>
-                            <Text>{item.comment}</Text>
+                            <Text color={"gray.400"}>{item.comment}</Text>
                         </VStack>
                     </HStack>
                     <Divider />
@@ -239,7 +233,7 @@ export default function Receivedrop() {
                                 </>
                             )}
                              <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
-                                (Tap any where to close)
+                                (Tap outside to close)
                             </Text>
                         </ModalBody>
                         <ModalFooter>
