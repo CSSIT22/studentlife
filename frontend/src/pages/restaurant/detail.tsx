@@ -99,13 +99,13 @@ function detail() {
                                 <Spacer />
                                 <Center
                                     as="button"
-                                    bg= {"primary.600"}
+                                    bg={"primary.600"}
                                     fontWeight="semibold"
                                     letterSpacing="wide"
                                     fontSize="xs"
                                     textTransform="uppercase"
                                     borderWidth="1px"
-                                    borderRadius="lg"
+                                    borderRadius="5px"
                                     px={2}
                                     pt={1}
                                     pb={1}
@@ -115,7 +115,7 @@ function detail() {
                             </Box>
                         </GridItem>
 
-                        <GridItem colSpan={{ base: 9, md: 3 }}>
+                        <GridItem colSpan={{ base: 8, md: 4 }}>
                             <Box w={"full"} backgroundColor={"white"} px={"7"} py={5} borderRadius="10px" shadow={"md"}>
                                 <Text color="" fontSize="md">
                                     OPEN - CLOSE : {property.openTime} - {property.closeTime} <br />
@@ -134,47 +134,14 @@ function detail() {
                                 <Text color="" fontSize="md" textTransform="uppercase">
                                     CONTACT :
                                     <br />
-                                    <AiFillPhone /> : {property.phoneNum}
-                                    <br /> <AiOutlineGlobal /> :
+                                    <Icon as={AiFillPhone} w={4} h={4} /> : {property.phoneNum}
+                                    <br /> <Icon as={AiOutlineGlobal} w={4} h={4} /> :{" "}
                                     <Link href={property.website} isExternal>
                                         <Text as="u">Click here</Text>
                                     </Link>
                                 </Text>
                             </Box>
                         </GridItem>
-
-                        {/* <Show above="md">
-                            <GridItem colSpan={3}>
-                                <Box w={"full"}>
-                                    <Swiper
-                                        direction={"vertical"}
-                                        slidesPerView={"auto"}
-                                        freeMode={true}
-                                        scrollbar={true}
-                                        mousewheel={true}
-                                        modules={[FreeMode, Scrollbar, Mousewheel]}
-                                        className="mySwiper"
-                                    >
-                                        <SwiperSlide>
-                                            <Box p={5}>
-                                                <ReviewContent
-                                                    name={"joji"}
-                                                    picture={""}
-                                                    rate={"4"}
-                                                    review={"This restaurant is so good but it is a little pricey will come back"}
-                                                />
-                                                <ReviewContent
-                                                    name={"joji"}
-                                                    picture={""}
-                                                    rate={"4"}
-                                                    review={"This restaurant is so good but it is a little pricey will come back"}
-                                                />
-                                            </Box>
-                                        </SwiperSlide>
-                                    </Swiper>
-                                </Box>
-                            </GridItem>
-                        </Show> */}
                     </Grid>
 
                     <Box p="5">
@@ -187,19 +154,20 @@ function detail() {
                                 {({ isOpen, onClose }) => (
                                     <>
                                         <PopoverTrigger>
-                                            <Button
+                                            <Center
+                                                as="button"
                                                 bg={"gray.300"}
                                                 color="gray.700"
                                                 h="50px"
                                                 border={1}
                                                 borderRadius={"5px"}
-                                                pr={8}
+                                                px={4}
                                                 py={1}
                                                 onClick={onOpen}
-                                                leftIcon={<Icon as={SlActionRedo} w={4} h={4} />}
                                             >
+                                                <Icon as={SlActionRedo} w={4} h={4} />
                                                 Share
-                                            </Button>
+                                            </Center>
                                         </PopoverTrigger>
                                         <PopoverContent>
                                             <PopoverArrow />
