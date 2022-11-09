@@ -1,17 +1,46 @@
 import TinderCard from "react-tinder-card"
-import { Box, Center, SimpleGrid, Tag, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Link, SimpleGrid, Tag, Text } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import { CARD_QUEUE } from "./shared/card_queue"
+import React, { useState, useMemo, useRef } from "react"
+import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
 
 const DatingRandomizationMobilePage = () => {
+    const [currentIndex, setCurrentIndex] = useState(CARD_QUEUE.length - 1)
     const characters = CARD_QUEUE
+    const currentIndexRef = useRef(currentIndex)
+    const [lastDirection, setLastDirection] = useState()
 
-    const swiped = (direction: any, nameToDelete: any) => {
-        console.log("Swiping " + nameToDelete + " to the " + direction)
+    const childRefs: React.RefObject<any>[] = useMemo(
+        () =>
+            Array(CARD_QUEUE.length)
+                .fill(0)
+                .map((i) => React.createRef()),
+        []
+    )
+
+    const updateCurrentIndex = (val: any) => {
+        setCurrentIndex(val)
+        currentIndexRef.current = val
     }
 
-    const outOfFrame = (name: any) => {
-        console.log(name + " left the screen!")
+    const canSwipe = currentIndex >= 0
+
+    const swiped = (direction: any, nameToDelete: any, index: any) => {
+        console.log("Swiping " + nameToDelete + " to the " + direction)
+        setLastDirection(direction)
+        updateCurrentIndex(index - 1)
+    }
+
+    const outOfFrame = (name: any, idx: any) => {
+        console.log(`${name} (${idx}) left the screen!` + currentIndexRef.current)
+        currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
+    }
+
+    const swipe = async (dir: string) => {
+        if (canSwipe && currentIndex < CARD_QUEUE.length) {
+            await childRefs[currentIndex].current.swipe(dir)
+        }
     }
 
     return (
@@ -19,12 +48,13 @@ const DatingRandomizationMobilePage = () => {
             <SimpleGrid overflow="hidden">
                 <Box>
                     <Box className="cardContainer">
-                        {characters.map((character) => (
+                        {characters.map((character, index) => (
                             <TinderCard
+                                ref={childRefs[index]}
                                 className="swipe"
                                 key={character.name}
-                                onSwipe={(dir: any) => swiped(dir, character.name)}
-                                onCardLeftScreen={() => outOfFrame(character.name)}
+                                onSwipe={(dir: any) => swiped(dir, character.name, index)}
+                                onCardLeftScreen={() => outOfFrame(character.name, index)}
                                 preventSwipe={["down", "up"]}
                                 swipeThreshold={1}
                             >
@@ -77,6 +107,14 @@ const DatingRandomizationMobilePage = () => {
                         Tag
                     </Tag>
                 </Box>
+                <Center display="flex" pt="18px" pl="18px">
+                    <Box onClick={() => swipe("left")} pr="72px">
+                        <AiOutlineStop size="62px" />
+                    </Box>
+                    <Box onClick={() => swipe("right")} pl="72px">
+                        <AiOutlineHeart size="62px" />
+                    </Box>
+                </Center>
             </SimpleGrid>
         </DatingAppBody>
     )
