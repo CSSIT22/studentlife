@@ -8,11 +8,11 @@ const ReviewContent: FC<{
     review: string
 }> = ({ name, picture, rate, review }) => {
     return (
-        <Box mt={6} backgroundColor={"white"} p={"5"} borderRadius="lg" shadow={"lg"}>
+        <Box mt={{base:6,md:2}} backgroundColor={"white"} p={"5"} borderRadius="10px" shadow={"md"}>
                 <Box>
                     <Grid templateRows="repeat(3, 0fr)" templateColumns="repeat(7, 3fr)" gap={1}>
                         <GridItem rowSpan={3} colSpan={1} mr={4}>
-                            <Avatar size={"lg"} name={name} src={picture}></Avatar>
+                            <Avatar size={{base:'xl', md:'md'}} name={name} src={picture}></Avatar>
                         </GridItem>
                         <GridItem colSpan={5}>
                             <Text fontSize={"xl"} fontWeight="semibold">
