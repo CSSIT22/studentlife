@@ -1,5 +1,5 @@
 import { Box, Checkbox } from "@chakra-ui/react"
-import { Dispatch, FC, SetStateAction } from "react"
+import { Dispatch, FC } from "react"
 
 const DatingInterestTag: FC<{
     interestId: string
@@ -8,7 +8,9 @@ const DatingInterestTag: FC<{
     selectedInterests: String | String[]
     numOfSelectedInterest: number
     setSelectedInterest: Dispatch<any>
-}> = ({ interestId, interestName, onOpen, selectedInterests, numOfSelectedInterest, setSelectedInterest }) => {
+    tagIsClicked: boolean
+    setTagIsClicked: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({ interestId, interestName, onOpen, selectedInterests, numOfSelectedInterest, setSelectedInterest, tagIsClicked, setTagIsClicked }) => {
     // Check if interestId is in the selectedInterest state or not
     function idExists(interestId: string) {
         for (let i = 0; i < selectedInterests.length; i++) {
@@ -18,15 +20,11 @@ const DatingInterestTag: FC<{
         }
         return false
     }
-    // Check if numOfInterest state is equal to 5 or not
-    function checkNum() {
-        if (numOfSelectedInterest === 5) {
-            return true
-        }
-        return false
-    }
     // Update numOfInterest and selectedInterests when you select/deselect the tags of interest
     function handleTag(interest: React.ChangeEvent<HTMLInputElement>) {
+        if (!tagIsClicked) {
+            setTagIsClicked(true)
+        }
         if (interest.target.checked) {
             if (numOfSelectedInterest < 5) {
                 setSelectedInterest(selectedInterests.concat(interest.target.value))
@@ -59,7 +57,7 @@ const DatingInterestTag: FC<{
         </Checkbox>
     ) : // If true, it will return the light gray tags that cannot be checked.
     // Else, it will return the gray tags that is currently unchecked.
-    checkNum() == true ? (
+    numOfSelectedInterest === 5 ? (
         <Box onClick={onOpen} display="inline">
             <Checkbox
                 borderWidth="2px"

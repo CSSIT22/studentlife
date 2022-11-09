@@ -22,6 +22,7 @@ const TagOfInterest = () => {
     let IState = { allInterests: INTERESTS }
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
+    const [tagIsClicked, setTagIsClicked] = useState(false)
 
     return (
         <DatingAppBody>
@@ -49,7 +50,7 @@ const TagOfInterest = () => {
                 </GridItem>
                 {/* DatingInterestDynamicButton component: Skip & Done button */}
                 <GridItem pl="2" area={"button"}>
-                    <DatingInterestDynamicButton numOfSelectedInterest={selectedInterests.length} selectedInterests={selectedInterests} />
+                    <DatingInterestDynamicButton numOfSelectedInterest={selectedInterests.length} selectedInterests={selectedInterests} tagIsClicked={tagIsClicked} />
                 </GridItem>
             </Grid>
             {/* DatingInterestSearch component: Search Bar */}
@@ -68,6 +69,8 @@ const TagOfInterest = () => {
                         selectedInterests={selectedInterests}
                         numOfSelectedInterest={selectedInterests.length}
                         setSelectedInterest={setSelectedInterest}
+                        tagIsClicked={tagIsClicked}
+                        setTagIsClicked={setTagIsClicked}
                     />
                 ))}
             </CheckboxGroup>
