@@ -75,7 +75,7 @@ const DatingInterestTag: FC<{
                 p="1"
                 pr="5"
                 pl="2"
-                color="white"
+                color="gray.100"
                 backgroundColor="orange.400"
                 borderRadius="full"
                 id={interestId}
