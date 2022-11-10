@@ -1,8 +1,28 @@
 import { Box, Button, Grid, GridItem, Input, InputGroup, InputLeftElement, VStack, Text, Image, HStack } from "@chakra-ui/react"
 import React from "react"
 import CommunityList from "../../components/group/CommunityList"
+import InvatationBox from "../../components/group/InvatationBox"
 import AppBody from "../../components/share/app/AppBody"
-
+const invitations = [
+    {
+        inviteID: 1,
+        communityName: "Programmer community",
+        memberNumber: 8000,
+        coverPhoto: "https://picsum.photos/id/300/200",
+        isPrivate: true,
+        userName: "Passakorn puttama", //name of the person who invited
+        expireDate: "28",
+    },
+    {
+        inviteID: 2,
+        communityName: "Noob community",
+        memberNumber: 4000,
+        coverPhoto: "https://picsum.photos/id/301/200",
+        isPrivate: false,
+        userName: "Kitty Melody", //name of the person who invited
+        expireDate: "28",
+    },
+]
 const communitys = [
     {
         ID: 1,
@@ -82,7 +102,7 @@ const Groups = () => {
                         >
                             {communitys ? (
                                 <div>
-                                    <Box borderRadius="md" backgroundColor="gray.100" width="100%" pt={4} textAlign="start" pl={5} pr={5} pb={4}>
+                                    <Box borderRadius="md" backgroundColor="gray.100" width="100%" pt={4} textAlign="start" px={5} pb={4}>
                                         <Text as="b" fontSize="sm">
                                             Community you manage
                                         </Text>
@@ -96,17 +116,7 @@ const Groups = () => {
                                             />
                                         ))}
                                     </Box>
-                                    <Box
-                                        mt={2}
-                                        borderRadius="md"
-                                        backgroundColor="gray.100"
-                                        width="100%"
-                                        pt={4}
-                                        textAlign="start"
-                                        pl={5}
-                                        pr={5}
-                                        pb={4}
-                                    >
+                                    <Box mt={2} borderRadius="md" backgroundColor="gray.100" width="100%" textAlign="start" px={5} py={4}>
                                         <Text as="b" fontSize="sm">
                                             Community you've joined
                                         </Text>
@@ -127,7 +137,26 @@ const Groups = () => {
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem colSpan={5} w="100%" bg="tomato" />
+                {/* right side */}
+                <GridItem colSpan={5} w="100%" bg="tomato">
+                    <Box borderRadius="md" backgroundColor="gray.100" width="100%" pt={4} textAlign="start" pl={5} pr={5} pb={4}>
+                        <Text as="b" fontSize="sm">
+                            Invitation
+                        </Text>
+                        <Text fontSize="sm">These people have been invited to join the community</Text>
+                        {invitations.map((i) => (
+                            <InvatationBox
+                                key={i.inviteID}
+                                userName={i.userName}
+                                communityName={i.communityName}
+                                memberNumber={i.memberNumber}
+                                isPrivate={i.isPrivate}
+                                coverPhoto={i.coverPhoto}
+                                expireDate={i.expireDate}
+                            />
+                        ))}
+                    </Box>
+                </GridItem>
             </Grid>
         </AppBody>
     )
