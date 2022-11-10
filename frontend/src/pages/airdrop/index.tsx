@@ -57,9 +57,17 @@ export default function Index<FC>() {
     const ref1 = useRef(null)
     const ref2 = useRef(null)
     //userListState
-    const [userList, setUserList] = useState([])
-    //dummy
-    const [dummyData2, setDummyData2] = useState(dummyData22)
+    const [userList, setUserList] = useState<{
+        everyone: string[],
+        department:string[],
+        group:string[],
+        specific:string[]
+    }>({
+        everyone:dummyData22,
+        department:[],
+        group:dummyData22,
+        specific:dummyData22
+    })
     //state for img preview
     const [imageSrc, setImageSrc] = useState(undefined)
     // state for file upload
@@ -182,13 +190,24 @@ export default function Index<FC>() {
     }, [isOpen])
     useEffect(() => {
         console.log(user)
+        fetchGroup();
+        fetchDepartment();
+        fetchSpecific();     
     }, [])
     // fetchSpecific
     // fetchCommunity
     // fetch Data
+    const fetchGroup = async () => {
+        // const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment")
+        // setUserList({...userList,group:res.data})
+    }
+    const fetchSpecific = async () => {
+        // const res = await axios.get("http://localhost:8000/airdrop/user/getspecific")
+        // setUserList({...userList,specific:res.data})
+    }
     const fetchDepartment = async () => {
         const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment")
-        const setData = await setDummyData2(res.data)
+        setUserList({...userList,department:res.data})
     }
     return (
         <AppBody secondarynav={linkMenu}>
@@ -326,11 +345,30 @@ export default function Index<FC>() {
                                                                     textAlign={"center"}
                                                                 >
                                                                     {/* //map user data into this */}
-                                                                    {dummyData2?.map((data) => {
-                                                                        return <option value={data}>{data}</option>
-                                                                    })}
+                                                                    {
+                                                                        selectedType == "Community"?
+                                                                        (
+                                                                            userList?.group.map((data,key) => {
+                                                                                return <option value={data} key={key}>{data}</option>
+                                                                            })
+                                                                        )
+                                                                        : selectedType == "Department"?
+                                                                        (
+                                                                            userList?.department.map((data,key) => {
+                                                                                return <option value={data} key={key}>{data}</option>
+                                                                            })
+                                                                        )
+                                                                        : selectedType == "Specific"?
+                                                                        (
+                                                                            userList?.specific.map((data,key) => {
+                                                                                return <option value={data} key={key}>{data}</option>
+                                                                            })
+                                                                        )
+                                                                        : null
+                                                                    }
+                                                                    
                                                                 </Select>
-                                                                <SimpleGrid columns={[1, 2, 3]}>
+                                                                <SimpleGrid columns={[1,2,3]}>
                                                                     {receiver.map((name: any) => {
                                                                         return (
                                                                             <>
@@ -344,8 +382,9 @@ export default function Index<FC>() {
                                                                                             setReceiver(newArr)
                                                                                         }}
                                                                                         _hover={{ cursor: "pointer" }}
+                                                                                        fontSize={"0.8rem"}
                                                                                     >
-                                                                                        {name + " x"}
+                                                                                        {name.split(" ")[0] + " x"}
                                                                                     </Tag>
                                                                                 </Box>
                                                                             </>
