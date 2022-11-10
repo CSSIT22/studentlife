@@ -11,6 +11,15 @@ import {
     Text,
     Button,
     useToast,
+    SimpleGrid,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
@@ -19,6 +28,8 @@ const CreateActivityPoll = () => {
     const [header, setInput] = useState("")
     const handleInputChange = (e: any) => setInput(e.target.value)
     const toast = useToast()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     const isTooLongHeader = header.length >= 100
     const isTooShortHeader = header.length < 10
     let isNotValid = isTooLongHeader && isTooShortHeader
@@ -80,6 +91,31 @@ const CreateActivityPoll = () => {
                     <Center>
                         <FormControl isRequired>
                             <FormLabel color={"white"}>Poll topic</FormLabel>
+                            <Button
+                                borderRadius={"2px"}
+                                onClick={onOpen}
+                                isOpen={isOpen}
+                                backgroundColor="white"
+                                color="gray"
+                                size="sm"
+                                p="20px"
+                                pt="5px"
+                                pb="5px"
+                                isCentered
+                            >
+                                Select poll topic
+                            </Button>
+                            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                                <ModalOverlay />
+                                <ModalContent>
+                                    <ModalHeader>Wait for design...</ModalHeader>
+                                    <ModalCloseButton />
+                                    <ModalBody>{/* <Lorem count={2} /> */}</ModalBody>
+                                    <ModalFooter>
+                                        <Button onClick={onClose}>Close</Button>
+                                    </ModalFooter>
+                                </ModalContent>
+                            </Modal>
                         </FormControl>
                     </Center>
                     <Center>
