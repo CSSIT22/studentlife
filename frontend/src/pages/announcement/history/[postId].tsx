@@ -30,7 +30,7 @@ const history = () => {
 // console.log(postParams);
     const moreLangLength = postParams[0].addMoreLang.length;
 
-
+    //  ยังเคลียร์ field value ตอนเลือก type ใหม่ไม่ได้
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
             return (
@@ -119,9 +119,9 @@ const history = () => {
             })
         )
     }
-    const [add, setAdd] = React.useState(false)
+    const [add, setAdd] = React.useState(0)
     const onAdd = () =>{
-        setAdd(true);
+        setAdd(add+1);
     }
     console.log(allPost);
     console.log(addMoreLang);
@@ -159,16 +159,15 @@ const history = () => {
         
     // }
     // console.log(add);
-    
-    // ยังแก้ไม่ได้
-   const updateMoreLang = (add:boolean) =>{
-    if(add){
+
+   const updateMoreLang = (add:Number) =>{
+    if(add == moreLangLength){
         return addMoreLang.map((el) => {
-            return <MoreLangForEdit onDecrease={decreaseCount} addLang={addLang} selectLang={el.lang} title={el.topic} dt={el.detail} key={Math.random()} onAdd={onAdd} add={add}/>
+            return <MoreLangForEdit onDecrease={decreaseCount} addLang={addLang} selectLang={el.lang} title={el.topic} dt={el.detail} key={Math.random()} onAdd={onAdd} add={true}/>
         })
     }else  {
         return postParams[0].addMoreLang.map((el) => {
-            return <MoreLangForEdit onDecrease={decreaseCount} addLang={addLang} selectLang={el.lang} title={el.topic} dt={el.detail} key={Math.random()} onAdd={onAdd} add={add}/>
+            return <MoreLangForEdit onDecrease={decreaseCount} addLang={addLang} selectLang={el.lang} title={el.topic} dt={el.detail} key={Math.random()} onAdd={onAdd} add={false}/>
         })
     }
    }
@@ -235,12 +234,14 @@ const history = () => {
             </FormControl>
             <FormControl>
                 <>
-
+                    <Text fontSize={"0.8rem"} color="red.300" mt="5">if you sure about the the more lang that you edit, you need to click add both origin more lang. Then it will be disabled</Text>
                     {updateMoreLang(add)}
+                    <Text fontSize={"0.8rem"} color="red.300" mt="5">if you sure about the the more lang that you edit, you need to click add both origin more lang. Then it will be disabled</Text>
+
                     {moreLangField.map((el) => {
                                 return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang}/>
                             })}
-                    <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"}>
+                    <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"} mt="5">
                         <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                         <TagLabel>Add More Language</TagLabel>
                     </Tag>
