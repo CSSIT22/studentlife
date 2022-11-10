@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react"
 import { FC, useState } from "react"
 
 let nextId = 0
