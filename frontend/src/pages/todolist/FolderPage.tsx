@@ -1,7 +1,7 @@
 import React from "react"
 
-const FolderPage = () => {
-    return <div>FolderPage</div>
+const folderpage = () => {
+    return <div>folder page</div>
 }
 
-export default FolderPage
+export default folderpage
