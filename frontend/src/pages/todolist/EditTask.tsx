@@ -28,26 +28,11 @@ import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 
 const edittask = () => {
     return (
-        <AppBody
-            secondarynav={[
-                {
-                    name: "To Do List",
-                    to: "/todolist",
-                },
-                {
-                    name: "Create Task",
-                    to: "/todolist/createtask",
-                },
-                {
-                    name: "Folder",
-                    to: "/todolist/folderpage",
-                },
-            ]}
-        >
+        <ToDoListAppBody>
             <Heading as="h2" size="3xl" noOfLines={1}>
                 Edit Task
             </Heading>
-        </AppBody>
+        </ToDoListAppBody>
     )
 }
 
