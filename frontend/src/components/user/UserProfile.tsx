@@ -46,7 +46,7 @@ import { BsThreeDotsVertical, BsFillFlagFill } from "react-icons/bs"
 
 export default function SimpleThreeColumns() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const [scrollBehavior, setScrollBehavior] = React.useState("inside")
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const cancelRef = React.useRef()
@@ -64,30 +64,30 @@ export default function SimpleThreeColumns() {
                 color="blackAlpha.700"
                 fontWeight="bold"
                 borderRadius="md"
+                bg="white"
+                shadow={"lg"}
             >
-                <GridItem rounded="xl" bg="orange.400" area={"nav"}>
+                <GridItem rounded="xl" area={"nav"}>
                     <VStack align="stretch" alignItems="center">
                         <Avatar pt={2} display="flex" position="initial" size="2xl" name="Christian Nwamba" src="https://bit.ly/code-beast" />{" "}
-                        <Box textAlign="center" color="white" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
+                        <Box textAlign="center" color="black" my={4} fontSize={"2xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" rounded="xl" bg="orange.400" area={"main"}>
-                    <Box my="3" p={2} color="white">
-                        Id: 64130500XXX
-                    </Box>
+                <GridItem pl="2" rounded="xl" fontSize={"2xl"} area={"main"} color="gray.700">
+                    <Box p={2}>Id: 64130500XXX</Box>
 
-                    <Box p={2} color="white">
+                    <Box p={2} fontSize={"2xl"}>
                         Name: John Doe
                     </Box>
-                    <Box p={2} color="white">
+                    <Box p={2} fontSize={"2xl"}>
                         Fucuty: SIT Major: Computer Science
                     </Box>
                 </GridItem>
-                <GridItem pl="2" area={"footer"}>
-                    <ButtonGroup color="white" variant="outline" spacing="6">
-                        <Button pl={5} bg="orange.400" position="initial" onClick={onOpen}>
+                <GridItem pl="2" area={"footer"} rounded="xl">
+                    <ButtonGroup color="white" variant="solid" spacing="6">
+                        <Button pl={5} bg="orange.600" position="initial" value="inside" shadow={"lg"} onClick={onOpen}>
                             Edit
                         </Button>
                         <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
@@ -135,7 +135,7 @@ export default function SimpleThreeColumns() {
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-                        <Button pl={5} bg="orange.400" position="initial">
+                        <Button pl={5} bg="orange.600" position="initial" shadow={"lg"}>
                             Create blog
                         </Button>{" "}
                     </ButtonGroup>

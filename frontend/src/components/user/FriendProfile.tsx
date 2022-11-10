@@ -25,6 +25,7 @@ import {
     CheckboxGroup,
     useToast,
     AlertDialogCloseButton,
+    extendTheme,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -48,7 +49,7 @@ export default function SimpleThreeColumns() {
     const toast = useToast()
 
     return (
-        <Box maxW="95%" borderRadius="none" overflow="hidden" p="5">
+        <Box maxW="100%" borderRadius="none" overflow="hidden" p="5">
             <Grid
                 templateAreas={`
                   "nav main"
@@ -58,45 +59,41 @@ export default function SimpleThreeColumns() {
                 h="200px"
                 gap="1"
                 color="blackAlpha.700"
+                bg="white"
                 fontWeight="bold"
                 borderRadius="md"
+                shadow={"lg"}
             >
-                <GridItem rounded="xl" bg="orange.400" area={"nav"}>
+                <GridItem rounded="xl" area={"nav"}>
                     <VStack align="stretch" alignItems="center">
                         <Avatar pt={2} display="flex" position="initial" size="2xl" name="Christian Nwamba" src="https://bit.ly/code-beast" />{" "}
-                        <Box textAlign="center" color="white" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
+                        <Box textAlign="center" color="black" my={4} fontSize={"2xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" rounded="xl" bg="orange.400" area={"main"}>
-                    <Box my="3" p={2} color="white">
-                        Id: 64130500XXX
-                    </Box>
-
-                    <Box p={2} color="white">
-                        Name: John Doe
-                    </Box>
-                    <Box p={2} color="white">
-                        Fucuty: SIT Major: Computer Science
-                    </Box>
+                <GridItem pl="2" rounded="xl" fontSize={"2xl"} area={"main"} fontStyle={"gray.700"}>
+                    <Box p={2}>Id: 64130500XXX</Box>
+                    <Box p={2}>Name: John Doe</Box>
+                    <Box p={2}>Fucuty: SIT Major: Computer Science</Box>
                 </GridItem>
-                <GridItem pl="2" area={"footer"}>
-                    <ButtonGroup color="white" variant="outline" spacing="6">
-                        <Button pl={5} bg="orange.400" position="initial">
+                <GridItem pl="2" area={"footer"} rounded="xl">
+                    <ButtonGroup color="white" variant="solid" spacing="6">
+                        <Button pl={5} bg="orange.600" position="initial" shadow={"lg"}>
                             Follow
                         </Button>
-                        <Button pl={5} bg="orange.400" position="initial">
+                        <Button pl={5} bg="orange.600" position="initial" shadow={"lg"}>
                             Message
                         </Button>{" "}
                         <Menu>
                             <MenuButton
                                 as={IconButton}
                                 icon={<BsThreeDotsVertical />}
-                                color="orange.400"
+                                color="orange.600"
                                 aria-label="Options"
                                 position="initial"
-                                variant="outline"
+                                variant="solid"
+                                shadow={"lg"}
                             />
                             <MenuList>
                                 <MenuItem color="orange.700" icon={<BsFillFlagFill />} onClick={onReportModalOpen}>
