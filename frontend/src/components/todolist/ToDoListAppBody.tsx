@@ -6,6 +6,14 @@ export const ToDoListAppBody = () => {
         <AppBody
             secondarynav={[
                 {
+                    name: "To Do List",
+                    to: "/todolist",
+                },
+                {
+                    name: "Create Task",
+                    to: "/createtask",
+                },
+                {
                     name: "Folder",
                     to: "/folder",
                 },
