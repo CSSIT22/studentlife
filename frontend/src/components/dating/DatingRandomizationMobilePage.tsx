@@ -78,41 +78,76 @@ const DatingRandomizationMobilePage = () => {
                     </Box>
                 </Box>
                 <Box display="flex">
-                    <Text fontFamily="Inter" fontStyle="normal" fontWeight="700" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
+                    <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
                         Firstname L.
                     </Text>
-                    <Text fontFamily="Inter" fontStyle="normal" fontWeight="400" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
+                    <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
                         M , Age
                     </Text>
                 </Box>
-                <Box fontFamily="Inter" fontStyle="normal" fontWeight="400" fontSize="20px" lineHeight="120%">
+                <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
                     <Text pl="18px" pt="10px">
                         Faculty
                     </Text>
                 </Box>
                 <Box pl="18px" pt="20px">
-                    <Tag backgroundColor="orange.600" color="white" mr="0.5">
-                        Tag
+                    <Tag
+                        backgroundColor="orange.600"
+                        color="white"
+                        mr="0.5"
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                    >
+                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                            TAG
+                        </Text>
                     </Tag>
-                    <Tag backgroundColor="orange.600" color="white" mr="0.5">
-                        Tag
+                    <Tag
+                        backgroundColor="orange.600"
+                        color="white"
+                        mr="0.5"
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                    >
+                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                            TAG
+                        </Text>
                     </Tag>
-                    <Tag backgroundColor="orange.600" color="white" mr="0.5">
-                        Tag
+                    <Tag
+                        backgroundColor="orange.600"
+                        color="white"
+                        mr="0.5"
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                    >
+                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                            TAG
+                        </Text>
                     </Tag>
-                    <Tag backgroundColor="orange.600" color="white" mr="0.5">
-                        Tag
+                    <Tag
+                        backgroundColor="orange.600"
+                        color="white"
+                        mr="0.5"
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                    >
+                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                            TAG
+                        </Text>
                     </Tag>
-                    <Tag backgroundColor="orange.600" color="white" mr="0.5">
-                        Tag
+                    <Tag
+                        backgroundColor="orange.600"
+                        color="white"
+                        mr="0.5"
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                    >
+                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                            TAG
+                        </Text>
                     </Tag>
                 </Box>
                 <Center display="flex" pt="18px" pl="18px">
                     <Box onClick={() => swipe("left")} pr="72px">
-                        <AiOutlineStop size="62px" />
+                        <AiOutlineStop size="62px" color="black" />
                     </Box>
                     <Box onClick={() => swipe("right")} pl="72px">
-                        <AiOutlineHeart size="62px" />
+                        <AiOutlineHeart size="62px" color="black" />
                     </Box>
                 </Center>
             </SimpleGrid>
