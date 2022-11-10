@@ -13,7 +13,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-30",
         expiredAfterDelete:"",
-        addMoreLang: [{}],
+        addMoreLang: [{lang:"Thai",topic:"สวัสดีชาวโลก",detail:"สวัสดีฉันชื่อ modlifes"},{lang:"Korea",topic:"unnyeong",detail:"Korean Kimchi"}],
     },
     {
         postId: 1,
@@ -29,7 +29,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-30",
         expiredAfterDelete:"",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
     {
         postId: 2,
@@ -45,7 +45,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-30",
         expiredAfterDelete:"",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
     {
         postId: 3,
@@ -61,7 +61,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-12",
         expiredAfterDelete:"",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
     {
         postId: 4,
@@ -77,7 +77,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-10",
         expiredAfterDelete:"",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
     {
         postId: 5,
@@ -93,7 +93,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-12",
         expiredAfterDelete:"",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
     {
         postId: 6,
@@ -109,7 +109,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-01",
         expiredAfterDelete:"",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
     {
         postId: 7,
@@ -125,7 +125,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-17",
         expiredAfterDelete:"48:12:11",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
     {
         postId: 8,
@@ -141,7 +141,7 @@ export const postInfoTest = [
         postAt: new Date(),
         expiredOfPost: "2022-11-22",
         expiredAfterDelete:"12:22:11",
-        addMoreLang: [{}],
+        addMoreLang: [],
     },
    
 ]

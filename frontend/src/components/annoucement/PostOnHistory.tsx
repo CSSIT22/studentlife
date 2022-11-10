@@ -9,8 +9,8 @@ const PostOnHistory: FC<{
     status: string
     onClick: Function
     id: number
-    onOpen:Function
-}> = ({ topic, sender, status, onClick, id,onOpen }) => {
+    onOpen: Function
+}> = ({ topic, sender, status, onClick, id, onOpen }) => {
     const state = (stat: string) => {
         if (stat == "approve") {
             return <HiCheckCircle fontSize={"2rem"} />
@@ -22,13 +22,24 @@ const PostOnHistory: FC<{
     }
     const button = (status: string) => {
         if (status == "approve" || status == "disapprove") {
-            return "DELETE"
+            return (<Text fontSize={"0.7rem"} color="red" as={"b"}>DELETE</Text>)
         } else if (status == "waiting") {
-            return "EDIT"
+            return (<Text fontSize={"0.7rem"} as={"b"}>EDIT</Text>)
         }
     }
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => {onClick(status, id) ,onOpen()}} boxShadow="md">
+        <Box
+            height={"5rem"}
+            width={"100%"}
+            p="5"
+            mt="5"
+            backgroundColor="#D9D9D9"
+            rounded="lg"
+            onClick={() => {
+                onClick(status, id), onOpen()
+            }}
+            boxShadow="md"
+        >
             <Flex alignItems={"center"}>
                 <Box pr={"1rem"} width="">
                     {state(status)}
@@ -39,9 +50,7 @@ const PostOnHistory: FC<{
                 </Box>
                 <Spacer />
                 <Box>
-                    <Box textAlign={"center"} p="2" width={"4rem"} bg="gray.400" rounded={"5"}>
-                        <Text fontSize={"0.7rem"}>{button(status)}</Text>
-                    </Box>
+                    {button(status)}
                 </Box>
             </Flex>
         </Box>
