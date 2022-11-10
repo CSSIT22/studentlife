@@ -9,7 +9,7 @@ const CommunityList: FC<{ communityName: string; lastActive: string; coverPhoto:
     isPrivate,
 }) => {
     return (
-        <Box _hover={{ backgroundColor: "gray.200", cursor: "pointer" }} borderRadius="md" backgroundColor="gray.300" mt={2}>
+        <Box _hover={{ backgroundColor: "gray.100", cursor: "pointer" }} borderRadius="md" backgroundColor="gray.200" mt={2}>
             <Box p={2} borderRadius="md">
                 <HStack gap={2}>
                     <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto} alt="Cover Photo" />
