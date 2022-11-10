@@ -20,22 +20,38 @@ import {
     ModalCloseButton,
     ModalBody,
     ModalFooter,
+    Textarea,
+    Select,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
 
 const CreateActivityPoll = () => {
-    const [header, setInput] = useState("")
-    const handleInputChange = (e: any) => setInput(e.target.value)
+    const [header, setHeaderInput] = useState("")
+    const handleInputHeaderChange = (e: any) => setHeaderInput(e.target.value)
+    const [description, setDescriptionInput] = useState("")
+    const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
+    const [location, setLocationInput] = useState("")
+    const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const isTooLongHeader = header.length >= 100
     const isTooShortHeader = header.length < 10
-    let isNotValid = isTooLongHeader && isTooShortHeader
+    let isValidHeader = isTooLongHeader && isTooShortHeader
+    const isTooLongDescription = description.length >= 250
+    const isTooLongLocation = location.length >= 100
+    const isTooShortLocation = location.length < 10
+    let isValidLocation = isTooLongLocation && isTooShortLocation
+
+    function handleChoose(locate: any) {
+        console.log(locate)
+        setLocationInput(locate)
+    }
+
     function handleSubmit() {
-        if (!isTooLongHeader && !isTooShortHeader) {
-            alert("Header: " + header)
+        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription) {
+            alert("Header: " + header + " Description: " + description)
         } else {
             toast({
                 title: "Invalid input!",
@@ -56,13 +72,14 @@ const CreateActivityPoll = () => {
                 </Heading>
                 <Stack>
                     <Center>
-                        <FormControl isInvalid={!isNotValid} isRequired>
+                        <FormControl isInvalid={!isValidHeader} isRequired>
                             <FormLabel color={"white"}>Poll header</FormLabel>
                             <Input
+                                borderRadius={"6px"}
                                 id="header"
                                 type="text"
                                 value={header}
-                                onChange={handleInputChange}
+                                onChange={handleInputHeaderChange}
                                 backgroundColor="white"
                                 placeholder="Your poll header"
                                 size="sm"
@@ -75,16 +92,12 @@ const CreateActivityPoll = () => {
                             {!isTooShortHeader ? (
                                 <FormHelperText></FormHelperText>
                             ) : (
-                                <FormErrorMessage color="yellow">
-                                    The minimum header length is 10 characters. You can't type less than this.
-                                </FormErrorMessage>
+                                <FormErrorMessage color="yellow">The minimum header length is 10 characters. Type something.</FormErrorMessage>
                             )}
                             {!isTooLongHeader ? (
                                 <FormHelperText></FormHelperText>
                             ) : (
-                                <FormErrorMessage color="yellow">
-                                    The maximum header length is 100 characters. You can't type more than this.
-                                </FormErrorMessage>
+                                <FormErrorMessage color="yellow">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
                             )}
                         </FormControl>
                     </Center>
@@ -92,16 +105,16 @@ const CreateActivityPoll = () => {
                         <FormControl isRequired>
                             <FormLabel color={"white"}>Poll topic</FormLabel>
                             <Button
-                                borderRadius={"2px"}
+                                borderRadius={"6px"}
                                 onClick={onOpen}
-                                isOpen={isOpen}
+                                //isOpen={isOpen}
                                 backgroundColor="white"
                                 color="gray"
                                 size="sm"
                                 p="20px"
                                 pt="5px"
                                 pb="5px"
-                                isCentered
+                                //isCentered
                             >
                                 Select poll topic
                             </Button>
@@ -117,6 +130,76 @@ const CreateActivityPoll = () => {
                                 </ModalContent>
                             </Modal>
                         </FormControl>
+                    </Center>
+                    <Center>
+                        <FormControl isInvalid={isTooLongDescription} pt="8px">
+                            <FormLabel color={"white"}>Poll description</FormLabel>
+                            <Textarea
+                                borderRadius={"6px"}
+                                id="description"
+                                value={description}
+                                onChange={handleInputDescriptionChange}
+                                backgroundColor="white"
+                                placeholder="Description"
+                                size="sm"
+                                borderColor="white"
+                                maxLength={250}
+                                errorBorderColor="red"
+                                isRequired
+                                shadow="lg"
+                            />
+                            {!isTooLongDescription ? (
+                                <FormHelperText></FormHelperText>
+                            ) : (
+                                <FormErrorMessage color="yellow">
+                                    The maximum description length is 250 characters. You cannot type more.
+                                </FormErrorMessage>
+                            )}
+                        </FormControl>
+                    </Center>
+                    <Center>
+                        <SimpleGrid columns={1}>
+                            <Box>
+                                <FormControl isInvalid={!isValidLocation} isRequired>
+                                    <FormLabel color={"white"}>Location</FormLabel>
+                                    <Input
+                                        borderRadius={"6px"}
+                                        id="location"
+                                        type="text"
+                                        value={location}
+                                        onChange={handleInputLocationChange}
+                                        backgroundColor="white"
+                                        placeholder="Location"
+                                        size="sm"
+                                        borderColor="white"
+                                        maxLength={100}
+                                        errorBorderColor="red"
+                                        isRequired
+                                        shadow="lg"
+                                    />
+                                    {!isTooShortLocation ? (
+                                        <FormHelperText></FormHelperText>
+                                    ) : (
+                                        <FormErrorMessage color="yellow">
+                                            The minimum header length is 10 characters. Type something.
+                                        </FormErrorMessage>
+                                    )}
+                                    {!isTooLongLocation ? (
+                                        <FormHelperText></FormHelperText>
+                                    ) : (
+                                        <FormErrorMessage color="yellow">
+                                            The maximum header length is 100 characters. You cannot type more.
+                                        </FormErrorMessage>
+                                    )}
+                                    {/* If that user haven't use the restaurant function we should block this feature*/}
+                                </FormControl>
+                            </Box>
+                            <Box>
+                                <Select placeholder="Pick from your favorites." size="sm" bgColor="white" onChange={(value) => handleChoose(value)}>
+                                    <option value="option1">Home</option>
+                                </Select>
+                            </Box>
+                        </SimpleGrid>
                     </Center>
                     <Center>
                         <Button type="submit" borderRadius={"full"} colorScheme="orange" onClick={() => handleSubmit()} mt={"80px"} p="30px">
