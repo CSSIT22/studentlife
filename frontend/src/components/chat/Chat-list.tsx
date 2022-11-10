@@ -2,7 +2,7 @@ import { Box, Button, Flex, Img } from "@chakra-ui/react"
 import { Avatar } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { FC, useState } from "react"
-import Cmenu from "./Cmenu"
+import { Menu, MenuButton, MenuList, MenuItem, MenuItemOption, MenuGroup, MenuOptionGroup, MenuDivider } from "@chakra-ui/react"
 import { Input } from "@chakra-ui/react"
 
 type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
@@ -31,6 +31,29 @@ const Clist: FC<any> = () => {
     function Seach(e: any) {
         return setSearch(e.target.value)
     }
+
+    function DeleteRoom (e:any){
+        const result  = userRoom.filter((el)=> el.roomID !== e.roomID );
+        setuserRoom(result);
+    }
+
+    //component FC
+
+    const Cmenu: FC<any> = (props) => {
+        const room = props.room;
+        return (
+            <Menu>
+                <MenuButton>:</MenuButton>
+                <MenuList color={"black"}>
+                    <MenuItem>Mute</MenuItem>
+                    <MenuItem onClick={()=>DeleteRoom(room)}>Deteleroom</MenuItem>
+                    <MenuItem>Block</MenuItem>
+                    <MenuItem>Report</MenuItem>
+                </MenuList>
+            </Menu>
+        )
+    }
+
     const renderButton = () => {
         return (
             <Flex fontSize={"2xl"} marginBottom={5} alignSelf="center">
@@ -79,7 +102,7 @@ const Clist: FC<any> = () => {
                         <Avatar name={e.Roomname} src={e.img} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
-                    <Cmenu />
+                    <Cmenu room={e}/>
                 </Flex>
             )
         }
@@ -99,7 +122,7 @@ const Clist: FC<any> = () => {
                         <Avatar name={e.Roomname} src={e.img} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
-                    <Cmenu />
+                    <Cmenu room={e}/>
                 </Flex>
             )
         }
@@ -108,7 +131,7 @@ const Clist: FC<any> = () => {
         if (search === "") {
             return userRoom.map((e) => renderRoom(e))
         } else {
-            const result = userRoom.filter((e) => e.roomName.includes(search));
+            const result = userRoom.filter((e) => e.roomName.includes(search))
             return result.map((e) => renderRoom(e))
         }
     }
