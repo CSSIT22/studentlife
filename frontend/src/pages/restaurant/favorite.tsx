@@ -1,4 +1,4 @@
-import { Heading, Box } from "@chakra-ui/react"
+import { Heading, Box, Grid, GridItem } from "@chakra-ui/react"
 import React from "react"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
@@ -11,20 +11,39 @@ const favorite = () => {
                 { name: "Like or Nope", to: "/restaurant" },
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
-                
             ]}
         >
-             <Searchbar/>
+            <Searchbar />
 
-             <Heading mt={"20px"} textAlign="center"> 
-               Favorite
+            <Heading mt={"20px"} textAlign="center">
+                Favorite
             </Heading>
-
-            <FavoriteContent resName={"Kitchen Cheif's"} phone={"0919191911"} open={"10.00 am - 9.00 pm"} website={"https://www.facebook.com/pugkitchenchef"}/>
-            <FavoriteContent resName={"Kitchen Cheif's"} phone={"0919191911"} open={"10.00 am - 9.00 pm"} website={"https://www.facebook.com/pugkitchenchef"}/>
-            <FavoriteContent resName={"Kitchen Cheif's"} phone={"0919191911"} open={"10.00 am - 9.00 pm"} website={"https://www.facebook.com/pugkitchenchef"}/>
-            <FavoriteContent resName={"Kitchen Cheif's"} phone={"0919191911"} open={"10.00 am - 9.00 pm"} website={"https://www.facebook.com/pugkitchenchef"}/>
-            
+            <Grid templateColumns={{base:'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)'}} gap={"6"}>
+                <GridItem>
+                <FavoriteContent
+                    resName={"Kitchen Cheif's"}
+                    phone={"0919191911"}
+                    open={"10.00 am - 9.00 pm"}
+                    website={"https://www.facebook.com/pugkitchenchef"}
+                />
+                </GridItem>
+                <GridItem>
+                <FavoriteContent
+                    resName={"Kitchen Cheif's"}
+                    phone={"0919191911"}
+                    open={"10.00 am - 9.00 pm"}
+                    website={"https://www.facebook.com/pugkitchenchef"}
+                />
+                </GridItem>
+                <GridItem>
+                <FavoriteContent
+                    resName={"Kitchen Cheif's"}
+                    phone={"0919191911"}
+                    open={"10.00 am - 9.00 pm"}
+                    website={"https://www.facebook.com/pugkitchenchef"}
+                />
+                </GridItem>
+            </Grid>
         </AppBody>
     )
 }
