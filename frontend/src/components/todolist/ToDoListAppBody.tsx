@@ -1,7 +1,7 @@
 import AppBody from "../share/app/AppBody"
 import React from "react"
 
-export const ToDoListAppBody = () => {
+export const ToDoListAppBody = (props: any) => {
     return (
         <AppBody
             secondarynav={[
@@ -20,6 +20,7 @@ export const ToDoListAppBody = () => {
             ]}
         >
             {/* Used so that we can show elements inside DatingAppBody */}
+            {props.children}
         </AppBody>
     )
 }
