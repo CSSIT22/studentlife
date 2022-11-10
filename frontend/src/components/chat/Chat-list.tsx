@@ -2,7 +2,7 @@ import { Box, Button, Flex, Img } from "@chakra-ui/react"
 import { Avatar } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { FC, useState } from "react"
-import { Menu, MenuButton, MenuList, MenuItem, MenuItemOption, MenuGroup, MenuOptionGroup, MenuDivider } from "@chakra-ui/react"
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
 import { Input } from "@chakra-ui/react"
 
 type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]

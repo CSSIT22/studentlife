@@ -23,11 +23,11 @@ const Property = () => {
     function Navigate() {
         return navigate(`/chat/${param.roomID}`)
     }
-
+    
     return (
         <AppBody>
             <HStack spacing={5}>
-                <Button aria-label="Back to chat room" size="md" leftIcon={<ArrowBackIcon />} onClick={Navigate()}>
+                <Button aria-label="Back to chat room" size="md" leftIcon={<ArrowBackIcon />} onClick={Navigate}>
                 </Button>
                 <Heading size="lg">Chat properties</Heading>
             </HStack>
