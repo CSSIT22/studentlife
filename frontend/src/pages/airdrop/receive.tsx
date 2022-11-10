@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, FC } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
+import FileComment from "src/components/airdrop/FileComment"
 import { HiUpload, HiDownload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
 import {
@@ -118,13 +119,7 @@ export default function Receivedrop<FC>() {
         modalData.comments.map((item: any) => {
             componentArr.push(
                 <>
-                    <HStack p={3}>
-                        <HiUser fontSize={"2.5rem"} />
-                        <VStack>
-                            <Text fontSize={"xl"}>{item.name}</Text>
-                            <Text color={"gray.400"}>{item.comment}</Text>
-                        </VStack>
-                    </HStack>
+                <FileComment name={item.name} comment={item.comment}/>
                     <Divider />
                 </>
             )
