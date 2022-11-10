@@ -1,5 +1,5 @@
 import { INTERESTS } from "../../components/dating/shared/interests"
-import { Heading, Text, Box, Grid, GridItem, CheckboxGroup, useDisclosure } from "@chakra-ui/react"
+import { Heading, Box, Grid, GridItem, CheckboxGroup, useDisclosure } from "@chakra-ui/react"
 import { useState } from "react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingInterestModal from "../../components/dating/DatingInterestModal"
@@ -27,37 +27,31 @@ const TagOfInterest = () => {
     return (
         <DatingAppBody>
             {/* Grid: Used for separating topic, button, and description into three areas */}
-            <Grid
-                templateAreas={`"topic button" "desc desc"`}
-                gridTemplateRows={"50px 50px"}
-                gridTemplateColumns={"12rem px"}
-                h="125px"
-                pt="5"
-            >
+            <Grid templateAreas={`"topic button" "desc desc"`} gridTemplateRows={"50px 50px"} gridTemplateColumns={"12rem px"} h="125px" pt="5">
                 {/* Interests topic */}
                 <GridItem pl="2" area={"topic"}>
-                    <Heading color="Black" fontWeight="700" fontSize={{base: "36px", md: "43px"}} lineHeight="120%">
+                    <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
                         Interests
                     </Heading>
                 </GridItem>
                 <GridItem pl="2" area={"desc"}>
                     {/* Interest description */}
                     <Box display="flex">
-                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px"}} lineHeight="150%">
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px" }} lineHeight="150%">
                             Please select your interests: (
                         </Heading>
                         {/* numOfInterest will change when you select/deselect the tags */}
-                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px"}} lineHeight="150%">
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px" }} lineHeight="150%">
                             {selectedInterests.length}
                         </Heading>
-                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px"}} lineHeight="150%">
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px" }} lineHeight="150%">
                             &nbsp;of 5 selected)
                         </Heading>
                     </Box>
                 </GridItem>
                 {/* DatingInterestDynamicButton component: Skip & Done button */}
                 <GridItem pl="2" area={"button"} mt="10px">
-                    <DatingInterestDynamicButton 
+                    <DatingInterestDynamicButton
                         numOfSelectedInterest={selectedInterests.length}
                         selectedInterests={selectedInterests}
                         tagIsClicked={tagIsClicked}

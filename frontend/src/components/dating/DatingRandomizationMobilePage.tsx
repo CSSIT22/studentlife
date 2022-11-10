@@ -1,5 +1,5 @@
 import TinderCard from "react-tinder-card"
-import { Box, Button, Center, Heading, Link, SimpleGrid, Tag, Text } from "@chakra-ui/react"
+import { Box, Center, SimpleGrid, Tag, Text } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import { CARD_QUEUE } from "./shared/card_queue"
 import React, { useState, useMemo, useRef } from "react"
