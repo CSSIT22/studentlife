@@ -52,8 +52,9 @@ const Property = () => {
 
     return (
         <AppBody>
-            <Flex>
+                <HStack align={'flex-start'} spacing={10}>
                 <Clist />
+                <VStack>
                 <HStack spacing={5}>
                     <Button aria-label="Back to chat room" size="md" leftIcon={<ArrowBackIcon />} onClick={Navigate}></Button>
                     <Heading size="lg">Chat properties</Heading>
@@ -95,7 +96,8 @@ const Property = () => {
                     </Button>
                     <Button>{showModal()}</Button>
                 </VStack>
-            </Flex>
+                </VStack>
+                </HStack>
         </AppBody>
     )
 }
