@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef, FC } from "react"
+import React, { useState, useEffect, useRef, FC, useContext } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import SetDropBox from "../../components/airdrop/setDropBox"
+import { authContext } from "../../context/AuthContext"
 import { HiDownload, HiUpload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory } from "react-icons/md"
 import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
@@ -36,6 +37,7 @@ import {
     SimpleGrid,
     Stack,
 } from "@chakra-ui/react"
+
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -47,30 +49,15 @@ const dummyData = [
         description: "HELLOOOOOOOOOOOOOOOOOOOOOO",
     },
 ]
-const dummyData22 = [
-    {
-        name: "MR.ABC DEF",
-    },
-    {
-        name: "MR.GHI JKL",
-    },
-    {
-        name: "MR.MNO PQR",
-    },
-    {
-        name: "MR.STU VWX",
-    },
-    {
-        name: "MR.YZ GG",
-    },
-    {
-        name: "MR.PPP PPP",
-    },
-]
+const dummyData22 = ["MR.ABC DEF", "MR.GHI JKL", "MR.MNO PQR", "MR.STU VWX", "MR.YZ GG", "MR.PPP PPP"]
 export default function Index<FC>() {
+    //useContext getuser
+    const user = useContext(authContext)
     //ref
     const ref1 = useRef(null)
     const ref2 = useRef(null)
+    //userListState
+    const [userList, setUserList] = useState([])
     //dummy
     const [dummyData2, setDummyData2] = useState(dummyData22)
     //state for img preview
@@ -193,6 +180,16 @@ export default function Index<FC>() {
             // }
         }
     }, [isOpen])
+    useEffect(() => {
+        console.log(user)
+    }, [])
+    // fetchSpecific
+    // fetchCommunity
+    // fetch Data
+    const fetchDepartment = async () => {
+        const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment")
+        const setData = await setDummyData2(res.data)
+    }
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="drop">
@@ -282,11 +279,14 @@ export default function Index<FC>() {
                                                                 defaultValue={selectedType}
                                                                 rounded={"xl"}
                                                                 textAlign={"center"}
-                                                                onChange={(e) => {
+                                                                onChange={async (e) => {
                                                                     if (e.target.value == "Everyone") {
-                                                                        setSelectedType(e.target.value)
-                                                                        setReceiver(["everyone"])
+                                                                        await setSelectedType(e.target.value)
+                                                                        await setReceiver(["everyone"])
                                                                     } else {
+                                                                        if (e.target.value == "Department") {
+                                                                            await fetchDepartment()
+                                                                        }
                                                                         setSelectedType(e.target.value)
                                                                         setReceiver([])
                                                                     }
@@ -326,8 +326,8 @@ export default function Index<FC>() {
                                                                     textAlign={"center"}
                                                                 >
                                                                     {/* //map user data into this */}
-                                                                    {dummyData2.map((data) => {
-                                                                        return <option value={data.name}>{data.name}</option>
+                                                                    {dummyData2?.map((data) => {
+                                                                        return <option value={data}>{data}</option>
                                                                     })}
                                                                 </Select>
                                                                 <SimpleGrid columns={[1, 2, 3]}>
