@@ -11,11 +11,11 @@ export const ToDoListAppBody = () => {
                 },
                 {
                     name: "Create Task",
-                    to: "/createtask",
+                    to: "/todolist/createtask",
                 },
                 {
                     name: "Folder",
-                    to: "/folder",
+                    to: "/todolist/folderpage",
                 },
             ]}
         >
