@@ -57,16 +57,15 @@ const liList: FC<{
     course: String
     desc: String
     link: String
-}> = ({ topic, course, desc, link }) => {
+    user: String
+}> = ({ topic, course, desc, link, user }) => {
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <Box>
             <HStack>
-                <Heading size={"lg"} mb={1}>
-                    {topic}
-                </Heading>
+                <Heading size={"lg"}>{topic}</Heading>
                 <Spacer />
                 <Menu>
                     <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
@@ -82,11 +81,13 @@ const liList: FC<{
                 </Menu>
             </HStack>
 
-            <Heading size={"sm"} bg={"orange.500"} color={"white"} rounded={8} w={20} py={1} textAlign={"center"} mb={6} boxShadow={"xl"}>
+            <Text mb={1} mt={-1}>
+                Posted by {user}
+            </Text>
+            <Heading size={"sm"} bg={"orange.500"} color={"white"} rounded={8} w={20} py={1} mb={6} textAlign={"center"} boxShadow={"xl"}>
                 {course}
             </Heading>
             <Box mb={4}>
-                <Heading size={"md"}>Description</Heading>
                 <Text>{desc}</Text>
             </Box>
             <Box>

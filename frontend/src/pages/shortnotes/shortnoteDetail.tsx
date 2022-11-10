@@ -51,13 +51,25 @@ import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons"
 import { HiDotsHorizontal } from "react-icons/hi"
 import CmList from "../../components/shortnotes/cmList"
 import SnDetail from "../../components/shortnotes/snDetail"
+import { BiDownArrow, BiDownvote, BiUpArrow, BiUpvote } from "react-icons/bi"
 
 const snDetail = () => {
     return (
         <AppBody>
-            <Grid templateColumns="repeat(14, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
-                <Spacer />
-                <GridItem colSpan={12} py={6}>
+            <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+                <GridItem colSpan={1}>
+                    <VStack py={3}>
+                        <Box as="button" p={1}>
+                            <BiUpArrow />
+                        </Box>
+                        <Text>0</Text>
+                        <Box as="button" p={1}>
+                            <BiDownArrow />
+                        </Box>
+                    </VStack>
+                </GridItem>
+
+                <GridItem colSpan={10} py={2}>
                     <SnDetail
                         topic={"Shortnote name"}
                         course={"CSC213"}
@@ -65,6 +77,7 @@ const snDetail = () => {
                             " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum sint, odio ut praesentium explicabo hic harum voluptatem veniam architecto, recusandae, nisi aliquid? Fuga placeat dolore voluptates eligendi ut, aut dignissimos."
                         }
                         link={"modlink.me/shortnote/filename.pdf"}
+                        user={"Shortnote Shotenot"}
                     />
                 </GridItem>
             </Grid>
