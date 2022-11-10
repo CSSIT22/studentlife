@@ -2,12 +2,7 @@ import { Box, Button, filter, Menu, MenuButton, MenuItem, MenuList, Stack } from
 import React, { FC } from "react"
 import { MODULES } from "./moduleTest"
 
-const Modulelist = () => {
-    const [selectedModule, setSelectedModule] = React.useState("All")
-    // console.log(selectedModule)
-    function showSelectedModule(module: string) {
-        setSelectedModule(module)
-    }
+const Modulelist: FC<{ onClick: Function; selectedModule: string }> = ({ onClick, selectedModule }) => {
     return (
         <Menu>
             <MenuButton size="sm" as={Button} bg={"transparent"}>
@@ -18,7 +13,7 @@ const Modulelist = () => {
                     <Stack direction={"column"} padding={4}>
                         {MODULES.map((el) => {
                             return (
-                                <MenuItem onClick={() => showSelectedModule(el.name)} key={el.id}>
+                                <MenuItem onClick={() => onClick(el.name)} key={el.id}>
                                     {el.name}
                                 </MenuItem>
                             )

@@ -1,10 +1,10 @@
 import { Box, Center, Flex, Heading, Spacer, Stack, Text } from "@chakra-ui/react"
 import React from "react"
 import MarkRead from "../../components/notification/MarkRead"
-import Modulelist from "../../components/notification/Modulelist"
-import NotiList from "../../components/notification/NotiList"
-import NotiListViewAll from "../../components/notification/NotiListViewAll"
-import NotiObjectViewAll from "../../components/notification/NotiObjectViewAll"
+import Modulelist from "../../components/notification/moduleList/Modulelist"
+import NotiList from "../../components/notification/main/NotiList"
+import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
+import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectViewAll"
 import AppBody from "../../components/share/app/AppBody"
 
 const viewAll = () => {

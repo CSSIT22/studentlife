@@ -1,20 +1,57 @@
-import { Box, Button, Center, CloseButton, Flex, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Center, CloseButton, filter, Flex, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react"
 import React from "react"
-import Modulelist from "./Modulelist"
-import NotiList from "./NotiList"
+import Modulelist from "./moduleList/Modulelist"
+import NotiList from "./main/NotiList"
 import { FiSettings } from "react-icons/fi"
 import MarkRead from "./MarkRead"
 import { Link } from "react-router-dom"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import NotiSetting from "./NotiSetting"
+import { OBJECTS } from "./main/objectsTest"
+import { MODULES } from "./moduleList/moduleTest"
 
 const NotiTable = () => {
+    const [selectedModule, setSelectedModule] = React.useState("All")
+    //console.log(selectedModule)
+    function showSelectedModule(module: string) {
+        setSelectedModule(module)
+    }
+    // const selectedModule: any[] = MODULES.filter((el) => el.isSelect === true)
+    const notiListModule: any[] = OBJECTS.filter((el) => el.module == selectedModule)
+    //console.log(notiListModule)
+
+    // const key = "date"
+    // const notiListDate: any[] = [...new Map(notiListModule.map((el: any) => [el[key], el])).values()]
+    // console.log(notiListDate)
+
+    // const arrayUniqueByKey: any = [
+    //     ...new Set(notiListModule.map((item) => item.date.getDate() + "/" + item.date.getMonth() + "/" + item.date.getFullYear())),
+    // ]
+
+    // console.log(arrayUniqueByKey)
+
+    // const [dateList, setDateList] = React.useState()
+    // {
+    //     setDateList(arrayUniqueByKey)
+    // }
+    function showNotiList(): any {
+        if (selectedModule == "All") {
+            console.log("all")
+            return OBJECTS.map((el) => {
+                return <NotiList key={Math.random()} selectedList={OBJECTS} date={el.date}></NotiList>
+            })
+        } else {
+            console.log("others")
+            return notiListModule.map((el) => {
+                return <NotiList key={Math.random()} selectedList={notiListModule} date={el.date}></NotiList>
+            })
+        }
+    }
     return (
         <Box>
             <Flex padding={3}>
                 <Box>
-                    Module :
-                    <Modulelist />
+                    <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
                 <Spacer />
                 <Box>
@@ -27,9 +64,7 @@ const NotiTable = () => {
                 </Box>
             </Flex>
             <Stack padding={4} height="50vh" overflow="auto">
-                <NotiList />
-                <NotiList />
-                <NotiList />
+                {showNotiList()}
             </Stack>
             <Center paddingTop={2}>
                 <Button size={"sm"}>
@@ -39,7 +74,6 @@ const NotiTable = () => {
         </Box>
     )
 }
-
 function ShowSetting() {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
