@@ -167,7 +167,17 @@ const DatingRandomizationMobilePage: FC<{
                         </Center>
                     </>
                 ) : (
-                    <></>
+                    <>
+                        {" "}
+                        <Center display="flex" pt="614px" pl="18px">
+                            <Box onClick={() => swipe("left")} pr="72px">
+                                <AiOutlineStop size="62px" color="black" />
+                            </Box>
+                            <Box onClick={() => swipe("right")} pl="72px">
+                                <AiOutlineHeart size="62px" color="black" />
+                            </Box>
+                        </Center>
+                    </>
                 )}
             </SimpleGrid>
         </DatingAppBody>
