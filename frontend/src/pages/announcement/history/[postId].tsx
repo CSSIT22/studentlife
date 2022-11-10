@@ -3,8 +3,10 @@ import React from 'react'
 import { GrClose } from 'react-icons/gr'
 import { IoAdd } from 'react-icons/io5'
 import { Link, useParams } from 'react-router-dom'
+import index from '..'
 import ModalForEvent from '../../../components/annoucement/ModalForEvent'
 import MoreLang from '../../../components/annoucement/MoreLang'
+import MoreLangForEdit from '../../../components/annoucement/MoreLangForEdit'
 import AppBody from '../../../components/share/app/AppBody'
 import detail from '../detail/[postId]'
 import { postInfoTest } from '../postInfoTest'
@@ -14,7 +16,7 @@ const history = () => {
     // console.log(params.postId);
     const [allPost,setAllPost] = React.useState(postInfoTest);
     const postParams = allPost.filter((el) => {return el.postId == parseInt(params.postId+"")})
-    // console.log(postParams);
+    console.log(postParams[0].addMoreLang.length);
     
     const tgType = postParams.map((el) => {return el.targetType})
     // console.log(tgType[0]);
@@ -25,6 +27,8 @@ const history = () => {
     const dt = postParams.map((el) => {return el.detail})
     const epd = postParams.map((el) => {return el.expiredOfPost})
     const st = postParams.map((el) => {return el.status})
+// console.log(postParams);
+    const moreLangLength = postParams[0].addMoreLang.length;
 
 
     const selectTargetValue = (targetType: string) => {
@@ -109,12 +113,18 @@ const history = () => {
                     el.targetType = targetType
                     el.targetValue = targetValue
                     el.expiredOfPost = expired
+                    el.addMoreLang = addMoreLang
                 }
                 return el
             })
         )
     }
+    const [add, setAdd] = React.useState(false)
+    const onAdd = () =>{
+        setAdd(true);
+    }
     console.log(allPost);
+    console.log(addMoreLang);
     
     const addLang = (lang: string, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang,{ lang: lang, topic: topic, detail: detail } ])
@@ -135,11 +145,33 @@ const history = () => {
     const AddLang = () => {
         setMoreLangField([...moreLangField,{ count: count }])
     }
-    console.log(moreLangField);
+    // console.log(moreLangField);
     
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
+    // const lang = () =>{
+        // const morelang = [];
+        // for(let i =0;i<moreLangLength;i++){
+        //     morelang.push(<MoreLang onClick={decreaseCount} addLang={addLang}/>)
+        // }
+        // console.log(morelang);
+        
+    // }
+    // console.log(add);
+    
+    // ยังแก้ไม่ได้
+   const updateMoreLang = (add:boolean) =>{
+    if(add){
+        return addMoreLang.map((el) => {
+            return <MoreLangForEdit onDecrease={decreaseCount} addLang={addLang} selectLang={el.lang} title={el.topic} dt={el.detail} key={Math.random()} onAdd={onAdd} add={add}/>
+        })
+    }else  {
+        return postParams[0].addMoreLang.map((el) => {
+            return <MoreLangForEdit onDecrease={decreaseCount} addLang={addLang} selectLang={el.lang} title={el.topic} dt={el.detail} key={Math.random()} onAdd={onAdd} add={add}/>
+        })
+    }
+   }
 
   return (
     <AppBody
@@ -203,9 +235,11 @@ const history = () => {
             </FormControl>
             <FormControl>
                 <>
+
+                    {updateMoreLang(add)}
                     {moreLangField.map((el) => {
-                        return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang}/>
-                    })}
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang}/>
+                            })}
                     <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"}>
                         <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                         <TagLabel>Add More Language</TagLabel>
