@@ -1,4 +1,4 @@
-import { Box, Checkbox } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Checkbox } from "@chakra-ui/react"
 import { Dispatch, FC } from "react"
 
 const DatingInterestTag: FC<{
@@ -34,6 +34,15 @@ const DatingInterestTag: FC<{
                 setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
             }
         }
+        if (numOfSelectedInterest == 4) {
+            <Alert status="success">
+                <AlertIcon />
+                <AlertTitle mt={4} mb={1} fontSize="lg">
+                    You have successfully selected 5 interests
+                </AlertTitle>
+                <AlertDescription maxWidth="sm">Click "Done" button on the top right corner to submit</AlertDescription>
+            </Alert>
+        }
     }
     // If true, it will return the orange tag
     // Else, it will run the checkNum() function.
@@ -43,7 +52,7 @@ const DatingInterestTag: FC<{
             pr="5"
             pl="2"
             color="white"
-            backgroundColor="black"
+            backgroundColor="gray.400"
             borderRadius="full"
             id={interestId}
             m="1"
@@ -63,7 +72,7 @@ const DatingInterestTag: FC<{
                 pr="5"
                 pl="2"
                 color="white"
-                backgroundColor="gray.500"
+                backgroundColor="orange.400"
                 borderRadius="full"
                 id={interestId}
                 m="1"
