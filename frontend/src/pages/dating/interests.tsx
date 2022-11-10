@@ -37,20 +37,20 @@ const TagOfInterest = () => {
                 <GridItem pl="2" area={"desc"}>
                     {/* Interest description */}
                     <Box display="flex">
-                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px" }} lineHeight="150%">
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
                             Please select your interests: (
                         </Heading>
                         {/* numOfInterest will change when you select/deselect the tags */}
-                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px" }} lineHeight="150%">
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
                             {selectedInterests.length}
                         </Heading>
-                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px" }} lineHeight="150%">
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
                             &nbsp;of 5 selected)
                         </Heading>
                     </Box>
                 </GridItem>
                 {/* DatingInterestDynamicButton component: Skip & Done button */}
-                <GridItem pl="2" area={"button"} mt="10px">
+                <GridItem pl="2" area={"button"} mt={{base: "6px", md: "10px"}}>
                     <DatingInterestDynamicButton
                         numOfSelectedInterest={selectedInterests.length}
                         selectedInterests={selectedInterests}
