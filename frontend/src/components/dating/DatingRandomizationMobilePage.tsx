@@ -1,13 +1,16 @@
 import TinderCard from "react-tinder-card"
 import { Box, Center, SimpleGrid, Tag, Text } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
-import { CARD_QUEUE } from "./shared/card_queue"
-import React, { useState, useMemo, useRef } from "react"
+import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
 
-const DatingRandomizationMobilePage = () => {
+const DatingRandomizationMobilePage: FC<{
+    CARD_QUEUE: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }[]
+    INTERESTS: { interestId: string; interestName: string }[]
+}> = ({ CARD_QUEUE, INTERESTS }) => {
     const [currentIndex, setCurrentIndex] = useState(CARD_QUEUE.length - 1)
     const characters = CARD_QUEUE
+    const interests = INTERESTS
     const currentIndexRef = useRef(currentIndex)
     const [lastDirection, setLastDirection] = useState()
 
@@ -52,9 +55,9 @@ const DatingRandomizationMobilePage = () => {
                             <TinderCard
                                 ref={childRefs[index]}
                                 className="swipe"
-                                key={character.name}
-                                onSwipe={(dir: any) => swiped(dir, character.name, index)}
-                                onCardLeftScreen={() => outOfFrame(character.name, index)}
+                                key={character.UserId}
+                                onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
+                                onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
                                 preventSwipe={["down", "up"]}
                                 swipeThreshold={1}
                             >
@@ -67,7 +70,7 @@ const DatingRandomizationMobilePage = () => {
                                         backgroundSize="cover"
                                         className="card"
                                         pl="1rem"
-                                        id={character.name}
+                                        id={character.UserId}
                                         position="absolute"
                                         top="30px"
                                         boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
@@ -77,82 +80,95 @@ const DatingRandomizationMobilePage = () => {
                         ))}
                     </Box>
                 </Box>
-                <Box display="flex">
-                    <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                        Firstname L.
-                    </Text>
-                    <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                        M , Age
-                    </Text>
-                </Box>
-                <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
-                    <Text pl="18px" pt="10px">
-                        Faculty
-                    </Text>
-                </Box>
-                <Box height="70px" overflow="hidden">
-                    <Box pb="5" height="105px" pl="18px" pt="20px" overflowX="auto" whiteSpace="nowrap" style={{ WebkitOverflowScrolling: "touch" }}>
-                        <Tag
-                            backgroundColor="orange.600"
-                            color="white"
-                            mr="0.5"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                TAG #1
+                {characters[currentIndex] != null ? (
+                    <>
+                        <Box display="flex">
+                            <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
+                                {characters[currentIndex].Fname} {characters[currentIndex].Lname.substring(0, 1)}.
                             </Text>
-                        </Tag>
-                        <Tag
-                            backgroundColor="orange.600"
-                            color="white"
-                            mr="0.5"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                TAG #2
+                            <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
+                                {characters[currentIndex].Gender} , {characters[currentIndex].Age}
                             </Text>
-                        </Tag>
-                        <Tag
-                            backgroundColor="orange.600"
-                            color="white"
-                            mr="0.5"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                TAG #3
+                        </Box>
+                        <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
+                            <Text pl="18px" pt="10px">
+                                {characters[currentIndex].Faculty.substring(0, 30).trim()}...
                             </Text>
-                        </Tag>
-                        <Tag
-                            backgroundColor="orange.600"
-                            color="white"
-                            mr="0.5"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                TAG #4
-                            </Text>
-                        </Tag>
-                        <Tag
-                            backgroundColor="orange.600"
-                            color="white"
-                            mr="0.5"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                TAG #5
-                            </Text>
-                        </Tag>
-                    </Box>
-                </Box>
-
-                <Center display="flex" pt="18px" pl="18px">
-                    <Box onClick={() => swipe("left")} pr="72px">
-                        <AiOutlineStop size="62px" color="black" />
-                    </Box>
-                    <Box onClick={() => swipe("right")} pl="72px">
-                        <AiOutlineHeart size="62px" color="black" />
-                    </Box>
-                </Center>
+                        </Box>
+                        <Box height="70px" overflow="hidden">
+                            <Box
+                                pb="5"
+                                height="105px"
+                                pl="18px"
+                                pt="20px"
+                                overflowX="auto"
+                                whiteSpace="nowrap"
+                                style={{ WebkitOverflowScrolling: "touch" }}
+                            >
+                                <Tag
+                                    backgroundColor="orange.600"
+                                    color="white"
+                                    mr="0.5"
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                >
+                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                        {interests[characters[currentIndex].interestId[0]].interestName}
+                                    </Text>
+                                </Tag>
+                                <Tag
+                                    backgroundColor="orange.600"
+                                    color="white"
+                                    mr="0.5"
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                >
+                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                        {interests[characters[currentIndex].interestId[1]].interestName}
+                                    </Text>
+                                </Tag>
+                                <Tag
+                                    backgroundColor="orange.600"
+                                    color="white"
+                                    mr="0.5"
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                >
+                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                        {interests[characters[currentIndex].interestId[2]].interestName}
+                                    </Text>
+                                </Tag>
+                                <Tag
+                                    backgroundColor="orange.600"
+                                    color="white"
+                                    mr="0.5"
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                >
+                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                        {interests[characters[currentIndex].interestId[3]].interestName}
+                                    </Text>
+                                </Tag>
+                                <Tag
+                                    backgroundColor="orange.600"
+                                    color="white"
+                                    mr="0.5"
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                >
+                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                        {interests[characters[currentIndex].interestId[4]].interestName}
+                                    </Text>
+                                </Tag>
+                            </Box>
+                        </Box>
+                        <Center display="flex" pt="18px" pl="18px">
+                            <Box onClick={() => swipe("left")} pr="72px">
+                                <AiOutlineStop size="62px" color="black" />
+                            </Box>
+                            <Box onClick={() => swipe("right")} pl="72px">
+                                <AiOutlineHeart size="62px" color="black" />
+                            </Box>
+                        </Center>
+                    </>
+                ) : (
+                    <></>
+                )}
             </SimpleGrid>
         </DatingAppBody>
     )
