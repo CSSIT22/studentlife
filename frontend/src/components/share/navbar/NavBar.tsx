@@ -20,7 +20,7 @@ export const moreMenu = [
     { to: "/shop", Icon: HiSpeakerphone, name: "Shop" },
     { to: "/restaurant", Icon: HiSpeakerphone, name: "Restaurant" },
     { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
-    { to: "/todolist", Icon: HiSpeakerphone, name: "To Do List Ja" },
+    { to: "/todolist", Icon: HiSpeakerphone, name: "To-Do List" },
 ]
 
 const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
