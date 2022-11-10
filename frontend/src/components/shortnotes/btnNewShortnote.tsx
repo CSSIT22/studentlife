@@ -53,7 +53,7 @@ const btnNewShortnote = () => {
         nsOnClose()
         setRadio("Public")
         setFlag.off()
-        console.log(people)
+        setPeoples([])
     }
 
     const [flag, setFlag] = useBoolean()
@@ -68,8 +68,6 @@ const btnNewShortnote = () => {
 
     const [pName, setName] = useState("")
     const [people, setPeoples] = useState<string[]>([])
-
-    const [scrollBehavior, setScrollBehavior] = React.useState("inside")
 
     return (
         <Box>
