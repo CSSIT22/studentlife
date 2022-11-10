@@ -90,58 +90,61 @@ const DatingRandomizationMobilePage = () => {
                         Faculty
                     </Text>
                 </Box>
-                <Box pl="18px" pt="20px">
-                    <Tag
-                        backgroundColor="orange.600"
-                        color="white"
-                        mr="0.5"
-                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                    >
-                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                            TAG
-                        </Text>
-                    </Tag>
-                    <Tag
-                        backgroundColor="orange.600"
-                        color="white"
-                        mr="0.5"
-                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                    >
-                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                            TAG
-                        </Text>
-                    </Tag>
-                    <Tag
-                        backgroundColor="orange.600"
-                        color="white"
-                        mr="0.5"
-                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                    >
-                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                            TAG
-                        </Text>
-                    </Tag>
-                    <Tag
-                        backgroundColor="orange.600"
-                        color="white"
-                        mr="0.5"
-                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                    >
-                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                            TAG
-                        </Text>
-                    </Tag>
-                    <Tag
-                        backgroundColor="orange.600"
-                        color="white"
-                        mr="0.5"
-                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                    >
-                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                            TAG
-                        </Text>
-                    </Tag>
+                <Box height="70px" overflow="hidden">
+                    <Box pb="5" height="105px" pl="18px" pt="20px" overflowX="auto" whiteSpace="nowrap" style={{ WebkitOverflowScrolling: "touch" }}>
+                        <Tag
+                            backgroundColor="orange.600"
+                            color="white"
+                            mr="0.5"
+                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        >
+                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                TAG #1
+                            </Text>
+                        </Tag>
+                        <Tag
+                            backgroundColor="orange.600"
+                            color="white"
+                            mr="0.5"
+                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        >
+                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                TAG #2
+                            </Text>
+                        </Tag>
+                        <Tag
+                            backgroundColor="orange.600"
+                            color="white"
+                            mr="0.5"
+                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        >
+                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                TAG #3
+                            </Text>
+                        </Tag>
+                        <Tag
+                            backgroundColor="orange.600"
+                            color="white"
+                            mr="0.5"
+                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        >
+                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                TAG #4
+                            </Text>
+                        </Tag>
+                        <Tag
+                            backgroundColor="orange.600"
+                            color="white"
+                            mr="0.5"
+                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        >
+                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                TAG #5
+                            </Text>
+                        </Tag>
+                    </Box>
                 </Box>
+
                 <Center display="flex" pt="18px" pl="18px">
                     <Box onClick={() => swipe("left")} pr="72px">
                         <AiOutlineStop size="62px" color="black" />
