@@ -7,7 +7,7 @@ import { userData } from "./data"
 import CommunityList from "../../components/group/CommunityList"
 import SuggestBox from "../../components/group/SuggestBox"
 import InvitationBox from "../../components/group/InvitationBox"
-import useWindowDimensions from "./hooks/useWindowDimensions.js"
+import useWindowDimensions from "./hooks/useWindowDimensions"
 
 const index = () => {
     const [searchBtn, setSearchBtn] = useState(false) //for close/open seach bar
@@ -99,7 +99,7 @@ const index = () => {
                             </Button>
                         </Box>
                     </Show>
-                    <Box display={allBtn || width > 768 ? "block" : "none"}>
+                    <Box display={allBtn || (width || 0) > 768 ? "block" : "none"}>
                         <Box mt={4} mb={3}>
                             <Text as="b">Community you manage</Text>
                         </Box>
@@ -177,7 +177,7 @@ const index = () => {
                 <Show>
                     <Box width={"100%"}>
                         <Box
-                            display={inviteBtn || width > 768 ? "block" : "none"}
+                            display={inviteBtn || (width || 0) > 768 ? "block" : "none"}
                             borderRadius="md"
                             backgroundColor="gray.100"
                             width="100%"
@@ -202,7 +202,7 @@ const index = () => {
                             ))}
                         </Box>
                         <Box
-                            display={suggestBtn || width > 768 ? "block" : "none"}
+                            display={suggestBtn || (width || 0) > 768 ? "block" : "none"}
                             mt={2}
                             borderRadius="md"
                             backgroundColor="gray.100"
