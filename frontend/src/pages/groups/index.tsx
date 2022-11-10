@@ -140,7 +140,7 @@ const index = () => {
                             <Text as="b">Community you've joined</Text>
                         </Box>
                         {userData.joinedCommunitys.filter((community) => community.name.toLowerCase().includes(searchValue.toLowerCase())).length >
-                        0 ? (
+                            0 ? (
                             userData.joinedCommunitys
                                 .filter((community) => {
                                     return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
