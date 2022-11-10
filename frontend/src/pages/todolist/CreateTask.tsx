@@ -27,7 +27,28 @@ import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 
 const createtask = () => {
-    return <ToDoListAppBody></ToDoListAppBody>
+    return (
+        <AppBody
+            secondarynav={[
+                {
+                    name: "To Do List",
+                    to: "/todolist",
+                },
+                {
+                    name: "Create Task",
+                    to: "/todolist/createtask",
+                },
+                {
+                    name: "Folder",
+                    to: "/todolist/folderpage",
+                },
+            ]}
+        >
+            <Heading as="h2" size="3xl" noOfLines={1}>
+                Create Task
+            </Heading>
+        </AppBody>
+    )
 }
 
 export default createtask
