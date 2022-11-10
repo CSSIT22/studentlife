@@ -1,8 +1,10 @@
 import { Box, Button, Grid, GridItem, Input, InputGroup, InputLeftElement, VStack, Text, Image, HStack } from "@chakra-ui/react"
 import React from "react"
 import CommunityList from "../../components/group/CommunityList"
+import CommunityBtn from "../../components/group/CommunityBtn"
 import InvatationBox from "../../components/group/InvatationBox"
 import AppBody from "../../components/share/app/AppBody"
+
 const invitations = [
     {
         inviteID: 1,
@@ -158,6 +160,7 @@ const Groups = () => {
                     </Box>
                 </GridItem>
             </Grid>
+            
         </AppBody>
     )
 }
