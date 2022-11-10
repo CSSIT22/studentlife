@@ -90,7 +90,7 @@ const create = () => {
             ...post,
         ])
     }
-    // console.log(post);
+    console.log(post);
 
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
@@ -142,6 +142,7 @@ const create = () => {
             ]}
         >
             {/* <Form> */}
+            <form>
                 <Flex alignItems={"center"}>
                     <Text as={"b"} fontSize="xl">
                         <Link to={"/announcement"}>
@@ -150,7 +151,7 @@ const create = () => {
                     </Text>
                     <Spacer />
                     <Box textAlign={"right"}>
-                    <Button
+                    {/* <Button
                         size="sm"
                         bg="#E65300"
                         onClick={() => {addPost(topic, detail, targetType, targetValue, expired, addMoreLang),onOpen()}}
@@ -159,7 +160,9 @@ const create = () => {
                     >
                         
                         Announce
-                    </Button>
+                    </Button> */}
+                    {/* <input type={"submit"} value="Announce" backgroundColor="#E65300"/> */}
+                    <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" onClick={() => {addPost(topic, detail, targetType, targetValue, expired, addMoreLang),onOpen()}}/>
                     <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalCreate.topic} detail={modalCreate.detail} status={modalCreate.event} />
                     </Box>
                 </Flex>
@@ -204,6 +207,7 @@ const create = () => {
                         </>
                     </FormControl>
                 </Stack>
+                </form>
             {/* </Form> */}
         </AppBody>
     )
