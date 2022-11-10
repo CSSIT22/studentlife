@@ -12,6 +12,18 @@ const ShopAppBody = (props: any) => {
             name: "Categories",
             to: "/shop/categories"
         },
+        {
+            name: "Contact Us To Sell",
+            to: "/shop/other/contact_us"
+        },
+        {
+            name: "Order History",
+            to: "/shop/orders"
+        },
+        {
+            name: "Your Coupons",
+            to: "/shop/other/coupons"
+        },
         // {
         //     name: "Recommended Items",
         //     to: "/shop/recommendation"

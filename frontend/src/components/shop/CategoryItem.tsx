@@ -11,15 +11,15 @@ export const CategoryItem: FC<{
          <LinkOverlay href={link}>
 
          
-        <Box bg={"white"} w="100px" borderRadius="lg" borderWidth="0px" rounded="md" shadow="sm" position="relative" overflow={"hidden"}>
-            <Box bg= "whitesmoke">
+        <Box bg={"white"} w="9rem" h="11rem" borderRadius="lg" rounded="md" shadow="md" position="relative" overflow={"hidden"}>
+            <Box>
                 <Center>
-                    <Image src={image} alt={`Picture of ${name}`} h="5rem" w="6rem" p="2" objectFit="contain" />
+                    <Image src={image} alt={`Picture of ${name}`} h="7rem" w="9rem" p="0" objectFit="cover" />
                 </Center>
             </Box>
 
             <Center p="4">
-                <Box fontSize="lg" fontWeight="semibold" as="h4" alignContent={"center"} lineHeight="tight" noOfLines={ 2 }>
+                <Box fontSize="lg" fontWeight="semibold" as="h4" alignContent={"center"} lineHeight="tight" noOfLines={ 1}>
                    {name}
                 </Box>
             </Center>
