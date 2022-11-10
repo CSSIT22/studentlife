@@ -18,12 +18,13 @@ export function DatingOptionRadioBox(props: any) {
                 }}
                 cursor="pointer"
                 borderWidth="1px"
-                borderRadius="full"
-                boxShadow="md"
+                borderRadius="15px"
+                //boxShadow="md"
+                backgroundColor="#E65300"
+                color="white"
                 _checked={{
-                    bg: "orange.200",
+                    bg: "#B24000",
                     color: "white",
-                    //borderColor: "yellow.600",
                 }}
                 _focus={{
                     boxShadow: "outline",

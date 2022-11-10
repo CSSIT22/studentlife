@@ -39,7 +39,7 @@ const CreateActivityPoll = () => {
 
     return (
         <DatingAppBody>
-            <Box mt="50px" p="50px" bg="orange.200" borderRadius={"20px"}>
+            <Box mt="50px" p="50px" bg="#E67F45" borderRadius={"20px"}>
                 <Heading color={"white"} pb={"20px"}>
                     Create a poll
                 </Heading>
@@ -55,21 +55,31 @@ const CreateActivityPoll = () => {
                                 backgroundColor="white"
                                 placeholder="Your poll header"
                                 size="sm"
-                                borderColor="black"
+                                borderColor="white"
                                 maxLength={100}
                                 errorBorderColor="red"
                                 isRequired
+                                shadow="lg"
                             />
                             {!isTooShortHeader ? (
                                 <FormHelperText></FormHelperText>
                             ) : (
-                                <FormErrorMessage>The minimum header length is 10 characters. You can't type less than this.</FormErrorMessage>
+                                <FormErrorMessage color="yellow">
+                                    The minimum header length is 10 characters. You can't type less than this.
+                                </FormErrorMessage>
                             )}
                             {!isTooLongHeader ? (
                                 <FormHelperText></FormHelperText>
                             ) : (
-                                <FormErrorMessage>The maximum header length is 100 characters. You can't type more than this.</FormErrorMessage>
+                                <FormErrorMessage color="yellow">
+                                    The maximum header length is 100 characters. You can't type more than this.
+                                </FormErrorMessage>
                             )}
+                        </FormControl>
+                    </Center>
+                    <Center>
+                        <FormControl isRequired>
+                            <FormLabel color={"white"}>Poll topic</FormLabel>
                         </FormControl>
                     </Center>
                     <Center>

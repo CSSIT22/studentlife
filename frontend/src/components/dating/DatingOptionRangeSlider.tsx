@@ -1,8 +1,22 @@
-import { Box, Center, Checkbox, RangeSlider, RangeSliderFilledTrack, RangeSliderMark, RangeSliderThumb, RangeSliderTrack, Tooltip } from "@chakra-ui/react"
+import {
+    Box,
+    Center,
+    Checkbox,
+    RangeSlider,
+    RangeSliderFilledTrack,
+    RangeSliderMark,
+    RangeSliderThumb,
+    RangeSliderTrack,
+    Tooltip,
+} from "@chakra-ui/react"
 import React, { FC } from "react"
 
-const DatingOptionRangeSlider:FC<{sliderValue: number[], useAgeValue: boolean, setUseAgeValue: React.Dispatch<React.SetStateAction<boolean>>, setSliderValue: React.Dispatch<React.SetStateAction<number[]>>}> = ({sliderValue, useAgeValue, setUseAgeValue, setSliderValue}) => {
-
+const DatingOptionRangeSlider: FC<{
+    sliderValue: number[]
+    useAgeValue: boolean
+    setUseAgeValue: React.Dispatch<React.SetStateAction<boolean>>
+    setSliderValue: React.Dispatch<React.SetStateAction<number[]>>
+}> = ({ sliderValue, useAgeValue, setUseAgeValue, setSliderValue }) => {
     function handleAge() {
         //Passing data + debug
         globalThis.age = sliderValue
@@ -16,7 +30,7 @@ const DatingOptionRangeSlider:FC<{sliderValue: number[], useAgeValue: boolean, s
     }
 
     return (
-        <Center bg="orange.200" h={20} borderRadius="20px">
+        <Center bg="#E65300" h={20} borderRadius="15px">
             {/* Is user use age as criteria? */}
             <Tooltip label="Use age as a criteria?" aria-label="A tooltip">
                 <span tabIndex={0}>
@@ -25,6 +39,7 @@ const DatingOptionRangeSlider:FC<{sliderValue: number[], useAgeValue: boolean, s
                         defaultChecked={globalThis.useAge}
                         p="30px"
                         size="lg"
+                        iconSize="5lg"
                         onChange={() => {
                             handleCheck()
                             setUseAgeValue(!useAgeValue)
@@ -52,14 +67,14 @@ const DatingOptionRangeSlider:FC<{sliderValue: number[], useAgeValue: boolean, s
                 <RangeSliderMark value={sliderValue[1]} textAlign="center" color="white" mt="-10" ml="-5" w="12">
                     {sliderValue[1]}
                 </RangeSliderMark>
-                <RangeSliderTrack bg="red.100">
-                    <RangeSliderFilledTrack bg="tomato" />
+                <RangeSliderTrack bg="#6B7999">
+                    <RangeSliderFilledTrack bg="#293B66" />
                 </RangeSliderTrack>
                 <RangeSliderThumb boxSize={6} index={0}>
-                    <Box color="tomato" />
+                    <Box color="#6B7999" />
                 </RangeSliderThumb>
                 <RangeSliderThumb boxSize={6} index={1}>
-                    <Box color="tomato" />
+                    <Box color="#6B7999" />
                 </RangeSliderThumb>
             </RangeSlider>
         </Center>

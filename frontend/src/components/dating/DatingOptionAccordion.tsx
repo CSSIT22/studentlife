@@ -50,11 +50,13 @@ const DatingOptionAccordion: FC<{
             <AccordionItem border={0}>
                 <h2>
                     <AccordionButton
-                        bg={"orange.200"}
-                        color="white"
-                        borderRadius="20px"
-                        _expanded={{ bg: "orange.200", color: "white" }}
-                        _hover={{ bg: "orange.300", color: "white", border: "orange.800" }}
+                        color="#2D3748"
+                        bg="white"
+                        borderRadius="15px"
+                        shadow="black"
+                        //_expanded={{ color: "white" }}
+                        stroke={"#E2E8F0"}
+                        _hover={{ border: "#E2E8F0" }}
                     >
                         <Box textAlign="left" borderRadius="full">
                             Selected Faculty

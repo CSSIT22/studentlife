@@ -12,11 +12,11 @@ export function DatingOptionMultipleChoose(props: any) {
             alignItems="center"
             gridColumnGap={2}
             w="100%"
-            bg="orange.50"
+            bg="white"
             border="1px solid"
-            borderColor="orange.500"
+            borderColor="#E65300"
             rounded="lg"
-            borderRadius="full"
+            borderRadius="15px"
             px={3}
             py={1}
             cursor="pointer"
@@ -26,10 +26,10 @@ export function DatingOptionMultipleChoose(props: any) {
                 console.log("Original : " + props.value)
             }}
         >
-            <Flex alignItems="center" justifyContent="center" border="2px solid" borderColor="orange.500" w={4} h={4} {...getCheckboxProps()}>
-                {state.isChecked && <Box w={2} h={2} bg="orange.500" />}
+            <Flex alignItems="center" justifyContent="center" border="2px solid" borderColor="#E65300" w={4} h={4} {...getCheckboxProps()}>
+                {state.isChecked && <Box w={2} h={2} bg="#E65300" />}
             </Flex>
-            <Text color="gray.700" {...getLabelProps()}>
+            <Text color="black" {...getLabelProps()}>
                 {props.value}
             </Text>
         </chakra.label>

@@ -82,7 +82,7 @@ const DatingOption = () => {
 
     return (
         <DatingAppBody>
-            <Stack pt="5">
+            <Stack pt="5" color="black">
                 {/* Heading and heading description part */}
                 <Heading>Option</Heading>
                 <Box pt="3">
@@ -90,7 +90,7 @@ const DatingOption = () => {
                 </Box>
 
                 {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}
-                <SimpleGrid gap={12} pt={8} columns={{ base: 1, md: 2 }}>
+                <SimpleGrid gap={12} pt={5} columns={{ base: 1, md: 2 }}>
                     <Box>
                         <Box pb={5}>
                             <Text fontSize="xl" as="b">
@@ -144,11 +144,13 @@ const DatingOption = () => {
                     <Button
                         type="submit"
                         form="new-note"
-                        borderRadius={"full"}
+                        borderRadius="15px"
                         colorScheme="orange"
                         onClick={() => handleSubmit()}
-                        m={"80px"}
+                        m="80px"
                         p="30px"
+                        pr="50px"
+                        pl="50px"
                     >
                         Done
                     </Button>
