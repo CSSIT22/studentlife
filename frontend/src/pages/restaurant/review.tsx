@@ -1,12 +1,4 @@
-import {
-    Box,
-    Center,
-    CloseButton,
-    Image,
-    Link,
-
-    Spacer,
-} from "@chakra-ui/react"
+import { Box, Center, CloseButton, Image, Link, Spacer } from "@chakra-ui/react"
 import React from "react"
 import ReviewContent from "../../components/restaurant/ReviewContent"
 import Searchbar from "../../components/restaurant/searchbar"
@@ -14,7 +6,6 @@ import AppBody from "../../components/share/app/AppBody"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectCards } from "swiper"
 import ShowImage from "../../components/restaurant/ShowImage"
-
 
 function review() {
     const property = {
@@ -48,19 +39,21 @@ function review() {
             <Center mt={4}>
                 <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
                     <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
-                    <Link href="/restaurant"><CloseButton my={-4} ml={-1} /> </Link> {property.title}
+                        <Link href="/restaurant">
+                            <CloseButton my={-4} ml={-1} />{" "}
+                        </Link>{" "}
+                        {property.title}
                     </Box>
                     <ShowImage />
                     <Box p="4">
-                        <Box display="flex" alignItems="baseline">
+                        <Box display="flex" alignItems="baseline" px={{ base: 0, md: 175 }}>
                             <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
                                 {property.amountLike} liked &bull;
                             </Box>
                             <Spacer />
                             <Box
                                 as="button"
-                                bg={"gray.300"}
-                                color="gray.700"
+                                bg={""}
                                 fontWeight="semibold"
                                 letterSpacing="wide"
                                 fontSize="xs"

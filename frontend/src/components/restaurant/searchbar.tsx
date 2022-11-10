@@ -3,7 +3,7 @@ import React from "react"
 import { TfiSearch } from "react-icons/tfi"
 const Searchbar = () => {
     return (
-        <Center zIndex={100}>
+        <Center>
             <Flex flexDirection={"column"} alignItems={"center"}>
                 <InputGroup width={"10ram"} mr="2">
                     <InputLeftElement children={<TfiSearch />} pb={1} />

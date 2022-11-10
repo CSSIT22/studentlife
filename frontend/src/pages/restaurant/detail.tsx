@@ -27,7 +27,7 @@ import {
     Icon,
 } from "@chakra-ui/react"
 import React from "react"
-import { AiFillPhone, AiOutlineGlobal, AiOutlineHeart } from "react-icons/ai"
+import { AiFillGift, AiFillPhone, AiOutlineGlobal, AiOutlineHeart } from "react-icons/ai"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -89,33 +89,33 @@ function detail() {
                         {property.title}
                     </Box>
 
-                    <Grid p={{ base: 0, md: 5 }} templateRows="repeat(1, 1fr)" templateColumns="repeat(9, 1fr)" columnGap={1} rowGap={1}>
-                        <GridItem colSpan={{ base: 9, md: 3 }}>
+                    <Grid p={{ base: 0, md: 5 }} templateRows="repeat(1, 1fr)" templateColumns="repeat(8, 1fr)" columnGap={4} rowGap={1}>
+                        <GridItem colSpan={{ base: 8, md: 4 }}>
                             <ShowImage />
                             <Box px={4} py={3} display="flex" alignItems="baseline">
                                 <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
-                                    {property.amountLike} liked &bull;
+                                    {property.amountLike} liked
                                 </Box>
                                 <Spacer />
-                                <Box
+                                <Center
                                     as="button"
-                                    bg={"gray.300"}
-                                    color="gray.700"
+                                    bg={"primary.600"}
                                     fontWeight="semibold"
                                     letterSpacing="wide"
                                     fontSize="xs"
                                     textTransform="uppercase"
                                     borderWidth="1px"
-                                    borderRadius="lg"
+                                    borderRadius="5px"
                                     px={2}
                                     pt={1}
+                                    pb={1}
                                 >
                                     <Link href="/restaurant/review">REVIEW</Link>
-                                </Box>
+                                </Center>
                             </Box>
                         </GridItem>
 
-                        <GridItem colSpan={{ base: 9, md: 3 }}>
+                        <GridItem colSpan={{ base: 8, md: 4 }}>
                             <Box w={"full"} backgroundColor={"white"} px={"7"} py={5} borderRadius="10px" shadow={"md"}>
                                 <Text color="" fontSize="md">
                                     OPEN - CLOSE : {property.openTime} - {property.closeTime} <br />
@@ -134,47 +134,14 @@ function detail() {
                                 <Text color="" fontSize="md" textTransform="uppercase">
                                     CONTACT :
                                     <br />
-                                    <AiFillPhone /> : {property.phoneNum}
-                                    <br /> <AiOutlineGlobal /> :
+                                    <Icon as={AiFillPhone} w={4} h={4} /> : {property.phoneNum}
+                                    <br /> <Icon as={AiOutlineGlobal} w={4} h={4} /> :{" "}
                                     <Link href={property.website} isExternal>
                                         <Text as="u">Click here</Text>
                                     </Link>
                                 </Text>
                             </Box>
                         </GridItem>
-
-                        <Show above="md">
-                            <GridItem colSpan={3}>
-                                <Box w={"full"}>
-                                    <Swiper
-                                        direction={"vertical"}
-                                        slidesPerView={"auto"}
-                                        freeMode={true}
-                                        scrollbar={true}
-                                        mousewheel={true}
-                                        modules={[FreeMode, Scrollbar, Mousewheel]}
-                                        className="mySwiper"
-                                    >
-                                        <SwiperSlide>
-                                            <Box p={5}>
-                                                <ReviewContent
-                                                    name={"joji"}
-                                                    picture={""}
-                                                    rate={"4"}
-                                                    review={"This restaurant is so good but it is a little pricey will come back"}
-                                                />
-                                                <ReviewContent
-                                                    name={"joji"}
-                                                    picture={""}
-                                                    rate={"4"}
-                                                    review={"This restaurant is so good but it is a little pricey will come back"}
-                                                />
-                                            </Box>
-                                        </SwiperSlide>
-                                    </Swiper>
-                                </Box>
-                            </GridItem>
-                        </Show>
                     </Grid>
 
                     <Box p="5">
@@ -187,19 +154,20 @@ function detail() {
                                 {({ isOpen, onClose }) => (
                                     <>
                                         <PopoverTrigger>
-                                            <Button
+                                            <Center
+                                                as="button"
                                                 bg={"gray.300"}
                                                 color="gray.700"
                                                 h="50px"
                                                 border={1}
-                                                borderRadius={"md"}
-                                                pr={8}
+                                                borderRadius={"5px"}
+                                                px={4}
                                                 py={1}
                                                 onClick={onOpen}
-                                                leftIcon={<Icon as={SlActionRedo} w={4} h={4} />}
                                             >
+                                                <Icon as={SlActionRedo} w={4} h={4} />
                                                 Share
-                                            </Button>
+                                            </Center>
                                         </PopoverTrigger>
                                         <PopoverContent>
                                             <PopoverArrow />
@@ -242,7 +210,7 @@ function detail() {
                                                         bg={"green.400"}
                                                         color="white"
                                                         border={1}
-                                                        borderRadius={"md"}
+                                                        borderRadius={"5px"}
                                                         px={4}
                                                         py={2}
                                                         onClick={onClose}
@@ -255,9 +223,9 @@ function detail() {
                                                         bg={"tomato"}
                                                         color="white"
                                                         border={1}
-                                                        borderRadius={"md"}
-                                                        px={4}
-                                                        py={2}
+                                                        borderRadius={"5px"}
+                                                        px={2}
+                                                        py={1}
                                                         onClick={onClose}
                                                     >
                                                         Cancel

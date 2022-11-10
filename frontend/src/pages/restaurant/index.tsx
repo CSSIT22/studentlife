@@ -81,10 +81,10 @@ function likeOrNope() {
                                 </VStack>
                                 <ModalCloseButton />
                                 <ModalFooter justifyContent={"center"} pt="60px">
-                                    <Button colorScheme="blue" mr={3} onClick={onClose}>
+                                    <Button colorScheme="blue" mr={3} onClick={onClose} borderRadius={"5px"}>
                                         Random
                                     </Button>
-                                    <Button colorScheme="red" mr={3} onClick={onClose}>
+                                    <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>
                                         Cancel
                                     </Button>
                                 </ModalFooter>
