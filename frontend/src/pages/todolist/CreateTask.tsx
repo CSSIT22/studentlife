@@ -27,7 +27,13 @@ import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 
 const createtask = () => {
-    return <ToDoListAppBody></ToDoListAppBody>
+    return (
+        <ToDoListAppBody>
+            <Heading as="h2" size="3xl" noOfLines={1}>
+                Create Task
+            </Heading>
+        </ToDoListAppBody>
+    )
 }
 
 export default createtask
