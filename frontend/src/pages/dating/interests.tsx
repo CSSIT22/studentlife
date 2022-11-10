@@ -32,25 +32,32 @@ const TagOfInterest = () => {
                 gridTemplateRows={"50px 50px"}
                 gridTemplateColumns={"12rem px"}
                 h="125px"
-                gap="2"
                 pt="5"
             >
                 {/* Interests topic */}
                 <GridItem pl="2" area={"topic"}>
-                    <Heading>Interests</Heading>
+                    <Heading color="Black" fontWeight="700" fontSize={{base: "36px", md: "43px"}} lineHeight="120%">
+                        Interests
+                    </Heading>
                 </GridItem>
                 <GridItem pl="2" area={"desc"}>
                     {/* Interest description */}
                     <Box display="flex">
-                        <Text>Please select your interests: (</Text>
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px"}} lineHeight="150%">
+                            Please select your interests: (
+                        </Heading>
                         {/* numOfInterest will change when you select/deselect the tags */}
-                        {selectedInterests.length}
-                        <Text>&nbsp;of 5 selected)</Text>
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px"}} lineHeight="150%">
+                            {selectedInterests.length}
+                        </Heading>
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "12px", md: "18px"}} lineHeight="150%">
+                            &nbsp;of 5 selected)
+                        </Heading>
                     </Box>
                 </GridItem>
                 {/* DatingInterestDynamicButton component: Skip & Done button */}
-                <GridItem pl="2" area={"button"}>
-                    <DatingInterestDynamicButton
+                <GridItem pl="2" area={"button"} mt="10px">
+                    <DatingInterestDynamicButton 
                         numOfSelectedInterest={selectedInterests.length}
                         selectedInterests={selectedInterests}
                         tagIsClicked={tagIsClicked}
@@ -62,7 +69,7 @@ const TagOfInterest = () => {
                 <DatingInterestSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
             {/* CheckboxGroup : List of tags of interest */}
-            <CheckboxGroup colorScheme="white">
+            <CheckboxGroup colorScheme="black">
                 {IState.allInterests.map(({ interestId, interestName }) => (
                     // DatingInterestTag component: Used for generating interactive tag
                     <DatingInterestTag

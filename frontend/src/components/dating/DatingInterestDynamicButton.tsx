@@ -18,8 +18,16 @@ const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedI
     // If you have not choose any interest tag, the skip button will show up.
     // Else, the done button will show up.
     return (
-        <Button colorScheme="orange" size="lg" borderRadius="full" float="right" onClick={handleSubmit}>
-            {tagIsClicked || numOfSelectedInterest != 0 ? <Box w="50px">Done</Box> : <Box w="50px">Skip</Box>}
+        <Button colorScheme="orange" width="79px" height="33px" borderRadius="5px" float="right" onClick={handleSubmit}>
+            {tagIsClicked || numOfSelectedInterest != 0 ? (
+                <Box font-weight="700" font-size="14px" line-height="120%">
+                    Done
+                </Box>
+            ) : (
+                <Box font-weight="700" font-size="14px" line-height="120%">
+                    Skip
+                </Box>
+            )}
         </Button>
     )
 }

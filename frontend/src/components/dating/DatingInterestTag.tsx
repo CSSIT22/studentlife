@@ -39,19 +39,18 @@ const DatingInterestTag: FC<{
     // Else, it will run the checkNum() function.
     return idExists(interestId) ? (
         <Checkbox
-            borderWidth="2px"
             p="1"
             pr="5"
             pl="2"
-            borderColor="orange.500"
-            color="orange.800"
+            color="white"
+            backgroundColor="black"
             borderRadius="full"
             id={interestId}
             m="1"
             name="interest"
             onChange={handleTag}
             value={interestId}
-            iconColor="orange.500"
+            iconColor="white"
         >
             {interestName}
         </Checkbox>
@@ -60,12 +59,11 @@ const DatingInterestTag: FC<{
     numOfSelectedInterest === 5 ? (
         <Box onClick={onOpen} display="inline">
             <Checkbox
-                borderWidth="2px"
                 p="1"
                 pr="5"
                 pl="2"
-                borderColor="gray.300"
-                color="gray.500"
+                color="white"
+                backgroundColor="gray.500"
                 borderRadius="full"
                 id={interestId}
                 m="1"
@@ -78,11 +76,11 @@ const DatingInterestTag: FC<{
         </Box>
     ) : (
         <Checkbox
-            borderWidth="2px"
             p="1"
             pr="5"
             pl="2"
-            borderColor="gray"
+            color="gray.100"
+            backgroundColor="orange.400"
             borderRadius="full"
             id={interestId}
             m="1"
