@@ -5,9 +5,9 @@ const Searchbar = () => {
     return (
         <Center zIndex={100}>
             <Flex flexDirection={"column"} alignItems={"center"}>
-                <InputGroup width={"full"} mr="2">
+                <InputGroup width={"10ram"} mr="2">
                     <InputLeftElement children={<TfiSearch />} pb={1} />
-                    <Input placeholder="Search" borderRadius={"3xl"} size={"sm"} />
+                    <Input placeholder="Search" borderRadius={"6"}  />
                 </InputGroup>
             </Flex>
 

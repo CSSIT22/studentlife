@@ -35,7 +35,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectCards, FreeMode, Mousewheel, Navigation, Scrollbar } from "swiper"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Md10K } from "react-icons/md"
-import ReviewContent from "src/components/restaurant/ReviewContent"
+import ReviewContent from "../../components/restaurant/ReviewContent"
 import { SlActionRedo } from "react-icons/sl"
 
 function detail() {
