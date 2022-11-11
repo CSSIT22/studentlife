@@ -6,8 +6,10 @@ import AppBody from "../../components/share/app/AppBody"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectCards } from "swiper"
 import ShowImage from "../../components/restaurant/ShowImage"
+import { useParams } from "react-router-dom"
 
 function review() {
+    
     const property = {
         imageUrl: "https://cdn.discordapp.com/attachments/900658140704559116/1025051073842532412/received_1863984997105459.jpg",
         imageAlt: "view of the restaurant",
@@ -44,7 +46,7 @@ function review() {
                         </Link>{" "}
                         {property.title}
                     </Box>
-                    <ShowImage />
+                    {/* <ShowImage /> */}
                     <Box p="4">
                         <Box display="flex" alignItems="baseline" px={{ base: 0, md: 175 }}>
                             <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">

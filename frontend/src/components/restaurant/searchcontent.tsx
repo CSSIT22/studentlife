@@ -22,9 +22,10 @@ import { AiOutlineClose } from "react-icons/ai"
 const Searchcontent: FC<{
     resName: string
     open: string
+    close: string
     phone: string
     website: string
-}> = ({ resName, phone, open, website }) => {
+}> = ({ resName, phone, open, close, website }) => {
     return (
         <>
             <Show below="sm">
@@ -38,7 +39,7 @@ const Searchcontent: FC<{
                                 <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                             </Text>
                             <Text fontSize={"sm"}>
-                                <span style={{ fontWeight: "bold" }}>Open:</span> {open}
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
                             </Text>
                             <Text fontSize={"sm"}>
                                 <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
@@ -51,35 +52,7 @@ const Searchcontent: FC<{
                 </Box>
             </Show>
             <Show above="sm">
-                <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
-                    <Popover placement="bottom">
-                        {({ isOpen, onClose }) => (
-                            <>
-                                <PopoverTrigger>
-                                    <Flex justifyContent={"end"} height={3}>
-                                        <AiOutlineClose />
-                                    </Flex>
-                                </PopoverTrigger>
-                                <PopoverContent>
-                                    <PopoverArrow />
-                                    <PopoverCloseButton />
-                                    <PopoverHeader textAlign={"center"}>ARE YOU SURE</PopoverHeader>
-                                    <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
-                                    <PopoverFooter display="flex" justifyContent="center">
-                                        <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={onClose} mr={2}>
-                                                Yes
-                                            </Button>
-
-                                            <Button colorScheme="red" onClick={onClose} ml={2}>
-                                                No
-                                            </Button>
-                                        </ButtonGroup>
-                                    </PopoverFooter>
-                                </PopoverContent>
-                            </>
-                        )}
-                    </Popover>
+            <Box width={"100%"} p={5} shadow='md' borderWidth='1px' mt={"35px"} borderRadius={"lg"}>
                     <Flex direction={"column"} alignItems={"center"} gap={"4"}>
                         <Heading color={"#E65D10"} fontSize="xl">{resName}</Heading>
                         <Image
@@ -92,10 +65,10 @@ const Searchcontent: FC<{
                     </Flex>
                     <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
                         <Text>
-                            <span style={{ fontWeight: "bold" }}>Open:</span> {open}
+                            <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
                         </Text>
                         <Text>
-                            {" "}
+                           
                             <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
                         </Text>
                         <Text>

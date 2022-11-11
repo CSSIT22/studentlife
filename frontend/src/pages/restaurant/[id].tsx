@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
     Modal,
     ModalOverlay,
@@ -21,7 +21,6 @@ import {
     GridItem,
     Flex,
     Text,
-    Link,
     SimpleGrid,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
@@ -30,9 +29,23 @@ import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectCards } from "swiper"
 import ShowImage from "../../components/restaurant/ShowImage"
-
-function likeOrNope() {
+import { Restaurant } from "./restaurant"
+import { Link, useParams } from "react-router-dom"
+function LikeorNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const params = useParams()
+    console.log(params)
+    const checkimg = Restaurant.filter((e1) => {
+        return e1.id == parseInt(params.id + "")
+    })
+
+    const [res, setres] = useState(parseInt(params.id + ""))
+    const skip = () => {
+        setres(res + 1)
+    }
+
+    
+
     return (
         <AppBody
             secondarynav={[
@@ -46,22 +59,36 @@ function likeOrNope() {
             </Box>
             <Box px={2} borderWidth="1px" borderRadius="lg" h={"100%"} pb={6} pt={2}>
                 <Box h="20px" mb={"40px"}>
-                    <Heading textAlign={"center"}> Restaurant name</Heading>
+                    <Heading textAlign={"center"}> </Heading>
                 </Box>
-                <ShowImage />
+
+                {checkimg.map((e1) => {
+                    return (
+                        <>
+                            <Box h="20px" mb={"40px"}>
+                                <Heading textAlign={"center"} color={"#E65300"}>
+                                    {e1.resName}{" "}
+                                </Heading>
+                            </Box>
+                            <ShowImage img={e1.img} />
+                        </>
+                    )
+                })}
 
                 <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                     <Box>
                         <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
-                            <Link href="/restaurant/detail">
+                            <Link to="/restaurant/detail">
                                 <AiOutlineLike size={"xl"} />
                             </Link>
                         </Button>
                     </Box>
 
                     <Box>
-                        <Button onClick={onOpen} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
+                        <Button onClick={skip} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
+                            <Link to={`/restaurant/${res}`}>
                             <AiOutlineDislike size={"xl"} />
+                            </Link>
                         </Button>
 
                         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -97,4 +124,4 @@ function likeOrNope() {
     )
 }
 
-export default likeOrNope
+export default LikeorNope

@@ -4,6 +4,7 @@ import FavoriteContent from "src/components/restaurant/FavoriteContent"
 import Historycontent from "../../components/restaurant/historycontent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
+import { detailHistory } from "./detailHistory"
 
 const history = () => {
     return (
@@ -20,15 +21,11 @@ const history = () => {
                 History
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
-                <GridItem>
-                <Historycontent resName={"Kitchen Cheif's"} date={"12/11/2022"} status={true} />
+               {detailHistory.map((e1) => {
+                return <GridItem>
+                  <Historycontent resName={e1.resName} date={e1.date} status={e1.status}/>
                 </GridItem>
-                <GridItem>
-                     <Historycontent resName={"Kitchen Cheif's"} date={"12/11/2022"} status={true} />
-                </GridItem>
-                <GridItem>
-                     <Historycontent resName={"Kitchen Cheif's"} date={"12/11/2022"} status={true} />
-                </GridItem>
+               })}
                 
             </Grid>
         </AppBody>

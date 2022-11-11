@@ -20,13 +20,15 @@ import {
 } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
+import { Restaurant } from "src/pages/restaurant/restaurant"
 
 const FavoriteContent: FC<{
     resName: string
     open: string
+    close: string
     phone: string
     website: string
-}> = ({ resName, phone, open, website }) => {
+}> = ({ resName, phone, open, close, website }) => {
     // const ClosePop = () => {
     //     setclose(true);
     //     // console.log(close);
@@ -44,14 +46,12 @@ const FavoriteContent: FC<{
         <>
             <Show below="sm">
                 <Box
-                    width={{ base: "100%", lg: "100%" }}
-                    height={{ base: "9rem", lg: "13rem" }}
+                    width={"100%"}
                     mt={"25px"}
                     backgroundColor={"white"}
                     p={"5"}
                     borderRadius="lg"
                     boxShadow={"lg"}
-                    mb={"6rem"}
                 >
                     <Popover placement="auto">
                         {({ isOpen, onClose }) => (
@@ -100,7 +100,7 @@ const FavoriteContent: FC<{
                                     <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                                 </Text>
                                 <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Open:</span> {open}
+                                    <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
                                 </Text>
                                 <Text fontSize={{ base: "sm", lg: "lg" }}>
                                     <span style={{ fontWeight: "bold" }}>Phone:</span> {phone}
@@ -144,7 +144,7 @@ const FavoriteContent: FC<{
                         )}
                     </Popover>
                 <Flex direction={"column"} alignItems={"center"} gap={"4"}>
-                    <Heading fontSize='xl'>{resName}</Heading>
+                    <Heading color={"#E65D10"} fontSize='xl'>{resName}</Heading>
                     <Image
                                     boxSize={"12.5rem"}
                                     // height={{ lg: "9.5rem" }}
@@ -154,7 +154,7 @@ const FavoriteContent: FC<{
                                 />
                 </Flex>
                 <Box ml={{lg:"2rem"}} mt={"1rem"} gap={"4"} textAlign={{sm: "center", lg: "left"}}>
-                    <Text ><span style={{ fontWeight: "bold" }}>Open:</span> {open}</Text>
+                    <Text ><span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}</Text>
                     <Text > <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}</Text>
                     <Text ><span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a></Text>
                 </Box>
