@@ -10,6 +10,7 @@ import { postInfoTest } from "./postInfoTest"
 
 const recyclebin = () => {
     // const { isOpen, onOpen, onClose } = useDisclosure()
+
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
         setIsOpen(true)
@@ -42,7 +43,46 @@ const recyclebin = () => {
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
     // ]
     const [allPost, setAllPost] = React.useState(postInfoTest)
+    const minute = 1000 * 60
+    const hour = minute * 60
+    const day = hour * 24
 
+    const date = new Date()
+    // console.log(date);
+    const d = new Date("Sat Nov 12 2022 01:39:11 GMT+0700")
+    console.log(d);
+    
+    
+    const currentD = Math.round(date.getTime() / day)
+    const currentH = Math.round(date.getTime() / hour)
+    const currentM = Math.round(date.getTime() / minute)
+    const showRemaining = (epd: string) => {
+        const expired = new Date(epd)
+        const dEpd = Math.round(expired.getTime() / day)
+        const diffD = dEpd - currentD
+        if(diffD <= 3 && diffD > 0){
+            if(diffD == 1){
+                return diffD+" day"
+            }else {
+                return diffD+" days"
+            }
+        }else if(diffD == 0){
+            const hEpd = Math.round(expired.getTime() / hour)
+            const diffH = hEpd-currentH
+            if(diffH <=24 && diffH > 0){
+                if(diffH == 1){
+                    return diffH+" hour"
+                }else {
+                    return diffH+" hours"
+                }
+            }else {
+                return diffH+" H"
+            }
+        }else {
+            return ""
+        }
+    }
+    
     return (
         <AppBody
             secondarynav={[
@@ -51,19 +91,27 @@ const recyclebin = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            p={{md:"3rem"}}
+            p={{ md: "3rem" }}
         >
             <Flex alignItems={"center"}>
                 <HeaderPage head="Recycle bin" />
             </Flex>
             {allPost
-                .filter((fl) => fl.status == "delete")
+                .filter((fl) => {
+                    const expired = new Date(fl.expiredAfterDelete)
+                    const expiredPost = Math.round(expired.getTime() / day)
+                    const diffD = expiredPost - currentD 
+                    const hEpd = Math.round(expired.getTime() / hour)
+                    const diffH = hEpd-currentH
+                    return fl.status == "delete" && ((diffD > 0) || (diffH > 0))
+                })
                 .map((el) => {
+                    const r = showRemaining(el.expiredAfterDelete)
                     return (
                         <PostOnRecycle
                             topic={el.topic}
                             sender={el.sender}
-                            expired={el.expiredAfterDelete}
+                            expired={r}
                             onClick={recoverClick}
                             id={el.postId}
                             status={el.status}
