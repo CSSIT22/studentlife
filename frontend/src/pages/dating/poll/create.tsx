@@ -22,6 +22,7 @@ import {
     ModalFooter,
     Textarea,
     Select,
+    Flex,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
@@ -32,7 +33,9 @@ const CreateActivityPoll = () => {
     const [description, setDescriptionInput] = useState("")
     const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
     const [location, setLocationInput] = useState("")
-    const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
+    const handleInputLocationChange = (e: any) => {
+        setLocationInput(e.target.value)
+    }
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -41,8 +44,10 @@ const CreateActivityPoll = () => {
     let isValidHeader = isTooLongHeader && isTooShortHeader
     const isTooLongDescription = description.length >= 250
     const isTooLongLocation = location.length >= 100
-    const isTooShortLocation = location.length < 10
+    const isTooShortLocation = location.length < 5
     let isValidLocation = isTooLongLocation && isTooShortLocation
+
+    const res = ["Somchai Hotel", "Somsri Resturant"]
 
     function handleChoose(locate: any) {
         console.log(locate)
@@ -51,7 +56,7 @@ const CreateActivityPoll = () => {
 
     function handleSubmit() {
         if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription) {
-            alert("Header: " + header + " Description: " + description)
+            alert("Header: " + header + " Description: " + description + " Location: " + location)
         } else {
             toast({
                 title: "Invalid input!",
@@ -157,50 +162,59 @@ const CreateActivityPoll = () => {
                             )}
                         </FormControl>
                     </Center>
-                    <Center>
-                        <SimpleGrid columns={1}>
-                            <Box>
-                                <FormControl isInvalid={!isValidLocation} isRequired>
-                                    <FormLabel color={"white"}>Location</FormLabel>
-                                    <Input
-                                        borderRadius={"6px"}
-                                        id="location"
-                                        type="text"
-                                        value={location}
-                                        onChange={handleInputLocationChange}
-                                        backgroundColor="white"
-                                        placeholder="Location"
-                                        size="sm"
-                                        borderColor="white"
-                                        maxLength={100}
-                                        errorBorderColor="red"
-                                        isRequired
-                                        shadow="lg"
-                                    />
-                                    {!isTooShortLocation ? (
-                                        <FormHelperText></FormHelperText>
-                                    ) : (
-                                        <FormErrorMessage color="yellow">
-                                            The minimum header length is 10 characters. Type something.
-                                        </FormErrorMessage>
-                                    )}
-                                    {!isTooLongLocation ? (
-                                        <FormHelperText></FormHelperText>
-                                    ) : (
-                                        <FormErrorMessage color="yellow">
-                                            The maximum header length is 100 characters. You cannot type more.
-                                        </FormErrorMessage>
-                                    )}
-                                    {/* If that user haven't use the restaurant function we should block this feature*/}
-                                </FormControl>
-                            </Box>
-                            <Box>
-                                <Select placeholder="Pick from your favorites." size="sm" bgColor="white" onChange={(value) => handleChoose(value)}>
-                                    <option value="option1">Home</option>
-                                </Select>
-                            </Box>
-                        </SimpleGrid>
-                    </Center>
+                    {/* <Center> */}
+
+                    <FormControl isInvalid={!isValidLocation} isRequired>
+                        <FormLabel color={"white"}>Location</FormLabel>
+                        <Flex>
+                            <Input
+                                borderRadius={"6px"}
+                                id="location"
+                                type="text"
+                                value={location}
+                                onChange={handleInputLocationChange}
+                                backgroundColor="white"
+                                placeholder="Location"
+                                size="sm"
+                                borderColor="white"
+                                maxLength={100}
+                                errorBorderColor="red"
+                                isRequired
+                                shadow="lg"
+                            />
+                            {/* If that user haven't use the restaurant function we should block this feature*/}
+                            <Select
+                                borderRadius={"6px"}
+                                placeholder="Pick from your favorites."
+                                size="sm"
+                                bgColor="white"
+                                pl="20px"
+                                errorBorderColor="red"
+                                shadow="lg"
+                                onChange={(e: any) => {
+                                    // handleChoose
+                                    handleInputLocationChange(e)
+                                    // console.log("VA: " + state.value)
+                                }}
+                            >
+                                {res.map((value) => {
+                                    return <option key={value}>{value}</option>
+                                })}
+                            </Select>
+                        </Flex>
+                        {!isTooShortLocation ? (
+                            <FormHelperText color="white">You are now using {location} as a location.</FormHelperText>
+                        ) : (
+                            <FormErrorMessage color="yellow">The minimum header length is 5 characters. Type something.</FormErrorMessage>
+                        )}
+                        {!isTooLongLocation ? (
+                            <FormHelperText></FormHelperText>
+                        ) : (
+                            <FormErrorMessage color="yellow">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
+                        )}
+                    </FormControl>
+
+                    {/* </Center> */}
                     <Center>
                         <Button type="submit" borderRadius={"full"} colorScheme="orange" onClick={() => handleSubmit()} mt={"80px"} p="30px">
                             Done
