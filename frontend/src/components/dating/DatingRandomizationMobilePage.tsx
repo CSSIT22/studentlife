@@ -83,24 +83,47 @@ const DatingRandomizationMobilePage: FC<{
                 </Box>
                 {characters[currentIndex] != null ? (
                     <>
-                        <Box display="flex">
-                            <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                                {characters[currentIndex].Fname.length >= 15
-                                    ? characters[currentIndex].Fname.substring(0, 15).concat("...")
-                                    : characters[currentIndex].Fname}{" "}
-                                {characters[currentIndex].Lname.substring(0, 1)}.
-                            </Text>
-                            <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                                {characters[currentIndex].Gender}, {characters[currentIndex].Age}
-                            </Text>
+                        <Box pt="468px">
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20,
+                                }}
+                            >
+                                <Box display="flex">
+                                    <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pl="18px">
+                                        {characters[currentIndex].Fname.length >= 15
+                                            ? characters[currentIndex].Fname.substring(0, 15).concat("...")
+                                            : characters[currentIndex].Fname}{" "}
+                                        {characters[currentIndex].Lname.substring(0, 1)}.
+                                    </Text>
+
+                                    <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pl="18px">
+                                        {characters[currentIndex].Gender}, {characters[currentIndex].Age}
+                                    </Text>
+                                </Box>
+                            </motion.div>
                         </Box>
-                        <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
-                            <Text pl="18px" pt="10px">
-                                {characters[currentIndex].Faculty.length >= 30
-                                    ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
-                                    : characters[currentIndex].Faculty.trim()}
-                            </Text>
-                        </Box>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 310,
+                                damping: 20,
+                            }}
+                        >
+                            <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
+                                <Text pl="18px" pt="10px">
+                                    {characters[currentIndex].Faculty.length >= 30
+                                        ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
+                                        : characters[currentIndex].Faculty.trim()}
+                                </Text>
+                            </Box>
+                        </motion.div>
                         <Box height="70px" overflow="hidden">
                             <Box
                                 pb="5"
@@ -112,7 +135,18 @@ const DatingRandomizationMobilePage: FC<{
                                 style={{ WebkitOverflowScrolling: "touch" }}
                             >
                                 {characters[currentIndex].interestId.map((id) => (
-                                    <motion.div style={{display: "inline-block"}} whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.2 }}>
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        style={{ display: "inline-block" }}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 1.2 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}
+                                    >
                                         <Tag
                                             backgroundColor="orange.600"
                                             color="white"
@@ -130,21 +164,37 @@ const DatingRandomizationMobilePage: FC<{
                                 ))}
                             </Box>
                         </Box>
-                        <Center display="flex" pt="18px" pl="18px">
+                        <Center display="flex" pl="18px">
                             <motion.div
-                                style={{ marginRight: "72px" }}
+                                style={{
+                                    marginRight: "58px",
+                                    width: "80px",
+                                    height: "80px",
+                                    borderRadius: "30px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
                                 onClick={() => swipe("left")}
                                 whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8 }}
+                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
                             >
                                 <AiOutlineStop size="62px" color="black" />
                             </motion.div>
 
                             <motion.div
-                                style={{ marginLeft: "72px" }}
-                                onClick={() => swipe("right")}
+                                style={{
+                                    marginLeft: "58px",
+                                    width: "80px",
+                                    height: "80px",
+                                    borderRadius: "30px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                                onClick={() => swipe("left")}
                                 whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8 }}
+                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
                             >
                                 <AiOutlineHeart size="62px" color="black" />
                             </motion.div>
@@ -152,12 +202,38 @@ const DatingRandomizationMobilePage: FC<{
                     </>
                 ) : (
                     <>
-                        <Center display="flex" pt="18px" pl="18px">
-                            <motion.div style={{ marginRight: "72px", marginTop: "596px" }} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                        <Center display="flex" pl="18px">
+                            <motion.div
+                                style={{
+                                    marginRight: "58px",
+                                    marginTop: "596px",
+                                    width: "80px",
+                                    height: "80px",
+                                    borderRadius: "30px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
+                            >
                                 <AiOutlineStop size="62px" color="black" />
                             </motion.div>
 
-                            <motion.div style={{ marginLeft: "72px", marginTop: "596px" }} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                            <motion.div
+                                style={{
+                                    marginLeft: "58px",
+                                    marginTop: "596px",
+                                    width: "80px",
+                                    height: "80px",
+                                    borderRadius: "30px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
+                            >
                                 <AiOutlineHeart size="62px" color="black" />
                             </motion.div>
                         </Center>
