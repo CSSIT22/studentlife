@@ -28,9 +28,9 @@ const NotiObject: FC<{
         const year = day * 365
 
         let sendDay = Math.round(date.getTime() / day)
-        // console.log(test)
+        // console.log(sendDay)
         let currentDay = Math.round(current.getTime() / day)
-        // console.log(currentTime)
+        // console.log(currentDay)
         let diffDay = currentDay - sendDay
         // console.log(diffDay)
         if (diffDay == 0) {
@@ -44,7 +44,7 @@ const NotiObject: FC<{
                 // console.log(currentHours)
                 let diffHours = currentHours - sendHours
 
-                console.log(diffHours + " hours ago")
+                // console.log(diffHours + " hours ago")
                 return (
                     <Text fontSize={"xs"} color="gray.400">
                         {diffHours} hours ago

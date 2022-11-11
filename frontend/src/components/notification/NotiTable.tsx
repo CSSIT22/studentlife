@@ -36,15 +36,17 @@ const NotiTable = () => {
     // }
     function showNotiList(): any {
         if (selectedModule == "All") {
-            console.log("all")
-            return OBJECTS.map((el) => {
-                return <NotiList key={Math.random()} selectedList={OBJECTS} date={el.date}></NotiList>
-            })
+            // console.log("all")
+            // return OBJECTS.map((el) => {
+            //     return <NotiList key={Math.random()} selectedList={OBJECTS} date={el.date}></NotiList>
+            // })
+            return <NotiList selectedList={OBJECTS}></NotiList>
         } else {
-            console.log("others")
-            return notiListModule.map((el) => {
-                return <NotiList key={Math.random()} selectedList={notiListModule} date={el.date}></NotiList>
-            })
+            // console.log("others")
+            // return notiListModule.map((el) => {
+            //     return <NotiList key={Math.random()} selectedList={notiListModule} date={el.date}></NotiList>
+            // })
+            return <NotiList selectedList={notiListModule}></NotiList>
         }
     }
     return (
