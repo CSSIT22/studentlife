@@ -1,5 +1,10 @@
 import React from "react"
 import {
+    List,
+    ListItem,
+    ListIcon,
+    OrderedList,
+    UnorderedList,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -27,7 +32,13 @@ import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 
 const index = () => {
-    return <ToDoListAppBody></ToDoListAppBody>
+    return (
+        <ToDoListAppBody>
+            <Heading as="h1" size="3xl" noOfLines={1}>
+                To Do List
+            </Heading>
+        </ToDoListAppBody>
+    )
 }
 
 export default index
