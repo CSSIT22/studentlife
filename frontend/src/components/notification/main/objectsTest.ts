@@ -7,7 +7,7 @@ export const OBJECTS = [
         userName: "User1234",
         description: DESCRIPTION[0].template,
         isRead: true,
-        date: new Date("October 14, 2020 09:38:00"),
+        date: new Date("November 11, 2022 14:30:00"),
         module: "Chat",
     },
     {
@@ -25,7 +25,7 @@ export const OBJECTS = [
         userName: "treafd",
         description: DESCRIPTION[1].template,
         isRead: false,
-        date: new Date("October 18, 2020 09:38:00"),
+        date: new Date("November 9, 2022 09:38:00"),
         module: "Shop",
     },
     {
@@ -34,7 +34,7 @@ export const OBJECTS = [
         userName: "fghghjf",
         description: DESCRIPTION[1].template,
         isRead: false,
-        date: new Date("October 18, 2020 09:38:00"),
+        date: new Date("March 18, 2022 09:38:00"),
         module: "Chat",
     },
     {
@@ -61,7 +61,7 @@ export const OBJECTS = [
         userName: "benhan",
         description: DESCRIPTION[1].template,
         isRead: false,
-        date: new Date("October 19, 2020 09:38:00"),
+        date: new Date("November 1, 2022 09:38:00"),
         module: "Chat",
     },
 ]
