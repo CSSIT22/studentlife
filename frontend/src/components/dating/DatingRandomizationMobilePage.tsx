@@ -3,7 +3,7 @@ import { Box, Center, SimpleGrid, Tag, Text } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
-import { motion } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
 
 const DatingRandomizationMobilePage: FC<{
     CARD_QUEUE: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }[]
@@ -13,6 +13,8 @@ const DatingRandomizationMobilePage: FC<{
     const characters = CARD_QUEUE
     const interests = INTERESTS
     const currentIndexRef = useRef(currentIndex)
+    const controlCross = useAnimation()
+    const controlHeart = useAnimation()
 
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
@@ -31,6 +33,12 @@ const DatingRandomizationMobilePage: FC<{
 
     const swiped = (direction: any, nameToDelete: any, index: any) => {
         console.log("Swiping " + nameToDelete + " to the " + direction)
+        if (direction === "left") {
+            controlCross.start("visible")
+        } else if (direction === "right") {
+            controlHeart.start("visible")
+        }
+
         updateCurrentIndex(index - 1)
     }
 
@@ -51,33 +59,31 @@ const DatingRandomizationMobilePage: FC<{
                 <Box>
                     <Box className="cardContainer">
                         {characters.map((character, index) => (
-                            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-                                <TinderCard
-                                    ref={childRefs[index]}
-                                    className="swipe"
-                                    key={character.UserId}
-                                    onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
-                                    onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
-                                    preventSwipe={["down", "up"]}
-                                    swipeThreshold={1}
-                                >
-                                    <Center>
-                                        <Box
-                                            borderRadius="10px"
-                                            backgroundImage={character.url}
-                                            w="326px"
-                                            h="402px"
-                                            backgroundSize="cover"
-                                            className="card"
-                                            pl="1rem"
-                                            id={character.UserId}
-                                            position="absolute"
-                                            top="30px"
-                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                        ></Box>
-                                    </Center>
-                                </TinderCard>
-                            </motion.div>
+                            <TinderCard
+                                ref={childRefs[index]}
+                                className="swipe"
+                                key={character.UserId}
+                                onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
+                                onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
+                                preventSwipe={["down", "up"]}
+                                swipeThreshold={1}
+                            >
+                                <Center>
+                                    <Box
+                                        borderRadius="10px"
+                                        backgroundImage={character.url}
+                                        w="326px"
+                                        h="402px"
+                                        backgroundSize="cover"
+                                        className="card"
+                                        pl="1rem"
+                                        id={character.UserId}
+                                        position="absolute"
+                                        top="30px"
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    ></Box>
+                                </Center>
+                            </TinderCard>
                         ))}
                     </Box>
                 </Box>
@@ -174,10 +180,22 @@ const DatingRandomizationMobilePage: FC<{
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
+                                    backgroundColor: "#FFF2E6",
                                 }}
+                                animate={controlCross}
                                 onClick={() => swipe("left")}
                                 whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
+                                variants={{
+                                    visible: {
+                                        scale: [1, 0.8, 1],
+                                        backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                                        transition: {
+                                            delay: 0,
+                                            duration: 0.6,
+                                            ease: [0.075, 0.82, 0.165, 1],
+                                        },
+                                    },
+                                }}
                             >
                                 <AiOutlineStop size="62px" color="black" />
                             </motion.div>
@@ -191,10 +209,22 @@ const DatingRandomizationMobilePage: FC<{
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
+                                    backgroundColor: "#FFF2E6",
                                 }}
-                                onClick={() => swipe("left")}
+                                animate={controlHeart}
+                                onClick={() => swipe("right")}
                                 whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
+                                variants={{
+                                    visible: {
+                                        scale: [1, 0.8, 1],
+                                        backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                                        transition: {
+                                            delay: 0,
+                                            duration: 0.6,
+                                            ease: [0.075, 0.82, 0.165, 1],
+                                        },
+                                    },
+                                }}
                             >
                                 <AiOutlineHeart size="62px" color="black" />
                             </motion.div>
