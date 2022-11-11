@@ -1,13 +1,40 @@
-import { Box, Divider, Flex, Image, SimpleGrid, Text, Grid, GridItem, Button } from "@chakra-ui/react"
-import React, { useState } from "react"
-import { EffectCards, EffectCoverflow, EffectCreative, EffectCube, EffectFade, EffectFlip } from "swiper"
+import {
+    Box,
+    Flex,
+    Image,
+    SimpleGrid,
+    Text,
+    Grid,
+    GridItem,
+    Button,
+    useDisclosure,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    FormControl,
+    FormLabel,
+    Select,
+    InputGroup,
+    Input,
+    HStack,
+    VStack,
+    Textarea,
+} from "@chakra-ui/react"
+import { useState } from "react"
+import { EffectFade } from "swiper"
 import { Autoplay, Keyboard, Pagination, Scrollbar, Zoom, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import ContentBox from "../../../components/shop/ContentBox"
 import PageTitle from "../../../components/shop/PageTitle"
 import ReviewItem from "../../../components/shop/ReviewItem"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
+import StarRating from "../../../components/shop/starRating"
 import ThemedButton from "../../../components/shop/ThemedButton"
+
 // Get info from databse and request
 const productDetail = () => {
     const contact = {
@@ -16,7 +43,6 @@ const productDetail = () => {
         address: "34 Street Sathorn, Bangkok, Thailand ",
         productId: 55,
     }
-    
     const product = {
         name: "Iphone 13",
         rating: 5,
@@ -28,8 +54,10 @@ const productDetail = () => {
         color: "Red",
         description: "This is the Iphone 13 pro, the best phone you could buy at one point in time. ".repeat(6),
     }
+
     const [countReviews, setCountReviews] = useState(4)
     const [actionText, setActionText] = useState("Show All")
+
     const productBox = (
         <ContentBox>
             <Grid templateRows="repeat(5, 1fr)" templateColumns="repeat(4, 1fr)" gap={7} p="4">
@@ -82,6 +110,7 @@ const productDetail = () => {
             </Flex>
         </ContentBox>
     )
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const reviewBox = (
         <ContentBox>
             <Flex direction="column" gap={3} p={6}>
@@ -90,16 +119,24 @@ const productDetail = () => {
                 </Text>
                 {generateReviews(countReviews)}
                 <Flex justify="space-between" mt="7" wrap="wrap" gap="5">
-                    <Button variant="link">Write Your Own Review</Button>
-                    <Button variant="link" onClick={function () {
-                        if (countReviews == -1){
-                            setActionText("Show All")
-                            setCountReviews(4)
-                        } else{
-                            setCountReviews(-1)
-                            setActionText("Hide")
-                        }
-                    }}>{actionText}</Button>
+                    <Button variant="link" onClick={onOpen}>
+                        Write Your Own Review
+                    </Button>
+                    {modalWriteReview()}
+                    <Button
+                        variant="link"
+                        onClick={function () {
+                            if (countReviews == -1) {
+                                setActionText("Show All")
+                                setCountReviews(4)
+                            } else {
+                                setCountReviews(-1)
+                                setActionText("Hide")
+                            }
+                        }}
+                    >
+                        {actionText}
+                    </Button>
                 </Flex>
             </Flex>
         </ContentBox>
@@ -129,12 +166,56 @@ const productDetail = () => {
             </Flex>
         </ShopAppBody>
     )
+
+    function modalWriteReview() {
+        return (
+            <Modal isOpen={isOpen} onClose={onClose} isCentered size={"2xl"}>
+                <ModalOverlay bg="blackAlpha.500" backdropFilter="auto" backdropBlur="2px" />
+                <ModalContent>
+                    <ModalHeader>Write Review</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <FormControl>
+                            <Text align="center" fontSize="xl" fontWeight="bold" pb="4">
+                                {product.name}{" "}
+                            </Text>
+                            <Flex gap={3} direction="column" justify="space-evenly">
+                                <HStack justify="space-around">
+                                    <FormLabel>Choose Rating</FormLabel>
+                                    <Select>
+                                        <option value="1star">1 Star</option>
+                                        <option value="2star">2 Star</option>
+                                        <option value="3star">3 Star</option>
+                                        <option value="4star">4 Star</option>
+                                        <option value="5star">5 Star</option>
+                                    </Select>
+                                </HStack>
+                                <HStack>
+                                    <FormLabel>Review Title</FormLabel>
+                                    <Input type="text"></Input>
+                                </HStack>
+                                <HStack>
+                                    <FormLabel>Tell us your experience</FormLabel>
+                                    <Textarea></Textarea>
+                                </HStack>
+                                <Text>Upload Image</Text>
+                            </Flex>
+                        </FormControl>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button w="full" colorScheme="blue" mr={3} onClick={onClose}>
+                            Submit
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        )
+    }
 }
 
 function convertCurrency(amount: number) {
     return "฿" + amount.toFixed(2)
 }
-
 function slidesGenerator() {
     const slides = []
     for (let i = 0; i < 5; i++) {
@@ -155,15 +236,15 @@ function generateReviews(count: number) {
     if (count == -1) count = 50
     for (let i = 0; i < count; i++) {
         reviews.push(
-                <ReviewItem
-                    userName="Jack Phill"
-                    userPhoto="https://i2-prod.getsurrey.co.uk/incoming/article14551754.ece/ALTERNATES/s1200d/Jack-Phillips-a-well-known-Titanic-hero-from-Godalming.jpg"
-                    reviewTitle={"Wow Great"}
-                    reviewBody={"I bought this phone and this has great features, I highly recommend buying this phone".repeat(5)}
-                    rating={5}
-                    image="https://auspost.com.au/shop/static/WFS/AusPost-Shop-Site/-/AusPost-Shop-auspost-B2CWebShop/en_AU/feat-cat/category-tiles/MP_UnlockedPhones_3.jpg"
-                    reviewDate="09 Sep 2020"
-                ></ReviewItem>
+            <ReviewItem
+                userName="Jack Phill"
+                userPhoto="https://i2-prod.getsurrey.co.uk/incoming/article14551754.ece/ALTERNATES/s1200d/Jack-Phillips-a-well-known-Titanic-hero-from-Godalming.jpg"
+                reviewTitle={"Wow Great"}
+                reviewBody={"I bought this phone and this has great features, I highly recommend buying this phone".repeat(5)}
+                rating={5}
+                image="https://auspost.com.au/shop/static/WFS/AusPost-Shop-Site/-/AusPost-Shop-auspost-B2CWebShop/en_AU/feat-cat/category-tiles/MP_UnlockedPhones_3.jpg"
+                reviewDate="09 Sep 2020"
+            ></ReviewItem>
         )
     }
     return (
