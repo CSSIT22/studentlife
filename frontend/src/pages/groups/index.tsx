@@ -1,4 +1,4 @@
-import { Show, Box, HStack, Button, Input, Stack, Text, Flex, Grid } from "@chakra-ui/react"
+import { Show, Box, HStack, Button, Input, Stack, Text, Flex, Grid, Link } from "@chakra-ui/react"
 import React, { Suspense, useState } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import { FaSearch, FaPlus } from "react-icons/fa"
@@ -8,6 +8,7 @@ import CommunityList from "../../components/group/CommunityList"
 import SuggestBox from "../../components/group/SuggestBox"
 import InvitationBox from "../../components/group/InvitationBox"
 import useWindowDimensions from "./hooks/useWindowDimensions"
+import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 const index = () => {
     const [searchBtn, setSearchBtn] = useState(false) //for close/open seach bar
@@ -94,9 +95,12 @@ const index = () => {
                                 placeholder="Seacrh Community"
                                 focusBorderColor="gray.200"
                             ></Input>
-                            <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
-                                + Create New Community
-                            </Button>
+                            <Link href='http://127.0.0.1:5173/groups/create' isExternal>
+                                <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
+                                    + Create New Community
+                                </Button>
+                            </Link>
+
                         </Box>
                     </Show>
                     <Box display={allBtn || (width || 0) > 768 ? "block" : "none"}>
@@ -229,8 +233,8 @@ const index = () => {
                         </Box>
                     </Box>
                 </Show>
-            </Flex>
-        </AppBody>
+            </Flex >
+        </AppBody >
     )
 }
 
