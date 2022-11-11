@@ -6,78 +6,23 @@ import ProductDisplay from "./ProductDisplay"
 const ProductList = () => {
     return (
         <Flex justify="center" pt="3" wrap="wrap" gap="1rem">
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.shopify.com/s/files/1/0070/7032/files/shopify-product-sourcing.jpg?v=1598457732"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>{" "}
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>{" "}
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>{" "}
-            <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price="10000"
-                link=""
-            ></ProductDisplay>
+            {generateProducts()}
         </Flex>
     )
 }
 
 export default ProductList
+function generateProducts() {
+    let products = []
+    for (let i = 0; i < 25; i++) {
+        products.push( <ProductDisplay
+            name="Pen"
+            image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+            brandName="Nike"
+            price="10000"
+            link="/shop/product/productDetail"
+        ></ProductDisplay>)
+    }
+    return products
+}
+
