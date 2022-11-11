@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
-import { Restaurant } from "src/pages/restaurant/restaurant"
+import { Restaurant } from "src/pages/restaurant/data/restaurant"
 
 const FavoriteContent: FC<{
     resName: string
@@ -45,14 +45,7 @@ const FavoriteContent: FC<{
         //         </Show> */}
         <>
             <Show below="sm">
-                <Box
-                    width={"100%"}
-                    mt={"25px"}
-                    backgroundColor={"white"}
-                    p={"5"}
-                    borderRadius="lg"
-                    boxShadow={"lg"}
-                >
+                <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
                     <Popover placement="auto">
                         {({ isOpen, onClose }) => (
                             <>
@@ -84,7 +77,7 @@ const FavoriteContent: FC<{
 
                     <Flex mb={"15px"}>
                         {/* <Show below="lg"> */}
-                        <Box width={"30%"} >
+                        <Box width={"30%"}>
                             <Image
                                 boxSize={{ base: "5rem", lg: "12.5rem" }}
                                 height={{ lg: "9.5rem" }}
@@ -114,8 +107,8 @@ const FavoriteContent: FC<{
                 </Box>
             </Show>
             <Show above="sm">
-            <Box width={"100%"} p={5} shadow='md' borderWidth='1px' mt={"35px"} borderRadius={"lg"}>
-            <Popover placement="bottom">
+                <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
+                    <Popover placement="bottom">
                         {({ isOpen, onClose }) => (
                             <>
                                 <PopoverTrigger>
@@ -143,23 +136,31 @@ const FavoriteContent: FC<{
                             </>
                         )}
                     </Popover>
-                <Flex direction={"column"} alignItems={"center"} gap={"4"}>
-                    <Heading color={"#E65D10"} fontSize='xl'>{resName}</Heading>
-                    <Image
-                                    boxSize={"12.5rem"}
-                                    // height={{ lg: "9.5rem" }}
-                                    src="https://bit.ly/dan-abramov"
-                                    alt="Dan Abramov"
-                                    borderRadius={"10px"}
-                                />
-                </Flex>
-                <Box ml={{lg:"2rem"}} mt={"1rem"} gap={"4"} textAlign={{sm: "center", lg: "left"}}>
-                    <Text ><span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}</Text>
-                    <Text > <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}</Text>
-                    <Text ><span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a></Text>
+                    <Flex direction={"column"} alignItems={"center"} gap={"4"}>
+                        <Heading color={"#E65D10"} fontSize="xl">
+                            {resName}
+                        </Heading>
+                        <Image
+                            boxSize={"12.5rem"}
+                            // height={{ lg: "9.5rem" }}
+                            src="https://bit.ly/dan-abramov"
+                            alt="Dan Abramov"
+                            borderRadius={"10px"}
+                        />
+                    </Flex>
+                    <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
+                        <Text>
+                            <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                        </Text>
+                        <Text>
+                            {" "}
+                            <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
+                        </Text>
+                        <Text>
+                            <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
+                        </Text>
+                    </Box>
                 </Box>
-                </Box>
-               
             </Show>
         </>
     )

@@ -29,13 +29,13 @@ import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { EffectCards } from "swiper"
 import ShowImage from "../../components/restaurant/ShowImage"
-import { Restaurant } from "./restaurant"
+import { Restaurant } from "./data/restaurant"
 import { Link, useParams } from "react-router-dom"
 function LikeorNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const params = useParams()
     console.log(params)
-    const checkimg = Restaurant.filter((e1) => {
+    const property = Restaurant.filter((e1) => {
         return e1.id == parseInt(params.id + "")
     })
 
@@ -43,8 +43,6 @@ function LikeorNope() {
     const skip = () => {
         setres(res + 1)
     }
-
-    
 
     return (
         <AppBody
@@ -62,7 +60,7 @@ function LikeorNope() {
                     <Heading textAlign={"center"}> </Heading>
                 </Box>
 
-                {checkimg.map((e1) => {
+                {property.map((e1) => {
                     return (
                         <>
                             <Box h="20px" mb={"40px"}>
@@ -78,7 +76,7 @@ function LikeorNope() {
                 <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                     <Box>
                         <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
-                            <Link to="/restaurant/detail">
+                            <Link to={`/restaurant/detail/${res}`}>
                                 <AiOutlineLike size={"xl"} />
                             </Link>
                         </Button>
@@ -87,7 +85,7 @@ function LikeorNope() {
                     <Box>
                         <Button onClick={skip} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
                             <Link to={`/restaurant/${res}`}>
-                            <AiOutlineDislike size={"xl"} />
+                                <AiOutlineDislike size={"xl"} />
                             </Link>
                         </Button>
 

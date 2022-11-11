@@ -1,0 +1,20 @@
+export const friend = [
+    {
+        name1: "realไร่",
+        picture1: "https://cdn.discordapp.com/attachments/900658140704559116/1023630299717963848/92C5C070-F9DC-44BA-AF57-F4162FFDCA03.jpg",
+        name2: "ยืนหนึง",
+        picture2: "https://cdn.discordapp.com/attachments/900658140704559116/1023887278273208360/2FB66B55-BCAA-4DE2-BE62-02B193D6369E.jpg",
+        name3: "ผมรู้ผมเห็น",
+        picture3: "https://cdn.discordapp.com/attachments/900658140704559116/1022175158334656573/IMG_20220918_224548.jpg",
+        name4: "Night N",
+        picture4: "",
+        name5: "Pun J",
+        picture5: "",
+        name6: "Ping T",
+        picture6: "",
+        name7: "Eve N",
+        picture7: "",
+        name8: "Bung K",
+        picture8: "",
+    },
+]

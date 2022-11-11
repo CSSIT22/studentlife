@@ -25,7 +25,7 @@ import {
     WrapItem,
     Icon,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import { AiFillGift, AiFillPhone, AiOutlineGlobal, AiOutlineHeart } from "react-icons/ai"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../../components/restaurant/searchbar"
@@ -36,8 +36,9 @@ import ShowImage from "../../../components/restaurant/ShowImage"
 import { Md10K } from "react-icons/md"
 import ReviewContent from "../../../components/restaurant/ReviewContent"
 import { SlActionRedo } from "react-icons/sl"
-import { Restaurant } from "../restaurant"
+import { Restaurant } from ".././data/restaurant"
 import { useParams, Link } from "react-router-dom"
+import { friend } from "../data/friend"
 
 function detail() {
     const shareInfo = {
@@ -58,14 +59,13 @@ function detail() {
         name8: "Bung K",
         picture8: "",
     }
+    // const friendInfo = friend.filter((shareInfo) => {})
     const { isOpen, onOpen, onClose } = useDisclosure()
     const params = useParams()
-    const numres = parseInt(params.id + "")
-    const checkimg = Restaurant.filter((e1) => {
+    const numres = parseInt(params.detailRes + "")
+    const property = Restaurant.filter((e1) => {
         return e1.id == parseInt(params.detailRes + "")
     })
-    console.log(checkimg);
-    
 
     return (
         <AppBody
@@ -77,15 +77,17 @@ function detail() {
         >
             <Searchbar />
             <Center w={"full"} mt={4}>
-                {checkimg.map((e1) => {
+                {property.map((e1) => {
                     return (
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
-                                <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
-                                    <Link to={`/restaurant/${numres}`}>
+                                <Box my={5}>
+                                    <Link to={`/restaurant/review/${numres}`}>
                                         <CloseButton my={-4} ml={-1} />
                                     </Link>
-                                    {e1.resName}
+                                    <Text textAlign={"center"} fontWeight="bold" fontSize={"2xl"} color={"#E65300"}>
+                                        {e1.resName}
+                                    </Text>
                                 </Box>
 
                                 <Grid p={{ base: 0, md: 5 }} templateRows="repeat(1, 1fr)" templateColumns="repeat(8, 1fr)" columnGap={4} rowGap={1}>
@@ -93,7 +95,7 @@ function detail() {
                                         <ShowImage img={e1.img} />
                                         <Box px={4} py={3} display="flex" alignItems="baseline">
                                             <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
-                                                {e1.resName} liked
+                                                {e1.amoutOflike} liked
                                             </Box>
                                             <Spacer />
                                             <Center
@@ -109,7 +111,7 @@ function detail() {
                                                 pt={1}
                                                 pb={1}
                                             >
-                                                <Link to="/restaurant/review">REVIEW</Link>
+                                                <Link to={`/restaurant/review/${numres}`}>REVIEW</Link>
                                             </Center>
                                         </Box>
                                     </GridItem>
@@ -124,7 +126,7 @@ function detail() {
                                             </Text>
 
                                             <Text as="span" color="" fontSize="md">
-                                                STYLE : {e1.resName} <br />
+                                                STYLE : {e1.vicinity} <br />
                                                 <Show above="md">
                                                     <br />
                                                 </Show>
@@ -149,6 +151,8 @@ function detail() {
                                             <AiOutlineHeart size={"full"} />
                                         </Button>
                                         <Spacer />
+                                        {/* {friendInfo.map((shareInfo) => {
+                                            return ( */}
                                         <Popover placement="top">
                                             {({ isOpen, onClose }) => (
                                                 <>
@@ -176,7 +180,11 @@ function detail() {
                                                             <Flex>
                                                                 <Wrap spacing="30px">
                                                                     <WrapItem
-                                                                        _hover={{ background: "red.600", color: "teal.500", borderRadius: "22px" }}
+                                                                        _hover={{
+                                                                            background: "red.600",
+                                                                            color: "teal.500",
+                                                                            borderRadius: "22px",
+                                                                        }}
                                                                     >
                                                                         <Avatar as={"button"} name={shareInfo.name1} src={shareInfo.picture1} />
                                                                     </WrapItem>
@@ -237,6 +245,8 @@ function detail() {
                                                 </>
                                             )}
                                         </Popover>
+                                        {/* )
+                                        })} */}
 
                                         <Spacer />
                                         <Button bg={"green.400"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
