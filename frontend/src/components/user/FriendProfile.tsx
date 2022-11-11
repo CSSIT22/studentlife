@@ -26,6 +26,7 @@ import {
     useToast,
     AlertDialogCloseButton,
     extendTheme,
+    useEditableControls,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -35,6 +36,8 @@ import { Menu, MenuButton, MenuList, MenuItem, MenuItemOption, MenuGroup, MenuOp
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs"
+
+import { Editable, EditableInput, EditableTextarea, EditablePreview } from "@chakra-ui/react"
 
 export default function SimpleThreeColumns() {
     const { isOpen: isReportModalOpen, onOpen: onReportModalOpen, onClose: onReportModalClose } = useDisclosure()
@@ -47,49 +50,84 @@ export default function SimpleThreeColumns() {
     const cancelRef = React.useRef()
 
     const toast = useToast()
+    const breakpoints = {
+        sm: "320px",
+        md: "768px",
+        lg: "960px",
+        xl: "1200px",
+        "2xl": "1536px",
+    }
+
+    // 3. Extend the theme
+    const theme = extendTheme({ breakpoints })
+
+    function EditableControls() {
+        const { isEditing, getSubmitButtonProps, getCancelButtonProps, getEditButtonProps } = useEditableControls()
+
+        return isEditing ? (
+            <Button pl={5} bg="orange.400" position="initial" {...getCancelButtonProps()}>
+                Following
+            </Button>
+        ) : (
+            <Button pl={5} bg="orange.400" position="initial" {...getSubmitButtonProps()}>
+                Follow
+            </Button>
+        )
+    }
 
     return (
-        <Box maxW="100%" borderRadius="none" overflow="hidden" p="5">
+        <Box maxW="100%" mr={0.5} borderRadius="none" overflow="hidden" p="5">
             <Grid
                 templateAreas={`
                   "nav main"
-                  "nav footer"`}
+                  "nav footer"
+                  "nav2 footer2"`}
                 gridTemplateRows={"150px 6fr 300px"}
                 gridTemplateColumns={"150px 1fr"}
-                h="200px"
+                h={{ base: "12rem", md: "15rem" }}
                 gap="1"
                 color="blackAlpha.700"
-                bg="white"
                 fontWeight="bold"
                 borderRadius="md"
-                shadow={"lg"}
+                bg={{ base: "", md: "white" }}
+                shadow={{ base: "", md: "lg" }}
             >
                 <GridItem rounded="xl" area={"nav"}>
                     <VStack align="stretch" alignItems="center">
                         <Avatar pt={2} display="flex" position="initial" size="2xl" name="Christian Nwamba" src="https://bit.ly/code-beast" />{" "}
-                        <Box textAlign="center" color="black" my={4} fontSize={"2xl"} fontWeight={200} fontFamily={"body"}>
+                        <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" rounded="xl" fontSize={"2xl"} area={"main"} fontStyle={"gray.700"}>
-                    <Box p={2}>Id: 64130500XXX</Box>
-                    <Box p={2}>Name: John Doe</Box>
-                    <Box p={2}>Fucuty: SIT Major: Computer Science</Box>
+                <GridItem pl="2" rounded="xl" area="main">
+                    <Flex p={1} mt={2.5} color="black">
+                        Id: 64130500XXX
+                    </Flex>
+
+                    <Box p={1} color="black">
+                        Name: John Doe
+                    </Box>
+                    <Box p={1} color="black">
+                        Fucuty: SIT
+                    </Box>
+                    <Box p={1} color="black">
+                        Major: Computer Science
+                    </Box>
                 </GridItem>
-                <GridItem pl="2" area={"footer"} rounded="xl">
-                    <ButtonGroup color="white" variant="solid" spacing="6">
-                        <Button pl={5} bg="orange.600" position="initial" shadow={"lg"}>
+                <GridItem pl="2" mt={{ base: 3, md: 1 }} area={{ base: "nav2", md: "footer" }}>
+                    <ButtonGroup color="white" variant="outline" spacing="6">
+                        <Button pl={5} bg="orange.400" position="initial">
                             Follow
                         </Button>
-                        <Button pl={5} bg="orange.600" position="initial" shadow={"lg"}>
+                        <Button pl={5} bg="orange.400" position="initial">
                             Message
                         </Button>{" "}
                         <Menu>
                             <MenuButton
                                 as={IconButton}
                                 icon={<BsThreeDotsVertical />}
-                                color="orange.600"
+                                color="orange.400"
                                 aria-label="Options"
                                 position="initial"
                                 variant="solid"

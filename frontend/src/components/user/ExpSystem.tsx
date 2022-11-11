@@ -9,7 +9,7 @@ function ExpSystem() {
                     LV.10
                 </Text>
                 <div></div>
-                <Progress mx="3" position="initial" colorScheme="green" color="gray.400" size="md" value={99} />
+                <Progress mx="3" rounded="xl" position="initial" colorScheme="green" color="gray.400" size="md" value={50} />
                 <Text color="black" ml="5" mb="5" mt={1} fontSize="l" fontWeight="500">
                     EXP : 500/999
                 </Text>
