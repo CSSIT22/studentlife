@@ -156,10 +156,14 @@ export default function Index<FC>() {
             if (dropDuration.perm) {
                 fd.append("duration", "permanent")
             } else {
-                const timeNow = Date.now()
+                const timeNow = Date.now();
                 const addTime = expiredTime.h * 60 * 60 * 1000 + expiredTime.m * 60 * 1000 + expiredTime.s * 1000
                 const expired = timeNow + addTime
-                const expiredDate = new Date(expired).toISOString()
+                
+                const expiredDate = new Date(expired).toLocaleString("en-US", { timeZone: "Asia/Bangkok" });
+                console.log(expiredDate);
+                // console.log(expiredDate.toISOString());
+                
                 fd.append("duration", "temporary")
                 fd.append("expireDate", expiredDate)
             }
@@ -173,6 +177,7 @@ export default function Index<FC>() {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
+                withCredentials: true,
             })
             console.log(res)
         } catch {
@@ -183,13 +188,12 @@ export default function Index<FC>() {
     useEffect(() => {
         if (clickDrop == false) {
             // setSelectedType("Everyone")
-            // if (selectedType === "Everyone") {
-            //     setReceiver(["everyone"])
-            // }
+            if (selectedType === "Everyone") {
+                setReceiver(["everyone"])
+            }
         }
     }, [isOpen])
     useEffect(() => {
-        console.log(user)
         fetchGroup();
         fetchDepartment();
         fetchSpecific();     
@@ -206,7 +210,9 @@ export default function Index<FC>() {
         // setUserList({...userList,specific:res.data})
     }
     const fetchDepartment = async () => {
-        const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment")
+        const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment",{
+            withCredentials:true
+        })
         setUserList({...userList,department:res.data})
     }
     return (

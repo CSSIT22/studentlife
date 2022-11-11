@@ -5,6 +5,7 @@ const airdropRoutes = express()
 
 airdropRoutes.get("/",(req:Request,res:Response)=>{
     res.send("Welcome to airdrop API");
+    console.log(req.user);
 });
 airdropRoutes.use("/file",fileRoutes);
 airdropRoutes.use("/user",userRoutes);
