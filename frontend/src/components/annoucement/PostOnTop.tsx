@@ -1,18 +1,22 @@
 import { Flex, Heading, Spacer, Box, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
-import {GrDown} from 'react-icons/gr'
-import {TfiAnnouncement} from 'react-icons/tfi'
+import { GrDown } from "react-icons/gr"
+import { TfiAnnouncement } from "react-icons/tfi"
 
-const PostOnTop:FC<{
+const PostOnTop: FC<{
     topic: string,
-    sender:string,
-   
-}> = ({topic,sender}) => {
+    sender: string,
+    clickToExpand : Function
+}> = ({ topic, sender,clickToExpand }) => {
+    // function handleClick() {
+
+    // }
+
     return (
         <Box height={"5rem"} width={"100%"} p="5" mt="0" backgroundColor="#D9D9D9" rounded="lg">
             <Flex alignItems={"center"}>
                 <Box pr={"5"}>
-                    <TfiAnnouncement fontSize={"1.5rem"}/>
+                    <TfiAnnouncement fontSize={"1.5rem"} />
                 </Box>
                 <Box>
                     <Heading size={"sm"}>{topic}</Heading>
@@ -20,7 +24,7 @@ const PostOnTop:FC<{
                 </Box>
                 <Spacer />
                 <Box>
-                    <GrDown/>
+                    <GrDown onClick={()=>clickToExpand()} cursor={"pointer"}/>
                 </Box>
             </Flex>
         </Box>
