@@ -28,6 +28,17 @@ const create = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const [tagBtn, setTagBtn] = useState(false)
+
+
+    const handleTagChoose = () => {
+        setTagBtn(!tagBtn)
+    }
+
+    const handleTagCancel = () => {
+        setTagBtn(false)
+    }
+
 
     return (
         <AppBody>
@@ -51,8 +62,10 @@ const create = () => {
                         <FormControl>
                             <Input type='Name' value={GroupName} onChange={textChange} background={"white"} color="black" />
                         </FormControl>
-                        Tags
                         
+                        
+                        
+                        Tags
                         <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='sm'>
                             <FaPlus />
                         </Button>
@@ -66,7 +79,15 @@ const create = () => {
                             <DrawerBody>
                             <HStack gap={2}>
                             {userData.Tag.map((i) => (
-                                <Button colorScheme='green' variant='solid' key={i.tagID} borderRadius ="full">{i.tagName}</Button>
+                                <Button onClick={((handleTagChoose))} 
+                                colorScheme={tagBtn ? 'green': 'yellow'} 
+                                variant='solid' 
+                                key={i.tagID} 
+                                borderRadius ="full" 
+                                size={"md"}
+                                
+                                >{i.tagName}
+                                </Button>
                             ))}
                             </HStack>
                             </DrawerBody>
@@ -75,10 +96,10 @@ const create = () => {
 
 
                         <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} >
-                            {userData.Tag.map((Tags) =>
+                            {userData.Tag.map((Tags) => 
                                 <Tag
-                                    fontSize={"sm"}
-                                    size={"sm"}
+                                    fontSize={"md"}
+                                    size={"md"}
                                     key={Tags.tagID}
                                     borderRadius='full'
                                     variant='solid'
@@ -89,6 +110,10 @@ const create = () => {
                                     <TagCloseButton />
                                 </Tag>)}
                         </HStack>
+
+
+
+                        
                         <HStack>
                             <Text mr={-1}>Privacy</Text>
                             <MdPublic color="White" />
