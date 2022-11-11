@@ -21,6 +21,7 @@ const ModalForEvent: FC<{
                 allPost.map((el) => {
                     if (el.postId == selectPost) {
                         el.status = "delete"
+                        el.expiredAfterDelete = new Date()
                     }
                     return el
                 })
