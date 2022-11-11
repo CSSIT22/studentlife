@@ -98,4 +98,38 @@ export const userData = {
             expireDate: "28",
         },
     ],
+
+    Tag:[
+        {
+            tagID: 1,
+            tagName: "#Sport",
+            tagDescription : "Sport and any outside activity"
+        },
+        {
+            tagID: 2,
+            tagName: "#Game",
+            tagDescription : "PC&Moblie Game, Boardgame"
+        },
+        {
+            tagID: 3,
+            tagName: "#Education",
+            tagDescription : "Learning, Book, Studying"
+        },
+        {
+            tagID: 4,
+            tagName: "#Food",
+            tagDescription : "Food, Cooking, Restaurant"
+        }
+        ,
+        {
+            tagID: 5,
+            tagName: "#IT",
+            tagDescription : "Information and Technology"
+        },
+        {
+            tagID: 6,
+            tagName: "#Hangout",
+            tagDescription : "Movie, Party, Activity, Meeting"
+        }
+    ]
 }
