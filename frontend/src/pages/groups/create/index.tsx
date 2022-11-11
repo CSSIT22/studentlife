@@ -1,11 +1,11 @@
-import { Box, Image, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, Spacer, Link, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
+import { Box, Image, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, Spacer, Link, Tab, TabList, TabPanel, TabPanels, Tabs, TagCloseButton, TagLabel } from "@chakra-ui/react"
 import { FormControl, FormLabel } from '@chakra-ui/react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, } from '@chakra-ui/react'
 import { AddIcon, ChevronRightIcon, EditIcon, ExternalLinkIcon, HamburgerIcon, RepeatIcon, SearchIcon } from "@chakra-ui/icons"
-import { MdPublic, MdPublicOff } from "react-icons/md"
+import { MdPublic, MdPublicOff, MdDesktopWindows } from "react-icons/md"
 import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
-import { MdDesktopWindows } from 'react-icons/md';
 import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
+import { userData } from '../data'
 
 import AppBody from "../../../components/share/app/AppBody"
 import React, { useState } from "react"
@@ -48,11 +48,22 @@ const create = () => {
                         <FormControl>
                             <Input type='Name' value={GroupName} onChange={textChange} background={"white"} color="black" />
                         </FormControl>
-
                         Tags
-                        <Select placeholder='Choose Tags' background={"white"} color="black">
-
-                        </Select>
+                        <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} >
+                            {userData.Tag.map((Tags) =>
+                                <Tag
+                                    fontSize={"sm"}
+                                    size={"sm"}
+                                    key={Tags.tagID}
+                                    borderRadius='full'
+                                    variant='solid'
+                                    colorScheme='green'
+                                    sx={{ marginLeft: '0 !important' }}
+                                >
+                                    <TagLabel>{Tags.tagName}</TagLabel>
+                                    <TagCloseButton />
+                                </Tag>)}
+                        </HStack>
                         <HStack>
                             <Text mr={-1}>Privacy</Text>
                             <MdPublic color="White" />
