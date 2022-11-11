@@ -45,9 +45,7 @@ const history = () => {
     const moreLangLength = postParams[0].addMoreLang.length
 
     //  ยังเคลียร์ field value ตอนเลือก type ใหม่ไม่ได้
-    
-    
-    
+
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
         setIsOpen(true)
@@ -88,39 +86,37 @@ const history = () => {
     const [expired, setExpired] = React.useState(epd[0])
     // console.log("origin: "+tgType[0]+" new: "+targetType);
     // console.log("target value "+targetValue);
-    
-    const selectTargetValue = (tgType:string) => {
-       
-            if (tgType == "Faculty") {
-                return (
-                    <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
-                        <option>Science</option>
-                        <option>Engineering</option>
-                        <option>Information Technology</option>
-                        <option>Economics</option>
-                    </Select>
-                )
-            } else if (tgType == "Major") {
-                return (
-                    <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
-                        <option>Computer Science</option>=
-                        <option>Math</option>
-                        <option>Biology</option>
-                        <option>Chemistry</option>
-                    </Select>
-                )
-            } else if (tgType == "Year") {
-                return (
-                    <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </Select>
-                )
-            } else {
-                return ""
-            }
+
+    const selectTargetValue = (tgType: string) => {
+        if (tgType == "Faculty") {
+            return (
+                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                    <option>Science</option>
+                    <option>Engineering</option>
+                    <option>Information Technology</option>
+                    <option>Economics</option>
+                </Select>
+            )
+        } else if (tgType == "Major") {
+            return (
+                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                    <option>Computer Science</option>=<option>Math</option>
+                    <option>Biology</option>
+                    <option>Chemistry</option>
+                </Select>
+            )
+        } else if (tgType == "Year") {
+            return (
+                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </Select>
+            )
+        } else {
+            return ""
+        }
     }
     // remain this part
     const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
@@ -240,6 +236,7 @@ const history = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
+            px={{ md: "3rem" }}
         >
             {/* <Form> */}
             <Flex alignItems={"center"}>
@@ -291,13 +288,7 @@ const history = () => {
                 </FormControl>
                 <FormControl isRequired>
                     <FormLabel>Expired Date</FormLabel>
-                    <Input
-                        placeholder="Select expired date"
-                        size="md"
-                        type="date"
-                        onChange={(e) => setExpired(e.target.value)}
-                        value={expired}
-                    />
+                    <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} value={expired} />
                 </FormControl>
                 <FormControl>
                     <>

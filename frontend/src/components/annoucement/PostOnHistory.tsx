@@ -39,6 +39,7 @@ const PostOnHistory: FC<{
                 onClick(status, id), onOpen()
             }}
             boxShadow="md"
+            cursor={"pointer"}
         >
             <Flex alignItems={"center"}>
                 <Box pr={"1rem"} width="">

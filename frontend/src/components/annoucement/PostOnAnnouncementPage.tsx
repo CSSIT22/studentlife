@@ -30,9 +30,9 @@ const PostOnAnnouncementPage: FC<{
     }
 
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" >
-            <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-                <GridItem colSpan={4} h="10">
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg">
+            <Grid templateColumns="8fr 1fr" gap={4}>
+                <GridItem h="10">
                     <Link to={`/announcement/detail/${id}`}>
                         <Box>
                             <Heading size={"sm"}>{topic}</Heading>
@@ -41,10 +41,14 @@ const PostOnAnnouncementPage: FC<{
                     </Link>
                 </GridItem>
 
-                <GridItem colStart={5} colEnd={6} h="10">
-                    <Box textAlign={"right"} width="100%">
-                        {state(status)}
-                    </Box>
+                <GridItem h="10" >
+                    
+                        <Box width="100%" cursor={"pointer"}>
+                            <Flex justifyContent={"end"}>
+                            {state(status)}
+                            </Flex>
+                        </Box>
+            
                 </GridItem>
             </Grid>
         </Box>

@@ -7,15 +7,25 @@ import { postInfoTest } from "../postInfoTest"
 
 const detail = () => {
     // อย่าลืมเพิ่มส่วนที่ apply ข้อมูลตาม announcement ที่คลิก
-    const params= useParams().postId;
-    console.log(params);
-    const post = postInfoTest.filter((el) => {return el.postId == parseInt(params+"")})
-    console.log(post);
-    
+    const params = useParams().postId
+    console.log(params)
+    const post = postInfoTest.filter((el) => {
+        return el.postId == parseInt(params + "")
+    })
+    console.log(post)
+
     return (
-        <AppBody>
+        <AppBody
+            secondarynav={[
+                { name: "Announcement", to: "/announcement" },
+                { name: "Approval", to: "/announcement/approval" },
+                { name: "History", to: "/announcement/history" },
+                { name: "Recycle bin", to: "/announcement/recyclebin" },
+            ]}
+            px={{ md: "3rem" }}
+        >
             <Flex alignItems={"center"}>
-                <Text as={"b"} fontSize="xl" opacity={{base:100,lg:0}}>
+                <Text as={"b"} fontSize="xl" opacity={{ base: 100, lg: 0 }}>
                     <Link to="/announcement">
                         <GrClose />
                     </Link>
@@ -24,15 +34,32 @@ const detail = () => {
             </Flex>
             <Stack spacing={3} p="5">
                 <Heading as="h2" size="xl">
-                    {post.map((el) => {return el.topic})}
+                    {post.map((el) => {
+                        return el.topic
+                    })}
                 </Heading>
                 <Box>
-                    <Text fontSize="md">Sender: {post.map((el) => {return el.sender})}</Text>
-                    <Text fontSize="md">To: {post.map((el) => {return el.targetType})} {post.map((el) => {return el.targetValue})}</Text>
+                    <Text fontSize="md">
+                        Sender:{" "}
+                        {post.map((el) => {
+                            return el.sender
+                        })}
+                    </Text>
+                    <Text fontSize="md">
+                        To:{" "}
+                        {post.map((el) => {
+                            return el.targetType
+                        })}{" "}
+                        {post.map((el) => {
+                            return el.targetValue
+                        })}
+                    </Text>
                 </Box>
                 <Box>
                     <Text fontSize="sm" align="justify">
-                    {post.map((el) => {return el.detail})}
+                        {post.map((el) => {
+                            return el.detail
+                        })}
                     </Text>
                 </Box>
             </Stack>

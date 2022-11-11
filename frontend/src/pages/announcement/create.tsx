@@ -90,7 +90,7 @@ const create = () => {
             ...post,
         ])
     }
-    console.log(post);
+    console.log(post)
 
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
@@ -100,10 +100,10 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
     // console.log(expired);
     const addLang = (lang: string, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang,{ lang: lang, topic: topic, detail: detail } ])
+        setAddMoreLang([...addMoreLang, { lang: lang, topic: topic, detail: detail }])
     }
-    console.log(addMoreLang);
-    
+    console.log(addMoreLang)
+
     const ALERT = () => {
         alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
         window.history.go(-1)
@@ -120,17 +120,17 @@ const create = () => {
         setAddMoreLang(addMoreLang.pop())
     }
     console.log(count)
-    const [moreLangField, setMoreLangField] = React.useState <any[]>([])
+    const [moreLangField, setMoreLangField] = React.useState<any[]>([])
     const AddLang = () => {
-        setMoreLangField([...moreLangField,{ count: count }])
+        setMoreLangField([...moreLangField, { count: count }])
     }
-    console.log(moreLangField);
-    
+    console.log(moreLangField)
+
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
     // console.log(moreLangField);
-// console.log(post);
+    // console.log(post);
 
     return (
         <AppBody
@@ -140,18 +140,21 @@ const create = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
+            px={{ md: "3rem" }}
         >
             {/* <Form> */}
             <form>
                 <Flex alignItems={"center"}>
                     <Text as={"b"} fontSize="xl">
                         <Link to={"/announcement"}>
-                        <GrClose />
+                            <Box opacity={{base:100,md:0}}>
+                                <GrClose />
+                            </Box>
                         </Link>
                     </Text>
                     <Spacer />
                     <Box textAlign={"right"}>
-                    {/* <Button
+                        {/* <Button
                         size="sm"
                         bg="#E65300"
                         onClick={() => {addPost(topic, detail, targetType, targetValue, expired, addMoreLang),onOpen()}}
@@ -161,9 +164,24 @@ const create = () => {
                         
                         Announce
                     </Button> */}
-                    {/* <input type={"submit"} value="Announce" backgroundColor="#E65300"/> */}
-                    <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" onClick={() => {addPost(topic, detail, targetType, targetValue, expired, addMoreLang),onOpen()}}/>
-                    <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalCreate.topic} detail={modalCreate.detail} status={modalCreate.event} />
+                        {/* <input type={"submit"} value="Announce" backgroundColor="#E65300"/> */}
+                        <Input
+                            type={"submit"}
+                            value="Announce"
+                            backgroundColor={"#E65300"}
+                            color="white"
+                            onClick={() => {
+                                addPost(topic, detail, targetType, targetValue, expired, addMoreLang), onOpen()
+                            }}
+                            cursor="pointer"
+                        />
+                        <ModalForEvent
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            topic={modalCreate.topic}
+                            detail={modalCreate.detail}
+                            status={modalCreate.event}
+                        />
                     </Box>
                 </Flex>
                 <Stack spacing={3} p="5">
@@ -198,7 +216,7 @@ const create = () => {
                     <FormControl>
                         <>
                             {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang}/>
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
                             })}
                             <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"}>
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
@@ -207,7 +225,7 @@ const create = () => {
                         </>
                     </FormControl>
                 </Stack>
-                </form>
+            </form>
             {/* </Form> */}
         </AppBody>
     )
