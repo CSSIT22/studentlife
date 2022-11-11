@@ -34,17 +34,17 @@ const createtask = () => {
             </Heading>
 
             <Box margin-top={10}>
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" noOfLines={1} marginY={10} marginInline={5}>
                     Task Name
                 </Heading>
                 <Input placeholder="Task Name" size="md" />
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" noOfLines={1} marginY={10} marginInline={5}>
                     Description
                 </Heading>
                 <Input placeholder="Descrription" size="md" />
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" noOfLines={1} marginY={10} marginInline={5}>
                     Due Date
                 </Heading>
                 {/* <Input placeholder="Select Date and Time" size="md" type="datetime-local" /> */}
