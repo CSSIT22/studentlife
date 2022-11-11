@@ -111,6 +111,7 @@ const index = () => {
                                 })
                                 .map((community) => (
                                     <CommunityList
+                                        key={community.ID}
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
@@ -147,6 +148,7 @@ const index = () => {
                                 })
                                 .map((community) => (
                                     <CommunityList
+                                        key={community.ID}
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
