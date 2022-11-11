@@ -2,11 +2,12 @@ import { HStack, Box, Image, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 
-const CommunityList: FC<{ communityName: string; lastActive: string; coverPhoto: string; isPrivate: boolean }> = ({
+const CommunityList: FC<{ communityName: string; lastActive: string; coverPhoto: string; isPrivate: boolean; roleID: number}> = ({
     communityName,
     lastActive,
     coverPhoto,
     isPrivate,
+    roleID
 }) => {
     return (
         <Box _hover={{ backgroundColor: "gray.100", cursor: "pointer" }} borderRadius="md" backgroundColor="gray.200" mt={2}>

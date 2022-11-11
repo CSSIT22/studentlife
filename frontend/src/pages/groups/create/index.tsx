@@ -64,10 +64,14 @@ const create = () => {
                             <FormControl>
                                 <Textarea value={Describe} onChange={DesChange} placeholder=" " size='sm' background={"white"} color="black" />
                             </FormControl>
+
                             <Text mt={2} mb={2}>Add a cover photo</Text>
+                            
                             <Button width="100%" color='black' size={"sm"}>
                                 + Upload Cover Photo
                             </Button>
+
+
                             <Text mt={2} mb={2}>
                                 Invite friends to join this community
                             </Text>

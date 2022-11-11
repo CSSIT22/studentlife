@@ -22,6 +22,9 @@ const index = () => {
     const [allBtn, setAllBtn] = useState(true)
     const [inviteBtn, setInviteBtn] = useState(false)
     const [suggestBtn, setSuggestBtn] = useState(false)
+    const [acceptBtn, setAcceptBtn] = useState(false)
+    const [declinetBtn, setDeclinetBtn] = useState(false)
+
     const handleAllBtnOnClick = () => {
         setAllBtn(true)
         setInviteBtn(false)
@@ -37,6 +40,17 @@ const index = () => {
         setInviteBtn(false)
         setSuggestBtn(true)
     }
+
+    const handleAcceptOnClick = () => {
+        setAcceptBtn(true)
+    }
+
+    const handleDeclineOnClick = () => {
+        setDeclinetBtn(true)
+    }
+
+
+
     //md: 768px
     const { height, width } = useWindowDimensions()
     return (
@@ -95,7 +109,7 @@ const index = () => {
                                 placeholder="Seacrh Community"
                                 focusBorderColor="gray.200"
                             ></Input>
-                            <Link href='http://127.0.0.1:5173/groups/create' isExternal>
+                            <Link href='groups/create' isExternal>
                                 <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
                                     + Create New Community
                                 </Button>
@@ -113,13 +127,15 @@ const index = () => {
                                 .filter((community) => {
                                     return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                 })
-                                .map((community) => (
+                                .map((community) => (community.roleID >= 3 ?(
                                     <CommunityList
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
                                         isPrivate={community.isPrivate}
-                                    />
+                                        roleID ={community.roleID}
+                                    />):
+                                    <div></div>
                                 ))
                         ) : (
                             <Box borderRadius="md" backgroundColor="red.200" mt={2}>
@@ -149,13 +165,16 @@ const index = () => {
                                 .filter((community) => {
                                     return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                 })
-                                .map((community) => (
+                                
+                                .map((community) => (community.roleID < 3 ?(
                                     <CommunityList
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
                                         isPrivate={community.isPrivate}
-                                    />
+                                        roleID ={community.roleID}
+                                    />):
+                                    <div></div>
                                 ))
                         ) : (
                             <Box borderRadius="md" backgroundColor="red.200" mt={2}>

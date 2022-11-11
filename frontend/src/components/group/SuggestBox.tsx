@@ -24,6 +24,7 @@ const SuggestBox: FC<{
             ></Box>
             <Box p={3} borderRadius="md">
                 <Flex direction={"column"} gap={2} justify="space-between">
+                    
                     <div>
                         <Box display="flex" alignItems="center" gap={1}>
                             {isPrivate ? <MdPublicOff /> : <MdPublic />}
