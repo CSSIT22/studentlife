@@ -57,18 +57,7 @@ const snDetail = () => {
     return (
         <AppBody>
             <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
-                <GridItem colSpan={1}>
-                    <VStack py={3}>
-                        <Box as="button" p={1}>
-                            <BiUpArrow />
-                        </Box>
-                        <Text>0</Text>
-                        <Box as="button" p={1}>
-                            <BiDownArrow />
-                        </Box>
-                    </VStack>
-                </GridItem>
-
+                <Spacer />
                 <GridItem colSpan={10} py={2}>
                     <SnDetail
                         topic={"Shortnote name"}
@@ -80,6 +69,7 @@ const snDetail = () => {
                         user={"Shortnote Shotenot"}
                     />
                 </GridItem>
+                <Spacer />
             </Grid>
             <Grid templateColumns="repeat(14, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
                 <Spacer />

@@ -49,7 +49,7 @@ import {
 import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
-import { BiLibrary } from "react-icons/bi"
+import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
 
 const liList: FC<{
@@ -81,9 +81,6 @@ const liList: FC<{
                 </Menu>
             </HStack>
 
-            <Text mb={1} mt={-1}>
-                Posted by {user}
-            </Text>
             <Heading size={"sm"} bg={"orange.500"} color={"white"} rounded={8} w={20} py={1} mb={6} textAlign={"center"} boxShadow={"xl"}>
                 {course}
             </Heading>
@@ -94,6 +91,19 @@ const liList: FC<{
                 <Heading size={"md"}>Link</Heading>
                 <Text>{link}</Text>
             </Box>
+            <HStack>
+                <HStack py={3}>
+                    <Button variant={"ghost"}>
+                        <BiUpArrow />
+                    </Button>
+                    <Text>0</Text>
+                    <Button variant={"ghost"}>
+                        <BiDownArrow />
+                    </Button>
+                </HStack>
+                <Spacer />
+                <Text fontSize={"xs"}>Posted by {user}</Text>
+            </HStack>
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
