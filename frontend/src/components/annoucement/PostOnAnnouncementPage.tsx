@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react"
+import { Box, Flex, Grid, GridItem, Heading, Spacer, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { BsPinAngle, BsPinAngleFill } from "react-icons/all"
 import { Link } from "react-router-dom"
@@ -31,20 +31,24 @@ const PostOnAnnouncementPage: FC<{
     }
 
     return (
-        <Link to={`/announcement/detail/${id}`}>
-            <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => onSelectPost(id)}>
-                <Flex alignItems={"center"}>
-                    <Box>
-                        <Heading size={"sm"}>{topic}</Heading>
-                        <Text fontSize={"xs"}>{sender}</Text>
-                    </Box>
-                    <Spacer />
-                    <Box textAlign={"right"} pr={"1rem"} width="">
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => onSelectPost(id)}>
+            <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+                <GridItem colSpan={4} h="10">
+                    <Link to={`/announcement/detail/${id}`}>
+                        <Box>
+                            <Heading size={"sm"}>{topic}</Heading>
+                            <Text fontSize={"xs"}>{sender}</Text>
+                        </Box>
+                    </Link>
+                </GridItem>
+
+                <GridItem colStart={5} colEnd={6} h="10">
+                    <Box textAlign={"right"} width="100%">
                         {state(status)}
                     </Box>
-                </Flex>
-            </Box>
-        </Link>
+                </GridItem>
+            </Grid>
+        </Box>
     )
 }
 
