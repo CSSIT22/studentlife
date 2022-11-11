@@ -11,7 +11,16 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverFooter,
+    PopoverHeader,
+    PopoverTrigger,
     Button,
+    ButtonGroup,
     Image,
     AlertDialog,
     AlertDialogBody,
@@ -86,8 +95,31 @@ const task = () => {
                 </Heading>
                 <Select placeholder="3 days before due date" size="md"></Select>
                 <Box display="flex" justifyContent="space-between" alignItems="center" marginY={10}>
-                    <IconButton bgColor={"orange.200"} aria-label="Go Back" padding="20px" marginX="5px" icon={<DeleteIcon />} />
-                    <IconButton bgColor={"orange.200"} aria-label="Go Back" padding="20px" marginX="5px" icon={<CheckIcon />} />
+                    <Button onClick={onOpen} bgColor="orange.200" width="40px" h="40px">
+                        <DeleteIcon />
+                    </Button>
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                        <ModalOverlay />
+                        <ModalContent textAlign={"center"}>
+                            <ModalHeader fontWeight="800" fontSize={"35px"}>
+                                !! Warning !!
+                            </ModalHeader>
+                            <VStack spacing={3} pt="30px">
+                                <Text fontSize={"20px"} fontWeight="500">
+                                    Do you want to delete ?
+                                </Text>
+                            </VStack>
+                            <ModalCloseButton />
+                            <ModalFooter justifyContent={"center"} pt="60px">
+                                <Button colorScheme="red" mr={3} onClick={onClose}>
+                                    No
+                                </Button>
+                                <Button colorScheme="green" mr={3} onClick={onClose}>
+                                    Yes
+                                </Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
                 </Box>
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
