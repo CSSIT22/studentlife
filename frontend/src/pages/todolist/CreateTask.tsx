@@ -39,27 +39,26 @@ const createtask = () => {
                 </Heading>
                 <Input placeholder="Task Name" size="md" />
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10} marginInline={5}>
+                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
                 <Input placeholder="Descrription" size="md" />
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={2} marginInline={5}>
+                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
                 </Heading>
-                {/* <Input placeholder="Select Date and Time" size="md" type="datetime-local" /> */}
                 <label>
                     <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" />
                 </label>
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
                 <form>
                     <input id="appt-time" type="time" name="appt-time" />
                 </form>
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Type
                 </Heading>
                 <Select placeholder="Choose" size="md">
@@ -67,7 +66,7 @@ const createtask = () => {
                     <option value="option2">Group</option>
                 </Select>
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Alert
                 </Heading>
                 <Select placeholder="Choose" size="md">
