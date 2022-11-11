@@ -3,6 +3,7 @@ import { Box, Center, SimpleGrid, Tag, Text } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
+import { motion } from "framer-motion"
 
 const DatingRandomizationMobilePage: FC<{
     CARD_QUEUE: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }[]
@@ -12,7 +13,6 @@ const DatingRandomizationMobilePage: FC<{
     const characters = CARD_QUEUE
     const interests = INTERESTS
     const currentIndexRef = useRef(currentIndex)
-    const [lastDirection, setLastDirection] = useState()
 
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
@@ -31,7 +31,6 @@ const DatingRandomizationMobilePage: FC<{
 
     const swiped = (direction: any, nameToDelete: any, index: any) => {
         console.log("Swiping " + nameToDelete + " to the " + direction)
-        setLastDirection(direction)
         updateCurrentIndex(index - 1)
     }
 
@@ -52,31 +51,33 @@ const DatingRandomizationMobilePage: FC<{
                 <Box>
                     <Box className="cardContainer">
                         {characters.map((character, index) => (
-                            <TinderCard
-                                ref={childRefs[index]}
-                                className="swipe"
-                                key={character.UserId}
-                                onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
-                                onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
-                                preventSwipe={["down", "up"]}
-                                swipeThreshold={1}
-                            >
-                                <Center>
-                                    <Box
-                                        borderRadius="10px"
-                                        backgroundImage={character.url}
-                                        w="326px"
-                                        h="402px"
-                                        backgroundSize="cover"
-                                        className="card"
-                                        pl="1rem"
-                                        id={character.UserId}
-                                        position="absolute"
-                                        top="30px"
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    ></Box>
-                                </Center>
-                            </TinderCard>
+                            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                                <TinderCard
+                                    ref={childRefs[index]}
+                                    className="swipe"
+                                    key={character.UserId}
+                                    onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
+                                    onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
+                                    preventSwipe={["down", "up"]}
+                                    swipeThreshold={1}
+                                >
+                                    <Center>
+                                        <Box
+                                            borderRadius="10px"
+                                            backgroundImage={character.url}
+                                            w="326px"
+                                            h="402px"
+                                            backgroundSize="cover"
+                                            className="card"
+                                            pl="1rem"
+                                            id={character.UserId}
+                                            position="absolute"
+                                            top="30px"
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                        ></Box>
+                                    </Center>
+                                </TinderCard>
+                            </motion.div>
                         ))}
                     </Box>
                 </Box>
@@ -111,41 +112,54 @@ const DatingRandomizationMobilePage: FC<{
                                 style={{ WebkitOverflowScrolling: "touch" }}
                             >
                                 {characters[currentIndex].interestId.map((id) => (
-                                    <Tag
-                                        backgroundColor="orange.600"
-                                        color="white"
-                                        mr="0.5"
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    >
-                                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                            {
-                                                interests[characters[currentIndex].interestId[characters[currentIndex].interestId.indexOf(id)]]
-                                                    .interestName
-                                            }
-                                        </Text>
-                                    </Tag>
+                                    <motion.div style={{display: "inline-block"}} whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.2 }}>
+                                        <Tag
+                                            backgroundColor="orange.600"
+                                            color="white"
+                                            mr="0.5"
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                        >
+                                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                                {
+                                                    interests[characters[currentIndex].interestId[characters[currentIndex].interestId.indexOf(id)]]
+                                                        .interestName
+                                                }
+                                            </Text>
+                                        </Tag>
+                                    </motion.div>
                                 ))}
                             </Box>
                         </Box>
                         <Center display="flex" pt="18px" pl="18px">
-                            <Box onClick={() => swipe("left")} pr="72px">
+                            <motion.div
+                                style={{ marginRight: "72px" }}
+                                onClick={() => swipe("left")}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.8 }}
+                            >
                                 <AiOutlineStop size="62px" color="black" />
-                            </Box>
-                            <Box onClick={() => swipe("right")} pl="72px">
+                            </motion.div>
+
+                            <motion.div
+                                style={{ marginLeft: "72px" }}
+                                onClick={() => swipe("right")}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.8 }}
+                            >
                                 <AiOutlineHeart size="62px" color="black" />
-                            </Box>
+                            </motion.div>
                         </Center>
                     </>
                 ) : (
                     <>
-                        {" "}
-                        <Center display="flex" pt="614px" pl="18px">
-                            <Box onClick={() => swipe("left")} pr="72px">
+                        <Center display="flex" pt="18px" pl="18px">
+                            <motion.div style={{ marginRight: "72px", marginTop: "596px" }} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
                                 <AiOutlineStop size="62px" color="black" />
-                            </Box>
-                            <Box onClick={() => swipe("right")} pl="72px">
+                            </motion.div>
+
+                            <motion.div style={{ marginLeft: "72px", marginTop: "596px" }} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
                                 <AiOutlineHeart size="62px" color="black" />
-                            </Box>
+                            </motion.div>
                         </Center>
                     </>
                 )}
