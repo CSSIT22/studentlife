@@ -1,9 +1,10 @@
-import { Box, Button, Flex, Img } from "@chakra-ui/react"
+import { Box, Button, Flex, Img ,Hide,Show} from "@chakra-ui/react"
 import { Avatar } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { FC, useState } from "react"
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
 import { Input } from "@chakra-ui/react"
+import DrawerExample from "./drawer"
 
 type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
 
@@ -88,7 +89,7 @@ const Clist: FC<any> = () => {
     const renderRoom = (e: any) => {
         if (target === 1 && e.roomtype === "individual") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.roomID}>
                     <Flex
                         alignItems={"center"}
                         key={e.roomID}
@@ -102,13 +103,16 @@ const Clist: FC<any> = () => {
                         <Avatar name={e.Roomname} src={e.img} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
-                    <Cmenu room={e}/>
+                    <Show above="md">
+                        <Cmenu room={e}/>
+                    </Show>
+                    <Show below="md" ><DrawerExample item = {e} setuserRoom={setuserRoom} userRoom = {userRoom}/></Show> 
                 </Flex>
             )
         }
         if (target === 2 && e.roomtype === "group") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.roomID}>
                     <Flex
                         alignItems={"center"}
                         key={e.roomID}
@@ -122,7 +126,10 @@ const Clist: FC<any> = () => {
                         <Avatar name={e.Roomname} src={e.img} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
-                    <Cmenu room={e}/>
+                    <Show above="md">
+                        <Cmenu room={e}/>
+                    </Show>
+                    <Show below="md" ><DrawerExample item = {e} setuserRoom={setuserRoom} userRoom = {userRoom}/></Show> 
                 </Flex>
             )
         }
@@ -137,7 +144,7 @@ const Clist: FC<any> = () => {
     }
 
     return (
-        <Box minH={{ base: "80vh", md: "700px" }} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
+        <Box minH={{ base: "80vh", md: "700px" }} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"} >
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
