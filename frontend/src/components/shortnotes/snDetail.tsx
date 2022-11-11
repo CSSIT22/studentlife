@@ -99,19 +99,31 @@ const liList: FC<{
             <Box mb={4}>
                 <Text>{desc}</Text>
             </Box>
-            <Box>
+            <Box mb={4}>
                 <Heading size={"md"}>Link</Heading>
                 <Text>{link}</Text>
             </Box>
             <HStack>
-                <HStack py={3}>
-                    <Button variant={"ghost"}>
-                        <BiUpArrow />
-                    </Button>
+                <HStack>
+                    <Box as="button">
+                        <Text
+                            fontSize={"30px"}
+                            _hover={{ bg: "#ebedf0" }}
+                            _active={{
+                                bg: "#dddfe2",
+                                transform: "scale(0.98)",
+                                borderColor: "#bec3c9",
+                            }}
+                        >
+                            <BiUpArrow />
+                        </Text>
+                    </Box>
                     <Text>0</Text>
-                    <Button variant={"ghost"}>
-                        <BiDownArrow />
-                    </Button>
+                    <Box as="button">
+                        <Text fontSize={"30px"}>
+                            <BiDownArrow />
+                        </Text>
+                    </Box>
                 </HStack>
                 <Spacer />
                 <Text fontSize={"xs"}>Posted by {user}</Text>

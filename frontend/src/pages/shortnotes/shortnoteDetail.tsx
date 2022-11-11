@@ -57,8 +57,8 @@ const snDetail = () => {
     return (
         <AppBody>
             <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
-                <Spacer />
-                <GridItem colSpan={10} py={2}>
+                {/* <Spacer /> */}
+                <GridItem colSpan={12} py={2} p={6}>
                     <SnDetail
                         topic={"Shortnote name"}
                         course={"CSC213"}
@@ -69,11 +69,11 @@ const snDetail = () => {
                         user={"Shortnote Shotenot"}
                     />
                 </GridItem>
-                <Spacer />
+                {/* <Spacer /> */}
             </Grid>
-            <Grid templateColumns="repeat(14, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
-                <Spacer />
-                <GridItem colSpan={12} py={6}>
+            <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
+                {/* <Spacer /> */}
+                <GridItem colSpan={12}>
                     <Box mb={4} boxShadow={"base"} rounded={8} p={4}>
                         <Box>
                             <Heading size={"md"} mb={1}>
