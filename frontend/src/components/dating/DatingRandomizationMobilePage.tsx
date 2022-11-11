@@ -84,15 +84,20 @@ const DatingRandomizationMobilePage: FC<{
                     <>
                         <Box display="flex">
                             <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                                {characters[currentIndex].Fname} {characters[currentIndex].Lname.substring(0, 1)}.
+                                {characters[currentIndex].Fname.length >= 15
+                                    ? characters[currentIndex].Fname.substring(0, 15).concat("...")
+                                    : characters[currentIndex].Fname}{" "}
+                                {characters[currentIndex].Lname.substring(0, 1)}.
                             </Text>
                             <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                                {characters[currentIndex].Gender} , {characters[currentIndex].Age}
+                                {characters[currentIndex].Gender}, {characters[currentIndex].Age}
                             </Text>
                         </Box>
                         <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
                             <Text pl="18px" pt="10px">
-                                {characters[currentIndex].Faculty.substring(0, 30).trim()}...
+                                {characters[currentIndex].Faculty.length >= 30
+                                    ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
+                                    : characters[currentIndex].Faculty.trim()}
                             </Text>
                         </Box>
                         <Box height="70px" overflow="hidden">
@@ -105,56 +110,21 @@ const DatingRandomizationMobilePage: FC<{
                                 whiteSpace="nowrap"
                                 style={{ WebkitOverflowScrolling: "touch" }}
                             >
-                                <Tag
-                                    backgroundColor="orange.600"
-                                    color="white"
-                                    mr="0.5"
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                >
-                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                        {interests[characters[currentIndex].interestId[0]].interestName}
-                                    </Text>
-                                </Tag>
-                                <Tag
-                                    backgroundColor="orange.600"
-                                    color="white"
-                                    mr="0.5"
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                >
-                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                        {interests[characters[currentIndex].interestId[1]].interestName}
-                                    </Text>
-                                </Tag>
-                                <Tag
-                                    backgroundColor="orange.600"
-                                    color="white"
-                                    mr="0.5"
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                >
-                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                        {interests[characters[currentIndex].interestId[2]].interestName}
-                                    </Text>
-                                </Tag>
-                                <Tag
-                                    backgroundColor="orange.600"
-                                    color="white"
-                                    mr="0.5"
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                >
-                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                        {interests[characters[currentIndex].interestId[3]].interestName}
-                                    </Text>
-                                </Tag>
-                                <Tag
-                                    backgroundColor="orange.600"
-                                    color="white"
-                                    mr="0.5"
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                >
-                                    <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                        {interests[characters[currentIndex].interestId[4]].interestName}
-                                    </Text>
-                                </Tag>
+                                {characters[currentIndex].interestId.map((id) => (
+                                    <Tag
+                                        backgroundColor="orange.600"
+                                        color="white"
+                                        mr="0.5"
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    >
+                                        <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                                            {
+                                                interests[characters[currentIndex].interestId[characters[currentIndex].interestId.indexOf(id)]]
+                                                    .interestName
+                                            }
+                                        </Text>
+                                    </Tag>
+                                ))}
                             </Box>
                         </Box>
                         <Center display="flex" pt="18px" pl="18px">
