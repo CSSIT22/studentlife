@@ -13,20 +13,22 @@ const index = () => {
     //     { topic: "SIT Esport", sender: "SAMO-SIT", status: false, id: 11 },
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: false, id: 12 },
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: false, id: 13 },
-    // ]
+    // 
+    // const nonexpired = postInfoTest.filter((el) => {
+    //     const current = new Date().toISOString
+    // })
+    const minute = 1000*60
+    const hour = minute *60
+    const day = hour*24
+    const year = day *365
+
+    const date = new Date(); 
+    const current = Math.round(date.getTime() / day)
+
+    // console.log(postInfoTest[0].expiredOfPost);
+    
     const [allPost, setAllPost] = React.useState(postInfoTest)
-    const [selectPost, setSelectPost] = React.useState(Number)
-    const onSelectPost = (postId: number) => {
-        setSelectPost(postId)
-        // console.log(postId);
-    }
-    // const detail = () => {
-    //     return (
-    //         <Link to="/announcement/detail/:postid">
-    //             <DetailPost selectPost={selectPost} posts={allPost} />
-    //         </Link>
-    //     )
-    // }
+
     return (
         <AppBody
             secondarynav={[
@@ -44,7 +46,11 @@ const index = () => {
             </Flex>
             {allPost
                 .filter((p) => {
-                    return p.pinStatus == true && p.isApprove == true
+                    const expired= new Date (p.expiredOfPost)
+                    const expiredPost = Math.round(expired.getTime() / day)
+                    const diff = expiredPost-current+1
+                    // console.log("current:"+current+" expired:"+expiredPost+" diff:"+(expiredPost-current+1));
+                    return p.pinStatus == true && p.isApprove == true &&  diff > 0 
                 })
                 .map((el) => {
                     return (
@@ -55,14 +61,16 @@ const index = () => {
                             allPost={allPost}
                             setAllPost={setAllPost}
                             id={el.postId}
-                            onSelectPost={onSelectPost}
                             key={el.postId}
                         />
                     )
                 })}
             {allPost
                 .filter((p) => {
-                    return p.pinStatus == false && p.isApprove == true
+                    const expired= new Date (p.expiredOfPost)
+                    const expiredPost = Math.round(expired.getTime() / day)
+                    const diff = expiredPost-current+1
+                    return p.pinStatus == false && p.isApprove == true &&  diff > 0
                 })
                 .map((el) => {
                     return (
@@ -73,7 +81,6 @@ const index = () => {
                             allPost={allPost}
                             setAllPost={setAllPost}
                             id={el.postId}
-                            onSelectPost={onSelectPost}
                             key={el.postId}
                         />
                     )
