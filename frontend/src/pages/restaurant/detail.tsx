@@ -70,7 +70,9 @@ function detail() {
         picture8: "",
     }
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+function addFavorite(){
+    
+}
     return (
         <AppBody
             secondarynav={[
@@ -80,7 +82,7 @@ function detail() {
             ]}
         >
             <Searchbar />
-            <Center w={"full"} mt={4}>
+            <Center bg={'white'} w={"full"} mt={4} boxShadow={'lg'}>
                 <Box px={2} width="full" borderWidth="1px" borderRadius="lg">
                     <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
                         <Link href="/restaurant">
@@ -115,8 +117,8 @@ function detail() {
                             </Box>
                         </GridItem>
 
-                        <GridItem colSpan={{ base: 8, md: 4 }}>
-                            <Box w={"full"} backgroundColor={"white"} px={"7"} py={5} borderRadius="10px" shadow={"md"}>
+                        <GridItem display={'flex'} alignItems={'center'} colSpan={{ base: 8, md: 4 }}>
+                            <Box  w={'full'} textAlign={'center'}>
                                 <Text color="" fontSize="md">
                                     OPEN - CLOSE : {property.openTime} - {property.closeTime} <br />
                                     <Show above="md">
@@ -140,13 +142,15 @@ function detail() {
                                         <Text as="u">Click here</Text>
                                     </Link>
                                 </Text>
-                            </Box>
+                                </Box>
+                            
                         </GridItem>
                     </Grid>
 
                     <Box p="5">
                         <Flex mt={10}>
-                            <Button bg={"tomato"} color="white" width="50px" h="50px" border={1} borderRadius={"full"} p={4}>
+                            <Button bg={""} color="" width="50px" h="50px" border={1} borderRadius={"full"} p={0}
+                            onClick >
                                 <AiOutlineHeart size={"full"} />
                             </Button>
                             <Spacer />
@@ -238,7 +242,7 @@ function detail() {
                             </Popover>
 
                             <Spacer />
-                            <Button bg={"green.400"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
+                            <Button bg={"orange.500"} boxShadow={'lg'} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
                                 <Link href="https://www.google.co.th/maps/">GO</Link>
                             </Button>
                         </Flex>
