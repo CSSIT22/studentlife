@@ -48,7 +48,7 @@ const index = () => {
                 .filter((p) => {
                     const expired= new Date (p.expiredOfPost)
                     const expiredPost = Math.round(expired.getTime() / day)
-                    const diff = expiredPost-current+1
+                    const diff = expiredPost-current
                     // console.log("current:"+current+" expired:"+expiredPost+" diff:"+(expiredPost-current+1));
                     return p.pinStatus == true && p.isApprove == true &&  diff > 0 
                 })
@@ -69,7 +69,7 @@ const index = () => {
                 .filter((p) => {
                     const expired= new Date (p.expiredOfPost)
                     const expiredPost = Math.round(expired.getTime() / day)
-                    const diff = expiredPost-current+1
+                    const diff = expiredPost-current
                     return p.pinStatus == false && p.isApprove == true &&  diff > 0
                 })
                 .map((el) => {
