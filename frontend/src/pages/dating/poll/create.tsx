@@ -11,7 +11,6 @@ import {
     Text,
     Button,
     useToast,
-    SimpleGrid,
     useDisclosure,
     Modal,
     ModalOverlay,
@@ -27,37 +26,67 @@ import {
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
 
+declare global {
+    var isPassDate: boolean
+}
+
 const CreateActivityPoll = () => {
+    // This use for set state to all variable
     const [header, setHeaderInput] = useState("")
     const handleInputHeaderChange = (e: any) => setHeaderInput(e.target.value)
     const [description, setDescriptionInput] = useState("")
     const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
     const [location, setLocationInput] = useState("")
+    const handleInputDateChange = (e: any) => {
+        setDateInput(e.target.value)
+    }
+    const [date, setDateInput] = useState("")
     const handleInputLocationChange = (e: any) => {
         setLocationInput(e.target.value)
     }
+    //Tost for error message when submit
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    //Validate the Header
     const isTooLongHeader = header.length >= 100
     const isTooShortHeader = header.length < 10
-    let isValidHeader = isTooLongHeader && isTooShortHeader
+    let isValidHeader = isTooLongHeader && isTooShortHeader // Use for check all Header validate
+    //Validate the Description
     const isTooLongDescription = description.length >= 250
+    //Validate the location
     const isTooLongLocation = location.length >= 100
     const isTooShortLocation = location.length < 5
-    let isValidLocation = isTooLongLocation && isTooShortLocation
+    let isValidLocation = isTooLongLocation && isTooShortLocation // Use for check all Location validate
+    //Validate the date (I don't know why it worked, but it worked lol)
+    const isNoDate = date.length < 8
+    let isValidDate = !isNoDate && !globalThis.isPassDate // Use for check all Date validate
 
-    const res = ["Somchai Hotel", "Somsri Resturant"]
+    //Restaurant name
+    const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
 
-    function handleChoose(locate: any) {
-        console.log(locate)
-        setLocationInput(locate)
+    function isInThePast(d: any) {
+        const today = new Date()
+        //today.setHours(0, 0, 0, 0)
+        const previous = new Date(today.getTime())
+        previous.setDate(today.getDate() - 1)
+        today.toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })
+        const date = new Date(d)
+        //date.setHours(0, 0, 0, 0)
+        date.toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })
+        // IDK Why it worked
+        // It should be (date > previous && date !== previous) === true
+        globalThis.isPassDate = (date < previous && date !== previous) === true // Set value for validation
+        //console.log(today + " & " + date)
+        return (date < previous && date !== previous) === true
     }
 
     function handleSubmit() {
-        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription) {
-            alert("Header: " + header + " Description: " + description + " Location: " + location)
+        // Validate all value before submit to database
+        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate) {
+            alert("Header: " + header + " Description: " + description + " Location: " + location + " Date: " + date)
         } else {
+            // Error message
             toast({
                 title: "Invalid input!",
                 description: "Your poll is incomplete. Please edit and resubmit.",
@@ -77,6 +106,7 @@ const CreateActivityPoll = () => {
                 </Heading>
                 <Stack>
                     <Center>
+                        {/* Header input & error control */}
                         <FormControl isInvalid={!isValidHeader} isRequired>
                             <FormLabel color={"white"}>Poll header</FormLabel>
                             <Input
@@ -107,6 +137,7 @@ const CreateActivityPoll = () => {
                         </FormControl>
                     </Center>
                     <Center>
+                        {/* Topic (tag of interest) input & error control */}
                         <FormControl isRequired>
                             <FormLabel color={"white"}>Poll topic</FormLabel>
                             <Button
@@ -119,7 +150,7 @@ const CreateActivityPoll = () => {
                                 p="20px"
                                 pt="5px"
                                 pb="5px"
-                                //isCentered
+                                shadow="lg"
                             >
                                 Select poll topic
                             </Button>
@@ -137,6 +168,7 @@ const CreateActivityPoll = () => {
                         </FormControl>
                     </Center>
                     <Center>
+                        {/* Description input & error control */}
                         <FormControl isInvalid={isTooLongDescription} pt="8px">
                             <FormLabel color={"white"}>Poll description</FormLabel>
                             <Textarea
@@ -162,9 +194,9 @@ const CreateActivityPoll = () => {
                             )}
                         </FormControl>
                     </Center>
-                    {/* <Center> */}
 
                     <FormControl isInvalid={!isValidLocation} isRequired>
+                        {/* Location input & error control */}
                         <FormLabel color={"white"}>Location</FormLabel>
                         <Flex>
                             <Input
@@ -182,6 +214,7 @@ const CreateActivityPoll = () => {
                                 isRequired
                                 shadow="lg"
                             />
+                            {/* IMPORTANT!!! */}
                             {/* If that user haven't use the restaurant function we should block this feature*/}
                             <Select
                                 borderRadius={"6px"}
@@ -192,9 +225,7 @@ const CreateActivityPoll = () => {
                                 errorBorderColor="red"
                                 shadow="lg"
                                 onChange={(e: any) => {
-                                    // handleChoose
                                     handleInputLocationChange(e)
-                                    // console.log("VA: " + state.value)
                                 }}
                             >
                                 {res.map((value) => {
@@ -213,9 +244,33 @@ const CreateActivityPoll = () => {
                             <FormErrorMessage color="yellow">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
                         )}
                     </FormControl>
-
-                    {/* </Center> */}
+                    {/* Date input & error control */}
+                    <FormControl isInvalid={!isValidDate} isRequired>
+                        <FormLabel color={"white"}>Date</FormLabel>
+                        <Input
+                            borderRadius={"6px"}
+                            id="header"
+                            type="date"
+                            value={date}
+                            onChange={handleInputDateChange}
+                            backgroundColor="white"
+                            size="sm"
+                            borderColor="white"
+                            errorBorderColor="red"
+                            isRequired
+                            shadow="lg"
+                        />
+                        {/* Somehow this two are switching IDK why*/}
+                        {/* It should be isNoDate then isInThePast(date) */}
+                        {isInThePast(date) ? (
+                            <FormHelperText></FormHelperText>
+                        ) : (
+                            <FormErrorMessage color="yellow">You must provide a date.</FormErrorMessage>
+                        )}
+                        {isNoDate ? <FormHelperText></FormHelperText> : <FormErrorMessage color="yellow">The date has passed.</FormErrorMessage>}
+                    </FormControl>
                     <Center>
+                        {/* Submit button */}
                         <Button type="submit" borderRadius={"full"} colorScheme="orange" onClick={() => handleSubmit()} mt={"80px"} p="30px">
                             Done
                         </Button>
