@@ -4,13 +4,18 @@ import NotiObject from "./NotiObject"
 import { OBJECTS } from "./objectsTest"
 
 const NotiList: FC<{ selectedList: any[]; date: Date }> = ({ selectedList, date }) => {
+    // console.log(selectedList)
+    const sortedList = selectedList.sort((a, b) => {
+        return b.date - a.date
+    })
+    //console.log(sortedList)
+
     //prop = date
     const monthsArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     let month = monthsArray[date.getMonth()]
-    const notiListdate: any[] = selectedList.filter((el) => el.date === date)
+    const notiListdate: any[] = sortedList.filter((el) => el.date === date)
     // console.log("-------------------")
     // console.log(notiListdate)
-
     return (
         <Box>
             {notiListdate.map((el) => {
