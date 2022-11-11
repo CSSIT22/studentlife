@@ -51,6 +51,8 @@ import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
+import { useNavigate } from "react-router-dom"
+import search from "src/pages/restaurant/search"
 
 const liList: FC<{
     topic: String
@@ -62,6 +64,14 @@ const liList: FC<{
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const navigate = useNavigate()
+    const goToUpload = () => {
+        navigate({
+            pathname: "../../airdrop",
+            search: "?type=shortnotes",
+        })
+    }
     return (
         <Box>
             <HStack>
@@ -73,7 +83,9 @@ const liList: FC<{
                         <MenuItem icon={<BiLibrary />} onClick={mliOnOpen}>
                             Add to library
                         </MenuItem>
-                        <MenuItem icon={<AiOutlineUpload />}>Upload file</MenuItem>
+                        <MenuItem icon={<AiOutlineUpload />} onClick={goToUpload}>
+                            Upload file
+                        </MenuItem>
                         <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
                             Delete
                         </MenuItem>
