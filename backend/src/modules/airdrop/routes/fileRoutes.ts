@@ -16,33 +16,75 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, "../files" + "/" + fileType))
     },
     filename: function (req: any, file: any, cb: any) {
-        cb(null, file.originalname)
+        cb(null, req.user?.userId + file.originalname)
     },
 })
 const upload = multer({ storage: storage })
 
 const fileRoutes = express()
 
-fileRoutes.get("/", async (req: Request, res: Response)=>{
+fileRoutes.get("/", async (req: Request, res: Response) => {
     console.log(req.user?.userId)
+})
+
+fileRoutes.get("/getallfile", async (req: Request, res: Response) => {
+    console.log(req.user?.userId)
+    //fetch everone type
+    try {
+        const isShow = await prisma.user_Show_File.findMany({
+            where: {
+                userId: req.user?.userId,
+            },
+            select: {
+                fileId: true,
+            },
+        })
+        const everyone = await prisma.file_Info.findMany({
+            where: {
+                AND: [
+                    {
+                        fileSender:{
+                            not: req.user?.userId,
+                        }
+                    },
+                    {
+                        AND: [
+                            {
+                                fileId: {
+                                    notIn: isShow.map((item) => item.fileId),
+                                },
+                            },
+                            {
+                                sendType: "Everyone",
+                            },
+                        ],
+                    },
+                ],
+            },
+        })
+
+        res.json(everyone)
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 fileRoutes.post("/upload", upload.array("files"), async (req: Request, res: Response) => {
     console.log("Upload sucessful")
     console.log(req.body)
-    const sender = req.user?.userId;
-    console.log(sender);
+    const sender = await req.user?.userId
+    console.log(sender)
     try {
         const payload: any = []
         //mapping files
         ;(req.files as Array<Express.Multer.File>).map((item: any) => {
-            const newDate = new Date(req.body.expireDate);
+            const newDate = new Date(req.body.expireDate)
             payload.push({
                 fileName: item.originalname,
                 fileSender: sender,
                 sendType: req.body.type,
                 fileDesc: req.body.description,
-                fileExpired: req.body.expireDate,
+                fileExpired: newDate,
             })
         })
 
