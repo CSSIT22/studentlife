@@ -45,7 +45,8 @@ const TagOfInterest = () => {
                     </Box>
                 </GridItem>
                 {/* DatingInterestDynamicButton component: Skip & Done button */}
-                <GridItem pl="2" area={"button"} mt={{base: "6px", md: "10px"}}>
+
+                <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }}>
                     <DatingInterestDynamicButton
                         numOfSelectedInterest={selectedInterests.length}
                         selectedInterests={selectedInterests}
