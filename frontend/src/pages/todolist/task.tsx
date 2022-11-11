@@ -50,8 +50,8 @@ import { DeleteIcon } from "@chakra-ui/icons"
 import { CheckIcon } from "@chakra-ui/icons"
 
 const task = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = React.useRef()
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
+    const { isOpen: isCheckOpen, onOpen: onCheckOpen, onClose: onCheckClose } = useDisclosure()
 
     return (
         <ToDoListAppBody>
@@ -95,31 +95,12 @@ const task = () => {
                 </Heading>
                 <Select placeholder="3 days before due date" size="md"></Select>
                 <Box display="flex" justifyContent="space-between" alignItems="center" marginY={10}>
-                    <Button onClick={onOpen} bgColor="orange.200" width="40px" h="40px">
+                    <Button onClick={onDeleteOpen} bgColor="orange.200" width="40px" h="40px">
                         <DeleteIcon />
                     </Button>
-                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                        <ModalOverlay />
-                        <ModalContent textAlign={"center"}>
-                            <ModalHeader fontWeight="800" fontSize={"35px"}>
-                                !! Warning !!
-                            </ModalHeader>
-                            <VStack spacing={3} pt="30px">
-                                <Text fontSize={"20px"} fontWeight="500">
-                                    Do you want to delete ?
-                                </Text>
-                            </VStack>
-                            <ModalCloseButton />
-                            <ModalFooter justifyContent={"center"} pt="60px">
-                                <Button colorScheme="red" mr={3} onClick={onClose}>
-                                    No
-                                </Button>
-                                <Button colorScheme="green" mr={3} onClick={onClose}>
-                                    Yes
-                                </Button>
-                            </ModalFooter>
-                        </ModalContent>
-                    </Modal>
+                    <Button onClick={onCheckOpen} bgColor="orange.200" width="40px" h="40px">
+                        <CheckIcon />
+                    </Button>
                 </Box>
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
@@ -127,6 +108,51 @@ const task = () => {
                     </Button>
                 </Box>
             </Box>
+
+            <Modal isOpen={isDeleteOpen} onClose={onDeleteClose} isCentered>
+                <ModalOverlay />
+                <ModalContent textAlign={"center"}>
+                    <ModalHeader fontWeight="800" fontSize={"35px"}>
+                        !! Warning !!
+                    </ModalHeader>
+                    <VStack spacing={3} pt="30px">
+                        <Text fontSize={"20px"} fontWeight="500">
+                            Do you want to delete ?
+                        </Text>
+                    </VStack>
+                    <ModalCloseButton />
+                    <ModalFooter justifyContent={"center"} pt="60px">
+                        <Button colorScheme="red" mr={3} onClick={onDeleteClose}>
+                            No
+                        </Button>
+                        <Button colorScheme="green" mr={3} onClick={onDeleteClose}>
+                            Yes
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Modal isOpen={isCheckOpen} onClose={onCheckClose} isCentered>
+                <ModalOverlay />
+                <ModalContent textAlign={"center"}>
+                    <ModalHeader fontWeight="800" fontSize={"35px"}>
+                        !! Warning !!
+                    </ModalHeader>
+                    <VStack spacing={3} pt="30px">
+                        <Text fontSize={"20px"} fontWeight="500">
+                            Do you want to check ?
+                        </Text>
+                    </VStack>
+                    <ModalCloseButton />
+                    <ModalFooter justifyContent={"center"} pt="60px">
+                        <Button colorScheme="red" mr={3} onClick={onCheckClose}>
+                            No
+                        </Button>
+                        <Button colorScheme="green" mr={3} onClick={onCheckClose}>
+                            Yes
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </ToDoListAppBody>
     )
 }
