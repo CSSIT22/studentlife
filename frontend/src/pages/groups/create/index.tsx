@@ -1,4 +1,4 @@
-import { Box, Image, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, Spacer, Link, Tab, TabList, TabPanel, TabPanels, Tabs, TagCloseButton, TagLabel } from "@chakra-ui/react"
+import { Box, Image, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, Spacer, Link, Tab, TabList, TabPanel, TabPanels, Tabs, TagCloseButton, TagLabel, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure } from "@chakra-ui/react"
 import { FormControl, FormLabel } from '@chakra-ui/react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, } from '@chakra-ui/react'
 import { AddIcon, ChevronRightIcon, EditIcon, ExternalLinkIcon, HamburgerIcon, RepeatIcon, SearchIcon } from "@chakra-ui/icons"
@@ -9,6 +9,7 @@ import { userData } from '../data'
 
 import AppBody from "../../../components/share/app/AppBody"
 import React, { useState } from "react"
+import { FaPlus } from "react-icons/fa"
 
 
 
@@ -24,6 +25,8 @@ const create = () => {
 
     const [changePreview, setPreview] = useState(true)
     const PreviewChange = () => { setPreview(!changePreview) }
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
 
     return (
@@ -49,6 +52,28 @@ const create = () => {
                             <Input type='Name' value={GroupName} onChange={textChange} background={"white"} color="black" />
                         </FormControl>
                         Tags
+                        
+                        <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='sm'>
+                            <FaPlus />
+                        </Button>
+                    
+                        
+                        
+                        <Drawer placement={'bottom'} onClose={onClose} isOpen={isOpen}>
+                            <DrawerOverlay />
+                            <DrawerContent>
+                            <DrawerHeader borderBottomWidth='1px'>Tags</DrawerHeader>
+                            <DrawerBody>
+                            <HStack gap={2}>
+                            {userData.Tag.map((i) => (
+                                <Button colorScheme='green' variant='solid' key={i.tagID} borderRadius ="full">{i.tagName}</Button>
+                            ))}
+                            </HStack>
+                            </DrawerBody>
+                            </DrawerContent>
+                        </Drawer>
+
+
                         <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} >
                             {userData.Tag.map((Tags) =>
                                 <Tag
