@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spacer, IconButton, SlideFade, Slide } from "@chakra-ui/react"
+import { Box, Flex, Heading, Spacer, IconButton, SlideFade, Slide, useDisclosure, Button, Text, Container } from "@chakra-ui/react"
 import React from "react"
 import { GrDown, GrUp } from "react-icons/gr"
 import { TfiAnnouncement } from "react-icons/tfi"
@@ -9,11 +9,11 @@ import AppBody from "../../components/share/app/AppBody"
 import { postInfoTest } from "./postInfoTest"
 
 const test = () => {
-    // const []
     const [allPost, setAllPost] = React.useState(postInfoTest)
     const [clickArrowDown, setHide] = React.useState(false)
     const [clickMinimize, setMinimize] = React.useState(false)
     const [clickArrowUp, setTop] = React.useState(true)
+    const { isOpen, onToggle } = useDisclosure()
 
     const clickToMini = () => {
         setMinimize(true)
@@ -35,8 +35,6 @@ const test = () => {
         setHide(true)
     }
 
- 
-
     return (
         <AppBody
             secondarynav={[
@@ -45,50 +43,63 @@ const test = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
+            px={{ md: "3rem" }}
         >
             {/* type 1 */}
             {clickArrowUp && (
-                <div>
+                <Box>
                     {allPost
                         .filter((fl) => fl.postId == postInfoTest.length - 1)
                         .map((el) => {
-                            return <PostOnTop topic={el.topic} sender={el.sender} clickToExpand={clickToExpand} />
+                            return (
+                                <PostOnTop
+                                    topic={el.topic}
+                                    sender={el.sender}
+                                    clickToExpand={() => {
+                                        clickToExpand(), onToggle()
+                                    }}
+                                />
+                            )
                         })}
-                </div>
+                </Box>
             )}
 
             {/* type 2 */}
-            
-            {clickArrowDown && (
-                <Box height={"30rem"} width={"100%"} px="5" mt="0" backgroundColor="#D9D9D9" rounded="lg">
-                    {allPost
-                    // อันนี้มันยังเรียงตามid น้อยไปมากอยู่ ไม่ได้เอาอันใหม่สุดขึ้นบน ตอนดึงจากdb น่าจะต้องใช้order by
-                        .filter((fl) => fl.postId > postInfoTest.length - 6)
-                        .map((el) => {
-                            return <ExpandOnTop topic={el.topic} sender={el.sender} />
-                        })}
 
-                    <Flex alignItems={"center"} pt={"7"}>
-                        <Box pr={"7"}>
-                            <Heading size={"sm"} onClick={clickToMini} cursor={"pointer"}>
-                                minimize
-                            </Heading>
-                        </Box>
-                        <Link to={"/announcement"}>
-                            <Box>
-                                <Heading size={"sm"}>show more</Heading>
+            {clickArrowDown && (
+                <Slide direction="top" in={isOpen} style={{ zIndex: 10, position: "relative" }}>
+                    <Box pb="5" px="5" mt={5} bg="#D9d9d9" rounded="md" shadow="md">
+                        {allPost
+                            // อันนี้มันยังเรียงตามid น้อยไปมากอยู่ ไม่ได้เอาอันใหม่สุดขึ้นบน ตอนดึงจากdb น่าจะต้องใช้order by
+                            .filter((fl) => fl.postId > postInfoTest.length - 6)
+                            .map((el) => {
+                                return <ExpandOnTop topic={el.topic} sender={el.sender} />
+                            })}
+                        <Flex alignItems={"center"} pt={"7"}>
+                            <Box pr={"7"}>
+                                <Heading size={"sm"} onClick={clickToMini} cursor={"pointer"}>
+                                    minimize
+                                </Heading>
                             </Box>
-                        </Link>
-                        <Spacer />
-                        <Box>
-                            <GrUp onClick={clickToBeOne} cursor={"pointer"}/>
-                        </Box>
-                    </Flex>
-                </Box>
-                
+                            <Link to={"/announcement"}>
+                                <Box>
+                                    <Heading size={"sm"}>show more</Heading>
+                                </Box>
+                            </Link>
+                            <Spacer />
+                            <Box>
+                                <GrUp
+                                    onClick={() => {
+                                        clickToBeOne(), onToggle()
+                                    }}
+                                    cursor={"pointer"}
+                                />
+                            </Box>
+                        </Flex>
+                    </Box>
+                </Slide>
             )}
-            
-    
+
             {/* type 3 */}
             {clickMinimize && (
                 <Box height={"5rem"} width={"100%"} p="5">
@@ -105,7 +116,6 @@ const test = () => {
                     </Flex>
                 </Box>
             )}
-
         </AppBody>
     )
 }

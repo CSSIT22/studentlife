@@ -8,9 +8,6 @@ const PostOnTop: FC<{
     sender: string,
     clickToExpand : Function
 }> = ({ topic, sender,clickToExpand }) => {
-    // function handleClick() {
-
-    // }
 
     return (
         <Box height={"5rem"} width={"100%"} p="5" mt="0" backgroundColor="#D9D9D9" rounded="lg">
