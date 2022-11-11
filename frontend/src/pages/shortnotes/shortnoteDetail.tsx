@@ -58,7 +58,7 @@ const snDetail = () => {
         <AppBody>
             <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
                 {/* <Spacer /> */}
-                <GridItem colSpan={12} py={2} p={6}>
+                <GridItem colSpan={12} p={6}>
                     <SnDetail
                         topic={"Shortnote name"}
                         course={"CSC213"}
@@ -66,14 +66,14 @@ const snDetail = () => {
                             " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum sint, odio ut praesentium explicabo hic harum voluptatem veniam architecto, recusandae, nisi aliquid? Fuga placeat dolore voluptates eligendi ut, aut dignissimos."
                         }
                         link={"modlink.me/shortnote/filename.pdf"}
-                        user={"Shortnote Shotenot"}
+                        owner={"Shortnote Shotenot"}
                     />
                 </GridItem>
                 {/* <Spacer /> */}
             </Grid>
             <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
                 {/* <Spacer /> */}
-                <GridItem colSpan={12}>
+                <GridItem colSpan={12} p={6}>
                     <Box mb={4} boxShadow={"base"} rounded={8} p={4}>
                         <Box>
                             <Heading size={"md"} mb={1}>

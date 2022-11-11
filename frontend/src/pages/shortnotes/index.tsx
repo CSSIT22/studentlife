@@ -61,19 +61,48 @@ const index = () => {
         nsOnClose()
         setRadio("Public")
     }
+
+    const rsn = [
+        {
+            id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
+            topic: "How to make ER diagram in 10 minutes.",
+            course: "CSC218",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            createAt: "10-6-22",
+            isPublic: "TRUE",
+        },
+        {
+            id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+            topic: "Shortest path",
+            course: "CSC210",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            createAt: "10-6-22",
+            isPublic: "FALSE",
+        },
+        {
+            id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+            topic: "Java programming",
+            course: "CSC110",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            createAt: "10-6-22",
+            isPublic: "TRUE",
+        },
+    ]
     return (
         <AppBody>
             {/*Recent view list section*/}
-            <Flex mt={10}>
-                <Text alignSelf={"end"}>Recent view</Text>
+            <HStack mt={10}>
+                <Heading size={"sm"} alignSelf={"end"}>
+                    Recent view
+                </Heading>
                 <Spacer />
                 <BtnMl />
-            </Flex>
+            </HStack>
             <Box mt={4} mb={12}>
-                <SimpleGrid columns={3} gap={6} textAlign={"center"}>
-                    <Rsn topic={"Shortnote 001"}></Rsn>
-                    <Rsn topic={"Shortnote 002"}></Rsn>
-                    <Rsn topic={"Shortnote 003"}></Rsn>
+                <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
+                    {rsn.map((rsn, key) => (
+                        <Rsn key={key} topic={rsn.topic}></Rsn>
+                    ))}
                 </SimpleGrid>
             </Box>
 

@@ -59,8 +59,8 @@ const liList: FC<{
     course: String
     desc: String
     link: String
-    user: String
-}> = ({ topic, course, desc, link, user }) => {
+    owner: String
+}> = ({ topic, course, desc, link, owner }) => {
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -104,7 +104,7 @@ const liList: FC<{
                 <Text>{link}</Text>
             </Box>
             <HStack>
-                <HStack>
+                {/* <HStack>
                     <Box as="button">
                         <Text
                             fontSize={"30px"}
@@ -120,13 +120,21 @@ const liList: FC<{
                     </Box>
                     <Text>0</Text>
                     <Box as="button">
-                        <Text fontSize={"30px"}>
+                        <Text
+                            fontSize={"30px"}
+                            _hover={{ bg: "#ebedf0" }}
+                            _active={{
+                                bg: "#dddfe2",
+                                transform: "scale(0.98)",
+                                borderColor: "#bec3c9",
+                            }}
+                        >
                             <BiDownArrow />
                         </Text>
                     </Box>
-                </HStack>
+                </HStack> */}
                 <Spacer />
-                <Text fontSize={"xs"}>Posted by {user}</Text>
+                <Text fontSize={"xs"}>Posted by {owner}</Text>
             </HStack>
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
