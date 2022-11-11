@@ -10,8 +10,7 @@ const PostOnAnnouncementPage: FC<{
     allPost: Array<any>
     id: number
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
-    onSelectPost: Function
-}> = ({ topic, sender, status, allPost, setAllPost, id, onSelectPost }) => {
+}> = ({ topic, sender, status, allPost, setAllPost, id }) => {
     const state = (stat: boolean) => {
         if (stat) {
             return <BsPinAngleFill fontSize={"2rem"} onClick={toggle} />
@@ -31,7 +30,7 @@ const PostOnAnnouncementPage: FC<{
     }
 
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => onSelectPost(id)}>
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" >
             <Grid templateColumns="repeat(5, 1fr)" gap={4}>
                 <GridItem colSpan={4} h="10">
                     <Link to={`/announcement/detail/${id}`}>
