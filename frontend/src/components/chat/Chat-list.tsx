@@ -5,6 +5,7 @@ import { FC, useState } from "react"
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
 import { Input } from "@chakra-ui/react"
 import DrawerExample from "./drawer"
+import Nmodal from "./Nmodal"
 
 type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
 
@@ -49,7 +50,7 @@ const Clist: FC<any> = () => {
                     <MenuItem>Mute</MenuItem>
                     <MenuItem onClick={()=>DeleteRoom(room)}>Deteleroom</MenuItem>
                     <MenuItem>Block</MenuItem>
-                    <MenuItem>Report</MenuItem>
+                    <MenuItem><Nmodal /></MenuItem>
                 </MenuList>
             </Menu>
         )

@@ -1,6 +1,7 @@
-import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton } from "@chakra-ui/react"
+import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton } from "@chakra-ui/react"
 import { useDisclosure, Button, Box } from "@chakra-ui/react"
 import React from "react"
+import Nmodal from "./Nmodal"
 
 function DrawerExample(props: any) {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -37,7 +38,7 @@ function DrawerExample(props: any) {
                         </Box>
                         <Box>
                             <Button width={"100%"} marginBottom={2}>
-                                Report
+                                <Nmodal />
                             </Button>
                         </Box>
                     </DrawerBody>
