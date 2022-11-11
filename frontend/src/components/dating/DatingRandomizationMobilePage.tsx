@@ -1,5 +1,5 @@
 import TinderCard from "react-tinder-card"
-import { Box, Center, SimpleGrid, Tag, Text } from "@chakra-ui/react"
+import { Box, Center, SimpleGrid, Spinner, Tag, Text } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
@@ -59,31 +59,40 @@ const DatingRandomizationMobilePage: FC<{
                 <Box>
                     <Box className="cardContainer">
                         {characters.map((character, index) => (
-                            <TinderCard
-                                ref={childRefs[index]}
-                                className="swipe"
-                                key={character.UserId}
-                                onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
-                                onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
-                                preventSwipe={["down", "up"]}
-                                swipeThreshold={1}
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20,
+                                }}
                             >
-                                <Center>
-                                    <Box
-                                        borderRadius="10px"
-                                        backgroundImage={character.url}
-                                        w="326px"
-                                        h="402px"
-                                        backgroundSize="cover"
-                                        className="card"
-                                        pl="1rem"
-                                        id={character.UserId}
-                                        position="absolute"
-                                        top="30px"
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    ></Box>
-                                </Center>
-                            </TinderCard>
+                                <TinderCard
+                                    ref={childRefs[index]}
+                                    className="swipe"
+                                    key={character.UserId}
+                                    onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
+                                    onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
+                                    preventSwipe={["down", "up"]}
+                                >
+                                    <Center>
+                                        <Box
+                                            borderRadius="10px"
+                                            backgroundImage={character.url}
+                                            w="326px"
+                                            h="402px"
+                                            backgroundSize="cover"
+                                            className="card"
+                                            pl="1rem"
+                                            id={character.UserId}
+                                            position="absolute"
+                                            top="30px"
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                        ></Box>
+                                    </Center>
+                                </TinderCard>
+                            </motion.div>
                         ))}
                     </Box>
                 </Box>
@@ -126,7 +135,7 @@ const DatingRandomizationMobilePage: FC<{
                                 <Text pl="18px" pt="10px">
                                     {characters[currentIndex].Faculty.length >= 30
                                         ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
-                                        : characters[currentIndex].Faculty.trim()}
+                                        : characters[currentIndex].Faculty}
                                 </Text>
                             </Box>
                         </motion.div>
@@ -145,7 +154,6 @@ const DatingRandomizationMobilePage: FC<{
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
                                         style={{ display: "inline-block" }}
-                                        whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 1.2 }}
                                         transition={{
                                             type: "spring",
@@ -170,105 +178,67 @@ const DatingRandomizationMobilePage: FC<{
                                 ))}
                             </Box>
                         </Box>
-                        <Center display="flex" pl="18px">
-                            <motion.div
-                                style={{
-                                    marginRight: "58px",
-                                    width: "80px",
-                                    height: "80px",
-                                    borderRadius: "30px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    backgroundColor: "#FFF2E6",
-                                }}
-                                animate={controlCross}
-                                onClick={() => swipe("left")}
-                                whileHover={{ scale: 1.2 }}
-                                variants={{
-                                    visible: {
-                                        scale: [1, 0.8, 1],
-                                        backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
-                                        transition: {
-                                            delay: 0,
-                                            duration: 0.6,
-                                            ease: [0.075, 0.82, 0.165, 1],
-                                        },
-                                    },
-                                }}
-                            >
-                                <AiOutlineStop size="62px" color="black" />
-                            </motion.div>
-
-                            <motion.div
-                                style={{
-                                    marginLeft: "58px",
-                                    width: "80px",
-                                    height: "80px",
-                                    borderRadius: "30px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    backgroundColor: "#FFF2E6",
-                                }}
-                                animate={controlHeart}
-                                onClick={() => swipe("right")}
-                                whileHover={{ scale: 1.2 }}
-                                variants={{
-                                    visible: {
-                                        scale: [1, 0.8, 1],
-                                        backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
-                                        transition: {
-                                            delay: 0,
-                                            duration: 0.6,
-                                            ease: [0.075, 0.82, 0.165, 1],
-                                        },
-                                    },
-                                }}
-                            >
-                                <AiOutlineHeart size="62px" color="black" />
-                            </motion.div>
-                        </Center>
                     </>
                 ) : (
-                    <>
-                        <Center display="flex" pl="18px">
-                            <motion.div
-                                style={{
-                                    marginRight: "58px",
-                                    marginTop: "596px",
-                                    width: "80px",
-                                    height: "80px",
-                                    borderRadius: "30px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                                whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
-                            >
-                                <AiOutlineStop size="62px" color="black" />
-                            </motion.div>
-
-                            <motion.div
-                                style={{
-                                    marginLeft: "58px",
-                                    marginTop: "596px",
-                                    width: "80px",
-                                    height: "80px",
-                                    borderRadius: "30px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                                whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8, backgroundColor: "#E6702E" }}
-                            >
-                                <AiOutlineHeart size="62px" color="black" />
-                            </motion.div>
-                        </Center>
-                    </>
+                    <Box height="596px" display="flex" alignItems="center" justifyContent="center">
+                        <Spinner size="xl" />
+                    </Box>
                 )}
+                <Center display="flex" pl="18px">
+                    <motion.div
+                        style={{
+                            marginRight: "58px",
+                            width: "80px",
+                            height: "80px",
+                            borderRadius: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#FFF2E6",
+                        }}
+                        animate={controlCross}
+                        onClick={() => swipe("left")}
+                        variants={{
+                            visible: {
+                                scale: [1, 0.8, 1],
+                                backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                                transition: {
+                                    duration: 0.4,
+                                    ease: [0.075, 0.82, 0.165, 1],
+                                },
+                            },
+                        }}
+                    >
+                        <AiOutlineStop size="62px" color="black" />
+                    </motion.div>
+
+                    <motion.div
+                        style={{
+                            marginLeft: "58px",
+                            width: "80px",
+                            height: "80px",
+                            borderRadius: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#FFF2E6",
+                        }}
+                        animate={controlHeart}
+                        onClick={() => swipe("right")}
+                        variants={{
+                            visible: {
+                                scale: [1, 0.8, 1],
+                                backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                                transition: {
+                                    duration: 0.4,
+                                    ease: [0.075, 0.82, 0.165, 1],
+                                },
+                            },
+                        }}
+                    >
+                        <AiOutlineHeart size="62px" color="black" />
+                    </motion.div>
+                </Center>
             </SimpleGrid>
         </DatingAppBody>
     )
