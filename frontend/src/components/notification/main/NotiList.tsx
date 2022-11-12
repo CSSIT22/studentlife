@@ -7,13 +7,12 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
     //sort selectedList
     // console.log("selectedList")
     // console.log(selectedList)
-
     const sortedList = selectedList.sort((a, b) => {
         return b.date - a.date
     })
     // console.log("sortedList")
-    //console.log(sortedList)
-
+    // console.log(sortedList)
+    const list: any[] = []
     function showDate(date: Date) {
         //prop = date
         const current = new Date()
@@ -26,9 +25,27 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
         let today = Math.round(current.getTime() / day)
 
         if (sendDay == today) {
-            return <Text fontSize={"sm"}>Today</Text>
+            if (!list.includes("today")) {
+                list.push("today")
+                return (
+                    <Text fontSize={"sm"} padding={2}>
+                        Today
+                    </Text>
+                )
+            } else {
+                return <Box height={"1rem"}></Box>
+            }
         } else if (sendDay == today - 1) {
-            return <Text fontSize={"sm"}>Yesterday</Text>
+            if (!list.includes("yesterday")) {
+                list.push("yesterday")
+                return (
+                    <Text fontSize={"sm"} padding={2}>
+                        Yesterday
+                    </Text>
+                )
+            } else {
+                return <Box height={"1rem"}></Box>
+            }
         } else {
             const monthsArray = [
                 "January",
@@ -45,9 +62,20 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
                 "December",
             ]
             let month = monthsArray[date.getMonth()]
-            return <Text fontSize={"sm"}>{month + " " + date.getDate() + ", " + date.getFullYear()}</Text>
+
+            if (!list.includes(month + " " + date.getDate() + ", " + date.getFullYear())) {
+                list.push(month + " " + date.getDate() + ", " + date.getFullYear())
+                return (
+                    <Text padding={2} fontSize={"sm"}>
+                        {month + " " + date.getDate() + ", " + date.getFullYear()}
+                    </Text>
+                )
+            } else {
+                return <Box height={"1rem"}></Box>
+            }
         }
     }
+    console.log(list)
 
     // const notiListdate = sortedList.filter((el) => el.date === date)
     //console.log(notiListdate)
