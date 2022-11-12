@@ -7,7 +7,7 @@ const review = () => {
     return (
         <AppBody>
             <Flex mb={5} direction={"row"} alignItems={"center"}>
-                <Link href="/shopreview/shopdetails">
+                <Link href="javascript:javascript:history.go(-1)">
                     <ChevronLeftIcon w={8} h={8} />
                 </Link>
                 <Heading>User Review!!!!</Heading>
