@@ -32,7 +32,6 @@ import ContentBox from "../../../components/shop/ContentBox"
 import PageTitle from "../../../components/shop/PageTitle"
 import ReviewItem from "../../../components/shop/ReviewItem"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
-import StarRating from "../../../components/shop/starRating"
 import ThemedButton from "../../../components/shop/ThemedButton"
 
 // Get info from databse and request
