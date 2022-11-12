@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Grid, GridItem, Heading, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import React from "react"
+import { Link } from "react-router-dom"
 import FavoriteContent from "src/components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
 import Searchcontent from "../../components/restaurant/searchcontent"
@@ -23,7 +24,9 @@ const search = () => {
                 {Restaurant.map((e1) => {
                     return (
                         <GridItem>
-                            <Searchcontent resName={e1.resName} phone={e1.phone} open={e1.open} close={e1.close} website={e1.website} />
+                            <Link to={`/restaurant/detail/${e1.id}`}>
+                                <Searchcontent resName={e1.resName} phone={e1.phone} open={e1.open} close={e1.close} website={e1.website} />
+                            </Link>
                         </GridItem>
                     )
                 })}

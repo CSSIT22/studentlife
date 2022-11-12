@@ -1,5 +1,6 @@
 import { Heading, Box, Grid, GridItem } from "@chakra-ui/react"
 import React from "react"
+import { Link } from "react-router-dom"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -23,7 +24,7 @@ const favorite = () => {
                 {Restaurant.map((e1) => {
                     return (
                         <GridItem>
-                            <FavoriteContent resName={e1.resName} phone={e1.phone} open={e1.open} close={e1.close} website={e1.website} />
+                                <FavoriteContent resName={e1.resName} phone={e1.phone} open={e1.open} close={e1.close} website={e1.website} link={`/restaurant/detail/${e1.id}`}/>
                         </GridItem>
                     )
                 })}

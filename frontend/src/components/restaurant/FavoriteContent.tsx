@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
+import { Link } from "react-router-dom"
 import { Restaurant } from "src/pages/restaurant/data/restaurant"
 
 const FavoriteContent: FC<{
@@ -28,7 +29,8 @@ const FavoriteContent: FC<{
     close: string
     phone: string
     website: string
-}> = ({ resName, phone, open, close, website }) => {
+    link: string
+}> = ({ resName, phone, open, close, website,link }) => {
     // const ClosePop = () => {
     //     setclose(true);
     //     // console.log(close);
@@ -136,30 +138,32 @@ const FavoriteContent: FC<{
                             </>
                         )}
                     </Popover>
-                    <Flex direction={"column"} alignItems={"center"} gap={"4"}>
-                        <Heading color={"#E65D10"} fontSize="xl">
-                            {resName}
-                        </Heading>
-                        <Image
-                            boxSize={"12.5rem"}
-                            // height={{ lg: "9.5rem" }}
-                            src="https://bit.ly/dan-abramov"
-                            alt="Dan Abramov"
-                            borderRadius={"10px"}
-                        />
-                    </Flex>
-                    <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
-                        <Text>
-                            <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
-                        </Text>
-                        <Text>
-                            {" "}
-                            <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
-                        </Text>
-                        <Text>
-                            <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
-                        </Text>
-                    </Box>
+                    <Link to={link}>
+                        <Flex direction={"column"} alignItems={"center"} gap={"4"}>
+                            <Heading color={"#E65D10"} fontSize="xl">
+                                {resName}
+                            </Heading>
+                            <Image
+                                boxSize={"12.5rem"}
+                                // height={{ lg: "9.5rem" }}
+                                src="https://bit.ly/dan-abramov"
+                                alt="Dan Abramov"
+                                borderRadius={"10px"}
+                            />
+                        </Flex>
+                        <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
+                            <Text>
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                            </Text>
+                            <Text>
+                                {" "}
+                                <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
+                            </Text>
+                            <Text>
+                                <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
+                            </Text>
+                        </Box>
+                    </Link>
                 </Box>
             </Show>
         </>

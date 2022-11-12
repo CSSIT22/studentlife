@@ -24,6 +24,7 @@ const history = () => {
                 {detailHistory.map((e1) => {
                     return (
                         <GridItem>
+                            
                             <Historycontent resName={e1.resName} date={e1.date} status={e1.status} />
                         </GridItem>
                     )
