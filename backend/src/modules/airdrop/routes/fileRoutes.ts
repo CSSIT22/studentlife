@@ -22,13 +22,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 const fileRoutes = express()
+fileRoutes.use(express.json())
 
 fileRoutes.get("/", async (req: Request, res: Response) => {
     console.log(req.user?.userId)
 })
 
 fileRoutes.get("/getallfile", async (req: Request, res: Response) => {
-    console.log(req.user?.userId)
     //fetch everone type
     try {
         const isShow = await prisma.user_Show_File.findMany({
@@ -62,8 +62,26 @@ fileRoutes.get("/getallfile", async (req: Request, res: Response) => {
                 ],
             },
         })
-
-        res.json(everyone)
+        //result will add senderName
+        const result= [];
+        for (const item of everyone) {
+            const user = await prisma.user_Profile.findFirst({
+                where: {
+                    userId: item.fileSender,
+                },
+                select: {
+                    fName: true,
+                    lName: true
+                },
+            })
+            const senderId = item.fileSender;
+            result.push({
+                ...item,
+                fileSender: user?.fName + " " + user?.lName,
+                senderId: senderId
+            })
+        }
+        res.json(result)
     } catch (err) {
         console.log(err)
     }
@@ -95,8 +113,52 @@ fileRoutes.post("/upload", upload.array("files"), async (req: Request, res: Resp
         console.log(err)
     }
 })
-fileRoutes.get("/download/:type/:id", (req: Request, res: Response) => {
+fileRoutes.get("/download/:type/:filename", (req: Request, res: Response) => {
     const directoryPath = path.join(__dirname, "../files" + "/" + req.params.type)
-    res.download(directoryPath + "/" + req.params.id)
+    res.download(directoryPath + "/" + req.params.filename)
 })
+
+fileRoutes.post("/hidefile", async(req: Request, res: Response) => {
+    const {fileId} = req.body
+    // console.log(req.body);
+    const payload:any = {
+        userId: req.user?.userId,
+        fileId: fileId,
+    }
+    const hide = await prisma.user_Show_File.create({
+        data: payload
+    })
+    res.json("hide file sucessful")
+})
+
+
+//function that will delete expired file
+const deleteExpiredFile = async () => {
+    const today = new Date()
+    const expiredFile = await prisma.file_Info.findMany({
+        where: {
+            fileExpired: {
+                lt: today,
+            },
+        },
+    })
+    expiredFile.map(async (item) => {
+        const directoryPath = path.join(__dirname, "../files" + "/" + item.sendType)
+        fs.unlink(directoryPath + "/" + item.fileName, (err: any) => {
+            if (err) {
+                console.log(err)
+            }
+        })
+        await prisma.file_Info.delete({
+            where: {
+                fileId: item.fileId,
+            },
+        })
+    })
+}
+
+//check expired file every 30 min
+// setInterval(deleteExpiredFile, 1800000)
+
+
 export default fileRoutes
