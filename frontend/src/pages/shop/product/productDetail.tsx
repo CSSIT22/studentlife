@@ -198,7 +198,10 @@ const productDetail = () => {
                                     <FormLabel>Tell us your experience</FormLabel>
                                     <Textarea></Textarea>
                                 </HStack>
-                                <Text>Upload Image</Text>
+                                <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+                                    <GridItem w='100%' h='10'><Text>Upload Image</Text> </GridItem>
+                                    <GridItem colSpan={2} w='100%' h='10'><Input type="file" accept='image/*'></Input></GridItem>
+                                </Grid>
                             </Flex>
                         </FormControl>
                     </ModalBody>
