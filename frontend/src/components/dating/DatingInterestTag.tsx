@@ -52,6 +52,7 @@ const DatingInterestTag: FC<{
             p="1"
             pr="5"
             pl="2"
+            colorScheme="black"
             color="white"
             backgroundColor="gray.400"
             borderRadius="full"
@@ -61,6 +62,7 @@ const DatingInterestTag: FC<{
             onChange={handleTag}
             value={interestId}
             iconColor="white"
+            defaultChecked
         >
             {interestName}
         </Checkbox>
