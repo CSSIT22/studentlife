@@ -82,7 +82,7 @@ function detail() {
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/review/${numres}`}>
+                                    <Link to={`/restaurant/${numres}`}>
                                         <CloseButton my={-4} ml={-1} />
                                     </Link>
                                     <Text textAlign={"center"} fontWeight="bold" fontSize={"2xl"} color={"#E65300"}>
