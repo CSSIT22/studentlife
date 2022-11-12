@@ -82,7 +82,7 @@ const createtask = () => {
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     {type == "individual" ? (
                         <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
-                            Done
+                            <Link href="/todolist">Done</Link>
                         </Button>
                     ) : (
                         <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
