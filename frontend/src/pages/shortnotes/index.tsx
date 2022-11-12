@@ -62,32 +62,89 @@ const index = () => {
         setRadio("Public")
     }
 
-    const rsn = [
-        {
-            id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
-            topic: "How to make ER diagram in 10 minutes.",
-            course: "CSC218",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            createAt: "10-6-22",
-            isPublic: "TRUE",
-        },
-        {
-            id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
-            topic: "Shortest path",
-            course: "CSC210",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            createAt: "10-6-22",
-            isPublic: "FALSE",
-        },
-        {
-            id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
-            topic: "Java programming",
-            course: "CSC110",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            createAt: "10-6-22",
-            isPublic: "TRUE",
-        },
-    ]
+    const [snPicked, setSnPicked] = useState("")
+
+    const data = {
+        sn: [
+            {
+                id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
+                topic: "How to make ER diagram in 10 minutes.",
+                course: "CSC218",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: false,
+            },
+            {
+                id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+                topic: "Network foro eginner.",
+                course: "CSC220",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: true,
+            },
+            {
+                id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+                topic: "Productive with agile.",
+                course: "CSC218",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: true,
+            },
+            {
+                id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
+                topic: "How to make ER diagram in 10 minutes.",
+                course: "CSC218",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: false,
+            },
+            {
+                id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+                topic: "Network foro eginner.",
+                course: "CSC220",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: true,
+            },
+            {
+                id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+                topic: "Productive with agile.",
+                course: "CSC218",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: true,
+            },
+        ],
+
+        rsn: [
+            {
+                id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
+                topic: "How to make ER diagram in 10 minutes.",
+                course: "CSC218",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: true,
+            },
+            {
+                id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+                topic: "Shortest path",
+                course: "CSC210",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: false,
+            },
+            {
+                id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+                topic: "Java programming",
+                course: "CSC110",
+                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                createAt: "10-6-22",
+                isPublic: true,
+            },
+        ],
+
+        course: ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"],
+    }
     return (
         <AppBody>
             {/*Recent view list section*/}
@@ -100,7 +157,7 @@ const index = () => {
             </HStack>
             <Box mt={4} mb={12}>
                 <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
-                    {rsn.map((rsn, key) => (
+                    {data.rsn.map((rsn, key) => (
                         <Rsn key={key} topic={rsn.topic}></Rsn>
                     ))}
                 </SimpleGrid>
@@ -115,30 +172,33 @@ const index = () => {
                         <Text alignSelf={"start"}>Sort by</Text>
                         <Select variant="filled" placeholder="None">
                             <option value="option1">Name</option>
-                            <option value="option2">Date</option>
+                            <option value="option2">Newwst</option>
+                            <option value="option2">Oldest</option>
                         </Select>
                     </VStack>
                     <VStack>
                         <Text alignSelf={"start"}>Course</Text>
                         <Select variant="filled" placeholder="All">
-                            <option value="option1">CSC218</option>
-                            <option value="option2">CSC220</option>
-                            <option value="option3">MTH110</option>
+                            {data.course.map((course, key) => (
+                                <option value={course}>{course}</option>
+                            ))}
                         </Select>
                     </VStack>
                 </Stack>
             </Flex>
             <VStack gap={2} pt={4}>
-                <Box w={"100%"}>
-                    <Link to={"./shortnoteDetail"}>
-                        <SnList topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></SnList>
-                    </Link>
-                </Box>
-                <SnList topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={""}></SnList>
-                <SnList topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></SnList>
-                <SnList topic={"Shortnote 001"} course={"SNS001"} date={"16/04/46"} lock={"🔒"}></SnList>
-                <SnList topic={"Datalink layer"} course={"CSC220"} date={"22/07/19"} lock={"🔒"}></SnList>
-                <SnList topic={"Basic java programigng"} course={"CSC110"} date={"05/12/22"} lock={""}></SnList>
+                {data.sn.map((sn, key) => (
+                    <Box
+                        as="button"
+                        w={"100%"}
+                        onClick={() => {
+                            setSnPicked(sn.id)
+                            console.log(snPicked)
+                        }}
+                    >
+                        <SnList key={key} topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : "🔒"} />
+                    </Box>
+                ))}
             </VStack>
         </AppBody>
     )
