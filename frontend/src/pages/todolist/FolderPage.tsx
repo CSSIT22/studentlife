@@ -55,7 +55,7 @@ const folderpage = () => {
                         <Heading as="h2" size="ms" noOfLines={1}>
                             Folder Name
                         </Heading>
-                        <Input placeholder="Task Name" size="md" />
+                        <Input placeholder="Folder Name" size="md" />
                     </ModalBody>
 
                     <ModalFooter>

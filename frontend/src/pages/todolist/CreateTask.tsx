@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
     Modal,
     ModalOverlay,
@@ -28,6 +28,9 @@ import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 
 const createtask = () => {
+    const [type, setType] = useState("individual")
+    console.log(type)
+
     return (
         <ToDoListAppBody>
             <Heading as="h1" size="3xl" noOfLines={1}>
@@ -43,7 +46,7 @@ const createtask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
-                <Input placeholder="Descrription" size="md" />
+                <Input placeholder="Description" size="md" />
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
@@ -59,12 +62,12 @@ const createtask = () => {
                     <input id="appt-time" type="time" name="appt-time" />
                 </form>
 
-                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
+                <Heading className="Type" as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Type
                 </Heading>
-                <Select placeholder="Choose" size="md">
-                    <option value="option1">Individual</option>
-                    <option value="option2">Group</option>
+                <Select placeholder="Choose" size="md" className="Type" onChange={(e) => setType(e.target.value)}>
+                    <option value="individual">Individual</option>
+                    <option value="group">Group</option>
                 </Select>
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
@@ -77,9 +80,15 @@ const createtask = () => {
                 </Select>
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
-                    <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
-                        Done
-                    </Button>
+                    {type == "individual" ? (
+                        <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
+                            Done
+                        </Button>
+                    ) : (
+                        <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
+                            Next
+                        </Button>
+                    )}
                 </Box>
             </Box>
         </ToDoListAppBody>
