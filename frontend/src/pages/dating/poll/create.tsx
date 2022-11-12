@@ -21,7 +21,6 @@ import {
     Textarea,
     Select,
     Flex,
-    CheckboxGroup,
     GridItem,
     Grid,
 } from "@chakra-ui/react"
@@ -29,7 +28,7 @@ import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
 import { INTERESTS } from "../../../components/dating/shared/interests"
-import DatingInterestDynamicButton from "src/components/dating/DatingInterestDynamicButton"
+import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
 import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
 
@@ -84,7 +83,6 @@ const CreateActivityPoll = () => {
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoTime = time.length < 3
     let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
-    const isNoTag = selectedInterests.length < 1
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -131,11 +129,11 @@ const CreateActivityPoll = () => {
 
     function handleSubmit() {
         // Validate all value before submit to database
-        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time) && !isNoTag) {
+        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
             alert(
                 "Header: " +
                     header +
-                    " Tag " +
+                    " Tag: " +
                     selectedInterests +
                     " Description: " +
                     description +
@@ -145,7 +143,7 @@ const CreateActivityPoll = () => {
                     date +
                     " Time: " +
                     time +
-                    " people " +
+                    " people: " +
                     sliderValue
             )
         } else {
@@ -200,8 +198,8 @@ const CreateActivityPoll = () => {
                         </FormControl>
                     </Center>
                     <Center>
-                        {/* Topic (tag of interest) input & error control */}
-                        <FormControl isRequired>
+                        {/* Topic (tag of interest) input */}
+                        <FormControl>
                             <FormLabel color={"white"}>Poll topic</FormLabel>
                             <Button
                                 borderRadius={"6px"}
@@ -291,11 +289,6 @@ const CreateActivityPoll = () => {
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
-                            {isNoTag ? (
-                                <FormHelperText></FormHelperText>
-                            ) : (
-                                <FormErrorMessage color="yellow">You must select at least one tag.</FormErrorMessage>
-                            )}
                         </FormControl>
                     </Center>
                     <Center>
