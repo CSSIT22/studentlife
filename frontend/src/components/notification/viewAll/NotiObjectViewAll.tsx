@@ -11,7 +11,7 @@ const NotiObjectViewAll: FC<{
     isRead: boolean
     date: Date
     module: string
-}> = ({ id, avatarImg, userName, description, isRead, date, module}) => {
+}> = ({ id, avatarImg, userName, description, isRead, date, module }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -94,7 +94,9 @@ const NotiObjectViewAll: FC<{
     }
     function showDescription() {
         return (
-            <p><b>{userName}</b> {description}  <b>- {module}</b> </p>
+            <Stack direction={"row"}>
+                <b>{userName}</b> <div dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
+            </Stack>
         )
     }
     return (
