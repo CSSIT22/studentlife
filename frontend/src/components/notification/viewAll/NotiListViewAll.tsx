@@ -1,4 +1,4 @@
-import { Box, Stack, Text } from "@chakra-ui/react"
+import { Box, Stack, Text, Divider } from "@chakra-ui/react"
 import React, { FC } from "react"
 import NotiObjectViewAll from "./NotiObjectViewAll"
 
@@ -95,10 +95,14 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
                                 isRead={el.isRead}
                                 date={el.date}
                             />
+                            
                         </Stack>
+                        <Divider />
                     </Box>
                 )
-            })}
+            }
+            )}
+            
         </Box>
     )
 }

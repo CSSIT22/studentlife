@@ -99,7 +99,7 @@ const NotiObjectViewAll: FC<{
         )
     }
     return (
-        <Box shadow={"lg"} borderRadius="2xl" bg="white" padding={4} key={id}>
+        <Box borderRadius="2xl" bg="white" padding={4} key={id}>
             <Stack direction={"row"} spacing={12}>
             <Center paddingRight={3}>{showStatus()}</Center>
                 <Center>
