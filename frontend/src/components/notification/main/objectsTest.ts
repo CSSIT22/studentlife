@@ -7,7 +7,7 @@ export const OBJECTS = [
         userName: "User1234",
         description: DESCRIPTION[0].template,
         isRead: true,
-        date: new Date("November 11, 2022 14:30:00"),
+        date: new Date("November 11, 2022 22:30:00"),
         module: "Chat",
     },
     {
@@ -32,7 +32,7 @@ export const OBJECTS = [
         id: 3,
         avatarImg: "https://assets.puzzlefactory.pl/puzzle/235/573/original.jpg",
         userName: "fghghjf",
-        description: DESCRIPTION[1].template,
+        description: DESCRIPTION[2].template,
         isRead: false,
         date: new Date("March 18, 2022 09:38:00"),
         module: "Chat",
