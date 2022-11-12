@@ -40,7 +40,7 @@ import {
     RadioGroup,
     Radio,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import { BiLibrary } from "react-icons/bi"
 import LiList from "./liList"
 import InLiList from "./inLiList"
@@ -52,6 +52,8 @@ const btnMyLibrary = () => {
     const { isOpen: nliIsOpen, onOpen: nliOnOpen, onClose: nliOnClose } = useDisclosure()
     const { isOpen: inliIsOpen, onOpen: inliOnOpen, onClose: inliOnClose } = useDisclosure()
 
+    const [picked, setPicked] = useState("")
+    const [nPicked, setNPicked] = useState("")
     {
         /*}
     async function openNli() {
@@ -73,6 +75,31 @@ const btnMyLibrary = () => {
 */
     }
 
+    const li = [
+        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
+        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
+    ]
+    const inLi = [
+        {
+            topic: "How to make ER diagram in 10 minutes.",
+            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            course: "CSC218",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        },
+        {
+            topic: "How to make ER diagram in 10 minutess.",
+            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            course: "CSC218",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        },
+        {
+            topic: "How to make ER diagram in 10 minutesss.",
+            liId: "grehg343-gj54-4bad-9gre-fkg9fidhjd89",
+            course: "CSC218",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        },
+    ]
+
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -85,9 +112,6 @@ const btnMyLibrary = () => {
                     <DrawerHeader>
                         <HStack gap={4}>
                             <Heading size={"lg"}> My library</Heading>
-                            {/*<Link to={"./library/newLibrary"}>
-                                    <Button colorScheme="orange">New library</Button>
-                                </Link>*/}
                             <Button colorScheme={"orange"} onClick={nliOnOpen}>
                                 New library
                             </Button>
@@ -95,7 +119,20 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            <Box as="button" onClick={inliOnOpen}>
+                            {li.map((li, key) => (
+                                <Box
+                                    as="button"
+                                    onClick={() => {
+                                        setNPicked(li.name)
+                                        setPicked(li.id)
+                                        inliOnOpen()
+                                        console.log(nPicked)
+                                    }}
+                                >
+                                    <LiList name={li.name}></LiList>
+                                </Box>
+                            ))}
+                            {/* <Box as="button" onClick={inliOnOpen}>
                                 <LiList name={"midterm y2/1"}></LiList>
                             </Box>
                             <LiList name={"Network"}></LiList>
@@ -104,7 +141,7 @@ const btnMyLibrary = () => {
                             <LiList name={"midterm y2/1"}></LiList>
                             <LiList name={"Network"}></LiList>
                             <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList>
+                            <LiList name={"Java"}></LiList> */}
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
@@ -145,12 +182,15 @@ const btnMyLibrary = () => {
                             <Button variant={"ghost"} onClick={inliOnClose}>
                                 <IoIosArrowBack />
                             </Button>
-                            <Heading size={"lg"}>Library's name</Heading>
+                            <Heading size={"lg"}>{nPicked}</Heading>
                         </HStack>
                     </DrawerHeader>
                     <DrawerBody>
                         <VStack spacing={4}>
-                            <Box w={"100%"}>
+                            {inLi.map((inLi, key) => (
+                                <InLiList name={inLi.topic} course={inLi.course} />
+                            ))}
+                            {/* <Box w={"100%"}>
                                 <Link to={"./shortnoteDetail"}>
                                     <InLiList name={"Shortnote 001"} course={"CSC213"} />
                                 </Link>
@@ -159,7 +199,7 @@ const btnMyLibrary = () => {
                             <InLiList name={"Shortnote 003"} course={"CSC215"} />
                             <InLiList name={"Shortnote 001"} course={"CSC213"} />
                             <InLiList name={"Shortnote 002"} course={"CSC214"} />
-                            <InLiList name={"Shortnote 003"} course={"CSC215"} />
+                            <InLiList name={"Shortnote 003"} course={"CSC215"} /> */}
                         </VStack>
                     </DrawerBody>
 
