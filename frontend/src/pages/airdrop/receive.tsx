@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, FC } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import FileComment from "src/components/airdrop/FileComment"
+import FileList from "src/components/airdrop/FileList"
 import { HiUpload, HiDownload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
 import {
@@ -37,6 +38,7 @@ import {
     ModalFooter,
     Input,
 } from "@chakra-ui/react"
+import axios from "axios"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -83,51 +85,21 @@ const dummyData = {
     ],
 }
 export default function Receivedrop<FC>() {
-    const ref1 = useRef()
-    const { isOpen, onOpen, onToggle, onClose } = useDisclosure()
-    //modal page
-    const [modalPage, setModalPage] = useState(0)
-    const [modalData, setModalData] = useState<{
-        icon: any
-        name: string
-        sender: string
-        comments: { name: string; comment: string }[]
-    }>({
-        icon: MdImage,
-        name: "",
-        sender: "",
-        comments: [],
-    })
-
-    const RenderModalInfo = () => {
-        const componentArr = []
-        for (const [key, value] of Object.entries(modalData)) {
-            if (key !== "comments") {
-                componentArr.push(
-                    <HStack>
-                        <Text fontSize={"xl"}>{key}:</Text>
-                        <Text>{value}</Text>
-                    </HStack>
-                )
-            }
-        }
-
-        return componentArr
-    }
-    const RenderModalComments = () => {
-        const componentArr:any = []
-        modalData.comments.map((item: any) => {
-            componentArr.push(
-                <>
-                <FileComment name={item.name} comment={item.comment}/>
-                    <Divider />
-                </>
-            )
-        })
-
-        return componentArr
+    const [fileList, setFileList] = useState<any>([])
+    //get file function
+    const fetchAllFile = async () => {
+        const res = await axios.get("http://localhost:8000/airdrop/file/getallfile",{
+            withCredentials: true
+        });
+        console.log(res.data);
+        
+        setFileList(res.data);
     }
 
+
+    useEffect(()=>{
+        fetchAllFile();
+    },[])
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="receive">
@@ -136,133 +108,14 @@ export default function Receivedrop<FC>() {
                 </Box>
                 {/* component for list will coming sooner */}
                 <Divider />
-                {dummyData.allfile.map((item, index) => {
+                {fileList?.map((item:any, key:any) => {
                     return (
                         <>
-                            <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} gap={3}>
-                                <Box as={item.icon} size={"3rem"} />
-                                <Hide below={"md"}>
-                                    <Text>{item.name}</Text>
-                                </Hide>
-
-                                <Text fontSize={["0.76rem", "md"]}>{item.sender}</Text>
-
-                                <HStack>
-                                    <IconButton
-                                        aria-label="accept"
-                                        icon={<MdDone />}
-                                        rounded={"3xl"}
-                                        border={"1px"}
-                                        borderColor={"gray.300"}
-                                        shadow={"xs"}
-                                        bgColor={"white"}
-                                    ></IconButton>
-                                    <IconButton
-                                        aria-label="deny"
-                                        icon={<MdOutlineClose />}
-                                        rounded={"3xl"}
-                                        border={"1px"}
-                                        borderColor={"gray.300"}
-                                        shadow={"xs"}
-                                        bgColor={"white"}
-                                    ></IconButton>
-                                    <IconButton
-                                        aria-label="infomation"
-                                        icon={<MdInfoOutline />}
-                                        rounded={"3xl"}
-                                        border={"1px"}
-                                        borderColor={"gray.300"}
-                                        shadow={"xs"}
-                                        bgColor={"white"}
-                                        onClick={async () => {
-                                            const setModal = await setModalData(item)
-                                            onOpen()
-                                        }}
-                                    ></IconButton>
-                                </HStack>
-                            </Flex>
-                            <Divider />
+                            <FileList info={item} key={key}/>
                         </>
                     )
                 })}
-
-                {/* //this section is for modal */}
-                <Modal
-                    isOpen={isOpen}
-                    onClose={() => {
-                        onClose()
-                        setModalPage(0)
-                    }}
-                    isCentered
-                >
-                    <ModalOverlay />
-                    <ModalContent textAlign={"center"}>
-                        <ModalHeader>{modalPage == 0 ? "File Properties" : "File Comment"}</ModalHeader>
-                        <ModalBody>
-                            {modalPage == 0 ? (
-                                <>
-                                    {RenderModalInfo()}
-                                    <Text
-                                        color={"gray.600"}
-                                        decoration={"underline"}
-                                        mt={3}
-                                        onClick={() => {
-                                            setModalPage(1)
-                                        }}
-                                    >
-                                        See all comment
-                                    </Text>
-                                </>
-                            ) : (
-                                <>
-                                    <Divider />
-                                    {RenderModalComments()}
-                                    <HStack>
-                                        <Input type={"text"} id="commentin" />
-                                        <Button
-                                            onClick={() => {
-                                                alert("comment")
-                                            }}
-                                        >
-                                            Comment{" "}
-                                        </Button>
-                                    </HStack>
-
-                                    <Text
-                                        color={"gray.600"}
-                                        decoration={"underline"}
-                                        mt={3}
-                                        onClick={() => {
-                                            setModalPage(0)
-                                        }}
-                                    >
-                                        Go back to file properties
-                                    </Text>
-                                </>
-                            )}
-                            <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
-                                (Tap outside to close)
-                            </Text>
-                        </ModalBody>
-                        <ModalFooter></ModalFooter>
-                    </ModalContent>
-                </Modal>
-                {/* <Popover returnFocusOnClose={false} isOpen={isOpen} onClose={onClose} placement="right" closeOnBlur={false}>
-                    <PopoverContent>
-                        <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
-                        <PopoverArrow />
-                        <PopoverCloseButton />
-                        <PopoverBody>Are you sure you want to continue with your action?</PopoverBody>
-                        <PopoverFooter display="flex" justifyContent="flex-end">
-                            <ButtonGroup size="sm">
-                                <Button variant="outline">Cancel</Button>
-                                <Button colorScheme="red">Apply</Button>
-                            </ButtonGroup>
-                        </PopoverFooter>
-                    </PopoverContent>
-                </Popover> */}
             </PageBox>
-            {/* <BottomNav/> */}
         </AppBody>
     )
 }
