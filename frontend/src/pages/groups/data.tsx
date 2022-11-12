@@ -7,6 +7,7 @@ export const userData = {
             Member: 666,
             Tag: [2, 4],
             Describe: "Best mental therapy center",
+            roleID: 4,
             isPrivate: true,
             coverPhoto: "https://picsum.photos/id/500/200",
         },
@@ -17,6 +18,7 @@ export const userData = {
             Member: 300,
             Tag: [3],
             Describe: "Storage of meme around the world",
+            roleID: 4,
             isPrivate: false,
             coverPhoto: "https://picsum.photos/id/501/200",
         },
@@ -29,6 +31,7 @@ export const userData = {
             Member: 666,
             Tag: [2, 4],
             Describe: "Best mental therapy center",
+            roleID: 4,
             isPrivate: true,
             coverPhoto: "https://picsum.photos/id/1/200",
         },
@@ -39,6 +42,7 @@ export const userData = {
             Member: 300,
             Tag: [3],
             Describe: "Storage of meme around the world",
+            roleID: 4,
             isPrivate: false,
             coverPhoto: "https://picsum.photos/id/2/200",
         },
@@ -49,6 +53,7 @@ export const userData = {
             Member: 150,
             Tag: [1, 2],
             Describe: "No masara no flavor we can’t eat.",
+            roleID: 1,
             isPrivate: true,
             coverPhoto: "https://picsum.photos/id/3/200",
         },
@@ -59,6 +64,7 @@ export const userData = {
             Member: 50,
             Tag: [1],
             Describe: "Secret thai street food that have to try once",
+            roleID: 1,
             isPrivate: false,
             coverPhoto: "https://picsum.photos/id/4/200",
         },
@@ -92,4 +98,39 @@ export const userData = {
             expireDate: "28",
         },
     ],
+
+    Tag: [
+        {
+            tagID: 1,
+            tagName: "#Sport",
+            tagDescription: "Sport and any outside activity"
+            
+        },
+        {
+            tagID: 2,
+            tagName: "#Game",
+            tagDescription: "PC&Moblie Game, Boardgame"
+        },
+        {
+            tagID: 3,
+            tagName: "#Education",
+            tagDescription: "Learning, Book, Studying"
+        },
+        {
+            tagID: 4,
+            tagName: "#Food",
+            tagDescription: "Food, Cooking, Restaurant"
+        }
+        ,
+        {
+            tagID: 5,
+            tagName: "#IT",
+            tagDescription: "Information and Technology"
+        },
+        {
+            tagID: 6,
+            tagName: "#Hangout",
+            tagDescription: "Movie, Party, Activity, Meeting"
+        }
+    ]
 }

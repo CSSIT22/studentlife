@@ -1,4 +1,4 @@
-import { Show, Box, HStack, Button, Input, Stack, Text, Flex, Grid } from "@chakra-ui/react"
+import { Show, Box, HStack, Button, Input, Stack, Text, Flex, Grid, Link } from "@chakra-ui/react"
 import React, { Suspense, useState } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import { FaSearch, FaPlus } from "react-icons/fa"
@@ -8,6 +8,7 @@ import CommunityList from "../../components/group/CommunityList"
 import SuggestBox from "../../components/group/SuggestBox"
 import InvitationBox from "../../components/group/InvitationBox"
 import useWindowDimensions from "./hooks/useWindowDimensions"
+import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 const index = () => {
     const [searchBtn, setSearchBtn] = useState(false) //for close/open seach bar
@@ -21,6 +22,9 @@ const index = () => {
     const [allBtn, setAllBtn] = useState(true)
     const [inviteBtn, setInviteBtn] = useState(false)
     const [suggestBtn, setSuggestBtn] = useState(false)
+    const [acceptBtn, setAcceptBtn] = useState(false)
+    const [declinetBtn, setDeclinetBtn] = useState(false)
+
     const handleAllBtnOnClick = () => {
         setAllBtn(true)
         setInviteBtn(false)
@@ -36,6 +40,17 @@ const index = () => {
         setInviteBtn(false)
         setSuggestBtn(true)
     }
+
+    const handleAcceptOnClick = () => {
+        setAcceptBtn(true)
+    }
+
+    const handleDeclineOnClick = () => {
+        setDeclinetBtn(true)
+    }
+
+
+
     //md: 768px
     const { height, width } = useWindowDimensions()
     return (
@@ -94,9 +109,12 @@ const index = () => {
                                 placeholder="Seacrh Community"
                                 focusBorderColor="gray.200"
                             ></Input>
-                            <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
-                                + Create New Community
-                            </Button>
+                            <Link href='groups/create' isExternal>
+                                <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
+                                    + Create New Community
+                                </Button>
+                            </Link>
+
                         </Box>
                     </Show>
                     <Box display={allBtn || (width || 0) > 768 ? "block" : "none"}>
@@ -109,14 +127,16 @@ const index = () => {
                                 .filter((community) => {
                                     return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                 })
-                                .map((community) => (
+                                .map((community) => (community.roleID >= 3 ?(
                                     <CommunityList
                                         key={community.ID}
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
                                         isPrivate={community.isPrivate}
-                                    />
+                                        roleID ={community.roleID}
+                                    />):
+                                    <div></div>
                                 ))
                         ) : (
                             <Box borderRadius="md" backgroundColor="red.200" mt={2}>
@@ -146,14 +166,17 @@ const index = () => {
                                 .filter((community) => {
                                     return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                 })
-                                .map((community) => (
+                                
+                                .map((community) => (community.roleID < 3 ?(
                                     <CommunityList
                                         key={community.ID}
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
                                         isPrivate={community.isPrivate}
-                                    />
+                                        roleID ={community.roleID}
+                                    />):
+                                    <div></div>
                                 ))
                         ) : (
                             <Box borderRadius="md" backgroundColor="red.200" mt={2}>
@@ -231,8 +254,8 @@ const index = () => {
                         </Box>
                     </Box>
                 </Show>
-            </Flex>
-        </AppBody>
+            </Flex >
+        </AppBody >
     )
 }
 

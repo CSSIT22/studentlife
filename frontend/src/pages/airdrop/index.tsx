@@ -31,7 +31,7 @@ import {
     NumberDecrementStepper,
 } from "@chakra-ui/react"
 import { Dropzone, FileItem } from "@dropzone-ui/react"
-import CommunityBtn from "src/components/group/CommunityBtn"
+
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -373,7 +373,7 @@ export default function Index() {
                 </Flex>
             </PageBox>
 
-            <CommunityBtn Type="Delete"></CommunityBtn>
+            
         </AppBody>
     )
 }
