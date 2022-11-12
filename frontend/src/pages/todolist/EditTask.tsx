@@ -59,7 +59,6 @@ const edittask = () => {
                 <Heading as="h2" size="md" noOfLines={1} marginY={10}>
                     Due Date
                 </Heading>
-                {/* <Input placeholder="Select Date and Time" size="md" type="datetime-local" /> */}
                 <Text fontSize="sm">Due Date of Task.</Text>
 
                 <Heading as="h2" size="md" noOfLines={1} marginY={10}>
@@ -86,12 +85,11 @@ const edittask = () => {
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
-                        Finish
+                        <Link href="/todolist">Finish</Link>
                     </Button>
                 </Box>
             </Box>
         </ToDoListAppBody>
     )
 }
-
 export default edittask
