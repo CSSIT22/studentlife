@@ -27,22 +27,26 @@ import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
 
 declare global {
-    var isPassDate: boolean
+    var isPassDate: boolean, isPassTime: boolean
 }
 
 const CreateActivityPoll = () => {
     // This use for set state to all variable
     const [header, setHeaderInput] = useState("")
     const handleInputHeaderChange = (e: any) => setHeaderInput(e.target.value)
+
     const [description, setDescriptionInput] = useState("")
     const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
+
     const [location, setLocationInput] = useState("")
-    const handleInputDateChange = (e: any) => {
-        setDateInput(e.target.value)
-    }
+    const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
+
     const [date, setDateInput] = useState("")
-    const handleInputLocationChange = (e: any) => {
-        setLocationInput(e.target.value)
+    const handleInputDateChange = (e: any) => setDateInput(e.target.value)
+
+    const [time, setTimeInput] = useState("")
+    const handleInputTimeChange = (e: any) => {
+        setTimeInput(e.target.value), console.log(time)
     }
     //Tost for error message when submit
     const toast = useToast()
@@ -61,6 +65,9 @@ const CreateActivityPoll = () => {
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoDate = date.length < 8
     let isValidDate = !isNoDate && !globalThis.isPassDate // Use for check all Date validate
+    //Validate the date (I don't know why it worked, but it worked lol)
+    const isNoTime = time.length < 3
+    let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -81,10 +88,34 @@ const CreateActivityPoll = () => {
         return (date < previous && date !== previous) === true
     }
 
+    function isInTimePast(d: any) {
+        const today = new Date()
+        const chosenDate = new Date(date)
+        //Check if user pick the same date as today or not
+        if (
+            chosenDate.getDate() === today.getDate() &&
+            chosenDate.getMonth() === today.getMonth() &&
+            chosenDate.getFullYear() === today.getFullYear()
+        ) {
+            // console.log(
+            //     today.getMinutes() +
+            //         " and " +
+            //         parseInt(d.substring(3, 5)) +
+            //         (today.getHours() > parseInt(d.substring(0, 2)) && today.getMinutes() > parseInt(d.substring(3, 5)))
+            // )
+            //If user pick the same date check if the time have pass
+            if (today.getHours() >= parseInt(d.substring(0, 2)) && today.getMinutes() >= parseInt(d.substring(3, 5))) {
+                globalThis.isPassTime = true
+                return true
+            }
+        }
+        return false
+    }
+
     function handleSubmit() {
         // Validate all value before submit to database
-        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate) {
-            alert("Header: " + header + " Description: " + description + " Location: " + location + " Date: " + date)
+        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
+            alert("Header: " + header + " Description: " + description + " Location: " + location + " Date: " + date + " Time: " + time)
         } else {
             // Error message
             toast({
@@ -249,7 +280,7 @@ const CreateActivityPoll = () => {
                         <FormLabel color={"white"}>Date</FormLabel>
                         <Input
                             borderRadius={"6px"}
-                            id="header"
+                            id="date"
                             type="date"
                             value={date}
                             onChange={handleInputDateChange}
@@ -268,6 +299,29 @@ const CreateActivityPoll = () => {
                             <FormErrorMessage color="yellow">You must provide a date.</FormErrorMessage>
                         )}
                         {isNoDate ? <FormHelperText></FormHelperText> : <FormErrorMessage color="yellow">The date has passed.</FormErrorMessage>}
+                    </FormControl>
+                    {/* Time input & error control */}
+                    <FormControl isInvalid={!isValidTime} isRequired>
+                        <FormLabel color={"white"}>Time</FormLabel>
+                        <Input
+                            borderRadius={"6px"}
+                            id="time"
+                            type="time"
+                            value={time}
+                            onChange={handleInputTimeChange}
+                            backgroundColor="white"
+                            size="sm"
+                            borderColor="white"
+                            errorBorderColor="red"
+                            isRequired
+                            shadow="lg"
+                        />
+                        {!isNoTime ? <FormHelperText></FormHelperText> : <FormErrorMessage color="yellow">You must provide a time.</FormErrorMessage>}
+                        {!isInTimePast(time) ? (
+                            <FormHelperText></FormHelperText>
+                        ) : (
+                            <FormErrorMessage color="yellow">The time has passed.</FormErrorMessage>
+                        )}
                     </FormControl>
                     <Center>
                         {/* Submit button */}
