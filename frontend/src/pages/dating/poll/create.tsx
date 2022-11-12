@@ -135,6 +135,8 @@ const CreateActivityPoll = () => {
             alert(
                 "Header: " +
                     header +
+                    " Tag " +
+                    selectedInterests +
                     " Description: " +
                     description +
                     " Location: " +
