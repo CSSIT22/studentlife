@@ -48,6 +48,7 @@ import SnList from "../../components/shortnotes/snList"
 import Li from "../../components/shortnotes/liList"
 import BtnMl from "../../components/shortnotes/btnMyLibrary"
 import BtnNs from "../../components/shortnotes/btnNewShortnote"
+import { FaLock } from "react-icons/fa"
 const index = () => {
     const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
     const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
@@ -196,7 +197,7 @@ const index = () => {
                             console.log(snPicked)
                         }}
                     >
-                        <SnList key={key} topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : "🔒"} />
+                        <SnList key={key} topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
                     </Box>
                 ))}
             </VStack>
