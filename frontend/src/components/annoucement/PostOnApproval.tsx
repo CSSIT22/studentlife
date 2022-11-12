@@ -9,8 +9,8 @@ const PostOnApproval: FC<{
     sender: string
     status: string
     id: number
-    onClick: Function
-}> = ({ topic, sender, status, id, onClick }) => {
+   
+}> = ({ topic, sender, status, id }) => {
     return (
         <Link to={`/announcement/approval/${id}`}>
             <Box
@@ -20,7 +20,7 @@ const PostOnApproval: FC<{
                 mt="5"
                 backgroundColor="#D9D9D9"
                 rounded="lg"
-                onClick={() => onClick(status, id)}
+                
                 cursor="pointer"
             >
                 <Flex alignItems={"center"}>

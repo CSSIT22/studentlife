@@ -7,30 +7,25 @@ import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
 
 const approvalDetail = () => {
-    // const ALERT = () => {
-    //     alert("This announcement is approved")
-    //     window.history.go(-1)
-    // }
-    // const ALERTT = () => {
-    //     alert("This announcement is approved")
-    //     window.history.go(-1)
-    // }
-    // apply info follow the post that user click -> not done yet
-    //const [statusPostRequest, setStatusPostRequest] = React.useState("")
-    //const [selectPost, setSelectPost] = React.useState(Number)
-    //const [showButton, setShowButton] = React.useState(false)
-    //const ApproveClick = (postId: number, status: string) => {
-    //    setSelectPost(postId)
-    //    setStatusPostRequest(status)
-    //}
-
     const params = useParams().postId
     console.log(params)
+    const postId = parseInt(params + "")
     const post = postInfoTest.filter((el) => {
         return el.postId == parseInt(params + "")
     })
+    const [allPost, setAllPost] = React.useState(postInfoTest)
 
-    console.log(post)
+    console.log(allPost)
+    const changeStatus = (status: string) => {
+        setAllPost(
+            allPost.map((el) => {
+                if (el.postId == postId) {
+                    el.status = status
+                }
+                return el
+            })
+        )
+    }
 
     return (
         <AppBody
@@ -40,7 +35,7 @@ const approvalDetail = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            px={{ md: "3rem" }}
+            p={{ md: "3rem" }}
         >
             <Flex alignItems={"center"}>
                 <Text as={"b"} fontSize="xl" opacity={{ base: 100, lg: 0 }}>
@@ -80,13 +75,19 @@ const approvalDetail = () => {
                         })}
                     </Text>
                 </Box>
-                <Box width={"80%"} textAlign="center" position={"fixed"} bottom="5rem">
-                    <Flex justifyContent={"space-between"}>
-                        <Button colorScheme="orange">Approve</Button>
-                        <Button>Disapprove</Button>
-                    </Flex>
-                </Box>
             </Stack>
+            <Box width="100%" p="5" mt="14">
+                <Flex justifyContent={"space-between"}>
+                    <Link to={"/announcement/approval"}>
+                        <Button colorScheme="orange" onClick={() => changeStatus("approve")}>
+                            Approve
+                        </Button>
+                    </Link>
+                    <Link to={"/announcement/approval"}>
+                        <Button onClick={() => changeStatus("disapprove")}>Disapprove</Button>
+                    </Link>
+                </Flex>
+            </Box>
         </AppBody>
     )
 }
