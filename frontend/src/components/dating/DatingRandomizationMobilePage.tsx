@@ -1,9 +1,9 @@
 import TinderCard from "react-tinder-card"
-import { Box, Center, SimpleGrid, Tag, Text } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, SimpleGrid, Spinner, Tag, Text, useToast } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
-import { motion } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
 
 const DatingRandomizationMobilePage: FC<{
     CARD_QUEUE: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }[]
@@ -13,6 +13,9 @@ const DatingRandomizationMobilePage: FC<{
     const characters = CARD_QUEUE
     const interests = INTERESTS
     const currentIndexRef = useRef(currentIndex)
+    const controlCross = useAnimation()
+    const controlHeart = useAnimation()
+    const toast = useToast()
 
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
@@ -31,6 +34,12 @@ const DatingRandomizationMobilePage: FC<{
 
     const swiped = (direction: any, nameToDelete: any, index: any) => {
         console.log("Swiping " + nameToDelete + " to the " + direction)
+        if (direction === "left") {
+            controlCross.start("visible")
+        } else if (direction === "right") {
+            controlHeart.start("visible")
+        }
+
         updateCurrentIndex(index - 1)
     }
 
@@ -45,13 +54,39 @@ const DatingRandomizationMobilePage: FC<{
         }
     }
 
+    function handleClick(fname: string) {
+        let title
+        if (fname.length >= 30) {
+            title = "Navigate to " + fname.substring(0, 30) + "... profile"
+        } else {
+            title = "Navigate to " + fname + " profile"
+        }
+
+        {
+            toast({
+                title: title,
+                status: "info",
+                isClosable: true,
+                position: "top",
+            })
+        }
+    }
+
     return (
         <DatingAppBody>
             <SimpleGrid overflow="hidden">
                 <Box>
                     <Box className="cardContainer">
                         {characters.map((character, index) => (
-                            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20,
+                                }}
+                            >
                                 <TinderCard
                                     ref={childRefs[index]}
                                     className="swipe"
@@ -59,7 +94,6 @@ const DatingRandomizationMobilePage: FC<{
                                     onSwipe={(dir: any) => swiped(dir, character.Fname + " " + character.Lname, index)}
                                     onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
                                     preventSwipe={["down", "up"]}
-                                    swipeThreshold={1}
                                 >
                                     <Center>
                                         <Box
@@ -68,12 +102,13 @@ const DatingRandomizationMobilePage: FC<{
                                             w="326px"
                                             h="402px"
                                             backgroundSize="cover"
-                                            className="card"
+                                            className="card pressable"
                                             pl="1rem"
                                             id={character.UserId}
                                             position="absolute"
                                             top="30px"
                                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                            onClick={() => handleClick(character.Fname)}
                                         ></Box>
                                     </Center>
                                 </TinderCard>
@@ -83,24 +118,47 @@ const DatingRandomizationMobilePage: FC<{
                 </Box>
                 {characters[currentIndex] != null ? (
                     <>
-                        <Box display="flex">
-                            <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                                {characters[currentIndex].Fname.length >= 15
-                                    ? characters[currentIndex].Fname.substring(0, 15).concat("...")
-                                    : characters[currentIndex].Fname}{" "}
-                                {characters[currentIndex].Lname.substring(0, 1)}.
-                            </Text>
-                            <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pt="468px" pl="18px">
-                                {characters[currentIndex].Gender}, {characters[currentIndex].Age}
-                            </Text>
+                        <Box pt="468px">
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20,
+                                }}
+                            >
+                                <Box display="flex">
+                                    <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pl="18px">
+                                        {characters[currentIndex].Fname.length >= 15
+                                            ? characters[currentIndex].Fname.substring(0, 15).concat("...")
+                                            : characters[currentIndex].Fname}{" "}
+                                        {characters[currentIndex].Lname.substring(0, 1)}.
+                                    </Text>
+
+                                    <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pl="18px">
+                                        {characters[currentIndex].Gender}, {characters[currentIndex].Age}
+                                    </Text>
+                                </Box>
+                            </motion.div>
                         </Box>
-                        <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
-                            <Text pl="18px" pt="10px">
-                                {characters[currentIndex].Faculty.length >= 30
-                                    ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
-                                    : characters[currentIndex].Faculty.trim()}
-                            </Text>
-                        </Box>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 310,
+                                damping: 20,
+                            }}
+                        >
+                            <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
+                                <Text pl="18px" pt="10px">
+                                    {characters[currentIndex].Faculty.length >= 30
+                                        ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
+                                        : characters[currentIndex].Faculty}
+                                </Text>
+                            </Box>
+                        </motion.div>
                         <Box height="70px" overflow="hidden">
                             <Box
                                 pb="5"
@@ -112,7 +170,18 @@ const DatingRandomizationMobilePage: FC<{
                                 style={{ WebkitOverflowScrolling: "touch" }}
                             >
                                 {characters[currentIndex].interestId.map((id) => (
-                                    <motion.div style={{display: "inline-block"}} whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.2 }}>
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        style={{ display: "inline-block" }}
+                                        whileTap={{ scale: 1.2 }}
+                                        key={id}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}
+                                    >
                                         <Tag
                                             backgroundColor="orange.600"
                                             color="white"
@@ -130,39 +199,67 @@ const DatingRandomizationMobilePage: FC<{
                                 ))}
                             </Box>
                         </Box>
-                        <Center display="flex" pt="18px" pl="18px">
-                            <motion.div
-                                style={{ marginRight: "72px" }}
-                                onClick={() => swipe("left")}
-                                whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8 }}
-                            >
-                                <AiOutlineStop size="62px" color="black" />
-                            </motion.div>
-
-                            <motion.div
-                                style={{ marginLeft: "72px" }}
-                                onClick={() => swipe("right")}
-                                whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.8 }}
-                            >
-                                <AiOutlineHeart size="62px" color="black" />
-                            </motion.div>
-                        </Center>
                     </>
                 ) : (
-                    <>
-                        <Center display="flex" pt="18px" pl="18px">
-                            <motion.div style={{ marginRight: "72px", marginTop: "596px" }} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-                                <AiOutlineStop size="62px" color="black" />
-                            </motion.div>
-
-                            <motion.div style={{ marginLeft: "72px", marginTop: "596px" }} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-                                <AiOutlineHeart size="62px" color="black" />
-                            </motion.div>
-                        </Center>
-                    </>
+                    <Box height="596px" display="flex" alignItems="center" justifyContent="center">
+                        <Spinner size="xl" />
+                    </Box>
                 )}
+                <Center display="flex" pl="18px">
+                    <motion.div
+                        style={{
+                            marginRight: "58px",
+                            width: "80px",
+                            height: "80px",
+                            borderRadius: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#FFF2E6",
+                        }}
+                        animate={controlCross}
+                        onClick={() => swipe("left")}
+                        variants={{
+                            visible: {
+                                scale: [1, 0.8, 1],
+                                backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                                transition: {
+                                    duration: 0.4,
+                                    ease: [0.075, 0.82, 0.165, 1],
+                                },
+                            },
+                        }}
+                    >
+                        <AiOutlineStop size="62px" color="black" />
+                    </motion.div>
+
+                    <motion.div
+                        style={{
+                            marginLeft: "58px",
+                            width: "80px",
+                            height: "80px",
+                            borderRadius: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#FFF2E6",
+                        }}
+                        animate={controlHeart}
+                        onClick={() => swipe("right")}
+                        variants={{
+                            visible: {
+                                scale: [1, 0.8, 1],
+                                backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                                transition: {
+                                    duration: 0.4,
+                                    ease: [0.075, 0.82, 0.165, 1],
+                                },
+                            },
+                        }}
+                    >
+                        <AiOutlineHeart size="62px" color="black" />
+                    </motion.div>
+                </Center>
             </SimpleGrid>
         </DatingAppBody>
     )
