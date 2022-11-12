@@ -1,9 +1,11 @@
 import TinderCard from "react-tinder-card"
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, SimpleGrid, Spinner, Tag, Text, useToast } from "@chakra-ui/react"
+import { Box, Button, Center, IconButton, Image, Link, SimpleGrid, Spinner, Tag, Text, useToast } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
 import { motion, useAnimation } from "framer-motion"
+import { CgProfile } from "react-icons/cg"
+import ProfileImg from "./pic/profile.png"
 
 const DatingRandomizationMobilePage: FC<{
     CARD_QUEUE: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }[]
@@ -55,21 +57,7 @@ const DatingRandomizationMobilePage: FC<{
     }
 
     function handleClick(fname: string) {
-        let title
-        if (fname.length >= 30) {
-            title = "Navigate to " + fname.substring(0, 30) + "... profile"
-        } else {
-            title = "Navigate to " + fname + " profile"
-        }
-
-        {
-            toast({
-                title: title,
-                status: "info",
-                isClosable: true,
-                position: "top",
-            })
-        }
+        window.location.href = "../../user"
     }
 
     return (
@@ -102,14 +90,31 @@ const DatingRandomizationMobilePage: FC<{
                                             w="326px"
                                             h="402px"
                                             backgroundSize="cover"
-                                            className="card pressable"
+                                            className="card"
                                             pl="1rem"
                                             id={character.UserId}
                                             position="absolute"
                                             top="30px"
                                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                            onClick={() => handleClick(character.Fname)}
-                                        ></Box>
+                                            display="flex"
+                                            alignItems="end"
+                                            justifyContent="end"
+                                        >
+                                            
+                                            <Button
+                                                aria-label="User Profile"
+                                                w="50px"
+                                                h="50px"
+                                                colorScheme="orange"
+                                                borderRadius="full"
+                                                mr="10px"
+                                                mb="10px"
+                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                            >
+                                                <Image className="pressable" onClick={() => handleClick(character.Fname)} src={ProfileImg}></Image>
+                                            </Button>
+
+                                        </Box>
                                     </Center>
                                 </TinderCard>
                             </motion.div>
