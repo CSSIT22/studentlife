@@ -59,6 +59,7 @@ function LikeorNope() {
        return onClose()
     }
     // console.log(count);
+<<<<<<< HEAD
     //console.log(Math.floor(Math.random() * 10));
     
     console.log(params)
@@ -129,6 +130,11 @@ function LikeorNope() {
         console.log(detailLikeorNope[res])
     }
 
+=======
+    console.log(Math.floor(Math.random() * 10));
+    
+    
+>>>>>>> parent of f923bf0 (fix routing on some page edit some components to match with figma and match index page with [id])
     return (
         <AppBody
             secondarynav={[
