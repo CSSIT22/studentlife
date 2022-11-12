@@ -23,10 +23,15 @@ function index() {
                     <AppBody />
                 </Flex>
                 <Grid
-                    margin={"5"}
-                    templateAreas={`"header header"
+                    margin={"3"}
+                    templateAreas={{
+                        base: `"header"
+                    "nav"
+                    "nav2"`,
+                        md: `"header header"
                   "nav main"
-                  "nav2 footer"`}
+                  "nav2 footer"`,
+                    }}
                     gridTemplateColumns={{ base: "100%", md: "35% 1fr" }}
                     gap="1"
                     color="blackAlpha.700"

@@ -34,6 +34,8 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     useBreakpointValue,
+    extendTheme,
+    HStack,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -51,39 +53,55 @@ export default function SimpleThreeColumns() {
     const finalRef = React.useRef(null)
     const cancelRef = React.useRef()
 
+    const breakpoints = {
+        sm: "320px",
+        md: "768px",
+        lg: "960px",
+        xl: "1200px",
+        "2xl": "1536px",
+    }
+
+    // 3. Extend the theme
+    const theme = extendTheme({ breakpoints })
+
     return (
-        <Box maxW="95%" borderRadius="none" overflow="hidden" p="5">
+        <Box maxW="100%" borderRadius="none" overflow="hidden" p="5">
             <Grid
                 templateAreas={`
                   "nav main"
                   "nav footer"`}
-                gridTemplateRows={"150px 6fr 300px"}
-                gridTemplateColumns={"150px 1fr"}
-                h="200px"
+                gridTemplateRows={{ base: "80% 1fr 50%", md: "70% 1fr 50%" }}
+                gridTemplateColumns={"25% 1fr"}
+                h="100%"
                 gap="1"
                 color="blackAlpha.700"
                 fontWeight="bold"
                 borderRadius="md"
-                bg="white"
-                shadow={"lg"}
+                bg={{ base: "", md: "white" }}
+                shadow={{ base: "", md: "lg" }}
             >
-                <GridItem rounded="xl" area={"nav"}>
+                <GridItem rounded="xl" area={"nav"} mt={5}>
                     <VStack align="stretch" alignItems="center">
                         <Avatar pt={2} display="flex" position="initial" size="2xl" name="Christian Nwamba" src="https://bit.ly/code-beast" />{" "}
-                        <Box textAlign="center" color="black" my={4} fontSize={"2xl"} fontWeight={200} fontFamily={"body"}>
+                        <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" rounded="xl" fontSize={"2xl"} area={"main"} color="gray.700">
-                    <Box p={2}>Id: 64130500XXX</Box>
+                <GridItem pl="2" fontSize={"xl"} ml={{ base: "6", md: "" }} area={"main"} color="gray.700">
+                    <Box p={1}>Id: 64130500XXX</Box>
 
-                    <Box p={2} fontSize={"2xl"}>
+                    <Box p={1} fontSize={"xl"}>
                         Name: John Doe
                     </Box>
-                    <Box p={2} fontSize={"2xl"}>
-                        Fucuty: SIT Major: Computer Science
-                    </Box>
+                    <HStack>
+                        <Box p={1} fontSize={"xl"}>
+                            Fucuty: SIT
+                        </Box>
+                        <Box p={1} fontSize={"xl"}>
+                            Major: Computer Science
+                        </Box>
+                    </HStack>
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl">
                     <ButtonGroup color="white" variant="solid" spacing="6">

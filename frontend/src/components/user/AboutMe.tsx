@@ -15,7 +15,7 @@ function AboutMe() {
 
     return (
         <div>
-            <Flex rounded="xl" direction="column" my={4} ml={5} bg="white" position="initial" shadow={"lg"}>
+            <Flex rounded="xl" direction="column" my={4} mx={4} bg="white" position="initial" shadow={"lg"}>
                 <Text color="black" p="5" fontSize="2xl" fontWeight="500">
                     ABOUT ME
                 </Text>

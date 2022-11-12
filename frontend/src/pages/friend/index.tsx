@@ -19,21 +19,26 @@ function index() {
     return (
         <>
             <Box bg="orange.50">
-                <Flex>
+                <Flex display="flex" position="static">
                     <AppBody />
                 </Flex>
                 <Grid
-                    margin={"5"}
-                    templateAreas={`"header header"
-                  "nav main"
-                  "nav2 footer"`}
+                    margin={"3"}
+                    templateAreas={{
+                        base: `"header"
+                "nav"
+                "nav2"`,
+                        md: `"header header"
+              "nav main"
+              "nav2 footer"`,
+                    }}
                     gridTemplateColumns={{ base: "100%", md: "35% 1fr" }}
                     gap="1"
                     color="blackAlpha.700"
                     fontWeight="bold"
                     justifyContent="center"
                 >
-                    <GridItem area={"header"}>
+                    <GridItem alignItems="center" area={"header"}>
                         <FriendProfile />
                     </GridItem>
                     <GridItem area={"nav"}>
