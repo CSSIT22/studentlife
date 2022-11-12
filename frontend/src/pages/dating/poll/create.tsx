@@ -265,22 +265,20 @@ const CreateActivityPoll = () => {
                                         {/* Grid: Used for separating topic, button, and description into three areas */}
 
                                         {/* CheckboxGroup : List of tags of interest */}
-                                        <CheckboxGroup colorScheme="black">
-                                            {interests.map(({ interestId, interestName }) => (
-                                                // DatingInterestTag component: Used for generating interactive tag
-                                                <DatingInterestTag
-                                                    key={interestId}
-                                                    interestId={interestId}
-                                                    interestName={interestName}
-                                                    onOpen={onOpen}
-                                                    selectedInterests={selectedInterests}
-                                                    numOfSelectedInterest={selectedInterests.length}
-                                                    setSelectedInterest={setSelectedInterest}
-                                                    tagIsClicked={tagIsClicked}
-                                                    setTagIsClicked={setTagIsClicked}
-                                                />
-                                            ))}
-                                        </CheckboxGroup>
+                                        {interests.map(({ interestId, interestName }) => (
+                                            // DatingInterestTag component: Used for generating interactive tag
+                                            <DatingInterestTag
+                                                key={interestId}
+                                                interestId={interestId}
+                                                interestName={interestName}
+                                                onOpen={onOpen}
+                                                selectedInterests={selectedInterests}
+                                                numOfSelectedInterest={selectedInterests.length}
+                                                setSelectedInterest={setSelectedInterest}
+                                                tagIsClicked={tagIsClicked}
+                                                setTagIsClicked={setTagIsClicked}
+                                            />
+                                        ))}
                                     </ModalBody>
                                     <ModalFooter>
                                         <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }} onClick={onClose}>

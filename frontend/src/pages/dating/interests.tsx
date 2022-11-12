@@ -1,5 +1,5 @@
 import { INTERESTS } from "../../components/dating/shared/interests"
-import { Heading, Box, Grid, GridItem, CheckboxGroup, useDisclosure } from "@chakra-ui/react"
+import { Heading, Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react"
 import { useState } from "react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingInterestModal from "../../components/dating/DatingInterestModal"
@@ -58,22 +58,20 @@ const TagOfInterest = () => {
                 <DatingInterestSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} setInterests={setInterests} INTERESTS={INTERESTS} />
             </Box>
             {/* CheckboxGroup : List of tags of interest */}
-            <CheckboxGroup colorScheme="black">
-                {interests.map(({ interestId, interestName }) => (
-                    // DatingInterestTag component: Used for generating interactive tag
-                    <DatingInterestTag
-                        key={interestId}
-                        interestId={interestId}
-                        interestName={interestName}
-                        onOpen={onOpen}
-                        selectedInterests={selectedInterests}
-                        numOfSelectedInterest={selectedInterests.length}
-                        setSelectedInterest={setSelectedInterest}
-                        tagIsClicked={tagIsClicked}
-                        setTagIsClicked={setTagIsClicked}
-                    />
-                ))}
-            </CheckboxGroup>
+            {interests.map(({ interestId, interestName }) => (
+                // DatingInterestTag component: Used for generating interactive tag
+                <DatingInterestTag
+                    key={interestId}
+                    interestId={interestId}
+                    interestName={interestName}
+                    onOpen={onOpen}
+                    selectedInterests={selectedInterests}
+                    numOfSelectedInterest={selectedInterests.length}
+                    setSelectedInterest={setSelectedInterest}
+                    tagIsClicked={tagIsClicked}
+                    setTagIsClicked={setTagIsClicked}
+                />
+            ))}
             {/* DatingInterestModal: Modal that will appear when you select more than 5 tags of interest */}
             <DatingInterestModal isOpen={isOpen} onClose={onClose} />
         </DatingAppBody>
