@@ -18,7 +18,6 @@ const TagOfInterest = () => {
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
     const [tagIsClicked, setTagIsClicked] = useState(false)
 
-
     return (
         <DatingAppBody>
             {/* Grid: Used for separating topic, button, and description into three areas */}

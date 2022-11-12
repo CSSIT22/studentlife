@@ -65,7 +65,7 @@ const DatingOption = () => {
         globalThis.age = sliderValue
         globalThis.gender = selected
         globalThis.faculty = selectedFac
-        console.log(selectedFac)
+        //console.log(selectedFac)
         alert(
             "Age min =" +
                 globalThis.age[0] +
