@@ -60,7 +60,73 @@ function LikeorNope() {
     }
     // console.log(count);
     console.log(Math.floor(Math.random() * 10));
+    console.log(params)
+    const detailLikeorNope = [
+        {
+            id: 0,
+            resName: "Kitchen cheif's", 
+            isFavorite: true,
+        },
+        {
+            id: 1,
+            resName: "Kitchen",
+            isFavorite: true,
+        },
+        {
+            id: 2,
+            resName: "Kit",
+            isFavorite: false,
+        },
+        {
+            id: 3,
+            resName: "A",
+            isFavorite: true,
+        },
+        {
+            id: 4,
+            resName: "B",
+            isFavorite: false,
+        },
+        {
+            id: 5,
+            resName: "Kitchen cheif's",
+            isFavorite: false,
+        },
+        {
+            id: 6,
+            resName: "Kitchen",
+            isFavorite: false,
+        },
+        {
+            id: 7,
+            resName: "Kit",
+            isFavorite: false,
+        },
+        {
+            id: 8,
+            resName: "A",
+            isFavorite: true,
+        },
+        {
+            id: 9,
+            resName: "B",
+            isFavorite: true,
+        },
+    ]
+    //const [favorite, setFavorite] = useBoolean() will use in favorite function
+    const setLikeStatus = () => {
     
+        const objIndex = detailLikeorNope.findIndex((obj => obj.id.toString() == params.id));
+        detailLikeorNope[objIndex].isFavorite = true
+        console.log(detailLikeorNope[res])
+    }
+
+    const setNopeStatus = () => {
+    
+        const objIndex = detailLikeorNope.findIndex((obj => obj.id.toString() == params.id));
+        detailLikeorNope[objIndex].isFavorite = false
+        console.log(detailLikeorNope[res])
+    }  
     
     return (
         <AppBody
