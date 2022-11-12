@@ -11,8 +11,7 @@ const ModalForEvent: FC<{
     allPost: Array<any>
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
     selectPost: number
-    cancelButtonForEvent: Function
-}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost, cancelButtonForEvent }) => {
+}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost }) => {
     // console.log(status + " " + selectPost)
     // console.log(allPost);
     const toggle = () => {
@@ -57,7 +56,7 @@ const ModalForEvent: FC<{
                     colorScheme="blue"
                     mr={3}
                     onClick={() => {
-                        onClose(), toggle(), cancelButtonForEvent()
+                        onClose(), toggle()
                     }}
                     bg="#E65300"
                     color="white"
@@ -71,7 +70,7 @@ const ModalForEvent: FC<{
                     colorScheme="blue"
                     mr={3}
                     onClick={() => {
-                        onClose(), toggle(), cancelButtonForEvent()
+                        onClose(), toggle()
                     }}
                     bg="#E65300"
                     color="white"
@@ -86,7 +85,7 @@ const ModalForEvent: FC<{
                         colorScheme="blue"
                         mr={3}
                         onClick={() => {
-                            onClose(), toggle(), cancelButtonForEvent()
+                            onClose(), toggle()
                         }}
                         bg="#E65300"
                         color="white"
@@ -106,7 +105,7 @@ const ModalForEvent: FC<{
                 <Link to="/announcement/history">
                     <Button
                         onClick={() => {
-                            onClose(), cancelButtonForEvent()
+                            onClose()
                         }}
                     >
                         Close
@@ -118,7 +117,7 @@ const ModalForEvent: FC<{
                 <Link to="/announcement">
                     <Button
                         onClick={() => {
-                            onClose(), cancelButtonForEvent()
+                            onClose()
                         }}
                     >
                         Close
@@ -129,7 +128,7 @@ const ModalForEvent: FC<{
             return (
                 <Button
                     onClick={() => {
-                        onClose(), cancelButtonForEvent()
+                        onClose()
                     }}
                 >
                     Close

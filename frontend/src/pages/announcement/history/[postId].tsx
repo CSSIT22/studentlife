@@ -136,6 +136,8 @@ const history = () => {
             })
         )
     }
+    // console.log(allPost)
+
     const [add, setAdd] = React.useState(0)
     const onAdd = () => {
         setAdd(add + 1)
@@ -238,72 +240,74 @@ const history = () => {
             ]}
             p={{ md: "3rem" }}
         >
-            {/* <Form> */}
-            <Flex alignItems={"center"}>
-                <Text as={"b"} fontSize="xl" opacity={{base:100,lg:0}}>
-                    <Link to={"/announcement"}>
-                        <GrClose />
-                    </Link>
-                </Text>
-                <Spacer />
-                <Box textAlign={"right"}>
-                    <Button
-                        size="sm"
-                        bg="#E65300"
-                        onClick={() => {
-                            addPost(topic, detail, targetType, targetValue, expired, addMoreLang), onOpen(), updatePost()
-                        }}
-                        type="submit"
-                        color="white"
-                    >
-                        Announce
-                    </Button>
-                    <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalEdit.topic} detail={modalEdit.detail} status={modalEdit.status} />
-                </Box>
-            </Flex>
-            <Stack spacing={3} p="5">
-                <FormControl>
-                    <FormLabel>Language</FormLabel>
-                    <Select isDisabled placeholder="English"></Select>
-                </FormControl>
-                <FormControl isRequired>
-                    <FormLabel>Title</FormLabel>
-                    <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} />
-                </FormControl>
-                <FormControl isRequired>
-                    <FormLabel>Detail</FormLabel>
-                    <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} />
-                </FormControl>
-                <FormControl isRequired>
-                    <FormLabel>Target Group</FormLabel>
-                    <Flex>
-                        <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} value={targetType}>
-                            <option>Everyone</option>
-                            <option>Year</option>
-                            <option>Major</option>
-                            <option>Faculty</option>
-                        </Select>
-                        {selectTargetValue(targetType)}
-                    </Flex>
-                </FormControl>
-                <FormControl isRequired>
-                    <FormLabel>Expired Date</FormLabel>
-                    <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} value={expired} />
-                </FormControl>
-                <FormControl>
-                    <>
-                        {showMoreLang(moreLangLength, add)}
-                        {moreLangField.map((el) => {
-                            return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
-                        })}
-                        <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"} mt="5">
-                            <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
-                            <TagLabel>Add More Language</TagLabel>
-                        </Tag>
-                    </>
-                </FormControl>
-            </Stack>
-            {/* </Form> */}
+            <form
+                onSubmit={(e) => {
+                    onOpen()
+                    e.preventDefault()
+                    updatePost()
+                }}
+            >
+                <Flex alignItems={"center"}>
+                    <Text as={"b"} fontSize="xl" opacity={{ base: 100, lg: 0 }}>
+                        <Link to={"/announcement"}>
+                            <GrClose />
+                        </Link>
+                    </Text>
+                    <Spacer />
+                    <Box textAlign={"right"}>
+                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
+                        <ModalForEvent
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            topic={modalEdit.topic}
+                            detail={modalEdit.detail}
+                            status={modalEdit.status}
+                        />
+                    </Box>
+                </Flex>
+                <Stack spacing={3} p="5">
+                    <FormControl>
+                        <FormLabel>Language</FormLabel>
+                        <Select isDisabled placeholder="English"></Select>
+                    </FormControl>
+                    <FormControl isRequired>
+                        <FormLabel>Title</FormLabel>
+                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} />
+                    </FormControl>
+                    <FormControl isRequired>
+                        <FormLabel>Detail</FormLabel>
+                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} />
+                    </FormControl>
+                    <FormControl isRequired>
+                        <FormLabel>Target Group</FormLabel>
+                        <Flex>
+                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} value={targetType}>
+                                <option>Everyone</option>
+                                <option>Year</option>
+                                <option>Major</option>
+                                <option>Faculty</option>
+                            </Select>
+                            {selectTargetValue(targetType)}
+                        </Flex>
+                    </FormControl>
+                    <FormControl isRequired>
+                        <FormLabel>Expired Date</FormLabel>
+                        <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} value={expired} />
+                    </FormControl>
+                    <FormControl>
+                        <>
+                            {showMoreLang(moreLangLength, add)}
+                            {moreLangField.map((el) => {
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
+                            })}
+                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"} mt="5">
+                                <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
+                                <TagLabel>Add More Language</TagLabel>
+                            </Tag>
+                        </>
+                    </FormControl>
+                </Stack>
+            </form>
         </AppBody>
     )
 }

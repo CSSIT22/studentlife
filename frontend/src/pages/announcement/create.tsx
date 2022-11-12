@@ -19,7 +19,7 @@ import {
 import React from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
-import { Form, Link, To } from "react-router-dom"
+import { Link, To } from "react-router-dom"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
@@ -90,7 +90,7 @@ const create = () => {
             ...post,
         ])
     }
-    console.log(post)
+    // console.log(post)
 
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
@@ -102,7 +102,7 @@ const create = () => {
     const addLang = (lang: string, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { lang: lang, topic: topic, detail: detail }])
     }
-    console.log(addMoreLang)
+    // console.log(addMoreLang)
 
     const ALERT = () => {
         alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
@@ -119,19 +119,22 @@ const create = () => {
         decreaseLang()
         setAddMoreLang(addMoreLang.pop())
     }
-    console.log(count)
+    // console.log(count)
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])
     }
-    console.log(moreLangField)
+    // console.log(moreLangField)
 
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
     // console.log(moreLangField);
     // console.log(post);
-
+    // const submit =useSubmit()
+    // const handleSubmit = (e)=>{
+    //     e.preventDefault();
+    // }
     return (
         <AppBody
             secondarynav={[
@@ -143,36 +146,26 @@ const create = () => {
             p={{ md: "3rem" }}
         >
             {/* <Form> */}
-            <form>
+            <form onSubmit={(e) => {
+                onOpen()
+                e.preventDefault();
+                addPost(topic, detail, targetType, targetValue, expired, addMoreLang)
+                }}>
                 <Flex alignItems={"center"}>
                     <Text as={"b"} fontSize="xl">
                         <Link to={"/announcement"}>
-                            <Box opacity={{base:100,lg:0}}>
+                            <Box opacity={{ base: 100, lg: 0 }}>
                                 <GrClose />
                             </Box>
                         </Link>
                     </Text>
                     <Spacer />
                     <Box textAlign={"right"}>
-                        {/* <Button
-                        size="sm"
-                        bg="#E65300"
-                        onClick={() => {addPost(topic, detail, targetType, targetValue, expired, addMoreLang),onOpen()}}
-                        type="submit"
-                        color="white"
-                    >
-                        
-                        Announce
-                    </Button> */}
-                        {/* <input type={"submit"} value="Announce" backgroundColor="#E65300"/> */}
                         <Input
                             type={"submit"}
                             value="Announce"
                             backgroundColor={"#E65300"}
                             color="white"
-                            onClick={() => {
-                                addPost(topic, detail, targetType, targetValue, expired, addMoreLang), onOpen()
-                            }}
                             cursor="pointer"
                         />
                         <ModalForEvent
