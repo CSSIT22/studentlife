@@ -10,7 +10,7 @@ const review = () => {
                 <Link href="javascript:javascript:history.go(-1)">
                     <ChevronLeftIcon w={8} h={8} />
                 </Link>
-                <Heading>User Review!!!!</Heading>
+                <Heading>User Review!!!!(PAUSE)</Heading>
             </Flex>
         </AppBody>
     )
