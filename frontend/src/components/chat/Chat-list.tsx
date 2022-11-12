@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Img ,Hide,Show} from "@chakra-ui/react"
+import { Box, Button, Flex, Img, Hide, Show } from "@chakra-ui/react"
 import { Avatar } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { FC, useState } from "react"
@@ -10,15 +10,15 @@ import Nmodal from "./Nmodal"
 type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
 
 const mockRoom: room = [
-    { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://s.thistine.com/rodo" },
-    { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://s.thistine.com/dog" },
+    { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://picsum.photos/200/300" },
+    { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://picsum.photos/200/300" },
+    { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://picsum.photos/200/300" },
+    { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://picsum.photos/200/300" },
+    { roomID: "5555", roomName: "4Young", roomtype: "group", img: "hhttps://picsum.photos/200/300" },
+    { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://picsum.photos/200/300" },
+    { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://picsum.photos/200/300" },
+    { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://picsum.photos/200/300" },
+    { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://picsum.photos/200/300" },
 ]
 
 const Clist: FC<any> = () => {
@@ -34,23 +34,25 @@ const Clist: FC<any> = () => {
         return setSearch(e.target.value)
     }
 
-    function DeleteRoom (e:any){
-        const result  = userRoom.filter((el)=> el.roomID !== e.roomID );
-        setuserRoom(result);
+    function DeleteRoom(e: any) {
+        const result = userRoom.filter((el) => el.roomID !== e.roomID)
+        setuserRoom(result)
     }
 
     //component FC
 
     const Cmenu: FC<any> = (props) => {
-        const room = props.room;
+        const room = props.room
         return (
             <Menu>
                 <MenuButton>:</MenuButton>
                 <MenuList color={"black"}>
                     <MenuItem>Mute</MenuItem>
-                    <MenuItem onClick={()=>DeleteRoom(room)}>Deteleroom</MenuItem>
+                    <MenuItem onClick={() => DeleteRoom(room)}>Deteleroom</MenuItem>
                     <MenuItem>Block</MenuItem>
-                    <MenuItem><Nmodal /></MenuItem>
+                    <MenuItem>
+                        <Nmodal />
+                    </MenuItem>
                 </MenuList>
             </Menu>
         )
@@ -105,9 +107,11 @@ const Clist: FC<any> = () => {
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
-                        <Cmenu room={e}/>
+                        <Cmenu room={e} />
                     </Show>
-                    <Show below="md" ><DrawerExample item = {e} setuserRoom={setuserRoom} userRoom = {userRoom}/></Show> 
+                    <Show below="md">
+                        <DrawerExample item={e} setuserRoom={setuserRoom} userRoom={userRoom} />
+                    </Show>
                 </Flex>
             )
         }
@@ -128,9 +132,11 @@ const Clist: FC<any> = () => {
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
-                        <Cmenu room={e}/>
+                        <Cmenu room={e} />
                     </Show>
-                    <Show below="md" ><DrawerExample item = {e} setuserRoom={setuserRoom} userRoom = {userRoom}/></Show> 
+                    <Show below="md">
+                        <DrawerExample item={e} setuserRoom={setuserRoom} userRoom={userRoom} />
+                    </Show>
                 </Flex>
             )
         }
@@ -145,7 +151,7 @@ const Clist: FC<any> = () => {
     }
 
     return (
-        <Box minH={{ base: "80vh", md: "700px" }} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"} >
+        <Box minH={{ base: "80vh", md: "700px" }} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />

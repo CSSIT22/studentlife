@@ -1,22 +1,44 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, useDisclosure ,Box} from "@chakra-ui/react"
-function Nmodal(props : any) {
-    const { isOpen, onOpen, onClose } =useDisclosure()
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    Button,
+    useDisclosure,
+    Box,
+    Stack,
+    Input,
+    FormLabel,
+} from "@chakra-ui/react"
+function Nmodal(props: any) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
-            <Box onClick={onOpen}>Report</Box>
+            <Box onClick={onOpen} width={'100%'}>Report</Box>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered ={true}>
+            <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalHeader color={"red"} textAlign={"center"}>
+                        Report
+                    </ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>Test</ModalBody>
+                    <ModalBody>
+                        <Stack>
+                            <FormLabel>Context your require report </FormLabel>
+                            <Input variant="flushed" placeholder="" />
+                            <FormLabel>Reason for reporting</FormLabel>
+                            <Input variant="flushed" placeholder="" />
+                        </Stack>
+                    </ModalBody>
 
-                    <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={onClose}>
-                            Close
+                    <ModalFooter display={'flex'} justifyContent={'center'}>
+                        <Button colorScheme="green" onClick={onClose}>
+                            Verify and send
                         </Button>
-                        <Button variant="ghost">Secondary Action</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
