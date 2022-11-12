@@ -84,7 +84,7 @@ const CreateActivityPoll = () => {
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoTime = time.length < 3
     let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
-    const isNoTag = selectedInterests.length === 0
+    const isNoTag = selectedInterests.length < 1
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -131,7 +131,7 @@ const CreateActivityPoll = () => {
 
     function handleSubmit() {
         // Validate all value before submit to database
-        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
+        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time) && !isNoTag) {
             alert(
                 "Header: " +
                     header +
