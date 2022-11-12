@@ -1,4 +1,4 @@
-import { Flex, Spacer, Heading, Text, Stack, Box, ButtonGroup, Button, Alert, AlertIcon, useControllableState } from "@chakra-ui/react"
+import { Flex, Spacer, Heading, Text, Stack, Box, ButtonGroup, Button, Alert, AlertIcon, useControllableState, Show } from "@chakra-ui/react"
 import React, { Children, FC } from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
@@ -38,11 +38,13 @@ const approvalDetail = () => {
             p={{ md: "3rem" }}
         >
             <Flex alignItems={"center"}>
-                <Text as={"b"} fontSize="xl" opacity={{ base: 100, lg: 0 }}>
-                    <Link to="/announcement/approval">
-                        <GrClose />
-                    </Link>
-                </Text>
+                <Show below="lg">
+                    <Text as={"b"} fontSize="xl">
+                        <Link to="/announcement/approval">
+                            <GrClose />
+                        </Link>
+                    </Text>
+                </Show>
                 {/* <Spacer /> */}
             </Flex>
             <Stack spacing={3} p="5">

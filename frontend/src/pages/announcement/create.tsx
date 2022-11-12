@@ -15,6 +15,7 @@ import {
     Text,
     Textarea,
     Box,
+    Show,
 } from "@chakra-ui/react"
 import React from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
@@ -146,28 +147,26 @@ const create = () => {
             p={{ md: "3rem" }}
         >
             {/* <Form> */}
-            <form onSubmit={(e) => {
-                onOpen()
-                e.preventDefault();
-                addPost(topic, detail, targetType, targetValue, expired, addMoreLang)
-                }}>
+            <form
+                onSubmit={(e) => {
+                    onOpen()
+                    e.preventDefault()
+                    addPost(topic, detail, targetType, targetValue, expired, addMoreLang)
+                }}
+            >
                 <Flex alignItems={"center"}>
-                    <Text as={"b"} fontSize="xl">
-                        <Link to={"/announcement"}>
-                            <Box opacity={{ base: 100, lg: 0 }}>
-                                <GrClose />
-                            </Box>
-                        </Link>
-                    </Text>
+                    <Show below="lg">
+                        <Text as={"b"} fontSize="xl">
+                            <Link to={"/announcement"}>
+                                <Box>
+                                    <GrClose />
+                                </Box>
+                            </Link>
+                        </Text>
+                    </Show>
                     <Spacer />
                     <Box textAlign={"right"}>
-                        <Input
-                            type={"submit"}
-                            value="Announce"
-                            backgroundColor={"#E65300"}
-                            color="white"
-                            cursor="pointer"
-                        />
+                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
                         <ModalForEvent
                             isOpen={isOpen}
                             onClose={onClose}

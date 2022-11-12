@@ -129,7 +129,6 @@ const recyclebin = () => {
                 allPost={allPost}
                 setAllPost={setAllPost}
                 selectPost={selectPost}
-                cancelButtonForEvent={cancelRecover}
             />
         </AppBody>
     )

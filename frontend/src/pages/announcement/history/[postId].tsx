@@ -1,4 +1,4 @@
-import { Flex, Spacer, Button, Stack, FormControl, FormLabel, Select, Input, Textarea, Tag, TagLeftIcon, TagLabel, Text, Box } from "@chakra-ui/react"
+import { Flex, Spacer, Button, Stack, FormControl, FormLabel, Select, Input, Textarea, Tag, TagLeftIcon, TagLabel, Text, Box, Show } from "@chakra-ui/react"
 import React from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
@@ -248,11 +248,13 @@ const history = () => {
                 }}
             >
                 <Flex alignItems={"center"}>
-                    <Text as={"b"} fontSize="xl" opacity={{ base: 100, lg: 0 }}>
-                        <Link to={"/announcement"}>
+                <Show below="lg">
+                    <Text as={"b"} fontSize="xl">
+                        <Link to={"/announcement/history"}>
                             <GrClose />
                         </Link>
                     </Text>
+                    </Show>
                     <Spacer />
                     <Box textAlign={"right"}>
                         <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />

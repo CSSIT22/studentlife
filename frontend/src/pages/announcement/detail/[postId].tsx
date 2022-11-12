@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spacer, Stack, Text } from "@chakra-ui/react"
+import { Box, Flex, Heading, Show, Spacer, Stack, Text } from "@chakra-ui/react"
 import React from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
@@ -25,11 +25,13 @@ const detail = () => {
             p={{ md: "3rem" }}
         >
             <Flex alignItems={"center"}>
-                <Text as={"b"} fontSize="xl" opacity={{ base: 100, lg: 0 }}>
-                    <Link to="/announcement">
-                        <GrClose />
-                    </Link>
-                </Text>
+                <Show below="lg">
+                    <Text as={"b"} fontSize="xl">
+                        <Link to="/announcement">
+                            <GrClose />
+                        </Link>
+                    </Text>
+                </Show>
                 {/* <Spacer /> */}
             </Flex>
             <Stack spacing={3} p="5">
