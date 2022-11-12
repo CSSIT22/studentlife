@@ -22,6 +22,7 @@ import {
     Flex,
     Text,
     SimpleGrid,
+    useBoolean,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -59,7 +60,7 @@ function LikeorNope() {
         if (count % 5 == 0) {
             return onOpen()
         }
-       
+        setNopeStatus();
     }
     console.log(res);
     // console.log(count)
@@ -67,9 +68,78 @@ function LikeorNope() {
     globalThis.rand = Math.floor(Math.random() * 10)
     const Random = () => {
         setres(globalThis.rand)
-       return onClose()
-   }
+        return onClose()
+    }
+    // console.log(count);
+    console.log(Math.floor(Math.random() * 10));
+    console.log(params)
+    const detailLikeorNope = [
+        {
+            id: 0,
+            resName: "Kitchen cheif's", 
+            isFavorite: true,
+        },
+        {
+            id: 1,
+            resName: "Kitchen",
+            isFavorite: true,
+        },
+        {
+            id: 2,
+            resName: "Kit",
+            isFavorite: false,
+        },
+        {
+            id: 3,
+            resName: "A",
+            isFavorite: true,
+        },
+        {
+            id: 4,
+            resName: "B",
+            isFavorite: false,
+        },
+        {
+            id: 5,
+            resName: "Kitchen cheif's",
+            isFavorite: false,
+        },
+        {
+            id: 6,
+            resName: "Kitchen",
+            isFavorite: false,
+        },
+        {
+            id: 7,
+            resName: "Kit",
+            isFavorite: false,
+        },
+        {
+            id: 8,
+            resName: "A",
+            isFavorite: true,
+        },
+        {
+            id: 9,
+            resName: "B",
+            isFavorite: true,
+        },
+    ]
+    //const [favorite, setFavorite] = useBoolean() will use in favorite function
+    const setLikeStatus = () => {
+    
+        const objIndex = detailLikeorNope.findIndex((obj => obj.id.toString() == params.id));
+        detailLikeorNope[objIndex].isFavorite = true
+        console.log(detailLikeorNope[res])
+    }
 
+    const setNopeStatus = () => {
+    
+        const objIndex = detailLikeorNope.findIndex((obj => obj.id.toString() == params.id));
+        detailLikeorNope[objIndex].isFavorite = false
+        console.log(detailLikeorNope[res])
+    }  
+    
     return (
         <AppBody
             secondarynav={[
@@ -85,7 +155,7 @@ function LikeorNope() {
                 {property.map((e1) => {
                     return (
                         <>
-                            <Box h="20px" mb={"40px"}>
+                            <Box py={5} h="20px" mb={"40px"}>
                                 <Heading textAlign={"center"} color={"#E65300"}>
                                     {e1.resName}{" "}
                                 </Heading>
@@ -97,10 +167,10 @@ function LikeorNope() {
 
                 <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                     <Box>
-                        <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
+                        <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick ={setLikeStatus} >
                             <Link to={`/restaurant/detail/${res}`}>
                                 <AiOutlineLike size={"xl"} />
-                            </Link>
+                            </Link> 
                         </Button>
                     </Box>
 

@@ -57,7 +57,7 @@ function Homepage() {
                 {property.map((e1) => {
                     return (
                         <>
-                            <Box h="20px" mb={"40px"}>
+                            <Box py={5} h="20px" mb={"40px"}>
                                 <Heading textAlign={"center"} color={"#E65300"}>
                                     {e1.resName}{" "}
                                 </Heading>
