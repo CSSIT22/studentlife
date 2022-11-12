@@ -1,5 +1,5 @@
 import TinderCard from "react-tinder-card"
-import { Box, Center, SimpleGrid, Spinner, Tag, Text } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, SimpleGrid, Spinner, Tag, Text, useToast } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
@@ -15,6 +15,7 @@ const DatingRandomizationMobilePage: FC<{
     const currentIndexRef = useRef(currentIndex)
     const controlCross = useAnimation()
     const controlHeart = useAnimation()
+    const toast = useToast()
 
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
@@ -53,6 +54,24 @@ const DatingRandomizationMobilePage: FC<{
         }
     }
 
+    function handleClick(fname: string) {
+        let title
+        if (fname.length >= 30) {
+            title = "Navigate to " + fname.substring(0, 30) + "... profile"
+        } else {
+            title = "Navigate to " + fname + " profile"
+        }
+
+        {
+            toast({
+                title: title,
+                status: "info",
+                isClosable: true,
+                position: "top",
+            })
+        }
+    }
+
     return (
         <DatingAppBody>
             <SimpleGrid overflow="hidden">
@@ -83,12 +102,13 @@ const DatingRandomizationMobilePage: FC<{
                                             w="326px"
                                             h="402px"
                                             backgroundSize="cover"
-                                            className="card"
+                                            className="card pressable"
                                             pl="1rem"
                                             id={character.UserId}
                                             position="absolute"
                                             top="30px"
                                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                            onClick={() => handleClick(character.Fname)}
                                         ></Box>
                                     </Center>
                                 </TinderCard>
@@ -155,6 +175,7 @@ const DatingRandomizationMobilePage: FC<{
                                         animate={{ scale: 1 }}
                                         style={{ display: "inline-block" }}
                                         whileTap={{ scale: 1.2 }}
+                                        key={id}
                                         transition={{
                                             type: "spring",
                                             stiffness: 360,

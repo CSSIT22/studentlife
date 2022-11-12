@@ -29,7 +29,13 @@ const DatingInterestTag: FC<{
         if (interest.target.checked) {
             if (numOfSelectedInterest < 5) {
                 if (numOfSelectedInterest == 4) {
-                    toast({ title: "You have selected 5 interests.", status: "success", isClosable: true, position: "top", description: "Submit your preference by clicking \"Done\" at the top right" })
+                    toast({
+                        title: "You have selected 5 interests.",
+                        status: "success",
+                        isClosable: true,
+                        position: "top",
+                        description: 'Submit your preference by clicking "Done" at the top right',
+                    })
                 }
                 setSelectedInterest(selectedInterests.concat(interest.target.value))
             }
@@ -37,15 +43,6 @@ const DatingInterestTag: FC<{
             if (numOfSelectedInterest <= 5) {
                 setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
             }
-        }
-        if (numOfSelectedInterest == 4) {
-            ;<Alert status="success">
-                <AlertIcon />
-                <AlertTitle mt={4} mb={1} fontSize="lg">
-                    You have successfully selected 5 interests
-                </AlertTitle>
-                <AlertDescription maxWidth="sm">Click "Done" button on the top right corner to submit</AlertDescription>
-            </Alert>
         }
     }
     // If true, it will return the orange tag
