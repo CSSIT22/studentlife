@@ -1,6 +1,6 @@
 import { Heading, Stack, Text, Box, Image, Flex, Center, IconButton, Button } from "@chakra-ui/react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
-import RatingStar from "../../components/dating/RatingStar"
+import DatingRatingStar from "../../components/dating/DatingRatingStar"
 import { FRIEND } from "./../../components/dating/shared/friend"
 
 const index = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -30,7 +30,7 @@ const Rating = () => {
                             </Flex>
                             <Flex direction="row" p="0px" m="0px">
                                 {index.map((rate) => {
-                                    return <RatingStar key={rate} onClick={handleStar} />
+                                    return <DatingRatingStar key={rate} onClick={handleStar} />
                                 })}
                                 {/* <RatingStar key={rate} onClick={handleStar} /> */}
                             </Flex>

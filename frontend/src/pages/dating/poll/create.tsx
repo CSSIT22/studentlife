@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
-import PollCreateRangeSlider from "../../../components/dating/PollCreateRangeSlider"
+import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
 import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "src/components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
@@ -427,7 +427,7 @@ const CreateActivityPoll = () => {
                     </FormControl>
                     <FormControl isInvalid={!isValidTime} isRequired>
                         <FormLabel color={"white"}>Number of people</FormLabel>
-                        <PollCreateRangeSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
+                        <DatingPollCreateRangeSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
                     </FormControl>
                     <Center>
                         {/* Submit button */}

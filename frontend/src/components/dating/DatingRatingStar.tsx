@@ -6,7 +6,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai"
 // size={{ base: "0px", md: "5px" }}
 const star = [<AiOutlineStar color="yellow" size="30px" />, <AiFillStar color="yellow" size="30px" />]
 
-const RatingStar = (props: any) => {
+const DatingRatingStar = (props: any) => {
     const [selected, setSelected] = useState<boolean>(false)
 
     function handleClick() {
@@ -38,4 +38,4 @@ const RatingStar = (props: any) => {
     )
 }
 
-export default RatingStar
+export default DatingRatingStar

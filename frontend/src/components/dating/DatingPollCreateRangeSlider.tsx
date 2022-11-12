@@ -1,7 +1,7 @@
 import { Box, Center, RangeSlider, RangeSliderFilledTrack, RangeSliderMark, RangeSliderThumb, RangeSliderTrack } from "@chakra-ui/react"
 import React, { FC } from "react"
 
-const PollCreateRangeSlider: FC<{
+const DatingPollCreateRangeSlider: FC<{
     sliderValue: number[]
     setSliderValue: React.Dispatch<React.SetStateAction<number[]>>
 }> = ({ sliderValue, setSliderValue }) => {
@@ -46,4 +46,4 @@ const PollCreateRangeSlider: FC<{
     )
 }
 
-export default PollCreateRangeSlider
+export default DatingPollCreateRangeSlider
