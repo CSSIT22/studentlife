@@ -8,7 +8,6 @@ import {
     Heading,
     Input,
     Stack,
-    Text,
     Button,
     useToast,
     useDisclosure,
@@ -22,12 +21,20 @@ import {
     Textarea,
     Select,
     Flex,
+    CheckboxGroup,
+    GridItem,
+    Grid,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useState } from "react"
+import PollCreateRangeSlider from "../../../components/dating/PollCreateRangeSlider"
+import { INTERESTS } from "../../../components/dating/shared/interests"
+import DatingInterestDynamicButton from "src/components/dating/DatingInterestDynamicButton"
+import DatingInterestTag from "../../../components/dating/DatingInterestTag"
+import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
 
 declare global {
-    var isPassDate: boolean, isPassTime: boolean
+    var isPassDate: boolean, isPassTime: boolean, people: number[], tag: number[]
 }
 
 const CreateActivityPoll = () => {
@@ -45,9 +52,18 @@ const CreateActivityPoll = () => {
     const handleInputDateChange = (e: any) => setDateInput(e.target.value)
 
     const [time, setTimeInput] = useState("")
-    const handleInputTimeChange = (e: any) => {
-        setTimeInput(e.target.value), console.log(time)
-    }
+    const handleInputTimeChange = (e: any) => setTimeInput(e.target.value)
+
+    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.people) //For age min,max
+    globalThis.people = [2, 5] //need db + condition
+
+    // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
+    // to be used with some functions & Some of them are used in this file.
+    const [interests, setInterests] = useState(INTERESTS)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
+    const [tagIsClicked, setTagIsClicked] = useState(false)
+
     //Tost for error message when submit
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -68,6 +84,7 @@ const CreateActivityPoll = () => {
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoTime = time.length < 3
     let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
+    const isNoTag = selectedInterests.length === 0
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -115,7 +132,20 @@ const CreateActivityPoll = () => {
     function handleSubmit() {
         // Validate all value before submit to database
         if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
-            alert("Header: " + header + " Description: " + description + " Location: " + location + " Date: " + date + " Time: " + time)
+            alert(
+                "Header: " +
+                    header +
+                    " Description: " +
+                    description +
+                    " Location: " +
+                    location +
+                    " Date: " +
+                    date +
+                    " Time: " +
+                    time +
+                    " people " +
+                    sliderValue
+            )
         } else {
             // Error message
             toast({
@@ -174,7 +204,6 @@ const CreateActivityPoll = () => {
                             <Button
                                 borderRadius={"6px"}
                                 onClick={onOpen}
-                                //isOpen={isOpen}
                                 backgroundColor="white"
                                 color="gray"
                                 size="sm"
@@ -185,17 +214,88 @@ const CreateActivityPoll = () => {
                             >
                                 Select poll topic
                             </Button>
-                            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                            <Modal onClose={onClose} isOpen={isOpen} size="lg" isCentered onEsc={onClose} scrollBehavior="inside">
                                 <ModalOverlay />
                                 <ModalContent>
-                                    <ModalHeader>Wait for design...</ModalHeader>
+                                    <ModalHeader>
+                                        <Grid
+                                            templateAreas={`"topic button" "desc desc"`}
+                                            gridTemplateRows={"50px 50px"}
+                                            gridTemplateColumns={"12rem px"}
+                                            h="125px"
+                                            pt="5"
+                                        >
+                                            {/* Interests topic */}
+                                            <GridItem pl="2" area={"topic"}>
+                                                <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
+                                                    Interests
+                                                </Heading>
+                                            </GridItem>
+                                            <GridItem pl="2" area={"desc"}>
+                                                {/* Interest description */}
+                                                <Box display="flex">
+                                                    <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
+                                                        Please select your interests: (
+                                                    </Heading>
+                                                    {/* numOfInterest will change when you select/deselect the tags */}
+                                                    <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
+                                                        {selectedInterests.length}
+                                                    </Heading>
+                                                    <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
+                                                        &nbsp;of 5 selected)
+                                                    </Heading>
+                                                </Box>
+                                            </GridItem>
+                                            {/* DatingInterestDynamicButton component: Skip & Done button */}
+                                        </Grid>
+                                        {/* DatingInterestSearch component: Search Bar */}
+                                        <Box pb="10">
+                                            <DatingInterestSearch
+                                                searchQuery={searchQuery}
+                                                setSearchQuery={setSearchQuery}
+                                                setInterests={setInterests}
+                                                INTERESTS={INTERESTS}
+                                            />
+                                        </Box>
+                                    </ModalHeader>
                                     <ModalCloseButton />
-                                    <ModalBody>{/* <Lorem count={2} /> */}</ModalBody>
+                                    <ModalBody>
+                                        {/* Grid: Used for separating topic, button, and description into three areas */}
+
+                                        {/* CheckboxGroup : List of tags of interest */}
+                                        <CheckboxGroup colorScheme="black">
+                                            {interests.map(({ interestId, interestName }) => (
+                                                // DatingInterestTag component: Used for generating interactive tag
+                                                <DatingInterestTag
+                                                    key={interestId}
+                                                    interestId={interestId}
+                                                    interestName={interestName}
+                                                    onOpen={onOpen}
+                                                    selectedInterests={selectedInterests}
+                                                    numOfSelectedInterest={selectedInterests.length}
+                                                    setSelectedInterest={setSelectedInterest}
+                                                    tagIsClicked={tagIsClicked}
+                                                    setTagIsClicked={setTagIsClicked}
+                                                />
+                                            ))}
+                                        </CheckboxGroup>
+                                    </ModalBody>
                                     <ModalFooter>
-                                        <Button onClick={onClose}>Close</Button>
+                                        <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }} onClick={onClose}>
+                                            <DatingInterestDynamicButton
+                                                numOfSelectedInterest={selectedInterests.length}
+                                                selectedInterests={selectedInterests}
+                                                tagIsClicked={tagIsClicked}
+                                            />
+                                        </GridItem>
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
+                            {isNoTag ? (
+                                <FormHelperText></FormHelperText>
+                            ) : (
+                                <FormErrorMessage color="yellow">You must select at least one tag.</FormErrorMessage>
+                            )}
                         </FormControl>
                     </Center>
                     <Center>
@@ -323,10 +423,25 @@ const CreateActivityPoll = () => {
                             <FormErrorMessage color="yellow">The time has passed.</FormErrorMessage>
                         )}
                     </FormControl>
+                    <FormControl isInvalid={!isValidTime} isRequired>
+                        <FormLabel color={"white"}>Number of people</FormLabel>
+                        <PollCreateRangeSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
+                    </FormControl>
                     <Center>
                         {/* Submit button */}
-                        <Button type="submit" borderRadius={"full"} colorScheme="orange" onClick={() => handleSubmit()} mt={"80px"} p="30px">
-                            Done
+                        <Button
+                            type="submit"
+                            borderRadius={"5px"}
+                            colorScheme={"blue.400"}
+                            bg={"#6B7999"}
+                            onClick={() => handleSubmit()}
+                            mt={"25px"}
+                            pt="10px"
+                            pb="10px"
+                            pr="30px"
+                            pl="30px"
+                        >
+                            Post
                         </Button>
                     </Center>
                 </Stack>
