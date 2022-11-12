@@ -10,7 +10,7 @@ const ModalForEvent: FC<{
     status: string
     allPost: Array<any>
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
-    selectPost: number
+    selectPost?: number
 }> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost }) => {
     // console.log(status + " " + selectPost)
     // console.log(allPost);

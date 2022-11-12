@@ -264,6 +264,8 @@ const history = () => {
                             topic={modalEdit.topic}
                             detail={modalEdit.detail}
                             status={modalEdit.status}
+                            allPost={allPost}
+                            setAllPost={setAllPost}
                         />
                     </Box>
                 </Flex>
