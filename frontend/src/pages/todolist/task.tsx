@@ -52,13 +52,24 @@ import { CheckIcon } from "@chakra-ui/icons"
 const task = () => {
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
     const { isOpen: isCheckOpen, onOpen: onCheckOpen, onClose: onCheckClose } = useDisclosure()
+    const { isOpen: isCreateOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure()
+    const { isOpen: isBackOpen, onOpen: onBackOpen, onClose: onBackClose } = useDisclosure()
+    const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
 
     return (
         <ToDoListAppBody>
             <Heading as="h2" size="3xl" noOfLines={1}>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <IconButton bgColor={"orange.200"} aria-label="Go Back" padding="20px" marginX="5px" icon={<ArrowBackIcon />} />
-                    <IconButton bgColor={"orange.200"} aria-label="Edit" padding="20px" icon={<EditIcon />} />
+                    <Button bgColor="orange.200" onClick={onBackOpen}>
+                        <Link href="/todolist">
+                            <ArrowBackIcon />
+                        </Link>
+                    </Button>
+                    <Button bgColor="orange.200" onClick={onEditOpen}>
+                        <Link href="/todolist/edittask">
+                            <EditIcon />
+                        </Link>
+                    </Button>
                 </Box>
                 CSC210 : Work 1
             </Heading>
@@ -100,11 +111,6 @@ const task = () => {
                     </Button>
                     <Button onClick={onCheckOpen} bgColor="orange.200" width="40px" h="40px">
                         <CheckIcon />
-                    </Button>
-                </Box>
-                <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
-                    <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
-                        Finish
                     </Button>
                 </Box>
             </Box>

@@ -31,10 +31,18 @@ import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import { ArrowBackIcon } from "@chakra-ui/icons"
 
 const edittask = () => {
+    const { isOpen: isBackOpen, onOpen: onBackOpen, onClose: onBackClose } = useDisclosure()
+
     return (
         <ToDoListAppBody>
             <Heading as="h2" size="3xl" noOfLines={1}>
-                <IconButton bgColor={"orange.200"} aria-label="Go Back" padding="20px" marginX="5px" icon={<ArrowBackIcon />} />
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Button bgColor="orange.200" onClick={onBackOpen}>
+                        <Link href="/todolist">
+                            <ArrowBackIcon />
+                        </Link>
+                    </Button>
+                </Box>
                 Edit Task
             </Heading>
             <Box margin-top={10}>
