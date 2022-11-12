@@ -41,6 +41,7 @@ import {
     Radio,
     Collapse,
     useBoolean,
+    Hide,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { MdPostAdd } from "react-icons/md"
@@ -69,10 +70,12 @@ const btnNewShortnote = () => {
     const [pName, setName] = useState("")
     const [people, setPeoples] = useState<string[]>([])
 
+    const course = ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"]
+
     return (
         <Box>
             <Button colorScheme={"orange"} onClick={nsOnOpen}>
-                <MdPostAdd /> New shortnote
+                <MdPostAdd /> New <Hide below="sm">shortnote</Hide>
             </Button>
             <Modal scrollBehavior={"inside"} size={"xl"} onClose={closeSnModal} isOpen={nsIsOpen} isCentered>
                 <ModalOverlay />
@@ -86,8 +89,9 @@ const btnNewShortnote = () => {
                                 <Flex justifyContent={"center"}>
                                     <Box w={"60%"}>
                                         <Select variant="filled" placeholder="Course" size={"sm"} rounded={4}>
-                                            <option value="option1">CSC218</option>
-                                            <option value="option2">MTH1</option>
+                                            {course.map((course, key) => (
+                                                <option value={course}>{course}</option>
+                                            ))}
                                         </Select>
                                     </Box>
                                 </Flex>
