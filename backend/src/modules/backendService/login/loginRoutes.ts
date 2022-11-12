@@ -51,7 +51,7 @@ router.get(
         }
 
         console.log(device.data)
-        res.json({ ...req.user, ...device.data })
+        res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
     }
 )
 
