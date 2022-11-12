@@ -1,4 +1,19 @@
-import { Box, Button, Container, Flex, HStack, useDisclosure, VStack } from "@chakra-ui/react"
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
+    Button,
+    Center,
+    Container,
+    Flex,
+    HStack,
+    Input,
+    useDisclosure,
+    VStack,
+} from "@chakra-ui/react"
 import { Heading } from "@chakra-ui/react"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 
@@ -13,32 +28,92 @@ import React from "react"
 import AppBody from "../../../components/share/app/AppBody"
 import { useNavigate, useParams } from "react-router-dom"
 import Clist from "src/components/chat/Chat-list"
+import propertyDetail from "./propertyEvent"
 
 type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
 
-function showModal() {
+function showProperty() {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [eventNames, setEventName] = React.useState("")
+
+    let param = useParams()
+    const navigate = useNavigate()
+
+    function NavigateProfile() {
+        return navigate(`/profile/${param.roomID}`)
+    }
+
+    const handleSizeClick = (newEvent: any) => {
+        // propertyEvent(newEvent)
+        setEventName(newEvent)
+        if (newEvent === "View profile") {
+            NavigateProfile()
+        } else {
+            onOpen()
+        }
+    }
+    const eventsIndi = [
+        { eventIcon: CgProfile, eventName: "View profile" },
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" },
+        { eventIcon: RiUserSettingsLine, eventName: "Set nickname" },
+        { eventIcon: MdPostAdd, eventName: "Add quote" },
+        { eventIcon: MdColorLens, eventName: "Change room color" },
+        { eventIcon: MdFlag, eventName: "Report" },
+    ]
+    const eventsGroup = [
+        { eventIcon: FaUserFriends, eventName: "Member" },
+        { eventIcon: FaUserPlus, eventName: "Invite people" },
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" },
+        { eventIcon: AiFillPicture, eventName: "Set room profile" },
+        { eventIcon: MdPostAdd, eventName: "Add quote" },
+        { eventIcon: MdColorLens, eventName: "Change room color" },
+        { eventIcon: FaHome, eventName: "Create community" },
+        { eventIcon: MdFlag, eventName: "Report" },
+        { eventIcon: FaDoorOpen, eventName: "Leave group" },
+    ]
     return (
         <>
-            <Button onClick={onOpen}>Open Modal</Button>
+            <VStack spacing={8} alignItems={"flex-start"}>
+                {eventsIndi.map((event) => (
+                    <Button
+                        onClick={() => handleSizeClick(event.eventName)}
+                        leftIcon={<event.eventIcon />}
+                        key={event.eventName}
+                        variant="ghost"
+                        size="lg"
+                        iconSpacing={"5"}
+                    >
+                        {`${event.eventName}`}
+                    </Button>
+                ))}
+            </VStack>
 
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
+            <Modal isOpen={isOpen} onClose={onClose} size={"lg"} isCentered>
+                <ModalOverlay backdropFilter="blur(5px)" />
                 <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalHeader>
+                        <Flex justifyContent={"center"}>
+                            <Heading size="lg">{eventNames}</Heading>
+                        </Flex>
+                    </ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>Test Test Test</ModalBody>
+                    <ModalBody>{propertyDetail(eventNames)}</ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={onClose}>
-                            Close
+                        <Button colorScheme="orange" onClick={onClose} mr={"48"}>
+                            Done
                         </Button>
-                        <Button variant="ghost">Secondary Action</Button>
+
+                        {/* <Button variant="ghost">Secondary Action</Button> */}
                     </ModalFooter>
                 </ModalContent>
             </Modal>
         </>
     )
+}
+
+function renderMember() {
+    return <VStack></VStack>
 }
 
 const Property = () => {
@@ -52,52 +127,18 @@ const Property = () => {
 
     return (
         <AppBody>
-                <HStack align={'flex-start'} spacing={10}>
+            <HStack align={"flex-start"} spacing={14}>
                 <Clist />
-                <VStack>
-                <HStack spacing={5}>
-                    <Button aria-label="Back to chat room" size="md" leftIcon={<ArrowBackIcon />} onClick={Navigate}></Button>
-                    <Heading size="lg">Chat properties</Heading>
-                </HStack>
-                <VStack marginLeft={12} marginTop={10} spacing={8} align="flex-start" fontSize="20">
-                    <Button leftIcon={<CgProfile />} variant="ghost" size="lg">
-                        View Profile
-                    </Button>
-                    <Button leftIcon={<MdOutlineDriveFileRenameOutline />} variant="ghost" size="lg">
-                        Set room name
-                    </Button>
-                    <Button leftIcon={<RiUserSettingsLine />} variant="ghost" size="lg">
-                        Set nickname
-                    </Button>
-                    <Button leftIcon={<MdPostAdd />} variant="ghost" size="lg">
-                        Add quote
-                    </Button>
-                    <Button leftIcon={<MdColorLens />} variant="ghost" size="lg">
-                        Change room color
-                    </Button>
-                    <Button leftIcon={<MdFlag />} variant="ghost" size="lg">
-                        Report user
-                    </Button>
-                    {/* Group */}
-                    <Button leftIcon={<FaUserFriends />} variant="ghost" size="lg">
-                        Member
-                    </Button>
-                    <Button leftIcon={<FaUserPlus />} variant="ghost" size="lg">
-                        Invite people
-                    </Button>
-                    <Button leftIcon={<AiFillPicture />} variant="ghost" size="lg">
-                        Set room profile
-                    </Button>
-                    <Button leftIcon={<FaHome />} variant="ghost" size="lg">
-                        Create community
-                    </Button>
-                    <Button leftIcon={<FaDoorOpen />} variant="ghost" size="lg">
-                        Leave group
-                    </Button>
-                    <Button>{showModal()}</Button>
+                <VStack spacing={10}>
+                    <HStack spacing={5}>
+                        <Button aria-label="Back to chat room" size="md" leftIcon={<ArrowBackIcon />} onClick={Navigate}></Button>
+                        <Heading size="lg">Chat properties</Heading>
+                    </HStack>
+                    <VStack pl={14} spacing={8} align="flex-start" fontSize="20">
+                        {showProperty()}
+                    </VStack>
                 </VStack>
-                </VStack>
-                </HStack>
+            </HStack>
         </AppBody>
     )
 }
