@@ -1,14 +1,12 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
-import { IconButton } from "@chakra-ui/react"
+import { IconButton, useDisclosure, Button, ButtonGroup} from "@chakra-ui/react"
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
-import { useDisclosure } from "@chakra-ui/react"
-import { Button, ButtonGroup } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
-import { Input, Switch, Flex, Spacer, Grid, GridItem } from "@chakra-ui/react"
-import { Select, Text } from "@chakra-ui/react"
+import { Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text } from "@chakra-ui/react"
+//import { Select, Text } from "@chakra-ui/react"
 //import { ChevronRightIcon } from "@chakra-ui/icons"
 //import { AddIcon } from "@chakra-ui/icons"
 const theme = extendTheme({
@@ -45,6 +43,22 @@ const timetable = () => {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
+
+    const OverlayOne = () => (
+        <ModalOverlay
+          bg='blackAlpha.300'
+          backdropFilter='blur(10px) hue-rotate(90deg)'
+        />
+      )
+    
+      const OverlayTwo = () => (
+        <ModalOverlay
+          bg='none'
+          backdropFilter='auto'
+          backdropInvert='80%'
+          backdropBlur='2px'
+        />
+      )
     return (
         <AppBody>
             <SimpleGrid columns={[1, 6]} spacing="40px">
@@ -155,35 +169,30 @@ const timetable = () => {
                 </Grid>
             </Box>
 
-            {/* <Button onClick={onOpen}>Delete</Button>
-      
+            <Button id="deleteEvent" onClick={onOpen} bg="red" colorScheme="white">Delete</Button>
 
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal id="deleteEvent" isOpen={isOpen} onClose={onClose} size="sm">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Delete Event</ModalHeader>
+          <ModalHeader color="red"><Text textAlign={['center']} fontSize="3xl">Delete Event</Text></ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
-            <h4>Are you sure that you would like to delete this event?</h4>
-            <h4>You might not be able to recover it back</h4>
+          <ModalBody>
+            <Text textAlign={['center']} fontSize="sm">Are you sure you would like to delete this event?</Text>
+            <Text textAlign={['center']} fontSize="sm">You might not be able to recover it back.</Text>
+            {/* <Lorem count={2} /> */}
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='#38A169' mr={3}>
-              Yes
+            
+            <Button variant='ghost'  bg="#38A169">Yes</Button>
+            <Button  bg="#E53E3E" mr={3} onClick={onClose}>
+              No
             </Button>
-            <Button onClick={onClose} colorScheme='#E53E3E'>No</Button>
           </ModalFooter>
         </ModalContent>
-      </Modal> */}
+      </Modal>
         </AppBody>
     )
-    // }
 }
 
 export default timetable
