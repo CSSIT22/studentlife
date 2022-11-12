@@ -22,7 +22,6 @@ import {
     Flex,
     Text,
     SimpleGrid,
-    useBoolean,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -51,7 +50,6 @@ function LikeorNope() {
         if (count == 5) {
             return onOpen()
         }
-        setNopeStatus();
     }
 
     const Random = () => {
@@ -90,10 +88,10 @@ function LikeorNope() {
 
                 <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                     <Box>
-                        <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick ={setLikeStatus} >
+                        <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
                             <Link to={`/restaurant/detail/${res}`}>
                                 <AiOutlineLike size={"xl"} />
-                            </Link> 
+                            </Link>
                         </Button>
                     </Box>
 
