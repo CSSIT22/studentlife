@@ -39,6 +39,10 @@ const history = () => {
         topic: "Edit the announcement",
         detail: "Are you sure to edit this announcement?",
     }
+    const modalDeleted = {
+        topic: "WARNING",
+        detail: "This announcement will completely deleted from this page",
+    }
     // const post = [
     //     { topic: "hello World", sender: "SAMO-SIT", status: "disapprove", id: 10 },
     //     { topic: "SIT Esport", sender: "SAMO-SIT", status: "approve", id: 11 },
@@ -47,7 +51,7 @@ const history = () => {
     // ]
     const [allPost, setAllPost] = React.useState(postInfoTest)
     const deleteOrEdit = (status: string) => {
-        if (status == "approve" || status == "disapprove") {
+        if (status == "approve") {
             return (
                 <>
                     <ModalForEvent
@@ -55,6 +59,22 @@ const history = () => {
                         onClose={onClose}
                         topic={modalDelete.topic}
                         detail={modalDelete.detail}
+                        status={statusPostRequest}
+                        allPost={allPost}
+                        setAllPost={setAllPost}
+                        selectPost={selectPost}
+                    />
+                    {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
+                </>
+            )
+        } else if(status == "disapprove"){
+            return (
+                <>
+                    <ModalForEvent
+                        isOpen={isOpen}
+                        onClose={onClose}
+                        topic={modalDeleted.topic}
+                        detail={modalDeleted.detail}
                         status={statusPostRequest}
                         allPost={allPost}
                         setAllPost={setAllPost}

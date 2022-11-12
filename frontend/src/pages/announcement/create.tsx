@@ -25,6 +25,7 @@ import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
+import { postInfoTest } from "./postInfoTest"
 
 const create = () => {
     const selectTargetValue = (targetType: string) => {
@@ -71,27 +72,28 @@ const create = () => {
         detail: " The announcement request has been sent.",
         event: "OK",
     }
-    const [post, setPost] = React.useState(Array<any>)
+    const [allPost,setAllPost] = React.useState(postInfoTest);
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
-        setPost([
-            {
-                postId: Math.random(),
-                userId: "123456",
-                lang: "English",
-                topic: title,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: Date.now(),
-                expired: expired,
-                status: "waiting",
-                isApprove: false,
-                addMoreLang: addMoreLang,
-            },
-            ...post,
+        setAllPost([
+            ...allPost, {
+                postId: allPost.length,
+                lang:"English",
+                topic:title,
+                detail:detail,
+                sender:"1234",
+                status:"waiting",
+                pinStatus:false,
+                isApprove:false,
+                targetType:targetType,
+                targetValue:targetValue,
+                postAt: new Date(),
+                expiredOfPost:expired, 
+                expiredAfterDelete:"",
+                addMoreLang:addMoreLang,
+            }
         ])
     }
-    // console.log(post)
+    console.log(allPost)
 
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
@@ -173,6 +175,8 @@ const create = () => {
                             topic={modalCreate.topic}
                             detail={modalCreate.detail}
                             status={modalCreate.event}
+                            allPost={allPost}
+                            setAllPost={setAllPost}
                         />
                     </Box>
                 </Flex>
