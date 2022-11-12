@@ -4,7 +4,7 @@ import React from "react"
 import Myreview from "src/components/shopreview/Myreview"
 import AppBody from "../../components/share/app/AppBody"
 import DetailBox from "../../components/shopreview/DetailBox"
-import MentDetail from "../../components/shopreview/ReviewDetail"
+import ReviewDetail from "../../components/shopreview/ReviewDetail"
 import ShopName from "../../components/shopreview/ShopName"
 
 const shopdetails = () => {
@@ -14,7 +14,7 @@ const shopdetails = () => {
                 <Link href="/shopreview">
                     <ChevronLeftIcon w={8} h={8} />
                 </Link>
-                <Heading>Shop detail!!</Heading>
+                <Heading>Shop detail!!(FAM)</Heading>
             </Flex>
         </AppBody>
     )
