@@ -173,7 +173,7 @@ const index = () => {
                         <Text alignSelf={"start"}>Sort by</Text>
                         <Select variant="filled" placeholder="None">
                             <option value="option1">Name</option>
-                            <option value="option2">Newwst</option>
+                            <option value="option2">Newest</option>
                             <option value="option2">Oldest</option>
                         </Select>
                     </VStack>
