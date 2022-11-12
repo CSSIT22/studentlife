@@ -29,6 +29,7 @@ import { EffectFade } from "swiper"
 import { Autoplay, Keyboard, Pagination, Scrollbar, Zoom, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import ContentBox from "../../../components/shop/ContentBox"
+import convertCurrency from "../../../components/shop/functions/usefulFunctions"
 import PageTitle from "../../../components/shop/PageTitle"
 import ReviewItem from "../../../components/shop/ReviewItem"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
@@ -212,9 +213,6 @@ const productDetail = () => {
     }
 }
 
-function convertCurrency(amount: number) {
-    return "฿" + amount.toFixed(2)
-}
 function slidesGenerator() {
     const slides = []
     for (let i = 0; i < 5; i++) {
