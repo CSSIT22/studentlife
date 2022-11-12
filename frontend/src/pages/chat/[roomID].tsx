@@ -1,12 +1,14 @@
-import { Avatar, Box, Circle, Flex, Input, SkeletonCircle } from "@chakra-ui/react"
+import { Avatar, Box, Button, Circle, Flex, Input, SkeletonCircle, useDisclosure } from "@chakra-ui/react"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
-import { BsBell } from "react-icons/bs"
+import { BsBell, BsBellSlash } from "react-icons/bs"
 import { AiFillThunderbolt } from "react-icons/ai"
-import { FaPlus } from "react-icons/fa"
 import { FiSend } from "react-icons/fi"
+import Plustoggle from "src/components/chat/Pbutton"
+import { BiSticker } from "react-icons/bi"
+import { render } from "react-dom"
 
 type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
@@ -24,6 +26,8 @@ const mockRoom: room = [
 
 const Room = () => {
     let param = useParams()
+    const [isMute, setIsMute] = useState(false)
+
     const filterRoom = mockRoom.filter((e) => {
         return e.roomID === param.roomID
     })
@@ -34,31 +38,43 @@ const Room = () => {
         <AppBody>
             <Flex>
                 <Clist />
-                <Box w={"600px"} bg="gray.200" marginLeft={8} minH={"80vh"} rounded={"lg"}>
-                    <Flex alignItems={"center"} margin={5} bg="whiteAlpha.600" justifyContent={"space-between"} >
+                <Box w={"600px"} bg="#FFF2E6" marginLeft={8} minH={"80vh"} rounded={"lg"}>
+                    <Flex h={"55px"} alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"}>
                         <Flex alignItems={"center"}>
-                            <Avatar name={result.roomName} src={result.img} />
+                            <Avatar marginLeft={4} name={result.roomName} src={result.img} />
                             <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5}>
                                 {result.roomName}
                             </Box>
                         </Flex>
-                        <Flex>
+                        <Flex marginRight={4}>
                             <Box marginX={5}>
-                                <BsBell size={35} />
+                                <Box cursor={"pointer"} onClick={() => setIsMute(!isMute)}>
+                                    {isMute ? <BsBellSlash color="" fontSize={"2rem"} /> : <BsBell fontSize={"2rem"} />}
+                                </Box>
                             </Box>
                             <Box>
-                                <AiFillThunderbolt size={35} />
+                                <AiFillThunderbolt cursor={"pointer"} size={35} />
                             </Box>
                         </Flex>
                     </Flex>
 
-                    <Flex margin={5} bg="whitesmoke" justifyContent={"space-between"} alignItems={"center"} marginTop={"80vh"}>
-                        <Flex alignItems={"center"} marginLeft={4}>
-                            <FaPlus size={20} />
-                        </Flex>
-                        <Input width={"md"} size={"sm"} placeholder="Type something" />
+                    <Flex h={"55px"} bg="#E68E5C" justifyContent={"space-between"} alignItems={"center"} marginTop={"80vh"}>
+                        <Plustoggle />
+                        <Input
+                            isInvalid
+                            width={"md"}
+                            size={"md"}
+                            placeholder="Type something"
+                            _placeholder={{ color: "#F8B88B" }}
+                            type={"text"}
+                            focusBorderColor="#606070"
+                            errorBorderColor="#F8B88B"
+                        />
                         <Flex>
-                            <Box marginRight={4}>
+                            <Box cursor={"pointer"} marginRight={2}>
+                                <BiSticker size={30} />
+                            </Box>
+                            <Box cursor={"pointer"} marginRight={4}>
                                 <FiSend size={30} />
                             </Box>
                         </Flex>
