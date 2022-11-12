@@ -236,11 +236,11 @@ const history = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            px={{ md: "3rem" }}
+            p={{ md: "3rem" }}
         >
             {/* <Form> */}
             <Flex alignItems={"center"}>
-                <Text as={"b"} fontSize="xl">
+                <Text as={"b"} fontSize="xl" opacity={{base:100,lg:0}}>
                     <Link to={"/announcement"}>
                         <GrClose />
                     </Link>

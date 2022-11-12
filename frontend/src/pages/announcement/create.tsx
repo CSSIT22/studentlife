@@ -140,14 +140,14 @@ const create = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            px={{ md: "3rem" }}
+            p={{ md: "3rem" }}
         >
             {/* <Form> */}
             <form>
                 <Flex alignItems={"center"}>
                     <Text as={"b"} fontSize="xl">
                         <Link to={"/announcement"}>
-                            <Box opacity={{base:100,md:0}}>
+                            <Box opacity={{base:100,lg:0}}>
                                 <GrClose />
                             </Box>
                         </Link>

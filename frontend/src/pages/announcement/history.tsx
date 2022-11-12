@@ -94,7 +94,7 @@ const history = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            px={{md:"3rem"}}
+            p={{md:"3rem"}}
         >
             <Flex alignItems={"center"}>
                 <HeaderPage head="History" />
