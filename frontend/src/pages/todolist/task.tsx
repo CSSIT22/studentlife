@@ -63,7 +63,7 @@ const task = () => {
                 CSC210 : Work 1
             </Heading>
             <Box margin-top={10}>
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" mt={8} mb={2}>
                     Description
                 </Heading>
                 <Text fontSize="sm">
@@ -71,26 +71,26 @@ const task = () => {
                     Exercise 1.2 Question 2, 5 and 9. <br />
                 </Text>
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" mt={8} mb={2}>
                     Due Date
                 </Heading>
                 {/* <Input placeholder="Select Date and Time" size="md" type="datetime-local" /> */}
                 <label>
                     <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" />
                 </label>
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" mt={8} mb={2}>
                     Time
                 </Heading>
                 <form>
                     <input id="appt-time" type="time" name="appt-time" />
                 </form>
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" mt={8} mb={2}>
                     Type
                 </Heading>
                 <Select placeholder="Individaul" size="md"></Select>
 
-                <Heading as="h2" size="md" noOfLines={1} marginY={10}>
+                <Heading as="h2" size="md" mt={8} mb={2}>
                     Alert
                 </Heading>
                 <Select placeholder="3 days before due date" size="md"></Select>
