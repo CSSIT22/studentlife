@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import {
     Box,
     Heading,
@@ -45,6 +45,7 @@ import {
     MenuItem,
     MenuList,
     IconButton,
+    color,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
@@ -72,6 +73,12 @@ const liList: FC<{
             search: "?type=shortnotes",
         })
     }
+    const [liPicked, setLiPicked] = useState<String[]>([])
+
+    const li = [
+        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
+        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
+    ]
     return (
         <Box>
             <HStack>
@@ -163,7 +170,19 @@ const liList: FC<{
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            <LiList name={"Network"}></LiList>
+                            {li.map((li, key) => (
+                                <Box
+                                    as="button"
+                                    onClick={() => {
+                                        let x = [...liPicked, li.id]
+                                        setLiPicked(x)
+                                        console.log(liPicked)
+                                    }}
+                                >
+                                    <LiList name={li.name}></LiList>
+                                </Box>
+                            ))}
+                            {/* <LiList name={"Network"}></LiList>
                             <LiList name={"Algo p1"}></LiList>
                             <LiList name={"Java"}></LiList>
                             <LiList name={"midterm y2/1"}></LiList>
@@ -171,7 +190,7 @@ const liList: FC<{
                             <LiList name={"Algo p1"}></LiList>
                             <LiList name={"Java"}></LiList>
                             <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList>
+                            <LiList name={"Java"}></LiList> */}
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
