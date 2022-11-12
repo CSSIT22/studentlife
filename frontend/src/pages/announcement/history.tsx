@@ -59,7 +59,6 @@ const history = () => {
                         allPost={allPost}
                         setAllPost={setAllPost}
                         selectPost={selectPost}
-                        cancelButtonForEvent={cancelRecover}
                     />
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
@@ -76,7 +75,6 @@ const history = () => {
                         allPost={allPost}
                         setAllPost={setAllPost}
                         selectPost={selectPost}
-                        cancelButtonForEvent={cancelRecover}
                     />
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
