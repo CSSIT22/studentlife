@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { ReactElement } from "react"
 import {
     Box,
@@ -28,6 +28,7 @@ import {
     extendTheme,
     useEditableControls,
     HStack,
+    useBoolean,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -46,6 +47,12 @@ export default function SimpleThreeColumns() {
     const { isOpen: isBlockModalOpen, onOpen: onBlockModalOpen, onClose: onBlockModalClose } = useDisclosure()
     const { isOpen: isPokeModalOpen, onOpen: onPokeModalOpen, onClose: onPokeModalClose } = useDisclosure()
 
+    const [isFollow, setIsFollow] = useState(false)
+
+    function handleClick() {
+        setIsFollow(!isFollow)
+    }
+
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const cancelRef = React.useRef()
@@ -59,22 +66,7 @@ export default function SimpleThreeColumns() {
         "2xl": "1536px",
     }
 
-    // 3. Extend the theme
     const theme = extendTheme({ breakpoints })
-
-    function EditableControls() {
-        const { isEditing, getSubmitButtonProps, getCancelButtonProps, getEditButtonProps } = useEditableControls()
-
-        return isEditing ? (
-            <Button pl={5} bg="orange.400" position="initial" {...getCancelButtonProps()}>
-                Following
-            </Button>
-        ) : (
-            <Button pl={5} bg="orange.400" position="initial" {...getSubmitButtonProps()}>
-                Follow
-            </Button>
-        )
-    }
 
     return (
         <Box maxW="100%" borderRadius="none" overflow="hidden" p="5">
@@ -83,9 +75,9 @@ export default function SimpleThreeColumns() {
                   "nav main"
                   "nav footer"`}
                 gridTemplateRows={{ base: "80% 1fr 50%", md: "70% 1fr 50%" }}
-                gridTemplateColumns={"25% 1fr"}
+                gridTemplateColumns={"20% 1fr"}
                 h="100%"
-                gap="1"
+                gap="2"
                 color="blackAlpha.700"
                 fontWeight="bold"
                 borderRadius="md"
@@ -93,22 +85,30 @@ export default function SimpleThreeColumns() {
                 shadow={{ base: "", md: "lg" }}
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
-                    <VStack align="stretch" alignItems="center">
-                        <Avatar pt={2} display="flex" position="initial" size="2xl" name="Christian Nwamba" src="https://bit.ly/code-beast" />{" "}
+                    <VStack align="stretch" alignItems="center" ml={7}>
+                        <Avatar
+                            pt={2}
+                            display="flex"
+                            position="initial"
+                            shadow="xl"
+                            size="2xl"
+                            name="Christian Nwamba"
+                            src="https://bit.ly/code-beast"
+                        />{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" fontSize={"xl"} ml={{ base: "6", md: "" }} area={"main"} color="gray.700">
+                <GridItem pl="2" mt={15} fontSize={"xl"} ml={{ base: "10", md: "" }} area={"main"} color="gray.700">
                     <Box p={1}>Id: 64130500XXX</Box>
 
                     <Box p={1} fontSize={"xl"}>
                         Name: John Doe
                     </Box>
-                    <HStack>
+                    <HStack alignItems="flex-start">
                         <Box p={1} fontSize={"xl"}>
-                            Fucuty: SIT
+                            Fuculty: SIT
                         </Box>
                         <Box p={1} fontSize={"xl"}>
                             Major: Computer Science
@@ -117,8 +117,8 @@ export default function SimpleThreeColumns() {
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl">
                     <ButtonGroup color="white" variant="outline" spacing={{ base: "1.5", sm: "6" }}>
-                        <Button pl={5} bg="orange.600" position="initial" value="inside" shadow={"lg"}>
-                            Follow
+                        <Button pl={5} bg="orange.600" position="initial" value="inside" shadow={"lg"} onClick={handleClick}>
+                            {isFollow ? "Following" : "Follow"}
                         </Button>
                         <Button pl={5} bg="orange.600" position="initial" value="inside" shadow={"lg"}>
                             Message

@@ -71,9 +71,9 @@ export default function SimpleThreeColumns() {
                   "nav main"
                   "nav footer"`}
                 gridTemplateRows={{ base: "80% 1fr 50%", md: "70% 1fr 50%" }}
-                gridTemplateColumns={"25% 1fr"}
+                gridTemplateColumns={"20% 1fr"}
                 h="100%"
-                gap="1"
+                gap="2"
                 color="blackAlpha.700"
                 fontWeight="bold"
                 borderRadius="md"
@@ -81,22 +81,30 @@ export default function SimpleThreeColumns() {
                 shadow={{ base: "", md: "lg" }}
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
-                    <VStack align="stretch" alignItems="center">
-                        <Avatar pt={2} display="flex" position="initial" size="2xl" name="Christian Nwamba" src="https://bit.ly/code-beast" />{" "}
+                    <VStack align="stretch" alignItems="center" ml={7}>
+                        <Avatar
+                            pt={2}
+                            display="flex"
+                            position="initial"
+                            size="2xl"
+                            shadow="xl"
+                            name="Christian Nwamba"
+                            src="https://bit.ly/code-beast"
+                        />{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" fontSize={"xl"} ml={{ base: "6", md: "" }} area={"main"} color="gray.700">
+                <GridItem pl="2" mt={15} fontSize={"xl"} ml={{ base: "10", md: "" }} area={"main"} color="gray.700">
                     <Box p={1}>Id: 64130500XXX</Box>
 
                     <Box p={1} fontSize={"xl"}>
                         Name: John Doe
                     </Box>
-                    <HStack>
+                    <HStack alignItems="flex-start">
                         <Box p={1} fontSize={"xl"}>
-                            Fucuty: SIT
+                            Fuculty: SIT
                         </Box>
                         <Box p={1} fontSize={"xl"}>
                             Major: Computer Science
@@ -146,7 +154,7 @@ export default function SimpleThreeColumns() {
                                 </ModalBody>
 
                                 <ModalFooter>
-                                    <Button colorScheme="blue" mr={3}>
+                                    <Button colorScheme="orange" mr={3}>
                                         Save
                                     </Button>
                                     <Button onClick={onClose}>Cancel</Button>
