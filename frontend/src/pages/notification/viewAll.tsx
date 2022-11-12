@@ -56,6 +56,7 @@ const viewAll = () => {
     return (
         <AppBody>
             <Flex padding={3}>
+            <Box padding={1}><b>Activity :</b></Box>
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
