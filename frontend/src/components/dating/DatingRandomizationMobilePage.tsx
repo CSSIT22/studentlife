@@ -100,9 +100,10 @@ const DatingRandomizationMobilePage: FC<{
                                             alignItems="end"
                                             justifyContent="end"
                                         >
-                                            
                                             <Button
                                                 aria-label="User Profile"
+                                                className="pressable"
+                                                onClick={() => handleClick(character.Fname)}
                                                 w="50px"
                                                 h="50px"
                                                 colorScheme="orange"
@@ -113,7 +114,6 @@ const DatingRandomizationMobilePage: FC<{
                                             >
                                                 <Image className="pressable" onClick={() => handleClick(character.Fname)} src={ProfileImg}></Image>
                                             </Button>
-
                                         </Box>
                                     </Center>
                                 </TinderCard>
