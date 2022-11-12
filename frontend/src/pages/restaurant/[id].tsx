@@ -32,8 +32,8 @@ import ShowImage from "../../components/restaurant/ShowImage"
 import { Restaurant } from "./data/restaurant"
 import { Link, useParams } from "react-router-dom"
 function LikeorNope() {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const [count, setcount] = useState(1);
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [count, setcount] = useState(1)
     const params = useParams()
     const property = Restaurant.filter((e1) => {
         return e1.id == parseInt(params.id + "")
@@ -53,13 +53,12 @@ function LikeorNope() {
     }
 
     const Random = () => {
-       setres(Math.floor(Math.random() * 10))
-       return onClose()
+        setres(Math.floor(Math.random() * 10))
+        return onClose()
     }
     // console.log(count);
-    console.log(Math.floor(Math.random() * 10));
-    
-    
+    console.log(Math.floor(Math.random() * 10))
+
     return (
         <AppBody
             secondarynav={[
@@ -72,11 +71,10 @@ function LikeorNope() {
                 <Searchbar />
             </Box>
             <Box px={2} borderWidth="1px" borderRadius="lg" h={"100%"} pb={6} pt={2}>
-
                 {property.map((e1) => {
                     return (
                         <>
-                            <Box h="20px" mb={"40px"}>
+                            <Box py={5} h="20px" mb={"40px"}>
                                 <Heading textAlign={"center"} color={"#E65300"}>
                                     {e1.resName}{" "}
                                 </Heading>
@@ -96,7 +94,7 @@ function LikeorNope() {
                     </Box>
 
                     <Box>
-                        <Button onClick={ Nope} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
+                        <Button onClick={Nope} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
                             <Link to={`/restaurant/${res}`}>
                                 <AiOutlineDislike size={"xl"} />
                             </Link>
@@ -119,13 +117,11 @@ function LikeorNope() {
                                 </VStack>
                                 <ModalCloseButton />
                                 <ModalFooter justifyContent={"center"} pt="60px">
-                                <Link to={`/restaurant/detail/${res}`}>
+                                    <Link to={`/restaurant/detail/${res}`}>
                                         <Button colorScheme="blue" mr={3} onClick={Random} borderRadius={"5px"}>
-                                      
                                             Random
-                                           
                                         </Button>
-                                </Link>
+                                    </Link>
                                     <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>
                                         Cancel
                                     </Button>

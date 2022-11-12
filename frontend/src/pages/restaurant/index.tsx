@@ -33,13 +33,13 @@ import { Restaurant } from "./data/restaurant"
 import { Link, useParams } from "react-router-dom"
 function Homepage() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [count, setcount] = useState(0);
+    const [count, setcount] = useState(0)
     const property = Restaurant.filter((e1) => {
         return e1.id == count
     })
 
     const countres = () => {
-        setcount(count + 1);
+        setcount(count + 1)
     }
 
     return (
@@ -54,14 +54,10 @@ function Homepage() {
                 <Searchbar />
             </Box>
             <Box px={2} borderWidth="1px" borderRadius="lg" h={"100%"} pb={6} pt={2}>
-                <Box h="20px" mb={"40px"}>
-                    <Heading textAlign={"center"}> </Heading>
-                </Box>
-
                 {property.map((e1) => {
                     return (
                         <>
-                            <Box h="20px" mb={"40px"}>
+                            <Box py={5} h="20px" mb={"40px"}>
                                 <Heading textAlign={"center"} color={"#E65300"}>
                                     {e1.resName}{" "}
                                 </Heading>
@@ -81,9 +77,15 @@ function Homepage() {
                     </Box>
 
                     <Box>
-                        <Button onClick={(() => {
-                            return setcount(count+1)
-                        })} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
+                        <Button
+                            onClick={() => {
+                                return setcount(count + 1)
+                            }}
+                            colorScheme="red"
+                            width="80px"
+                            h="80px"
+                            borderRadius={"full"}
+                        >
                             <Link to={`/restaurant/${count + 1}`}>
                                 <AiOutlineDislike size={"xl"} />
                             </Link>
