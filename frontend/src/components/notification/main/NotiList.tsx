@@ -12,7 +12,7 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
     })
     // console.log("sortedList")
     // console.log(sortedList)
-    const list: any[] = []
+    const listDay: any[] = []
     function showDate(date: Date) {
         //prop = date
         const current = new Date()
@@ -25,8 +25,8 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
         let today = Math.round(current.getTime() / day)
 
         if (sendDay == today) {
-            if (!list.includes("today")) {
-                list.push("today")
+            if (!listDay.includes("today")) {
+                listDay.push("today")
                 return (
                     <Text fontSize={"sm"} padding={2}>
                         Today
@@ -36,8 +36,8 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
                 return <Box height={"1rem"}></Box>
             }
         } else if (sendDay == today - 1) {
-            if (!list.includes("yesterday")) {
-                list.push("yesterday")
+            if (!listDay.includes("yesterday")) {
+                listDay.push("yesterday")
                 return (
                     <Text fontSize={"sm"} padding={2}>
                         Yesterday
@@ -63,8 +63,8 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             ]
             let month = monthsArray[date.getMonth()]
 
-            if (!list.includes(month + " " + date.getDate() + ", " + date.getFullYear())) {
-                list.push(month + " " + date.getDate() + ", " + date.getFullYear())
+            if (!listDay.includes(month + " " + date.getDate() + ", " + date.getFullYear())) {
+                listDay.push(month + " " + date.getDate() + ", " + date.getFullYear())
                 return (
                     <Text padding={2} fontSize={"sm"}>
                         {month + " " + date.getDate() + ", " + date.getFullYear()}
@@ -75,10 +75,7 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             }
         }
     }
-    console.log(list)
-
-    // const notiListdate = sortedList.filter((el) => el.date === date)
-    //console.log(notiListdate)
+    console.log(listDay)
 
     return (
         <Box>

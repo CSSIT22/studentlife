@@ -13,9 +13,9 @@ const NotiObjectViewAll: FC<{
 }> = ({ id, avatarImg, userName, description, isRead, date }) => {
     function showStatus() {
         if (isRead) {
-            return <Circle size="0.6em" bg="blackAlpha.400" />
+            return <Circle size="0.7rem" bg="blackAlpha.400" />
         } else {
-            return <Circle size="0.6em" bg="orange.500" />
+            return <Circle size="0.7rem" bg="orange.500" />
         }
     }
     function showDate() {
@@ -101,24 +101,27 @@ const NotiObjectViewAll: FC<{
     return (
         <Box shadow={"lg"} borderRadius="2xl" bg="white" padding={4} key={id}>
             <Stack direction={"row"} spacing={12}>
-            <Center paddingRight={3}>{showStatus()}</Center>
-                <Center>
-                    <Avatar src={avatarImg} size={"sm"}>
-                        <AvatarBadge boxSize="1em" bg="green.500" />
-                    </Avatar>
-                </Center>
-                <Stack direction={"row"} spacing={300}>
-                    <Text fontSize={"sm"}>{showDescription()}</Text>
+                <Box>
+                    <Stack direction={"row"} spacing={12}>
+                        <Center paddingRight={3} paddingLeft={4}>
+                            {showStatus()}
+                        </Center>
+                        <Center>
+                            <Avatar src={avatarImg} size={"md"}>
+                                <AvatarBadge boxSize="1.2rem" bg="green.500" />
+                            </Avatar>
+                        </Center>
+                        <Stack direction={"row"} spacing={300}>
+                            <Text fontSize={"sm"}>{showDescription()}</Text>
+                        </Stack>
                     </Stack>
-                    <Spacer />
-                    <Stack >
-                    <Center fontSize={"xs"} color="gray.400" >
-                        {showDate()}
-                    </Center>
-                    </Stack>
-                
+                </Box>
+
                 <Spacer />
-                
+
+                <Center fontSize={"xs"} color="gray.400">
+                    <Box width={"6rem"}>{showDate()}</Box>
+                </Center>
             </Stack>
         </Box>
     )
