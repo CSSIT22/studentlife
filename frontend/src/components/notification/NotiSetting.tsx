@@ -4,22 +4,16 @@ import { Stack, Text, RadioGroup, Radio, Box } from "@chakra-ui/react"
 const NotiSetting = () => {
     return (
         <Box>
-            <Stack>
-                <Stack direction={"row"} padding={4} paddingBottom={0} paddingTop={0}>
-                    <Text bgColor="#060005" bgClip="text" fontSize="xl" fontWeight="bold" padding="auto">
-                        Notifications Setting
-                    </Text>
-                </Stack>
-            </Stack>
-            <Stack padding={4} paddingLeft={"2em"}>
-                <Stack padding={4} paddingTop={0} paddingBottom={6}>
-                    <Text fontWeight="semibold">Application</Text>
+            <Stack paddingLeft={"2rem"}>
+                <Text fontWeight="semibold">Application</Text>
+                <Box padding={2} paddingLeft={5}>
                     <RadioExample />
-                </Stack>
-                <Stack padding={4} paddingTop={0} paddingBottom={6}>
-                    <Text fontWeight="semibold">Email</Text>
+                </Box>
+
+                <Text fontWeight="semibold">Email</Text>
+                <Box padding={2} paddingLeft={5}>
                     <RadioExample />
-                </Stack>
+                </Box>
             </Stack>
         </Box>
     )
@@ -28,7 +22,7 @@ const NotiSetting = () => {
 function RadioExample() {
     const [value, setValue] = React.useState("1")
     return (
-        <RadioGroup onChange={setValue} value={value} defaultValue="1" colorScheme="green">
+        <RadioGroup onChange={setValue} value={value} defaultValue="1" colorScheme="orange">
             <Stack>
                 <Radio spacing={4} value="1">
                     All
