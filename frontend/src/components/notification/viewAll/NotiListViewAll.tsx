@@ -89,8 +89,7 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
                             <NotiObjectViewAll
                                 key={el.id}
                                 id={el.id}
-                                avatarImg={el.avatarImg}
-                                userName={el.userName}
+                                userId={el.user}
                                 description={el.description}
                                 isRead={el.isRead}
                                 date={el.date}

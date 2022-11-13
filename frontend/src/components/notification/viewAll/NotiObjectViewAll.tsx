@@ -2,16 +2,16 @@ import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack,
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
+import { USER } from "../main/data/userProfile"
 
 const NotiObjectViewAll: FC<{
     id: number
-    avatarImg: string
-    userName: string
+    userId: string
     description: string
     isRead: boolean
     date: Date
     module: string
-}> = ({ id, avatarImg, userName, description, isRead, date, module }) => {
+}> = ({ id, description, isRead, date, module, userId }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -95,10 +95,31 @@ const NotiObjectViewAll: FC<{
     function showDescription() {
         return (
             <Stack direction={"row"}>
-                <b>{userName}</b> <div dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
+                <div dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
             </Stack>
         )
     }
+
+    function showUser() {
+        var user = USER.filter((el) => el.id == userId)
+        var userStatus = user[0].isOnline
+        //console.log(user)
+
+        if (userStatus) {
+            return (
+                <Avatar src={user[0].avatarImg} size={"sm"}>
+                    <AvatarBadge boxSize="1em" bg="green.500" />
+                </Avatar>
+            )
+        } else {
+            return (
+                <Avatar src={user[0].avatarImg} size={"sm"}>
+                    <AvatarBadge boxSize="1em" bg="gray" />
+                </Avatar>
+            )
+        }
+    }
+
     return (
         <Box
             as="button"
@@ -116,9 +137,7 @@ const NotiObjectViewAll: FC<{
                             {showStatus()}
                         </Center>
                         <Center>
-                            <Avatar src={avatarImg} size={"md"}>
-                                <AvatarBadge boxSize="1.2rem" bg="green.500" />
-                            </Avatar>
+                        {showUser()}
                         </Center>
                         <Stack direction={"row"} spacing={300} padding={5}>
                             <Text fontSize={"sm"}>{showDescription()}</Text>
