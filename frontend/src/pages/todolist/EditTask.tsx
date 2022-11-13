@@ -104,11 +104,11 @@ const edittask = () => {
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     {type == "individual" ? (
                         <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
-                            <Link href="/todolist">Done</Link>
+                            <Link href="/todolist/task">Done</Link>
                         </Button>
                     ) : (
                         <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
-                            Next
+                            <Link href="/todolist/creategroup">Next</Link>
                         </Button>
                     )}
                 </Box>
