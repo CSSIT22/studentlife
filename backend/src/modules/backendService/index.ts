@@ -1,5 +1,5 @@
 import express from "express"
 
-const middlewareRoutes = express()
+const backendserviceRoutes = express()
 
-export default middlewareRoutes
+export default backendserviceRoutes
