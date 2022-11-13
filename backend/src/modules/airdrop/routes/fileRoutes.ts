@@ -12,8 +12,10 @@ const prisma = new PrismaClient()
 const storage = multer.diskStorage({
     destination: function (req: any, file: any, cb: any) {
         const fileType = req.body.type
-
-        cb(null, path.join(__dirname, "../files" + "/" + fileType))
+        fs.mkdir(path.join(__dirname, "../files/" + fileType.toLowerCase()), { recursive: true }, (err:any) => {
+            if (err) throw err;
+            cb(null, path.join(__dirname, "../files" + "/" + fileType))
+        });
     },
     filename: function (req: any, file: any, cb: any) {
         cb(null, req.user?.userId + file.originalname)
@@ -81,7 +83,13 @@ fileRoutes.get("/getallfile", async (req: Request, res: Response) => {
                 senderId: senderId
             })
         }
-        res.json(result)
+        const lastResult = result.map((item) => {
+            return {
+                ...item,
+                comments:[]
+            }
+        })
+        res.json(lastResult)
     } catch (err) {
         console.log(err)
     }
