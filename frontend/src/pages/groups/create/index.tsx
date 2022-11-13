@@ -8,6 +8,7 @@ import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
 import { userData } from '../data'
 
 import AppBody from "../../../components/share/app/AppBody"
+import FriendInviteList from 'src/components/group/FriendInviteList';
 import React, { useState } from "react"
 import { FaPlus } from "react-icons/fa"
 
@@ -46,9 +47,9 @@ const create = () => {
                 { /*Create Community*/}
                 <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background=" tomato" textColor={"white"}>
                     <Breadcrumb ml={'0.4'} fontSize={'xs'} spacing='1.5px' separator={<ChevronRightIcon color='white' />}>
-                            //Breadcrumb
+
                         <BreadcrumbItem>
-                            <BreadcrumbLink href='#'>Community</BreadcrumbLink>
+                            <BreadcrumbLink href='http://127.0.0.1:5173/groups'>Community</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbItem isCurrentPage>
                             <BreadcrumbLink href='#'>Create Community</BreadcrumbLink>
@@ -62,41 +63,37 @@ const create = () => {
                         <FormControl>
                             <Input type='Name' value={GroupName} onChange={textChange} background={"white"} color="black" />
                         </FormControl>
-                        
-                        
-                        
-                        Tags
-                        <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='sm'>
+
+                        Choose Tags
+                        <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='xs'>
                             <FaPlus />
                         </Button>
-                    
-                        
-                        
+
                         <Drawer placement={'bottom'} onClose={onClose} isOpen={isOpen}>
                             <DrawerOverlay />
                             <DrawerContent>
-                            <DrawerHeader borderBottomWidth='1px'>Tags</DrawerHeader>
-                            <DrawerBody>
-                            <HStack gap={2}>
-                            {userData.Tag.map((i) => (
-                                <Button onClick={((handleTagChoose))} 
-                                colorScheme={tagBtn ? 'green': 'yellow'} 
-                                variant='solid' 
-                                key={i.tagID} 
-                                borderRadius ="full" 
-                                size={"md"}
-                                
-                                >{i.tagName}
-                                </Button>
-                            ))}
-                            </HStack>
-                            </DrawerBody>
+                                <DrawerHeader borderBottomWidth='1px'>Tags</DrawerHeader>
+                                <DrawerBody>
+                                    <HStack gap={2}>
+                                        {userData.Tag.map((i) => (
+                                            <Button onClick={((handleTagChoose))}
+                                                colorScheme={tagBtn ? 'green' : 'yellow'}
+                                                variant='solid'
+                                                key={i.tagID}
+                                                borderRadius="full"
+                                                size={"md"}
+
+                                            >{i.tagName}
+                                            </Button>
+                                        ))}
+                                    </HStack>
+                                </DrawerBody>
                             </DrawerContent>
                         </Drawer>
 
 
                         <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} >
-                            {userData.Tag.map((Tags) => 
+                            {userData.Tag.map((Tags) =>
                                 <Tag
                                     fontSize={"md"}
                                     size={"md"}
@@ -111,9 +108,6 @@ const create = () => {
                                 </Tag>)}
                         </HStack>
 
-
-
-                        
                         <HStack>
                             <Text mr={-1}>Privacy</Text>
                             <MdPublic color="White" />
@@ -137,10 +131,25 @@ const create = () => {
                         <Text mt={2} mb={2}>
                             Invite friends to join this community
                         </Text>
-                        <HStack>
-                            <IconButton background={'white'} aria-label='Search database' icon={<SearchIcon />} color={'black'} />
-                            < Input backgroundColor={'white'} color={'black'} placeholder='Search for friends' />
-                        </HStack>
+                        <Box background={'white'} borderRadius={'md'}>
+                            <HStack padding={1}>
+                                <IconButton background={'white'} aria-label='Search database' icon={<SearchIcon />} color={'black'} />
+                                < Input backgroundColor={'white'} color={'black'} placeholder='Search for friends' />
+                            </HStack>
+                            <Box>
+                                <Box padding={1} background={'white'} color={'black'}>
+                                    <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
+                                </Box>
+                                <Box padding={1} background={'white'} color={'black'}>
+                                    <FriendInviteList userName='Patthadol Raksapram' isSelected={false} userProfile={''} />
+                                </Box>
+                                <Box padding={1} background={'white'} color={'black'}>
+                                    <FriendInviteList userName='Vatcharamai Rodring' isSelected={false} userProfile={''} />
+                                </Box>
+                            </Box>
+
+                        </Box>
+
                         <Button width="100%" mt={3} color='black' size={"md"}>
                             Create
                         </Button>
