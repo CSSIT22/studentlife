@@ -46,7 +46,7 @@ router.get(
                 },
             })
         } catch (error) {
-            res.status(500).send("These is error is login")
+            res.status(500).send("These is an error in login")
             console.log(error)
         }
 
