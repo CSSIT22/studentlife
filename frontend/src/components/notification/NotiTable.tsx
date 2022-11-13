@@ -7,7 +7,7 @@ import MarkRead from "./MarkRead"
 import { Link } from "react-router-dom"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import NotiSetting from "./NotiSetting"
-import { OBJECTS } from "./main/objectsTest"
+import { OBJECTS } from "./main/data/objectsTest"
 import { MODULES } from "./moduleList/moduleTest"
 
 const NotiTable = () => {
@@ -51,7 +51,7 @@ const NotiTable = () => {
     }
     return (
         <Box>
-            <Flex padding={3}>
+            <Flex padding={3} paddingBottom={0}>
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
@@ -65,7 +65,7 @@ const NotiTable = () => {
                     </Stack>
                 </Box>
             </Flex>
-            <Stack padding={4} height="50vh" overflow="auto">
+            <Stack padding={4} paddingTop={2} height="50vh" overflow="auto">
                 {showNotiList()}
             </Stack>
             <Center paddingTop={2}>

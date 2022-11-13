@@ -9,15 +9,16 @@ export const OBJECTS = [
         isRead: true,
         date: new Date("November 11, 2022 22:30:00"),
         module: "Chat",
+        link: "https://www.google.com/",
     },
     {
         id: "1",
         user: USER[1].id,
-
         description: "sdasdf sadf asfasf",
         isRead: false,
         date: new Date("November 11, 2022 09:38:00"),
         module: "Shop",
+        link: "https://www.google.com/",
     },
     {
         id: "2",
@@ -26,6 +27,7 @@ export const OBJECTS = [
         isRead: false,
         date: new Date("November 9, 2022 09:38:00"),
         module: "Shop",
+        link: "https://www.google.com/",
     },
     {
         id: "3",
@@ -34,6 +36,7 @@ export const OBJECTS = [
         isRead: false,
         date: new Date("March 18, 2022 09:38:00"),
         module: "Chat",
+        link: "https://www.google.com/",
     },
     {
         id: "4",
@@ -42,6 +45,7 @@ export const OBJECTS = [
         isRead: false,
         date: new Date("October 19, 2020 09:38:00"),
         module: "Chat",
+        link: "https://www.google.com/",
     },
     {
         id: "5",
@@ -50,6 +54,7 @@ export const OBJECTS = [
         isRead: false,
         date: new Date("October 19, 2020 09:38:00"),
         module: "Chat",
+        link: "https://www.google.com/",
     },
     {
         id: "6",
@@ -58,5 +63,6 @@ export const OBJECTS = [
         isRead: false,
         date: new Date("November 1, 2022 09:38:00"),
         module: "Chat",
+        link: "https://www.google.com/",
     },
 ]

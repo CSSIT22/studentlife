@@ -25,7 +25,7 @@ import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectV
 import AppBody from "../../components/share/app/AppBody"
 import { FiSettings } from "react-icons/fi"
 import { Link } from "react-router-dom"
-import { OBJECTS } from "../../components/notification/main/objectsTest"
+import { OBJECTS } from "../../components/notification/main/data/objectsTest"
 import { MODULES } from "../../components/notification/moduleList/moduleTest"
 
 const viewAll = () => {
@@ -56,7 +56,9 @@ const viewAll = () => {
     return (
         <AppBody>
             <Flex padding={3}>
-            <Box padding={1}><b>Activity :</b></Box>
+                <Box padding={1}>
+                    <b>Activity :</b>
+                </Box>
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
@@ -67,10 +69,10 @@ const viewAll = () => {
                     </Stack>
                 </Box>
             </Flex>
-            <Box borderRadius= "lg" shadow={"2xl"} backgroundColor="white" padding={1} height="75vh">
-            <Stack padding={4} height="100%" overflow="auto">
-                {showNotiListViewAll()}
-            </Stack>
+            <Box borderRadius="lg" shadow={"2xl"} backgroundColor="white" padding={1} height="75vh">
+                <Stack padding={4} height="100%" overflow="auto">
+                    {showNotiListViewAll()}
+                </Stack>
             </Box>
         </AppBody>
     )

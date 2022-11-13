@@ -2,15 +2,16 @@ import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } 
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
-import { USER } from "./userProfile"
+import { USER } from "./data/userProfile"
 
 const NotiObject: FC<{
     id: number
-    userId: String
+    userId: string
     description: string
     isRead: boolean
     date: Date
-}> = ({ id, description, isRead, date, userId }) => {
+    link: string
+}> = ({ id, description, isRead, date, userId, link }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.6em" bg="gray" />
@@ -125,17 +126,23 @@ const NotiObject: FC<{
             padding={2}
             key={id}
         >
-            <Stack direction={"row"} spacing={3}>
-                <Center>{showUser()}</Center>
-                <Stack>
-                    <Text fontSize={"sm"}>{showDescription()}</Text>
-                    <Text fontSize={"xs"} color="gray.400">
-                        {showDate()}
-                    </Text>
+            <a href={link}>
+                <Stack direction={"row"} spacing={5} padding={"1"}>
+                    <Center>{showUser()}</Center>
+
+                    <Stack>
+                        <Text fontSize={"sm"} textAlign={"left"}>
+                            {showDescription()}
+                        </Text>
+                        <Text fontSize={"xs"} textAlign={"left"} color="gray.400">
+                            {showDate()}
+                        </Text>
+                    </Stack>
+
+                    <Spacer />
+                    <Center paddingRight={3}>{showStatus()}</Center>
                 </Stack>
-                <Spacer />
-                <Center paddingRight={3}>{showStatus()}</Center>
-            </Stack>
+            </a>
         </Box>
     )
 }
