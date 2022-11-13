@@ -53,13 +53,13 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                         </Box>
                     </div>
                     <div>
-                        {isMember ? <Button size="sm" background={'orange.600'} color={'white'} >Invite</Button> : <Button size="sm" background={'orange.600'} color={'white'}>Join</Button>}
+                        {isMember ? <Button size="sm" background={'orange.500'} color={'white'} >Invite</Button> : <Button size="sm" background={'orange.500'} color={'white'}>Join</Button>}
                     </div>
                 </ HStack>
 
                 <Flex mt={2} flexWrap={"wrap"} gap={1}>
                     {
-                        tags.map((t: any) => <Box backgroundColor={"gray.100"} px={3} borderRadius={"lg"} fontSize="xs" key={t.tagID}>{t.tagName}</Box>)
+                        tags.map((t: any) => <Box backgroundColor={"orange.500"} color={'white'} fontWeight={'medium'} px={3} borderRadius={"md"} fontSize="xs" key={t.tagID}>{t.tagName}</Box>)
                     }
                 </Flex>
 

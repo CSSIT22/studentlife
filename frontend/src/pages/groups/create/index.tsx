@@ -133,21 +133,40 @@ const create = () => {
                         <Text mt={2} mb={2}>
                             Invite friends to join this community
                         </Text>
-                        <Box background={'orange.400'} borderRadius={'md'}>
+                        <Box borderRadius={'md'}>
                             <HStack padding={1}>
                                 <IconButton background={'white'} aria-label='Search database' icon={<SearchIcon />} color={'black'} />
                                 < Input backgroundColor={'white'} color={'black'} placeholder='Search for friends' />
                             </HStack>
-                            <Box>
-                                <Box padding={1} background={'white'} color={'black'}>
-                                    <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
-                                </Box>
-                                <Box padding={1} background={'white'} color={'black'}>
-                                    <FriendInviteList userName='Patthadol Raksapram' isSelected={false} userProfile={''} />
-                                </Box>
-                                <Box padding={1} background={'white'} color={'black'}>
-                                    <FriendInviteList userName='Vatcharamai Rodring' isSelected={false} userProfile={''} />
-                                </Box>
+                            <Box background={'orange.400'}
+                                height={'200px'}
+                                paddingRight={0.5}
+                                sx={{
+                                    "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
+                                    overflowY: "scroll",
+                                    scrollBehavior: "smooth",
+                                    "::-webkit-scrollbar-track": {
+                                        background: "none",
+                                    },
+                                    "::-webkit-scrollbar-thumb": {
+                                        background: "white",
+                                    },
+                                }}>
+                                <Flex gap={1} direction='column' ml={1} >
+                                    <Box color={'black'}>
+                                        <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
+                                    </Box>
+                                    <Box color={'black'}>
+                                        <FriendInviteList userName='Patthadol Raksapram' isSelected={false} userProfile={''} />
+                                    </Box>
+                                    <Box color={'black'}>
+                                        <FriendInviteList userName='Vatcharamai Rodring' isSelected={false} userProfile={''} />
+                                    </Box>
+                                    <Box color={'black'}>
+                                        <FriendInviteList userName='Pakkawat Wassa' isSelected={false} userProfile={''} />
+                                    </Box>
+                                </Flex>
+
                             </Box>
 
                         </Box>
