@@ -15,14 +15,17 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Fade,
 } from "@chakra-ui/react"
 import axios from "axios"
-import React, { FC, useState } from "react"
+import React, { FC, useContext, useEffect, useState } from "react"
 import { IconType } from "react-icons"
 import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "react-icons/md"
 import FileComment from "./FileComment"
+import { fileListContext } from "src/pages/airdrop/receive"
 
 const FileList: FC<{
+    elementid: number
     info: {
         fileId: string
         fileName: string
@@ -33,10 +36,12 @@ const FileList: FC<{
             name: string
             comment: string
         }[]
-    },
-    fetchFile:any
-}> = ({ info,fetchFile}) => {
-    const { isOpen, onOpen, onToggle, onClose } = useDisclosure()
+    }
+    fadeToggle: any
+}> = ({ elementid, info,fadeToggle }) => {
+    const fileContext = useContext(fileListContext)
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
     //modal page
     const [modalPage, setModalPage] = useState(0)
     const [modalData, setModalData] = useState<{
@@ -45,7 +50,7 @@ const FileList: FC<{
         fileSender: string
         senderId: string
         sendType: string
-        comments: { name: string; comment: string }[]
+        comments: []
     }>({
         fileId: "",
         fileName: "",
@@ -63,11 +68,13 @@ const FileList: FC<{
                         {key == "fileExpired" ? (
                             <>
                                 <Text fontSize={"xl"}>{key.toLowerCase()}:</Text>
-                                <Text>{
-                                    value == "0" ? "Permanent" : new Date(value).toLocaleString("en-US", {
-                                        timeZone: "Asia/Bangkok",
-                                    })
-                                }</Text>
+                                <Text>
+                                    {value == "0"
+                                        ? "Permanent"
+                                        : new Date(value).toLocaleString("en-US", {
+                                              timeZone: "Asia/Bangkok",
+                                          })}
+                                </Text>
                             </>
                         ) : (
                             <>
@@ -97,7 +104,7 @@ const FileList: FC<{
     }
 
     //handle function
-    const handleDownload = async (type: string, name: string, sid: string,fid:string) => {
+    const handleDownload = async (type: string, name: string, sid: string, fid: string, event: any) => {
         const downloadFile = await axios.get(`http://localhost:8000/airdrop/file/download/${type}/${sid + name}`, {
             responseType: "blob",
         })
@@ -109,76 +116,82 @@ const FileList: FC<{
         link.click()
         console.log(downloadFile)
 
-        const  hideFile = await axios.post("http://localhost:8000/airdrop/file/hidefile",{
-            fileId:fid
-        },{
-            withCredentials:true
-        })
-        // fetchFile()
-        console.log(hideFile)
+        const hideFile = await axios.post(
+            "http://localhost:8000/airdrop/file/hidefile",
+            {
+                fileId: fid,
+            },
+            {
+                withCredentials: true,
+            }
+        )
+        await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== fid))
     }
-    const handleDecline = async (id: string) => {
-        
+    const handleDecline = async (id: string, event: any) => {
         const  hideFile = await axios.post("http://localhost:8000/airdrop/file/hidefile",{
             fileId:id
         },{
             withCredentials:true
         })
-        // fetchFile()
-        console.log(hideFile)
+        await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== id))
     }
+    useEffect(()=>{
+        console.log(info);
+        
+    })
     return (
         <>
-            <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} gap={3}>
-                <Box as={MdFileCopy} size={"3rem"} />
-                <Hide below={"md"}>
-                    <Text>{info.fileName}</Text>
-                </Hide>
+            <div id={elementid.toString()}>
+                <Flex direction={"row"} justifyContent={"space-between"} alignItems={"center"} px={"10"} py={"3"} gap={3}>
+                    <Box as={MdFileCopy} size={"3rem"} />
+                    <Hide below={"md"}>
+                        <Text>{info.fileName}</Text>
+                    </Hide>
 
-                <Text fontSize={["0.76rem", "md"]}>{info.fileSender}</Text>
+                    <Text fontSize={["0.76rem", "md"]}>{info.fileSender}</Text>
 
-                <HStack>
-                    <IconButton
-                        aria-label="accept"
-                        icon={<MdDone />}
-                        rounded={"3xl"}
-                        border={"1px"}
-                        borderColor={"gray.300"}
-                        shadow={"xs"}
-                        bgColor={"white"}
-                        onClick={async() => {
-                            handleDownload(info.sendType, info.fileName, info.senderId,info.fileId)
-                        }}
-                    ></IconButton>
-                    <IconButton
-                        aria-label="deny"
-                        icon={<MdOutlineClose />}
-                        rounded={"3xl"}
-                        border={"1px"}
-                        borderColor={"gray.300"}
-                        shadow={"xs"}
-                        bgColor={"white"}
-                        onClick={async() => {
-                            handleDecline(info.fileId);
-                        }}
-                    ></IconButton>
-                    <IconButton
-                        aria-label="infomation"
-                        icon={<MdInfoOutline />}
-                        rounded={"3xl"}
-                        border={"1px"}
-                        borderColor={"gray.300"}
-                        shadow={"xs"}
-                        bgColor={"white"}
-                        onClick={async () => {
-                            const setModal = await setModalData(info)
-                            onOpen()
-                        }}
-                    ></IconButton>
-                </HStack>
-            </Flex>
-            <Divider />
-
+                    <HStack>
+                        <IconButton
+                            aria-label="accept"
+                            icon={<MdDone />}
+                            rounded={"3xl"}
+                            border={"1px"}
+                            borderColor={"gray.300"}
+                            shadow={"xs"}
+                            bgColor={"white"}
+                            onClick={async (e) => {
+                                handleDownload(info.sendType, info.fileName, info.senderId, info.fileId, e.target)
+                            }}
+                        ></IconButton>
+                        <IconButton
+                            aria-label="deny"
+                            icon={<MdOutlineClose />}
+                            rounded={"3xl"}
+                            border={"1px"}
+                            borderColor={"gray.300"}
+                            shadow={"xs"}
+                            bgColor={"white"}
+                            onClick={async (e) => {
+                                handleDecline(info.fileId, e.target)
+                            }}
+                        ></IconButton>
+                        <IconButton
+                            aria-label="infomation"
+                            icon={<MdInfoOutline />}
+                            rounded={"3xl"}
+                            border={"1px"}
+                            borderColor={"gray.300"}
+                            shadow={"xs"}
+                            bgColor={"white"}
+                            onClick={async () => {
+                                const setModal = await setModalData(info)
+                                onOpen()
+                            }}
+                        ></IconButton>
+                    </HStack>
+                </Flex>
+                <Divider />
+            </div>
             <Modal
                 isOpen={isOpen}
                 onClose={() => {

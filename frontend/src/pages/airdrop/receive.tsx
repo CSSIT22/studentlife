@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, FC } from "react"
+import React, { useState, useEffect, useRef, FC, createContext } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import FileComment from "src/components/airdrop/FileComment"
@@ -37,6 +37,8 @@ import {
     Heading,
     ModalFooter,
     Input,
+    Fade,
+    ScaleFade,
 } from "@chakra-ui/react"
 import axios from "axios"
 const linkMenu = [
@@ -44,61 +46,28 @@ const linkMenu = [
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
-const dummyData = {
-    allfile: [
-        {
-            icon: MdImage,
-            name: "pic1.jpeg",
-            sender: "MR.ABC DEF",
-            comments: [
-                {
-                    name: "MR.ABC DEF",
-                    comment: "great work",
-                },
-                {
-                    name: "MR.ABC GGG",
-                    comment: "Love it",
-                },
-            ],
-        },
-        {
-            icon: MdImage,
-            name: "pic2.jpeg",
-            sender: "MR.ABC DEF",
-            comments: [
-                {
-                    name: "MR.ABC DEF",
-                    comment: "great work",
-                },
-                {
-                    name: "MR.ABC GGG",
-                    comment: "Love it",
-                },
-            ],
-        },
-        {
-            icon: MdImage,
-            name: "pic3.jpeg",
-            sender: "MR.ABC DEF",
-            comments: [],
-        },
-    ],
-}
+
+
+
+export const fileListContext  = createContext<any>({
+    fileList: [],
+    setFileList: () => {},
+});
 export default function Receivedrop<FC>() {
+    const { isOpen, onToggle } = useDisclosure()
     const [fileList, setFileList] = useState<any>([])
     //get file function
     const fetchAllFile = async () => {
         const res = await axios.get("http://localhost:8000/airdrop/file/getallfile",{
             withCredentials: true
         });
-        console.log(res.data);
-        
         setFileList(res.data);
     }
 
 
     useEffect(()=>{
         fetchAllFile();
+        onToggle();
     },[])
     return (
         <AppBody secondarynav={linkMenu}>
@@ -108,13 +77,15 @@ export default function Receivedrop<FC>() {
                 </Box>
                 {/* component for list will coming sooner */}
                 <Divider />
+                <fileListContext.Provider value={{fileList,setFileList}}>
                 {fileList?.map((item:any, key:any) => {
                     return (
-                        <>
-                            <FileList info={item} key={key}/>
-                        </>
+                        <Fade in={isOpen} unmountOnExit key={key}>
+                        <FileList info={item} key={key} elementid={key} fadeToggle={onToggle}/>
+                        </Fade>
                     )
                 })}
+                </fileListContext.Provider>
             </PageBox>
         </AppBody>
     )

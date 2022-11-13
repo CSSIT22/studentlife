@@ -155,6 +155,7 @@ export default function Index<FC>() {
             fd.append("description", description)
             if (dropDuration.perm) {
                 fd.append("duration", "permanent")
+                fd.append("expireDate", "0")
             } else {
                 const timeNow = Date.now();
                 const addTime = expiredTime.h * 60 * 60 * 1000 + expiredTime.m * 60 * 1000 + expiredTime.s * 1000
