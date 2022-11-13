@@ -25,6 +25,7 @@ const DatingAppBody = (props: any) => {
     return (
         // We use AppBody from shared component.
         <AppBody
+            userSelect={props.userSelect}
             secondarynav={[
                 {
                     name: "Randomization",

@@ -4,7 +4,6 @@ import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
 import { motion, useAnimation } from "framer-motion"
-import { CgProfile } from "react-icons/cg"
 import ProfileImg from "./pic/profile.png"
 
 const DatingRandomizationMobilePage: FC<{
@@ -61,7 +60,7 @@ const DatingRandomizationMobilePage: FC<{
     }
 
     return (
-        <DatingAppBody>
+        <DatingAppBody userSelect="none">
             <SimpleGrid overflow="hidden">
                 <Box>
                     <Box className="cardContainer">
@@ -112,20 +111,22 @@ const DatingRandomizationMobilePage: FC<{
                                             display="flex"
                                             alignItems="end"
                                             justifyContent="end"
+                                            cursor="move"
                                         >
-                                            <Button
-                                                aria-label="User Profile"
-                                                className="pressable"
-                                                onClick={() => handleClick(character.Fname)}
-                                                w="50px"
-                                                h="50px"
-                                                colorScheme="orange"
-                                                borderRadius="full"
-                                                mr="10px"
-                                                mb="10px"
-                                            >
-                                                <Image className="pressable" onClick={() => handleClick(character.Fname)} src={ProfileImg}></Image>
-                                            </Button>
+                                            <Link href="../../user">
+                                                <Button
+                                                    aria-label="User Profile"
+                                                    className="pressable"
+                                                    w="50px"
+                                                    h="50px"
+                                                    colorScheme="orange"
+                                                    borderRadius="full"
+                                                    mr="10px"
+                                                    mb="10px"
+                                                >
+                                                    <Image className="pressable" src={ProfileImg}></Image>
+                                                </Button>
+                                            </Link>
                                         </Box>
                                     </Center>
                                 </TinderCard>
