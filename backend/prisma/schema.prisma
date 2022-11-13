@@ -30,8 +30,8 @@ model User_Profile {
   userBlocking         User_Blocked[]                   @relation("blocker")
   levels               EXP?
   posts                Student_Post[]
-  relationScore        Following_Rating[]
   reacted              Student_Reacted[]
+  repost Repost[]
   pComments            Post_Comment[]
   pReported            Post_Report[]
   cReported            Comment_Report[]
@@ -51,9 +51,8 @@ model User_Profile {
   userSeeAnnouncement  Announcement_Seen[]
   annApproved          Announcement_Approve[]
   cUser                Chat_User?
-  inRoom               Chat_Room[]
-  user_To_Room         User_To_Room[]
   userDating           Dating_Options?
+  userQueue Card_Queue[] @relation("User")
   frontUserQueue       Card_Queue[]                     @relation("Front User")
   backUserQueue        Card_Queue[]                     @relation("Back User")
   giveRate             User_Rating[]                    @relation("Receiver")
@@ -64,13 +63,17 @@ model User_Profile {
   datingSetting        Dating_Enroll?
   createPoll           Activity_Poll[]
   polls                Poll_Applicant[]
+  commuOwner Community[]
   community            Community_User[]
   communityBlacklist   Community_Blacklist[]
+  sendFile File_Info[]
   files                User_Show_File[]
+  fileHistory File_History[]
   fComments            File_Comment[]
   accessTo             Direct_Access[]
+  userBack User_Back[]
   banInstances         Ban_Status[]
-  wordReport           wordReport[]
+  wordReport           Word_Report[]
   shortNotes           Sn_Head[]
   voteTo               Sn_Votedetail[]
   snComments           Sn_Comment[]
@@ -100,6 +103,7 @@ model User_Profile {
   shortlinkQuota       ShortLink_Quota?
   shortlink            ShortLink[]
   shortlinkAccess      ShortLink_Permission_User[]
+  report Analytic_Report[]
   userAccess           Analytic_User_Access?
   genReportModule      Analytic_Report_Module[]
   userReport           Analytic_User_Report[]
@@ -158,8 +162,8 @@ model User_To_Role {
 model Follow {
   userId        String
   anotherUserId String
-  status        Boolean
   date          DateTime     @default(now())
+  score Int
   follower      User_Profile @relation("follower", fields: [userId], references: [userId])
   following     User_Profile @relation("following", fields: [anotherUserId], references: [userId])
 
@@ -169,7 +173,6 @@ model Follow {
 model User_Report {
   userId        String
   anotherUserId String
-  limit         Int
   reason        String
   date          DateTime     @default(now())
   reporter      User_Profile @relation("reporter", fields: [userId], references: [userId])
@@ -181,7 +184,7 @@ model User_Report {
 model User_Blocked {
   userId        String
   anotherUserId String
-  status        Boolean
+  date DateTime @default(now())
   blocker       User_Profile @relation("blocker", fields: [userId], references: [userId])
   blocking      User_Profile @relation("blocking", fields: [anotherUserId], references: [userId])
 
@@ -193,11 +196,12 @@ model EXP {
   currentXP Int           @default(0)
   level     Int           @default(1)
   student   User_Profile  @relation(fields: [userId], references: [userId])
-  userXp    Action_to_XP?
+  userXp    Action_to_XP[]
 }
 
 model Action_to_XP {
-  userId     String   @id
+  actionId String @id @default(cuid())
+  userId     String
   actionType String
   actionXp   Int
   date       DateTime
@@ -223,18 +227,8 @@ model Student_Post {
   communityPost   Community_Post?
 }
 
-model Following_Rating {
-  userId      String
-  followingId String
-  score       Int
-  scoreGiver  User_Profile @relation(fields: [userId], references: [userId])
-
-  @@id([userId, followingId])
-}
-
 model Post_Body {
-  bodyId String       @id @default(cuid())
-  postId String       @unique
+  postId String       @id
   text   String
   bodyOf Student_Post @relation(fields: [postId], references: [postId])
 }
@@ -266,6 +260,8 @@ model Student_Reacted {
 
 model Emote_Collection {
   emoteId String            @id @default(cuid())
+  emoteName String
+  emote String
   posts   Student_Reacted[]
 }
 
@@ -287,6 +283,7 @@ model Repost {
   newUserId    String
   newPostTime  DateTime     @default(now())
   originalPost Student_Post @relation(fields: [postId], references: [postId])
+  shareUser User_Profile @relation(fields: [newPostId], references: [userId])
 }
 
 model Post_Report {
@@ -338,7 +335,7 @@ model User_Noti_Object {
 }
 
 model Noti_Object {
-  notiObjectId String             @id
+  notiObjectId String             @id @default(cuid())
   templateId   String
   date         DateTime
   isRead       Boolean
@@ -351,26 +348,26 @@ model Noti_Object {
 }
 
 model Template {
-  templateId  String        @id
+  templateId  String        @id @default(cuid())
   template    String
   notiObjects Noti_Object[]
 }
 
 model Value {
-  valueId      String      @id
+  valueId      String      @id @default(cuid())
   value        String
   notiObjectId String
   valueOf      Noti_Object @relation(fields: [notiObjectId], references: [notiObjectId])
 }
 
 model Module {
-  moduleId   String        @id
+  moduleId   String        @id @default(cuid())
   moduleName String
   notiObject Noti_Object[]
 }
 
 model Noti_Type {
-  notiTypeId   String              @id
+  notiTypeId   String              @id @default(cuid())
   notiType     String              @default("All")
   notiTypeName String
   notiTypeDesc String
@@ -409,7 +406,9 @@ model Event {
   eventTypeId String
   descId      String       @unique
   hostAt      Event_Place  @relation(fields: [placeId], references: [placeId])
-  desc        Description?
+  desc        String
+  course Course?
+  assignment Assignment?
   // alert Schedule_Alert?
 }
 
@@ -420,12 +419,6 @@ model Event_Place {
   events   Event[]
 }
 
-model Description {
-  descId String @id @default(cuid())
-  desc   String
-  descOf Event  @relation(fields: [descId], references: [descId])
-}
-
 model Event_Type {
   eventTypeId String @id @default(cuid())
   eventType   String
@@ -433,17 +426,21 @@ model Event_Type {
 
 model Course {
   courseId    String       @id @default(cuid())
+  eventId String @unique
   courseName  String
   lecturer    String
   assignments Assignment[]
   shortNotes  Sn_Head[]
+  event Event @relation(fields: [eventId], references: [eventId])
 }
 
 model Assignment {
   assignmentId       String @id @default(cuid())
+  eventId String @unique
   courseId           String @default("0")
   assignmentName     String
   assignmentOfCourse Course @relation(fields: [courseId], references: [courseId])
+  event Event @relation(fields: [eventId], references: [eventId])
 }
 
 // model Schedule_Alert {
@@ -493,8 +490,7 @@ model User_To_Group {
 }
 
 model Task_Track {
-  trackingId String       @id @default(cuid())
-  userId     String       @unique
+  userId     String       @id
   percentage Float
   userTask   User_Profile @relation(fields: [userId], references: [userId])
 }
@@ -536,6 +532,7 @@ model Announcement {
   annPin      Announcement_Pin[]
   annSee      Announcement_Seen[]
   annApprove  Announcement_Approve?
+  annDel Announcement_Delete?
 }
 
 model Announcement_Filter {
@@ -560,16 +557,15 @@ model Post_To_Language {
 }
 
 model Announcement_Post {
-  statusId     Int          @id @default(autoincrement())
-  postId       String       @unique
+  postId       String       @id
   status       String       @default("Waiting for Approve")
   announcement Announcement @relation(fields: [postId], references: [postId])
 }
 
 model Announcement_Delete {
-  delId    Int      @id @default(autoincrement())
-  postId   String
+  postId   String @id
   deleteAt DateTime @default(now())
+  post Announcement @relation(fields: [postId], references: [postId])
 }
 
 model Announcement_Pin {
@@ -604,9 +600,12 @@ model Announcement_Approve {
 
 //Chat Module
 model Chat_User {
-  cUserId     String       @unique
+  userId     String       @id
   username    String
-  cUserToUser User_Profile @relation(fields: [cUserId], references: [userId])
+  cUserToUser User_Profile @relation(fields: [userId], references: [userId])
+  user_To_Room         User_To_Room[]
+  messages Message[]
+  quotes Chat_Quote[]
 }
 
 model Chat_Room {
@@ -618,15 +617,13 @@ model Chat_Room {
   roomType           Room_Type
   roomGroup          Chat_Group?
   haveUser           User_To_Room[]
-  User_Profile       User_Profile?      @relation(fields: [user_ProfileUserId], references: [userId])
-  user_ProfileUserId String?
   messages           Message[]
   quotes             Chat_Quote[]
-  wordReport         wordReportDetail[]
+  wordReport         Word_Report_Detail[]
 }
 
 model User_To_Room {
-  user     User_Profile @relation(fields: [userId], references: [userId])
+  user     Chat_User @relation(fields: [userId], references: [userId])
   userId   String
   room     Chat_Room    @relation(fields: [roomId], references: [roomId])
   roomId   String
@@ -651,6 +648,7 @@ model Message {
   created       DateTime     @default(now())
   isRead        Boolean      @default(false)
   messageInRoom Chat_Room    @relation(fields: [roomId], references: [roomId])
+  messageSender Chat_User @relation(fields: [senderId], references: [userId])
 }
 
 model Chat_Quote {
@@ -660,6 +658,7 @@ model Chat_Quote {
   created  DateTime  @default(now())
   text     String
   quoteFor Chat_Room @relation(fields: [roomId], references: [roomId])
+  quoter Chat_User @relation(fields: [userId], references: [userId])
 }
 
 model Chat_Sticker {
@@ -692,6 +691,8 @@ enum Message_Type {
   TEXT
   QUOTE
   STICKER
+  RESTAURANT
+  TRANSACTION
 }
 
 //Dating Module
@@ -714,9 +715,10 @@ model Faculty_Pref {
 }
 
 model Card_Queue {
-  userId      String       @unique
+  userId      String       @id
   frontUserId String
   backUserId  String
+  user User_Profile @relation("User", fields: [userId], references: [userId])
   frontUser   User_Profile @relation("Front User", fields: [frontUserId], references: [userId])
   backUser    User_Profile @relation("Back User", fields: [backUserId], references: [userId])
 }
@@ -811,6 +813,7 @@ model Community {
   communityPrivacy Boolean
   communityPhoto   Bytes?
   member           Community_User[]
+  owner User_Profile @relation(fields: [communityOwnerId], references: [userId])
   blacklist        Community_Blacklist[]
   tags             Community_Tag[]
   posts            Community_Post[]
@@ -891,10 +894,12 @@ model File_Info {
   sendType    String
   fileDesc    String
   fileExpired DateTime
+  sender User_Profile @relation(fields: [fileSender], references: [userId])
   users       User_Show_File[]
   community   Community_File?
   comments    File_Comment[]
   folders     File_In_Folder[]
+  history File_History[]
 }
 
 model User_Show_File {
@@ -942,11 +947,35 @@ model File_In_Folder {
 model File_Access {
   accessId   String             @id @default(cuid())
   fileId     String
-  accessType String
+  accessType Access_Type
   everyone   Everyone_Access[]
   community  Community_Access[]
   major      Major_Access[]
   direct     Direct_Access[]
+}
+
+enum Access_Type {
+  EVERYONE
+  COMMUNITY
+  MAJOR
+  DIRECT
+}
+
+model File_History {
+  fileId String
+  userId String
+  historyType History_Type
+  createdAt DateTime
+
+  file File_Info @relation(fields: [fileId], references: [fileId])
+  user User_Profile @relation(fields: [userId], references: [userId])
+
+  @@id([fileId, userId])
+}
+
+enum History_Type {
+  UPLOAD
+  DOWNLOAD
 }
 
 model Everyone_Access {
@@ -985,6 +1014,7 @@ model User_Back {
   token         String
   loginSession  Login_Info[]
   logoutSession Logout_Info[]
+  user User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([userId, token])
 }
@@ -993,7 +1023,7 @@ model Login_Info {
   loginId String        @id @default(cuid())
   userId  String
   token   String
-  login   User_Back     @relation(fields: [userId, token], references: [userId, token])
+  login   User_Back     @relation(fields: [userId, token], references: [userId, token], onDelete: Cascade)
   detail  Login_Detail?
 }
 
@@ -1003,14 +1033,14 @@ model Login_Detail {
   tokenExpired DateTime
   deviceInfo   String
   ip           String
-  detailOf     Login_Info @relation(fields: [loginId], references: [loginId])
+  detailOf     Login_Info @relation(fields: [loginId], references: [loginId], onDelete: Cascade)
 }
 
 model Logout_Info {
   logoutId String         @id @default(cuid())
   userId   String
   token    String
-  logout   User_Back      @relation(fields: [userId, token], references: [userId, token])
+  logout   User_Back      @relation(fields: [userId, token], references: [userId, token], onDelete: Cascade)
   detail   Logout_Detail?
 }
 
@@ -1019,7 +1049,7 @@ model Logout_Detail {
   logoutDate DateTime    @default(now())
   deviceInfo String
   ip         String
-  detailOf   Logout_Info @relation(fields: [logoutId], references: [logoutId])
+  detailOf   Logout_Info @relation(fields: [logoutId], references: [logoutId], onDelete: Cascade)
 }
 
 model Ban_Status {
@@ -1032,28 +1062,28 @@ model Ban_Status {
   user     User_Profile @relation(fields: [userId], references: [userId])
 }
 
-model wordReport {
+model Word_Report {
   wordReportId Int               @id @default(autoincrement())
   word         String
   userId       String
   reporter     User_Profile      @relation(fields: [userId], references: [userId])
-  detail       wordReportDetail?
+  detail       Word_Report_Detail?
   reportedWord Filtered_Word     @relation(fields: [wordReportId], references: [wordReportId])
 }
 
-model wordReportDetail {
+model Word_Report_Detail {
   wordReportDetailId Int        @id
   roomId             String
   reason             String
   reportedAt         DateTime   @default(now())
-  detailOf           wordReport @relation(fields: [wordReportDetailId], references: [wordReportId])
+  detailOf           Word_Report @relation(fields: [wordReportDetailId], references: [wordReportId])
   reportFrom         Chat_Room  @relation(fields: [roomId], references: [roomId])
 }
 
 model Filtered_Word {
   wordReportId Int          @id
   word         String
-  wordReport   wordReport[]
+  wordReport   Word_Report[]
 }
 
 //ShortNotes Module
@@ -1104,28 +1134,28 @@ model Sn_Comment {
 }
 
 model Sn_Fav {
-  favId     Int          @id @default(autoincrement())
   shortNote Sn_Head      @relation(fields: [snId], references: [snId])
   snId      String
   favBy     User_Profile @relation(fields: [userId], references: [userId])
   userId    String
+  @@id([snId, userId])
 }
 
 model Sn_Recent {
-  recentId     Int          @id @default(autoincrement())
   snId         String
   userId       String
   viewedAt     DateTime
   shortNote    Sn_Head      @relation(fields: [snId], references: [snId])
   recentViewBy User_Profile @relation(fields: [userId], references: [userId])
+@@id([snId, userId])
 }
 
 model Sn_Access {
-  accessId  Int          @id @default(autoincrement())
   snId      String
   userId    String
   shortNote Sn_Head      @relation(fields: [snId], references: [snId])
   accessBy  User_Profile @relation(fields: [userId], references: [userId])
+@@id([snId, userId])
 }
 
 model Sn_Library {
@@ -1138,8 +1168,7 @@ model Sn_Library {
 }
 
 model Sn_In_Library {
-  inLibId Int        @id @default(autoincrement())
-  libId   Int
+  libId   Int @id
   snId    String
   lib     Sn_Library @relation(fields: [libId], references: [libId])
   sn      Sn_Head    @relation(fields: [snId], references: [snId])
@@ -1153,7 +1182,6 @@ model Transaction {
   subTotalPrice   Float
   pointUse        Int
   totalPrice      Float
-  payTypeId       Int
   payer           User_Profile         @relation(fields: [userId], references: [userId])
   detail          Transaction_Detail?
   type            Transaction_Paytype?
@@ -1176,7 +1204,7 @@ model Transaction_Detail {
 
 model Transaction_Error {
   errKey  Int                 @id @default(autoincrement())
-  errId   Int                 @unique
+  errId   Int
   errDesc String
   error   Transaction_Detail?
 }
@@ -1213,7 +1241,7 @@ model E_Banking {
 }
 
 model QR {
-  tokenId    String                @id @default(cuid())
+  tokenId    String               @id @default(cuid())
   qrSourceId String
   qr         String
   expired    DateTime
@@ -1222,7 +1250,6 @@ model QR {
 
 model Transaction_Paytype {
   transId     String       @id
-  payTypeId   Int
   typeOfTrans Payment_Type
   transType   Transaction  @relation(fields: [transId], references: [transId])
 }
@@ -1235,6 +1262,7 @@ enum Payment_Type {
 model Kmutt_Point {
   kpId            String                @id @default(cuid())
   userId          String                @unique
+  point Int
   userPoint       User_Profile          @relation(fields: [userId], references: [userId])
   pointAccumulate Kmutt_Point_History[]
 }
@@ -1276,6 +1304,7 @@ model Shop_Coupon {
   productId    Int
   quota        Int
   userCoupon   User_Coupon[]
+  product Shop_Product @relation(fields: [productId], references: [productId])
 }
 
 model User_Coupon {
@@ -1307,6 +1336,7 @@ model Shop_Product {
   orders       Shop_Order_Product[]
   carts        Shop_Cart[]
   userReview   Shop_Product_Review[]
+  coupons Shop_Coupon[]
 }
 
 model Shop_Categories {
@@ -1618,8 +1648,7 @@ model Question_Answer {
   userId      String
   created     DateTime                    @default(now())
   lastUpdated DateTime                    @default(now())
-  qTitle      String
-  qDesc       String
+  text String
   voteCount   Int
   aCreator    User_Profile                @relation(fields: [userId], references: [userId])
   answerOf    Question                    @relation(fields: [qId], references: [qId])
@@ -1731,6 +1760,12 @@ model Analytic_User_Access {
 
 model Analytic_Report {
   reportId Int                      @id @default(autoincrement())
+  userId String
+  reportTime DateTime
+  unAuthorizedView Int
+  authorizedView Int
+  periodHours Int
+  user User_Profile @relation(fields: [userId], references: [userId])
   modules  Analytic_Report_Module[]
 }
 
