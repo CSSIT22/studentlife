@@ -37,6 +37,13 @@ declare global{
 }
 function LikeorNope() {
 
+    // const like = () => {
+    //     for (let index = 0; index < array.length; index++) {
+    //         const element = array[index];
+            
+    //     }
+    // }
+ 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = React.useState(1)
     const params = useParams()
@@ -50,7 +57,7 @@ function LikeorNope() {
     // }
     const Nope = () => {
 
-           if(res < Restaurant.length - 2) {
+           if(res < Restaurant.length - 1) {
             setres(res + 1)
     }
         else{
@@ -62,6 +69,8 @@ function LikeorNope() {
         }
         setNopeStatus();
     }
+
+    
     console.log(res);
     // console.log(count)
     globalThis.respage = res;
@@ -71,8 +80,10 @@ function LikeorNope() {
         return onClose()
     }
     // console.log(count);
-    console.log(Math.floor(Math.random() * 10));
-    console.log(params)
+    // console.log(Math.floor(Math.random() * 10));
+    // console.log(params)
+    console.log(globalThis.respage);
+    
     const detailLikeorNope = [
         {
             id: 0,
@@ -139,7 +150,6 @@ function LikeorNope() {
         detailLikeorNope[objIndex].isFavorite = false
         console.log(detailLikeorNope[res])
     }  
-    
     return (
         <AppBody
             secondarynav={[
@@ -168,16 +178,16 @@ function LikeorNope() {
                 <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                     <Box>
                         <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick ={setLikeStatus} >
-                            <Link to={`/restaurant/detail/${res}`}>
+                            <Link to={`/restaurant/detail/${globalThis.respage}`}>
                                 <AiOutlineLike size={"xl"} />
                             </Link> 
                         </Button>
                     </Box>
-
+                   
                     <Box>
                         <Button onClick={Nope}
                    colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
-                            <Link to={`/restaurant/${globalThis.respage + 1}`}>
+                            <Link to={`/restaurant/${globalThis.respage == Restaurant.length - 1? 0: globalThis.respage + 1}`}>
                             
                                 <AiOutlineDislike size={"xl"} />
                             </Link>

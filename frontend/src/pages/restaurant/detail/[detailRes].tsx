@@ -42,32 +42,30 @@ import { useParams, Link } from "react-router-dom"
 import { friend } from "../data/friend"
 
 function detail() {
-    const shareInfo = {
-        name1: "realไร่",
-        picture1: "https://cdn.discordapp.com/attachments/900658140704559116/1023630299717963848/92C5C070-F9DC-44BA-AF57-F4162FFDCA03.jpg",
-        name2: "ยืนหนึง",
-        picture2: "https://cdn.discordapp.com/attachments/900658140704559116/1023887278273208360/2FB66B55-BCAA-4DE2-BE62-02B193D6369E.jpg",
-        name3: "ผมรู้ผมเห็น",
-        picture3: "https://cdn.discordapp.com/attachments/900658140704559116/1022175158334656573/IMG_20220918_224548.jpg",
-        name4: "Night N",
-        picture4: "",
-        name5: "Pun J",
-        picture5: "",
-        name6: "Ping T",
-        picture6: "",
-        name7: "Eve N",
-        picture7: "",
-        name8: "Bung K",
-        picture8: "",
-    }
+
     // const friendInfo = friend.filter((shareInfo) => {})
     const { isOpen, onOpen, onClose } = useDisclosure()
     const params = useParams()
-    const numres = parseInt(params.detailRes + "")
+    const [numres, setnumres] = useState(parseInt(params.detailRes + ""));
     const property = Restaurant.filter((e1) => {
         return e1.id == parseInt(params.detailRes + "")
     })
 
+    const addFavorite = () => {
+        console.log( Restaurant[numres].status);
+        Restaurant[numres].status = true
+        console.log( Restaurant[numres].status);
+        
+    }
+
+    // const nextPage = () => {
+    //     if (numres < Restaurant.length - 2) {
+    //         setnumres(numres + 1)
+    //     }
+    //     else{
+    //         setnumres(0)
+    //     }
+    // }
     return (
         <AppBody
             secondarynav={[
@@ -83,7 +81,7 @@ function detail() {
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/${numres}`}>
+                                    <Link to={`/restaurant/${numres == Restaurant.length - 1? 0: numres + 1}`}>
                                         <CloseButton my={-4} ml={-1} />
                                     </Link>
 
@@ -151,7 +149,7 @@ function detail() {
 
                                 <Box p="5">
                                     <Flex mt={10}>
-                                        <Button bg={"white"} width="50px" h="50px" borderRadius={"full"} p={0}>
+                                        <Button bg={"white"} width="50px" h="50px" borderRadius={"full"} p={0} onClick={addFavorite}>
                                             <AiOutlineHeart size={"full"} />
                                         </Button>
                                         <Spacer />
@@ -183,36 +181,18 @@ function detail() {
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                    <WrapItem
-                                                                        _hover={{
-                                                                            background: "red.600",
-                                                                            color: "teal.500",
-                                                                            borderRadius: "22px",
-                                                                        }}
-                                                                    >
-                                                                        <Avatar as={"button"} name={shareInfo.name1} src={shareInfo.picture1} />
-                                                                    </WrapItem>
-                                                                    <WrapItem>
-                                                                        <Avatar as={"button"} name={shareInfo.name2} src={shareInfo.picture2} />
-                                                                    </WrapItem>
-                                                                    <WrapItem>
-                                                                        <Avatar as={"button"} name={shareInfo.name3} src={shareInfo.picture3} />
-                                                                    </WrapItem>
-                                                                    <WrapItem>
-                                                                        <Avatar as={"button"} name={shareInfo.name4} src={shareInfo.picture4} />
-                                                                    </WrapItem>
-                                                                    <WrapItem>
-                                                                        <Avatar as={"button"} name={shareInfo.name5} src={shareInfo.picture5} />
-                                                                    </WrapItem>
-                                                                    <WrapItem>
-                                                                        <Avatar as={"button"} name={shareInfo.name6} src={shareInfo.picture6} />
-                                                                    </WrapItem>
-                                                                    <WrapItem>
-                                                                        <Avatar as={"button"} name={shareInfo.name7} src={shareInfo.picture7} />
-                                                                    </WrapItem>
-                                                                    <WrapItem>
-                                                                        <Avatar as={"button"} name={shareInfo.name8} src={shareInfo.picture8} />
-                                                                    </WrapItem>
+                                                                  
+                                                                    
+                                                                        {friend.map((f1) => {
+                                                                            return   (
+                                                                                <WrapItem>
+                                                                                <Avatar as={"button"} name={f1.name} src={f1.picture} />
+                                                                             </WrapItem>
+                                                                            )
+
+
+                                                                        })}
+                                                                    
                                                                 </Wrap>
                                                             </Flex>
                                                         </PopoverBody>

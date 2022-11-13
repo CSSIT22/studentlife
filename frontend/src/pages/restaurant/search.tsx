@@ -7,6 +7,9 @@ import Searchcontent from "../../components/restaurant/searchcontent"
 import AppBody from "../../components/share/app/AppBody"
 import { Restaurant } from "./data/restaurant"
 const search = () => {
+    const filterres = () => {
+
+    }
     return (
         <AppBody
             secondarynav={[
@@ -15,7 +18,7 @@ const search = () => {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar />
+            {/* <Searchbar /> */}
 
             <Heading mt={"20px"} textAlign="center">
                 Search Result

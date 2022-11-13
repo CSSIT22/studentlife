@@ -1,13 +1,19 @@
 import { Box, Center, Flex, GridItem, Input, InputGroup, InputLeftElement, Select, SimpleGrid } from "@chakra-ui/react"
-import React from "react"
+import React, { FC, useState } from "react"
 import { TfiSearch } from "react-icons/tfi"
+import { Restaurant } from "src/pages/restaurant/data/restaurant"
 const Searchbar = () => {
+    const [message, setmessage] = useState("")
+    const search = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setmessage(event.target.value);
+        console.log(event.target.value);
+    }
     return (
         <Center>
             <Flex flexDirection={"column"} alignItems={"center"}>
-                <InputGroup width={{base:"13rem", lg: "20rem"}} mr="2" backgroundColor={"white"} boxShadow={"lg"}>
+                <InputGroup id="se" width={{ base: "13rem", lg: "20rem" }} mr="2" backgroundColor={"white"} boxShadow={"lg"}>
                     <InputLeftElement children={<TfiSearch />} pb={1} />
-                    <Input placeholder="Search" borderRadius={"6px"}  />
+                    <Input placeholder="Search" borderRadius={"6px"} onChange={search} type={"text"} value={message}/ >
                 </InputGroup>
             </Flex>
 
