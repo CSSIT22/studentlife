@@ -18,17 +18,19 @@ const DatingInterestSearch: FC<{
         interestName: string
     }[]
 }> = ({ setSearchQuery, searchQuery, setInterests, INTERESTS }) => {
+    // Used for prevent delay when typing in search box
     const [timer, setTimer] = useState<number | null>(null)
+    // Prevent useEffect from triggering immediately when enter the page
     const didMount = useDidMount()
 
+    // set the interests
     useEffect(() => {
         if (didMount) {
             setInterests(() => INTERESTS.filter((arr) => arr.interestName.toLowerCase().includes(searchQuery.toLowerCase())))
         }
-
-        // alert('Query: "' + searchQuery + '"')
     }, [searchQuery])
 
+    // Prevent useEffect from triggering immediately when enter the page
     function useDidMount() {
         const [didMount, setDidMount] = useState(false)
         useEffect(() => {
@@ -40,6 +42,7 @@ const DatingInterestSearch: FC<{
 
     // Check if user has press enter when currently in the search bar
     function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+        // Used for prevent delay when typing in search box
         if (timer) {
             clearTimeout(timer)
             setTimer(null)

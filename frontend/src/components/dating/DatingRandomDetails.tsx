@@ -33,6 +33,7 @@ const DatingRandomFaculty: FC<{
                     }}
                 >
                     <Box display="flex">
+                        {/* First name and Last name */}
                         <Text color="black" fontWeight="700" fontSize={{ base: "20px", md: "48px" }} lineHeight="120%" pl="18px">
                             {isMobile
                                 ? characters[currentIndex].Fname.length > 9
@@ -44,6 +45,7 @@ const DatingRandomFaculty: FC<{
                             {characters[currentIndex].Lname.substring(0, 1)}.
                         </Text>
 
+                        {/* Gender & Age */}
                         <Text
                             color="black"
                             fontWeight={{ base: "400", md: "700" }}
@@ -66,6 +68,7 @@ const DatingRandomFaculty: FC<{
                     damping: 20,
                 }}
             >
+                {/* Faculty */}
                 <Box color="black" fontWeight="400" fontSize={{ base: "20px", md: "30px" }} lineHeight="120%" h={{ md: "200px" }}>
                     <Text pl="18px" pt="10px">
                         {isMobile

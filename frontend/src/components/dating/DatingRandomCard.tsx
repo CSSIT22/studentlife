@@ -1,6 +1,6 @@
 import { Box, Button, Center, Image, Link } from "@chakra-ui/react"
 import { AnimationControls } from "framer-motion"
-import { Dispatch, FC, useRef } from "react"
+import { FC, useRef } from "react"
 import TinderCard from "react-tinder-card"
 import ProfileImg from "../../components/dating/pic/profile.png"
 
@@ -22,22 +22,25 @@ const DatingRandomCard: FC<{
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>
     currentIndex: number
 }> = ({ childRefs, index, character, controlCross, controlHeart, setCurrentIndex, currentIndex }) => {
+    // Mutable current index
     const currentIndexRef = useRef(currentIndex)
+    // Swipe the card
     const swiped = (direction: string, nameToDelete: string, index: number) => {
         console.log("Swiping " + nameToDelete + " to the " + direction)
         if (direction === "left") {
+            // Run the cross button animation
             controlCross.start("visible")
         } else if (direction === "right") {
+            // Run the heart button animation
             controlHeart.start("visible")
         }
-
         updateCurrentIndex(index - 1)
     }
 
     const updateCurrentIndex = (val: number) => {
         setCurrentIndex(val)
         currentIndexRef.current = val
-
+        // Reload the page when running out of card
         if (val == -1) {
             setTimeout(() => location.reload(), 1000)
         }
@@ -52,6 +55,7 @@ const DatingRandomCard: FC<{
             preventSwipe={["down", "up"]}
         >
             <Center>
+                {/* Picture in the card */}
                 <Box
                     borderRadius="10px"
                     backgroundImage={character.url}
@@ -67,6 +71,7 @@ const DatingRandomCard: FC<{
                     justifyContent="end"
                     cursor="pointer"
                 >
+                    {/* Profile button to go into user's profile */}
                     <Link href="../../user">
                         <Button
                             aria-label="User Profile"

@@ -29,6 +29,7 @@ const DatingRandomTag: FC<{
                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
             >
                 <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                    {/* Convert interest id to interest name */}
                     {interests.find((interest) => interest.interestId === id.toString())?.interestName}
                 </Text>
             </Tag>
