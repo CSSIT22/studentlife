@@ -9,9 +9,9 @@ const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedI
     // When you click "Done" button, this function will be triggered.
     function handleSubmit() {
         if (numOfSelectedInterest == 0) {
-            alert("No Interested ID is selected")
+            console.log("No Interested ID is selected")
         } else {
-            alert("List of Interest ID: " + selectedInterests)
+            console.log("List of Interest ID: " + selectedInterests)
         }
     }
 
