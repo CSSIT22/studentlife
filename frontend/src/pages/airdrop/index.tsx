@@ -36,6 +36,8 @@ import {
     NumberDecrementStepper,
     SimpleGrid,
     Stack,
+    ScaleFade,
+    Fade,
 } from "@chakra-ui/react"
 
 const linkMenu = [
@@ -82,6 +84,8 @@ export default function Index<FC>() {
     const [confirmDrop, setConfirmDrop] = useState(false)
     //state for modal
     const { isOpen, onOpen, onClose } = useDisclosure()
+    //for fade
+    const { isOpen: isOpen2, onToggle: toggleFade} = useDisclosure()
     // state for user select
     const [selectedType, setSelectedType] = useState("Everyone")
     //state for select receiver
@@ -198,6 +202,7 @@ export default function Index<FC>() {
         fetchGroup();
         fetchDepartment();
         fetchSpecific();     
+        toggleFade();
     }, [])
     // fetchSpecific
     // fetchCommunity
@@ -218,6 +223,7 @@ export default function Index<FC>() {
     }
     return (
         <AppBody secondarynav={linkMenu}>
+            <Fade in={isOpen2} unmountOnExit>
             <PageBox pageName="drop">
                 <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"80%"}>
                     {confirmDrop ? (
@@ -561,6 +567,7 @@ export default function Index<FC>() {
                     )}
                 </Flex>
             </PageBox>
+            </Fade>
         </AppBody>
     )
 }
