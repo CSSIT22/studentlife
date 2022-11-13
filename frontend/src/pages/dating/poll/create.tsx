@@ -292,6 +292,8 @@ const CreateActivityPoll = () => {
                                                 setSelectedInterest={setSelectedInterest}
                                                 tagIsClicked={tagIsClicked}
                                                 setTagIsClicked={setTagIsClicked}
+                                                type={"topics"}
+                                                buttonLocation={"bottom right"}
                                             />
                                         ))}
                                     </ModalBody>
