@@ -6,7 +6,7 @@ import blogRoutes from "./modules/blog"
 import chatRoutes from "./modules/chat"
 import datingRoutes from "./modules/dating"
 import groupRoutes from "./modules/group"
-import middlewareRoutes from "./modules/backendService"
+import backendserviceRoutes from "./modules/backendService"
 import notificationRoutes from "./modules/notification"
 import qaRoutes from "./modules/qa"
 import restaurantRoutes from "./modules/restaurant"
@@ -110,7 +110,7 @@ app.use("/blog", blogRoutes)
 app.use("/chat", chatRoutes)
 app.use("/dating", datingRoutes)
 app.use("/group", groupRoutes)
-app.use("/middleware", middlewareRoutes)
+app.use("/backendservice", backendserviceRoutes)
 app.use("/notification", notificationRoutes)
 app.use("/qa", qaRoutes)
 app.use("/restaurant", restaurantRoutes)
