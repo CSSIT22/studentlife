@@ -35,6 +35,7 @@ type room = { roomID: String; roomName: String; roomtype: "individual" | "group"
 function showProperty() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [eventNames, setEventName] = React.useState("")
+    const [eventButtons, setEventButton] = React.useState("")
 
     let param = useParams()
     const navigate = useNavigate()
@@ -43,10 +44,11 @@ function showProperty() {
         return navigate(`/profile/${param.roomID}`)
     }
 
-    const handleSizeClick = (newEvent: any) => {
-        // propertyEvent(newEvent)
-        setEventName(newEvent)
-        if (newEvent === "View profile") {
+    const handleSizeClick = (event: any) => {
+        setEventName(event.eventName)
+        setEventButton(event.buttonValue)
+
+        if (event.eventName === "View profile") {
             NavigateProfile()
         } else {
             onOpen()
@@ -54,29 +56,29 @@ function showProperty() {
     }
     const eventsIndi = [
         { eventIcon: CgProfile, eventName: "View profile" },
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" },
-        { eventIcon: RiUserSettingsLine, eventName: "Set nickname" },
-        { eventIcon: MdPostAdd, eventName: "Add quote" },
-        { eventIcon: MdColorLens, eventName: "Change room color" },
-        { eventIcon: MdFlag, eventName: "Report" },
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" , buttonValue : "Done"},
+        { eventIcon: RiUserSettingsLine, eventName: "Set nickname" , buttonValue : "Done"},
+        { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : "Add"},
+        { eventIcon: MdColorLens, eventName: "Change room color" , buttonValue : "Done"},
+        { eventIcon: MdFlag, eventName: "Report" , buttonValue : "Verify and send"},
     ]
     const eventsGroup = [
-        { eventIcon: FaUserFriends, eventName: "Member" },
-        { eventIcon: FaUserPlus, eventName: "Invite people" },
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" },
-        { eventIcon: AiFillPicture, eventName: "Set room profile" },
-        { eventIcon: MdPostAdd, eventName: "Add quote" },
-        { eventIcon: MdColorLens, eventName: "Change room color" },
-        { eventIcon: FaHome, eventName: "Create community" },
-        { eventIcon: MdFlag, eventName: "Report" },
-        { eventIcon: FaDoorOpen, eventName: "Leave group" },
+        { eventIcon: FaUserFriends, eventName: "Member" , buttonValue : "Done"},
+        { eventIcon: FaUserPlus, eventName: "Invite people" , buttonValue : "Invite"},
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" , buttonValue : "Done"},
+        { eventIcon: AiFillPicture, eventName: "Set room profile" , buttonValue : "Done"},
+        { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : "Add"},
+        { eventIcon: MdColorLens, eventName: "Change room color" , buttonValue : "Done"},
+        { eventIcon: FaHome, eventName: "Create community" , buttonValue : "Create"},
+        { eventIcon: MdFlag, eventName: "Report" , buttonValue : "Verify and send"},
+        { eventIcon: FaDoorOpen, eventName: "Leave group" , buttonValue : "Leave"},
     ]
     return (
         <>
             <VStack spacing={8} alignItems={"flex-start"}>
                 {eventsIndi.map((event) => (
                     <Button
-                        onClick={() => handleSizeClick(event.eventName)}
+                        onClick={() => handleSizeClick(event)}
                         leftIcon={<event.eventIcon />}
                         key={event.eventName}
                         variant="ghost"
@@ -99,11 +101,10 @@ function showProperty() {
                     <ModalCloseButton />
                     <ModalBody>{propertyDetail(eventNames)}</ModalBody>
 
-                    <ModalFooter>
-                        <Button colorScheme="orange" onClick={onClose} mr={"48"}>
-                            Done
+                    <ModalFooter display={'flex'} justifyContent={'center'}>
+                        <Button colorScheme="orange" onClick={onClose}>
+                            {eventButtons}
                         </Button>
-
                         {/* <Button variant="ghost">Secondary Action</Button> */}
                     </ModalFooter>
                 </ModalContent>
