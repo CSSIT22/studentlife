@@ -49,6 +49,8 @@ router.get(
         }
 
         console.log(device.data)
+        res.cookie("token", `${req.session.id.toString()}`)
+        res.cookie("userId", `${req.user.userId}`)
         res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
     }
 )
