@@ -62,7 +62,7 @@ const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; c
                     }
                 </Flex>
 
-                <Text mt={2} fontSize="sm">{description}</Text>
+                <Text mt={2} fontSize="xs" padding={1}>{description}</Text>
                 <Flex gap={2} mt={3}>
                     <Link to={`/groups/id/${communityID}/`} relative='path'><Button size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
                     <Link to={`/groups/id/${communityID}/member`} relative='path'><Button size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
