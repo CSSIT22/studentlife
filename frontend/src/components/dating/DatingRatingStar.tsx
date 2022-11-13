@@ -1,21 +1,27 @@
 import { Center, IconButton, useBreakpointValue } from "@chakra-ui/react"
-import { is } from "@react-spring/shared"
-import { useState } from "react"
+import { FC, useState } from "react"
 import { AiFillStar, AiOutlineStar } from "react-icons/ai"
 
 // size={{ base: "0px", md: "5px" }}
 const star = [<AiOutlineStar color="yellow" size="30px" />, <AiFillStar color="yellow" size="30px" />]
 
-const DatingRatingStar = (props: any) => {
-    const [selected, setSelected] = useState<boolean>(false)
+// const DatingRatingStar = (props: any) => {
+const DatingRatingStar: FC<{
+    isFill: boolean
+    status: number
+    thisStar: any
+}> = ({ isFill, status, thisStar }) => {
+    const [selected, setSelected] = useState<boolean>(isFill)
 
     function handleClick() {
-        setSelected(!selected)
-        props.onClick(props.children)
+        // setSelected(!selected)
+        setSelected(!isFill)
+        //thisStar.onClick(thisStar.children)
+        // props.onClick(props.children)
     }
 
     return (
-        <Center pt="10px">
+        <Center pt="12px">
             {/* Please don't delete this!*/}
             {/* The logic of star giving: the star have 2 state fill/blank.
                      There are 3 main rule that we need to consider which are
@@ -27,11 +33,12 @@ const DatingRatingStar = (props: any) => {
                         B.) If the star after it "blank" => all the star will be "blank"*/}
             <IconButton
                 aria-label="Search database"
-                pr={{ base: "0px", md: "10px" }}
+                pr={{ base: "0px", md: "12px" }}
+                //icon={star[selected == false ? 0 : 1]}
                 icon={star[selected == false ? 0 : 1]}
                 colorScheme="none"
                 variant="unstyled"
-                size={{ base: "0px", md: "10px" }}
+                size={{ base: "0px", md: "20px" }}
                 onClick={handleClick}
             />
         </Center>
