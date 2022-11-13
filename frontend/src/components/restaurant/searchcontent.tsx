@@ -25,14 +25,15 @@ const Searchcontent: FC<{
     close: string
     phone: string
     website: string
-}> = ({ resName, phone, open, close, website }) => {
+    img: string
+}> = ({ resName, phone, open, close, website, img }) => {
     return (
         <>
             <Show below="sm">
                 <Box width={"100%"} height={"8rem"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
                     <Flex mb={"15px"}>
                         <Box width={"30%"} ml={"1rem"}>
-                            <Image boxSize="5rem" src="https://bit.ly/dan-abramov" alt="Dan Abramov" borderRadius={"10px"} />
+                            <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
                         <Box width={"60%"} height={"6rem"} color={"black"}>
                             <Text fontSize={"sm"}>
@@ -58,7 +59,7 @@ const Searchcontent: FC<{
                         <Image
                             boxSize={"12.5rem"}
                             // height={{ lg: "9.5rem" }}
-                            src="https://bit.ly/dan-abramov"
+                            src={img}
                             alt="Dan Abramov"
                             borderRadius={"10px"}
                         />

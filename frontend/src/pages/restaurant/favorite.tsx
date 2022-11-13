@@ -33,6 +33,7 @@ function favorite() {
                                 close={e1.close}
                                 website={e1.website}
                                 link={`/restaurant/detail/${e1.id}`}
+                                img={e1.img[0]}
                             />
                         </GridItem>
                     )

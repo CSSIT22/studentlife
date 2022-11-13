@@ -23,6 +23,7 @@ import {
     Text,
     SimpleGrid,
     useBoolean,
+    Container,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -174,8 +175,8 @@ function LikeorNope() {
                         </>
                     )
                 })}
-
-                <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
+                <Container>
+                <Flex flexDirection={"row"} justifyContent={"space-around"}  justifyItems={"center"} mt={6} >
                     <Box>
                         <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick ={setLikeStatus} >
                             <Link to={`/restaurant/detail/${globalThis.respage}`}>
@@ -225,6 +226,7 @@ function LikeorNope() {
                         </Modal>
                     </Box>
                 </Flex>
+                </Container>
             </Box>
         </AppBody>
     )

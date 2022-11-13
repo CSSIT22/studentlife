@@ -25,7 +25,7 @@ const history = () => {
                     return (
                         <GridItem>
                             
-                            <Historycontent resName={e1.resName} date={e1.date} status={e1.status} />
+                            <Historycontent resName={e1.resName} date={e1.date} status={e1.status}/>
                         </GridItem>
                     )
                 })}

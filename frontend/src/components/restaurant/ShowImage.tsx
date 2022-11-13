@@ -14,8 +14,8 @@ const ShowImage:FC <{
                         <Image
                             borderRadius="3xl"
                             src={img[0]}
-                            width={"auto"}
-                            height="400px"
+                            width={"28rem"}
+                            height={"21rem"}
                         ></Image>
                     </Center>
                 </SwiperSlide>
@@ -24,8 +24,8 @@ const ShowImage:FC <{
                         <Image
                             borderRadius="3xl"
                             src={img[1]}
-                            width={"auto"}
-                            height="400px"
+                            width={"28rem"}
+                            height={"21rem"}
                         ></Image>
                     </Center>
                 </SwiperSlide>
@@ -34,8 +34,8 @@ const ShowImage:FC <{
                         <Image
                             borderRadius="3xl"
                             src={img[2]}
-                            width={"auto"}
-                            height="400px"
+                            width={"28rem"}
+                            height={"21rem"}
                         ></Image>
                     </Center>
                 </SwiperSlide>

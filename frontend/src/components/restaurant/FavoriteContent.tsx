@@ -31,7 +31,8 @@ const FavoriteContent: FC<{
     phone: string
     website: string
     link: string
-}> = ({ id,resName, phone, open, close, website,link }) => {
+    img: string
+}> = ({ id,resName, phone, open, close, website,link, img }) => {
     // const ClosePop = () => {
     //     setclose(true);
     //     // console.log(close);
@@ -90,7 +91,7 @@ const FavoriteContent: FC<{
                             <Image
                                 boxSize={{ base: "5rem", lg: "12.5rem" }}
                                 height={{ lg: "9.5rem" }}
-                                src="https://bit.ly/dan-abramov"
+                                src={img}
                                 alt="Dan Abramov"
                                 borderRadius={"10px"}
                             />
@@ -153,7 +154,7 @@ const FavoriteContent: FC<{
                             <Image
                                 boxSize={"12.5rem"}
                                 // height={{ lg: "9.5rem" }}
-                                src="https://bit.ly/dan-abramov"
+                                src={img}
                                 alt="Dan Abramov"
                                 borderRadius={"10px"}
                             />

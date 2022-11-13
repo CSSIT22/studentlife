@@ -28,7 +28,7 @@ const search = () => {
                     return (
                         <GridItem>
                             <Link to={`/restaurant/detail/${e1.id}`}>
-                                <Searchcontent resName={e1.resName} phone={e1.phone} open={e1.open} close={e1.close} website={e1.website} />
+                                <Searchcontent resName={e1.resName} phone={e1.phone} open={e1.open} close={e1.close} website={e1.website} img={e1.img[0]}/>
                             </Link>
                         </GridItem>
                     )
