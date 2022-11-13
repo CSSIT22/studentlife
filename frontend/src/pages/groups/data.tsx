@@ -104,7 +104,7 @@ export const userData = {
             tagID: 1,
             tagName: "#Sport",
             tagDescription: "Sport and any outside activity"
-            
+
         },
         {
             tagID: 2,
@@ -131,6 +131,11 @@ export const userData = {
             tagID: 6,
             tagName: "#Hangout",
             tagDescription: "Movie, Party, Activity, Meeting"
+        },
+        {
+            tagID: 7,
+            tagName: "#Science",
+            tagDescription: "Physic, Chemical, Biology"
         }
     ]
 }
