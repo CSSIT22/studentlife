@@ -101,26 +101,42 @@ export default function SimpleThreeColumns() {
                     </VStack>
                 </GridItem>
                 <GridItem pl="2" mt={15} fontSize={"xl"} ml={{ base: "10", md: "" }} area={"main"} color="gray.700">
-                    <Box p={1}>Id: 64130500XXX</Box>
+                    <HStack p={1}>
+                        <Box>Id:</Box>
+                        <Box>64130500XXX</Box>
+                    </HStack>
 
-                    <Box p={1} fontSize={"xl"}>
-                        Name: John Doe
-                    </Box>
+                    <HStack p={1}>
+                        <Box>Name:</Box>
+                        <Box>John Doe</Box>
+                    </HStack>
+
                     <HStack alignItems="flex-start">
-                        <Box p={1} fontSize={"xl"}>
-                            Fuculty: SIT
-                        </Box>
-                        <Box p={1} fontSize={"xl"}>
-                            Major: Computer Science
-                        </Box>
+                        <HStack p={1} alignItems="flex-start">
+                            <Box>Faculty:</Box>
+                            <Box>SIT</Box>
+                        </HStack>
+
+                        <HStack p={1} alignItems="flex-start">
+                            <Box>Major:</Box>
+                            <Box>Computer Science</Box>
+                        </HStack>
                     </HStack>
                 </GridItem>
-                <GridItem pl="2" area={"footer"} rounded="xl">
-                    <ButtonGroup color="white" variant="outline" spacing={{ base: "1.5", sm: "6" }}>
-                        <Button pl={5} bg="orange.600" position="initial" value="inside" shadow={"lg"} onClick={handleClick}>
+                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "", md: "10" }}>
+                    <ButtonGroup color="white" variant="outline" spacing={{ base: "1.5", sm: "3" }}>
+                        <Button
+                            pl={5}
+                            bg="orange.600"
+                            _hover={{ background: "orange.200" }}
+                            position="initial"
+                            value="inside"
+                            shadow={"lg"}
+                            onClick={handleClick}
+                        >
                             {isFollow ? "Following" : "Follow"}
                         </Button>
-                        <Button pl={5} bg="orange.600" position="initial" value="inside" shadow={"lg"}>
+                        <Button pl={5} bg="orange.600" _hover={{ background: "orange.200" }} position="initial" value="inside" shadow={"lg"}>
                             Message
                         </Button>{" "}
                         <Menu>
@@ -130,6 +146,7 @@ export default function SimpleThreeColumns() {
                                 icon={<BsThreeDotsVertical />}
                                 color={{ base: "orange.600", md: "white" }}
                                 aria-label="Options"
+                                _hover={{ background: "orange.200" }}
                                 position="initial"
                                 variant="solid"
                                 shadow={"lg"}
