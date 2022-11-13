@@ -1,11 +1,11 @@
-import { Box, CloseButton, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, CloseButton, useDisclosure } from "@chakra-ui/react"
 import {
     Alert,
     AlertIcon,
     AlertTitle,
     AlertDescription,
   } from '@chakra-ui/react'
-import { Button } from "reactstrap"
+
 
 function CompExample() {
     const {
@@ -33,7 +33,8 @@ function CompExample() {
         />
       </Alert>
     ) : (
-      <Button onClick={onOpen}>Show Alert</Button>
+      <Button
+      onClick={onOpen}>Show Alert</Button>
     )
   }
   export default CompExample
