@@ -57,7 +57,9 @@ const viewAll = () => {
         <AppBody>
             <Flex padding={3}>
                 <Box padding={1}>
-                    <b>Activity :</b>
+                    <Text as="b" color={"orange.500"}>
+                        Activity :
+                    </Text>
                 </Box>
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />

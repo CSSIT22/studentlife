@@ -47,14 +47,14 @@ const NotiObjectViewAll: FC<{
 
                 // console.log(diffHours + " hours ago")
                 return (
-                    <Text fontSize={"xs"} color="gray.400">
+                    <Text fontSize={"sm"} color="gray.400">
                         {diffHours} hours ago
                     </Text>
                 )
             } else {
                 // console.log(diffMinutes + " minutes ago")
                 return (
-                    <Text fontSize={"xs"} color="gray.400">
+                    <Text fontSize={"sm"} color="gray.400">
                         {diffMinutes} minutes ago
                     </Text>
                 )
@@ -62,7 +62,7 @@ const NotiObjectViewAll: FC<{
         } else if (diffDay > 0 && diffDay < 7) {
             // console.log(diffDay + " days ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"sm"} color="gray.400">
                     {diffDay} days ago
                 </Text>
             )
@@ -70,7 +70,7 @@ const NotiObjectViewAll: FC<{
             const diffWeek = Math.floor(diffDay / 7)
             // console.log(diffWeek + " weeks ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"sm"} color="gray.400">
                     {diffWeek} weeks ago
                 </Text>
             )
@@ -78,7 +78,7 @@ const NotiObjectViewAll: FC<{
             const diffMonth = Math.floor(diffDay / 30)
             // console.log(diffMonth + " months ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"sm"} color="gray.400">
                     {diffMonth} months ago
                 </Text>
             )
@@ -86,7 +86,7 @@ const NotiObjectViewAll: FC<{
             const diffYear = Math.floor(diffDay / 365)
             // console.log(diffYear + " years ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"sm"} color="gray.400">
                     {diffYear} years ago
                 </Text>
             )
@@ -107,13 +107,13 @@ const NotiObjectViewAll: FC<{
 
         if (userStatus) {
             return (
-                <Avatar src={user[0].avatarImg} size={"sm"}>
+                <Avatar src={user[0].avatarImg} size={"md"}>
                     <AvatarBadge boxSize="1em" bg="green.500" />
                 </Avatar>
             )
         } else {
             return (
-                <Avatar src={user[0].avatarImg} size={"sm"}>
+                <Avatar src={user[0].avatarImg} size={"md"}>
                     <AvatarBadge boxSize="1em" bg="gray" />
                 </Avatar>
             )
@@ -136,9 +136,7 @@ const NotiObjectViewAll: FC<{
                         <Center paddingRight={3} paddingLeft={4}>
                             {showStatus()}
                         </Center>
-                        <Center>
-                        {showUser()}
-                        </Center>
+                        <Center>{showUser()}</Center>
                         <Stack direction={"row"} spacing={300} padding={5}>
                             <Text fontSize={"sm"}>{showDescription()}</Text>
                         </Stack>

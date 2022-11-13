@@ -84,7 +84,7 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             {sortedList.map((el) => {
                 return (
                     <Box>
-                        {showDate(el.date)}
+                        <Text as="b">{showDate(el.date)}</Text>
                         <Stack spacing={3}>
                             <NotiObjectViewAll
                                 key={el.id}
@@ -95,14 +95,11 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
                                 date={el.date}
                                 module={el.module}
                             />
-                            
                         </Stack>
                         <Divider />
                     </Box>
                 )
-            }
-            )}
-            
+            })}
         </Box>
     )
 }
