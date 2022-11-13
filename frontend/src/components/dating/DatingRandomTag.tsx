@@ -22,13 +22,15 @@ const DatingRandomTag: FC<{
             }}
         >
             <Tag
-                backgroundColor="orange.600"
+                backgroundColor="orange.400"
                 color="white"
-                mr="0.5"
-                mb="2px"
+                mr="1"
+                mb="1"
                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                borderRadius="5px"
+                h={{ md: "28px" }}
             >
-                <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
+                <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
                     {/* Convert interest id to interest name */}
                     {interests.find((interest) => interest.interestId === id.toString())?.interestName}
                 </Text>

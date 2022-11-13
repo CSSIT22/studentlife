@@ -1,4 +1,4 @@
-import { Box, Checkbox, useToast } from "@chakra-ui/react"
+import { Box, Checkbox, Text, useToast } from "@chakra-ui/react"
 import { Dispatch, FC } from "react"
 
 const DatingInterestTag: FC<{
@@ -43,7 +43,7 @@ const DatingInterestTag: FC<{
             if (numOfSelectedInterest < 5) {
                 if (numOfSelectedInterest == 4) {
                     let titleText = "You have selected 5 " + type + "."
-                    let descriptionText = "Submit your preference by clicking \"Done\" at the " + buttonLocation
+                    let descriptionText = 'Submit your preference by clicking "Done" at the ' + buttonLocation
                     toast({
                         title: titleText,
                         status: "success",
@@ -67,19 +67,23 @@ const DatingInterestTag: FC<{
             p="1"
             pr="5"
             pl="2"
+            h="36.4px"
+            mr="11px"
+            mb="23px"
             colorScheme="black"
             color="white"
             backgroundColor="gray.400"
             borderRadius="full"
             id={interestId}
-            m="1"
             name="interest"
             onChange={handleTag}
             value={interestId}
             iconColor="white"
             defaultChecked
         >
-            {interestName}
+            <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+                {interestName}
+            </Text>
         </Checkbox>
     ) : // If true, it will return the light gray tags that cannot be checked.
     // Else, it will return the gray tags that is currently unchecked.
@@ -89,16 +93,20 @@ const DatingInterestTag: FC<{
                 p="1"
                 pr="5"
                 pl="2"
-                color="gray.100"
+                color="white"
+                h="36.4px"
+                mr="11px"
+                mb="23px"
                 backgroundColor="orange.400"
                 borderRadius="full"
                 id={interestId}
-                m="1"
                 name="interest"
                 value={interestId}
                 readOnly={true}
             >
-                {interestName}
+                <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+                    {interestName}
+                </Text>
             </Checkbox>
         </Box>
     ) : (
@@ -106,16 +114,20 @@ const DatingInterestTag: FC<{
             p="1"
             pr="5"
             pl="2"
-            color="gray.100"
+            color="white"
+            h="36.4px"
             backgroundColor="orange.400"
             borderRadius="full"
             id={interestId}
-            m="1"
+            mr="11px"
+            mb="23px"
             name="interest"
             onChange={handleTag}
             value={interestId}
         >
-            {interestName}
+            <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+                {interestName}
+            </Text>
         </Checkbox>
     )
 }
