@@ -26,7 +26,6 @@ import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
-// const device = require("express-device")
 
 const PORT = 8000
 const app = express()
@@ -64,8 +63,6 @@ redisClient.connect().catch((err) => console.log(err))
 
 // config passport for microsoft strategy
 passport.use(microsoft(prisma))
-
-// app.use(device.capture())
 
 app.use(
     cors({
