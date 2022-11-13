@@ -86,27 +86,23 @@ function ShowSetting() {
             <Button size={"1em"} onClick={onOpen}>
                 <SettingsIcon color="orange.500" />
             </Button>
-            <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} isCentered>
-                <ModalOverlay paddingTop={{ base: "35%", sm: "30%", md: "25%", lg: "15%" }}>
-                    <Box
-                        borderRadius="lg"
-                        borderWidth="1px"
-                        borderColor="black"
-                        backgroundColor="white"
-                        width={{ base: "60%", md: "30%" }}
-                        height={{ base: "45vh" }}
-                        padding={4}
-                        margin="auto"
-                        minH="md"
-                    >
-                        <Stack align="end">
-                            <CloseButton onClick={onClose} />
-                        </Stack>
-                        <Stack>
-                            <NotiSetting />
-                        </Stack>
-                    </Box>
-                </ModalOverlay>
+            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>
+                        <Text align={"center"}>Notification Setting</Text>
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {" "}
+                        <NotiSetting />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
+                            Confirm
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
             </Modal>
         </Center>
     )
