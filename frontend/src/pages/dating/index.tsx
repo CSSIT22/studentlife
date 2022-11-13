@@ -3,10 +3,12 @@ import { CARD_QUEUE } from "src/components/dating/shared/card_queue"
 import { INTERESTS } from "src/components/dating/shared/interests"
 import TinderCard from "react-tinder-card"
 import DatingAppBody from "src/components/dating/DatingAppBody"
-import React, { useState, useMemo, useRef, FC } from "react"
-import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
+import React, { useState, useMemo, useRef } from "react"
 import { motion, useAnimation } from "framer-motion"
 import ProfileImg from "../../components/dating/pic/profile.png"
+import DatingRandomTag from "src/components/dating/DatingRandomTag"
+import DatingRandomCrossButton from "src/components/dating/DatingRandomCrossButton"
+import DatingRandomHeartButton from "src/components/dating/DatingRandomHeartButton"
 
 const DatingRandomization = () => {
     const isMobile = useBreakpointValue({
@@ -32,10 +34,9 @@ const DatingRandomization = () => {
     const updateCurrentIndex = (val: number) => {
         setCurrentIndex(val)
         currentIndexRef.current = val
-        
-        if(val == -1) {
-            setTimeout(() => location.reload(), 1000)
 
+        if (val == -1) {
+            setTimeout(() => location.reload(), 1000)
         }
     }
 
@@ -191,30 +192,7 @@ const DatingRandomization = () => {
                                 style={{ WebkitOverflowScrolling: "touch" }}
                             >
                                 {characters[currentIndex].interestId.map((id) => (
-                                    <motion.div
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        style={{ display: "inline-block" }}
-                                        whileTap={{ scale: 1.2 }}
-                                        key={id}
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 360,
-                                            damping: 20,
-                                        }}
-                                    >
-                                        <Tag
-                                            backgroundColor="orange.600"
-                                            color="white"
-                                            mr="0.5"
-                                            mb="2px"
-                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                        >
-                                            <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                                {interests.find((interest) => interest.interestId === id.toString())?.interestName}
-                                            </Text>
-                                        </Tag>
-                                    </motion.div>
+                                    <DatingRandomTag id={id} interests={interests} />
                                 ))}
                             </Box>
                         </Box>
@@ -224,61 +202,8 @@ const DatingRandomization = () => {
                 )}
             </SimpleGrid>
             <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
-                <motion.div
-                    style={{
-                        marginRight: "58px",
-                        width: "80px",
-                        height: "80px",
-                        borderRadius: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#FFF2E6",
-                        cursor: "pointer",
-                    }}
-                    animate={controlCross}
-                    onClick={() => swipe("left")}
-                    variants={{
-                        visible: {
-                            scale: [1, 0.8, 1],
-                            backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
-                            transition: {
-                                duration: 0.4,
-                                ease: [0.075, 0.82, 0.165, 1],
-                            },
-                        },
-                    }}
-                >
-                    <AiOutlineStop size="62px" color="black" />
-                </motion.div>
-
-                <motion.div
-                    style={{
-                        marginLeft: "58px",
-                        width: "80px",
-                        height: "80px",
-                        borderRadius: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#FFF2E6",
-                        cursor: "pointer",
-                    }}
-                    animate={controlHeart}
-                    onClick={() => swipe("right")}
-                    variants={{
-                        visible: {
-                            scale: [1, 0.8, 1],
-                            backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
-                            transition: {
-                                duration: 0.4,
-                                ease: [0.075, 0.82, 0.165, 1],
-                            },
-                        },
-                    }}
-                >
-                    <AiOutlineHeart size="62px" color="black" />
-                </motion.div>
+                <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
+                <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
             </Box>
         </DatingAppBody>
     )
