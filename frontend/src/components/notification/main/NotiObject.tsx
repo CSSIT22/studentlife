@@ -115,7 +115,16 @@ const NotiObject: FC<{
     }
 
     return (
-        <Box shadow={"lg"} borderRadius="2xl" bg="white" padding={2} key={id}>
+        <Box
+            as="button"
+            transitionDuration="0.2s"
+            _hover={{ bg: "#cdcdcd", transitionDuration: "0.2s" }}
+            shadow={"lg"}
+            borderRadius="2xl"
+            bg="white"
+            padding={2}
+            key={id}
+        >
             <Stack direction={"row"} spacing={3}>
                 <Center>{showUser()}</Center>
                 <Stack>

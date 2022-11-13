@@ -100,8 +100,15 @@ const NotiObjectViewAll: FC<{
         )
     }
     return (
-        
-        <Box as="button" bg={"white"} _hover={{ bg: "#cdcdcd" }} borderRadius="2xl" padding={2} key={id}>
+        <Box
+            as="button"
+            bg={"white"}
+            _hover={{ bg: "#cdcdcd", transitionDuration: "0.2s" }}
+            transitionDuration="0.2s"
+            borderRadius="2xl"
+            padding={2}
+            key={id}
+        >
             <Stack direction={"row"} spacing={12}>
                 <Box>
                     <Stack direction={"row"} spacing={12}>
@@ -128,7 +135,5 @@ const NotiObjectViewAll: FC<{
         </Box>
     )
 }
-
-
 
 export default NotiObjectViewAll
