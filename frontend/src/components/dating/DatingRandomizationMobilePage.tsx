@@ -1,5 +1,5 @@
 import TinderCard from "react-tinder-card"
-import { Box, Button, Center, IconButton, Image, Link, SimpleGrid, Spinner, Tag, Text, useToast } from "@chakra-ui/react"
+import { Box, Button, Center, Image, Link, SimpleGrid, Spinner, Tag, Text, useToast } from "@chakra-ui/react"
 import DatingAppBody from "./DatingAppBody"
 import React, { useState, useMemo, useRef, FC } from "react"
 import { AiOutlineHeart, AiOutlineStop } from "react-icons/ai"
@@ -16,7 +16,6 @@ const DatingRandomizationMobilePage: FC<{
     const currentIndexRef = useRef(currentIndex)
     const controlCross = useAnimation()
     const controlHeart = useAnimation()
-    const toast = useToast()
 
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
@@ -53,10 +52,6 @@ const DatingRandomizationMobilePage: FC<{
         if (canSwipe && currentIndex < CARD_QUEUE.length) {
             await childRefs[currentIndex].current.swipe(dir)
         }
-    }
-
-    function handleClick(fname: string) {
-        window.location.href = "../../user"
     }
 
     return (
@@ -111,7 +106,7 @@ const DatingRandomizationMobilePage: FC<{
                                             display="flex"
                                             alignItems="end"
                                             justifyContent="end"
-                                            cursor="move"
+                                            cursor="ew-resize"
                                         >
                                             <Link href="../../user">
                                                 <Button
