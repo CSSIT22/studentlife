@@ -65,6 +65,20 @@ const DatingRandomizationMobilePage: FC<{
             <SimpleGrid overflow="hidden">
                 <Box>
                     <Box className="cardContainer">
+                        <Center>
+                            <Box
+                                borderRadius="10px"
+                                w="326px"
+                                h="402px"
+                                pl="1rem"
+                                position="absolute"
+                                top="114px"
+                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                display="flex"
+                                alignItems="end"
+                                justifyContent="end"
+                            />
+                        </Center>
                         {characters.map((character, index) => (
                             <motion.div
                                 initial={{ scale: 0 }}
@@ -95,7 +109,6 @@ const DatingRandomizationMobilePage: FC<{
                                             id={character.UserId}
                                             position="absolute"
                                             top="30px"
-                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                             display="flex"
                                             alignItems="end"
                                             justifyContent="end"
@@ -110,7 +123,6 @@ const DatingRandomizationMobilePage: FC<{
                                                 borderRadius="full"
                                                 mr="10px"
                                                 mb="10px"
-                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                             >
                                                 <Image className="pressable" onClick={() => handleClick(character.Fname)} src={ProfileImg}></Image>
                                             </Button>
@@ -208,7 +220,7 @@ const DatingRandomizationMobilePage: FC<{
                         </Box>
                     </>
                 ) : (
-                    <Box height="596px" display="flex" alignItems="center" justifyContent="center">
+                    <Box height="596px" pb="150px" display="flex" alignItems="center" justifyContent="center">
                         <Spinner size="xl" />
                     </Box>
                 )}
