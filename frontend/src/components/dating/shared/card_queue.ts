@@ -105,7 +105,7 @@ export const CARD_QUEUE = [
         Lname: "Kim",
         Gender: "F",
         Age: "26",
-        Faculty: "Faculty Of Enginneering",
+        Faculty: "Faculty Of Engineering",
         url: "https://lh3.googleusercontent.com/Km2FSe-U_oW1ZT1LK1u-p0nsH_QTucR7l_sUU2UvlgZpAjQaj2Oik4te9iFUVmqthLCd-6VLPtoDL9iAcs7mL7tcpSOd0tCMAtPUISBFtjMh0WI=w1600-rj-l80-nu-e365",
         interestId: [4, 1, 6, 7, 9],
     },
