@@ -7,7 +7,7 @@ import { BsThreeDots } from 'react-icons/bs'
 const UserList: FC<{ userProfile: string; userRole?: string; userName: string }> = ({ userProfile, userName, userRole }) => {
     return (
 
-        <Box borderRadius="md" backgroundColor="gray.200" minWidth={"265px"} maxWidth={"700px"} width="100%">
+        <Box borderRadius="md" backgroundColor="white" minWidth={"265px"} maxWidth={"700px"} width="100%">
             <Box p={2} borderRadius="md">
                 <Flex direction={"row"} gap={2} justify={"space-between"} mr={2} ml={2}>
                     <HStack gap={2}>

@@ -46,7 +46,7 @@ const create = () => {
         <AppBody>
             <HStack gap={3}>
                 { /*Create Community*/}
-                <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background=" orange.600" textColor={"white"}>
+                <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background=" orange.400" textColor={"white"}>
                     <Breadcrumb ml={'0.4'} fontSize={'xs'} spacing='1.5px' separator={<ChevronRightIcon color='white' />}>
                         <BreadcrumbItem>
                             <BreadcrumbLink href='http://127.0.0.1:5173/groups'>Community</BreadcrumbLink>
@@ -156,7 +156,7 @@ const create = () => {
                 </Box>
 
 //Desktop Preview
-                <Box background={'orange.600'} borderRadius="md" paddingTop={5} color={'white'} width={changePreview ? '550px' : '375px'} display={{ sm: "none", md: "block" }}>
+                <Box background={'orange.400'} borderRadius="md" paddingTop={5} color={'white'} width={changePreview ? '550px' : '375px'} display={{ sm: "none", md: "block" }}>
                     <HStack justifyContent={"space-between"} align={'center'} padding={1} mt={-2} paddingLeft={5} paddingRight={5} >
                         <Text fontSize={"xl"} fontWeight={700} >
                             {changePreview ? "Desktop Preview" : " Mobile Preview"}
@@ -165,7 +165,7 @@ const create = () => {
                             {changePreview ? <HiOutlineDevicePhoneMobile onClick={PreviewChange} /> : <MdDesktopWindows onClick={PreviewChange} />}
                         </Text>
                     </HStack>
-                    <Box width="100%" borderRadius="md" padding={5} paddingTop={'5rem'} background={'orange.600'} textColor={"white"}>
+                    <Box width="100%" borderRadius="md" padding={5} paddingTop={'5rem'} background={'orange.400'} textColor={"white"}>
                         <Box color={'black'}>
                             <NavCommunity
                                 communityName={GroupName ? GroupName : "Community Name"}

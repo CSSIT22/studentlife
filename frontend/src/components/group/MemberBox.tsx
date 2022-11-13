@@ -5,9 +5,9 @@ import RequestList from './RequestList';
 import UserList from './UserList'
 const MemberBox: FC<{ boxType: string; data: any; title: string; subTitle?: string; }> = ({ data, title, subTitle, boxType }) => {
     return (
-        <Box width={"100%"} backgroundColor="gray.300" p={4} borderRadius="md">
-            <Text as="b">{title}</Text>{
-                subTitle ? (<Text as="p" mb="2">{subTitle}</Text>) : ""
+        <Box width={"100%"} backgroundColor="orange.400" p={4} borderRadius="md" >
+            <Text as="b" color={'white'}>{title}</Text>{
+                subTitle ? (<Text as="p" mb="2" color={'white'}>{subTitle}</Text>) : ""
             }
             <Box>
                 {boxType == "request" ? (<Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
