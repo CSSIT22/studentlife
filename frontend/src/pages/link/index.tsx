@@ -20,7 +20,7 @@ const Home = () => {
                                     <Text as={"b"}>This Features can shorten your link for convinience.</Text>
                                 </Box>
                                 <Box>
-                                    <Link href={"http://127.0.0.1:5174/link/shortlink"}>
+                                    <Link href={"http://127.0.0.1:5173/link/shortlink"}>
                                     <Button  size="md" borderRadius="100" padding="5" background={"orange.200"} >
                                         Click
                                     </Button>
@@ -46,7 +46,7 @@ const Home = () => {
                                 <Text as={"b"}>You can use this feature to collect your favourite links in All-link! </Text>
                                 </Box>
                                 <Box>
-                                    <Link href={"http://127.0.0.1:5174/link/savelink"}>
+                                    <Link href={"http://127.0.0.1:5173/link/savelink"}>
                                     <Button size="md" borderRadius="100" padding="5" background={"orange.200"} >
                                         Click
                                     </Button>

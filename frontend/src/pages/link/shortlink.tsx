@@ -14,7 +14,7 @@ const shortlink = () =>{
     <Box h='70px' >
         <Box width={"100%"} >
             
-        <Link href={"http://127.0.0.1:5174/link/customize"}><Center><Button bg={"orange.200"} w={'50%'} height={"60px"} ><Text as={"b"}>SHORTLINK CUSTOMIZE</Text></Button></Center></Link>
+        <Link href={"http://127.0.0.1:5173/link/customize"}><Center><Button bg={"orange.200"} w={'50%'} height={"60px"} ><Text as={"b"}>SHORTLINK CUSTOMIZE</Text></Button></Center></Link>
         </Box>
         
     </Box>
