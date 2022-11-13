@@ -11,10 +11,10 @@ const snList: FC<{
         <Box boxShadow={"md"} bg={"white"} rounded={8} p={5} w="100%">
             <Grid templateColumns="repeat(9, 1fr)">
                 <GridItem colSpan={4}>
-                    <Text>{topic}</Text>
+                    <Text textAlign={"left"}>{topic}</Text>
                 </GridItem>
                 <GridItem colSpan={2}>
-                    <Flex alignItems={"center"} h={"100%"}>
+                    <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
                         <Text>{course}</Text>
                     </Flex>
                 </GridItem>
