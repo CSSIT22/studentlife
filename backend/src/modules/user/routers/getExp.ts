@@ -9,7 +9,7 @@ const getExp = async (req: Request, res: Response) => {
             exp: exp.currentXP,
         })
     } catch (err) {
-        res.status(400).send("Error To Get Your Exp")
+        res.status(400).send("Error To Get Your CurrentExp")
     }
 }
 

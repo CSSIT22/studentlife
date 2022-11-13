@@ -1,7 +1,11 @@
-import React from "react"
+import { useState, useEffect } from "react"
 import { VStack, Flex, Heading, Box, Text, Progress } from "@chakra-ui/react"
 
 function ExpSystem() {
+    // useEffect(() =>{
+
+    // })
+
     return (
         <div>
             <Flex rounded="xl" direction="column" mt={4} mx={4} bg="white" position="initial" shadow={"lg"}>
