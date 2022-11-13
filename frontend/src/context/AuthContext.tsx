@@ -1,28 +1,24 @@
 import { Heading, useBoolean } from "@chakra-ui/react"
-import { createContext, FC, ReactNode, useEffect, useState } from "react"
-import { Navigate, useNavigate } from "react-router-dom"
+import { createContext, FC, ReactNode, useCallback, useEffect, useLayoutEffect, useState } from "react"
+import API from "../function/API"
+import { InitUserResponse } from "@apiType/user/index"
 
-export interface Role {
-    club: string
-    rank: string
-    expire_date: Date
-}
-
-export interface User {
-    fName: string
-    lName: string
-    email: string
-    userId: string
-    levels: string
-    studentId: string
-    role?: Role
-}
-
-const authContext = createContext<User>({} as any)
+export const authContext = createContext<InitUserResponse | null>({} as any)
 
 const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
-    const [user, setUser] = useState<User | null>()
+    const [user, setUser] = useState<InitUserResponse | null>()
     const [loading, { off, on }] = useBoolean(true)
+    const initUser = useCallback(async () => {
+        try {
+            const user = await API.get<InitUserResponse>("/user")
+            setUser({ ...user.data })
+        } catch (err) {
+            console.log(err)
+        }
+    }, [API])
+    useLayoutEffect(() => {
+        initUser().finally(off)
+    }, [initUser])
     // const naviagte = useNavigate()
     // useEffect(() => {
     //     off()
