@@ -4,10 +4,14 @@ import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUser, FaUserShield, F
 import { BsThreeDots } from 'react-icons/bs'
 
 
-const UserList: FC<{ userProfile: string; userRole?: string; userName: string }> = ({ userProfile, userName, userRole }) => {
+const UserList: FC<{ userProfile: string; userRole: string; userName: string }> = ({ userProfile, userName, userRole }) => {
+    // const Role = str => {
+    //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();};
+    let Role = (): string => userRole.charAt(0).toUpperCase() + userRole.slice(1)
+
     return (
 
-        <Box borderRadius="md" backgroundColor="gray.200" minWidth={"265px"} maxWidth={"700px"} width="100%">
+        <Box borderRadius="md" backgroundColor="white" minWidth={"265px"} maxWidth={"700px"} width="100%">
             <Box p={2} borderRadius="md">
                 <Flex direction={"row"} gap={2} justify={"space-between"} mr={2} ml={2}>
                     <HStack gap={2}>
@@ -19,7 +23,7 @@ const UserList: FC<{ userProfile: string; userRole?: string; userName: string }>
                                     {userName}
                                 </Text>
                             </Box>
-                            <Text fontSize="sm">{userRole}</Text>
+                            <Text fontSize="sm">{Role()}</Text>
                         </div>
                     </HStack>
                     <Popover>
@@ -63,7 +67,6 @@ const UserList: FC<{ userProfile: string; userRole?: string; userName: string }>
                             </PopoverContent>
                         </Portal>
                     </Popover>
-
                 </Flex>
             </Box>
         </Box>

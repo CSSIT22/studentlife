@@ -18,7 +18,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
 }) => {
     return (
 
-        <Box >
+        <Box  >
             <Image sx={{
                 // backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
@@ -41,7 +41,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
             }} src={coverPhoto}
                 fallbackSrc='https://via.placeholder.com/800'
             />
-            <Box p={4} borderBottomRadius="md" backgroundColor={"gray.200"}>
+            <Box p={4} borderBottomRadius="md" backgroundColor={"white"} boxShadow={'2xl'}>
                 <HStack justify={"space-between"}>
                     <div>
                         <Text as="b">{communityName}</Text>
@@ -53,7 +53,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                         </Box>
                     </div>
                     <div>
-                        {isMember ? <Button size="sm">Invite</Button> : <Button size="sm">Join</Button>}
+                        {isMember ? <Button size="sm" background={'orange.600'} color={'white'} >Invite</Button> : <Button size="sm" background={'orange.600'} color={'white'}>Join</Button>}
                     </div>
                 </ HStack>
 
@@ -63,7 +63,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                     }
                 </Flex>
 
-                <Text mt={2} fontSize="sm">{description}</Text>
+                <Text mt={2} fontSize="xs" padding={1}>{description}</Text>
                 <Flex gap={2} mt={3}>
                     <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative='path'><Button size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
                     <Link to={disableBtn ? "" : `/groups/id/${communityID}/member`} relative='path'><Button size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
@@ -73,7 +73,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
             </Box>
 
             <Flex direction="column" justify={"center"} align="center" mt={3}>
-                {isPrivate ? (<Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
+                {(isPrivate && (communityID != 1000)) ? (<Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
                     <HStack gap={2} p={2}>
                         <Box height={"55px"}></Box>
                         <div >
