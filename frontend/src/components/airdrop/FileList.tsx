@@ -114,18 +114,16 @@ const FileList: FC<{
                         onMouseEnter={() => {
                             proOpenFunc()
                             fetchSenderProfile()
-                        }}
-                        onMouseLeave={() => {
-                            setTimeout(() => {
+                            setTimeout(()=>{
                                 proCloseFunc()
-                            }, 1000)
+                            },2000)
                         }}
                     >
                         <Text decoration={"underline"}>{modalData.fileSender}</Text>
                     </Box>
                     <Modal initialFocusRef={initRef} isOpen={proOpen} onClose={onClose} size={"2xl"}>
                         <ModalOverlay bg={"none"} />
-                        <ModalContent>
+                        <ModalContent position={"absolute"} right={[-1,0,50,50,200]} top={[5,10,20,100,500]}>
                             <ModalHeader></ModalHeader>
                             <ModalBody pb={6}>
                                 {senderProfile && (
@@ -218,7 +216,7 @@ const FileList: FC<{
         <>
             <div id={elementid.toString()}>
                 <Flex direction={"row"} justifyContent={"space-between"} alignItems={"center"} px={"10"} py={"3"} gap={3}>
-                    <Box as={MdFileCopy} size={"3rem"} />
+                    <Box as={MdFileCopy} size={"2rem"} />
                     <Hide below={"md"}>
                         <Text>{info.fileName}</Text>
                     </Hide>
