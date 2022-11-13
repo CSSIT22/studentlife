@@ -57,7 +57,7 @@ const shortlink = () =>{
 <Box h='70px' >
 <AlertDialog
         isOpen={isOpen}
-        leastDestructiveRef={cancelRef }
+        leastDestructiveRef={cancelRef}
         onClose={onClose}
       >
         <AlertDialogOverlay>
