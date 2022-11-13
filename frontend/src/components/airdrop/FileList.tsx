@@ -16,9 +16,18 @@ import {
     ModalHeader,
     ModalOverlay,
     Fade,
+    Popover,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverFooter,
+    PopoverHeader,
+    PopoverTrigger,
+    Portal,
+    VStack,
 } from "@chakra-ui/react"
 import axios from "axios"
-import React, { FC, useContext, useEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useRef, useState } from "react"
 import { IconType } from "react-icons"
 import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "react-icons/md"
 import FileComment from "./FileComment"
@@ -32,24 +41,43 @@ const FileList: FC<{
         fileSender: string
         senderId: string
         sendType: string
+        fileDesc: string
+        fileExpired: string
         comments: {
             name: string
             comment: string
         }[]
     }
     fadeToggle: any
-}> = ({ elementid, info,fadeToggle }) => {
+}> = ({ elementid, info, fadeToggle }) => {
     const fileContext = useContext(fileListContext)
-
+    const initRef = useRef(null)
+    const [senderImg, setSenderImg] = useState<string>("")
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: proOpen, onOpen: proOpenFunc, onClose: proCloseFunc } = useDisclosure()
     //modal page
     const [modalPage, setModalPage] = useState(0)
+    const [senderProfile, setSenderProfile] = useState<{
+        fName: string
+        lName: string
+        studentId: string
+        majorId: string
+        image: string
+    }>({
+        fName: "",
+        lName: "",
+        studentId: "",
+        majorId: "",
+        image: "",
+    })
     const [modalData, setModalData] = useState<{
         fileId: string
         fileName: string
         fileSender: string
         senderId: string
         sendType: string
+        fileDesc: string
+        fileExpired: string
         comments: []
     }>({
         fileId: "",
@@ -57,38 +85,82 @@ const FileList: FC<{
         fileSender: "",
         senderId: "",
         sendType: "",
+        fileDesc: "",
+        fileExpired: "",
         comments: [],
     })
-    const RenderModalInfo = () => {
-        const componentArr = []
-        for (const [key, value] of Object.entries(modalData)) {
-            if (key !== "comments" && key !== "fileId" && key !== "senderId") {
-                componentArr.push(
-                    <HStack>
-                        {key == "fileExpired" ? (
-                            <>
-                                <Text fontSize={"xl"}>{key.toLowerCase()}:</Text>
-                                <Text>
-                                    {value == "0"
-                                        ? "Permanent"
-                                        : new Date(value).toLocaleString("en-US", {
-                                              timeZone: "Asia/Bangkok",
-                                          })}
-                                </Text>
-                            </>
-                        ) : (
-                            <>
-                                <Text fontSize={"xl"}>{key.toLowerCase()}:</Text>
-                                <Text>{value}</Text>
-                            </>
-                        )}
-                    </HStack>
-                )
-            }
-        }
 
-        return componentArr
+    const fetchSenderProfile = async () => {
+        const res = await axios.get(`http://localhost:8000/airdrop/user/userprofile/${info.senderId}`)
+        setSenderProfile(res.data)
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(res.data.image.data)))
+        setSenderImg(base64String)
     }
+    const RenderModalInfo = () => {
+        return (
+            <>
+                <HStack>
+                    <Text fontSize={"xl"}>File Name:</Text>
+                    <Text>{modalData.fileName.split(".")[0]}</Text>
+                </HStack>
+                <HStack>
+                    <Text fontSize={"xl"}>File Type:</Text>
+                    <Text>{modalData.fileName.split(".")[1]}</Text>
+                </HStack>
+                <HStack ref={initRef}>
+                    <Text fontSize={"xl"}>File Sender:</Text>
+                    <Box
+                        fontSize={"xl"}
+                        onMouseEnter={() => {
+                            proOpenFunc()
+                            fetchSenderProfile()
+                        }}
+                        onMouseLeave={() => {
+                            setTimeout(() => {
+                                proCloseFunc()
+                            }, 1000)
+                        }}
+                    >
+                        <Text decoration={"underline"}>{modalData.fileSender}</Text>
+                    </Box>
+                    <Modal initialFocusRef={initRef} isOpen={proOpen} onClose={onClose} size={"2xl"}>
+                        <ModalOverlay bg={"none"} />
+                        <ModalContent>
+                            <ModalHeader></ModalHeader>
+                            <ModalBody pb={6}>
+                                {senderProfile && (
+                                    <>
+                                        <Flex justify={"space-around"} gap={5} flexDirection={"row"} alignItems={"center"} flexWrap={"wrap"}>
+                                            <img src={`data:image/jpg;base64,${senderImg}`} alt="" />
+                                                <Text>{senderProfile.fName + " " + senderProfile.lName}</Text>
+                                                <Text>{senderProfile.studentId}</Text>
+                                                <Text>{senderProfile.majorId + " Student"}</Text>
+                                            
+                                        </Flex>
+                                    </>
+                                )}
+                            </ModalBody>
+                        </ModalContent>
+                    </Modal>
+                </HStack>
+                <HStack>
+                    <Text fontSize={"xl"}>File Description:</Text>
+                    <Text>{modalData.fileDesc}</Text>
+                </HStack>
+                <HStack>
+                    <Text fontSize={"xl"}>Expired Time:</Text>
+                    <Text>
+                        {modalData.fileExpired == "0"
+                            ? "Permanent"
+                            : new Date(modalData.fileExpired).toLocaleString("en-US", {
+                                  timeZone: "Asia/Bangkok",
+                              })}
+                    </Text>
+                </HStack>
+            </>
+        )
+    }
+
     const RenderModalComments = () => {
         const componentArr: any = []
         modalData.comments.map((item: any) => {
@@ -128,17 +200,20 @@ const FileList: FC<{
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== fid))
     }
     const handleDecline = async (id: string, event: any) => {
-        const  hideFile = await axios.post("http://localhost:8000/airdrop/file/hidefile",{
-            fileId:id
-        },{
-            withCredentials:true
-        })
+        const hideFile = await axios.post(
+            "http://localhost:8000/airdrop/file/hidefile",
+            {
+                fileId: id,
+            },
+            {
+                withCredentials: true,
+            }
+        )
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== id))
     }
-    useEffect(()=>{
-        console.log(info);
-        
-    })
+    // useEffect(() => {
+    //     console.log(info)
+    // })
     return (
         <>
             <div id={elementid.toString()}>
