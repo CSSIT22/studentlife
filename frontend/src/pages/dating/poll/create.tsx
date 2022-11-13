@@ -33,7 +33,7 @@ import DatingInterestTag from "../../../components/dating/DatingInterestTag"
 import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
 
 declare global {
-    var isPassDate: boolean, isPassTime: boolean, people: number[], tag: number[]
+    var isPassDate: boolean, isPassTime: boolean, people: number[], tag: number[], topic: string[]
 }
 
 const CreateActivityPoll = () => {
@@ -83,6 +83,7 @@ const CreateActivityPoll = () => {
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoTime = time.length < 3
     let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
+    let isNoTopic = handleTopic().length < 1
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -125,6 +126,22 @@ const CreateActivityPoll = () => {
             }
         }
         return false
+    }
+
+    function handleTopic() {
+        globalThis.topic = []
+        for (let i = 0; i < selectedInterests.length; i++) {
+            for (let j = 0; j < interests.length; j++) {
+                if (selectedInterests[i] === interests[j].interestId) {
+                    globalThis.topic.push(interests[j].interestName)
+                    break
+                }
+            }
+            if (i !== selectedInterests.length - 1) {
+                globalThis.topic.push(", ")
+            }
+        }
+        return globalThis.topic
     }
 
     function handleSubmit() {
@@ -289,6 +306,7 @@ const CreateActivityPoll = () => {
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
+                            {isNoTopic ? <></> : <FormHelperText color="white">You are now select {handleTopic()} as topic.</FormHelperText>}
                         </FormControl>
                     </Center>
                     <Center>
