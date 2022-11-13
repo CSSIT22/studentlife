@@ -1,4 +1,23 @@
-import { Avatar, Box, Container, Heading, HStack, Menu, MenuButton, MenuGroup, MenuItem, MenuList, SimpleGrid, Stack } from "@chakra-ui/react"
+import {
+    Avatar,
+    Box,
+    Button,
+    Container,
+    Heading,
+    HStack,
+    Menu,
+    MenuButton,
+    MenuGroup,
+    MenuItem,
+    MenuList,
+    Popover,
+    PopoverBody,
+    PopoverContent,
+    PopoverTrigger,
+    Portal,
+    SimpleGrid,
+    Stack,
+} from "@chakra-ui/react"
 import { IoMdArrowDropdown } from "react-icons/io"
 import { CgMenuRound } from "react-icons/cg"
 import { AiOutlineMail, AiFillBell } from "react-icons/ai"
@@ -8,14 +27,17 @@ import { Link } from "react-router-dom"
 import NavBarWithNoti from "./NavBarWithNoti"
 import SecondaryNav from "./SecondaryNav"
 import { moreMenu, NavBarMenu } from "./NavBar"
-import { FC } from "react"
+import { FC, useContext } from "react"
 import { secondaryNavProps } from "../app/AppBody"
 import ExtarSecondaryNav from "./ExtarSecondaryNav"
 import logo from "./pic/logo.png"
+import { authContext } from "src/context/AuthContext"
+import NotiTable from "src/components/notification/NotiTable"
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
+    const user = useContext(authContext)
     return (
-        <Box zIndex={9999} shadow={"md"} position="fixed" w="100%">
+        <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
                 <Container w="container.lg" maxW={"100%"}>
                     <Stack maxW="100%" direction={"row"} justifyContent="space-between">
@@ -25,9 +47,18 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                             <Link to="/chat">
                                 <NavBarWithNoti label="Chat" notiCount={20} Icon={AiOutlineMail} />
                             </Link>
-                            <Link to="/notification">
-                                <NavBarWithNoti label="Notification" notiCount={1} Icon={AiFillBell} />
-                            </Link>
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button variant={"unstyled"}>
+                                        <NavBarWithNoti label="Notification" notiCount={1} Icon={AiFillBell} />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <PopoverBody>
+                                        <NotiTable />
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Popover>
                             <Menu>
                                 {({ isOpen }) => (
                                     <>
@@ -42,8 +73,11 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                                 cursor="pointer"
                                                 transition="0.5s"
                                             >
-                                                <Avatar size="sm"></Avatar>
-                                                <Heading size="sm">@CS22</Heading>
+                                                <Avatar
+                                                    size="sm"
+                                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user?.userId}
+                                                ></Avatar>
+                                                <Heading size="sm">{user?.fName}</Heading>
                                                 <Heading size="md" m={0} p={0} transform={`rotate(${isOpen ? "180" : "0"}deg)`} transition="0.5s">
                                                     <IoMdArrowDropdown />
                                                 </Heading>

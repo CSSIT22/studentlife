@@ -1,15 +1,29 @@
+FROM node:16.15-alpine3.16 AS builder
+
+WORKDIR /modlifes
+
+COPY ./backend ./backend/
+
+COPY ./types ./types/
+
+RUN npm --prefix ./backend i
+
+RUN npm --prefix ./backend run build
+
 FROM node:16.15-alpine3.16
 
 WORKDIR /modlifes
 
-COPY ./dist/modlifes-bundled.js .
+COPY --from=builder /modlifes/backend/build/ ./build/
 
-COPY ./prisma/ ./prisma/
+COPY --from=builder /modlifes/backend/package*.json ./
 
-# RUN npm ci --only=production
+COPY --from=builder /modlifes/backend/prisma/ ./prisma/
 
-# RUN npm run db:gen
+RUN npm ci --only=production
+
+RUN npm run db:gen
 
 EXPOSE 8000
 
-CMD [ "node", "modlifes-bundled.js" ]
+CMD [ "npm", "run", "start" ]

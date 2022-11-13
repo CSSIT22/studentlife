@@ -1,7 +1,7 @@
 import { Box, Stack, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import NotiObject from "./NotiObject"
-import { OBJECTS } from "./objectsTest"
+import { OBJECTS } from "./data/objectsTest"
 
 const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
     //sort selectedList
@@ -82,9 +82,17 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             {sortedList.map((el) => {
                 return (
                     <Box>
-                        {showDate(el.date)}
+                        <Text>{showDate(el.date)}</Text>
                         <Stack spacing={3}>
-                            <NotiObject key={el.id} id={el.id} userId={el.user} description={el.description} isRead={el.isRead} date={el.date} />
+                            <NotiObject
+                                key={el.id}
+                                id={el.id}
+                                userId={el.user}
+                                description={el.description}
+                                isRead={el.isRead}
+                                date={el.date}
+                                link={el.link}
+                            />
                         </Stack>
                     </Box>
                 )

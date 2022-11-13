@@ -1,10 +1,7 @@
-import React from 'react'
-import AppBody from '../../components/share/app/AppBody'
+import DatingAppBody from "../../components/dating/DatingAppBody"
 
-const youLiked = () => {
-  return (
-    <AppBody>People who you liked</AppBody>
-  )
+const YouLiked = () => {
+    return <DatingAppBody>People who you liked</DatingAppBody>
 }
 
-export default youLiked
+export default YouLiked
