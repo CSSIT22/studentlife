@@ -53,7 +53,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                         </Box>
                     </div>
                     <div>
-                        {isMember ? <Button size="sm" background={'orange.500'} color={'white'} >Invite</Button> : <Button size="sm" background={'orange.500'} color={'white'}>Join</Button>}
+                        {isMember ? <Button size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'} >Invite</Button> : <Button size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'}>Join</Button>}
                     </div>
                 </ HStack>
 

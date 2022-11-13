@@ -13,8 +13,6 @@ import AppBody from "../../../components/share/app/AppBody"
 import FriendInviteList from 'src/components/group/FriendInviteList';
 import NavCommunity from 'src/components/group/NavCommunity'
 
-
-
 const create = () => {
     const [GroupName, setGroupName] = useState("")
     const textChange = (event: any) => setGroupName(event.target.value)
@@ -43,12 +41,11 @@ const create = () => {
         setTagBtn(false)
     }
 
-
     return (
         <AppBody>
             <HStack gap={3} mb={4}>
                 { /*Create Community*/}
-                <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background=" orange.400" textColor={"white"}>
+                <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background={{ md: 'orange.400', base: '' }} color={{ md: "white", base: 'black' }}>
                     <Breadcrumb ml={'0.4'} fontSize={'xs'} spacing='1.5px' separator={<ChevronRightIcon color='white' />}>
                         <BreadcrumbItem>
                             <BreadcrumbLink href='http://127.0.0.1:5173/groups'>Community</BreadcrumbLink>
@@ -62,7 +59,7 @@ const create = () => {
                     </Text>
                     <Text fontSize={"md"}>
                         Name
-                        <FormControl>
+                        <FormControl >
                             <Input type='Name' value={GroupName} onChange={textChange} background={"white"} color="black" />
                         </FormControl>
 
@@ -92,7 +89,6 @@ const create = () => {
                                 </DrawerBody>
                             </DrawerContent>
                         </Drawer>
-
 
                         <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} >
                             {userData.Tag.map((Tags) =>
@@ -138,7 +134,7 @@ const create = () => {
                                 <IconButton background={'white'} aria-label='Search database' icon={<SearchIcon />} color={'black'} />
                                 < Input backgroundColor={'white'} color={'black'} placeholder='Search for friends' />
                             </HStack>
-                            <Box background={'orange.400'}
+                            <Box background={{ md: 'orange.400', base: '' }}
                                 height={'200px'}
                                 paddingRight={0.5}
                                 sx={{
@@ -166,11 +162,8 @@ const create = () => {
                                         <FriendInviteList userName='Pakkawat Wassa' isSelected={false} userProfile={''} />
                                     </Box>
                                 </Flex>
-
                             </Box>
-
                         </Box>
-
                         <Button width="100%" mt={3} color='black' size={"md"}>
                             Create
                         </Button>
@@ -199,8 +192,6 @@ const create = () => {
                                 members={1}
                                 communityID={1000}
                                 tags={userData.Tag}
-
-
                             />
                         </Box>
 

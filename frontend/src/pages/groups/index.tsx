@@ -211,7 +211,7 @@ const index = () => {
                         <Box
                             display={inviteBtn || (width || 0) > 768 ? "block" : "none"}
                             borderRadius="md"
-                            backgroundColor="orange.400"
+                            background={{ md: "orange.400", base: "" }}
                             width="100%"
                             pt={4}
                             textAlign="start"
@@ -220,8 +220,8 @@ const index = () => {
                             pb={4}
 
                         >
-                            <Text as="b" color='white'>Invitation</Text>
-                            <Text fontSize="sm" color='white'>These people have been invited to join the community</Text>
+                            <Text as="b" color={{ md: "white", base: "black" }}>Invitation</Text>
+                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>These people have been invited to join the community</Text>
                             {userData.invitations.map((i) => (
                                 <InvitationBox
                                     key={i.inviteID}
@@ -238,7 +238,7 @@ const index = () => {
                             display={suggestBtn || (width || 0) > 768 ? "block" : "none"}
                             mt={2}
                             borderRadius="md"
-                            backgroundColor="orange.400"
+                            background={{ md: "orange.400", base: "" }}
                             width="100%"
                             pt={4}
                             textAlign="start"
@@ -246,8 +246,8 @@ const index = () => {
                             pr={5}
                             pb={4}
                         >
-                            <Text as="b" color='white'>Suggested for you</Text>
-                            <Text fontSize="sm" color='white'>Communitys you might be interested in.</Text>
+                            <Text as="b" color={{ md: "white", base: "black" }}>Suggested for you</Text>
+                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>Communitys you might be interested in.</Text>
                             <Grid gap={2} templateColumns={{ sm: "repeat(1,1fr)", md: "repeat(2, 1fr)" }} width="100%">
                                 {userData.invitations.map((i) => (
                                     <SuggestBox

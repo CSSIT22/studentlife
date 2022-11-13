@@ -38,7 +38,7 @@ const file = () => {
                 onChange={handleChange}
                 placeholder="Seacrh File"
                 focusBorderColor="gray.200"
-            ></Input><Button background={'orange.600'} color={'white'}>Upload</Button></HStack></HStack>
+            ></Input><Button background={'orange.600'} _hover={{ background: 'orange.200' }} color={'white'}>Upload</Button></HStack></HStack>
         <Box mt={2} borderRadius={"md"} gap={2} boxShadow={'2xl'} backgroundColor={"white"} p={3} pl={4} pr={4} mb={4}>
             <Flex display={{ base: "none", md: "flex" }} direction="row" >
                 <Text as="b" width={"30%"}>File name</Text>
