@@ -24,18 +24,25 @@ import { Link } from "react-router-dom"
 import { Restaurant } from "src/pages/restaurant/data/restaurant"
 
 const FavoriteContent: FC<{
+    id: number
     resName: string
     open: string
     close: string
     phone: string
     website: string
     link: string
-}> = ({ resName, phone, open, close, website,link }) => {
+}> = ({ id,resName, phone, open, close, website,link }) => {
     // const ClosePop = () => {
     //     setclose(true);
     //     // console.log(close);
 
     // }
+
+    const DeleteFv = () => {
+        Restaurant[id].status = false
+        console.log(Restaurant[id].status)
+    }
+    
 
     return (
         // <Box mb={{lg:"4rem"}} width="100%">
@@ -63,7 +70,7 @@ const FavoriteContent: FC<{
                                     <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center">
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={onClose} mr={2}>
+                                            <Button colorScheme="green" onClick={DeleteFv} mr={2}>
                                                 Yes
                                             </Button>
 
@@ -125,7 +132,7 @@ const FavoriteContent: FC<{
                                     <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center">
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={onClose} mr={2}>
+                                            <Button colorScheme="green" onClick={DeleteFv} mr={2}>
                                                 Yes
                                             </Button>
 

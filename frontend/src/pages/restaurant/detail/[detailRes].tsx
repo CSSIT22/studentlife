@@ -25,9 +25,10 @@ import {
     WrapItem,
     Icon,
     Heading,
+    useBoolean,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
-import { AiFillGift, AiFillPhone, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
+import React, { useEffect, useState } from "react"
+import { AiFillGift, AiFillHeart, AiFillPhone, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
@@ -66,6 +67,14 @@ function detail() {
     //         setnumres(0)
     //     }
     // }
+    
+    const [isFavorite, setIsFavorite] = useState(false);
+    useEffect(() => {
+        console.log(isFavorite);
+      }, [isFavorite])
+    const setFavoriteStatus = () => {
+        console.log(isFavorite)
+    }  
     return (
         <AppBody
             secondarynav={[
@@ -149,8 +158,8 @@ function detail() {
 
                                 <Box p="5">
                                     <Flex mt={10}>
-                                        <Button bg={"white"} width="50px" h="50px" borderRadius={"full"} p={0} onClick={addFavorite}>
-                                            <AiOutlineHeart size={"full"} />
+                                        <Button bg={"white"} width="50px" h="50px" borderRadius={"full"} p={0} onClick={()=>{setIsFavorite(!isFavorite); setFavoriteStatus}}>
+                                            {isFavorite ? <AiFillHeart size={"full"}/> : <AiOutlineHeart size={"full"} />}
                                         </Button>
                                         <Spacer />
                                         {/* {friendInfo.map((shareInfo) => {
