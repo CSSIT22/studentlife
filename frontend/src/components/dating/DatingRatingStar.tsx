@@ -3,7 +3,7 @@ import { FC, useState } from "react"
 import { AiFillStar, AiOutlineStar } from "react-icons/ai"
 
 // size={{ base: "0px", md: "5px" }}
-const star = [<AiOutlineStar color="yellow" size="30px" />, <AiFillStar color="yellow" size="30px" />]
+const star = [<AiOutlineStar color="#E65300" size="30px" />, <AiFillStar color="#E65300" size="30px" />]
 
 // const DatingRatingStar = (props: any) => {
 const DatingRatingStar: FC<{
