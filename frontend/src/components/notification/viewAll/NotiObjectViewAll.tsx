@@ -2,7 +2,7 @@ import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack,
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
-import { USER } from "../main/userProfile"
+import { USER } from "../main/data/userProfile"
 
 const NotiObjectViewAll: FC<{
     id: number
