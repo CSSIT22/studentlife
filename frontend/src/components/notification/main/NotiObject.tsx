@@ -2,18 +2,18 @@ import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } 
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
+import { USER } from "./userProfile"
 
 const NotiObject: FC<{
     id: number
-    avatarImg: string
-    userName: string
+    userId: String
     description: string
     isRead: boolean
     date: Date
-}> = ({ id, avatarImg, userName, description, isRead, date }) => {
+}> = ({ id, description, isRead, date, userId }) => {
     function showStatus() {
         if (isRead) {
-            return <Circle size="0.6em" bg="blackAlpha.400" />
+            return <Circle size="0.6em" bg="gray" />
         } else {
             return <Circle size="0.6em" bg="orange.500" />
         }
@@ -92,20 +92,32 @@ const NotiObject: FC<{
         }
     }
     function showDescription() {
-        return (
-            <p>
-                <b>{userName}</b> <div dangerouslySetInnerHTML={{ __html: description }} />
-            </p>
-        )
+        return <div dangerouslySetInnerHTML={{ __html: description }} />
     }
+    function showUser() {
+        var user = USER.filter((el) => el.id == userId)
+        var userStatus = user[0].isOnline
+        //console.log(user)
+
+        if (userStatus) {
+            return (
+                <Avatar src={user[0].avatarImg} size={"sm"}>
+                    <AvatarBadge boxSize="1em" bg="green.500" />
+                </Avatar>
+            )
+        } else {
+            return (
+                <Avatar src={user[0].avatarImg} size={"sm"}>
+                    <AvatarBadge boxSize="1em" bg="gray" />
+                </Avatar>
+            )
+        }
+    }
+
     return (
         <Box shadow={"lg"} borderRadius="2xl" bg="white" padding={2} key={id}>
             <Stack direction={"row"} spacing={3}>
-                <Center>
-                    <Avatar src={avatarImg} size={"sm"}>
-                        <AvatarBadge boxSize="1em" bg="green.500" />
-                    </Avatar>
-                </Center>
+                <Center>{showUser()}</Center>
                 <Stack>
                     <Text fontSize={"sm"}>{showDescription()}</Text>
                     <Text fontSize={"xs"} color="gray.400">

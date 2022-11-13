@@ -84,15 +84,7 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
                     <Box>
                         {showDate(el.date)}
                         <Stack spacing={3}>
-                            <NotiObject
-                                key={el.id}
-                                id={el.id}
-                                avatarImg={el.avatarImg}
-                                userName={el.userName}
-                                description={el.description}
-                                isRead={el.isRead}
-                                date={el.date}
-                            />
+                            <NotiObject key={el.id} id={el.id} userId={el.user} description={el.description} isRead={el.isRead} date={el.date} />
                         </Stack>
                     </Box>
                 )
