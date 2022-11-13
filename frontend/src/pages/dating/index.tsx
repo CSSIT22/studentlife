@@ -10,8 +10,8 @@ import ProfileImg from "../../components/dating/pic/profile.png"
 
 const DatingRandomization = () => {
     const isMobile = useBreakpointValue({
-        base: true,
-        md: false,
+        base: false,
+        md: true,
     })
 
     const [currentIndex, setCurrentIndex] = useState(CARD_QUEUE.length - 1)
@@ -47,11 +47,6 @@ const DatingRandomization = () => {
         updateCurrentIndex(index - 1)
     }
 
-    const outOfFrame = (name: string, idx: number) => {
-        console.log(`${name} (${idx}) left the screen!` + currentIndexRef.current)
-        currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-    }
-
     const swipe = async (dir: string) => {
         if (canSwipe && currentIndex < CARD_QUEUE.length) {
             await childRefs[currentIndex].current.swipe(dir)
@@ -60,22 +55,23 @@ const DatingRandomization = () => {
 
     return (
         <DatingAppBody userSelect="none">
-            <SimpleGrid overflow="hidden">
-                <Box>
+            <SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
+                <Box overflow={{ base: "visible", md: "hidden" }} w={{ md: "379px" }}>
                     <Box className="cardContainer">
-                        <Center>
+                        <Center display="flex">
                             <Box
                                 borderRadius="10px"
-                                w="326px"
-                                h="402px"
-                                pl="1rem"
+                                w={{ base: "326px", md: "379px" }}
+                                h={{ base: "402px", md: "464px" }}
                                 position="absolute"
-                                top="114px"
+                                top={{ base: "114px", md: "200px" }}
                                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                 display="flex"
-                                alignItems="end"
-                                justifyContent="end"
-                            />
+                                alignItems="center"
+                                justifyContent="center"
+                            >
+                                <Spinner size="lg" />
+                            </Box>
                         </Center>
                         {characters.map((character, index) => (
                             <motion.div
@@ -92,25 +88,23 @@ const DatingRandomization = () => {
                                     className="swipe"
                                     key={character.UserId}
                                     onSwipe={(dir: string) => swiped(dir, character.Fname + " " + character.Lname, index)}
-                                    onCardLeftScreen={() => outOfFrame(character.Fname + " " + character.Lname, index)}
                                     preventSwipe={["down", "up"]}
                                 >
                                     <Center>
                                         <Box
                                             borderRadius="10px"
                                             backgroundImage={character.url}
-                                            w="326px"
-                                            h="402px"
+                                            w={{ base: "326px", md: "379px" }}
+                                            h={{ base: "402px", md: "464px" }}
                                             backgroundSize="cover"
                                             className="card"
-                                            pl="1rem"
                                             id={character.UserId}
                                             position="absolute"
                                             top="30px"
                                             display="flex"
                                             alignItems="end"
                                             justifyContent="end"
-                                            cursor="ew-resize"
+                                            cursor="pointer"
                                         >
                                             <Link href="../../user">
                                                 <Button
@@ -134,8 +128,8 @@ const DatingRandomization = () => {
                     </Box>
                 </Box>
                 {characters[currentIndex] != null ? (
-                    <>
-                        <Box pt="468px">
+                    <Box>
+                        <Box pt={{ base: "468px", md: "30px" }}>
                             <motion.div
                                 key={currentIndex}
                                 initial={{ scale: 0 }}
@@ -147,14 +141,30 @@ const DatingRandomization = () => {
                                 }}
                             >
                                 <Box display="flex">
-                                    <Text color="black" fontWeight="700" fontSize="20px" lineHeight="120%" pl="18px">
-                                        {characters[currentIndex].Fname.length >= 15
+                                    <Text
+                                        color="black"
+                                        fontWeight="700"
+                                        fontSize={{ base: "20px", md: "48px" }}
+                                        lineHeight="120%"
+                                        pl={{ base: "18px", md: "0px" }}
+                                    >
+                                        {isMobile
+                                            ? characters[currentIndex].Fname.length >= 9
+                                                ? characters[currentIndex].Fname.substring(0, 9).concat("...")
+                                                : characters[currentIndex].Fname
+                                            : characters[currentIndex].Fname.length >= 15
                                             ? characters[currentIndex].Fname.substring(0, 15).concat("...")
                                             : characters[currentIndex].Fname}{" "}
                                         {characters[currentIndex].Lname.substring(0, 1)}.
                                     </Text>
 
-                                    <Text color="black" fontWeight="400" fontSize="20px" lineHeight="120%" pl="18px">
+                                    <Text
+                                        color="black"
+                                        fontWeight={{ base: "400", md: "700" }}
+                                        fontSize={{ base: "20px", md: "48px" }}
+                                        lineHeight="120%"
+                                        pl="18px"
+                                    >
                                         {characters[currentIndex].Gender}, {characters[currentIndex].Age}
                                     </Text>
                                 </Box>
@@ -170,22 +180,24 @@ const DatingRandomization = () => {
                                 damping: 20,
                             }}
                         >
-                            <Box color="black" fontWeight="400" fontSize="20px" lineHeight="120%">
-                                <Text pl="18px" pt="10px">
-                                    {characters[currentIndex].Faculty.length >= 30
+                            <Box color="black" fontWeight="400" fontSize={{ base: "20px", md: "30px" }} lineHeight="120%">
+                                <Text pl={{ base: "18px", md: "0px" }} pt="10px" mb={{ md: "110px" }}>
+                                    {isMobile
+                                        ? characters[currentIndex].Faculty
+                                        : characters[currentIndex].Faculty.length >= 30
                                         ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
                                         : characters[currentIndex].Faculty}
                                 </Text>
                             </Box>
                         </motion.div>
-                        <Box height="70px" overflow="hidden">
+                        <Box height="70px" overflow={{ base: "hidden", md: "visible" }}>
                             <Box
                                 pb="5"
                                 height="105px"
-                                pl="18px"
+                                pl={{ base: "18px", md: "0px" }}
                                 pt="20px"
-                                overflowX="auto"
-                                whiteSpace="nowrap"
+                                overflowX={{ base: "auto", md: "visible" }}
+                                whiteSpace={{ base: "nowrap", md: "initial" }}
                                 style={{ WebkitOverflowScrolling: "touch" }}
                             >
                                 {characters[currentIndex].interestId.map((id) => (
@@ -205,81 +217,79 @@ const DatingRandomization = () => {
                                             backgroundColor="orange.600"
                                             color="white"
                                             mr="0.5"
+                                            mb="2px"
                                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                         >
                                             <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize="12px" lineHeight="150%">
-                                                {
-                                                    interests[characters[currentIndex].interestId[characters[currentIndex].interestId.indexOf(id)]]
-                                                        .interestName
-                                                }
+                                                {interests.find((interest) => interest.interestId === id.toString())?.interestName}
                                             </Text>
                                         </Tag>
                                     </motion.div>
                                 ))}
                             </Box>
                         </Box>
-                    </>
-                ) : (
-                    <Box height="596px" pb="150px" display="flex" alignItems="center" justifyContent="center">
-                        <Spinner size="xl" />
                     </Box>
+                ) : (
+                    <Box height="596px" pb="150px" display="flex" alignItems="center" justifyContent="center" />
                 )}
-                <Center display="flex" pl="18px">
-                    <motion.div
-                        style={{
-                            marginRight: "58px",
-                            width: "80px",
-                            height: "80px",
-                            borderRadius: "30px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            backgroundColor: "#FFF2E6",
-                        }}
-                        animate={controlCross}
-                        onClick={() => swipe("left")}
-                        variants={{
-                            visible: {
-                                scale: [1, 0.8, 1],
-                                backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
-                                transition: {
-                                    duration: 0.4,
-                                    ease: [0.075, 0.82, 0.165, 1],
-                                },
-                            },
-                        }}
-                    >
-                        <AiOutlineStop size="62px" color="black" />
-                    </motion.div>
-
-                    <motion.div
-                        style={{
-                            marginLeft: "58px",
-                            width: "80px",
-                            height: "80px",
-                            borderRadius: "30px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            backgroundColor: "#FFF2E6",
-                        }}
-                        animate={controlHeart}
-                        onClick={() => swipe("right")}
-                        variants={{
-                            visible: {
-                                scale: [1, 0.8, 1],
-                                backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
-                                transition: {
-                                    duration: 0.4,
-                                    ease: [0.075, 0.82, 0.165, 1],
-                                },
-                            },
-                        }}
-                    >
-                        <AiOutlineHeart size="62px" color="black" />
-                    </motion.div>
-                </Center>
             </SimpleGrid>
+            <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
+                <motion.div
+                    style={{
+                        marginRight: "58px",
+                        width: "80px",
+                        height: "80px",
+                        borderRadius: "30px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#FFF2E6",
+                        cursor: "pointer",
+                    }}
+                    animate={controlCross}
+                    onClick={() => swipe("left")}
+                    variants={{
+                        visible: {
+                            scale: [1, 0.8, 1],
+                            backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                            transition: {
+                                duration: 0.4,
+                                ease: [0.075, 0.82, 0.165, 1],
+                            },
+                        },
+                    }}
+                >
+                    <AiOutlineStop size="62px" color="black" />
+                </motion.div>
+
+                <motion.div
+                    style={{
+                        marginLeft: "58px",
+                        width: "80px",
+                        height: "80px",
+                        borderRadius: "30px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#FFF2E6",
+                        cursor: "pointer",
+                    }}
+                    animate={controlHeart}
+                    onClick={() => swipe("right")}
+                    variants={{
+                        visible: {
+                            scale: [1, 0.8, 1],
+                            backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                            transition: {
+                                duration: 0.4,
+                                ease: [0.075, 0.82, 0.165, 1],
+                            },
+                        },
+                    }}
+                >
+                    <AiOutlineHeart size="62px" color="black" />
+                </motion.div>
+            </Box>
         </DatingAppBody>
     )
 }

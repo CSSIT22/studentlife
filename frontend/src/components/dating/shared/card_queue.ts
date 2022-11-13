@@ -77,7 +77,7 @@ export const CARD_QUEUE = [
         Age: "27",
         Faculty: "Doctor of Philosophy Program in industrial and Manufacturing System Engineering",
         url: "https://lh3.googleusercontent.com/MDVfO5G8cmGAKLcNXXdik1iTJe92ZcNoHbPTB4lbn0KutHvtWcBXyFEApa9x20HHg0NCrVQfxuU5u3mIsFYhM71aPJJ5XrXfOZOBRJFSYfAAM1U=w1600-rj-l80-nu-e365",
-        interestId: [76, 23],
+        interestId: [80, 99, 65, 90, 77],
     },
     {
         UserId: "129881421",
