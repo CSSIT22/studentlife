@@ -46,7 +46,7 @@ const create = () => {
 
     return (
         <AppBody>
-            <HStack gap={3}>
+            <HStack gap={3} mb={4}>
                 { /*Create Community*/}
                 <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background=" orange.400" textColor={"white"}>
                     <Breadcrumb ml={'0.4'} fontSize={'xs'} spacing='1.5px' separator={<ChevronRightIcon color='white' />}>
@@ -133,7 +133,7 @@ const create = () => {
                         <Text mt={2} mb={2}>
                             Invite friends to join this community
                         </Text>
-                        <Box background={'white'} borderRadius={'md'}>
+                        <Box background={'orange.400'} borderRadius={'md'}>
                             <HStack padding={1}>
                                 <IconButton background={'white'} aria-label='Search database' icon={<SearchIcon />} color={'black'} />
                                 < Input backgroundColor={'white'} color={'black'} placeholder='Search for friends' />
@@ -171,6 +171,7 @@ const create = () => {
                     <Box width="100%" borderRadius="md" padding={5} paddingTop={'5rem'} background={'orange.400'} textColor={"white"}>
                         <Box color={'black'}>
                             <NavCommunity
+                                disableBtn={true}
                                 communityName={GroupName ? GroupName : "Community Name"}
                                 isPrivate={Privacy ? Privacy : false}
                                 isMember={false}
@@ -179,7 +180,8 @@ const create = () => {
                                 members={1}
                                 communityID={1000}
                                 tags={userData.Tag}
-                                activeBtn={2}
+
+
                             />
                         </Box>
 

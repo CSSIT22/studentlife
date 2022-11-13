@@ -63,11 +63,11 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                     }
                 </Flex>
 
-                <Text mt={2} fontSize="xs" padding={1}>{description}</Text>
+                <Text mt={2} fontSize="xs" padding={1} >{description}</Text>
                 <Flex gap={2} mt={3}>
-                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative='path'><Button size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
-                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/member`} relative='path'><Button size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
-                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/file`} relative='path'><Button size={"sm"} isActive={(activeBtn == 3 && !isPrivate ? true : false)} disabled={isPrivate}>File</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative='path'><Button backgroundColor={"white"} size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/member`} relative='path'><Button backgroundColor={"white"} size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/file`} relative='path'><Button backgroundColor={"white"} size={"sm"} isActive={(activeBtn == 3 && !isPrivate ? true : false)} disabled={isPrivate}>File</Button></Link>
                 </Flex>
 
             </Box>
