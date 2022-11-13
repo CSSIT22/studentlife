@@ -83,5 +83,29 @@ export const communityData = {
 
             }
 
-        ]
+        ],
+    communityfile:
+        [
+            {
+                FileID: 1,
+                Filename: "Indian 1",
+                Owner: "Phawit monchaising",
+                FileType: "image/jpeg",
+                Date: "2022-10-31 15:30:25"
+            },
+            {
+                FileID: 2,
+                Filename: "Indian 2",
+                Owner: "Pasinun witayawinit",
+                FileType: "image/jpeg",
+                Date: "2022-11-30 15:30:25"
+            },
+            {
+                FileID: 3,
+                Filename: "Indian 3",
+                Owner: "Pasinun witayawinit",
+                FileType: "image/jpeg",
+                Date: "2022-12-30 15:30:25"
+            }
+        ],
 }
