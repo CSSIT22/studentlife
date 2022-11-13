@@ -8,7 +8,7 @@ import DatingRandomCrossButton from "src/components/dating/DatingRandomCrossButt
 import DatingRandomHeartButton from "src/components/dating/DatingRandomHeartButton"
 import DatingRandomDetails from "src/components/dating/DatingRandomDetails"
 import DatingRandomCard from "src/components/dating/DatingRandomCard"
-import DatingRandomReload from "src/components/dating/DatingRandomReload"
+import DatingRandomBase from "src/components/dating/DatingRandomBase"
 
 const DatingRandomization = () => {
     const [currentIndex, setCurrentIndex] = useState(CARD_QUEUE.length - 1)
@@ -37,7 +37,7 @@ const DatingRandomization = () => {
         <DatingAppBody userSelect="none">
             <SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
                 <Box className="cardContainer" overflow={{ base: "visible", md: "hidden" }} w={{ md: "379px" }}>
-                    <DatingRandomReload />
+                    <DatingRandomBase />
                     {characters.map((character, index) => (
                         <DatingRandomCard
                             key={index}
