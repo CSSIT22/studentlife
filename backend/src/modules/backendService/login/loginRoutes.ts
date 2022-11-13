@@ -17,7 +17,6 @@ router.get(
     "/microsoft/callback",
     passport.authenticate("microsoft", {
         failureRedirect: "/auth/microsoft",
-        successRedirect: process.env.SUCCESS_REDIRECT_URL,
         session: true,
     }),
     async (req: Request, res: Response) => {
@@ -43,16 +42,37 @@ router.get(
                     },
                 },
             })
+            res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
             res.status(500).send("These is an error in login")
             console.log(error)
         }
-
-        console.log(device.data)
-        res.cookie("token", `${req.session.id.toString()}`)
-        res.cookie("userId", `${req.user.userId}`)
-        res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
     }
 )
+router.get("/showtoken", (req, res) => {
+    res.send(req.session.id)
+})
+router.get("/logout", async (req, res) => {
+    const userID: string = req.user?.userId || ""
+    const tokenID: string = req.session.id
+    req.logOut({}, async (err) => {
+        if (err) {
+            return res.status(400).send("Error")
+        }
+        const { prisma } = res
+
+        // รอริเเก้ db
+        const user = await prisma.user_Back.delete({
+            where: {
+                userId_token: {
+                    userId: userID,
+                    token: tokenID,
+                },
+            },
+        })
+
+        return res.send("success")
+    })
+})
 
 export { router as loginRoutes }
