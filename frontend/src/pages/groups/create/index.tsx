@@ -22,8 +22,10 @@ const create = () => {
     const [Describe, setDescrip] = useState("")
     const DesChange = (event: any) => setDescrip(event.target.value)
 
-    const [Privacy, setPrivacy] = useState("")
-    const PriChange = (event: any) => setPrivacy(event.target.value)
+    const [Privacy, setPrivacy] = useState(false)
+    const PriChange = (event: any) => setPrivacy(!event.target.value)
+
+    const PrivacyOnChange = (e: any) => e.target.value == 'true' ? setPrivacy(true) : setPrivacy(false)
 
     const [changePreview, setPreview] = useState(true)
     const PreviewChange = () => { setPreview(!changePreview) }
@@ -113,8 +115,9 @@ const create = () => {
                             <MdPublic color="White" />
                         </HStack>
                         <FormControl>
-                            <Select value={Privacy} onChange={PriChange} placeholder='Public' background={"white"} color="black">
-                                <option>Private</option >
+                            <Select onChange={PrivacyOnChange} placeholder='Select Privacy' background={"white"} color="black">
+                                <option value={'false'}>Public</option >
+                                <option value={'true'}>Private</option >
                             </Select>
                         </FormControl>
                         Description

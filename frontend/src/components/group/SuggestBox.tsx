@@ -9,7 +9,7 @@ const SuggestBox: FC<{
     isPrivate: boolean
 }> = ({ communityName, memberNumber, coverPhoto, isPrivate }) => {
     return (
-        <Box borderRadius="md" backgroundColor="gray.300" mt={2}>
+        <Box borderRadius="md" backgroundColor="white" boxShadow={'2xl'} mt={2}>
             <Box
                 sx={{
                     background: "tomato",
@@ -24,7 +24,7 @@ const SuggestBox: FC<{
             ></Box>
             <Box p={3} borderRadius="md">
                 <Flex direction={"column"} gap={2} justify="space-between">
-                    
+
                     <div>
                         <Box display="flex" alignItems="center" gap={1}>
                             {isPrivate ? <MdPublicOff /> : <MdPublic />}
@@ -36,7 +36,7 @@ const SuggestBox: FC<{
                             {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
                         </Text>
                     </div>
-                    <Button size="sm">Join community</Button>
+                    <Button background={'orange.600'} color='white' size="sm">Join community</Button>
                 </Flex>
             </Box>
         </Box>

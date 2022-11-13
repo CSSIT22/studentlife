@@ -17,7 +17,7 @@ const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; c
 }) => {
     return (
 
-        <Box >
+        <Box  >
             <Image sx={{
                 // backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
@@ -40,7 +40,7 @@ const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; c
             }} src={coverPhoto}
                 fallbackSrc='https://via.placeholder.com/800'
             />
-            <Box p={4} borderBottomRadius="md" backgroundColor={"gray.200"}>
+            <Box p={4} borderBottomRadius="md" backgroundColor={"white"} boxShadow={'2xl'}>
                 <HStack justify={"space-between"}>
                     <div>
                         <Text as="b">{communityName}</Text>
@@ -52,7 +52,7 @@ const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; c
                         </Box>
                     </div>
                     <div>
-                        {isMember ? <Button size="sm">Invite</Button> : <Button size="sm">Join</Button>}
+                        {isMember ? <Button size="sm" background={'orange.600'} color={'white'} >Invite</Button> : <Button size="sm" background={'orange.600'} color={'white'}>Join</Button>}
                     </div>
                 </ HStack>
 
@@ -72,7 +72,7 @@ const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; c
             </Box>
 
             <Flex direction="column" justify={"center"} align="center" mt={3}>
-                {isPrivate ? (<Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
+                {(isPrivate && (communityID != 1000)) ? (<Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
                     <HStack gap={2} p={2}>
                         <Box height={"55px"}></Box>
                         <div >

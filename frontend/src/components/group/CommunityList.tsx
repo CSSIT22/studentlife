@@ -14,7 +14,7 @@ const CommunityList: FC<{ communityID: number; communityName: string; lastActive
 }) => {
     return (
         <Link to={`/groups/id/${communityID}`}>
-            <Box _hover={{ backgroundColor: "gray.100", cursor: "pointer" }} borderRadius="md" backgroundColor="gray.200" mt={2}>
+            <Box _hover={{ backgroundColor: "gray.100", cursor: "pointer" }} borderRadius="md" backgroundColor="white" boxShadow={'2xl'} mt={2} color='black'>
                 <Box p={2} borderRadius="md">
                     <HStack gap={2}>
                         <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto} alt="Cover Photo" />
