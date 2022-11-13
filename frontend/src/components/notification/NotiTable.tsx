@@ -84,7 +84,7 @@ function ShowSetting() {
     return (
         <Center>
             <Button size={"1em"} onClick={onOpen}>
-                <SettingsIcon color="orange.500" size={"1.2em"} />
+                <SettingsIcon color="orange.500" />
             </Button>
             <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay paddingTop={{ base: "35%", sm: "30%", md: "25%", lg: "15%" }}>
