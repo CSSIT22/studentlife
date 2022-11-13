@@ -2,9 +2,7 @@ import { Router } from "express"
 import passport from "passport"
 import { Request, Response } from "express"
 import UserAgent from "user-agents"
-import { PrismaClient, Prisma } from "@prisma/client"
 
-const prisma = new PrismaClient()
 const router = Router()
 
 router.get(
@@ -23,7 +21,6 @@ router.get(
         session: true,
     }),
     async (req: Request, res: Response) => {
-        //console.log(req.headers["user-agent"])
         const device = new UserAgent(req.headers["user-agent"])
         const { prisma } = res
         console.log(req.user?.userId)
