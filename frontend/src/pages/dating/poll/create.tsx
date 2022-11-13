@@ -216,7 +216,7 @@ const CreateActivityPoll = () => {
                         {/* Topic (tag of interest) input */}
                         <FormControl>
                             <Flex justifyContent={"space-between"}>
-                                <FormLabel>Poll topic</FormLabel>
+                                <FormLabel>Poll topics</FormLabel>
                                 <Button
                                     borderRadius={"6px"}
                                     onClick={onOpen}
@@ -228,8 +228,9 @@ const CreateActivityPoll = () => {
                                     pb="5px"
                                     shadow="lg"
                                     borderColor="black"
+                                    colorScheme={"#E65300"}
                                 >
-                                    Select poll topic
+                                    Select poll topics
                                 </Button>
                             </Flex>
                             <Modal onClose={onClose} isOpen={isOpen} size="lg" isCentered onEsc={onClose} scrollBehavior="inside">
@@ -253,7 +254,7 @@ const CreateActivityPoll = () => {
                                                 {/* Interest description */}
                                                 <Box display="flex">
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
-                                                        Please select your poll topic: (
+                                                        Please select your poll topics: (
                                                     </Heading>
                                                     {/* numOfInterest will change when you select/deselect the tags */}
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
@@ -307,7 +308,13 @@ const CreateActivityPoll = () => {
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
-                            {isNoTopic ? <></> : <FormHelperText color="gray">You have selected {handleTopic()} as topic.</FormHelperText>}
+                            {isNoTopic ? (
+                                <></>
+                            ) : (
+                                <FormHelperText color="gray">
+                                    You have selected {handleTopic()} as {selectedInterests.length > 1 ? " the topics." : "the topic."}
+                                </FormHelperText>
+                            )}
                         </FormControl>
                     </Center>
                     <Center>
