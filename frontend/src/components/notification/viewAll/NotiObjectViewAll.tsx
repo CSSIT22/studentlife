@@ -1,4 +1,4 @@
-import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
+import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
@@ -100,7 +100,8 @@ const NotiObjectViewAll: FC<{
         )
     }
     return (
-        <Box borderRadius="2xl" bg="white" padding={4} key={id}>
+        
+        <Box as="button" bg={"white"} _hover={{ bg: "#cdcdcd" }} borderRadius="2xl" padding={2} key={id}>
             <Stack direction={"row"} spacing={12}>
                 <Box>
                     <Stack direction={"row"} spacing={12}>
@@ -112,7 +113,7 @@ const NotiObjectViewAll: FC<{
                                 <AvatarBadge boxSize="1.2rem" bg="green.500" />
                             </Avatar>
                         </Center>
-                        <Stack direction={"row"} spacing={300}>
+                        <Stack direction={"row"} spacing={300} padding={5}>
                             <Text fontSize={"sm"}>{showDescription()}</Text>
                         </Stack>
                     </Stack>
@@ -127,5 +128,7 @@ const NotiObjectViewAll: FC<{
         </Box>
     )
 }
+
+
 
 export default NotiObjectViewAll
