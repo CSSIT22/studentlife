@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react"
 
 const qrCode = () => {
-  return (
-    <div>qrCode</div>
-  )
+    return <div>qrCode</div>
 }
 
 export default qrCode

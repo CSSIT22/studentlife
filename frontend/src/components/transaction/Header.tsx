@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { Center, Heading, Text, Box } from "@chakra-ui/react"
+import { Center, Text, Box } from "@chakra-ui/react"
 
 const header: FC<{
     header: string

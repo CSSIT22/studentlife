@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react"
 
 const eBanking = () => {
-  return (
-    <div>eBanking</div>
-  )
+    return <div>eBanking</div>
 }
 
 export default eBanking
