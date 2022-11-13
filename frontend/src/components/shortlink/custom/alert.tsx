@@ -33,7 +33,11 @@ function CompExample() {
         />
       </Alert>
     ) : (
-      <Button onClick={onOpen}>Show Alert</Button>
+      <Button~
+      
+      
+      
+      onClick={onOpen}>Show Alert</Button>
     )
   }
   export default CompExample
