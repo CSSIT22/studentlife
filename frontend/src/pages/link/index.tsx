@@ -6,7 +6,7 @@ const Home = () => {
     return (
         <AppBody>
             <Container padding="2rem 0" w="100%">
-                <Box position="absolute" left={["100%", "100%", "30%"]} top={["50%", "50%", "20%"]} padding="0.5rem 3rem" bg="white" borderRadius="10" shadow={"lg"} background={"orange.200"}>
+                <Box position="absolute" left={["100%", "100%", "40%"]} top={["50%", "50%", "20%"]} padding="0.5rem 3rem" bg="white" borderRadius="10" shadow={"lg"} background={"orange.200"}>
                     <Text as={"b"}>LINK FEATURE</Text>
                 </Box>
                 <Box borderWidth="1px" borderRadius="xl" padding="2rem">
