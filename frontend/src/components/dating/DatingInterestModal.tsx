@@ -17,37 +17,67 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
     return (
         // Modal to be used for Interest Page when you select more than 5 tags of interest
         <>
-            <Modal isCentered isOpen={isOpen} onClose={onClose} size="xs">
+            <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "lg" }}>
                 <ModalOverlay backdropFilter="blur(10px)" />
                 <ModalContent alignItems="center">
                     <ModalHeader>
-                        <Heading pt="32px" textAlign="center" color="#E53E3E" fontWeight="700" fontSize="20px" lineHeight="120%">
-                            You can only select up
-                        </Heading>
-                        <Heading pb="21px" textAlign="center" color="#E53E3E" fontWeight="700" fontSize="20px" lineHeight="120%">
-                            to 5 interests!
+                        <Heading
+                            pt="34px"
+                            textAlign="center"
+                            color="#E53E3E"
+                            fontWeight="700"
+                            fontSize={{ base: "24px", md: "48px" }}
+                            lineHeight="133%"
+                        >
+                            Max selection reached
                         </Heading>
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text color="black" textAlign="center" fontWeight="700" fontSize="16px" lineHeight="120%">
-                            To add more, deselect some of
+                        <Text
+                            color="black"
+                            textAlign="center"
+                            fontWeight={{ base: "700", md: "400" }}
+                            fontSize={{ base: "16px", md: "20px" }}
+                            lineHeight="120%"
+                        >
+                            You can only select up to 5 interests!
                         </Text>
-                        <Text color="black" textAlign="center" fontWeight="700" fontSize="16px" lineHeight="120%">
-                            your chosen interests
+                        <Text
+                            color="black"
+                            textAlign="center"
+                            fontWeight={{ base: "700", md: "400" }}
+                            fontSize={{ base: "16px", md: "20px" }}
+                            lineHeight="120%"
+                        >
+                            <br />
+                            To add more, deselect some of your
+                        </Text>
+                        <Text
+                            color="black"
+                            textAlign="center"
+                            fontWeight={{ base: "700", md: "400" }}
+                            fontSize={{ base: "16px", md: "20px" }}
+                            lineHeight="120%"
+                        >
+                            chosen interests
                         </Text>
                     </ModalBody>
                     <ModalFooter>
                         <Center>
                             <Button
-                                mt="21px"
-                                mb="87px"
+                                mt="23.5px"
+                                mb="93.5px"
                                 colorScheme="orange"
                                 onClick={onClose}
                                 borderRadius="5px"
                                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                w={{ md: "200px" }}
+                                h={{ base: "40px", md: "70px" }}
                             >
-                                I understand!
+                                <Text fontWeight="700" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%">
+                                    I understand!!!
+                                </Text>
                             </Button>
                         </Center>
                     </ModalFooter>
