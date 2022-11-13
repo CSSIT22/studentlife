@@ -4,15 +4,18 @@ import React from "react"
 import ReviewDetail from "src/components/shopreview/ReviewDetail"
 import Myreview from "src/components/shopreview/Myreview"
 import AppBody from "../../components/share/app/AppBody"
+import { useNavigate } from "react-router-dom"
 
 const myreview = () => {
+    const navigate = useNavigate()
+    const navigateHome = () => {
+        navigate("/shopreview")
+    }
     return (
         <AppBody>
             <Flex mb={5} direction={"row"} alignItems={"center"}>
-                <Box as="button" mr={2}>
-                    <Link href="/shopreview">
-                        <ChevronLeftIcon w={8} h={8} />
-                    </Link>
+                <Box as="button" onClick={navigateHome} mr={2}>
+                    <ChevronLeftIcon w={8} h={8} />
                 </Box>
                 <Heading color={"black"}>My Review</Heading>
             </Flex>

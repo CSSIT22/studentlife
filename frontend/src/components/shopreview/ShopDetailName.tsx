@@ -10,7 +10,7 @@ const ShopDeatailName: FC<{
 }> = ({ name }) => {
     return (
         <Flex mb={5} direction={"row"} alignItems={"center"}>
-            <Link href="/shopreview">
+            <Link href="javascript:javascript:history.go(-1)">
                 <ChevronLeftIcon w={8} h={8} />
             </Link>
             <Heading>{name}</Heading>
