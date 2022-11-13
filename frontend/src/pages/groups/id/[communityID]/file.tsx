@@ -27,7 +27,7 @@ const file = () => {
             communityID={1000}
             tags={userData.Tag}
             activeBtn={3}
-        /><HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} backgroundColor={"gray.300"}><Text as={"b"}>File</Text>
+        /><HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={'2xl'} backgroundColor={"white"}><Text as={"b"}>File</Text>
             <HStack justify={"flex-end"} width={"100%"}><Input
                 // width={"100%"}
                 // display={searchBtn ? "" : "none"}
@@ -38,8 +38,8 @@ const file = () => {
                 onChange={handleChange}
                 placeholder="Seacrh File"
                 focusBorderColor="gray.200"
-            ></Input><Button>Upload</Button></HStack></HStack>
-        <Box mt={2} borderRadius={"md"} gap={2} backgroundColor={"gray.300"} p={3} pl={4} pr={4}>
+            ></Input><Button background={'orange.600'} color={'white'}>Upload</Button></HStack></HStack>
+        <Box mt={2} borderRadius={"md"} gap={2} boxShadow={'2xl'} backgroundColor={"white"} p={3} pl={4} pr={4} mb={4}>
             <Flex display={{ base: "none", md: "flex" }} direction="row" >
                 <Text as="b" width={"30%"}>File name</Text>
                 <Text as="b" width={"30%"}>Owner</Text>

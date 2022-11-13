@@ -21,53 +21,53 @@ const InvitationBox: FC<{
     expireDate,
 }) => {
 
-    const [acceptBtn, setAcceptBtn] = useState(true)
-    const [declinetBtn, setDeclinetBtn] = useState(true)
+        const [acceptBtn, setAcceptBtn] = useState(true)
+        const [declinetBtn, setDeclinetBtn] = useState(true)
 
-    const handleAcceptOnClick = () => {
-    setAcceptBtn(false)
-    }
+        const handleAcceptOnClick = () => {
+            setAcceptBtn(false)
+        }
 
-    const handleDeclineOnClick = () => {
-    setDeclinetBtn(false)
-    }
-    return (
-        <Box borderRadius="md" backgroundColor="gray.300" mt={2}>
-            {(acceptBtn && declinetBtn) ? (
-            
-                <Box p={3} borderRadius="md">
-                <Flex direction={{ base: "column-reverse", sm: "column-reverse", lg: "column" }}>
-                    <Flex direction={{ base: "column", sm: "column", lg: "row" }} gap={2} justify="space-between">
-                        <HStack>
-                            <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto} alt="Cover Photo" />
-                            <div>
-                                <Box display="flex" alignItems="center" gap={1}>
-                                    {isPrivate ? <MdPublicOff /> : <MdPublic />}
-                                    <Text as="b" fontSize="sm">
-                                        {communityName}
-                                    </Text>
-                                </Box>
-                                <Text fontSize="sm">
-                                    {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
+        const handleDeclineOnClick = () => {
+            setDeclinetBtn(false)
+        }
+        return (
+            <Box borderRadius="md" backgroundColor="white" mt={2} boxShadow={'2xl'}>
+                {(acceptBtn && declinetBtn) ? (
+
+                    <Box p={3} borderRadius="md">
+                        <Flex direction={{ base: "column-reverse", sm: "column-reverse", lg: "column" }}>
+                            <Flex direction={{ base: "column", sm: "column", lg: "row" }} gap={2} justify="space-between">
+                                <HStack>
+                                    <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto} alt="Cover Photo" />
+                                    <div>
+                                        <Box display="flex" alignItems="center" gap={1}>
+                                            {isPrivate ? <MdPublicOff /> : <MdPublic />}
+                                            <Text as="b" fontSize="sm">
+                                                {communityName}
+                                            </Text>
+                                        </Box>
+                                        <Text fontSize="sm">
+                                            {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
+                                        </Text>
+                                    </div>
+                                </HStack>
+                                <HStack justify={{ base: "flex-start", md: "flex-end" }}>
+                                    <Button background='green' color='white' size="sm" onClick={handleAcceptOnClick}>Join Community</Button>
+                                    <Button background='red' color='white' size="sm" onClick={handleDeclineOnClick}>Decline Invite</Button>
+                                </HStack>
+                            </Flex>
+                            <Box m={1}>
+                                <Text fontSize="sm" as="b">
+                                    {userName} invited you to join this community
                                 </Text>
-                            </div>
-                        </HStack>
-                        <HStack justify={{ base: "flex-start", md: "flex-end" }}>
-                            <Button size="sm" onClick={handleAcceptOnClick}>Join community</Button>
-                            <Button size="sm" onClick={handleDeclineOnClick}>Decline invite</Button>
-                        </HStack>
-                    </Flex>
-                    <Box m={1}>
-                        <Text fontSize="sm" as="b">
-                            {userName} invited you to join this community
-                        </Text>
-                        <Text fontSize="sm">invite expires in {expireDate} days</Text>
-                    </Box>
-                </Flex>
-                
-            </Box>):(<div></div>)}
-        </Box>
-    )
-}
+                                <Text fontSize="sm">invite expires in {expireDate} days</Text>
+                            </Box>
+                        </Flex>
+
+                    </Box>) : (<div></div>)}
+            </Box>
+        )
+    }
 
 export default InvitationBox

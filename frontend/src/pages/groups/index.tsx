@@ -58,7 +58,7 @@ const index = () => {
             {/* <div>
                 width: {width} ~ height: {height}
             </div> */}
-            <Flex gap={2} direction={{ base: "column", md: "row" }}>
+            <Flex gap={2} direction={{ base: "column", md: "row" }} mb={4}>
                 <Box>
                     <Show below="md">
                         <HStack justify={"space-between"}>
@@ -100,13 +100,16 @@ const index = () => {
                     <Show above="md">
                         <Box textAlign={"center"}>
                             <Input
+                                background={'white'}
+                                color='black'
+                                boxShadow={'2xl'}
                                 textAlign={"center"}
                                 width={"100%"}
                                 variant={"filled"}
                                 type={"search"}
                                 value={searchValue}
                                 onChange={handleChange}
-                                placeholder="Seacrh Community"
+                                placeholder="Seacrh Communities"
                                 focusBorderColor="gray.200"
                             ></Input>
                             <Link href='groups/create' isExternal>
@@ -118,104 +121,107 @@ const index = () => {
                         </Box>
                     </Show>
                     <Box display={allBtn || (width || 0) > 768 ? "block" : "none"}>
-                        <Box mt={4} mb={3}>
-                            <Text as="b">Community you manage</Text>
+                        <Box mt={4} mb={3} background={{ md: "orange.400", base: "" }} p={{ md: "3", base: "" }} borderRadius={"md"}>
+                            <Text as="b" color={{ md: "white", base: "black" }}>Community you manage</Text>
+
+
+                            {userData.ownCommunitys.filter((community) => community.name.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ? (
+                                userData.ownCommunitys
+                                    .filter((community) => {
+                                        return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
+                                    })
+                                    .map((community) => (community.roleID >= 3 ? (
+                                        <CommunityList
+                                            communityID={community.ID}
+                                            key={community.ID}
+                                            communityName={community.name}
+                                            lastActive={"9"}
+                                            coverPhoto={community.coverPhoto}
+                                            isPrivate={community.isPrivate}
+                                            roleID={community.roleID}
+                                        />) :
+                                        <div></div>
+                                    ))
+                            ) : (
+                                <Box borderRadius="md" backgroundColor="red.200" mt={2}>
+                                    <Box p={2} borderRadius="md">
+                                        <HStack gap={2}>
+                                            <Box height={"55px"}></Box>
+                                            <div>
+                                                <Box display="flex" alignItems="center" gap={1}>
+                                                    <TiWarning />
+                                                    <Text as="b" fontSize="sm">
+                                                        Community not found :(
+                                                    </Text>
+                                                </Box>
+                                                <Text fontSize="sm">Try to search again</Text>
+                                            </div>
+                                        </HStack>
+                                    </Box>
+                                </Box>
+                            )}
                         </Box>
 
-                        {userData.ownCommunitys.filter((community) => community.name.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ? (
-                            userData.ownCommunitys
-                                .filter((community) => {
-                                    return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
-                                })
-                                .map((community) => (community.roleID >= 3 ? (
-                                    <CommunityList
-                                        communityID={community.ID}
-                                        key={community.ID}
-                                        communityName={community.name}
-                                        lastActive={"9"}
-                                        coverPhoto={community.coverPhoto}
-                                        isPrivate={community.isPrivate}
-                                        roleID={community.roleID}
-                                    />) :
-                                    <div></div>
-                                ))
-                        ) : (
-                            <Box borderRadius="md" backgroundColor="red.200" mt={2}>
-                                <Box p={2} borderRadius="md">
-                                    <HStack gap={2}>
-                                        <Box height={"55px"}></Box>
-                                        <div>
-                                            <Box display="flex" alignItems="center" gap={1}>
-                                                <TiWarning />
-                                                <Text as="b" fontSize="sm">
-                                                    Community not found :(
-                                                </Text>
-                                            </Box>
-                                            <Text fontSize="sm">Try to search again</Text>
-                                        </div>
-                                    </HStack>
-                                </Box>
-                            </Box>
-                        )}
+                        <Box mt={4} mb={3} background={{ md: "orange.400", base: "" }} p={{ md: "3", base: "" }} borderRadius={"md"}>
+                            <Text as="b" color={{ md: "white", base: "black" }}>Community you've joined</Text>
 
-                        <Box mt={4} mb={3}>
-                            <Text as="b">Community you've joined</Text>
+                            {userData.joinedCommunitys.filter((community) => community.name.toLowerCase().includes(searchValue.toLowerCase())).length >
+                                0 ? (
+                                userData.joinedCommunitys
+                                    .filter((community) => {
+                                        return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
+                                    })
+
+                                    .map((community) => (community.roleID < 3 ? (
+                                        <CommunityList
+                                            communityID={community.ID}
+                                            key={community.ID}
+                                            communityName={community.name}
+                                            lastActive={"9"}
+                                            coverPhoto={community.coverPhoto}
+                                            isPrivate={community.isPrivate}
+                                            roleID={community.roleID}
+                                        />) :
+                                        <div></div>
+                                    ))
+                            ) : (
+                                <Box borderRadius="md" backgroundColor="red.200" mt={2}>
+                                    <Box p={2} borderRadius="md">
+                                        <HStack gap={2}>
+                                            <Box height={"55px"}></Box>
+                                            <div>
+                                                <Box display="flex" alignItems="center" gap={1}>
+                                                    <TiWarning />
+                                                    <Text as="b" fontSize="sm">
+                                                        Community not found :(
+                                                    </Text>
+                                                </Box>
+                                                <Text fontSize="sm">Try to search again</Text>
+                                            </div>
+                                        </HStack>
+                                    </Box>
+                                </Box>
+                            )}
                         </Box>
-                        {userData.joinedCommunitys.filter((community) => community.name.toLowerCase().includes(searchValue.toLowerCase())).length >
-                            0 ? (
-                            userData.joinedCommunitys
-                                .filter((community) => {
-                                    return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
-                                })
-
-                                .map((community) => (community.roleID < 3 ? (
-                                    <CommunityList
-                                        communityID={community.ID}
-                                        key={community.ID}
-                                        communityName={community.name}
-                                        lastActive={"9"}
-                                        coverPhoto={community.coverPhoto}
-                                        isPrivate={community.isPrivate}
-                                        roleID={community.roleID}
-                                    />) :
-                                    <div></div>
-                                ))
-                        ) : (
-                            <Box borderRadius="md" backgroundColor="red.200" mt={2}>
-                                <Box p={2} borderRadius="md">
-                                    <HStack gap={2}>
-                                        <Box height={"55px"}></Box>
-                                        <div>
-                                            <Box display="flex" alignItems="center" gap={1}>
-                                                <TiWarning />
-                                                <Text as="b" fontSize="sm">
-                                                    Community not found :(
-                                                </Text>
-                                            </Box>
-                                            <Text fontSize="sm">Try to search again</Text>
-                                        </div>
-                                    </HStack>
-                                </Box>
-                            </Box>
-                        )}
                     </Box>
                 </Box>
                 {/* <Show above="md"> */}
                 <Show>
-                    <Box width={"100%"}>
+                    <Box width={"100%"} >
                         <Box
                             display={inviteBtn || (width || 0) > 768 ? "block" : "none"}
                             borderRadius="md"
-                            backgroundColor="gray.100"
+                            backgroundColor="orange.400"
                             width="100%"
                             pt={4}
                             textAlign="start"
                             pl={5}
                             pr={5}
                             pb={4}
+
                         >
-                            <Text as="b">Invitation</Text>
-                            <Text fontSize="sm">These people have been invited to join the community</Text>
+                            <Text as="b" color='white'>Invitation</Text>
+                            <Text fontSize="sm" color='white'>These people have been invited to join the community</Text>
                             {userData.invitations.map((i) => (
                                 <InvitationBox
                                     key={i.inviteID}
@@ -232,7 +238,7 @@ const index = () => {
                             display={suggestBtn || (width || 0) > 768 ? "block" : "none"}
                             mt={2}
                             borderRadius="md"
-                            backgroundColor="gray.100"
+                            backgroundColor="orange.400"
                             width="100%"
                             pt={4}
                             textAlign="start"
@@ -240,8 +246,8 @@ const index = () => {
                             pr={5}
                             pb={4}
                         >
-                            <Text as="b">Suggested for you</Text>
-                            <Text fontSize="sm">Communitys you might be interested in.</Text>
+                            <Text as="b" color='white'>Suggested for you</Text>
+                            <Text fontSize="sm" color='white'>Communitys you might be interested in.</Text>
                             <Grid gap={2} templateColumns={{ sm: "repeat(1,1fr)", md: "repeat(2, 1fr)" }} width="100%">
                                 {userData.invitations.map((i) => (
                                     <SuggestBox
