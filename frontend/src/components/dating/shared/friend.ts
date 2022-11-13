@@ -30,7 +30,7 @@ export const FRIEND = [
         Faculty: "Department of Control System and Instrumentation Engineering",
         url: "https://lh3.googleusercontent.com/FQ0PlEhb6lDNLSAYiZEb_80MYlzn-ev3pEGJXC8TvBQlTcKdxAPsp3Lsnn9EZod88FHSMu6GFn2QAKnRsaRg-OBt-m_zNYow6M85Jrw1RC8FGzAD=w1600-rj-l80-nu-e365",
         interestId: [12, 36, 13, 53, 11],
-        rate: 8,
+        rate: 0,
     },
     {
         UserId: "4",
