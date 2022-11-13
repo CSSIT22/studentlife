@@ -70,6 +70,8 @@ const TagOfInterest = () => {
                     setSelectedInterest={setSelectedInterest}
                     tagIsClicked={tagIsClicked}
                     setTagIsClicked={setTagIsClicked}
+                    type={"interests"}
+                    buttonLocation={"top right"}
                 />
             ))}
             {/* DatingInterestModal: Modal that will appear when you select more than 5 tags of interest */}

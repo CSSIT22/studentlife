@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Checkbox, useToast } from "@chakra-ui/react"
+import { Box, Checkbox, useToast } from "@chakra-ui/react"
 import { Dispatch, FC } from "react"
 
 const DatingInterestTag: FC<{
@@ -10,7 +10,20 @@ const DatingInterestTag: FC<{
     setSelectedInterest: Dispatch<any>
     tagIsClicked: boolean
     setTagIsClicked: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ interestId, interestName, onOpen, selectedInterests, numOfSelectedInterest, setSelectedInterest, tagIsClicked, setTagIsClicked }) => {
+    type: string
+    buttonLocation: string
+}> = ({
+    interestId,
+    interestName,
+    onOpen,
+    selectedInterests,
+    numOfSelectedInterest,
+    setSelectedInterest,
+    tagIsClicked,
+    setTagIsClicked,
+    type,
+    buttonLocation,
+}) => {
     const toast = useToast()
     // Check if interestId is in the selectedInterest state or not
     function idExists(interestId: string) {
@@ -29,12 +42,14 @@ const DatingInterestTag: FC<{
         if (interest.target.checked) {
             if (numOfSelectedInterest < 5) {
                 if (numOfSelectedInterest == 4) {
+                    let titleText = "You have selected 5 " + type + "."
+                    let descriptionText = "Submit your preference by clicking \"Done\" at the " + buttonLocation
                     toast({
-                        title: "You have selected 5 interests.",
+                        title: titleText,
                         status: "success",
                         isClosable: true,
                         position: "top",
-                        description: 'Submit your preference by clicking "Done" at the top right',
+                        description: descriptionText,
                     })
                 }
                 setSelectedInterest(selectedInterests.concat(interest.target.value))
