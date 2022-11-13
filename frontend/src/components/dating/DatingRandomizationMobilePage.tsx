@@ -71,7 +71,7 @@ const DatingRandomizationMobilePage: FC<{
                                 animate={{ scale: 1 }}
                                 transition={{
                                     type: "spring",
-                                    stiffness: 260,
+                                    stiffness: 360,
                                     damping: 20,
                                 }}
                             >
@@ -125,11 +125,12 @@ const DatingRandomizationMobilePage: FC<{
                     <>
                         <Box pt="468px">
                             <motion.div
+                                key={currentIndex}
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 transition={{
                                     type: "spring",
-                                    stiffness: 260,
+                                    stiffness: 360,
                                     damping: 20,
                                 }}
                             >
@@ -148,11 +149,12 @@ const DatingRandomizationMobilePage: FC<{
                             </motion.div>
                         </Box>
                         <motion.div
+                            key={currentIndex}
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{
                                 type: "spring",
-                                stiffness: 310,
+                                stiffness: 300,
                                 damping: 20,
                             }}
                         >
