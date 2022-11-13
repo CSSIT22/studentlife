@@ -30,11 +30,11 @@ const Rating = () => {
                 {friend.map((values) => {
                     return (
                         <Box>
-                            <Box mt="7px" p="20px" bg="#E67F45" borderRadius={"10px"}>
+                            <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
                                 <Flex>
                                     <Image borderRadius="full" boxSize="78px" src={values.url} alt={values.Fname + " " + values.Lname} />
                                     <Center>
-                                        <Text ml="30px" fontSize="20px" color="white">
+                                        <Text ml="30px" fontSize="20px">
                                             {values.Fname}
                                             &nbsp;
                                             {values.Lname}

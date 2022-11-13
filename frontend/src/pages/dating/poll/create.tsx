@@ -178,15 +178,13 @@ const CreateActivityPoll = () => {
 
     return (
         <DatingAppBody>
-            <Box mt="50px" p="50px" bg="#E67F45" borderRadius={"20px"}>
-                <Heading color={"white"} pb={"20px"}>
-                    Create a poll
-                </Heading>
+            <Box mt="50px" p="50px" bg="white" borderRadius={"20px"} color={"black"}>
+                <Heading pb={"20px"}>Create a poll</Heading>
                 <Stack>
                     <Center>
                         {/* Header input & error control */}
                         <FormControl isInvalid={!isValidHeader} isRequired>
-                            <FormLabel color={"white"}>Poll header</FormLabel>
+                            <FormLabel>Poll header</FormLabel>
                             <Input
                                 borderRadius={"6px"}
                                 id="header"
@@ -196,7 +194,7 @@ const CreateActivityPoll = () => {
                                 backgroundColor="white"
                                 placeholder="Your poll header"
                                 size="sm"
-                                borderColor="white"
+                                borderColor="black"
                                 maxLength={100}
                                 errorBorderColor="red"
                                 isRequired
@@ -205,32 +203,35 @@ const CreateActivityPoll = () => {
                             {!isTooShortHeader ? (
                                 <FormHelperText></FormHelperText>
                             ) : (
-                                <FormErrorMessage color="yellow">The minimum header length is 10 characters. Type something.</FormErrorMessage>
+                                <FormErrorMessage color="red">The minimum header length is 10 characters. Type something.</FormErrorMessage>
                             )}
                             {!isTooLongHeader ? (
                                 <FormHelperText></FormHelperText>
                             ) : (
-                                <FormErrorMessage color="yellow">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
+                                <FormErrorMessage color="red">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
                             )}
                         </FormControl>
                     </Center>
                     <Center>
                         {/* Topic (tag of interest) input */}
                         <FormControl>
-                            <FormLabel color={"white"}>Poll topic</FormLabel>
-                            <Button
-                                borderRadius={"6px"}
-                                onClick={onOpen}
-                                backgroundColor="white"
-                                color="gray"
-                                size="sm"
-                                p="20px"
-                                pt="5px"
-                                pb="5px"
-                                shadow="lg"
-                            >
-                                Select poll topic
-                            </Button>
+                            <Flex justifyContent={"space-between"}>
+                                <FormLabel>Poll topic</FormLabel>
+                                <Button
+                                    borderRadius={"6px"}
+                                    onClick={onOpen}
+                                    backgroundColor="#E65300"
+                                    color={"white"}
+                                    size="sm"
+                                    p="20px"
+                                    pt="5px"
+                                    pb="5px"
+                                    shadow="lg"
+                                    borderColor="black"
+                                >
+                                    Select poll topic
+                                </Button>
+                            </Flex>
                             <Modal onClose={onClose} isOpen={isOpen} size="lg" isCentered onEsc={onClose} scrollBehavior="inside">
                                 <ModalOverlay />
                                 <ModalContent>
@@ -306,7 +307,7 @@ const CreateActivityPoll = () => {
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
-                            {isNoTopic ? <></> : <FormHelperText color="white">You have selected {handleTopic()} as topic.</FormHelperText>}
+                            {isNoTopic ? <></> : <FormHelperText color="gray">You have selected {handleTopic()} as topic.</FormHelperText>}
                         </FormControl>
                     </Center>
                     <Center>
@@ -321,16 +322,16 @@ const CreateActivityPoll = () => {
                                 backgroundColor="white"
                                 placeholder="Description"
                                 size="sm"
-                                borderColor="white"
                                 maxLength={250}
                                 errorBorderColor="red"
                                 isRequired
                                 shadow="lg"
+                                borderColor="black"
                             />
                             {!isTooLongDescription ? (
                                 <FormHelperText></FormHelperText>
                             ) : (
-                                <FormErrorMessage color="yellow">
+                                <FormErrorMessage color="red">
                                     The maximum description length is 250 characters. You cannot type more.
                                 </FormErrorMessage>
                             )}
@@ -339,7 +340,7 @@ const CreateActivityPoll = () => {
 
                     <FormControl isInvalid={!isValidLocation} isRequired>
                         {/* Location input & error control */}
-                        <FormLabel color={"white"}>Location</FormLabel>
+                        <FormLabel>Location</FormLabel>
                         <Flex>
                             <Input
                                 borderRadius={"6px"}
@@ -350,7 +351,7 @@ const CreateActivityPoll = () => {
                                 backgroundColor="white"
                                 placeholder="Location"
                                 size="sm"
-                                borderColor="white"
+                                borderColor="black"
                                 maxLength={100}
                                 errorBorderColor="red"
                                 isRequired
@@ -364,6 +365,7 @@ const CreateActivityPoll = () => {
                                 size="sm"
                                 bgColor="white"
                                 pl="20px"
+                                borderColor="black"
                                 errorBorderColor="red"
                                 shadow="lg"
                                 onChange={(e: any) => {
@@ -376,19 +378,19 @@ const CreateActivityPoll = () => {
                             </Select>
                         </Flex>
                         {!isTooShortLocation ? (
-                            <FormHelperText color="white">You have selected</FormHelperText>
+                            <FormHelperText color="gray">You have selected</FormHelperText>
                         ) : (
-                            <FormErrorMessage color="yellow">The minimum header length is 5 characters. Type something.</FormErrorMessage>
+                            <FormErrorMessage color="red">The minimum header length is 5 characters. Type something.</FormErrorMessage>
                         )}
                         {!isTooLongLocation ? (
                             <FormHelperText></FormHelperText>
                         ) : (
-                            <FormErrorMessage color="yellow">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
+                            <FormErrorMessage color="red">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
                         )}
                     </FormControl>
                     {/* Date input & error control */}
                     <FormControl isInvalid={!isValidDate} isRequired>
-                        <FormLabel color={"white"}>Date</FormLabel>
+                        <FormLabel>Date</FormLabel>
                         <Input
                             borderRadius={"6px"}
                             id="date"
@@ -397,7 +399,7 @@ const CreateActivityPoll = () => {
                             onChange={handleInputDateChange}
                             backgroundColor="white"
                             size="sm"
-                            borderColor="white"
+                            borderColor="black"
                             errorBorderColor="red"
                             isRequired
                             shadow="lg"
@@ -407,13 +409,13 @@ const CreateActivityPoll = () => {
                         {isInThePast(date) ? (
                             <FormHelperText></FormHelperText>
                         ) : (
-                            <FormErrorMessage color="yellow">You must provide a date.</FormErrorMessage>
+                            <FormErrorMessage color="red">You must provide a date.</FormErrorMessage>
                         )}
-                        {isNoDate ? <FormHelperText></FormHelperText> : <FormErrorMessage color="yellow">The date has passed.</FormErrorMessage>}
+                        {isNoDate ? <FormHelperText></FormHelperText> : <FormErrorMessage color="red">The date has passed.</FormErrorMessage>}
                     </FormControl>
                     {/* Time input & error control */}
                     <FormControl isInvalid={!isValidTime} isRequired>
-                        <FormLabel color={"white"}>Time</FormLabel>
+                        <FormLabel>Time</FormLabel>
                         <Input
                             borderRadius={"6px"}
                             id="time"
@@ -422,20 +424,20 @@ const CreateActivityPoll = () => {
                             onChange={handleInputTimeChange}
                             backgroundColor="white"
                             size="sm"
-                            borderColor="white"
+                            borderColor="black"
                             errorBorderColor="red"
                             isRequired
                             shadow="lg"
                         />
-                        {!isNoTime ? <FormHelperText></FormHelperText> : <FormErrorMessage color="yellow">You must provide a time.</FormErrorMessage>}
+                        {!isNoTime ? <FormHelperText></FormHelperText> : <FormErrorMessage color="red">You must provide a time.</FormErrorMessage>}
                         {!isInTimePast(time) ? (
                             <FormHelperText></FormHelperText>
                         ) : (
-                            <FormErrorMessage color="yellow">The time has passed.</FormErrorMessage>
+                            <FormErrorMessage color="red">The time has passed.</FormErrorMessage>
                         )}
                     </FormControl>
                     <FormControl isInvalid={!isValidTime} isRequired>
-                        <FormLabel color={"white"}>Number of people</FormLabel>
+                        <FormLabel>Number of people</FormLabel>
                         <DatingPollCreateRangeSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
                     </FormControl>
                     <Center>
@@ -444,7 +446,7 @@ const CreateActivityPoll = () => {
                             type="submit"
                             borderRadius={"5px"}
                             colorScheme={"blue.400"}
-                            bg={"#6B7999"}
+                            bg={"#E65300"}
                             onClick={() => handleSubmit()}
                             mt={"25px"}
                             pt="10px"
