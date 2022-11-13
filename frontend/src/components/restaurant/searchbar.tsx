@@ -9,13 +9,14 @@ const Searchbar = () => {
     //     console.log(event.target.value);
     //     alert(message)
     // }
-    const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault()
-        alert(message)
-    }
+    // const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     event.preventDefault()
+    //     alert(message)
+    // }
     return (
         <Center>
-            <form onSubmit={(e1) => {handleSubmit(e1)}}>
+            <form onSubmit={(e1) => {    e1.preventDefault()
+        alert(message)}}>
                 <Flex flexDirection={"column"} alignItems={"center"}>
                     <InputGroup id="se" width={{ base: "13rem", lg: "20rem" }} mr="2" backgroundColor={"white"} boxShadow={"lg"}>
                         <InputLeftElement children={<TfiSearch />} pb={1} />
