@@ -36,6 +36,7 @@ import {
     useBreakpointValue,
     extendTheme,
     HStack,
+    Link,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
