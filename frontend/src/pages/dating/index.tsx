@@ -32,6 +32,11 @@ const DatingRandomization = () => {
     const updateCurrentIndex = (val: number) => {
         setCurrentIndex(val)
         currentIndexRef.current = val
+        
+        if(val == -1) {
+            setTimeout(() => location.reload(), 1000)
+
+        }
     }
 
     const canSwipe = currentIndex >= 0
@@ -69,61 +74,52 @@ const DatingRandomization = () => {
                                 display="flex"
                                 alignItems="center"
                                 justifyContent="center"
+                                backgroundColor="orange.400"
                             >
                                 <Spinner size="lg" />
                             </Box>
                         </Center>
                         {characters.map((character, index) => (
-                            <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                transition={{
-                                    type: "spring",
-                                    stiffness: 360,
-                                    damping: 20,
-                                }}
+                            <TinderCard
+                                ref={childRefs[index]}
+                                className="swipe"
+                                key={character.UserId}
+                                onSwipe={(dir: string) => swiped(dir, character.Fname + " " + character.Lname, index)}
+                                preventSwipe={["down", "up"]}
                             >
-                                <TinderCard
-                                    ref={childRefs[index]}
-                                    className="swipe"
-                                    key={character.UserId}
-                                    onSwipe={(dir: string) => swiped(dir, character.Fname + " " + character.Lname, index)}
-                                    preventSwipe={["down", "up"]}
-                                >
-                                    <Center>
-                                        <Box
-                                            borderRadius="10px"
-                                            backgroundImage={character.url}
-                                            w={{ base: "326px", md: "379px" }}
-                                            h={{ base: "402px", md: "464px" }}
-                                            backgroundSize="cover"
-                                            className="card"
-                                            id={character.UserId}
-                                            position="absolute"
-                                            top="30px"
-                                            display="flex"
-                                            alignItems="end"
-                                            justifyContent="end"
-                                            cursor="pointer"
-                                        >
-                                            <Link href="../../user">
-                                                <Button
-                                                    aria-label="User Profile"
-                                                    className="pressable"
-                                                    w="50px"
-                                                    h="50px"
-                                                    colorScheme="orange"
-                                                    borderRadius="full"
-                                                    mr="10px"
-                                                    mb="10px"
-                                                >
-                                                    <Image className="pressable" src={ProfileImg}></Image>
-                                                </Button>
-                                            </Link>
-                                        </Box>
-                                    </Center>
-                                </TinderCard>
-                            </motion.div>
+                                <Center>
+                                    <Box
+                                        borderRadius="10px"
+                                        backgroundImage={character.url}
+                                        w={{ base: "326px", md: "379px" }}
+                                        h={{ base: "402px", md: "464px" }}
+                                        backgroundSize="cover"
+                                        className="card"
+                                        id={character.UserId}
+                                        position="absolute"
+                                        top="30px"
+                                        display="flex"
+                                        alignItems="end"
+                                        justifyContent="end"
+                                        cursor="pointer"
+                                    >
+                                        <Link href="../../user">
+                                            <Button
+                                                aria-label="User Profile"
+                                                className="pressable"
+                                                w="50px"
+                                                h="50px"
+                                                colorScheme="orange"
+                                                borderRadius="full"
+                                                mr="10px"
+                                                mb="10px"
+                                            >
+                                                <Image className="pressable" src={ProfileImg}></Image>
+                                            </Button>
+                                        </Link>
+                                    </Box>
+                                </Center>
+                            </TinderCard>
                         ))}
                     </Box>
                 </Box>
@@ -141,18 +137,12 @@ const DatingRandomization = () => {
                                 }}
                             >
                                 <Box display="flex">
-                                    <Text
-                                        color="black"
-                                        fontWeight="700"
-                                        fontSize={{ base: "20px", md: "48px" }}
-                                        lineHeight="120%"
-                                        pl={{ base: "18px", md: "0px" }}
-                                    >
+                                    <Text color="black" fontWeight="700" fontSize={{ base: "20px", md: "48px" }} lineHeight="120%" pl="18px">
                                         {isMobile
-                                            ? characters[currentIndex].Fname.length >= 9
+                                            ? characters[currentIndex].Fname.length > 9
                                                 ? characters[currentIndex].Fname.substring(0, 9).concat("...")
                                                 : characters[currentIndex].Fname
-                                            : characters[currentIndex].Fname.length >= 15
+                                            : characters[currentIndex].Fname.length > 15
                                             ? characters[currentIndex].Fname.substring(0, 15).concat("...")
                                             : characters[currentIndex].Fname}{" "}
                                         {characters[currentIndex].Lname.substring(0, 1)}.
@@ -180,11 +170,11 @@ const DatingRandomization = () => {
                                 damping: 20,
                             }}
                         >
-                            <Box color="black" fontWeight="400" fontSize={{ base: "20px", md: "30px" }} lineHeight="120%">
-                                <Text pl={{ base: "18px", md: "0px" }} pt="10px" mb={{ md: "110px" }}>
+                            <Box color="black" fontWeight="400" fontSize={{ base: "20px", md: "30px" }} lineHeight="120%" h={{ md: "200px" }}>
+                                <Text pl="18px" pt="10px">
                                     {isMobile
                                         ? characters[currentIndex].Faculty
-                                        : characters[currentIndex].Faculty.length >= 30
+                                        : characters[currentIndex].Faculty.length > 30
                                         ? characters[currentIndex].Faculty.substring(0, 30).trim().concat("...")
                                         : characters[currentIndex].Faculty}
                                 </Text>
@@ -194,7 +184,7 @@ const DatingRandomization = () => {
                             <Box
                                 pb="5"
                                 height="105px"
-                                pl={{ base: "18px", md: "0px" }}
+                                pl="18px"
                                 pt="20px"
                                 overflowX={{ base: "auto", md: "visible" }}
                                 whiteSpace={{ base: "nowrap", md: "initial" }}
