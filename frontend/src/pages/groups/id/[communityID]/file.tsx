@@ -8,6 +8,8 @@ import { FaDownload, FaBan, FaExclamationCircle, FaHandMiddleFinger, FaSearch, F
 import FriendInviteList from 'src/components/group/FriendInviteList';
 import { BsFillFileEarmarkTextFill, BsThreeDots } from "react-icons/bs"
 import { RiDeleteBinFill } from "react-icons/ri"
+import { communityData } from '../../communityData';
+import FileList from 'src/components/group/FileList';
 const file = () => {
     let { communityID }: any = useParams<{ communityID: string }>()
     const [searchValue, setSearchValue] = useState("") //for store search value
@@ -38,44 +40,16 @@ const file = () => {
                 focusBorderColor="gray.200"
             ></Input><Button>Upload</Button></HStack></HStack>
         <Box mt={2} borderRadius={"md"} gap={2} backgroundColor={"gray.300"} p={3} pl={4} pr={4}>
-            <Flex direction="row" >
-                <Text as="b">File name</Text>
+            <Flex display={{ base: "none", md: "flex" }} direction="row" >
+                <Text as="b" width={"30%"}>File name</Text>
+                <Text as="b" width={"30%"}>Owner</Text>
+                <Text as="b" width={"10%"}>Type</Text>
+                <Text as="b" width={"30%"}>Date</Text>
             </Flex>
-            <Flex direction={"row"} justify="space-between" alignItems={"center"} mt={2}  >
-                <Flex direction="row" gap={{ base: 3, sm: 2 }} alignItems={"center"}>
-                    <BsFillFileEarmarkTextFill size={"30px"} />
-                    <Flex alignItems={"center"} gap={{ md: 2 }} direction={{ sm: "column", md: "row" }}>
-                        <Text as={"b"}>File</Text>
-                        <Flex alignItems={"center"} direction={{ base: "column", sm: "row" }} gap={{ base: 0, sm: 1 }}>
-                            <Text fontSize={"sm"}>Passakorn Puttama</Text>
-                            <Text display={{ base: "none", sm: "block" }}>·</Text>
-                            <Text display={{ base: "none", sm: "block" }} fontSize={"sm"}>March 2, 2021 at 1:53 PM</Text>
-                        </Flex>
-                    </Flex>
-                </Flex>
-                <Popover>
-                    <PopoverTrigger>
-                        <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
-                            <BsThreeDots fontSize={"25px"} />
-                        </Box>
-                    </PopoverTrigger>
-                    <Portal>
-                        <PopoverContent width="180px">
-                            <PopoverBody>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
-                                    <FaDownload />
-                                    <Text>Download</Text>
-                                </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
-                                    <RiDeleteBinFill />
-                                    <Text>Delete</Text>
-                                </Box>
 
-                            </PopoverBody>
-                        </PopoverContent>
-                    </Portal>
-                </Popover>
-            </Flex>
+            {
+                communityData.communityfile.map((file) => <FileList key={file.FileID} fileName={file.Filename} owner={file.Owner} type={file.FileType} date={file.Date} />)
+            }
         </Box>
     </AppBody >
 
