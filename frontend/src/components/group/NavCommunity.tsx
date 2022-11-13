@@ -4,7 +4,7 @@ import { TiWarning } from "react-icons/ti";
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { useParams, Link } from "react-router-dom";
 
-const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; communityName: string; coverPhoto: string; isPrivate: boolean, description: string, isMember: boolean, members: number }> = ({
+const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; communityID: number; communityName: string; coverPhoto: string; isPrivate: boolean, description: string, isMember: boolean, members: number }> = ({
     communityID,
     communityName,
     coverPhoto,
@@ -14,6 +14,7 @@ const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; c
     isMember,
     members,
     activeBtn,
+    disableBtn
 }) => {
     return (
 
@@ -64,9 +65,9 @@ const CommunityList: FC<{ activeBtn?: number; tags?: any; communityID: number; c
 
                 <Text mt={2} fontSize="sm">{description}</Text>
                 <Flex gap={2} mt={3}>
-                    <Link to={`/groups/id/${communityID}/`} relative='path'><Button size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
-                    <Link to={`/groups/id/${communityID}/member`} relative='path'><Button size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
-                    <Link to={`/groups/id/${communityID}/file`} relative='path'><Button size={"sm"} isActive={(activeBtn == 3 && !isPrivate ? true : false)} disabled={isPrivate}>File</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative='path'><Button size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/member`} relative='path'><Button size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/file`} relative='path'><Button size={"sm"} isActive={(activeBtn == 3 && !isPrivate ? true : false)} disabled={isPrivate}>File</Button></Link>
                 </Flex>
 
             </Box>
