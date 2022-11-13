@@ -78,7 +78,10 @@ const FileList: FC<{
         sendType: string
         fileDesc: string
         fileExpired: string
-        comments: []
+        comments: {
+            name: string
+            comment: string
+        }[]
     }>({
         fileId: "",
         fileName: "",
