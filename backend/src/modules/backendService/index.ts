@@ -4,6 +4,8 @@ import { verifyUser } from "./middleware/verifyUser"
 
 const backendserviceRoutes = express()
 
+backendserviceRoutes.use(express.json())
+
 backendserviceRoutes.get("/tokens", verifyUser, (req: Request, res: Response) => {
     res.send("This route send user's tokens info")
 })
