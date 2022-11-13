@@ -43,8 +43,8 @@ export const Restaurant = [
         status: true,
         img: [
             "https://assets.brandinside.asia/uploads/2018/11/KFC.jpg",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://www.eatthis.com/wp-content/uploads/sites/4/2019/05/kfc-restaurant-exterior.jpg?quality=82&strip=1",
+            "https://media-cdn.tripadvisor.com/media/photo-s/0f/54/e9/c0/interior-do-kfc.jpg",
         ],
     },
     {
@@ -58,9 +58,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://img.salehere.co.th/p/1200x0/2020/10/09/9d1tyfldbnyh.jpg",
+            "https://media-cdn.tripadvisor.com/media/photo-s/0f/7b/86/a2/mcdonnald-s.jpg",
+            "https://media-cdn.tripadvisor.com/media/photo-s/1a/ac/d4/a7/mc-donald-tesco-lotus.jpg",
         ],
     },
     {
@@ -74,9 +74,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://thestandard.co/wp-content/uploads/2021/10/cafe-amazon-1000-international-branches-within-2568.jpg",
+            "https://www.bitec.co.th/wp-content/uploads/2021/06/DSC04756-scaled.jpg",
+            "https://www.bitec.co.th/wp-content/uploads/2021/06/DSC04773-scaled.jpg",
         ],
     },
     {
@@ -90,9 +90,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-photo/grunge-paint-background_1409-1337.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://www.emporium.co.th/wp-content/uploads/2017/10/e9f427fe626ffb761c16dbdf3e5475c1-1024x683.jpg",
+            "https://mustsharenews.com/wp-content/uploads/2022/09/starbucks-singapore-data-breach.jpg",
+            "https://www.amarinplaza.com/storage/upload/store/gallery/klN9x7ZpVSKl6Wjkmae5qtKOp3uYKeiktnlfiO3l.jpeg",
         ],
     },
     {
@@ -106,9 +106,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://media-cdn.tripadvisor.com/media/photo-s/04/b4/74/34/ping-house.jpg",
+            "https://media-cdn.tripadvisor.com/media/photo-s/09/e3/2a/31/ho-ping-house.jpg",
+            "https://media-cdn.tripadvisor.com/media/photo-p/12/10/65/0c/vicky-s-house.jpg",
         ],
     },
     {
@@ -122,9 +122,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://res.klook.com/image/upload/activities/rtihxwt41d76gj2tincn.jpg",
+            "https://partyspacedesign.com/wp-content/uploads/2020/03/PSD20Bearhouse_05.jpg",
+            "https://www.bkkmenu.com/files/2019/06/IMG_0441.jpg",
         ],
     },
     {
@@ -138,9 +138,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://hello2day.com/wp-content/uploads/2015/07/tenjo-sushi-and-yakiniku-premium-buffet-1.jpg",
+            "https://cdn.eatigo.com/eatigo_TenjoSushiampYakinikuPremiumBuffetGatewayEkamai_20151125160718_3816.jpg",
+            "https://cdn.eatigo.com/eatigo_TenjoSushiampYakinikuPremiumBuffetTheBrightRama2_20160107104412_2449.jpg",
         ],
     },
     {
@@ -154,9 +154,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: false,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://www.scb.co.th/content/dam/scb/personal-banking/stories-tips/zen/zen-pic1.jpg",
+            "https://media-cdn.tripadvisor.com/media/photo-s/1c/38/a0/af/20201023-154733-largejpg.jpg",
+            "https://www.joinalifethailand.com/wp-content/uploads/2019/02/ZEN-Patong-23.02.19_190225_0011.jpg",
         ],
     },
 ]
