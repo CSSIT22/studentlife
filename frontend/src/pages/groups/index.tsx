@@ -75,9 +75,11 @@ const index = () => {
                             </HStack>{" "}
                             {allBtn ? (
                                 <Stack direction={"row"} justify="end" width={"100%"} gap={1}>
-                                    <Button display={searchBtn ? "none" : "flex"}>
-                                        <FaPlus />
-                                    </Button>
+                                    <Link href="http://127.0.0.1:5173/groups/create">
+                                        <Button display={searchBtn ? "none" : "flex"}>
+                                            <FaPlus />
+                                        </Button>
+                                    </Link>
                                     <Input
                                         width={"100%"}
                                         display={searchBtn ? "" : "none"}

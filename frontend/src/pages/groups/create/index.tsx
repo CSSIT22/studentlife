@@ -1,8 +1,8 @@
-import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure } from "@chakra-ui/react"
+import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link } from "@chakra-ui/react"
 import { FormControl } from '@chakra-ui/react'
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, } from '@chakra-ui/react'
-import { ChevronRightIcon, SearchIcon } from "@chakra-ui/icons"
+import { ChevronRightIcon, SearchIcon, ChevronLeftIcon } from "@chakra-ui/icons"
 import { useState } from "react"
 
 import { FaPlus } from "react-icons/fa"
@@ -48,7 +48,7 @@ const create = () => {
                 { /*Create Community*/}
                 <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background={{ md: 'orange.400', base: '' }} color={{ md: "white", base: 'black' }}>
 
-                    <Breadcrumb ml={'0.4'} fontSize={'xs'} spacing='1.5px' separator={<ChevronRightIcon color='white' />}>
+                    <Breadcrumb display={{ sm: 'none', md: 'block' }} ml={'0.4'} fontSize={'xs'} spacing='1.5px' separator={<ChevronRightIcon color='white' />}>
                         <BreadcrumbItem>
                             <BreadcrumbLink href='http://127.0.0.1:5173/groups'>
                                 Community
@@ -61,9 +61,19 @@ const create = () => {
                         </BreadcrumbItem>
                     </Breadcrumb>
 
-                    <Text fontSize={"xl"} fontWeight={700}>
-                        Create Community
-                    </Text>
+                    <HStack>
+                        <Link href='http://127.0.0.1:5173/groups'>
+                            <ChevronLeftIcon
+                                display={{ sm: 'block', md: 'none' }}
+                                color='black'
+                                w={6} h={6}
+                            />
+                        </Link>
+                        <Text fontSize={"xl"} fontWeight={700} >
+                            Create Community
+                        </Text>
+                    </HStack>
+
 
                     <Text fontSize={"md"} fontWeight={500}>
 
@@ -183,7 +193,7 @@ const create = () => {
                                 </Flex>
                             </Box>
                         </Box>
-                        <Button width="100%" mt={3} color='black' size={"md"}>
+                        <Button width="100%" mt={3} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} size={"md"}>
                             Create
                         </Button>
                     </Text>
