@@ -10,9 +10,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: false,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-photo/grunge-paint-background_1409-1337.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://cdn.vox-cdn.com/thumbor/OheW0CNYdNihux9eVpJ958_bVCE=/0x0:5996x4003/1200x900/filters:focal(1003x1633:1961x2591)/cdn.vox-cdn.com/uploads/chorus_image/image/51830567/2021_03_23_Merois_008.30.jpg",
+            "https://media.timeout.com/images/105843871/image.jpg",
+            "https://images.otstatic.com/prod1/42062542/3/huge.jpg",
         ],
     },
     {
@@ -26,9 +26,9 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
+            "https://cdn.vox-cdn.com/thumbor/5d_RtADj8ncnVqh-afV3mU-XQv0=/0x0:1600x1067/1200x900/filters:focal(672x406:928x662)/cdn.vox-cdn.com/uploads/chorus_image/image/57698831/51951042270_78ea1e8590_h.7.jpg",
+            "https://imgmedia.lbb.in/media/2019/08/5d64c7fe2db4ea7280825680_1566885886680.jpg",
+            "https://assets.architecturaldigest.in/photos/60083c82d3054f83c2ded81c/16:9/w_2560%2Cc_limit/Ishaara-Lower-Parel-Mumbai-restaurant-1366x768.jpg",
         ],
     },
     {
@@ -42,7 +42,7 @@ export const Restaurant = [
         vicinity: "opposite KMUTT",
         status: true,
         img: [
-            "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
+            "https://assets.brandinside.asia/uploads/2018/11/KFC.jpg",
             "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/800px-Tom%27s_Restaurant%2C_NYC.jpg?20170523012006",
         ],
