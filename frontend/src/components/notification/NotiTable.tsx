@@ -2,7 +2,7 @@ import { Box, Button, Center, CloseButton, filter, Flex, Spacer, Stack, Text, us
 import React from "react"
 import Modulelist from "./moduleList/Modulelist"
 import NotiList from "./main/NotiList"
-import { FiSettings } from "react-icons/fi"
+import { SettingsIcon } from "@chakra-ui/icons"
 import MarkRead from "./MarkRead"
 import { Link } from "react-router-dom"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
@@ -69,8 +69,10 @@ const NotiTable = () => {
                 {showNotiList()}
             </Stack>
             <Center paddingTop={2}>
-                <Button size={"sm"}>
-                    <Link to="/notification/viewAll">View All</Link>
+                <Button size={"sm"} width={"100%"} bg={"orange.500"} color={"white"}>
+                    <Link to="/notification/viewAll">
+                        <Text>View All</Text>
+                    </Link>
                 </Button>
             </Center>
         </Box>
@@ -82,7 +84,7 @@ function ShowSetting() {
     return (
         <Center>
             <Button size={"1em"} onClick={onOpen}>
-                <FiSettings size={"1.2em"} />
+                <SettingsIcon color="orange.500" size={"1.2em"} />
             </Button>
             <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay paddingTop={{ base: "35%", sm: "30%", md: "25%", lg: "15%" }}>

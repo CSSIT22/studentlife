@@ -5,7 +5,7 @@ import { MODULES } from "./moduleTest"
 const Modulelist: FC<{ onClick: Function; selectedModule: string }> = ({ onClick, selectedModule }) => {
     return (
         <Menu>
-            <MenuButton size="sm" as={Button} bg={"transparent"}>
+            <MenuButton color={"orange.500"} size="sm" as={Button} bg={"transparent"}>
                 {selectedModule}
             </MenuButton>
             <MenuList>
