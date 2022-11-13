@@ -1,14 +1,13 @@
 import { Tag, Text } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 import { FC } from "react"
+import { INTERESTS } from "../dating/shared/interests"
 
 const DatingRandomTag: FC<{
     id: number
-    interests: {
-        interestId: string
-        interestName: string
-    }[]
-}> = ({ id, interests }) => {
+}> = ({ id }) => {
+    const interests = INTERESTS
+
     return (
         <motion.div
             initial={{ scale: 0 }}
