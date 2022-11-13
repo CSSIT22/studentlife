@@ -245,14 +245,14 @@ const CreateActivityPoll = () => {
                                             {/* Interests topic */}
                                             <GridItem pl="2" area={"topic"}>
                                                 <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
-                                                    Interests
+                                                    Topics
                                                 </Heading>
                                             </GridItem>
                                             <GridItem pl="2" area={"desc"}>
                                                 {/* Interest description */}
                                                 <Box display="flex">
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
-                                                        Please select your interests: (
+                                                        Please select your poll topic: (
                                                     </Heading>
                                                     {/* numOfInterest will change when you select/deselect the tags */}
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
@@ -306,7 +306,7 @@ const CreateActivityPoll = () => {
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
-                            {isNoTopic ? <></> : <FormHelperText color="white">You are now select {handleTopic()} as topic.</FormHelperText>}
+                            {isNoTopic ? <></> : <FormHelperText color="white">You have selected {handleTopic()} as topic.</FormHelperText>}
                         </FormControl>
                     </Center>
                     <Center>
@@ -376,7 +376,7 @@ const CreateActivityPoll = () => {
                             </Select>
                         </Flex>
                         {!isTooShortLocation ? (
-                            <FormHelperText color="white">You are now using {location} as a location.</FormHelperText>
+                            <FormHelperText color="white">You have selected</FormHelperText>
                         ) : (
                             <FormErrorMessage color="yellow">The minimum header length is 5 characters. Type something.</FormErrorMessage>
                         )}
