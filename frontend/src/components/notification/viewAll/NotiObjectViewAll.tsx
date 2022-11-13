@@ -11,7 +11,8 @@ const NotiObjectViewAll: FC<{
     isRead: boolean
     date: Date
     module: string
-}> = ({ id, description, isRead, date, module, userId }) => {
+    link: string
+}> = ({ id, description, isRead, date, module, userId, link }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -130,25 +131,27 @@ const NotiObjectViewAll: FC<{
             padding={2}
             key={id}
         >
-            <Stack direction={"row"} spacing={12}>
-                <Box>
-                    <Stack direction={"row"} spacing={12}>
-                        <Center paddingRight={3} paddingLeft={4}>
-                            {showStatus()}
-                        </Center>
-                        <Center>{showUser()}</Center>
-                        <Stack direction={"row"} spacing={300} padding={5}>
-                            <Text fontSize={"sm"}>{showDescription()}</Text>
+            <a href={link}>
+                <Stack direction={"row"} spacing={12}>
+                    <Box>
+                        <Stack direction={"row"} spacing={12}>
+                            <Center paddingRight={3} paddingLeft={4}>
+                                {showStatus()}
+                            </Center>
+                            <Center>{showUser()}</Center>
+                            <Stack direction={"row"} spacing={300} padding={5}>
+                                <Text fontSize={"sm"}>{showDescription()}</Text>
+                            </Stack>
                         </Stack>
-                    </Stack>
-                </Box>
+                    </Box>
 
-                <Spacer />
+                    <Spacer />
 
-                <Center fontSize={"xs"} color="gray.400">
-                    <Box width={"6rem"}>{showDate()}</Box>
-                </Center>
-            </Stack>
+                    <Center fontSize={"xs"} color="gray.400">
+                        <Box width={"6rem"}>{showDate()}</Box>
+                    </Center>
+                </Stack>
+            </a>
         </Box>
     )
 }

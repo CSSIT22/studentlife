@@ -94,6 +94,7 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
                                 isRead={el.isRead}
                                 date={el.date}
                                 module={el.module}
+                                link={el.link}
                             />
                         </Stack>
                         <Divider />
