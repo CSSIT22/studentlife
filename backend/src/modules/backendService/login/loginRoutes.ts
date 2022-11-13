@@ -23,6 +23,7 @@ router.get(
     async (req: Request, res: Response) => {
         const device = new UserAgent(req.headers["user-agent"])
         const { prisma } = res
+        if (!req.user) throw new Error("User don't exist")
         console.log(req.user?.userId)
         try {
             const user = await prisma.user_Back.create({
