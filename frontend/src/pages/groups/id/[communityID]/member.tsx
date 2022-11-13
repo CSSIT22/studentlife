@@ -1,4 +1,4 @@
-import { Flex, Text, SimpleGrid } from '@chakra-ui/react'
+import { Flex, Text, SimpleGrid, color, Box } from '@chakra-ui/react'
 import NavCommunity from 'src/components/group/NavCommunity'
 import AppBody from 'src/components/share/app/AppBody'
 import { userData } from '../../data';
@@ -28,7 +28,8 @@ const Member = () => {
                 <MemberBox boxType="member" data={communityData} title="Member" />
                 <MemberBox boxType="blacklist" data={communityData} title="Blacklist" />
             </Flex>
-            <SimpleGrid backgroundColor={'white'} columns={{ base: 4, md: 2 }} spacing={{ base: 2, md: 1 }} maxWidth={{ base: "", md: "220px" }} width={"100%"} p={3} borderRadius={"md"} backgroundColor="gray.200">
+
+            <SimpleGrid boxShadow={'dark-lg'} columns={{ base: 4, md: 2 }} spacing={{ base: 2, md: 1 }} maxWidth={{ base: "", md: "220px" }} width={"100%"} p={3} borderRadius={"md"} background={' white'} sx={{ borderColor: 'black solid 10px' }}>
                 <Text as="b" fontSize={"sm"}>All </Text>
                 <Text backgroundColor={"orange.600"} color={'white'} borderRadius={"md"} textAlign="center" as="b" fontSize={"sm"}>{communityData.communityMembers.length}</Text>
                 <Text mt={{ base: 0, md: 2 }} as="b" fontSize={"sm"}>Admin</Text>
@@ -42,6 +43,7 @@ const Member = () => {
                 <Text mt={{ base: 0, md: 2 }} as="b" fontSize={"sm"}>Request</Text>
                 <Text mt={{ base: 0, md: 2 }} backgroundColor={"orange.600"} color={'white'} borderRadius={"md"} textAlign="center" as="b" fontSize={"sm"}>{communityData.communityMembers.filter((member) => member.userRole == "request").length}</Text>
             </SimpleGrid>
+
         </Flex>
 
     </AppBody >
