@@ -127,15 +127,16 @@ const index = () => {
                                 .filter((community) => {
                                     return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                 })
-                                .map((community) => (community.roleID >= 3 ?(
+                                .map((community) => (community.roleID >= 3 ? (
                                     <CommunityList
+                                        communityID={community.ID}
                                         key={community.ID}
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
                                         isPrivate={community.isPrivate}
-                                        roleID ={community.roleID}
-                                    />):
+                                        roleID={community.roleID}
+                                    />) :
                                     <div></div>
                                 ))
                         ) : (
@@ -166,16 +167,17 @@ const index = () => {
                                 .filter((community) => {
                                     return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                 })
-                                
-                                .map((community) => (community.roleID < 3 ?(
+
+                                .map((community) => (community.roleID < 3 ? (
                                     <CommunityList
+                                        communityID={community.ID}
                                         key={community.ID}
                                         communityName={community.name}
                                         lastActive={"9"}
                                         coverPhoto={community.coverPhoto}
                                         isPrivate={community.isPrivate}
-                                        roleID ={community.roleID}
-                                    />):
+                                        roleID={community.roleID}
+                                    />) :
                                     <div></div>
                                 ))
                         ) : (
