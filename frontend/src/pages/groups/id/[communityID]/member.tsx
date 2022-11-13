@@ -29,7 +29,7 @@ const Member = () => {
                 <MemberBox boxType="blacklist" data={communityData} title="Blacklist" />
             </Flex>
 
-            <SimpleGrid boxShadow={'dark-lg'} columns={{ base: 4, md: 2 }} spacing={{ base: 2, md: 1 }} maxWidth={{ base: "", md: "220px" }} width={"100%"} p={3} borderRadius={"md"} background={' white'} sx={{ borderColor: 'black solid 10px' }}>
+            <SimpleGrid boxShadow={'2xl'} columns={{ base: 4, md: 2 }} spacing={{ base: 2, md: 1 }} maxWidth={{ base: "", md: "220px" }} width={"100%"} p={3} borderRadius={"md"} background={' white'} sx={{ borderColor: 'black solid 10px' }}>
                 <Text as="b" fontSize={"sm"}>All </Text>
                 <Text backgroundColor={"orange.600"} color={'white'} borderRadius={"md"} textAlign="center" as="b" fontSize={"sm"}>{communityData.communityMembers.length}</Text>
                 <Text mt={{ base: 0, md: 2 }} as="b" fontSize={"sm"}>Admin</Text>
@@ -45,7 +45,6 @@ const Member = () => {
             </SimpleGrid>
 
         </Flex>
-
     </AppBody >
 
 }

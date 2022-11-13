@@ -5,7 +5,7 @@ import RequestList from './RequestList';
 import UserList from './UserList'
 const MemberBox: FC<{ boxType: string; data: any; title: string; subTitle?: string; }> = ({ data, title, subTitle, boxType }) => {
     return (
-        <Box boxShadow={'dark-lg'} width={"100%"} backgroundColor="orange.400" p={4} borderRadius="md" >
+        <Box boxShadow={'2xl'} width={"100%"} backgroundColor="orange.400" p={4} borderRadius="md" >
             <Text as="b" color={'white'}>{title}</Text>{
                 subTitle ? (<Text as="p" mb="2" color={'white'}>{subTitle}</Text>) : ""
             }
