@@ -6,7 +6,7 @@ import blogRoutes from "./modules/blog"
 import chatRoutes from "./modules/chat"
 import datingRoutes from "./modules/dating"
 import groupRoutes from "./modules/group"
-import middlewareRoutes from "./modules/backendService"
+import backendserviceRoutes from "./modules/backendService"
 import notificationRoutes from "./modules/notification"
 import qaRoutes from "./modules/qa"
 import restaurantRoutes from "./modules/restaurant"
@@ -26,7 +26,6 @@ import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
-// const device = require("express-device")
 
 const PORT = 8000
 const app = express()
@@ -64,8 +63,6 @@ redisClient.connect().catch((err) => console.log(err))
 
 // config passport for microsoft strategy
 passport.use(microsoft(prisma))
-
-// app.use(device.capture())
 
 app.use(
     cors({
@@ -113,7 +110,7 @@ app.use("/blog", blogRoutes)
 app.use("/chat", chatRoutes)
 app.use("/dating", datingRoutes)
 app.use("/group", groupRoutes)
-app.use("/middleware", middlewareRoutes)
+app.use("/backendservice", backendserviceRoutes)
 app.use("/notification", notificationRoutes)
 app.use("/qa", qaRoutes)
 app.use("/restaurant", restaurantRoutes)
