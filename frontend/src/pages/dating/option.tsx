@@ -84,16 +84,16 @@ const DatingOption = () => {
         <DatingAppBody>
             <Stack pt="5" color="black">
                 {/* Heading and heading description part */}
-                <Heading>Option</Heading>
-                <Box pt="3">
-                    <Text>Set the criteria to be used for the profile randomization.</Text>
+                <Heading fontSize="36px">Option</Heading>
+                <Box>
+                    <Text fontSize="18px">Set the criteria to be used for the profile randomization.</Text>
                 </Box>
 
                 {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}
                 <SimpleGrid gap={12} pt={5} columns={{ base: 1, md: 2 }}>
                     <Box>
                         <Box pb={5}>
-                            <Text fontSize="xl" as="b">
+                            <Text fontSize="30px" as="b">
                                 Age Preference
                             </Text>
                         </Box>
@@ -106,7 +106,7 @@ const DatingOption = () => {
                     </Box>
                     <Box>
                         <Box pb={5}>
-                            <Text fontSize="xl" as="b">
+                            <Text fontSize="30px" as="b">
                                 Gender Preference
                             </Text>
                             {/* Gender preference radio box*/}
@@ -125,7 +125,7 @@ const DatingOption = () => {
                     <Box>
                         {/* Chose multi Faculty preference */}
                         <Box pb={5}>
-                            <Text fontSize="xl" as="b">
+                            <Text fontSize="30px" as="b">
                                 Faculty Preference
                             </Text>
                         </Box>

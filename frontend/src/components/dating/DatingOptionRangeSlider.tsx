@@ -61,20 +61,20 @@ const DatingOptionRangeSlider: FC<{
                 ml={"20px"}
                 mr={"45px"}
             >
-                <RangeSliderMark value={sliderValue[0]} textAlign="center" color="white" mt="-10" ml="-5" w="12">
+                <RangeSliderMark value={sliderValue[0]} textAlign="center" color="white" mt="-9" ml="-5" w="12">
                     {sliderValue[0]}
                 </RangeSliderMark>
-                <RangeSliderMark value={sliderValue[1]} textAlign="center" color="white" mt="-10" ml="-5" w="12">
+                <RangeSliderMark value={sliderValue[1]} textAlign="center" color="white" mt="-9" ml="-5" w="12">
                     {sliderValue[1]}
                 </RangeSliderMark>
-                <RangeSliderTrack bg="#6B7999">
-                    <RangeSliderFilledTrack bg="#293B66" />
+                <RangeSliderTrack bg="#FFF2E5">
+                    <RangeSliderFilledTrack bg="#E69C73" />
                 </RangeSliderTrack>
-                <RangeSliderThumb boxSize={6} index={0}>
-                    <Box color="#6B7999" />
+                <RangeSliderThumb boxSize={4} index={0}>
+                    <Box color="#FFF2E5" />
                 </RangeSliderThumb>
-                <RangeSliderThumb boxSize={6} index={1}>
-                    <Box color="#6B7999" />
+                <RangeSliderThumb boxSize={4} index={1}>
+                    <Box color="#FFF2E5" />
                 </RangeSliderThumb>
             </RangeSlider>
         </Center>

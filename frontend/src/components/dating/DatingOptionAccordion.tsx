@@ -58,7 +58,7 @@ const DatingOptionAccordion: FC<{
                         stroke={"#E2E8F0"}
                         _hover={{ border: "#E2E8F0" }}
                     >
-                        <Box textAlign="left" borderRadius="full">
+                        <Box textAlign="left" borderRadius="full" color="black">
                             Selected Faculty
                         </Box>
                         <AccordionIcon />
