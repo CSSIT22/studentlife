@@ -15,8 +15,17 @@ const Rating = () => {
     //     console.log("Wtf is this value? " + star)
     // }
 
+    //First time fill
     function handleFill(status: number, position: number) {
         return status > position
+    }
+
+    //Handle change
+    function handleStatus(status: number, position: number) {
+        console.log("Status: " + status + " | Position: " + position)
+        if (status === position) {
+        }
+        return
     }
 
     return (
@@ -33,7 +42,13 @@ const Rating = () => {
                         <Box>
                             <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
                                 <Flex>
-                                    <Image borderRadius="full" boxSize="78px" src={values.url} alt={values.Fname + " " + values.Lname} />
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={values.url}
+                                        alt={values.Fname + " " + values.Lname}
+                                    />
                                     <Center>
                                         <Text ml="30px" fontSize="20px">
                                             {values.Fname}
@@ -49,7 +64,7 @@ const Rating = () => {
                                                 key={status}
                                                 status={index[status] + 1}
                                                 defultFill={handleFill(values.rate, index[status])}
-
+                                                changeStatus={handleStatus(values.rate, index[status])}
                                                 // onClick={console.log(index[status])}
                                             />
                                         )
