@@ -7,6 +7,9 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUserLock, FaUserShield, FaUser } from "react-icons/fa";
 import FriendInviteList from "./FriendInviteList";
 import { SearchIcon } from "@chakra-ui/icons";
+import { userData } from "src/pages/groups/data";
+import InvitationBox from "./InvitationBox";
+import useWindowDimensions from "src/pages/groups/hooks/useWindowDimensions";
 
 
 
@@ -30,6 +33,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
     const handleSearchBtn = () => {
         setSearchValue("")
     }
+    const { height, width } = useWindowDimensions()
 
 
     return (
@@ -74,88 +78,82 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                 Invite
                             </Button>
 
+                            {(width || 0) > 768 ? (
+                                <Modal closeOnOverlayClick={true} isOpen={isModalOpen} onClose={modalOnClick} >
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                        <ModalHeader>Invite your friend to community</ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody pb={6}>
+                                            <Box borderRadius={'md'}>
+                                                <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} border='1px' borderColor='gray.200'>
+                                                    <Box color={'black'} mr={-1}>
+                                                        <IconButton
+                                                            aria-label='Search database'
+                                                            disabled={true}
+                                                            _hover={{ cursor: 'default', background: 'default' }}
+                                                            background={'white'}
+                                                            icon={<SearchIcon />}
+                                                        />
+                                                    </Box>
+                                                    <Box width={'100%'} backgroundColor={'white'} color={'black'}  >
+                                                        <Input
+                                                            width={"100%"}
+                                                            variant={"filled"}
+                                                            type={"search"}
+                                                            value={searchValue}
+                                                            onChange={handleChange}
+                                                            placeholder="Seacrh Community"
+                                                            focusBorderColor="gray.200"
+                                                        ></Input>
+                                                    </Box>
+                                                </HStack>
 
-                            <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick} >
-                                <ModalOverlay />
-                                <ModalContent>
-                                    <ModalHeader>Invite your friend to community</ModalHeader>
-                                    <ModalCloseButton />
-                                    <ModalBody pb={6}>
-                                        <Box borderRadius={'md'}>
-                                            <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} >
-                                                <Box color={'black'} mr={-1}>
-                                                    <IconButton
-                                                        aria-label='Search database'
-                                                        disabled={true}
-                                                        _hover={{ cursor: 'default', background: 'default' }}
-                                                        background={'white'}
-                                                        icon={<SearchIcon />}
-                                                    />
+                                                <Box background={{ md: 'orange.400', base: '' }}
+                                                    height={{ sm: '200px', md: '350px' }}
+                                                    padding={2}
+                                                    paddingRight={2.5}
+                                                    borderRadius={'md'}
+                                                    mb={{ md: 0, sm: 4 }}
+                                                    mt={{ md: 2, sm: 4 }}
+                                                    sx={{
+                                                        "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
+                                                        overflowY: "scroll",
+                                                        scrollBehavior: "smooth",
+
+                                                        "::-webkit-scrollbar-track": {
+                                                            background: "white",
+                                                            rounded: 'xl',
+                                                        },
+                                                        "::-webkit-scrollbar-thumb": {
+                                                            background: { md: "#444444", sm: "none" },
+                                                        },
+                                                    }}>
+
+                                                    <Flex gap={{ md: 2, sm: 3 }} direction='column' ml={1} color={'black'} borderRadius={'md'} >
+
+                                                        {
+                                                            userData.friends.
+                                                                filter((friends) => {
+                                                                    return searchValue.toLowerCase() == "" ? friends : friends.userName.toLowerCase().includes(searchValue)
+                                                                }).map((i) => (
+                                                                    <FriendInviteList
+                                                                        key={i.userName}
+                                                                        userName={i.userName}
+                                                                        userProfile={i.profile}
+                                                                        isSelected={i.isSelected}
+                                                                    />
+                                                                ))}
+                                                    </Flex>
                                                 </Box>
-                                                <Box width={'100%'} backgroundColor={'white'} color={'black'}  >
-                                                <Input
-                                                    width={"100%"}
-                                                    variant={"filled"}
-                                                    type={"search"}
-                                                    value={searchValue}
-                                                    onChange={handleChange}
-                                                    placeholder="Seacrh Community"
-                                                    focusBorderColor="gray.200"
-                                                ></Input>
-                                                </Box>
-                                            </HStack>
-
-                                            <Box background={{ md: 'orange.400', base: '' }}
-                                                height={{ sm: '400px', md: '200px' }}
-                                                paddingRight={0.5}
-                                                mb={{ md: 0, sm: 4 }}
-
-                                                sx={{
-                                                    "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
-                                                    overflowY: "scroll",
-                                                    scrollBehavior: "smooth",
-
-                                                    "::-webkit-scrollbar-track": {
-                                                        background: "white",
-                                                        rounded: 'xl',
-                                                    },
-                                                    "::-webkit-scrollbar-thumb": {
-                                                        background: { md: "#444444", sm: "none" },
-                                                    },
-                                                }}>
-
-                                                <Flex gap={{ md: 1, sm: 3 }} direction='column' ml={1} color={'black'} borderRadius={'md'} >
-                                                    <Box >
-                                                        <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
-                                                    </Box>
-                                                    <Box >
-                                                        <FriendInviteList userName='Patthadol Raksapram' isSelected={false} userProfile={''} />
-                                                    </Box>
-                                                    <Box >
-                                                        <FriendInviteList userName='Vatcharamai Rodring' isSelected={false} userProfile={''} />
-                                                    </Box>
-                                                    <Box >
-                                                        <FriendInviteList userName='Pakkawat Wassa' isSelected={false} userProfile={''} />
-                                                    </Box>
-                                                    <Box >
-                                                        <FriendInviteList userName='Chokdee Meechai' isSelected={false} userProfile={''} />
-                                                    </Box>
-                                                    <Box >
-                                                        <FriendInviteList userName='Chokchai Meecow' isSelected={false} userProfile={''} />
-                                                    </Box>
-                                                    <Box >
-                                                        <FriendInviteList userName='Somchai Chansamorn' isSelected={false} userProfile={''} />
-                                                    </Box>
-                                                </Flex>
                                             </Box>
-                                        </Box>
-                                    </ModalBody>
+                                        </ModalBody>
 
-                                    <ModalFooter>
+                                        <ModalFooter>
 
-                                    </ModalFooter>
-                                </ModalContent>
-                            </Modal>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>) : (<div />)}
 
                             <Popover>
                                 <PopoverTrigger>

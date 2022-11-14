@@ -139,7 +139,7 @@ export const userData = {
         }
     ],
 
-    Friends: [
+    friends: [
         {
             ID: 1,
             userName: "Passakorn Puttama",
@@ -154,7 +154,7 @@ export const userData = {
             ID: 2,
             userName: "Winai Pattaya",
             profile: "https://picsum.photos/id/64/200/300",
-            isSelect: false,
+            isSelected: false,
 
 
         },
@@ -162,7 +162,7 @@ export const userData = {
             ID: 3,
             userName: "Jacky Chan",
             profile: "https://picsum.photos/id/65/200/300",
-            isSelect: false,
+            isSelected: false,
 
 
         },
@@ -170,7 +170,7 @@ export const userData = {
             ID: 4,
             userName: "Ong Bak",
             profile: "https://picsum.photos/id/65/200/300",
-            isSelect: false,
+            isSelected: false,
 
 
         },
@@ -178,7 +178,7 @@ export const userData = {
             ID: 5,
             userName: "Wutthichai Kanjanapong",
             profile: "https://picsum.photos/id/65/200/300",
-            isSelect: false,
+            isSelected: false,
 
 
         },
@@ -186,7 +186,7 @@ export const userData = {
             ID: 6,
             userName: "Tomson ooi",
             profile: "https://picsum.photos/id/65/200/300",
-            isSelect: false,
+            isSelected: false,
 
 
         },
@@ -194,7 +194,7 @@ export const userData = {
             ID: 7,
             userName: "Steve Jobs",
             profile: "https://picsum.photos/id/65/200/300",
-            isSelect: false,
+            isSelected: false,
 
 
         }
