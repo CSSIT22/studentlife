@@ -5,8 +5,7 @@ import AppBody from "../../../components/share/app/AppBody"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
-import { AiOutlineDesktop } from "react-icons/ai"
-import { MdPhoneIphone, MdDesktopWindows } from "react-icons/md"
+import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
 
 const Card = (props: any) => {
     return (
