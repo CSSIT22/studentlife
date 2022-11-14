@@ -158,7 +158,7 @@ const create = () => {
                             Description
                         </Text>
                         <FormControl mb={{ md: 2, sm: 4 }}>
-                            <Textarea value={Describe} onChange={DesChange} placeholder="Type your description here" size='sm' background={"white"} color="black" />
+                            <Textarea value={Describe} onChange={DesChange} placeholder="Type your group description here" size='sm' background={"white"} color="black" />
                         </FormControl>
 
                         <Text mb={{ md: 0, sm: 4 }}>
@@ -174,11 +174,11 @@ const create = () => {
                         </Text>
 
                         <Box borderRadius={'md'}>
-                            <HStack padding={1} mb={{ md: 1, sm: 4 }} background={'white'} borderRadius={'md'}>
-                                <Box background={'white'} _hover={{ background: 'default' }} color={'black'} mr={-1}>
-                                    <IconButton aria-label='Search database' icon={<SearchIcon />} />
+                            <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} >
+                                <Box color={'black'} mr={-1}>
+                                    <IconButton aria-label='Search database' background={'white'} _hover={{ background: 'default' }} icon={<SearchIcon />} />
                                 </Box>
-                                <Box width={'100%'} backgroundColor={'white'} color={'black'}>
+                                <Box width={'100%'} backgroundColor={'white'} color={'black'} >
                                     < Input placeholder='Search for friends' />
                                 </Box>
                             </HStack>
@@ -202,7 +202,7 @@ const create = () => {
                                     },
                                 }}>
 
-                                <Flex gap={1} direction='column' ml={1} color={'black'} borderRadius={'md'} >
+                                <Flex gap={{ md: 1, sm: 3 }} direction='column' ml={1} color={'black'} borderRadius={'md'} >
                                     <Box >
                                         <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
                                     </Box>

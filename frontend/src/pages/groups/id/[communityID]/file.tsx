@@ -1,4 +1,4 @@
-import { Flex, Heading, VStack, Button, Box, Text, HStack, Input, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal } from '@chakra-ui/react'
+import { Flex, Heading, VStack, Button, Box, Text, HStack, Input, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, IconButton, Center } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import NavCommunity from 'src/components/group/NavCommunity'
 import AppBody from 'src/components/share/app/AppBody'
@@ -10,6 +10,7 @@ import { BsFillFileEarmarkTextFill, BsThreeDots } from "react-icons/bs"
 import { RiDeleteBinFill } from "react-icons/ri"
 import { communityData } from '../../communityData';
 import FileList from 'src/components/group/FileList';
+import { SearchIcon } from '@chakra-ui/icons';
 const file = () => {
     let { communityID }: any = useParams<{ communityID: string }>()
     const [searchValue, setSearchValue] = useState("") //for store search value
@@ -27,24 +28,41 @@ const file = () => {
             communityID={1000}
             tags={userData.Tag}
             activeBtn={3}
-        /><HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={'2xl'} backgroundColor={"white"}><Text as={"b"}>File</Text>
-            <HStack justify={"flex-end"} width={"100%"}><Input
-                // width={"100%"}
-                // display={searchBtn ? "" : "none"}
-                variant={"filled"}
-                maxWidth={"200px"}
-                type={"search"}
-                value={searchValue}
-                onChange={handleChange}
-                placeholder="Seacrh File"
-                focusBorderColor="gray.200"
-            ></Input><Button background={'orange.600'} _hover={{ background: 'orange.200' }} color={'white'}>Upload</Button></HStack></HStack>
+        /><HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={'2xl'} backgroundColor={"white"}>
+            <Text as={"b"} ml={8}>
+                Files
+            </Text>
+            <HStack justify={"flex-end"} width={"100%"}>
+                <HStack boxShadow={'md'} borderRadius='md'>
+                    <Box color={'black'} mr={-3}>
+                        <IconButton aria-label='Search database' background={'white'} _hover={{ background: 'default' }} icon={<SearchIcon />} />
+                    </Box>
+                    <Input
+                        // width={"100%"}
+                        // display={searchBtn ? "" : "none"}
+                        variant={"filled"}
+                        maxWidth={"200px"}
+                        type={"search"}
+                        value={searchValue}
+                        onChange={handleChange}
+                        placeholder="Seacrh File"
+                        focusBorderColor="gray.200"
+                        background={'white'}
+                    >
+                    </Input>
+                </HStack>
+
+                <Button background={'orange.600'} _hover={{ background: 'orange.200' }} color={'white'}>
+                    Upload
+                </Button>
+            </HStack>
+        </HStack>
         <Box mt={2} borderRadius={"md"} gap={2} boxShadow={'2xl'} backgroundColor={"white"} p={3} pl={4} pr={4} mb={4}>
-            <Flex display={{ base: "none", md: "flex" }} direction="row" >
+            <Flex display={{ base: "none", md: "flex" }} direction="row">
                 <Text as="b" width={"30%"}>File name</Text>
                 <Text as="b" width={"30%"}>Owner</Text>
                 <Text as="b" width={"10%"}>Type</Text>
-                <Text as="b" width={"30%"}>Date</Text>
+                <Text as="b" width={"30%"}>Modified Date</Text>
             </Flex>
 
             {

@@ -1,7 +1,8 @@
 import { Avatar, Flex, HStack, Box, Text, Button, background, } from '@chakra-ui/react'
 import React, { FC } from 'react'
 
-const RequestList: FC<{ userProfile: string; userRole?: string; userName: string }> = ({ userProfile, userName, userRole }) => {
+const RequestList: FC<{ userProfile: string; userRole: string; userName: string }> = ({ userProfile, userName, userRole }) => {
+    let Role = (): string => userRole.charAt(0).toUpperCase() + userRole.slice(1)
     return (
 
         <Box borderRadius="md" backgroundColor="white" minWidth={"265px"} maxWidth={"700px"} width="100%">
@@ -16,11 +17,11 @@ const RequestList: FC<{ userProfile: string; userRole?: string; userName: string
                                     {userName}
                                 </Text>
                             </Box>
-                            <Text fontSize="sm">{userRole}</Text>
+                            <Text fontSize="sm">{Role()}</Text>
                         </div>
                     </HStack>
                     <HStack justify={{ base: "flex-end" }}>
-                        <Button background={'green'} _hover={{ background: 'green.400' }} color={'white'} size={"sm"}>
+                        <Button background={'green.500'} _hover={{ background: 'green.400' }} color={'white'} size={"sm"}>
                             Accept
                         </Button>
                         <Button background={'red'} _hover={{ background: 'red.400' }} color={'white'} size={"sm"}>
