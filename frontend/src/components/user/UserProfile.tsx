@@ -55,8 +55,8 @@ export default function SimpleThreeColumns() {
     const cancelRef = React.useRef()
 
     const breakpoints = {
-        sm: "320px",
-        md: "768px",
+        sm: "400px",
+        md: "800px",
         lg: "960px",
         xl: "1200px",
         "2xl": "1536px",
@@ -68,9 +68,15 @@ export default function SimpleThreeColumns() {
     return (
         <Box maxW="100%" borderRadius="none" overflow="hidden" p="5">
             <Grid
-                templateAreas={`
-                  "nav main"
-                  "nav footer"`}
+                templateAreas={{
+                    base: `
+                "nav main "
+                "nav followlist"
+                "nav footer"`,
+                    md: `
+                  "nav main followlist"
+                  "nav footer footer"`,
+                }}
                 gridTemplateRows={{ base: "80% 1fr 50%", md: "70% 1fr 50%" }}
                 gridTemplateColumns={"20% 1fr"}
                 h="100%"
@@ -97,28 +103,41 @@ export default function SimpleThreeColumns() {
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" mt={15} fontSize={"xl"} ml={{ base: "10", md: "" }} area={"main"} color="gray.700">
+                <GridItem pl="2" mt={15} ml={{ base: "10", md: "" }} area={"main"} color="gray.700">
                     <HStack p={1}>
-                        <Box>Id:</Box>
-                        <Box>64130500XXX</Box>
+                        <Box fontSize={"lg"} color="orange.700">
+                            ID :
+                        </Box>
+                        <Box fontSize={"xl"}>64130500XXX</Box>
                     </HStack>
 
                     <HStack p={1}>
-                        <Box>Name:</Box>
-                        <Box>John Doe</Box>
+                        <Box fontSize={"lg"} color="orange.700">
+                            Name :
+                        </Box>
+                        <Box fontSize={"xl"}>John Doe</Box>
                     </HStack>
 
-                    <HStack alignItems="flex-start">
-                        <HStack p={1} alignItems="flex-start">
-                            <Box>Faculty:</Box>
-                            <Box>SIT</Box>
-                        </HStack>
+                    <Stack direction={{ base: "column", lg: "row" }} alignItems="flex-start" spacing={-0.5} mb="5">
+                        <Stack p={1} direction="row" alignItems="center">
+                            <Box fontSize={{ base: "sm", md: "lg" }} color="orange.700">
+                                Faculty :
+                            </Box>
+                            <Box fontSize={{ base: "md", md: "xl" }}>SIT</Box>
+                        </Stack>
 
-                        <HStack p={1} alignItems="flex-start">
-                            <Box>Major:</Box>
-                            <Box>Computer Science</Box>
-                        </HStack>
-                    </HStack>
+                        <Stack
+                            p={1}
+                            direction={{ base: "row", md: "column", lg: "row" }}
+                            alignItems={{ base: "center", md: "flex-start", lg: "center" }}
+                            spacing={{ base: "2", md: "-1", lg: "2" }}
+                        >
+                            <Box fontSize={{ base: "sm", md: "lg" }} color="orange.700">
+                                Major :
+                            </Box>
+                            <Box fontSize={{ base: "md", md: "xl" }}>Computer Science</Box>
+                        </Stack>
+                    </Stack>
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "", md: "10" }}>
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
@@ -182,6 +201,22 @@ export default function SimpleThreeColumns() {
                             Create blog
                         </Button>{" "}
                     </ButtonGroup>
+                </GridItem>
+                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-3rem", md: "3rem" }} mr={5}>
+                    <Stack direction="row" mx={{ base: "50", md: "" }} spacing={{ base: "", md: "" }}>
+                        <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
+                            <Box fontSize={"lg"}>0</Box>
+                            <Box fontSize={"lg"} color="orange.700">
+                                Follower
+                            </Box>
+                        </Stack>
+                        <Stack direction="column" alignItems="center" spacing={{ base: "-1.5", md: "" }}>
+                            <Box fontSize={"lg"}>0</Box>
+                            <Box fontSize={"lg"} color="orange.700" mt="-1rem">
+                                Following
+                            </Box>
+                        </Stack>
+                    </Stack>
                 </GridItem>
             </Grid>
         </Box>
