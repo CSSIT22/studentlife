@@ -60,7 +60,7 @@ const index = () => {
                 <HStack p={4} justify={"space-between"}>
                     <Card title="1" detail="Online Devices" />
                     <Card title="1" detail="Offline Devices" />
-                    <Card title="1" detail="Total Devices" />
+                    <Card title={tokens.length} detail="Total Devices" />
                 </HStack>
             </Box>
             <Box bg="lightgreen" p={4}>
