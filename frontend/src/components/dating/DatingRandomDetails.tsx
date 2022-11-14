@@ -36,8 +36,8 @@ const DatingRandomFaculty: FC<{
                         {/* First name and Last name */}
                         <Text color="black" fontWeight="700" fontSize={{ base: "20px", md: "48px" }} lineHeight="120%" pl="18px">
                             {isMobile
-                                ? characters[currentIndex].Fname.length > 9
-                                    ? characters[currentIndex].Fname.substring(0, 9).concat("...")
+                                ? characters[currentIndex].Fname.length > 8
+                                    ? characters[currentIndex].Fname.substring(0, 8).concat("...")
                                     : characters[currentIndex].Fname
                                 : characters[currentIndex].Fname.length > 15
                                 ? characters[currentIndex].Fname.substring(0, 15).concat("...")

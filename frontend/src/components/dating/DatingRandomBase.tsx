@@ -6,9 +6,9 @@ const DatingRandomReload = () => {
             <Box
                 borderRadius="10px"
                 w={{ base: "326px", md: "379px" }}
-                h={{ base: "402px", md: "464px" }}
+                h={{ base: "397px", md: "459px" }}
                 position="absolute"
-                top={{ base: "114px", md: "200px" }}
+                top={{ base: "119px", md: "205px" }}
                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                 display="flex"
                 alignItems="center"
