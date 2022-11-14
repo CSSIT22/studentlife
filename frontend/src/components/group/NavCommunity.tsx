@@ -1,4 +1,4 @@
-import { HStack, Box, Image, Text, Button, Flex, } from "@chakra-ui/react"
+import { HStack, Box, Image, Text, Button, Flex, background, } from "@chakra-ui/react"
 import React, { FC, } from "react"
 import { TiWarning } from "react-icons/ti";
 import { MdPublic, MdPublicOff } from "react-icons/md"
@@ -65,9 +65,9 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
 
                 <Text mt={2} fontSize="xs" padding={1} >{description}</Text>
                 <Flex gap={2} mt={3}>
-                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative='path'><Button backgroundColor={"white"} size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
-                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/member`} relative='path'><Button backgroundColor={"white"} size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
-                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/file`} relative='path'><Button backgroundColor={"white"} size={"sm"} isActive={(activeBtn == 3 && !isPrivate ? true : false)} disabled={isPrivate}>File</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative='path'><Button backgroundColor={"white"} _hover={{ background: 'default' }} size={"sm"} isActive={(activeBtn == 1 && !isPrivate ? true : false)} disabled={isPrivate}>Discussion</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/member`} relative='path'><Button backgroundColor={"white"} _hover={{ background: 'default' }} size={"sm"} isActive={(activeBtn == 2 && !isPrivate ? true : false)} disabled={isPrivate}>Member</Button></Link>
+                    <Link to={disableBtn ? "" : `/groups/id/${communityID}/file`} relative='path'><Button backgroundColor={"white"} _hover={{ background: 'default' }} size={"sm"} isActive={(activeBtn == 3 && !isPrivate ? true : false)} disabled={isPrivate}>File</Button></Link>
                 </Flex>
 
             </Box>

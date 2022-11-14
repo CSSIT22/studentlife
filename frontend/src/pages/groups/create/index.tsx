@@ -14,6 +14,7 @@ import { userData } from '../data'
 import AppBody from "../../../components/share/app/AppBody"
 import FriendInviteList from 'src/components/group/FriendInviteList';
 import NavCommunity from 'src/components/group/NavCommunity'
+import { BiBorderRadius } from "react-icons/bi"
 
 const create = () => {
     const [GroupName, setGroupName] = useState("")
@@ -191,11 +192,13 @@ const create = () => {
                                     "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
                                     overflowY: "scroll",
                                     scrollBehavior: "smooth",
+
                                     "::-webkit-scrollbar-track": {
-                                        background: "none",
+                                        background: "white",
+                                        rounded: 'xl',
                                     },
                                     "::-webkit-scrollbar-thumb": {
-                                        background: { md: "white", sm: "none" },
+                                        background: { md: "#444444", sm: "none" },
                                     },
                                 }}>
 
@@ -225,7 +228,7 @@ const create = () => {
                             </Box>
                         </Box>
 
-                        <Button onClick={modalOnClick} width="100%" mt={3} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} _hover={{ background: 'default.200' }} size={"md"}>
+                        <Button onClick={modalOnClick} width="100%" mt={2} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} _hover={{ background: 'default.200' }} size={"md"}>
                             Create
                         </Button>
                         <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick}>
