@@ -29,6 +29,14 @@ const Card = (props: any) => {
 const index = () => {
     const user = useContext(authContext)
     const [tokens, setTokens] = useState<any[]>([])
+    async function handleRevoke(token: string) {
+        const res = await api.post("/backendservice/revokeTokens", {
+            token: token,
+            userId: tokens[0].userId,
+        })
+        setTokens([...tokens.filter((item) => item.token !== res.data.token)])
+        console.log(res)
+    }
     async function getTokensInfo() {
         const getTokens = await api.get("/backendservice/tokens")
         setTokens([...tokens, ...getTokens.data.tokens])
@@ -81,6 +89,49 @@ const index = () => {
                     className="mySwiper"
                     width={750}
                 >
+                    {tokens.map((item, index) => {
+                        return (
+                            <SwiperSlide key={index}>
+                                <Box bg={"gray.400"} borderRadius={"lg"} h={"100%"}>
+                                    <Flex alignItems="center" justifyContent={"center"}>
+                                        <VStack alignItems="center" justifyContent={"center"} m={"6"}>
+                                            <Text color={"white"} fontSize={"2xl"}>
+                                                Device {index + 1}
+                                            </Text>
+                                            <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"lg"} maxH={"155"}>
+                                                {item.detail.deviceInfo === "desktop" && (
+                                                    <Flex alignItems={"center"} justifyContent={"center"}>
+                                                        <Icon as={MdDesktopWindows} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
+                                                    </Flex>
+                                                )}
+                                                {item.detail.deviceInfo === "tablet" && (
+                                                    <Flex alignItems={"center"} justifyContent={"center"}>
+                                                        <Icon as={MdTabletMac} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
+                                                    </Flex>
+                                                )}
+                                                {item.detail.deviceInfo === "mobile" && (
+                                                    <Flex alignItems={"center"} justifyContent={"center"}>
+                                                        <Icon as={MdPhoneIphone} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
+                                                    </Flex>
+                                                )}
+                                            </Box>
+                                            <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
+                                            <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
+                                            <Button
+                                                onClick={() => handleRevoke(item.token)}
+                                                bg={"gray.700"}
+                                                color={"white"}
+                                                w={"100%"}
+                                                _hover={{ color: "black", bg: "gray.500" }}
+                                            >
+                                                Revoke
+                                            </Button>
+                                        </VStack>
+                                    </Flex>
+                                </Box>
+                            </SwiperSlide>
+                        )
+                    })}
                 </Swiper>
             </Box>
         </AppBody>
