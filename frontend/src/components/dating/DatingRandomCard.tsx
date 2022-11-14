@@ -1,6 +1,7 @@
-import { Box, Button, Center, Image, Link } from "@chakra-ui/react"
+import { Box, Button, Center, Image } from "@chakra-ui/react"
 import { AnimationControls } from "framer-motion"
 import { FC, useRef } from "react"
+import { Link } from "react-router-dom"
 import TinderCard from "react-tinder-card"
 import ProfileImg from "../../components/dating/pic/profile.png"
 
@@ -72,7 +73,7 @@ const DatingRandomCard: FC<{
                     cursor="pointer"
                 >
                     {/* Profile button to go into user's profile */}
-                    <Link href="../../user">
+                    <Link to="../../user">
                         <Button
                             aria-label="User Profile"
                             className="pressable"
