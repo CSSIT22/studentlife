@@ -8,8 +8,21 @@ const backendserviceRoutes = express()
 
 backendserviceRoutes.use(express.json())
 
-backendserviceRoutes.get("/tokens", verifyUser, (req: Request, res: Response) => {
-    res.send("This route send user's tokens info")
+backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Response) => {
+    const prisma = res.prisma
+    try {
+        const result = await prisma.login_Info.findMany({
+            where: {
+                userId: req.user?.userId || "",
+            },
+            include: {
+                detail: true,
+            },
+        })
+        return res.status(200).json({ tokens: result })
+    } catch (err: any) {
+        return res.status(400).json({ message: err })
+    }
 })
 
 backendserviceRoutes.put("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
