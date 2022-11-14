@@ -2,6 +2,7 @@ import { Router } from "express"
 import passport from "passport"
 import { Request, Response } from "express"
 import UserAgent from "user-agents"
+import { verifyUser } from "../middleware/verifyUser"
 
 const router = Router()
 
@@ -19,10 +20,10 @@ router.get(
         failureRedirect: "/auth/microsoft",
         session: true,
     }),
+    verifyUser,
     async (req: Request, res: Response) => {
         const device = new UserAgent(req.headers["user-agent"])
         const { prisma } = res
-        if (!req.user) throw new Error("User don't exist")
         console.log(req.user?.userId)
         try {
             const user = await prisma.user_Back.create({
