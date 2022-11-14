@@ -55,7 +55,7 @@ const LikedYou = () => {
                 <DatingYouLikedButton backgroundColor="orange.600" />
             </HStack>
 
-            <Box display={{ base: "flex", md: "block" }} flexWrap="wrap" justifyContent="center">
+            <Box display={{ base: "flex", md: "block" }} flexWrap="wrap" justifyContent="center" flexDirection="column">
                 {HState.heart_history
                     .filter((el) => !giveToUser?.some((f) => f.UserId == el.UserId))
                     .map(({ UserId, Fname, Lname, Gender, Age, Faculty, url, interestId }) => (
@@ -88,11 +88,6 @@ const LikedYou = () => {
                             {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
                         </Box>
                     ))}
-                {!isMobile && (HState.heart_history.length - giveToUser.length) % 2 == 1 ? (
-                    <Box w={{ base: "159px", md: "205px" }} ml="10px" mr="10px" h="223px"></Box>
-                ) : (
-                    <></>
-                )}
             </Box>
         </DatingAppBody>
     )
