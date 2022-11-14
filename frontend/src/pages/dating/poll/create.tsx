@@ -31,7 +31,6 @@ import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
 import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
-import DatingPollCreateHeader from "src/components/dating/DatingPollCreateHeader"
 
 declare global {
     var isPassDate: boolean, isPassTime: boolean, people: number[], tag: number[], topic: string[]
