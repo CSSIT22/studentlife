@@ -14,7 +14,6 @@
         "@dropzone-ui/react": "^6.7.20",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "@react-spring/web": "^9.5.5",
         "axios": "^1.1.3",
         "framer-motion": "^7.6.2",
         "localforage": "^1.10.0",
