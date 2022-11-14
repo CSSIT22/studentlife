@@ -1012,11 +1012,9 @@ model Direct_Access {
 model User_Back {
   userId        String
   token         String
-  loginId       String        @unique
-  logoutId      String        @unique
-  loginSession  Login_Info[]
-  logoutSession Logout_Info[]
-  user          User_Profile  @relation(fields: [userId], references: [userId])
+  loginSession  Login_Info?
+  logoutSession Logout_Info?
+  user          User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([userId, token])
 }
@@ -1024,36 +1022,38 @@ model User_Back {
 model Login_Info {
   loginId  String        @id @default(cuid())
   userId   String
-  detailId String        @unique
-  login    User_Back     @relation(fields: [loginId], references: [loginId], onDelete: Cascade)
+  token    String
+  login    User_Back     @relation(fields: [userId, token], references: [userId, token])
   detail   Login_Detail?
+
+  @@unique([userId, token])
 }
 
 model Login_Detail {
-  detailId     String     @id @default(cuid())
-  loginId      String
+  loginId      String @id
   loginDate    DateTime   @default(now())
   tokenExpired DateTime
   deviceInfo   String
   ip           String
-  detailOf     Login_Info @relation(fields: [detailId], references: [detailId], onDelete: Cascade)
+  detailOf     Login_Info @relation(fields: [loginId], references: [loginId], onDelete: Cascade)
 }
 
 model Logout_Info {
   logoutId String         @id @default(cuid())
   userId   String
-  detailId String         @unique
-  logout   User_Back      @relation(fields: [logoutId], references: [logoutId], onDelete: Cascade)
+  token    String
+  logout   User_Back      @relation(fields: [userId, token], references: [userId, token])
   detail   Logout_Detail?
+
+  @@unique([userId, token])
 }
 
 model Logout_Detail {
-  detailId   String      @id @default(cuid())
-  logoutId   String
+  logoutId   String @id
   logoutDate DateTime    @default(now())
   deviceInfo String
   ip         String
-  detailOf   Logout_Info @relation(fields: [detailId], references: [detailId], onDelete: Cascade)
+  detailOf   Logout_Info @relation(fields: [logoutId], references: [logoutId], onDelete: Cascade)
 }
 
 model Ban_Status {
