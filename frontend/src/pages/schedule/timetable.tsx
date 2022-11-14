@@ -1,5 +1,6 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
+import calendar from "../../components/schedule/calendar"
 import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
 import { IconButton, useDisclosure, Button, ButtonGroup} from "@chakra-ui/react"
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
@@ -179,7 +180,7 @@ const timetable = () => {
           <ModalBody>
             <Text textAlign={['center']} fontSize="sm">Are you sure you would like to delete this event?</Text>
             <Text textAlign={['center']} fontSize="sm">You might not be able to recover it back.</Text>
-            {/* <Lorem count={2} /> */}
+            
           </ModalBody>
 
           <ModalFooter>
