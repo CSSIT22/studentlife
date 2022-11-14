@@ -6,11 +6,11 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "nodemon ./src/index.ts",
-        "build": "tsc",
+        "build": "tsc && webpack --config webpack.config.js",
         "db:migrateDev": "prisma migrate dev",
         "db:gen": "prisma generate",
         "db:pull": "prisma db pull",
-        "start": "node ./build/backend/src/index.js"
+        "start": "node ./build/index.js"
     },
     "repository": {
         "type": "git",
