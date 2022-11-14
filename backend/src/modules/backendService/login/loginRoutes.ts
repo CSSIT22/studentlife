@@ -2,6 +2,7 @@ import { Router } from "express"
 import passport from "passport"
 import { Request, Response } from "express"
 import UserAgent from "user-agents"
+import cuid from "cuid"
 
 const router = Router()
 
@@ -24,15 +25,19 @@ router.get(
         const { prisma } = res
         if (!req.user) throw new Error("User don't exist")
         console.log(req.user?.userId)
+        console.log(req.sessionID)
         try {
+            const id = cuid()
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
                     token: req.session.id,
                     loginSession: {
                         create: {
+                            loginId: id,
                             detail: {
                                 create: {
+                                    loginDate: new Date(),
                                     deviceInfo: device.data.deviceCategory || "Unknow",
                                     ip: device.data.platform,
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
