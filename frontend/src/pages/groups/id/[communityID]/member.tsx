@@ -11,7 +11,7 @@ const Member = () => {
         <NavCommunity
             communityName='Passakorn group'
             isPrivate={false}
-            isMember={false}
+            isMember={true}
             description={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto laborum cumque nemo veniam amet fugiat beatae, quo magni eum voluptatem eligendi nesciunt numquam odio autem ex quaerat totam. At, facilis."}
             coverPhoto="https://picsum.photos/id/400/800"
             members={10}

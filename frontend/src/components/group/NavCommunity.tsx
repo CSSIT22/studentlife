@@ -72,7 +72,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                             </Box>
                                             <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
                                                 <FaExclamationCircle />
-                                                <Link to={"http://127.0.0.1:5173/groups/id/1/edit"} >
+                                                <Link to={`/groups/id/${communityID}/edit`} >
                                                     <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
                                                 </Link>
                                             </Box>
