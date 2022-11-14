@@ -14,6 +14,7 @@ jobs:
         runs-on: [self-hosted, linux, x64]
         timeout-minutes: 5
         container: node:16-alpine
+        environment: staging
         steps:
             - name: 🎤 Checkout
               uses: actions/checkout@v2
@@ -22,6 +23,8 @@ jobs:
               run: |
                   cd ./frontend
                   npm i
+                  touch .env
+                  echo '${{secrets.FRONTEND_STAGING_ENV}}' > .env
                   npm run build
             - name: 🆙 Upload artifact
               uses: actions/upload-artifact@v2
