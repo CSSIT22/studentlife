@@ -6,6 +6,7 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
+import api from "../../../function/API"
 import { useContext, useEffect, useState } from "react"
 import { authContext } from "src/context/AuthContext"
 
@@ -27,6 +28,17 @@ const Card = (props: any) => {
 
 const index = () => {
     const user = useContext(authContext)
+    const [tokens, setTokens] = useState<any[]>([])
+    async function getTokensInfo() {
+        const getTokens = await api.get("/backendservice/tokens")
+        setTokens([...tokens, ...getTokens.data.tokens])
+    }
+    useEffect(() => {
+        getTokensInfo()
+    }, [])
+
+    console.log(tokens)
+
     return (
         <AppBody>
             <Box bg="tomato" w="100%" p={4} color="white">
