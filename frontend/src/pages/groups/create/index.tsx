@@ -1,4 +1,4 @@
-import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link } from "@chakra-ui/react"
+import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link, background } from "@chakra-ui/react"
 import { FormControl } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react'
@@ -14,6 +14,7 @@ import { userData } from '../data'
 import AppBody from "../../../components/share/app/AppBody"
 import FriendInviteList from 'src/components/group/FriendInviteList';
 import NavCommunity from 'src/components/group/NavCommunity'
+import { BiBorderRadius } from "react-icons/bi"
 
 const create = () => {
     const [GroupName, setGroupName] = useState("")
@@ -95,7 +96,7 @@ const create = () => {
                         {/* Tags */}
                         <HStack mb={{ md: 2, sm: 4 }}>
                             <Text>
-                                Tags
+                                Choose Tags
                             </Text>
                             <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='xs'>
                                 <FaPlus />
@@ -175,15 +176,9 @@ const create = () => {
                         <Box borderRadius={'md'}>
                             <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} >
                                 <Box color={'black'} mr={-1}>
-                                    <IconButton
-                                        aria-label='Search database'
-                                        disabled={true}
-                                        _hover={{ cursor: 'default', background: 'default' }}
-                                        background={'white'}
-                                        icon={<SearchIcon />}
-                                    />
+                                    <IconButton aria-label='Search database' background={'white'} _hover={{ background: 'default' }} icon={<SearchIcon />} />
                                 </Box>
-                                <Box width={'100%'} backgroundColor={'white'} color={'black'}  >
+                                <Box width={'100%'} backgroundColor={'white'} color={'black'} >
                                     < Input placeholder='Search for friends' />
                                 </Box>
                             </HStack>

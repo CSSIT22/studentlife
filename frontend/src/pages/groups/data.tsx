@@ -137,5 +137,66 @@ export const userData = {
             tagName: "#Science",
             tagDescription: "Physic, Chemical, Biology"
         }
+    ],
+
+    Friends: [
+        {
+            ID: 1,
+            userName: "Passakorn Puttama",
+            profile: "https://scontent.fbkk29-1.fna.fbcdn.net/v/t39.30808-6/299119765_3646386945587747_691813110712138929_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEcOTfML6VEsYgcX9a0wpDN2YlUgUBejDPZiVSBQF6MMwRDHbtDfYvdqLv89681EA24G-2PVZuONn_-_W2S5-2T&_nc_ohc=5arQU05deFcAX9LEFDc&tn=-sLk3okWeEInj7Dt&_nc_zt=23&_nc_ht=scontent.fbkk29-1.fna&oh=00_AfDyQ65ZBwQaXTzy8l26QAte5aPLMDM5oiQ9OubZYtAu4Q&oe=63749C85",
+            isSelect: false,
+
+
+
+        },
+
+        {
+            ID: 2,
+            userName: "Winai Pattaya",
+            profile: "https://picsum.photos/id/64/200/300",
+            isSelect: false,
+
+
+        },
+        {
+            ID: 3,
+            userName: "Jacky Chan",
+            profile: "https://picsum.photos/id/65/200/300",
+            isSelect: false,
+
+
+        },
+        {
+            ID: 4,
+            userName: "Ong Bak",
+            profile: "https://picsum.photos/id/65/200/300",
+            isSelect: false,
+
+
+        },
+        {
+            ID: 5,
+            userName: "Wutthichai Kanjanapong",
+            profile: "https://picsum.photos/id/65/200/300",
+            isSelect: false,
+
+
+        },
+        {
+            ID: 6,
+            userName: "Tomson ooi",
+            profile: "https://picsum.photos/id/65/200/300",
+            isSelect: false,
+
+
+        },
+        {
+            ID: 7,
+            userName: "Steve Jobs",
+            profile: "https://picsum.photos/id/65/200/300",
+            isSelect: false,
+
+
+        }
     ]
 }

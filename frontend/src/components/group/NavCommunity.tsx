@@ -1,10 +1,14 @@
-import { HStack, Box, Image, Text, Button, Flex, background, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, } from "@chakra-ui/react"
-import React, { FC, } from "react"
+import { HStack, Box, Image, Text, Button, Flex, background, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, IconButton, Input, } from "@chakra-ui/react"
+import React, { FC, useState, } from "react"
 import { TiWarning } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { BsThreeDots } from "react-icons/bs";
 import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUserLock, FaUserShield, FaUser } from "react-icons/fa";
+import FriendInviteList from "./FriendInviteList";
+import { SearchIcon } from "@chakra-ui/icons";
+
+
 
 const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; communityID: number; communityName: string; coverPhoto: string; isPrivate: boolean, description: string, isMember: boolean, members: number }> = ({
     communityID,
@@ -18,6 +22,16 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
     activeBtn,
     disableBtn
 }) => {
+    const [isModalOpen, setModalOpen] = useState(false);
+    const modalOnClick = () => setModalOpen(!isModalOpen)
+
+    const [searchValue, setSearchValue] = useState("") //for store search value
+    const handleChange = (event: any) => setSearchValue(event.target.value)
+    const handleSearchBtn = () => {
+        setSearchValue("")
+    }
+
+
     return (
 
         <Box  >
@@ -56,7 +70,93 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                     </div>
                     <div>
                         {isMember ? <HStack>
-                            <Button size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'} >Invite</Button>
+                            <Button onClick={modalOnClick} size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'} >
+                                Invite
+                            </Button>
+
+
+                            <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick} >
+                                <ModalOverlay />
+                                <ModalContent>
+                                    <ModalHeader>Invite your friend to community</ModalHeader>
+                                    <ModalCloseButton />
+                                    <ModalBody pb={6}>
+                                        <Box borderRadius={'md'}>
+                                            <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} >
+                                                <Box color={'black'} mr={-1}>
+                                                    <IconButton
+                                                        aria-label='Search database'
+                                                        disabled={true}
+                                                        _hover={{ cursor: 'default', background: 'default' }}
+                                                        background={'white'}
+                                                        icon={<SearchIcon />}
+                                                    />
+                                                </Box>
+                                                <Box width={'100%'} backgroundColor={'white'} color={'black'}  >
+                                                <Input
+                                                    width={"100%"}
+                                                    variant={"filled"}
+                                                    type={"search"}
+                                                    value={searchValue}
+                                                    onChange={handleChange}
+                                                    placeholder="Seacrh Community"
+                                                    focusBorderColor="gray.200"
+                                                ></Input>
+                                                </Box>
+                                            </HStack>
+
+                                            <Box background={{ md: 'orange.400', base: '' }}
+                                                height={{ sm: '400px', md: '200px' }}
+                                                paddingRight={0.5}
+                                                mb={{ md: 0, sm: 4 }}
+
+                                                sx={{
+                                                    "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
+                                                    overflowY: "scroll",
+                                                    scrollBehavior: "smooth",
+
+                                                    "::-webkit-scrollbar-track": {
+                                                        background: "white",
+                                                        rounded: 'xl',
+                                                    },
+                                                    "::-webkit-scrollbar-thumb": {
+                                                        background: { md: "#444444", sm: "none" },
+                                                    },
+                                                }}>
+
+                                                <Flex gap={{ md: 1, sm: 3 }} direction='column' ml={1} color={'black'} borderRadius={'md'} >
+                                                    <Box >
+                                                        <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
+                                                    </Box>
+                                                    <Box >
+                                                        <FriendInviteList userName='Patthadol Raksapram' isSelected={false} userProfile={''} />
+                                                    </Box>
+                                                    <Box >
+                                                        <FriendInviteList userName='Vatcharamai Rodring' isSelected={false} userProfile={''} />
+                                                    </Box>
+                                                    <Box >
+                                                        <FriendInviteList userName='Pakkawat Wassa' isSelected={false} userProfile={''} />
+                                                    </Box>
+                                                    <Box >
+                                                        <FriendInviteList userName='Chokdee Meechai' isSelected={false} userProfile={''} />
+                                                    </Box>
+                                                    <Box >
+                                                        <FriendInviteList userName='Chokchai Meecow' isSelected={false} userProfile={''} />
+                                                    </Box>
+                                                    <Box >
+                                                        <FriendInviteList userName='Somchai Chansamorn' isSelected={false} userProfile={''} />
+                                                    </Box>
+                                                </Flex>
+                                            </Box>
+                                        </Box>
+                                    </ModalBody>
+
+                                    <ModalFooter>
+
+                                    </ModalFooter>
+                                </ModalContent>
+                            </Modal>
+
                             <Popover>
                                 <PopoverTrigger>
                                     <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
