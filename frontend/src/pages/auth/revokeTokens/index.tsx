@@ -81,55 +81,6 @@ const index = () => {
                     className="mySwiper"
                     width={750}
                 >
-                    <SwiperSlide>
-                        <Box bg={"gray.400"} borderRadius={"lg"} h={"100%"}>
-                            <Flex alignItems="center" justifyContent={"center"}>
-                                <VStack alignItems="center" justifyContent={"center"} m={"6"}>
-                                    <Text color={"white"} fontSize={"2xl"}>
-                                        Device 1
-                                    </Text>
-                                    <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"lg"} maxH={"155"}>
-                                        <Flex alignItems={"center"} justifyContent={"center"}>
-                                            <Icon as={MdPhoneIphone} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
-                                        </Flex>
-                                    </Box>
-                                    <Text color={"white"}>Time: 20:23:56</Text>
-                                    <Button bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
-                                        Revoke
-                                    </Button>
-                                </VStack>
-                            </Flex>
-                        </Box>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Box bg={"gray.400"} borderRadius={"lg"} h={"100%"} w={"100%"}>
-                            <Flex alignItems="center" justifyContent={"center"}>
-                                <VStack alignItems="center" justifyContent={"center"} m={"6"}>
-                                    <Text color={"white"} fontSize={"2xl"}>
-                                        Device 1
-                                    </Text>
-                                    <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"lg"} maxH={"155"}>
-                                        <Flex alignItems={"center"} justifyContent={"center"}>
-                                            <Icon as={MdDesktopWindows} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
-                                        </Flex>
-                                    </Box>
-                                    <Text color={"white"}>Time: 20:23:56</Text>
-                                    <Button bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
-                                        Revoke
-                                    </Button>
-                                </VStack>
-                            </Flex>
-                        </Box>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Card icon={<AiOutlineDesktop />} title="test" detail="detail test" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Card title="test2" detail="detail test" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Card title="test3" detail="detail test" />
-                    </SwiperSlide>
                 </Swiper>
             </Box>
         </AppBody>
