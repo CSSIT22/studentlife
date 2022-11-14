@@ -1,4 +1,4 @@
-import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link } from "@chakra-ui/react"
+import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link, background } from "@chakra-ui/react"
 import { FormControl } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react'
@@ -173,10 +173,13 @@ const create = () => {
                         </Text>
 
                         <Box borderRadius={'md'}>
-
-                            <HStack padding={1} mb={{ md: 0, sm: 4 }}>
-                                <IconButton background={'white'} aria-label='Search database' icon={<SearchIcon />} color={'black'} />
-                                < Input backgroundColor={'white'} color={'black'} placeholder='Search for friends' />
+                            <HStack padding={1} mb={{ md: 1, sm: 4 }} background={'white'} borderRadius={'md'}>
+                                <Box background={'white'} _hover={{ background: 'default' }} color={'black'} mr={-1}>
+                                    <IconButton aria-label='Search database' icon={<SearchIcon />} />
+                                </Box>
+                                <Box width={'100%'} backgroundColor={'white'} color={'black'}>
+                                    < Input placeholder='Search for friends' />
+                                </Box>
                             </HStack>
 
                             <Box background={{ md: 'orange.400', base: '' }}
