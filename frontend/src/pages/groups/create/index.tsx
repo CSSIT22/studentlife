@@ -1,5 +1,6 @@
 import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link } from "@chakra-ui/react"
 import { FormControl } from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, } from '@chakra-ui/react'
 import { ChevronRightIcon, SearchIcon, ChevronLeftIcon } from "@chakra-ui/icons"
@@ -30,6 +31,12 @@ const create = () => {
     const PreviewChange = () => { setPreview(!changePreview) }
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const [isModalOpen, setModalOpen] = useState(false);
+    const modalOnClick = () => setModalOpen(!isModalOpen)
+
+    const [isSureOpen, setSureOpen] = useState(false);
+    const sureOnClick = () => setSureOpen(!isSureOpen)
 
     const [tagBtn, setTagBtn] = useState(false)
 
@@ -173,29 +180,70 @@ const create = () => {
                                         background: "none",
                                     },
                                     "::-webkit-scrollbar-thumb": {
-                                        background: "white",
+                                        background: { md: "white", sm: "gray" },
                                     },
                                 }}>
 
-                                <Flex gap={1} direction='column' ml={1} >
-                                    <Box color={'black'}>
+                                <Flex gap={1} direction='column' ml={1} color={'black'}>
+                                    <Box >
                                         <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
                                     </Box>
-                                    <Box color={'black'}>
+                                    <Box >
                                         <FriendInviteList userName='Patthadol Raksapram' isSelected={false} userProfile={''} />
                                     </Box>
-                                    <Box color={'black'}>
+                                    <Box >
                                         <FriendInviteList userName='Vatcharamai Rodring' isSelected={false} userProfile={''} />
                                     </Box>
-                                    <Box color={'black'}>
+                                    <Box >
                                         <FriendInviteList userName='Pakkawat Wassa' isSelected={false} userProfile={''} />
+                                    </Box>
+                                    <Box >
+                                        <FriendInviteList userName='Chokdee Meechai' isSelected={false} userProfile={''} />
+                                    </Box>
+                                    <Box >
+                                        <FriendInviteList userName='Chokchai Meecow' isSelected={false} userProfile={''} />
+                                    </Box>
+                                    <Box >
+                                        <FriendInviteList userName='Somchai Chansamorn' isSelected={false} userProfile={''} />
                                     </Box>
                                 </Flex>
                             </Box>
                         </Box>
-                        <Button width="100%" mt={3} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} size={"md"}>
+
+                        <Button onClick={modalOnClick} width="100%" mt={3} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} size={"md"}>
                             Create
                         </Button>
+                        <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Create your community!</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody pb={6}>
+                                    Are you sure you want to create the community?
+                                </ModalBody>
+
+                                <ModalFooter>
+                                    <Button colorScheme='blue' mr={3} onClick={sureOnClick}>
+                                        Sure
+                                    </Button>
+                                    <Modal closeOnOverlayClick={false} isOpen={isSureOpen} onClose={sureOnClick}>
+                                        <ModalOverlay />
+                                        <ModalContent>
+                                            <ModalHeader>Create your community!</ModalHeader>
+                                            <ModalCloseButton />
+                                            <ModalBody pb={6}>
+                                                Community has been created!
+                                            </ModalBody>
+                                            <ModalFooter>
+                                                <Button onClick={modalOnClick}>Close</Button>
+                                            </ModalFooter>
+                                        </ModalContent>
+                                    </Modal>
+                                    <Button onClick={modalOnClick}>Cancel</Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+
                     </Text>
                 </Box>
 

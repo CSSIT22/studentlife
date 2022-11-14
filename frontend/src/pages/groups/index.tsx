@@ -114,7 +114,7 @@ const index = () => {
                                 placeholder="Seacrh Communities"
                                 focusBorderColor="gray.200"
                             ></Input>
-                            <Link href='groups/create' isExternal>
+                            <Link href='groups/create'>
                                 <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
                                     + Create New Community
                                 </Button>
@@ -220,7 +220,6 @@ const index = () => {
                             pl={5}
                             pr={5}
                             pb={4}
-
                         >
                             <Text as="b" color={{ md: "white", base: "black" }}>Invitation</Text>
                             <Text fontSize="sm" color={{ md: "white", base: "black" }}>These people have been invited to join the community</Text>
