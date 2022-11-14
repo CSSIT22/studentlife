@@ -52,7 +52,7 @@ const create = () => {
 
     return (
         <AppBody>
-            <HStack gap={3} mb={4}>
+            <HStack gap={changePreview ? '50px' : '100px'} mb={4}>
                 { /*Create Community*/}
                 <Box width={{ sm: "100%", md: "450px" }} borderRadius="md" mt={5} padding={4} background={{ md: 'orange.400', base: '' }} color={{ md: "white", base: 'black' }}>
 
@@ -281,7 +281,7 @@ const create = () => {
                     </HStack>
 
                     <Box width="100%" borderRadius="md" padding={5} paddingTop={'5rem'} background={'orange.400'} textColor={"white"}>
-                        <Box color={'black'}>
+                        <Box color={'black'} >
                             <NavCommunity
                                 disableBtn={true}
                                 communityName={GroupName ? GroupName : "Community Name"}
