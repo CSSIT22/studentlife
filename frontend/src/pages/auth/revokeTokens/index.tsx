@@ -6,6 +6,8 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
+import { useContext, useEffect, useState } from "react"
+import { authContext } from "src/context/AuthContext"
 
 const Card = (props: any) => {
     return (
@@ -24,6 +26,7 @@ const Card = (props: any) => {
 }
 
 const index = () => {
+    const user = useContext(authContext)
     return (
         <AppBody>
             <Box bg="tomato" w="100%" p={4} color="white">
