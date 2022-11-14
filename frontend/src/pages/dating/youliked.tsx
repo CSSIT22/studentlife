@@ -1,29 +1,17 @@
-import { Heading, Text, Box, Button, Center, useBreakpointValue, Stack } from "@chakra-ui/react"
+import { HStack } from "@chakra-ui/react"
+import DatingLikedYouButton from "src/components/dating/DatingLikedYouButton"
+import DatingYouLikedButton from "src/components/dating/DatingYouLikedButton"
 import DatingAppBody from "../../components/dating/DatingAppBody"
-import React, { useRef, useState } from "react"
-// Import Swiper React components
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react"
 
 const YouLiked = () => {
-    const isMobile = useBreakpointValue({
-        base: false,
-        md: true,
-    })
-    const swiper = useSwiper()
-    return ( 
-    <DatingAppBody>
-        {isMobile ?(
-            <Box>
-                People who you liked
-
-            </Box>
-        ) : (
-            <Box>
-
-            </Box>
-        )}
+    return (
+        <DatingAppBody>
+            <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center">
+                <DatingLikedYouButton backgroundColor="orange.600" />
+                <DatingYouLikedButton backgroundColor="orange.800" />
+            </HStack>
         </DatingAppBody>
-)
+    )
 }
 
 export default YouLiked

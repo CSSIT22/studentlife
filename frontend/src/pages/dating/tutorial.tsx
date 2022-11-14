@@ -1,6 +1,5 @@
 import { Heading, Text, Box, Button, Center, useBreakpointValue, Stack } from "@chakra-ui/react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
-import React, { useRef, useState } from "react"
 // Import Swiper React components
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react"
 
@@ -55,7 +54,9 @@ const Tutotial = () => {
                                     </Text>
                                 </Center>
                             </Stack>
-                            <Center pt="3em"> {/*ต้องกดแล้วไปหน้าต่อไป;-;*/}
+                            <Center pt="3em">
+                                {" "}
+                                {/*ต้องกดแล้วไปหน้าต่อไป;-;*/}
                                 <Stack spacing={4} direction="row" align="center">
                                     <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
                                         Next
@@ -118,7 +119,9 @@ const Tutotial = () => {
                             <Center pt="3em" display="flex">
                                 <Image src="https://i.gifer.com/7urF.gif"></Image>
                             </Center>
-                            <Center pt="3em"> {/*ต้องกดแล้วต้องไปหน้าrandomization;-;*/}
+                            <Center pt="3em">
+                                {" "}
+                                {/*ต้องกดแล้วต้องไปหน้าrandomization;-;*/}
                                 <Stack spacing={4} direction="row" align="center">
                                     <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
                                         Start Using Dating & Finding Friend
@@ -162,7 +165,9 @@ const Tutotial = () => {
                                     </Text>
                                 </Center>
                             </Stack>
-                            <Center pt="3em"> {/*ต้องกดแล้วไปหน้าต่อไป;-;*/}
+                            <Center pt="3em">
+                                {" "}
+                                {/*ต้องกดแล้วไปหน้าต่อไป;-;*/}
                                 <Stack spacing={4} direction="row" align="center">
                                     <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
                                         Next
@@ -225,7 +230,9 @@ const Tutotial = () => {
                             <Center pt="3em" display="flex">
                                 <Image src="https://i.gifer.com/7urF.gif"></Image>
                             </Center>
-                            <Center pt="3em"> {/*ต้องกดแล้วต้องไปหน้าrandomization;-;*/}
+                            <Center pt="3em">
+                                {" "}
+                                {/*ต้องกดแล้วต้องไปหน้าrandomization;-;*/}
                                 <Stack spacing={4} direction="row" align="center">
                                     <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
                                         Start Using Dating & Finding Friend
