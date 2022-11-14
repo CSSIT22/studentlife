@@ -33,9 +33,11 @@ const index = () => {
                 <Flex justify={"end"}>
                     <Stack>
                         <Text as={"b"} fontSize="3xl">
-                            Welcome! Nattapat
+                            Welcome! {user?.fName} {user?.lName}
                         </Text>
-                        <Text fontSize="xl">11/7/2022</Text>
+                        <Text alignSelf={"end"} fontSize="xl">
+                            {new Date().toISOString().substring(0, 10)}
+                        </Text>
                     </Stack>
                 </Flex>
             </Box>
