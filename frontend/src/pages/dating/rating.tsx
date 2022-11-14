@@ -1,4 +1,4 @@
-import { Heading, Stack, Text, Box, Image, Flex, Center, IconButton, Button } from "@chakra-ui/react"
+import { Heading, Stack, Text, Box, Image, Flex, Center } from "@chakra-ui/react"
 import { useState } from "react"
 import AppBody from "./../../components/share/app/AppBody"
 import DatingRatingStar from "../../components/dating/DatingRatingStar"

@@ -1,4 +1,4 @@
-import { Center, IconButton, useBreakpointValue } from "@chakra-ui/react"
+import { Center, IconButton } from "@chakra-ui/react"
 import { FC, useState } from "react"
 import { AiFillStar, AiOutlineStar } from "react-icons/ai"
 
