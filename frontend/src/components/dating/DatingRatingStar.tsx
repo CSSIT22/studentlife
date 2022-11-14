@@ -7,17 +7,22 @@ const star = [<AiOutlineStar color="#E65300" size="30px" />, <AiFillStar color="
 
 // const DatingRatingStar = (props: any) => {
 const DatingRatingStar: FC<{
-    isFill: boolean
+    defultFill: boolean
     status: number
-    thisStar: any
-}> = ({ isFill, status, thisStar }) => {
-    const [selected, setSelected] = useState<boolean>(isFill)
+}> = ({ status, defultFill }) => {
+    const [selected, setSelected] = useState<boolean>(defultFill)
 
+    let isFill = selected
     function handleClick() {
-        // setSelected(!selected)
+        // setSelected(!selected) // props.onClick(props.children)
+        // if (status === 1) {
+        //     if (isFill === true) {
+        //     } else {
+        //     }
+        // } else if (status === 10) {
+        // } else {
+        // }
         setSelected(!isFill)
-        // thisStar.onClick(thisStar.children)
-        // props.onClick(props.children)
     }
 
     return (

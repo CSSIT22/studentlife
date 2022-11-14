@@ -11,13 +11,14 @@ const Rating = () => {
     const [friend, setFriend] = useState(FRIEND)
     const [searchQuery, setSearchQuery] = useState("")
 
-    function handleStar(star: number) {
-        console.log("Wtf is this value? " + star)
-    }
+    // function handleStar(star: number) {
+    //     console.log("Wtf is this value? " + star)
+    // }
 
     function handleFill(status: number, position: number) {
         return status > position
     }
+
     return (
         <AppBody>
             <Stack color="black" pt="10px">
@@ -45,10 +46,10 @@ const Rating = () => {
                                     {index.map((status) => {
                                         return (
                                             <DatingRatingStar
-                                                // key={status}
-                                                status={index[status]}
-                                                isFill={handleFill(values.rate, index[status])}
-                                                thisStar={handleFill(values.rate, index[status])}
+                                                key={status}
+                                                status={index[status] + 1}
+                                                defultFill={handleFill(values.rate, index[status])}
+
                                                 // onClick={console.log(index[status])}
                                             />
                                         )

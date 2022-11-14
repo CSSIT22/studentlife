@@ -237,8 +237,16 @@ const CreateActivityPoll = () => {
                                     Select poll topics
                                 </Button>
                             </Flex>
-                            <Modal onClose={onClose} isOpen={isOpen} size="lg" isCentered onEsc={onClose} scrollBehavior="inside">
-                                <ModalOverlay />
+                            <Modal
+                                onClose={onClose}
+                                isOpen={isOpen}
+                                size="lg"
+                                isCentered
+                                onEsc={onClose}
+                                scrollBehavior="inside"
+                                closeOnOverlayClick={false}
+                            >
+                                <ModalOverlay backdropBlur={"base"} />
                                 <ModalContent>
                                     <ModalHeader>
                                         <Grid
@@ -331,10 +339,7 @@ const CreateActivityPoll = () => {
                                 borderRadius={"6px"}
                                 id="description"
                                 value={description}
-                                onChange={() => {
-                                    handleInputDescriptionChange
-                                    setLocationInputD("")
-                                }}
+                                onChange={handleInputDescriptionChange}
                                 backgroundColor="white"
                                 placeholder="Description"
                                 size="sm"
@@ -363,7 +368,10 @@ const CreateActivityPoll = () => {
                                 id="location"
                                 type="text"
                                 value={location}
-                                onChange={handleInputLocationChange}
+                                onChange={(e) => {
+                                    setLocationInputD("")
+                                    handleInputLocationChange(e)
+                                }}
                                 backgroundColor="white"
                                 placeholder="Location"
                                 size="sm"
