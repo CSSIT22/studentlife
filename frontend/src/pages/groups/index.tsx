@@ -115,7 +115,7 @@ const index = () => {
                                 focusBorderColor="gray.200"
                             ></Input>
                             <Link href='groups/create' _hover={{ textDecoration: "none" }} >
-                                <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
+                                <Button mt="2" colorScheme="orange" _hover={{ background: 'orange.200' }} variant="solid" width="95%" fontSize="sm">
                                     + Create New Community
                                 </Button>
                             </Link>

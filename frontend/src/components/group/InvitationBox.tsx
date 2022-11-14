@@ -53,7 +53,7 @@ const InvitationBox: FC<{
                                     </div>
                                 </HStack>
                                 <HStack justify={{ base: "flex-start", md: "flex-end" }}>
-                                    <Button background='green.500' _hover={{ background: 'green.300' }} color='white' size="sm" onClick={handleAcceptOnClick}>
+                                    <Button background='green.500' _hover={{ background: 'green.400' }} color='white' size="sm" onClick={handleAcceptOnClick}>
                                         Join Community
                                     </Button>
                                     <Button background='red' _hover={{ background: 'red.400' }} color='white' size="sm" onClick={handleDeclineOnClick}>

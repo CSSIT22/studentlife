@@ -1,4 +1,4 @@
-import { Avatar, Flex, HStack, Box, Text, Button, } from '@chakra-ui/react'
+import { Avatar, Flex, HStack, Box, Text, Button, background, } from '@chakra-ui/react'
 import React, { FC } from 'react'
 
 const RequestList: FC<{ userProfile: string; userRole?: string; userName: string }> = ({ userProfile, userName, userRole }) => {
@@ -20,16 +20,16 @@ const RequestList: FC<{ userProfile: string; userRole?: string; userName: string
                         </div>
                     </HStack>
                     <HStack justify={{ base: "flex-end" }}>
-                        <Button background={'green'} color={'white'} size={"sm"}>
+                        <Button background={'green'} _hover={{ background: 'green.400' }} color={'white'} size={"sm"}>
                             Accept
                         </Button>
-                        <Button background={'red'} color={'white'} size={"sm"}>
+                        <Button background={'red'} _hover={{ background: 'red.400' }} color={'white'} size={"sm"}>
                             Decline
                         </Button>
                     </HStack>
                 </Flex>
             </Box>
-        </Box>
+        </Box >
     )
 }
 
