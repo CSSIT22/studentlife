@@ -16,7 +16,7 @@ const DatingRatingStar: FC<{
     function handleClick() {
         // setSelected(!selected)
         setSelected(!isFill)
-        //thisStar.onClick(thisStar.children)
+        // thisStar.onClick(thisStar.children)
         // props.onClick(props.children)
     }
 

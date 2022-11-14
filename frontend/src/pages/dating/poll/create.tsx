@@ -387,7 +387,7 @@ const CreateActivityPoll = () => {
                             </Select>
                         </Flex>
                         {!isTooShortLocation ? (
-                            <FormHelperText color="gray">You have selected</FormHelperText>
+                            <FormHelperText color="gray">You have selected {location} as a location.</FormHelperText>
                         ) : (
                             <FormErrorMessage color="red">The minimum header length is 5 characters. Type something.</FormErrorMessage>
                         )}
