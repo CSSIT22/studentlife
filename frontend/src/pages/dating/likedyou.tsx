@@ -1,7 +1,7 @@
 import { Box, Button, ButtonGroup, useBreakpointValue, Stack } from "@chakra-ui/react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 
-const YouLiked = () => {
+const LikedYou = () => {
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
@@ -28,4 +28,4 @@ const YouLiked = () => {
     )
 }
 
-export default YouLiked
+export default LikedYou
