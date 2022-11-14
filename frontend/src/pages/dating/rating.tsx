@@ -22,7 +22,7 @@ const Rating = () => {
 
     //Handle change
     function handleStatus(status: number, position: number) {
-        console.log("Status: " + status + " | Position: " + position)
+        //console.log("Status: " + status + " | Position: " + position)
         if (status === position) {
         }
         return
@@ -64,7 +64,7 @@ const Rating = () => {
                                                 key={status}
                                                 status={index[status] + 1}
                                                 defultFill={handleFill(values.rate, index[status])}
-                                                changeStatus={handleStatus(values.rate, index[status])}
+                                                //changeStatus={handleStatus(values.rate, index[status])}
                                                 // onClick={console.log(index[status])}
                                             />
                                         )

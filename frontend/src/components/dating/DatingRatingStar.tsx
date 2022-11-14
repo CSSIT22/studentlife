@@ -9,8 +9,8 @@ const star = [<AiOutlineStar color="#E65300" size="30px" />, <AiFillStar color="
 const DatingRatingStar: FC<{
     defultFill: boolean
     status: number
-    changeStatus: boolean
-    onSelect: () => void
+    //changeStatus: boolean
+    // onSelect: () => void
 }> = ({ status, defultFill }) => {
     const [selected, setSelected] = useState<boolean>(defultFill)
 
