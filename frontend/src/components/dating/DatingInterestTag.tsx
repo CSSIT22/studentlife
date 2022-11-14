@@ -88,14 +88,13 @@ const DatingInterestTag: FC<{
     ) : // If true, it will return the light gray tags that cannot be checked.
     // Else, it will return the gray tags that is currently unchecked.
     numOfSelectedInterest === 5 ? (
-        <Box onClick={onOpen} display="inline">
+        <Box onClick={onOpen} display="inline" mr="11px">
             <Checkbox
                 p="1"
                 pr="5"
                 pl="2"
                 color="white"
                 h="36.4px"
-                mr="11px"
                 mb="23px"
                 backgroundColor="orange.400"
                 borderRadius="full"
