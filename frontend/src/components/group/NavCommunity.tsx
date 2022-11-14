@@ -1,8 +1,8 @@
 import { HStack, Box, Image, Text, Button, Flex, background, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, } from "@chakra-ui/react"
 import React, { FC, } from "react"
 import { TiWarning } from "react-icons/ti";
+import { Link } from "react-router-dom";
 import { MdPublic, MdPublicOff } from "react-icons/md"
-import { useParams, Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUserLock, FaUserShield, FaUser } from "react-icons/fa";
 
@@ -72,7 +72,9 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                             </Box>
                                             <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
                                                 <FaExclamationCircle />
-                                                <Text>Edit Community</Text>
+                                                <Link to={"http://127.0.0.1:5173/groups/id/1/edit"} >
+                                                    <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
+                                                </Link>
                                             </Box>
                                         </PopoverBody>
                                     </PopoverContent>
@@ -95,7 +97,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                     <Link to={disableBtn ? "" : `/groups/id/${communityID}/file`} relative='path'><Button backgroundColor={"white"} _hover={{ background: 'default' }} size={"sm"} isActive={(activeBtn == 3 && !isPrivate ? true : false)} disabled={isPrivate}>File</Button></Link>
                 </Flex>
 
-            </Box>
+            </Box >
 
             <Flex direction="column" justify={"center"} align="center" mt={3}>
                 {(isPrivate && (communityID != 1000)) ? (<Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
