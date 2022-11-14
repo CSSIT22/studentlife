@@ -230,12 +230,16 @@ const create = () => {
                                         <ModalOverlay />
                                         <ModalContent>
                                             <ModalHeader>Create your community!</ModalHeader>
-                                            <ModalCloseButton />
+                                            <Link href="http://127.0.0.1:5173/groups/id/1000/">
+                                                <ModalCloseButton /> {/* Will link to created community page */}
+                                            </Link>
                                             <ModalBody pb={6}>
                                                 Community has been created!
                                             </ModalBody>
                                             <ModalFooter>
-                                                <Button onClick={modalOnClick}>Close</Button>
+                                                <Link href="http://127.0.0.1:5173/groups/id/1000/" _hover={{ textDecoration: "none" }}>
+                                                    <Button onClick={modalOnClick}>Close</Button> {/* Will link to created community page */}
+                                                </Link>
                                             </ModalFooter>
                                         </ModalContent>
                                     </Modal>
@@ -243,7 +247,6 @@ const create = () => {
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-
                     </Text>
                 </Box>
 

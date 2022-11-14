@@ -114,7 +114,7 @@ const index = () => {
                                 placeholder="Seacrh Communities"
                                 focusBorderColor="gray.200"
                             ></Input>
-                            <Link href='groups/create'>
+                            <Link href='groups/create' _hover={{ textDecoration: "none" }} >
                                 <Button mt="2" colorScheme="orange" variant="solid" width="95%" fontSize="sm">
                                     + Create New Community
                                 </Button>
