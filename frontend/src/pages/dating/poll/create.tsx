@@ -47,6 +47,9 @@ const CreateActivityPoll = () => {
     const [location, setLocationInput] = useState("")
     const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
 
+    const [locationD, setLocationInputD] = useState("")
+    const handleInputLocationChangeD = (e: any) => setLocationInputD(e.target.value)
+
     const [date, setDateInput] = useState("")
     const handleInputDateChange = (e: any) => setDateInput(e.target.value)
 
@@ -84,6 +87,7 @@ const CreateActivityPoll = () => {
     const isNoTime = time.length < 3
     let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
     let isNoTopic = handleTopic().length < 1
+    let isNull = location.length > 1
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -327,7 +331,10 @@ const CreateActivityPoll = () => {
                                 borderRadius={"6px"}
                                 id="description"
                                 value={description}
-                                onChange={handleInputDescriptionChange}
+                                onChange={() => {
+                                    handleInputDescriptionChange
+                                    setLocationInputD("")
+                                }}
                                 backgroundColor="white"
                                 placeholder="Description"
                                 size="sm"
@@ -376,6 +383,7 @@ const CreateActivityPoll = () => {
                                 pl="20px"
                                 borderColor="black"
                                 errorBorderColor="red"
+                                value={locationD}
                                 shadow="lg"
                                 onChange={(e: any) => {
                                     handleInputLocationChange(e)
