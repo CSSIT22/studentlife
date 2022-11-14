@@ -99,5 +99,14 @@ export const HEART_HISTORY = [
         url: "https://lh3.googleusercontent.com/iIzDn013HQ8NR_KZhaXGeLld6jaszvmRbdrKMGoYuB5MZOZI7ZM6V58yVFHqIuOuJGALhKcKn8vwXTBLf-csPpwaHE5f7YEFIj_KS2SVMcVbQlc=w1600-rj-l80-nu-e365",
         interestId: [15, 3, 4],
     },
-
+    {
+        UserId: "23482049820",
+        Fname: "Jennie",
+        Lname: "Kim",
+        Gender: "F",
+        Age: "26",
+        Faculty: "Faculty Of Engineering",
+        url: "https://lh3.googleusercontent.com/Km2FSe-U_oW1ZT1LK1u-p0nsH_QTucR7l_sUU2UvlgZpAjQaj2Oik4te9iFUVmqthLCd-6VLPtoDL9iAcs7mL7tcpSOd0tCMAtPUISBFtjMh0WI=w1600-rj-l80-nu-e365",
+        interestId: [4, 1, 6, 7, 9],
+    },
 ]
