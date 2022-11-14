@@ -1,5 +1,5 @@
 import { useBreakpointValue } from "@chakra-ui/react"
-import { AiOutlineHome, AiOutlineHeart, AiTwotoneShop, AiOutlineLink } from "react-icons/ai"
+import { AiOutlineHome, AiOutlineHeart, AiTwotoneShop, AiOutlineLink, AiOutlineStar } from "react-icons/ai"
 import { HiOutlineUserGroup, HiSpeakerphone } from "react-icons/hi"
 import { BsFillCloudArrowUpFill, BsPatchQuestion } from "react-icons/bs"
 import NavBarDesktop from "./NavBarDesktop"
@@ -23,6 +23,7 @@ export const moreMenu = [
     { to: "/shop", Icon: AiTwotoneShop, name: "Shop" },
     { to: "/restaurant", Icon: IoFastFoodSharp, name: "Restaurant" },
     { to: "/shopreview", Icon: MdReviews, name: "ShopReview" },
+    { to: "/dating/rating", Icon: AiOutlineStar, name: "Rating" }
 ]
 
 const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
