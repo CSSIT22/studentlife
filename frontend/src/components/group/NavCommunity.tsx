@@ -1,8 +1,10 @@
-import { HStack, Box, Image, Text, Button, Flex, background, } from "@chakra-ui/react"
+import { HStack, Box, Image, Text, Button, Flex, background, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, } from "@chakra-ui/react"
 import React, { FC, } from "react"
 import { TiWarning } from "react-icons/ti";
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { useParams, Link } from "react-router-dom";
+import { BsThreeDots } from "react-icons/bs";
+import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUserLock, FaUserShield, FaUser } from "react-icons/fa";
 
 const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; communityID: number; communityName: string; coverPhoto: string; isPrivate: boolean, description: string, isMember: boolean, members: number }> = ({
     communityID,
@@ -53,7 +55,30 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                         </Box>
                     </div>
                     <div>
-                        {isMember ? <Button size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'} >Invite</Button> : <Button size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'}>Join</Button>}
+                        {isMember ? <HStack>
+                            <Button size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'} >Invite</Button>
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
+                                        <BsThreeDots fontSize={"25px"} />
+                                    </Box>
+                                </PopoverTrigger>
+                                <Portal>
+                                    <PopoverContent width="180px">
+                                        <PopoverBody>
+                                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                                <FaBan />
+                                                <Text>Leave Community</Text>
+                                            </Box>
+                                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                                <FaExclamationCircle />
+                                                <Text>Edit Community</Text>
+                                            </Box>
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Portal>
+                            </Popover>
+                        </HStack> : <Button size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'}>Join</Button>}
                     </div>
                 </ HStack>
 
