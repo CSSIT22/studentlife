@@ -222,7 +222,7 @@ const index = () => {
                             pb={4}
                         >
                             <Text as="b" color={{ md: "white", base: "black" }}>Invitation</Text>
-                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>These people have been invited to join the community</Text>
+                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>These people have invited you to join the community</Text>
                             {userData.invitations.map((i) => (
                                 <InvitationBox
                                     key={i.inviteID}
@@ -248,7 +248,7 @@ const index = () => {
                             pb={4}
                         >
                             <Text as="b" color={{ md: "white", base: "black" }}>Suggested for you</Text>
-                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>Communitys you might be interested in.</Text>
+                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>Communities you might be interested in.</Text>
                             <Grid gap={2} templateColumns={{ sm: "repeat(1,1fr)", md: "repeat(2, 1fr)" }} width="100%">
                                 {userData.invitations.map((i) => (
                                     <SuggestBox

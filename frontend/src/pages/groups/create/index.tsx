@@ -76,7 +76,7 @@ const create = () => {
                                 w={6} h={6}
                             />
                         </Link>
-                        <Text fontSize={"xl"} fontWeight={700} >
+                        <Text fontSize={"2xl"} fontWeight={700} >
                             Create Community
                         </Text>
                     </HStack>
@@ -210,7 +210,7 @@ const create = () => {
                             </Box>
                         </Box>
 
-                        <Button onClick={modalOnClick} width="100%" mt={3} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} size={"md"}>
+                        <Button onClick={modalOnClick} width="100%" mt={3} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} _hover={{ background: 'default.200' }} size={"md"}>
                             Create
                         </Button>
                         <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick}>
@@ -254,7 +254,7 @@ const create = () => {
                 <Box background={'orange.400'} borderRadius="md" paddingTop={5} color={'white'} width={changePreview ? '550px' : '375px'} display={{ sm: "none", md: "block" }}>
 
                     <HStack justifyContent={"space-between"} align={'center'} padding={1} mt={-2} paddingLeft={5} paddingRight={5} >
-                        <Text fontSize={"xl"} fontWeight={700} >
+                        <Text fontSize={"2xl"} fontWeight={700} >
                             {changePreview ? "Desktop Preview" : " Mobile Preview"}
                         </Text>
                         <Text display={'flex'} gap={2} >
