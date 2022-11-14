@@ -14,11 +14,11 @@ import {
   } from '@chakra-ui/react';
   import convertCurrency from "../../../components/shop/functions/usefulFunctions"
 
-export default function generateProducts() {
+  export default function generateProducts() {
     let products = []
     for (let i = 0; i < 3; i++) {
         products.push(
-            <GridItem bg="#CBD5E0" border="1px">
+            <GridItem bg="" borderBottom="1px">
                 <OrderedProductDisplay
                 name="Pen"
                 price={10000}
@@ -40,6 +40,9 @@ const OrderedProductDisplay: FC<{
     link: string
 }> = ({ name, price, quantity, image, link}) => {
     return (
+        <LinkBox>
+         <LinkOverlay href={link}>
+
       <Center pt={2}>
             <Stack align={'center'} justify={'center'} direction={'row'}>
                 <Flex position="relative" justify="center" px={10}>
@@ -54,6 +57,7 @@ const OrderedProductDisplay: FC<{
                         src={image}
                         alt="product picture"
                         placeholder="blur"
+                        borderRadius="5%"
                         />
                     </Box>
                 </Flex>
@@ -72,6 +76,8 @@ const OrderedProductDisplay: FC<{
                 </Box>
             </Stack>
       </Center>
+      </LinkOverlay>
+      </LinkBox>
     );
   }
 
