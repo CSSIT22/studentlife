@@ -18,7 +18,7 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
         // Modal to be used for Interest Page when you select more than 5 tags of interest
         <>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "lg" }}>
-                <ModalOverlay backdropFilter="blur(10px)" />
+                <ModalOverlay />
                 <ModalContent alignItems="center">
                     <ModalHeader>
                         <Heading
