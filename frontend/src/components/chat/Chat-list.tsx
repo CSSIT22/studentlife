@@ -49,7 +49,6 @@ const Clist: FC<any> = () => {
                 <MenuList color={"black"}>
                     <MenuItem>Mute</MenuItem>
                     <MenuItem onClick={() => DeleteRoom(room)}>Deteleroom</MenuItem>
-                    <MenuItem>Block</MenuItem>
                     <MenuItem>
                         <Nmodal />
                     </MenuItem>

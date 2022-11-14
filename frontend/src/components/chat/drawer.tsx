@@ -33,11 +33,6 @@ function DrawerExample(props: any) {
                         </Box>
                         <Box>
                             <Button width={"100%"} marginBottom={2}>
-                                Block
-                            </Button>
-                        </Box>
-                        <Box>
-                            <Button width={"100%"} marginBottom={2}>
                                 <Nmodal />
                             </Button>
                         </Box>
