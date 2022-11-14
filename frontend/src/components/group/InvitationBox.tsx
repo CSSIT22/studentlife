@@ -65,7 +65,7 @@ const InvitationBox: FC<{
                                 <Text fontSize="sm" as="b">
                                     {userName} invited you to join this community
                                 </Text>
-                                <Text fontSize="sm">invite expires in {expireDate} days</Text>
+                                <Text fontSize="sm">Invite will be expired within {expireDate} days</Text>
                             </Box>
                         </Flex>
 

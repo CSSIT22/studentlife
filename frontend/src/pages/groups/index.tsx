@@ -67,7 +67,7 @@ const index = () => {
                                     All
                                 </Button>
                                 <Button backgroundColor={inviteBtn ? "gray.300" : "gray.100"} onClick={handleInviteOnClick}>
-                                    Invite
+                                    Invited
                                 </Button>
                                 <Button backgroundColor={suggestBtn ? "gray.300" : "gray.100"} onClick={handleSuggestOnClick}>
                                     Suggested

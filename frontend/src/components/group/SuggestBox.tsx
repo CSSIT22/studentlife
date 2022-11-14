@@ -36,7 +36,7 @@ const SuggestBox: FC<{
                             {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
                         </Text>
                     </div>
-                    <Button _hover={{ background: 'orange.200' }} background={'orange.500'} color='white' size="sm">Join community</Button>
+                    <Button _hover={{ background: 'orange.200' }} background={'orange.500'} color='white' size="sm">Join Community</Button>
                 </Flex>
             </Box>
         </Box>

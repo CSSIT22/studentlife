@@ -68,32 +68,40 @@ const create = () => {
                         </BreadcrumbItem>
                     </Breadcrumb>
 
-                    <HStack>
+                    <HStack ml={-2} mb={{ md: 0, sm: 4 }}>
                         <Link href='http://127.0.0.1:5173/groups'>
                             <ChevronLeftIcon
                                 display={{ sm: 'block', md: 'none' }}
                                 color='black'
                                 w={6} h={6}
+
                             />
                         </Link>
-                        <Text fontSize={"2xl"} fontWeight={700} >
+                        <Text fontSize={"2xl"} fontWeight={700}  >
                             Create Community
                         </Text>
                     </HStack>
 
 
-                    <Text fontSize={"md"} fontWeight={500}>
+                    <Text fontSize={"md"} fontWeight={500} >
 
-                        Name
-                        <FormControl >
-                            <Input type='Name' value={GroupName} onChange={textChange} background={"white"} color="black" />
+                        <Text mb={{ md: 0, sm: 4 }}>
+                            Name
+                        </Text>
+                        <FormControl mb={{ md: 2, sm: 4 }}>
+                            <Input type='Name' placeholder="Community Name" value={GroupName} onChange={textChange} background={"white"} color="black" />
                         </FormControl>
 
                         {/* Tags */}
-                        Choose Tags
-                        <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='xs'>
-                            <FaPlus />
-                        </Button>
+                        <HStack mb={{ md: 2, sm: 4 }}>
+                            <Text>
+                                Choose Tags
+                            </Text>
+                            <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='xs'>
+                                <FaPlus />
+                            </Button>
+                        </HStack>
+
 
                         <Drawer placement={'bottom'} onClose={onClose} isOpen={isOpen}>
                             <DrawerOverlay />
@@ -116,7 +124,7 @@ const create = () => {
                             </DrawerContent>
                         </Drawer>
 
-                        <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} >
+                        <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} mb={{ md: 2, sm: 4 }}>
                             {userData.Tag.map((Tags) =>
                                 <Tag
                                     fontSize={"md"}
@@ -133,45 +141,49 @@ const create = () => {
                         </HStack>
 
                         {/* Privacy */}
-                        <HStack>
+                        <HStack mb={{ md: 0, sm: 4 }}>
                             <Text mr={-1}>Privacy</Text>
                             <MdPublic color="White" />
                         </HStack>
 
-                        <FormControl>
+                        <FormControl mb={{ md: 2, sm: 4 }}>
                             <Select onChange={PrivacyOnChange} placeholder='Public' background={"white"} color="black">
                                 {/* <option value={'false'}>Public</option > */}
                                 <option value={'true'}>Private</option >
                             </Select>
                         </FormControl>
 
-                        Description
-                        <FormControl>
-                            <Textarea value={Describe} onChange={DesChange} placeholder=" " size='sm' background={"white"} color="black" />
+                        <Text mb={{ md: 0, sm: 4 }}>
+                            Description
+                        </Text>
+                        <FormControl mb={{ md: 2, sm: 4 }}>
+                            <Textarea value={Describe} onChange={DesChange} placeholder="Type your description here" size='sm' background={"white"} color="black" />
                         </FormControl>
 
-                        <Text mt={2} mb={2}>
+                        <Text mb={{ md: 0, sm: 4 }}>
                             Add a cover photo
                         </Text>
 
-                        <Button width="100%" color='black' size={"sm"}>
+                        <Button width="100%" color='black' size={"sm"} mb={{ md: 2, sm: 4 }}>
                             + Upload Cover Photo
                         </Button>
 
-                        <Text mt={2} mb={2}>
+                        <Text mb={{ md: 0, sm: 4 }}>
                             Invite friends to join this community
                         </Text>
 
                         <Box borderRadius={'md'}>
 
-                            <HStack padding={1}>
+                            <HStack padding={1} mb={{ md: 0, sm: 4 }}>
                                 <IconButton background={'white'} aria-label='Search database' icon={<SearchIcon />} color={'black'} />
                                 < Input backgroundColor={'white'} color={'black'} placeholder='Search for friends' />
                             </HStack>
 
                             <Box background={{ md: 'orange.400', base: '' }}
-                                height={'200px'}
+                                height={{ sm: '400px', md: '200px' }}
                                 paddingRight={0.5}
+                                mb={{ md: 0, sm: 4 }}
+
                                 sx={{
                                     "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
                                     overflowY: "scroll",
@@ -180,11 +192,11 @@ const create = () => {
                                         background: "none",
                                     },
                                     "::-webkit-scrollbar-thumb": {
-                                        background: { md: "white", sm: "gray" },
+                                        background: { md: "white", sm: "none" },
                                     },
                                 }}>
 
-                                <Flex gap={1} direction='column' ml={1} color={'black'}>
+                                <Flex gap={1} direction='column' ml={1} color={'black'} borderRadius={'md'} >
                                     <Box >
                                         <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
                                     </Box>
