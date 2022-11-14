@@ -23,7 +23,7 @@ import {
   } from '@chakra-ui/react'
 const shortlink = () =>{
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = React.useRef()
+    const cancelRef = React.useRef<any>()
   
     return(
         <AppBody>
