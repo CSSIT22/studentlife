@@ -31,6 +31,7 @@ import React from "react"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import AppBody from "src/components/share/app/AppBody"
 import { AddIcon } from "@chakra-ui/icons"
+import { AiFillFolder } from "react-icons/ai"
 
 const folderpage = () => {
     const { isOpen: isCreateOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure()
@@ -52,7 +53,8 @@ const folderpage = () => {
                     <ModalHeader>Create Folder</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Heading as="h2" size="ms" noOfLines={1}>
+                        <Heading as="h2" size="ms" noOfLines={1} display="flex" alignItems="center">
+                            <AiFillFolder />
                             Folder Name
                         </Heading>
                         <Input placeholder="Folder Name" size="md" />
