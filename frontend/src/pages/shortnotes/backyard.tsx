@@ -85,50 +85,76 @@ const data = {
     course: ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"],
 }
 const pg = () => {
-    const [coursePicked, setCoursePicked] = useState("")
+    const [pName, setName] = useState("")
+    const [people, setPeoples] = useState<string[]>([])
 
-    const [filtered, setFiltered] = useState<any>([])
-    useEffect(() => {
-        dataFiltered() //what to do
-    }, [coursePicked]) // what to track
-    const picked = (e: any) => {
-        setCoursePicked(e.target.value)
+    const li = [
+        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
+        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
+    ]
+    const inLi = [
+        {
+            topic: "How to make ER diagram in 10 minutes.",
+            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            course: "CSC218",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        },
+        {
+            topic: "How to make ER diagram in 10 minutess.",
+            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+            course: "CSC218",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        },
+        {
+            topic: "How to make ER diagram in 10 minutesss.",
+            liId: "grehg343-gj54-4bad-9gre-fkg9fidhjd89",
+            course: "CSC218",
+            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        },
+    ]
+    function CustomCheckbox(props: any) {
+        const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
+
+        return (
+            <chakra.label gridColumnGap={2} bg="white" h={100} shadow={"xl"} rounded={8} p={2} cursor="pointer" {...htmlProps}>
+                <input {...getInputProps()} hidden />
+
+                <Grid templateColumns="repeat(3, 1fr)" h={"100%"} w={"100%"}>
+                    <Spacer />
+                    <GridItem>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"}>
+                            <Heading size={"md"}>{props.name}</Heading>
+                        </Flex>
+                    </GridItem>
+                    <GridItem>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"end"} alignItems={"center"} pr={30}>
+                            {/* {state.isChecked && <Box w={"100%"} h={"100%"} bg="orange.500" rounded={8} />} */}
+
+                            {state.isChecked && (
+                                // <Box bg={"white"} p={4} shadow={"md"}>
+                                <BsCheckLg fontSize={30} color={"#e65d10"} />
+                                // </Box>
+                            )}
+                        </Flex>
+                    </GridItem>
+                </Grid>
+            </chakra.label>
+        )
     }
-    const dataFiltered = () => {
-        setFiltered(data.sn.filter((items) => items.course == coursePicked))
-    }
+
+    const { value, getCheckboxProps } = useCheckboxGroup({
+        // defaultValue: [""],
+    })
 
     return (
-        <Box>
-            <Select variant="filled" placeholder="All" onChange={(e) => picked(e)}>
-                {data.course.map((course, key) => (
-                    <option value={course}>{course}</option>
+        <>
+            <Stack>
+                {/* <Text>The selected checkboxes are: {value.sort().join(" and ")}</Text> */}
+                {li.map((li, key) => (
+                    <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)} />
                 ))}
-            </Select>
-            <Button value={"CSC218"} onClick={(e) => picked(e)}>
-                X
-            </Button>
-            <Button value={"CSC220"} onClick={picked}>
-                X
-            </Button>
-            <Button value={""} onClick={picked}>
-                X
-            </Button>
-
-            {coursePicked == "" ? (
-                <>
-                    {data.sn.map((sn: any) => (
-                        <Text>{sn.topic}</Text>
-                    ))}
-                </>
-            ) : (
-                <>
-                    {filtered.map((f: any) => (
-                        <Text>{f.topic}</Text>
-                    ))}
-                </>
-            )}
-        </Box>
+            </Stack>
+        </>
     )
 }
 
@@ -156,74 +182,50 @@ export default pg
 //     </ul>
 // </>
 
-// const [pName, setName] = useState("")
-// const [people, setPeoples] = useState<string[]>([])
+// const pg = () => {
+//     const [coursePicked, setCoursePicked] = useState("")
 
-// const li = [
-//     { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
-//     { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
-// ]
-// const inLi = [
-//     {
-//         topic: "How to make ER diagram in 10 minutes.",
-//         liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-//         course: "CSC218",
-//         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-//     },
-//     {
-//         topic: "How to make ER diagram in 10 minutess.",
-//         liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-//         course: "CSC218",
-//         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-//     },
-//     {
-//         topic: "How to make ER diagram in 10 minutesss.",
-//         liId: "grehg343-gj54-4bad-9gre-fkg9fidhjd89",
-//         course: "CSC218",
-//         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-//     },
-// ]
-// function CustomCheckbox(props: any) {
-//     const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
+//     const [filtered, setFiltered] = useState<any>([])
+//     useEffect(() => {
+//         dataFiltered() //what to do
+//     }, [coursePicked]) // what to track
+//     const picked = (e: any) => {
+//         setCoursePicked(e.target.value)
+//     }
+//     const dataFiltered = () => {
+//         setFiltered(data.sn.filter((items) => items.course == coursePicked))
+//     }
 
 //     return (
-//         <chakra.label gridColumnGap={2} bg="white" h={100} shadow={"xl"} rounded={8} p={2} cursor="pointer" {...htmlProps}>
-//             <input {...getInputProps()} hidden />
+//         <Box>
+//             <Select variant="filled" placeholder="All" onChange={(e) => picked(e)}>
+//                 {data.course.map((course, key) => (
+//                     <option value={course}>{course}</option>
+//                 ))}
+//             </Select>
+//             <Button value={"CSC218"} onClick={(e) => picked(e)}>
+//                 X
+//             </Button>
+//             <Button value={"CSC220"} onClick={picked}>
+//                 X
+//             </Button>
+//             <Button value={""} onClick={picked}>
+//                 X
+//             </Button>
 
-//             <Grid templateColumns="repeat(3, 1fr)" h={"100%"} w={"100%"}>
-//                 <Spacer />
-//                 <GridItem>
-//                     <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"}>
-//                         <Heading size={"md"}>{props.name}</Heading>
-//                     </Flex>
-//                 </GridItem>
-//                 <GridItem>
-//                     <Flex w={"100%"} h={"100%"} justifyContent={"end"} alignItems={"center"} pr={30}>
-//                         {/* {state.isChecked && <Box w={"100%"} h={"100%"} bg="orange.500" rounded={8} />} */}
-
-//                         {state.isChecked && (
-//                             // <Box bg={"white"} p={4} shadow={"md"}>
-//                             <BsCheckLg fontSize={30} color={"#e65d10"} />
-//                             // </Box>
-//                         )}
-//                     </Flex>
-//                 </GridItem>
-//             </Grid>
-//         </chakra.label>
+//             {coursePicked == "" ? (
+//                 <>
+//                     {data.sn.map((sn: any) => (
+//                         <Text>{sn.topic}</Text>
+//                     ))}
+//                 </>
+//             ) : (
+//                 <>
+//                     {filtered.map((f: any) => (
+//                         <Text>{f.topic}</Text>
+//                     ))}
+//                 </>
+//             )}
+//         </Box>
 //     )
 // }
-
-// const { value, getCheckboxProps } = useCheckboxGroup({
-//     // defaultValue: [""],
-// })
-
-// return (
-//     <>
-//         <Stack>
-//             {/* <Text>The selected checkboxes are: {value.sort().join(" and ")}</Text> */}
-//             {li.map((li, key) => (
-//                 <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)} />
-//             ))}
-//         </Stack>
-//     </>
-// )
