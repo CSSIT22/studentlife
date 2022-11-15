@@ -36,7 +36,8 @@ const DatingRandomCard: FC<{
             }[]
         >
     >
-}> = ({ childRefs, index, character, controlCross, controlHeart, setCurrentIndex, currentIndex, setCardQueue }) => {
+    numOfCharacter: number
+}> = ({ childRefs, index, character, controlCross, controlHeart, setCurrentIndex, currentIndex, setCardQueue, numOfCharacter }) => {
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
     // Swipe the card
@@ -50,10 +51,15 @@ const DatingRandomCard: FC<{
             controlHeart.start("hidden")
         }
         updateCurrentIndex(index - 1)
+        let frontCard = document.getElementById(index.toString()) as HTMLInputElement
+        frontCard.style.pointerEvents = "none"
+        let backCard = document.getElementById((index - 1).toString()) as HTMLInputElement
+        if (backCard) {
+            backCard.style.pointerEvents = "initial"
+        }
         setTimeout(() => {
-            let card = document.getElementById(index.toString()) as HTMLInputElement
-            if (card) {
-                card.style.display = "none"
+            if (frontCard) {
+                frontCard.style.display = "none"
             }
         }, 500)
     }
@@ -79,6 +85,9 @@ const DatingRandomCard: FC<{
         } else if (dir === "right") {
             controlCross.start("hidden")
             controlHeart.start("visible")
+        } else if (dir === "up" || dir === "down") {
+            controlCross.start("hidden")
+            controlHeart.start("hidden")
         }
     }
 
@@ -102,38 +111,74 @@ const DatingRandomCard: FC<{
         >
             <Center>
                 {/* Picture in the card */}
-                <Box
-                    ref={childRefs[index]}
-                    id={index.toString()}
-                    borderRadius="10px"
-                    backgroundImage={character.url}
-                    w={{ base: "326px", md: "379px" }}
-                    h={{ base: "402px", md: "464px" }}
-                    backgroundSize="cover"
-                    className="card"
-                    position="absolute"
-                    top="30px"
-                    display="flex"
-                    alignItems="end"
-                    justifyContent="end"
-                    cursor="pointer"
-                >
-                    {/* Profile button to go into user's profile */}
-                    <Link to="../../user">
-                        <Button
-                            aria-label="User Profile"
-                            className="pressable"
-                            w="50px"
-                            h="50px"
-                            colorScheme="orange"
-                            borderRadius="full"
-                            mr="10px"
-                            mb="10px"
-                        >
-                            <Image className="pressable" src={ProfileImg}></Image>
-                        </Button>
-                    </Link>
-                </Box>
+                {numOfCharacter - 1 == index ? (
+                    <Box
+                        ref={childRefs[index]}
+                        id={index.toString()}
+                        borderRadius="10px"
+                        backgroundImage={character.url}
+                        w={{ base: "326px", md: "379px" }}
+                        h={{ base: "402px", md: "464px" }}
+                        backgroundSize="cover"
+                        className="card"
+                        position="absolute"
+                        top="30px"
+                        display="flex"
+                        alignItems="end"
+                        justifyContent="end"
+                        cursor="pointer"
+                    >
+                        {/* Profile button to go into user's profile */}
+                        <Link to="../../user">
+                            <Button
+                                aria-label="User Profile"
+                                className="pressable"
+                                w="50px"
+                                h="50px"
+                                colorScheme="orange"
+                                borderRadius="full"
+                                mr="10px"
+                                mb="10px"
+                            >
+                                <Image className="pressable" src={ProfileImg}></Image>
+                            </Button>
+                        </Link>
+                    </Box>
+                ) : (
+                    <Box
+                        ref={childRefs[index]}
+                        id={index.toString()}
+                        borderRadius="10px"
+                        backgroundImage={character.url}
+                        w={{ base: "326px", md: "379px" }}
+                        h={{ base: "402px", md: "464px" }}
+                        backgroundSize="cover"
+                        className="card"
+                        position="absolute"
+                        top="30px"
+                        display="flex"
+                        alignItems="end"
+                        justifyContent="end"
+                        cursor="pointer"
+                        pointerEvents="none"
+                    >
+                        {/* Profile button to go into user's profile */}
+                        <Link to="../../user">
+                            <Button
+                                aria-label="User Profile"
+                                className="pressable"
+                                w="50px"
+                                h="50px"
+                                colorScheme="orange"
+                                borderRadius="full"
+                                mr="10px"
+                                mb="10px"
+                            >
+                                <Image className="pressable" src={ProfileImg}></Image>
+                            </Button>
+                        </Link>
+                    </Box>
+                )}
             </Center>
         </TinderCard>
     )

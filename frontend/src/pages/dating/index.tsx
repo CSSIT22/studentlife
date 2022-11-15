@@ -58,6 +58,7 @@ const DatingRandomization = () => {
                             setCurrentIndex={setCurrentIndex}
                             currentIndex={currentIndex}
                             setCardQueue={setCardQueue}
+                            numOfCharacter={characters.length}
                         />
                     ))}
                 </Box>
