@@ -16,33 +16,33 @@ function AboutMe() {
     return (
         <div>
             <Flex rounded="xl" direction="column" my={4} mx={4} bg="white" position="initial" shadow={"lg"}>
-                <Text color="black" p="5" fontSize="2xl" fontWeight="500">
+                <Text color="black" p="5" fontSize="xl" fontWeight="500">
                     ABOUT ME
                 </Text>
                 <Box id="detail" ml={5}>
                     <SimpleGrid columns={2} spacing={10} p={5}>
-                        <Text color="gray.500" fontSize="md">
+                        <Text color="orange.700" fontSize="md" fontWeight="500">
                             PHONE
                         </Text>
-                        <Text color="black" fontSize="lg">
+                        <Text color="black" fontSize="lg" fontWeight="700">
                             09xxxxxxxx
                         </Text>
-                        <Text color="gray.500" fontSize="md">
+                        <Text color="orange.700" fontSize="md" fontWeight="500">
                             AGE
                         </Text>
-                        <Text color="black" fontSize="lg">
+                        <Text color="black" fontSize="lg" fontWeight="700">
                             20
                         </Text>
-                        <Text color="gray.500" fontSize="md">
+                        <Text color="orange.700" fontSize="md" fontWeight="500">
                             SEX
                         </Text>
-                        <Text color="black" fontSize="lg">
+                        <Text color="black" fontSize="lg" fontWeight="700">
                             Male
                         </Text>
-                        <Text color="gray.500" fontSize="md">
+                        <Text color="orange.700" fontSize="md" fontWeight="500">
                             HOBBIES
                         </Text>
-                        <Text mb="5" color="black" fontSize="lg">
+                        <Text mb="5" color="black" fontSize="lg" fontWeight="700">
                             Playing Soccer, Sleeping
                         </Text>
                     </SimpleGrid>
