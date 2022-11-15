@@ -21,6 +21,7 @@ export const moreMenu = [
     { to: "/restaurant", Icon: HiSpeakerphone, name: "Restaurant" },
     { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
     { to: "/todolist", Icon: HiSpeakerphone, name: "To-Do List" },
+    { to: "/dating/rating", Icon: HiSpeakerphone, name: "Rating" },
 ]
 
 const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
