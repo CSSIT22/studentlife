@@ -143,7 +143,7 @@ const index = () => {
                 <Stack direction={"row"}>
                     <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
-                        <Select variant="filled" placeholder="None">
+                        <Select focusBorderColor="orange.500" variant="filled" placeholder="None">
                             <option value="option1">Name</option>
                             <option value="option2">Newest</option>
                             <option value="option2">Oldest</option>
@@ -151,7 +151,7 @@ const index = () => {
                     </VStack>
                     <VStack>
                         <Text alignSelf={"start"}>Course</Text>
-                        <Select variant="filled" placeholder="All" onChange={(e) => picked(e)}>
+                        <Select focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
                             {data.course.map((course, key) => (
                                 <option value={course}>{course}</option>
                             ))}

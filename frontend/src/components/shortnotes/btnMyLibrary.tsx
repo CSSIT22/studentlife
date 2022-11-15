@@ -164,7 +164,7 @@ const btnMyLibrary = () => {
 
                                 <Box w={"100%"}>
                                     <Text>Name</Text>
-                                    <Input variant="outline" placeholder="" />
+                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" />
                                 </Box>
                                 <Button colorScheme="orange" w={"100%"}>
                                     Create
