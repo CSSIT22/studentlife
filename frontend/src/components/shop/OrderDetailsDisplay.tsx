@@ -39,7 +39,7 @@ const OrderDetailsDisplay: FC<{
                     <Grid mt='2'>
                     {generateProducts()}
                     </Grid>
-                    <Details subtotal={10000} deliveryFee={30} couponDiscount={20} address="No.1111, Blah Blah Quarter, Bangkok Thailand" paymentMethod="Master Card"/>
+                    {/* <Details subtotal={10000} deliveryFee={30} couponDiscount={20} address="No.1111, Blah Blah Quarter, Bangkok Thailand" paymentMethod="Master Card"/> */}
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
