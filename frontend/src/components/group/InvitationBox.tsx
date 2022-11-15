@@ -2,9 +2,6 @@ import { Flex, HStack, Box, Image, Text, Button, Stack, VStack } from "@chakra-u
 import React, { FC, useState } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 
-
-
-
 const InvitationBox: FC<{
     userName: string
     communityName: string

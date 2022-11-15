@@ -94,15 +94,16 @@ const create = () => {
                         </FormControl>
 
                         {/* Tags */}
-                        <HStack mb={{ md: 2, sm: 4 }}>
+                        <HStack mb={{ md: 2, sm: 4 }} >
                             <Text>
                                 Choose Tags
                             </Text>
-                            <Button colorScheme={'green'} onClick={onOpen} ml={2} my={2} size='xs'>
-                                <FaPlus />
-                            </Button>
+                            <Box ml={2} my={2}>
+                                <Button colorScheme={'green'} onClick={onOpen} size='xs'>
+                                    <FaPlus />
+                                </Button>
+                            </Box>
                         </HStack>
-
 
                         <Drawer placement={'bottom'} onClose={onClose} isOpen={isOpen}>
                             <DrawerOverlay />
@@ -125,21 +126,23 @@ const create = () => {
                             </DrawerContent>
                         </Drawer>
 
-                        <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} mb={{ md: 2, sm: 4 }}>
-                            {userData.Tag.map((Tags) =>
-                                <Tag
-                                    fontSize={"md"}
-                                    size={"md"}
-                                    key={Tags.tagID}
-                                    borderRadius='full'
-                                    variant='solid'
-                                    colorScheme='green'
-                                    sx={{ marginLeft: '0 !important' }}
-                                >
-                                    <TagLabel>{Tags.tagName}</TagLabel>
-                                    <TagCloseButton />
-                                </Tag>)}
-                        </HStack>
+                        <Box width='100%' bg={'white'} padding={1} borderRadius={'md'} boxShadow={'md'} mb={{ md: 2, sm: 4 }}>
+                            <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} padding={2}>
+                                {userData.Tag.map((Tags) =>
+                                    <Tag
+                                        fontSize={"md"}
+                                        size={"md"}
+                                        key={Tags.tagID}
+                                        borderRadius='full'
+                                        variant='solid'
+                                        colorScheme='green'
+                                        sx={{ marginLeft: '0 !important' }}
+                                    >
+                                        <TagLabel>{Tags.tagName}</TagLabel>
+                                        <TagCloseButton />
+                                    </Tag>)}
+                            </HStack>
+                        </Box>
 
                         {/* Privacy */}
                         <HStack mb={{ md: 0, sm: 4 }}>
@@ -286,8 +289,8 @@ const create = () => {
                                 disableBtn={true}
                                 communityName={GroupName ? GroupName : "Community Name"}
                                 isPrivate={Privacy ? Privacy : false}
-                                isMember={false}
-                                description={Describe ? Describe : "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"}
+                                isMember={true}
+                                description={Describe ? Describe : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"}
                                 coverPhoto="https://picsum.photos/id/400/800"
                                 members={1}
                                 communityID={1000}

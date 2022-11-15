@@ -1,4 +1,4 @@
-import { HStack, Box, Image, Text, Button, Flex, background, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, IconButton, Input, } from "@chakra-ui/react"
+import { HStack, Box, Image, Text, Button, Flex, background, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, IconButton, Input, useDisclosure, } from "@chakra-ui/react"
 import React, { FC, useState, } from "react"
 import { TiWarning } from "react-icons/ti";
 import { Link } from "react-router-dom";
@@ -25,6 +25,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
     activeBtn,
     disableBtn
 }) => {
+    //t
     const [isModalOpen, setModalOpen] = useState(false);
     const modalOnClick = () => setModalOpen(!isModalOpen)
 
@@ -34,7 +35,16 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
         setSearchValue("")
     }
     const { height, width } = useWindowDimensions()
-
+    //t
+    const [isSureOpen, setSureOpen] = useState(false);
+    const sureOnClick = () => {
+        setSureOpen(!isSureOpen)
+        console.log(isSureOpen);
+    }
+    const closeInvite = () => {
+        setModalOpen(false)
+        setSureOpen(false)
+    }
 
     return (
 
@@ -82,7 +92,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                 <Modal closeOnOverlayClick={true} isOpen={isModalOpen} onClose={modalOnClick} >
                                     <ModalOverlay />
                                     <ModalContent>
-                                        <ModalHeader>Invite your friend to community</ModalHeader>
+                                        <ModalHeader mt={4} mb={-4}>Invite your friends to join this community!</ModalHeader>
                                         <ModalCloseButton />
                                         <ModalBody pb={6}>
                                             <Box borderRadius={'md'}>
@@ -103,7 +113,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                                             type={"search"}
                                                             value={searchValue}
                                                             onChange={handleChange}
-                                                            placeholder="Seacrh Community"
+                                                            placeholder="Seacrh for friends"
                                                             focusBorderColor="gray.200"
                                                         ></Input>
                                                     </Box>
@@ -112,7 +122,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                                 <Box background={{ md: 'orange.400', base: '' }}
                                                     height={{ sm: '200px', md: '350px' }}
                                                     padding={2}
-                                                    paddingRight={2.5}
+                                                    paddingRight={1.5}
                                                     borderRadius={'md'}
                                                     mb={{ md: 0, sm: 4 }}
                                                     mt={{ md: 2, sm: 4 }}
@@ -122,7 +132,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                                         scrollBehavior: "smooth",
 
                                                         "::-webkit-scrollbar-track": {
-                                                            background: "white",
+                                                            background: "orange.400",
                                                             rounded: 'xl',
                                                         },
                                                         "::-webkit-scrollbar-thumb": {
@@ -149,8 +159,24 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                             </Box>
                                         </ModalBody>
 
-                                        <ModalFooter>
-
+                                        <ModalFooter >
+                                            <Button colorScheme='blue' mr={3} onClick={sureOnClick}>
+                                                Confirm
+                                            </Button>
+                                            <Modal closeOnOverlayClick={false} isOpen={isSureOpen} onClose={sureOnClick} isCentered>
+                                                <ModalOverlay />
+                                                <ModalContent>
+                                                    <ModalHeader>Finished</ModalHeader>
+                                                    <ModalCloseButton onClick={closeInvite} />
+                                                    <ModalBody>
+                                                        Invite has been sent!
+                                                    </ModalBody>
+                                                    <ModalFooter>
+                                                        <Button onClick={closeInvite}>Close</Button>
+                                                    </ModalFooter>
+                                                </ModalContent>
+                                            </Modal>
+                                            <Button onClick={modalOnClick}>Cancel</Button>
                                         </ModalFooter>
                                     </ModalContent>
                                 </Modal>) : (<div />)}
