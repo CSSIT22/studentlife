@@ -34,7 +34,6 @@ router.get(
                     token: req.session.id,
                     loginSession: {
                         create: {
-                            loginId: id,
                             detail: {
                                 create: {
                                     loginDate: new Date(),
