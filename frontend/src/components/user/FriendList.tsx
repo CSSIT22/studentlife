@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import UserList from "../user/UserList"
 
 function FriendList() {
+    const [search, setSearch] = useState("")
+    console.log(search)
+
     const breakpoints = {
         sm: "400px",
         md: "800px",
@@ -20,7 +23,7 @@ function FriendList() {
                     <IconButton aria-label="Search database" background={"white"} _hover={{ background: "default" }} icon={<SearchIcon />} />
                 </Box>
                 <Box width={"100%"} backgroundColor={"white"} color={"black"}>
-                    <Input placeholder="Search for friends" />
+                    <Input onChange={(e) => setSearch(e.target.value)} placeholder="Search for friends" />
                 </Box>
             </HStack>
 
