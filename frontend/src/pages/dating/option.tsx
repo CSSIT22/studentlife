@@ -1,4 +1,4 @@
-import { Heading, Text, Box, Stack, Center, Button, SimpleGrid, useRadioGroup, useCheckboxGroup } from "@chakra-ui/react"
+import { Heading, Text, Box, Stack, Center, Button, SimpleGrid, useRadioGroup, useCheckboxGroup, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioBox"
 import DatingAppBody from "../../components/dating/DatingAppBody"
@@ -35,6 +35,7 @@ const DatingOption = () => {
         //onChange: console.log,
     })
     const group = getRootProps()
+    const toast = useToast()
 
     //For faculty
     const { value, getCheckboxProps } = useCheckboxGroup({
@@ -78,6 +79,14 @@ const DatingOption = () => {
                 " | Selected Faculty: " +
                 globalThis.faculty
         )
+        toast({
+            title: "Options are selected.",
+            description: "You have successfully submitted your options.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+        })
     }
 
     return (
@@ -86,7 +95,7 @@ const DatingOption = () => {
                 {/* Heading and heading description part */}
                 <Heading fontSize="36px">Option</Heading>
                 <Box>
-                    <Text fontSize="18px">Set the criteria to be used for the profile randomization.</Text>
+                    <Text fontSize="18px">Set the criteria to be used for the profile randomization</Text>
                 </Box>
 
                 {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}

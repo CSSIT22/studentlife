@@ -1,43 +1,23 @@
 import { Heading, Stack, Text, Box, Image, Flex, Center } from "@chakra-ui/react"
 import { useState } from "react"
 import AppBody from "./../../components/share/app/AppBody"
-import DatingRatingStar from "../../components/dating/DatingRatingStar"
 import { FRIEND } from "./../../components/dating/shared/friend"
-import DatingRatingSearch from "src/components/dating/DatingInterestSearch"
-
-const index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+import DatingRatingSearch from "src/components/dating/DatingRatingSearch"
+import DatingRatingAllStar from "src/components/dating/DatingRatingAllStar"
 
 const Rating = () => {
     const [friend, setFriend] = useState(FRIEND)
     const [searchQuery, setSearchQuery] = useState("")
-
-    // function handleStar(star: number) {
-    //     console.log("Wtf is this value? " + star)
-    // }
-
-    //First time fill
-    function handleFill(status: number, position: number) {
-        return status > position
-    }
-
-    //Handle change
-    function handleStatus(status: number, position: number) {
-        //console.log("Status: " + status + " | Position: " + position)
-        if (status === position + 1) {
-            console.log("Henlo")
-        }
-        return
-    }
 
     return (
         <AppBody>
             <Stack color="black" pt="10px">
                 <Heading>Rating</Heading>
                 <Text fontSize="xl">You are friend with</Text>
-                <Text>Search bar are broken + click status also broken too 😿</Text>
-                {/* <Box pb="10">
-                    <DatingRatingSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFriends={setFriend} FRIENDS={friend} />
-                </Box> */}
+                <Box pb="10">
+                    {/* Need to filter from the original file */}
+                    <DatingRatingSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFriends={setFriend} FRIENDS={FRIEND} />
+                </Box>
                 {friend.map((values) => {
                     return (
                         <Box>
@@ -58,18 +38,7 @@ const Rating = () => {
                                         </Text>
                                     </Center>
                                 </Flex>
-                                <Flex direction="row" p="0px" m="0px">
-                                    {index.map((status) => {
-                                        return (
-                                            <DatingRatingStar
-                                                key={status}
-                                                status={index[status] + 1}
-                                                defultFill={handleFill(values.rate, index[status])}
-                                            />
-                                        )
-                                    })}
-                                    {/* <RatingStar key={rate} onClick={handleStar} /> */}
-                                </Flex>
+                                <DatingRatingAllStar defaultFill={values.rate} rateFor={values.UserId} />
                             </Box>
                         </Box>
                     )

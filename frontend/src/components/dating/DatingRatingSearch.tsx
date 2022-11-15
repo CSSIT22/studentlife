@@ -8,14 +8,28 @@ const DatingRatingSearch: FC<{
     setFriends: React.Dispatch<
         React.SetStateAction<
             {
+                UserId: string
                 Fname: string
                 Lname: string
+                Gender: string
+                Age: string
+                Faculty: string
+                url: string
+                interestId: number[]
+                rate: number
             }[]
         >
     >
     FRIENDS: {
+        UserId: string
         Fname: string
         Lname: string
+        Gender: string
+        Age: string
+        Faculty: string
+        url: string
+        interestId: number[]
+        rate: number
     }[]
 }> = ({ setSearchQuery, searchQuery, setFriends, FRIENDS }) => {
     const [timer, setTimer] = useState<number | null>(null)
@@ -23,7 +37,7 @@ const DatingRatingSearch: FC<{
 
     useEffect(() => {
         if (didMount) {
-            setFriends(() => FRIENDS.filter((arr) => arr.Fname.toLowerCase().includes(searchQuery.toLowerCase())))
+            setFriends(() => FRIENDS.filter((arr) => arr.Fname.toLowerCase().concat(arr.Lname.toLowerCase()).includes(searchQuery.toLowerCase())))
         }
 
         // alert('Query: "' + searchQuery + '"')

@@ -167,6 +167,14 @@ const CreateActivityPoll = () => {
                     " people: " +
                     sliderValue
             )
+            toast({
+                title: "Poll created.",
+                description: "You have successfully created a poll.",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+            })
         } else {
             // Error message
             toast({
@@ -238,7 +246,9 @@ const CreateActivityPoll = () => {
                                 </Button>
                             </Flex>
                             <Modal
-                                onClose={onClose}
+                                onClose={() => {
+                                    onClose(), (globalThis.topic = []), setSelectedInterest([])
+                                }}
                                 isOpen={isOpen}
                                 size="lg"
                                 isCentered
