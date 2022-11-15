@@ -45,12 +45,7 @@ const linkMenu = [
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
-const dummyData = [
-    {
-        name: "MR.ABC DEF",
-        description: "HELLOOOOOOOOOOOOOOOOOOOOOO",
-    },
-]
+
 const dummyData22 = ["MR.ABC DEF", "MR.GHI JKL", "MR.MNO PQR", "MR.STU VWX", "MR.YZ GG", "MR.PPP PPP"]
 export default function Index<FC>() {
     //useContext getuser
@@ -98,7 +93,39 @@ export default function Index<FC>() {
         m: 0,
         s: 0,
     })
+    //user for searching
+    const [textSearch, setTextSearch] = useState("");
+    const [filterReceiver,setReceiverFilter] = useState<{
+        department:string[],
+        community:string[],
+        specific:string[]
+    }>({
+        department:[],
+        community:[],
+        specific:[]
+    })
+
     //fucntion'
+    const filterReceive = () => {
+        if(selectedType == "Department"){
+            setReceiverFilter({
+                ...filterReceiver, department: userList.department.filter((item)=> item.toLowerCase().includes(textSearch.toLowerCase()))
+            })
+
+        }else if(selectedType == "Community"){
+            setReceiverFilter({
+                ...filterReceiver, community: userList.group.filter((item)=> item.toLowerCase().includes(textSearch.toLowerCase()))
+            })
+            
+        }else if(selectedType == "Specific"){
+            setReceiverFilter({
+                ...filterReceiver, specific: userList.specific.filter((item)=> item.toLowerCase().includes(textSearch.toLowerCase()))
+            })
+
+        }
+    }
+
+
     const handleDelete = (prop: any) => {
         setFiles(files.filter((item) => item !== prop))
     }
@@ -198,6 +225,11 @@ export default function Index<FC>() {
             }
         }
     }, [isOpen])
+
+    useEffect(()=>{ 
+        filterReceive();
+    },[textSearch])
+
     useEffect(() => {
         fetchGroup();
         fetchDepartment();
@@ -343,6 +375,11 @@ export default function Index<FC>() {
                                                                     _focus={{
                                                                         borderColor: "gray.400",
                                                                     }}
+                                                                    value={textSearch}
+                                                                    onChange={(e)=>{
+                                                                        setTextSearch(e.target.value)
+                                                                    }}
+                                                                
                                                                 />
                                                                 <Select
                                                                     multiple
@@ -359,6 +396,7 @@ export default function Index<FC>() {
                                                                 >
                                                                     {/* //map user data into this */}
                                                                     {
+                                                                        textSearch == "" ? 
                                                                         selectedType == "Community"?
                                                                         (
                                                                             userList?.group.map((data,key) => {
@@ -378,6 +416,29 @@ export default function Index<FC>() {
                                                                             })
                                                                         )
                                                                         : null
+
+
+                                                                        : // text search not null
+                                                                        selectedType == "Community"?
+                                                                        (
+                                                                            filterReceiver?.community.map((data,key) => {
+                                                                                return <option value={data} key={key}>{data}</option>
+                                                                            })
+                                                                        )
+                                                                        : selectedType == "Department"?
+                                                                        (
+                                                                            filterReceiver?.department.map((data,key) => {
+                                                                                return <option value={data} key={key}>{data}</option>
+                                                                            })
+                                                                        )
+                                                                        : selectedType == "Specific"?
+                                                                        (
+                                                                            filterReceiver?.specific.map((data,key) => {
+                                                                                return <option value={data} key={key}>{data}</option>
+                                                                            })
+                                                                        )
+                                                                        : null
+                                                                        
                                                                     }
                                                                     
                                                                 </Select>
