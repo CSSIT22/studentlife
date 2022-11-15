@@ -10,7 +10,7 @@
         "db:migrateDev": "prisma migrate dev",
         "db:gen": "prisma generate",
         "db:pull": "prisma db pull",
-        "start": "node ./build/index.js"
+        "start": "node ./build/backend/src/index.js"
     },
     "repository": {
         "type": "git",
