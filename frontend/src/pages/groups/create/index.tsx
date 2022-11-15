@@ -286,7 +286,7 @@ const create = () => {
                                 disableBtn={true}
                                 communityName={GroupName ? GroupName : "Community Name"}
                                 isPrivate={Privacy ? Privacy : false}
-                                isMember={false}
+                                isMember={true}
                                 description={Describe ? Describe : "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"}
                                 coverPhoto="https://picsum.photos/id/400/800"
                                 members={1}

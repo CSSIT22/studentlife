@@ -35,7 +35,7 @@ const file = () => {
             <HStack justify={"flex-end"} width={"100%"}>
                 <HStack boxShadow={'md'} borderRadius='md'>
                     <Box color={'black'} mr={-3}>
-                        <IconButton aria-label='Search database' background={'white'} _hover={{ background: 'default' }} icon={<SearchIcon />} />
+                        <IconButton disabled={true} aria-label='Search database' background={'white'} _hover={{ background: 'default', cursor: 'default' }} icon={<SearchIcon />} />
                     </Box>
                     <Input
                         // width={"100%"}

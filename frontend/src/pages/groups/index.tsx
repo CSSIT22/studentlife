@@ -8,7 +8,6 @@ import CommunityList from "../../components/group/CommunityList"
 import SuggestBox from "../../components/group/SuggestBox"
 import InvitationBox from "../../components/group/InvitationBox"
 import useWindowDimensions from "./hooks/useWindowDimensions"
-import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 const index = () => {
     const [searchBtn, setSearchBtn] = useState(false) //for close/open seach bar

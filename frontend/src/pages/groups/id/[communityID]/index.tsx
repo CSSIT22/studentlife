@@ -16,7 +16,7 @@ const headCommunity = () => {
             description={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto laborum cumque nemo veniam amet fugiat beatae, quo magni eum voluptatem eligendi nesciunt numquam odio autem ex quaerat totam. At, facilis."}
             coverPhoto="https://picsum.photos/id/400/800"
             members={10}
-            communityID={1000}
+            communityID={1}
             tags={userData.Tag}
             activeBtn={1}
         /><Text>community</Text>
