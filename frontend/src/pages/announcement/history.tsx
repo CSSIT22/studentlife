@@ -67,7 +67,7 @@ const history = () => {
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
             )
-        } else if(status == "disapprove"){
+        } else if (status == "disapprove") {
             return (
                 <>
                     <ModalForEvent
@@ -98,8 +98,6 @@ const history = () => {
                     />
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
-                
-                
             )
         }
     }
@@ -112,7 +110,7 @@ const history = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            p={{md:"3rem"}}
+            p={{ md: "3rem" }}
         >
             <Flex alignItems={"center"}>
                 <HeaderPage head="History" />
@@ -120,7 +118,17 @@ const history = () => {
             {allPost
                 .filter((fl) => fl.status == "waiting" || fl.status == "approve" || fl.status == "disapprove")
                 .map((el) => {
-                    return <PostOnHistory topic={el.topic} sender={el.sender} status={el.status} onClick={onClick} onOpen={onOpen} id={el.postId} key={el.postId} />
+                    return (
+                        <PostOnHistory
+                            topic={el.topic}
+                            sender={el.sender}
+                            status={el.status}
+                            onClick={onClick}
+                            onOpen={onOpen}
+                            id={el.postId}
+                            key={el.postId}
+                        />
+                    )
                 })}
             {deleteOrEdit(statusPostRequest)}
         </AppBody>
