@@ -30,10 +30,10 @@ const DatingRandomCard: FC<{
         console.log("Swiping " + nameToDelete + " to the " + direction)
         if (direction === "left") {
             // Run the cross button animation
-            controlCross.start("visible")
+            controlCross.start("hidden")
         } else if (direction === "right") {
             // Run the heart button animation
-            controlHeart.start("visible")
+            controlHeart.start("hidden")
         }
         updateCurrentIndex(index - 1)
     }
@@ -47,6 +47,21 @@ const DatingRandomCard: FC<{
         }
     }
 
+    const ChangeButtonColor = (dir: string) => {
+        if (dir == "left") {
+            controlHeart.start("hidden")
+            controlCross.start("visible")
+        } else if (dir === "right") {
+            controlCross.start("hidden")
+            controlHeart.start("visible")
+        }
+    }
+
+    const RevertButtonColor = () => {
+        controlCross.start("hidden")
+        controlHeart.start("hidden")
+    }
+
     return (
         <TinderCard
             ref={childRefs[index]}
@@ -55,7 +70,9 @@ const DatingRandomCard: FC<{
             onSwipe={(dir: string) => swiped(dir, character.Fname + " " + character.Lname, index)}
             preventSwipe={["down", "up"]}
             swipeRequirementType="position"
-            swipeThreshold={50}
+            swipeThreshold={75}
+            onSwipeRequirementFulfilled={(dir: string) => ChangeButtonColor(dir)}
+            onSwipeRequirementUnfulfilled={() => RevertButtonColor()}
         >
             <Center>
                 {/* Picture in the card */}
