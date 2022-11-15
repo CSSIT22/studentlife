@@ -20,7 +20,7 @@ const DatingRandomCrossButton: FC<{ controlCross: AnimationControls; swipe: (dir
             animate={controlCross}
             onClick={() => swipe("left")}
             whileTap={{
-                scale: 0.9,
+                scale: 1.2,
                 backgroundColor: "#E6702E",
                 transition: {
                     duration: 0.001,

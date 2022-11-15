@@ -19,7 +19,7 @@ const DatingRandomHeartButton: FC<{ controlHeart: AnimationControls; swipe: (dir
             animate={controlHeart}
             onClick={() => swipe("right")}
             whileTap={{
-              scale: 0.9,
+              scale: 1.2,
               backgroundColor: "#E6702E",
               transition: {
                 duration: 0.001,
