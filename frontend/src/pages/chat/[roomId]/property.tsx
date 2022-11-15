@@ -42,6 +42,7 @@ function showProperty() {
 
     function NavigateProfile() {
         return navigate(`/profile/${param.roomID}`)
+        
     }
 
     const handleSizeClick = (event: any) => {
@@ -123,7 +124,8 @@ const Property = () => {
     const navigate = useNavigate()
     //function handle
     function Navigate() {
-        return navigate(`/chat/${param.roomID}`)
+        return navigate(`/chat/${param.roomId}`)
+        
     }
 
     return (
