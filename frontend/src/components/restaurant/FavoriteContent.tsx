@@ -32,7 +32,7 @@ const FavoriteContent: FC<{
     website: string
     link: string
     img: string
-}> = ({ id,resName, phone, open, close, website,link, img }) => {
+}> = ({ id, resName, phone, open, close, website, link, img }) => {
     // const ClosePop = () => {
     //     setclose(true);
     //     // console.log(close);
@@ -43,7 +43,6 @@ const FavoriteContent: FC<{
         Restaurant[id].status = false
         console.log(Restaurant[id].status)
     }
-    
 
     return (
         // <Box mb={{lg:"4rem"}} width="100%">

@@ -1,6 +1,8 @@
 import { Heading, useBoolean } from "@chakra-ui/react"
 import { createContext, FC, ReactNode, useCallback, useEffect, useLayoutEffect, useState } from "react"
+
 import API from "../function/API"
+
 import { InitUserResponse } from "@apiType/user/index"
 
 export const authContext = createContext<InitUserResponse | null>({} as any)
