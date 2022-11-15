@@ -1,4 +1,4 @@
-import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link, background, DrawerFooter } from "@chakra-ui/react"
+import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, Link, background, DrawerFooter } from "@chakra-ui/react"
 import { FormControl } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react'
@@ -31,7 +31,7 @@ const create = () => {
     const [changePreview, setPreview] = useState(true)
     const PreviewChange = () => { setPreview(!changePreview) }
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    // const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [isModalOpen, setModalOpen] = useState(false);
     const modalOnClick = () => setModalOpen(!isModalOpen)
