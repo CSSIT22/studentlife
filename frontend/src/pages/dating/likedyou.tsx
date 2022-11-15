@@ -55,7 +55,7 @@ const LikedYou = () => {
                 <DatingYouLikedButton backgroundColor="orange.600" />
             </HStack>
 
-            <Box display={{ base: "flex", md: "block" }} flexWrap="wrap" justifyContent="center">
+            <Box display={{ base: "grid", md: "block" }} gridTemplateColumns="repeat(auto-fill, 200px)" gridGap="10px" justifyContent="center">
                 {HState.heart_history
                     .filter((el) => !giveToUser?.some((f) => f.UserId == el.UserId))
                     .map(({ UserId, Fname, Lname, Gender, Age, Faculty, url, interestId }) => (
