@@ -14,7 +14,7 @@ const DatingRandomization = () => {
     // used to determine the current index of the card
     const [currentIndex, setCurrentIndex] = useState(CARD_QUEUE.length - 1)
     // retrieved from database
-    const characters = CARD_QUEUE
+    const [characters, setCardQueue] = useState(CARD_QUEUE)
 
     // animation for the buttons
     const controlCross = useAnimation()
@@ -57,6 +57,7 @@ const DatingRandomization = () => {
                             controlHeart={controlHeart}
                             setCurrentIndex={setCurrentIndex}
                             currentIndex={currentIndex}
+                            setCardQueue={setCardQueue}
                         />
                     ))}
                 </Box>
