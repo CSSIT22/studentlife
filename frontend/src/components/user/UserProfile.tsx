@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import { ReactElement } from "react"
+import FriendList from "../user/FriendList"
 import {
     Box,
     Avatar,
@@ -49,7 +50,16 @@ import { BsThreeDotsVertical, BsFillFlagFill } from "react-icons/bs"
 
 export default function SimpleThreeColumns() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [scrollBehavior, setScrollBehavior] = React.useState("inside")
+
+    const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
+    const btnRef = React.useRef(null)
+
+    const [isFollow, setIsFollow] = useState(false)
+
+    function handleClick() {
+        setIsFollow(!isFollow)
+    }
+
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const cancelRef = React.useRef()
@@ -205,16 +215,53 @@ export default function SimpleThreeColumns() {
                 <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2.5rem", md: "3rem" }} mr={5}>
                     <Stack direction="row" mx={{ base: "50", md: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
-                            <Box fontSize={"lg"}>1</Box>
-                            <Box fontSize={"lg"} color="orange.700">
-                                Follower
-                            </Box>
+                            <Box fontSize={"lg"}>0</Box>
+                            <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
+                                <Box fontSize={"lg"} color="orange.700">
+                                    Follower
+                                </Box>
+
+                                <Modal onClose={onFriendListClose} finalFocusRef={btnRef} isOpen={isFriendListOpen}>
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                        <ModalHeader>Follower</ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody rounded="xl">
+                                            <FriendList />
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button onClick={onFriendListClose} display={{ base: "none", md: "block" }}>
+                                                Close
+                                            </Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
+                            </Link>
                         </Stack>
-                        <Stack direction="column" alignItems="center" spacing={{ base: "-1.5", md: "" }}>
-                            <Box fontSize={"lg"}>1</Box>
-                            <Box fontSize={"lg"} color="orange.700" mt="-1rem">
-                                Following
-                            </Box>
+                        <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-3.5", md: "" }}>
+                            <Box fontSize={"lg"}>0</Box>
+
+                            <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
+                                <Box fontSize={"lg"} color="orange.700" mt="0.5rem">
+                                    Following
+                                </Box>
+
+                                <Modal onClose={onFriendListClose} finalFocusRef={btnRef} isOpen={isFriendListOpen}>
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                        <ModalHeader>Following</ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody rounded="xl">
+                                            <FriendList />
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button onClick={onFriendListClose} display={{ base: "none", md: "block" }}>
+                                                Close
+                                            </Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
+                            </Link>
                         </Stack>
                     </Stack>
                 </GridItem>
