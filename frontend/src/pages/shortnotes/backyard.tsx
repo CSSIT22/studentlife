@@ -87,7 +87,7 @@ const data = {
 const pg = () => {
     const [coursePicked, setCoursePicked] = useState("")
 
-    const [filterd, setFilterd] = useState<any>([])
+    const [filtered, setFiltered] = useState<any>([])
     useEffect(() => {
         dataFiltered() //what to do
     }, [coursePicked]) // what to track
@@ -95,7 +95,7 @@ const pg = () => {
         setCoursePicked(e.target.value)
     }
     const dataFiltered = () => {
-        setFilterd(data.sn.filter((items) => items.course == coursePicked))
+        setFiltered(data.sn.filter((items) => items.course == coursePicked))
     }
 
     return (
@@ -123,7 +123,7 @@ const pg = () => {
                 </>
             ) : (
                 <>
-                    {filterd.map((f: any) => (
+                    {filtered.map((f: any) => (
                         <Text>{f.topic}</Text>
                     ))}
                 </>

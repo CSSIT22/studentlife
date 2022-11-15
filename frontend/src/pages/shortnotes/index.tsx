@@ -1,16 +1,5 @@
-import {
-    Box,
-    Heading,
-    Text,
-    Flex,
-    Spacer,
-    HStack,
-    SimpleGrid,
-    VStack,
-    Select,
-    useDisclosure,Stack,
-} from "@chakra-ui/react"
-import React, { useState } from "react"
+import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
 import Rsn from "../../components/shortnotes/rsnList"
@@ -34,6 +23,19 @@ const index = () => {
     }
 
     const [snPicked, setSnPicked] = useState("")
+
+    const [coursePicked, setCoursePicked] = useState("")
+
+    const [filtered, setFiltered] = useState<any>([])
+    useEffect(() => {
+        dataFiltered() //what to do
+    }, [coursePicked]) // what to track
+    const picked = (e: any) => {
+        setCoursePicked(e.target.value)
+    }
+    const dataFiltered = () => {
+        setFiltered(data.sn.filter((items) => items.course == coursePicked))
+    }
 
     const data = {
         sn: [
@@ -149,7 +151,7 @@ const index = () => {
                     </VStack>
                     <VStack>
                         <Text alignSelf={"start"}>Course</Text>
-                        <Select variant="filled" placeholder="All">
+                        <Select variant="filled" placeholder="All" onChange={(e) => picked(e)}>
                             {data.course.map((course, key) => (
                                 <option value={course}>{course}</option>
                             ))}
@@ -158,7 +160,7 @@ const index = () => {
                 </Stack>
             </Flex>
             <VStack gap={2} pt={4}>
-                {data.sn.map((sn, key) => (
+                {/* {data.sn.map((sn, key) => (
                     <Box
                         as="button"
                         w={"100%"}
@@ -169,7 +171,39 @@ const index = () => {
                     >
                         <SnList key={key} topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
                     </Box>
-                ))}
+                ))} */}
+
+                {coursePicked == "" ? (
+                    <>
+                        {data.sn.map((sn: any) => (
+                            <Box
+                                as="button"
+                                w={"100%"}
+                                onClick={() => {
+                                    setSnPicked(sn.id)
+                                    console.log(snPicked)
+                                }}
+                            >
+                                <SnList topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
+                            </Box>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        {filtered.map((sn: any) => (
+                            <Box
+                                as="button"
+                                w={"100%"}
+                                onClick={() => {
+                                    setSnPicked(sn.id)
+                                    console.log(snPicked)
+                                }}
+                            >
+                                <SnList topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
+                            </Box>
+                        ))}
+                    </>
+                )}
             </VStack>
         </AppBody>
     )
