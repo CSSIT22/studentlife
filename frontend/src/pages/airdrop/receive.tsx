@@ -47,28 +47,25 @@ const linkMenu = [
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
 
-
-
-export const fileListContext  = createContext<any>({
+export const fileListContext = createContext<any>({
     fileList: [],
     setFileList: () => {},
-});
+})
 export default function Receivedrop<FC>() {
     const { isOpen, onToggle } = useDisclosure()
     const [fileList, setFileList] = useState<any>([])
     //get file function
     const fetchAllFile = async () => {
-        const res = await axios.get("http://localhost:8000/airdrop/file/getallfile",{
-            withCredentials: true
-        });
-        setFileList(res.data);
+        const res = await axios.get("http://localhost:8000/airdrop/file/getallfile", {
+            withCredentials: true,
+        })
+        setFileList(res.data)
     }
 
-
-    useEffect(()=>{
-        fetchAllFile();
-        onToggle();
-    },[])
+    useEffect(() => {
+        fetchAllFile()
+        onToggle()
+    }, [])
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="receive">
@@ -77,14 +74,14 @@ export default function Receivedrop<FC>() {
                 </Box>
                 {/* component for list will coming sooner */}
                 <Divider />
-                <fileListContext.Provider value={{fileList,setFileList}}>
-                {fileList?.map((item:any, key:any) => {
-                    return (
-                        <Fade in={isOpen} unmountOnExit key={key}>
-                        <FileList info={item} key={key} elementid={key} fadeToggle={onToggle}/>
-                        </Fade>
-                    )
-                })}
+                <fileListContext.Provider value={{ fileList, setFileList }}>
+                    {fileList?.map((item: any, key: any) => {
+                        return (
+                            <Fade in={isOpen} unmountOnExit key={key}>
+                                <FileList info={item} key={key} elementid={key} fadeToggle={onToggle} />
+                            </Fade>
+                        )
+                    })}
                 </fileListContext.Provider>
             </PageBox>
         </AppBody>

@@ -41,14 +41,10 @@ const PostOnAnnouncementPage: FC<{
                     </Link>
                 </GridItem>
 
-                <GridItem h="10" >
-                    
-                        <Box width="100%" cursor={"pointer"}>
-                            <Flex justifyContent={"end"}>
-                            {state(status)}
-                            </Flex>
-                        </Box>
-            
+                <GridItem h="10">
+                    <Box width="100%" cursor={"pointer"}>
+                        <Flex justifyContent={"end"}>{state(status)}</Flex>
+                    </Box>
                 </GridItem>
             </Grid>
         </Box>

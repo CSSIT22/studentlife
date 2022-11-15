@@ -26,7 +26,7 @@ const index = () => {
             {allPost
                 .filter((fl) => fl.status == "waiting")
                 .map((el) => {
-                    return <PostOnApproval topic={el.topic} sender={el.sender} status={el.status} id={el.postId}  key={el.postId} />
+                    return <PostOnApproval topic={el.topic} sender={el.sender} status={el.status} id={el.postId} key={el.postId} />
                 })}
         </AppBody>
     )
