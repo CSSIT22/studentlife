@@ -19,8 +19,8 @@ model User_Profile {
   email                String                           @unique
   image                Bytes?
   details              Detail?
-  majorId              String
-  studentMajor         Major                            @relation(fields: [majorId], references: [majorId])
+  majorId              String?
+  studentMajor         Major?                           @relation(fields: [majorId], references: [majorId], onDelete: SetNull)
   roles                User_To_Role[]
   userFollowers        Follow[]                         @relation("following")
   userFollowing        Follow[]                         @relation("follower")
@@ -772,7 +772,7 @@ model Activity_Poll {
   userId         String
   pollName       String
   pollPlace      String
-  pollAppointAt  DateTime
+  pollAppointAt  DateTime         @db.Timestamp(0)
   pollText       String
   participantMin Int
   participantMax Int
@@ -1796,7 +1796,7 @@ model Analytic_View {
   time             DateTime
   url              String
   module           String
-  location         String //GeoJson
+  location         Json                              @db.JsonB //GeoJson
   ip               String
   externalPlatform String
   reports          Analytic_View_In_User_Report[]
@@ -1840,7 +1840,7 @@ model Analytic_Request {
   body       Json                              @db.JsonB
   ip         String
   deviceName String
-  location   String //GeoJson
+  location   Json                              @db.JsonB //GeoJson
   status     String
   views      Analytic_Request_In_User_Report[]
   devices    Analytic_Device[]
