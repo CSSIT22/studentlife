@@ -89,10 +89,12 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                             </Button>
 
                             {(width || 0) > 768 ? (
-                                <Modal closeOnOverlayClick={true} isOpen={isModalOpen} onClose={modalOnClick} >
+                                <Modal closeOnOverlayClick={true} isOpen={isModalOpen} onClose={modalOnClick} isCentered >
                                     <ModalOverlay />
                                     <ModalContent>
-                                        <ModalHeader mt={4} mb={-4}>Invite your friends to join this community!</ModalHeader>
+                                        <ModalHeader mt={6} mb={-4} fontWeight={700}>
+                                            Invite your friends to join this community!
+                                        </ModalHeader>
                                         <ModalCloseButton />
                                         <ModalBody pb={6}>
                                             <Box borderRadius={'md'}>
@@ -119,20 +121,20 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                                     </Box>
                                                 </HStack>
 
-                                                <Box background={{ md: 'orange.400', base: '' }}
+                                                <Box background={{ md: 'white', base: '' }}
                                                     height={{ sm: '200px', md: '350px' }}
                                                     padding={2}
-                                                    paddingRight={1.5}
+                                                    paddingRight={1}
                                                     borderRadius={'md'}
                                                     mb={{ md: 0, sm: 4 }}
-                                                    mt={{ md: 2, sm: 4 }}
+                                                    mt={{ md: 0, sm: 4 }}
                                                     sx={{
                                                         "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
                                                         overflowY: "scroll",
                                                         scrollBehavior: "smooth",
 
                                                         "::-webkit-scrollbar-track": {
-                                                            background: "orange.400",
+                                                            background: "white",
                                                             rounded: 'xl',
                                                         },
                                                         "::-webkit-scrollbar-thumb": {
@@ -158,7 +160,6 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                                 </Box>
                                             </Box>
                                         </ModalBody>
-
                                         <ModalFooter >
                                             <Button colorScheme='blue' mr={3} onClick={sureOnClick}>
                                                 Confirm
