@@ -1020,17 +1020,17 @@ model User_Back {
 }
 
 model Login_Info {
-  loginId  String        @id @default(cuid())
-  userId   String
-  token    String
-  login    User_Back     @relation(fields: [userId, token], references: [userId, token])
-  detail   Login_Detail?
+  loginId String        @id @default(cuid())
+  userId  String
+  token   String
+  login   User_Back     @relation(fields: [userId, token], references: [userId, token])
+  detail  Login_Detail?
 
   @@unique([userId, token])
 }
 
 model Login_Detail {
-  loginId      String @id
+  loginId      String     @id
   loginDate    DateTime   @default(now())
   tokenExpired DateTime
   deviceInfo   String
@@ -1049,7 +1049,7 @@ model Logout_Info {
 }
 
 model Logout_Detail {
-  logoutId   String @id
+  logoutId   String      @id
   logoutDate DateTime    @default(now())
   deviceInfo String
   ip         String
@@ -1837,7 +1837,7 @@ model Analytic_Request {
   userId     String
   module     String
   time       DateTime
-  body       String //Jsonb
+  body       Json                              @db.JsonB
   ip         String
   deviceName String
   location   String //GeoJson
