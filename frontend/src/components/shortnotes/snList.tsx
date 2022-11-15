@@ -5,22 +5,28 @@ const snList: FC<{
     topic: String
     course: String
     date: String
-    lock: String
+    lock: any
 }> = ({ topic, course, date, lock }) => {
     return (
         <Box boxShadow={"md"} bg={"white"} rounded={8} p={5} w="100%">
             <Grid templateColumns="repeat(9, 1fr)">
                 <GridItem colSpan={4}>
-                    <Text>{topic}</Text>
+                    <Text textAlign={"left"}>{topic}</Text>
                 </GridItem>
                 <GridItem colSpan={2}>
-                    <Text>{course}</Text>
+                    <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
+                        <Text>{course}</Text>
+                    </Flex>
                 </GridItem>
-                <GridItem colSpan={2} textAlign={"center"}>
-                    <Text>{date}</Text>
+                <GridItem colSpan={2}>
+                    <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
+                        <Text>{date}</Text>
+                    </Flex>
                 </GridItem>
                 <GridItem colSpan={1} textAlign={"right"}>
-                    <Text>{lock}</Text>
+                    <Flex alignItems={"center"} justifyContent={"right"} h={"100%"}>
+                        <Text>{lock}</Text>
+                    </Flex>
                 </GridItem>
             </Grid>
         </Box>

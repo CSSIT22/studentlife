@@ -5,9 +5,9 @@ const rsnList: FC<{
     topic: String
 }> = ({ topic }) => {
     return (
-        <Box boxShadow={"md"} bg={"white"} rounded={8} p={5}>
+        <Flex boxShadow={"md"} bg={"white"} rounded={8} p={5} justifyContent={"center"} alignItems={"center"}>
             {topic}
-        </Box>
+        </Flex>
     )
 }
 

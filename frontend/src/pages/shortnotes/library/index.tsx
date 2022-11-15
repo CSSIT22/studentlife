@@ -2,7 +2,7 @@ import { Box, Button, Flex, Grid, Heading, SimpleGrid, Spacer } from "@chakra-ui
 import React from "react"
 import { Link } from "react-router-dom"
 import AppBody from "../../../components/share/app/AppBody"
-import LiList from "../../../components/shortnotes/library/liList"
+import LiList from "../../../components/shortnotes/liList"
 
 const library = () => {
     return (
