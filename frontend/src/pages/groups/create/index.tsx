@@ -87,7 +87,7 @@ const create = () => {
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbItem isCurrentPage>
-                            <BreadcrumbLink href='#'>
+                            <BreadcrumbLink href='#' _hover={{ textDecoration: "none", cursor: 'default' }}>
                                 Create Community
                             </BreadcrumbLink>
                         </BreadcrumbItem>
@@ -120,12 +120,11 @@ const create = () => {
                         {/* Tags */}
                         <HStack mb={{ md: 2, sm: 4 }} >
                             <Text>
-                                Choose Tags
+                                Tags
                             </Text>
                             <Box ml={2} my={2}>
                                 <Button colorScheme={'green'} onClick={() => setDrawerOpen(true)} size='xs'>
-                                    {/* <FaPlus /> */}
-                                    <Text>Edit Tag</Text>
+                                    <FaPlus />
                                 </Button>
                             </Box>
                         </HStack>
@@ -133,7 +132,7 @@ const create = () => {
                         <Drawer placement={'bottom'} onClose={() => setDrawerOpen(false)} isOpen={isDrawerOpen}>
                             <DrawerOverlay />
                             <DrawerContent>
-                                <DrawerHeader borderBottomWidth='1px'>Tags</DrawerHeader>
+                                <DrawerHeader borderBottomWidth='1px'>Choose tags here!</DrawerHeader>
                                 <DrawerBody>
                                     <Flex gap={2} flexWrap={"wrap"}>
                                         {/* {userData.Tag.map((i) => (
@@ -161,7 +160,7 @@ const create = () => {
                                     </Flex>
                                 </DrawerBody>
                                 <DrawerHeader borderBottomWidth='1px'>Selected Tags</DrawerHeader>
-                                <DrawerBody>
+                                <DrawerBody >
                                     {chooseTag.map((tag: any) => tag).length > 0 ?
                                         <Flex gap={2} flexWrap={"wrap"} mb={4}>
                                             {chooseTag.map((tag: any) =>
@@ -170,20 +169,21 @@ const create = () => {
                                                     borderRadius="full"
                                                     variant='solid'
                                                     size={"md"}
-                                                    backgroundColor={"tomato"}
+                                                    backgroundColor={"orange.400"}
+                                                    color='white'
                                                     onClick={handleTagDelete(tag)}
                                                     value={tag}>
                                                     {tag.tagName}
                                                 </Button>)}
                                         </Flex> : <Text>None</Text>}
                                 </DrawerBody>
-                                <DrawerFooter>
-                                    <Button onClick={onSubmit}>Submit</Button>
+                                <DrawerFooter >
+                                    <Button onClick={onSubmit} colorScheme='blue'>Confirm</Button>
                                 </DrawerFooter>
                             </DrawerContent>
                         </Drawer>
 
-                        <Box width='100%' bg={'white'} padding={1} borderRadius={'md'} boxShadow={'md'} mb={{ md: 2, sm: 4 }}>
+                        <Box width='100%' bg={'white'} padding={1} borderRadius={'md'} mb={{ md: 2, sm: 4 }}>
                             <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} padding={2}>
                                 {/* {userData.Tag.map((Tags) =>
                                     <Tag
@@ -202,7 +202,7 @@ const create = () => {
                                 {tagArray.map((tag: any) => tag).length > 0 ?
                                     (tagArray.map((tag: any) =>
                                         <Tag fontSize={"md"}
-                                            size={"md"}
+                                            size={"lg"}
                                             key={tag.tagID}
                                             borderRadius='full'
                                             variant='solid'
@@ -211,7 +211,7 @@ const create = () => {
                                             <TagLabel>{tag.tagName}</TagLabel>
                                             {/* <TagCloseButton onClick={handleTagDelete(tag)} /> */}
                                         </Tag>)) :
-                                    <Text as={"p"} color={{ base: "white", md: "black" }}>None</Text>}
+                                    <Text as={"p"} fontWeight={'normal'} color={{ base: "white", md: "gray" }} >Choose your community tags! </Text>}
                             </HStack>
                         </Box>
 
