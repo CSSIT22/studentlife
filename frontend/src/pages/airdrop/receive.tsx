@@ -1,32 +1,74 @@
-import React from "react"
+import React, { useState, useEffect, useRef, FC, createContext } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
-import { HiUpload, HiDownload } from "react-icons/hi"
+import FileComment from "src/components/airdrop/FileComment"
+import FileList from "src/components/airdrop/FileList"
+import { HiUpload, HiDownload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
-import { Container, Flex, HStack, Icon, Text, VStack, Box, Divider, Hide, IconButton } from "@chakra-ui/react"
+import {
+    Container,
+    Flex,
+    HStack,
+    Icon,
+    Text,
+    VStack,
+    Box,
+    Divider,
+    Hide,
+    IconButton,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+    useDisclosure,
+    Button,
+    ButtonGroup,
+    ModalBody,
+    Modal,
+    ModalCloseButton,
+    ModalContent,
+    ModalHeader,
+    ModalOverlay,
+    Heading,
+    ModalFooter,
+    Input,
+    Fade,
+    ScaleFade,
+} from "@chakra-ui/react"
+import axios from "axios"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
-const dummyData = [
-    {
-        icon: MdImage,
-        name: "pic1.jpeg",
-        sender: "MR.ABC DEF",
-    },
-    {
-        icon: MdImage,
-        name: "pic2.jpeg",
-        sender: "MR.ABC DEF",
-    },
-    {
-        icon: MdImage,
-        name: "pic3.jpeg",
-        sender: "MR.ABC DEF",
-    },
-]
-export default function Receivedrop() {
+
+
+
+export const fileListContext  = createContext<any>({
+    fileList: [],
+    setFileList: () => {},
+});
+export default function Receivedrop<FC>() {
+    const { isOpen, onToggle } = useDisclosure()
+    const [fileList, setFileList] = useState<any>([])
+    //get file function
+    const fetchAllFile = async () => {
+        const res = await axios.get("http://localhost:8000/airdrop/file/getallfile",{
+            withCredentials: true
+        });
+        setFileList(res.data);
+    }
+
+
+    useEffect(()=>{
+        fetchAllFile();
+        onToggle();
+    },[])
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="receive">
@@ -35,86 +77,16 @@ export default function Receivedrop() {
                 </Box>
                 {/* component for list will coming sooner */}
                 <Divider />
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} gap={3}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
-
-                    <Text fontSize={["0.76rem","md"]}>{dummyData[0].name}</Text>
-
-                    <HStack>
-                        <IconButton
-                            aria-label="accept"
-                            icon={<MdDone />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="deny"
-                            icon={<MdOutlineClose />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-                <Divider />
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} w={"100%"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
-
-                    <Text fontSize={["0.76rem","md"]}>{dummyData[0].name}</Text>
-                    <HStack>
-                        <IconButton
-                            aria-label="accept"
-                            icon={<MdDone />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="deny"
-                            icon={<MdOutlineClose />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                            
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-                <Divider />
+                <fileListContext.Provider value={{fileList,setFileList}}>
+                {fileList?.map((item:any, key:any) => {
+                    return (
+                        <Fade in={isOpen} unmountOnExit key={key}>
+                        <FileList info={item} key={key} elementid={key} fadeToggle={onToggle}/>
+                        </Fade>
+                    )
+                })}
+                </fileListContext.Provider>
             </PageBox>
-            {/* <BottomNav/> */}
         </AppBody>
     )
 }
