@@ -1012,23 +1012,25 @@ model Direct_Access {
 model User_Back {
   userId        String
   token         String
-  loginSession  Login_Info[]
-  logoutSession Logout_Info[]
-  user          User_Profile  @relation(fields: [userId], references: [userId])
+  loginSession  Login_Info?
+  logoutSession Logout_Info?
+  user          User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([userId, token])
 }
 
 model Login_Info {
-  loginId String        @id @default(cuid())
-  userId  String
-  token   String
-  login   User_Back     @relation(fields: [userId, token], references: [userId, token], onDelete: Cascade)
-  detail  Login_Detail?
+  loginId  String        @id @default(cuid())
+  userId   String
+  token    String
+  login    User_Back     @relation(fields: [userId, token], references: [userId, token])
+  detail   Login_Detail?
+
+  @@unique([userId, token])
 }
 
 model Login_Detail {
-  loginId      String     @id
+  loginId      String @id
   loginDate    DateTime   @default(now())
   tokenExpired DateTime
   deviceInfo   String
@@ -1040,12 +1042,14 @@ model Logout_Info {
   logoutId String         @id @default(cuid())
   userId   String
   token    String
-  logout   User_Back      @relation(fields: [userId, token], references: [userId, token], onDelete: Cascade)
+  logout   User_Back      @relation(fields: [userId, token], references: [userId, token])
   detail   Logout_Detail?
+
+  @@unique([userId, token])
 }
 
 model Logout_Detail {
-  logoutId   String      @id
+  logoutId   String @id
   logoutDate DateTime    @default(now())
   deviceInfo String
   ip         String
