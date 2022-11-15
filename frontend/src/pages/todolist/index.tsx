@@ -50,9 +50,9 @@ const index = () => {
                     <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                         Sorting
                     </MenuButton>
-                    <Link href="/todolist/folderpage">
-                        <Button colorScheme="orange">Folder</Button>
-                    </Link>
+                    <Button colorScheme="orange">
+                        <Link href="/todolist/folderpage">Folder</Link>
+                    </Button>
                     <MenuList>
                         <MenuItem>Due Date</MenuItem>
                         <MenuItem>A-Z</MenuItem>
@@ -69,7 +69,7 @@ const index = () => {
                             <Text fontSize={"3xl"}>CSC210 : Work 1</Text>
                         </Box>
                         <Spacer />
-                        <Box textAlign={"right"} pr={"1rem"} width="">
+                        <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
                             Finished
                         </Box>
                     </Flex>
@@ -96,7 +96,7 @@ const index = () => {
                         <Text fontSize={"3xl"}>CSC220</Text>
                     </Box>
                     <Spacer />
-                    <Box textAlign={"right"} pr={"1rem"} width="">
+                    <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
                         Finished
                     </Box>
                 </Flex>
@@ -122,7 +122,7 @@ const index = () => {
                         <Text fontSize={"3xl"}>LNG220</Text>
                     </Box>
                     <Spacer />
-                    <Box textAlign={"right"} pr={"1rem"} width="">
+                    <Box textAlign={"right"} as="b" pr={"1rem"} color="red">
                         Failed
                     </Box>
                 </Flex>

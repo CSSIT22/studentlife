@@ -61,7 +61,7 @@ const task = () => {
             <Heading as="h2" size="3xl" noOfLines={1}>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                     <Button bgColor="orange.200" onClick={onBackOpen}>
-                        <Link href="/todolist">
+                        <Link href="/todolist/task">
                             <ArrowBackIcon />
                         </Link>
                     </Button>
