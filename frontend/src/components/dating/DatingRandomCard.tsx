@@ -22,7 +22,21 @@ const DatingRandomCard: FC<{
     controlHeart: AnimationControls
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>
     currentIndex: number
-}> = ({ childRefs, index, character, controlCross, controlHeart, setCurrentIndex, currentIndex }) => {
+    setCardQueue: React.Dispatch<
+        React.SetStateAction<
+            {
+                UserId: string
+                Fname: string
+                Lname: string
+                Gender: string
+                Age: string
+                Faculty: string
+                url: string
+                interestId: number[]
+            }[]
+        >
+    >
+}> = ({ childRefs, index, character, controlCross, controlHeart, setCurrentIndex, currentIndex, setCardQueue }) => {
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
     // Swipe the card
@@ -36,6 +50,17 @@ const DatingRandomCard: FC<{
             controlHeart.start("hidden")
         }
         updateCurrentIndex(index - 1)
+        setTimeout(() => {
+            let card = document.getElementById(index.toString()) as HTMLInputElement
+            if (card) {
+                card.style.display = "none"
+            }
+        }, 500)
+    }
+
+    const outOfFrame = (name: string, idx: number) => {
+        console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
+        currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
     }
 
     const updateCurrentIndex = (val: number) => {
@@ -68,6 +93,7 @@ const DatingRandomCard: FC<{
             className="swipe"
             key={character.UserId}
             onSwipe={(dir: string) => swiped(dir, character.Fname + " " + character.Lname, index)}
+            onCardLeftScreen={() => outOfFrame(character.Fname, index)}
             preventSwipe={["down", "up"]}
             swipeRequirementType="position"
             swipeThreshold={75}
@@ -77,13 +103,14 @@ const DatingRandomCard: FC<{
             <Center>
                 {/* Picture in the card */}
                 <Box
+                    ref={childRefs[index]}
+                    id={index.toString()}
                     borderRadius="10px"
                     backgroundImage={character.url}
                     w={{ base: "326px", md: "379px" }}
                     h={{ base: "402px", md: "464px" }}
                     backgroundSize="cover"
                     className="card"
-                    id={character.UserId}
                     position="absolute"
                     top="30px"
                     display="flex"
