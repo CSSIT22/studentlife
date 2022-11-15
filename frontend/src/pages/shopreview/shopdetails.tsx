@@ -93,7 +93,7 @@ const shopdetails = () => {
                         <Heading>Add Review</Heading>
                     </ModalHeader>
                     <ModalCloseButton />
-                    <Rating />
+                    {/* <Rating /> */}
                     {/* <Flex direction={"row"} justifyContent={"space-around"}>
                         <StarIcon />
                         <StarIcon />
