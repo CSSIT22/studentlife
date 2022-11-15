@@ -2,35 +2,47 @@ import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 
-const DatingInterestSearch: FC<{
+const DatingRatingSearch: FC<{
     setSearchQuery: Dispatch<SetStateAction<string>>
     searchQuery: string
-    setInterests: React.Dispatch<
+    setFriends: React.Dispatch<
         React.SetStateAction<
             {
-                interestId: string
-                interestName: string
+                UserId: string
+                Fname: string
+                Lname: string
+                Gender: string
+                Age: string
+                Faculty: string
+                url: string
+                interestId: number[]
+                rate: number
             }[]
         >
     >
-    INTERESTS: {
-        interestId: string
-        interestName: string
+    FRIENDS: {
+        UserId: string
+        Fname: string
+        Lname: string
+        Gender: string
+        Age: string
+        Faculty: string
+        url: string
+        interestId: number[]
+        rate: number
     }[]
-}> = ({ setSearchQuery, searchQuery, setInterests, INTERESTS }) => {
-    // Used for prevent delay when typing in search box
+}> = ({ setSearchQuery, searchQuery, setFriends, FRIENDS }) => {
     const [timer, setTimer] = useState<number | null>(null)
-    // Prevent useEffect from triggering immediately when enter the page
     const didMount = useDidMount()
 
-    // set the interests
     useEffect(() => {
         if (didMount) {
-            setInterests(() => INTERESTS.filter((arr) => arr.interestName.toLowerCase().includes(searchQuery.toLowerCase())))
+            setFriends(() => FRIENDS.filter((arr) => arr.Fname.toLowerCase().concat(arr.Lname.toLowerCase()).includes(searchQuery.toLowerCase())))
         }
+
+        // alert('Query: "' + searchQuery + '"')
     }, [searchQuery])
 
-    // Prevent useEffect from triggering immediately when enter the page
     function useDidMount() {
         const [didMount, setDidMount] = useState(false)
         useEffect(() => {
@@ -42,7 +54,6 @@ const DatingInterestSearch: FC<{
 
     // Check if user has press enter when currently in the search bar
     function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-        // Used for prevent delay when typing in search box
         if (timer) {
             clearTimeout(timer)
             setTimer(null)
@@ -72,4 +83,4 @@ const DatingInterestSearch: FC<{
     )
 }
 
-export default DatingInterestSearch
+export default DatingRatingSearch
