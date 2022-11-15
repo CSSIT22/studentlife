@@ -79,9 +79,9 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
 
     return (
         <Box>
-            {sortedList.map((el) => {
+            {sortedList.map((el, index) => {
                 return (
-                    <Box>
+                    <Box key={index}>
                         <Text>{showDate(el.date)}</Text>
                         <Stack spacing={3}>
                             <NotiObject
