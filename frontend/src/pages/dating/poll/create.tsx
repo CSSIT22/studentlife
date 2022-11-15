@@ -148,10 +148,28 @@ const CreateActivityPoll = () => {
         return globalThis.topic
     }
 
+    function handleTime() {
+        const dateTime = new Date("2022-11-25")
+        return dateTime
+        //dateTime.getHours() + dateTime.getMinutes() + dateTime.getSeconds()
+    }
+
+    function handleDate() {
+        const dateTime = new Date("20:56")
+        return
+        //dateTime.getFullYear() + dateTime.getMonth() + dateTime.getDate()
+    }
+
+    function handleDateTime() {
+        const dateTime = new Date(date + " " + time)
+        return dateTime
+        //dateTime.getFullYear() + dateTime.getMonth() + dateTime.getDate()
+    }
+
     function handleSubmit() {
         // Validate all value before submit to database
         if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
-            alert(
+            console.log(
                 "Header: " +
                     header +
                     " Tag: " +
@@ -164,6 +182,8 @@ const CreateActivityPoll = () => {
                     date +
                     " Time: " +
                     time +
+                    " Date & Time: " +
+                    handleDateTime() +
                     " people: " +
                     sliderValue
             )
