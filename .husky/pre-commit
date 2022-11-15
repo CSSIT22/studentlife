@@ -4,3 +4,6 @@
 # npm test
 cd frontend
 npx prettier --write .
+cd ..
+cd backend
+npx prettier --write .
