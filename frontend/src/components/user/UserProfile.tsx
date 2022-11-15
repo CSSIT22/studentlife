@@ -202,16 +202,16 @@ export default function SimpleThreeColumns() {
                         </Button>{" "}
                     </ButtonGroup>
                 </GridItem>
-                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-3rem", md: "3rem" }} mr={5}>
+                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2.5rem", md: "3rem" }} mr={5}>
                     <Stack direction="row" mx={{ base: "50", md: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
-                            <Box fontSize={"lg"}>0</Box>
+                            <Box fontSize={"lg"}>1</Box>
                             <Box fontSize={"lg"} color="orange.700">
                                 Follower
                             </Box>
                         </Stack>
                         <Stack direction="column" alignItems="center" spacing={{ base: "-1.5", md: "" }}>
-                            <Box fontSize={"lg"}>0</Box>
+                            <Box fontSize={"lg"}>1</Box>
                             <Box fontSize={"lg"} color="orange.700" mt="-1rem">
                                 Following
                             </Box>

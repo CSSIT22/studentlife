@@ -19,18 +19,18 @@ function ExpSystem() {
                 </Stack>
 
                 <div></div>
-                <Progress mx="3" rounded="xl" position="initial" colorScheme="green" color="gray.400" size="md" value={50} />
+                <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={50} />
                 <Stack direction="row" alignContent="center" ml="5" mb="5" mt={1} spacing={1}>
-                    <Text color="black" fontSize="l" fontWeight="500">
+                    <Text color="black" fontSize="md" fontWeight="500">
                         EXP :
                     </Text>
-                    <Text color="black" fontSize="l" fontWeight="500">
+                    <Text color="black" fontSize="md" fontWeight="500">
                         500
                     </Text>
-                    <Text color="black" fontSize="l" fontWeight="500">
+                    <Text color="black" fontSize="md" fontWeight="500">
                         /
                     </Text>
-                    <Text color="black" fontSize="l" fontWeight="500">
+                    <Text color="black" fontSize="md" fontWeight="500">
                         999
                     </Text>
                 </Stack>

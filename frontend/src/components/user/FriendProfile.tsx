@@ -29,6 +29,7 @@ import {
     useEditableControls,
     HStack,
     useBoolean,
+    Link,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -46,6 +47,10 @@ export default function SimpleThreeColumns() {
     const { isOpen: isConfirmRPModalOpen, onOpen: onConfirmRPModalOpen, onClose: onConfirmRPModalClose } = useDisclosure()
     const { isOpen: isBlockModalOpen, onOpen: onBlockModalOpen, onClose: onBlockModalClose } = useDisclosure()
     const { isOpen: isPokeModalOpen, onOpen: onPokeModalOpen, onClose: onPokeModalClose } = useDisclosure()
+
+    const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
+    const [scrollBehavior, setScrollBehavior] = React.useState("inside")
+    const btnRef = React.useRef(null)
 
     const [isFollow, setIsFollow] = useState(false)
 
@@ -300,9 +305,23 @@ export default function SimpleThreeColumns() {
                     <Stack direction="row" mx={{ base: "50", md: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
                             <Box fontSize={"lg"}>{FolCount}</Box>
-                            <Box fontSize={"lg"} color="orange.700">
-                                Follower
-                            </Box>
+                            <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
+                                <Box fontSize={"lg"} color="orange.700">
+                                    Follower
+                                </Box>
+
+                                <Modal onClose={onFriendListClose} finalFocusRef={btnRef} isOpen={isFriendListOpen}>
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                        <ModalHeader>Follower</ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody>friedList 404</ModalBody>
+                                        <ModalFooter>
+                                            <Button onClick={onFriendListClose}>Close</Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
+                            </Link>
                         </Stack>
                         <Stack direction="column" alignItems="center" spacing={{ base: "-1.5", md: "" }}>
                             <Box fontSize={"lg"}>0</Box>
