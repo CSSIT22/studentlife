@@ -1,4 +1,4 @@
-import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link, background } from "@chakra-ui/react"
+import { Box, Text, HStack, Input, Select, Textarea, Tag, Button, Flex, IconButton, TagCloseButton, TagLabel, useDisclosure, Link, background, DrawerFooter } from "@chakra-ui/react"
 import { FormControl } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react'
@@ -50,6 +50,30 @@ const create = () => {
         setTagBtn(false)
     }
 
+    //Tag
+    const [isDrawerOpen, setDrawerOpen] = useState(false);
+    const [tag, setTag] = useState(userData.Tag)
+    // const [tagColor, setTagColor] = useState(false)
+    const [chooseTag, setChooseTag] = useState<any>([])
+    const [tagArray, setTagArray] = useState([])
+    const handleTagOnlick = (obj: any) => () => {
+        // console.log(obj)
+        setChooseTag([...chooseTag, obj])
+        // setTagColor(!tagColor)
+        setTag(tag.filter((item: any) => item.tagID !== obj.tagID))
+        // console.log(chooseTag)
+    }
+
+    const handleTagDelete = (obj: any) => () => {
+        setChooseTag(chooseTag.filter((item: any) => item != obj))
+        setTag([...tag, obj])
+
+    }
+    const onSubmit = () => {
+        setTagArray(chooseTag)
+        setDrawerOpen(false)
+    }
+
     return (
         <AppBody>
             <HStack gap={changePreview ? '50px' : '100px'} mb={4}>
@@ -99,19 +123,20 @@ const create = () => {
                                 Choose Tags
                             </Text>
                             <Box ml={2} my={2}>
-                                <Button colorScheme={'green'} onClick={onOpen} size='xs'>
-                                    <FaPlus />
+                                <Button colorScheme={'green'} onClick={() => setDrawerOpen(true)} size='xs'>
+                                    {/* <FaPlus /> */}
+                                    <Text>Edit Tag</Text>
                                 </Button>
                             </Box>
                         </HStack>
 
-                        <Drawer placement={'bottom'} onClose={onClose} isOpen={isOpen}>
+                        <Drawer placement={'bottom'} onClose={() => setDrawerOpen(false)} isOpen={isDrawerOpen}>
                             <DrawerOverlay />
                             <DrawerContent>
                                 <DrawerHeader borderBottomWidth='1px'>Tags</DrawerHeader>
                                 <DrawerBody>
-                                    <HStack gap={2}>
-                                        {userData.Tag.map((i) => (
+                                    <Flex gap={2} flexWrap={"wrap"}>
+                                        {/* {userData.Tag.map((i) => (
                                             <Button onClick={((handleTagChoose))}
                                                 colorScheme={tagBtn ? 'green' : 'yellow'}
                                                 variant='solid'
@@ -120,15 +145,47 @@ const create = () => {
                                                 size={"md"}
                                             >{i.tagName}
                                             </Button>
-                                        ))}
-                                    </HStack>
+                                        ))} */}
+                                        {/* <Box> */}
+                                        {tag.map((tag: any) =>
+                                            <Button
+                                                variant='solid'
+                                                key={tag.tagID}
+                                                borderRadius="full"
+                                                size={"md"}
+                                                value={tag}
+                                                onClick={handleTagOnlick(tag)}>
+                                                {tag.tagName}
+                                            </Button>)}
+                                        {/* </Box> */}
+                                    </Flex>
                                 </DrawerBody>
+                                <DrawerHeader borderBottomWidth='1px'>Selected Tags</DrawerHeader>
+                                <DrawerBody>
+                                    {chooseTag.map((tag: any) => tag).length > 0 ?
+                                        <Flex gap={2} flexWrap={"wrap"} mb={4}>
+                                            {chooseTag.map((tag: any) =>
+                                                <Button
+                                                    key={tag.tagID}
+                                                    borderRadius="full"
+                                                    variant='solid'
+                                                    size={"md"}
+                                                    backgroundColor={"tomato"}
+                                                    onClick={handleTagDelete(tag)}
+                                                    value={tag}>
+                                                    {tag.tagName}
+                                                </Button>)}
+                                        </Flex> : <Text>None</Text>}
+                                </DrawerBody>
+                                <DrawerFooter>
+                                    <Button onClick={onSubmit}>Submit</Button>
+                                </DrawerFooter>
                             </DrawerContent>
                         </Drawer>
 
                         <Box width='100%' bg={'white'} padding={1} borderRadius={'md'} boxShadow={'md'} mb={{ md: 2, sm: 4 }}>
                             <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} padding={2}>
-                                {userData.Tag.map((Tags) =>
+                                {/* {userData.Tag.map((Tags) =>
                                     <Tag
                                         fontSize={"md"}
                                         size={"md"}
@@ -140,7 +197,21 @@ const create = () => {
                                     >
                                         <TagLabel>{Tags.tagName}</TagLabel>
                                         <TagCloseButton />
-                                    </Tag>)}
+                                    </Tag>)} */}
+
+                                {tagArray.map((tag: any) => tag).length > 0 ?
+                                    (tagArray.map((tag: any) =>
+                                        <Tag fontSize={"md"}
+                                            size={"md"}
+                                            key={tag.tagID}
+                                            borderRadius='full'
+                                            variant='solid'
+                                            colorScheme='green'
+                                            sx={{ marginLeft: '0 !important' }}>
+                                            <TagLabel>{tag.tagName}</TagLabel>
+                                            {/* <TagCloseButton onClick={handleTagDelete(tag)} /> */}
+                                        </Tag>)) :
+                                    <Text as={"p"} color={{ base: "white", md: "black" }}>None</Text>}
                             </HStack>
                         </Box>
 
@@ -294,7 +365,7 @@ const create = () => {
                                 coverPhoto="https://picsum.photos/id/400/800"
                                 members={1}
                                 communityID={1000}
-                                tags={userData.Tag}
+                                tags={chooseTag}
                             />
                         </Box>
                     </Box>
