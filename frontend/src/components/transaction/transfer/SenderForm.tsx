@@ -1,20 +1,18 @@
-import { Box, Button, Center, FormControl, FormHelperText, FormLabel, Input, Text, Textarea } from "@chakra-ui/react"
+import { Box, Button, Center, FormControl, FormHelperText, FormLabel, Input, NumberInput, NumberInputField, Text, Textarea } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
-import { Form } from "react-router-dom"
 
 const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
     let [note, setNote] = React.useState("")
     let [amount, setAmount] = React.useState(0)
+    let [invoice, setInvoice] = React.useState([0, ""])
+    const AmountError = amount === 0
+    const handleAmountChange = (e: any) => setAmount(e.target.value)
 
-    const AmountError = () => {
-        amount >= 10
-    }
-
-    let setTransfer = (e: React.FormEvent) => {
+    let setTransfer = (e: any) => {
         e.preventDefault()
         setAmount(amount)
         setNote(note)
-        console.log(amount, note)
+        console.log(amount)
     }
 
     let handlerNoteChange = (e: any) => {
@@ -22,23 +20,19 @@ const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
         setNote(inputNote)
     }
 
-    let handlerAmountChange = (e: any) => {
-        const inputAmount = e.target.value
-        AmountError()
-        setAmount(inputAmount)
-    }
-
     return (
         <Box bgColor="white" padding={3} borderRadius="3xl">
-            <Form onSubmit={setTransfer}>
+            <FormControl onSubmit={setTransfer}>
                 <FormLabel fontSize="3xl">Payment Detail</FormLabel>
                 <FormControl p={4}>
                     <FormLabel>Amount</FormLabel>
-                    <Input type="number" value={amount} onChange={handlerAmountChange} />
+                    <NumberInput>
+                        <NumberInputField maxLength={5} value={amount} onChange={handleAmountChange} />
+                    </NumberInput>
                     {!AmountError ? (
-                        <FormHelperText color="red">* Must have at least 10 Bath</FormHelperText>
+                        <FormHelperText color="grey">* Start at 1 not above 100,000</FormHelperText>
                     ) : (
-                        <FormHelperText color="grey">* Limit at 10,000</FormHelperText>
+                        <FormHelperText color="red">* Must have at least 1 Bath</FormHelperText>
                     )}
 
                     <FormLabel paddingTop={5}>Note</FormLabel>
@@ -61,7 +55,7 @@ const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
                         </Center>
                     </FormControl>
                 </FormControl>
-            </Form>
+            </FormControl>
         </Box>
     )
 }

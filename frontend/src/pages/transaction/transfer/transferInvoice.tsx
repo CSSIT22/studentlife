@@ -1,9 +1,9 @@
 import { ArrowBackIcon, ArrowDownIcon } from "@chakra-ui/icons"
 import { Box, Center, IconButton, Stack, useMediaQuery } from "@chakra-ui/react"
 import React from "react"
-import AppBody from "../../components/share/app/AppBody"
-import ShowUser from "../../components/transaction/transfer/ShowUser"
-import TransferPay from "../../components/transaction/transfer/TransferPay"
+import AppBody from "../../../components/share/app/AppBody"
+import ShowUser from "../../../components/transaction/transfer/ShowUser"
+import TransferPay from "../../../components/transaction/transfer/TransferPay"
 
 const transferInvoice = () => {
     const [desktopthan1280] = useMediaQuery("(min-width: 800px)")
@@ -22,7 +22,7 @@ const transferInvoice = () => {
                     </Center>
                     <ShowUser userId={"DummyUser01"} userEmail={"dummy1@hotmail.com"}></ShowUser>
                 </Box>
-                <TransferPay displaySize={desktopthan1280} />
+                {/* <TransferPay displaySize={desktopthan1280} /> */}
             </Stack>
         </AppBody>
     )
