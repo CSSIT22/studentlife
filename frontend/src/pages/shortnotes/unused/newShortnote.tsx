@@ -14,7 +14,7 @@ import {
     Stack,
 } from "@chakra-ui/react"
 import React from "react"
-import AppBody from "../../components/share/app/AppBody"
+import AppBody from "../../../components/share/app/AppBody"
 
 const newShortnote = () => {
     return (
