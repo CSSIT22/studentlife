@@ -54,6 +54,8 @@ const DatingRandomCard: FC<{
             key={character.UserId}
             onSwipe={(dir: string) => swiped(dir, character.Fname + " " + character.Lname, index)}
             preventSwipe={["down", "up"]}
+            swipeRequirementType="position"
+            swipeThreshold={50}
         >
             <Center>
                 {/* Picture in the card */}
