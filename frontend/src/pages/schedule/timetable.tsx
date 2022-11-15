@@ -2,7 +2,7 @@ import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
 import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
-import { IconButton, useDisclosure, Button, ButtonGroup} from "@chakra-ui/react"
+import { IconButton, useDisclosure, Button, ButtonGroup } from "@chakra-ui/react"
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
@@ -40,26 +40,14 @@ const theme = extendTheme({
 })
 
 const timetable = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    // const { isOpen, onOpen, onClose } = useDisclosure()
+    const modal1 = useDisclosure()
+    const modal2 = useDisclosure()
+    const modal3 = useDisclosure()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
 
-    const OverlayOne = () => (
-        <ModalOverlay
-          bg='blackAlpha.300'
-          backdropFilter='blur(10px) hue-rotate(90deg)'
-        />
-      )
-    
-      const OverlayTwo = () => (
-        <ModalOverlay
-          bg='none'
-          backdropFilter='auto'
-          backdropInvert='80%'
-          backdropBlur='2px'
-        />
-      )
     return (
         <AppBody>
             <SimpleGrid columns={[1, 6]} spacing="40px">
@@ -76,7 +64,7 @@ const timetable = () => {
                 </Box>
                 <IconButton aria-label="next" icon={<ChevronRightIcon />} />
                 <IconButton
-                    onClick={onOpen}
+                    onClick={modal1.onOpen}
                     w="60px"
                     h="62px"
                     bg="#6CF5B4"
@@ -87,7 +75,7 @@ const timetable = () => {
                     borderRightRadius="55"
                     borderLeftRadius="55"
                 />
-                <Modal id="addButton" initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} size="xl">
+                <Modal id="addButton" initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={modal1.isOpen} onClose={modal1.onClose} size="xl">
                     <ModalOverlay />
                     <ModalContent>
                         <ModalHeader>
@@ -169,29 +157,116 @@ const timetable = () => {
                     <h4>SAT</h4>
                 </Grid>
             </Box>
-
-            <Button id="deleteEvent" onClick={onOpen} bg="red" colorScheme="white">Delete</Button>
-
-      <Modal id="deleteEvent" isOpen={isOpen} onClose={onClose} size="sm">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader color="red"><Text textAlign={['center']} fontSize="3xl">Delete Event</Text></ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text textAlign={['center']} fontSize="sm">Are you sure you would like to delete this event?</Text>
-            <Text textAlign={['center']} fontSize="sm">You might not be able to recover it back.</Text>
-            
-          </ModalBody>
-
-          <ModalFooter>
-            
-            <Button variant='ghost'  bg="#38A169">Yes</Button>
-            <Button  bg="#E53E3E" mr={3} onClick={onClose}>
-              No
+            <Button id="deleteEvent" onClick={modal2.onOpen} bg="red" colorScheme="white">
+                Edit
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+
+            <Modal id="deleteEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="sm">
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader color="red">
+                        <Text textAlign={["center"]} fontSize="3xl">
+                            Delete Event
+                        </Text>
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <FormControl>
+                            <FormLabel color="black">
+                                <Text fontSize="24px">Event name</Text>
+                            </FormLabel>
+                            <Input ref={initialRef} placeholder="Meeting with PM" />
+                        </FormControl>
+
+                        <FormControl mt={4}>
+                            <FormLabel color="black">
+                                <Text fontSize="24px">Description</Text>
+                            </FormLabel>
+                            <Textarea placeholder="Detail about event" size="md" />
+                        </FormControl>
+
+                        <Flex>
+                            <FormControl mt={4}>
+                                <FormLabel color="black">
+                                    <Text fontSize="24px">Start Time</Text>
+                                </FormLabel>
+                                <Input placeholder="Select time" size="xs" type="time" />
+                            </FormControl>
+
+                            <FormControl mt={4}>
+                                <FormLabel color="black">
+                                    <Text fontSize="24px">End Time</Text>
+                                </FormLabel>
+                                <Input placeholder="Select time" size="xs" type="time" />
+                            </FormControl>
+
+                            <FormControl mt={4}>
+                                <FormLabel color="black">
+                                    <Text fontSize="24px">Event Type</Text>
+                                </FormLabel>
+                                <Select placeholder="Select Event Type" width="151px" height="32px">
+                                    <option>Course</option>
+                                    <option>Assignment</option>
+                                    <option>Activity</option>
+                                </Select>
+                            </FormControl>
+                        </Flex>
+                        <FormControl mt={4}>
+                            <FormLabel color="black">Location</FormLabel>
+                            <Input placeholder="Place/ Platform" />
+                        </FormControl>
+
+                        <FormControl display="flex" alignItems="center">
+                            <Switch id="notification" size="lg" mt={4} />
+                            <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4}>
+                                Notification
+                            </FormLabel>
+                        </FormControl>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button variant="ghost" bg="#38A169">
+                            Yes
+                        </Button>
+                        <Button bg="#E53E3E" mr={3} onClick={modal2.onClose}>
+                            No
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
+            <Button id="deleteEvent" onClick={modal3.onOpen} bg="red" colorScheme="white">
+                Delete
+            </Button>
+
+            <Modal id="deleteEvent" isOpen={modal3.isOpen} onClose={modal3.onClose} size="sm">
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader color="red">
+                        <Text textAlign={["center"]} fontSize="3xl">
+                            Delete Event
+                        </Text>
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text textAlign={["center"]} fontSize="sm">
+                            Are you sure you would like to delete this event?
+                        </Text>
+                        <Text textAlign={["center"]} fontSize="sm">
+                            You might not be able to recover it back.
+                        </Text>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button variant="ghost" bg="#38A169">
+                            Yes
+                        </Button>
+                        <Button bg="#E53E3E" mr={3} onClick={modal3.onClose}>
+                            No
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </AppBody>
     )
 }
