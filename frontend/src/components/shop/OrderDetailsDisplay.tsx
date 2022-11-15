@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Grid, LinkBox, LinkOverlay, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Text, useDisclosure } from "@chakra-ui/react"
 import React, { FC } from "react"
-import rating from "../../pages/rating"
 import Details from "../../pages/shop/orders/Details"
 import generateProducts from "../../pages/shop/orders/OrderedProductDisplay"
 import ContentBox from "./ContentBox"
