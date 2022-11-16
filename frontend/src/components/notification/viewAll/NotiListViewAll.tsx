@@ -27,7 +27,7 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             if (!list.includes("today")) {
                 list.push("today")
                 return (
-                    <Text fontSize={"sm"} padding={2}>
+                    <Text fontSize={"sm"} padding={2} as="b">
                         Today
                     </Text>
                 )
@@ -38,7 +38,7 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             if (!list.includes("yesterday")) {
                 list.push("yesterday")
                 return (
-                    <Text fontSize={"sm"} padding={2}>
+                    <Text fontSize={"sm"} padding={2} as="b">
                         Yesterday
                     </Text>
                 )
@@ -65,7 +65,7 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             if (!list.includes(month + " " + date.getDate() + ", " + date.getFullYear())) {
                 list.push(month + " " + date.getDate() + ", " + date.getFullYear())
                 return (
-                    <Text padding={2} fontSize={"sm"}>
+                    <Text padding={2} fontSize={"sm"} as="b">
                         {month + " " + date.getDate() + ", " + date.getFullYear()}
                     </Text>
                 )
@@ -74,7 +74,7 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             }
         }
     }
-    console.log(list)
+    // console.log(list)
 
     // const notiListdate = sortedList.filter((el) => el.date === date)
     //console.log(notiListdate)
@@ -83,11 +83,10 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
         <Box>
             {sortedList.map((el) => {
                 return (
-                    <Box>
-                        <Text as="b">{showDate(el.date)}</Text>
+                    <Box key={el.id}>
+                        {showDate(el.date)}
                         <Stack spacing={3}>
                             <NotiObjectViewAll
-                                key={el.id}
                                 id={el.id}
                                 userId={el.user}
                                 description={el.description}
