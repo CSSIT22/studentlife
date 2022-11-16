@@ -35,7 +35,7 @@ router.get(
                                 create: {
                                     loginDate: new Date(),
                                     deviceInfo: device.data.deviceCategory || "Unknow",
-                                    ip: device.data.platform,
+                                    ip: req.ip,
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
                                 },
                             },
