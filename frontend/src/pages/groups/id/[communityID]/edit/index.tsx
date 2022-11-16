@@ -183,7 +183,7 @@ const create = () => {
                             </DrawerContent>
                         </Drawer>
 
-                        <Box width='100%' bg={'white'} padding={1} borderRadius={'md'} mb={{ md: 2, sm: 4 }}>
+                        <Box width='100%' bg={'white'} boxShadow={{ sm: 'xs', md: 'none' }} padding={1} borderRadius={'md'} mb={{ md: 2, sm: 4 }}>
                             <HStack flexWrap={'wrap'} gap={2} justify={'flex-start'} padding={2}>
                                 {/* {userData.Tag.map((Tags) =>
                                     <Tag
