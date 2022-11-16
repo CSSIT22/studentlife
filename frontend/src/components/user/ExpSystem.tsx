@@ -2,10 +2,6 @@ import { useState, useEffect } from "react"
 import { VStack, Flex, Heading, Box, Text, Progress, Stack } from "@chakra-ui/react"
 
 function ExpSystem() {
-    // useEffect(() =>{
-
-    // })
-
     return (
         <div>
             <Flex rounded="xl" direction="column" mt={4} mx={4} bg="white" position="initial" shadow={"lg"}>
@@ -31,7 +27,7 @@ function ExpSystem() {
                         /
                     </Text>
                     <Text color="black" fontSize="md" fontWeight="500">
-                        999
+                        1000
                     </Text>
                 </Stack>
             </Flex>
