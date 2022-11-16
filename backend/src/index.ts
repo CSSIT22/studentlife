@@ -26,6 +26,7 @@ import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
+import trainingRoutes from "./modules/training"
 
 const PORT = 8000
 const app = express()
@@ -123,5 +124,6 @@ app.use("/timeline", timelineRoutes)
 app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
+app.use("/training", trainingRoutes)
 
 app.listen(PORT, () => console.log(`running on ${PORT} !`))
