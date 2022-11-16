@@ -1,4 +1,4 @@
-import { Box, Text, Flex, Stack, HStack, Icon, VStack, Button } from "@chakra-ui/react"
+import { Box, Text, Flex, Stack, HStack, Icon, VStack, Button, useDisclosure } from "@chakra-ui/react"
 import { Pagination, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import AppBody from "../../../components/share/app/AppBody"
@@ -9,6 +9,7 @@ import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
 import api from "../../../function/API"
 import { useContext, useEffect, useState } from "react"
 import { authContext } from "src/context/AuthContext"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 
 const Card = (props: any) => {
     return (
@@ -27,8 +28,10 @@ const Card = (props: any) => {
 }
 
 const index = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const user = useContext(authContext)
     const [tokens, setTokens] = useState<any[]>([])
+
     async function handleRevoke(token: string) {
         const res = await api.post("/backendservice/revokeTokens", {
             token: token,
@@ -37,10 +40,12 @@ const index = () => {
         setTokens([...tokens.filter((item) => item.token !== res.data.token)])
         console.log(res)
     }
+
     async function getTokensInfo() {
         const getTokens = await api.get("/backendservice/tokens")
         setTokens([...tokens, ...getTokens.data.tokens])
     }
+
     useEffect(() => {
         getTokensInfo()
     }, [])
@@ -118,7 +123,7 @@ const index = () => {
                                             <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
                                             <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
                                             <Button
-                                                onClick={() => handleRevoke(item.token)}
+                                                onClick={onOpen}
                                                 bg={"gray.700"}
                                                 color={"white"}
                                                 w={"100%"}
@@ -129,6 +134,42 @@ const index = () => {
                                         </VStack>
                                     </Flex>
                                 </Box>
+
+                                <Modal isOpen={isOpen} onClose={onClose}>
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                        <ModalHeader>Are you sure?</ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody>
+                                            <p>This will logout from the device</p>
+                                        </ModalBody>
+
+                                        <ModalFooter>
+                                            <Button
+                                                colorScheme={"red"}
+                                                variant={"solid"}
+                                                color={"white"}
+                                                backgroundColor={"red.400"}
+                                                mr={3}
+                                                onClick={onClose}
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                onClick={() => {
+                                                    handleRevoke(item.token)
+                                                    onClose()
+                                                }}
+                                                colorScheme={"green"}
+                                                variant={"solid"}
+                                                color={"white"}
+                                                backgroundColor={"green.400"}
+                                            >
+                                                Confirm
+                                            </Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
                             </SwiperSlide>
                         )
                     })}
