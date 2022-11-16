@@ -192,14 +192,14 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                     <PopoverContent width="180px">
                                         <PopoverBody>
                                             <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
-                                                <FaBan />
-                                                <Text>Leave Community</Text>
-                                            </Box>
-                                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
                                                 <FaExclamationCircle />
                                                 <Link to={`/groups/id/${communityID}/edit`} >
                                                     <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
                                                 </Link>
+                                            </Box>
+                                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                                <FaBan />
+                                                <Text>Leave Community</Text>
                                             </Box>
                                         </PopoverBody>
                                     </PopoverContent>
