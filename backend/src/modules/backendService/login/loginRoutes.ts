@@ -48,7 +48,7 @@ router.get(
             })
             res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
-            res.status(500).send("These is an error  in login")
+            res.status(500).send("These is an error in login")
             console.log(error)
         }
     }
@@ -57,25 +57,42 @@ router.get("/showtoken", (req, res) => {
     res.send(req.session.id)
 })
 router.get("/logout", async (req, res) => {
-    const userID: string = req.user?.userId || ""
-    const tokenID: string = req.session.id
+    const userid = req.user?.userId || ""
+    const sessid = req.sessionID
     req.logOut({}, async (err) => {
         if (err) {
             return res.status(400).send("Error")
         }
-        const { prisma } = res
+        try {
+            const { prisma } = res
+            const device = new UserAgent(req.headers["user-agent"])
 
-        // รอริเเก้ db
-        const user = await prisma.user_Back.delete({
-            where: {
-                userId_token: {
-                    userId: userID,
-                    token: tokenID,
+            await prisma.logout_Info.create({
+                data: {
+                    userId: userid,
+                    token: sessid,
+                    detail: {
+                        create: {
+                            deviceInfo: device.data.deviceCategory || "Unknow",
+                            ip: device.data.platform,
+                            logoutDate: new Date(),
+                        },
+                    },
                 },
-            },
-        })
+            })
 
-        return res.send("success")
+            await prisma.login_Info.deleteMany({
+                where: {
+                    userId: userid,
+                    token: sessid,
+                },
+            })
+
+            return res.send(true)
+        } catch (error) {
+            res.status(500).send("These is an error in logout")
+            console.log(error)
+        }
     })
 })
 

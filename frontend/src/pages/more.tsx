@@ -1,6 +1,7 @@
 import { Avatar, Box, Heading, HStack, SimpleGrid, useBreakpointValue, VStack } from "@chakra-ui/react"
 import React, { useContext } from "react"
 import { Link, Navigate } from "react-router-dom"
+import { logout } from "src/components/share/navbar/NavBarDesktop"
 import { authContext } from "src/context/AuthContext"
 import AppBody from "../components/share/app/AppBody"
 import { moreMenu } from "../components/share/navbar/NavBar"
@@ -25,7 +26,7 @@ const More = () => {
                 <Box flex={3} p={3} py={5} bg="blue.400" color="white" shadow={"md"} rounded="lg">
                     <Heading size="md">Login activity</Heading>
                 </Box>
-                <Box flex={1} p={3} py={5} bg="red.400" color="white" shadow={"md"} rounded="lg">
+                <Box onClick={logout} flex={1} p={3} py={5} bg="red.400" color="white" shadow={"md"} rounded="lg">
                     <Heading size="md">Logout</Heading>
                 </Box>
             </HStack>

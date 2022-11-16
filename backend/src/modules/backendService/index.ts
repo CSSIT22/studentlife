@@ -35,32 +35,52 @@ backendserviceRoutes.post("/revokeTokens", verifyUser, async (req: Request, res:
         const device = new UserAgent(req.headers["user-agent"])
 
         const { token, userId } = req.body
-
         const logoutId = nanoid()
         const logoutDate = new Date()
-        const deviceInfo = device.data.deviceCategory || "Unknow"
-        const ip = req.ip
 
-        const logoutResult = await prisma.logout_Info.create({
-            data: {
-                token: token,
-                userId: userId,
-                logoutId: logoutId,
-                detail: {
-                    create: {
-                        logoutDate: logoutDate,
-                        deviceInfo: deviceInfo,
-                        ip: ip,
+        const userLoginDeviceInfo = await prisma.user_Back.findUniqueOrThrow({
+            where: {
+                userId_token: {
+                    userId: userId,
+                    token: token,
+                },
+            },
+            select: {
+                loginSession: {
+                    select: {
+                        detail: true,
                     },
                 },
             },
         })
-        console.log({ logoutResult: logoutResult })
+        const user = await prisma.user_Back.delete({
+            where: {
+                userId_token: {
+                    userId: userId,
+                    token: token,
+                },
+            },
+        })
+        const deviceInfo = userLoginDeviceInfo.loginSession?.detail?.deviceInfo || ""
+        const ip = userLoginDeviceInfo.loginSession?.detail?.ip || ""
+        const logoutResult = await prisma.logout_Info.create({
+            data: {
+                userId: userId,
+                token: token,
+                logoutId: logoutId,
+                detail: {
+                    create: {
+                        deviceInfo: deviceInfo,
+                        ip: ip,
+                        logoutDate: logoutDate,
+                    },
+                },
+            },
+        })
         res.status(200).json({ token: token })
     } catch (err: any) {
         console.log(err)
-        if (!req.user) res.status(403).json({ message: "unauthorized" })
-        else res.status(400).json({ message: err })
+        res.status(400).json({ message: err })
     }
 })
 

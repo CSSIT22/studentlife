@@ -33,6 +33,16 @@ import ExtarSecondaryNav from "./ExtarSecondaryNav"
 import logo from "./pic/logo.png"
 import { authContext } from "src/context/AuthContext"
 import NotiTable from "src/components/notification/NotiTable"
+import API from "src/function/API"
+
+export const logout = async () => {
+    try {
+        await API.get("/auth/logout")
+        location.reload()
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
@@ -89,7 +99,9 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                                 <MenuItem icon={<FaHistory />}>Login Activity</MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
-                                                <MenuItem icon={<BiLogOut />}>Logout</MenuItem>
+                                                <MenuItem onClick={logout} icon={<BiLogOut />}>
+                                                    Logout
+                                                </MenuItem>
                                             </MenuGroup>
                                         </MenuList>
                                     </>
