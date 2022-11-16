@@ -18,7 +18,7 @@ function FriendList() {
     const theme = extendTheme({ breakpoints })
     return (
         <Box borderRadius={"md"}>
-            <HStack borderRadius={"md"} boxShadow="md" padding={1} mb={{ md: 1, sm: 4 }} background={"white"}>
+            <HStack borderRadius={"md"} boxShadow="md" position="initial" padding={1} mb={{ md: 1, sm: 4 }} background={"white"}>
                 <Box color={"black"} mr={-1}>
                     <IconButton aria-label="Search database" background={"white"} _hover={{ background: "default" }} icon={<SearchIcon />} />
                 </Box>
@@ -49,7 +49,7 @@ function FriendList() {
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
                     <Box>
-                        <UserList userProfile={""} userName={"Kevinddlyy"} />
+                        <UserList userProfile={""} userName={"Kevinindy"} />
                     </Box>
                     <Box>
                         <UserList userProfile={""} userName={"Vatcharamai Rodring"} />
