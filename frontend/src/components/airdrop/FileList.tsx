@@ -117,26 +117,25 @@ const FileList: FC<{
                         onMouseEnter={() => {
                             proOpenFunc()
                             fetchSenderProfile()
-                            setTimeout(()=>{
+                            setTimeout(() => {
                                 proCloseFunc()
-                            },2000)
+                            }, 2000)
                         }}
                     >
                         <Text decoration={"underline"}>{modalData.fileSender}</Text>
                     </Box>
                     <Modal initialFocusRef={initRef} isOpen={proOpen} onClose={onClose} size={"2xl"}>
                         <ModalOverlay bg={"none"} />
-                        <ModalContent position={"absolute"} right={[-1,0,50,50,200]} top={[5,10,20,100,500]}>
+                        <ModalContent position={"absolute"} right={[-1, 0, 50, 50, 200]} top={[5, 10, 20, 100, 500]}>
                             <ModalHeader></ModalHeader>
                             <ModalBody pb={6}>
                                 {senderProfile && (
                                     <>
                                         <Flex justify={"space-around"} gap={5} flexDirection={"row"} alignItems={"center"} flexWrap={"wrap"}>
                                             <img src={`data:image/jpg;base64,${senderImg}`} alt="" />
-                                                <Text>{senderProfile.fName + " " + senderProfile.lName}</Text>
-                                                <Text>{senderProfile.studentId}</Text>
-                                                <Text>{senderProfile.majorId + " Student"}</Text>
-                                            
+                                            <Text>{senderProfile.fName + " " + senderProfile.lName}</Text>
+                                            <Text>{senderProfile.studentId}</Text>
+                                            <Text>{senderProfile.majorId + " Student"}</Text>
                                         </Flex>
                                     </>
                                 )}

@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react"
 import { FC } from "react"
 import { Link } from "react-router-dom"
 
-const DatingLikedYouButton: FC<{ backgroundColor: string }> = ({backgroundColor}) => {
+const DatingLikedYouButton: FC<{ backgroundColor: string }> = ({ backgroundColor }) => {
     return (
         <Link to="/dating/likedyou" style={{ textDecoration: "none" }}>
             <Box

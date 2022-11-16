@@ -50,7 +50,7 @@ const ModalForEvent: FC<{
     // console.log(selectPost);
 
     const checkstatus = (status: string) => {
-       if (status == "disapprove" || status == "approve") {
+        if (status == "disapprove" || status == "approve") {
             return (
                 <Button
                     colorScheme="blue"
@@ -94,7 +94,7 @@ const ModalForEvent: FC<{
                     </Button>
                 </Link>
             )
-        }else {
+        } else {
             return ""
         }
     }
@@ -112,7 +112,7 @@ const ModalForEvent: FC<{
                     </Button>
                 </Link>
             )
-        } else if(status == 'OK'){
+        } else if (status == "OK") {
             return (
                 <Link to="/announcement">
                     <Button
@@ -124,7 +124,7 @@ const ModalForEvent: FC<{
                     </Button>
                 </Link>
             )
-        }else {
+        } else {
             return (
                 <Button
                     onClick={() => {

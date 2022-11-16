@@ -17,7 +17,9 @@ function Nmodal(props: any) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
-            <Box onClick={onOpen} width={'100%'}>Report</Box>
+            <Box onClick={onOpen} width={"100%"}>
+                Report
+            </Box>
 
             <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
                 <ModalOverlay />
@@ -35,7 +37,7 @@ function Nmodal(props: any) {
                         </Stack>
                     </ModalBody>
 
-                    <ModalFooter display={'flex'} justifyContent={'center'}>
+                    <ModalFooter display={"flex"} justifyContent={"center"}>
                         <Button colorScheme="green" onClick={onClose}>
                             Verify and send
                         </Button>
