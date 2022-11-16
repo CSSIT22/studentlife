@@ -96,7 +96,9 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                         <MenuList>
                                             <MenuGroup title="User">
                                                 <MenuItem icon={<FaUserAlt />}>Profile</MenuItem>
-                                                <MenuItem icon={<FaHistory />}>Login Activity</MenuItem>
+                                                <MenuItem as={Link} to={"/auth/revokeTokens"} icon={<FaHistory />}>
+                                                    Login Activity
+                                                </MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
                                                 <MenuItem onClick={logout} icon={<BiLogOut />}>
