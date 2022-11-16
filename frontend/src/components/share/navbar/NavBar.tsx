@@ -1,7 +1,6 @@
 import { useBreakpointValue } from "@chakra-ui/react"
 import { AiOutlineHome, AiOutlineHeart } from "react-icons/ai"
-import { HiSpeakerphone } from "react-icons/hi"
-import { BiGroup } from "react-icons/bi"
+import { HiOutlineUserGroup, HiSpeakerphone } from "react-icons/hi"
 import { BsPatchQuestion } from "react-icons/bs"
 import NavBarDesktop from "./NavBarDesktop"
 import NavBarMobile from "./NavBarMobile"
@@ -12,7 +11,7 @@ export const NavBarMenu = [
     { to: "/", Icon: AiOutlineHome, name: "Home" },
     { to: "/dating", Icon: AiOutlineHeart, name: "Dating" },
     { to: "/qa", Icon: BsPatchQuestion, name: "Q&A" },
-    { to: "/groups", Icon: BiGroup, name: "Communities" },
+    { to: "/groups", Icon: HiOutlineUserGroup, name: "Communities" },
 ]
 
 export const moreMenu = [

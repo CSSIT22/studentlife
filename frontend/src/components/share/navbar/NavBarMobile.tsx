@@ -24,10 +24,11 @@ import {
     useDisclosure,
     VStack,
 } from "@chakra-ui/react"
-import { FC } from "react"
+import { FC, useContext } from "react"
 
 import { AiOutlineMail, AiFillBell, AiOutlineMenu } from "react-icons/ai"
 import { Link, Navigate } from "react-router-dom"
+import { authContext } from "src/context/AuthContext"
 import { secondaryNavProps } from "../app/AppBody"
 import { NavBarMenu } from "./NavBar"
 import NavBarMobileButton from "./NavBarMobileButton"
@@ -36,6 +37,8 @@ import NavBarWithNoti from "./NavBarWithNoti"
 import logo from "./pic/logo.png"
 
 const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
+    const user = useContext(authContext)
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
@@ -80,7 +83,7 @@ const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav
                 </DrawerContent>
             </Drawer>
 
-            <Box w="100%" bg="white" py={3} pos={"fixed"} shadow="md">
+            <Box zIndex={"dropdown"} w="100%" bg="white" py={3} pos={"fixed"} shadow="md">
                 <Container w="100%" maxW="container.md">
                     <HStack w="100%" justifyContent="space-between">
                         <HStack>
@@ -103,11 +106,18 @@ const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav
                 </Container>
             </Box>
 
-            <Box w="100%" bg="white" pos={"fixed"} bottom={0} shadow="md">
+            <Box zIndex={"dropdown"} w="100%" bg="white" pos={"fixed"} bottom={0} shadow="md">
                 <SimpleGrid columns={5} px={5}>
-                    {[...NavBarMenu, { to: "/more", Icon: Avatar, name: "More" }].map(({ Icon, to }) => (
+                    {[
+                        ...NavBarMenu,
+                        {
+                            to: "/more",
+                            Icon: <Avatar size="sm" src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user?.userId} />,
+                            name: "More",
+                        },
+                    ].map(({ Icon, to }) => (
                         <Link to={to} key={to}>
-                            <NavBarMobileButton {...{ Icon, to }} />
+                            <NavBarMobileButton {...({ Icon, to } as any)} />
                         </Link>
                     ))}
                 </SimpleGrid>
