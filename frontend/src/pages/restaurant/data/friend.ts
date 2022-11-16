@@ -30,5 +30,5 @@ export const friend = [
     {
         name: "Bung K",
         picture: "",
-    }
+    },
 ]

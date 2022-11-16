@@ -13,20 +13,20 @@ const index = () => {
     //     { topic: "SIT Esport", sender: "SAMO-SIT", status: false, id: 11 },
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: false, id: 12 },
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: false, id: 13 },
-    // 
+    //
     // const nonexpired = postInfoTest.filter((el) => {
     //     const current = new Date().toISOString
     // })
-    const minute = 1000*60
-    const hour = minute *60
-    const day = hour*24
-    const year = day *365
+    const minute = 1000 * 60
+    const hour = minute * 60
+    const day = hour * 24
+    const year = day * 365
 
-    const date = new Date(); 
+    const date = new Date()
     const current = Math.round(date.getTime() / day)
 
     // console.log(postInfoTest[0].expiredOfPost);
-    
+
     const [allPost, setAllPost] = React.useState(postInfoTest)
 
     return (
@@ -37,7 +37,7 @@ const index = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            p={{md:"3rem"}}
+            p={{ md: "3rem" }}
         >
             <Flex alignItems={"center"}>
                 <HeaderPage head="Announcement" />
@@ -47,11 +47,11 @@ const index = () => {
             </Flex>
             {allPost
                 .filter((p) => {
-                    const expired= new Date (p.expiredOfPost)
+                    const expired = new Date(p.expiredOfPost)
                     const expiredPost = Math.round(expired.getTime() / day)
-                    const diff = expiredPost-current
+                    const diff = expiredPost - current
                     // console.log("current:"+current+" expired:"+expiredPost+" diff:"+(expiredPost-current+1));
-                    return p.pinStatus == true && p.isApprove == true &&  diff > 0 
+                    return p.pinStatus == true && p.isApprove == true && diff > 0
                 })
                 .map((el) => {
                     return (
@@ -68,10 +68,10 @@ const index = () => {
                 })}
             {allPost
                 .filter((p) => {
-                    const expired= new Date (p.expiredOfPost)
+                    const expired = new Date(p.expiredOfPost)
                     const expiredPost = Math.round(expired.getTime() / day)
-                    const diff = expiredPost-current
-                    return p.pinStatus == false && p.isApprove == true &&  diff > 0
+                    const diff = expiredPost - current
+                    return p.pinStatus == false && p.isApprove == true && diff > 0
                 })
                 .map((el) => {
                     return (

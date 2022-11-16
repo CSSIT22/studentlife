@@ -34,41 +34,52 @@ function Plustoggle() {
                 <DrawerContent>
                     <DrawerBody>
                         <Flex bg={"#FFF2E9"} justifyContent={"center"} gap={"25px"}>
-                            <Box as="button" 
-                            borderRadius="md" 
-                            bg="peachpuff" 
-                            color="orange.700" 
-                            px={10} h={"15vh"} 
-                            _active={{ background: "transparent" }}
-                            _hover={{ background: "transparent", transform: "scale(1.5)" }}>
+                            <Box
+                                as="button"
+                                borderRadius="md"
+                                bg="peachpuff"
+                                color="orange.700"
+                                px={10}
+                                h={"15vh"}
+                                _active={{ background: "transparent" }}
+                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                            >
                                 <MdFastfood size={"40px"} />
                             </Box>
-                            <Box as="button" 
-                            borderRadius="md" 
-                            bg="peachpuff" 
-                            color="orange.700" 
-                            px={10} 
-                            h={"15vh"}
-                            // _active={{ background: "transparent" }}
-                            _hover={{ background: "transparent", transform: "scale(1.5)" }}>
+                            <Box
+                                as="button"
+                                borderRadius="md"
+                                bg="peachpuff"
+                                color="orange.700"
+                                px={10}
+                                h={"15vh"}
+                                // _active={{ background: "transparent" }}
+                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                            >
                                 <MdAttachMoney size={"40px"} />
                             </Box>
-                            <Box as="button" 
-                            borderRadius="md" 
-                            bg="peachpuff" 
-                            color="orange.700" 
-                            px={10} h={"15vh"}
-                            // _active={{ background: "transparent" }}
-                            _hover={{ background: "transparent", transform: "scale(1.5)" }}>
+                            <Box
+                                as="button"
+                                borderRadius="md"
+                                bg="peachpuff"
+                                color="orange.700"
+                                px={10}
+                                h={"15vh"}
+                                // _active={{ background: "transparent" }}
+                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                            >
                                 <HiOutlineMusicNote size={"40px"} />
                             </Box>
-                            <Box as="button" 
-                            borderRadius="md" 
-                            bg="peachpuff" 
-                            color="orange.700" 
-                            px={10} h={"15vh"}
-                            // _active={{ background: "transparent" }}
-                            _hover={{ background: "transparent", transform: "scale(1.5)" }}>
+                            <Box
+                                as="button"
+                                borderRadius="md"
+                                bg="peachpuff"
+                                color="orange.700"
+                                px={10}
+                                h={"15vh"}
+                                // _active={{ background: "transparent" }}
+                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                            >
                                 <RiMenuFoldLine size={"40px"} />
                             </Box>
                         </Flex>

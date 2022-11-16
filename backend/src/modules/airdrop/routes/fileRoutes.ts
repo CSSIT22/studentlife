@@ -12,10 +12,10 @@ const prisma = new PrismaClient()
 const storage = multer.diskStorage({
     destination: function (req: any, file: any, cb: any) {
         const fileType = req.body.type
-        fs.mkdir(path.join(__dirname, "../files/" + fileType.toLowerCase()), { recursive: true }, (err:any) => {
-            if (err) throw err;
+        fs.mkdir(path.join(__dirname, "../files/" + fileType.toLowerCase()), { recursive: true }, (err: any) => {
+            if (err) throw err
             cb(null, path.join(__dirname, "../files" + "/" + fileType))
-        });
+        })
     },
     filename: function (req: any, file: any, cb: any) {
         cb(null, req.user?.userId + file.originalname)
@@ -45,9 +45,9 @@ fileRoutes.get("/getallfile", async (req: Request, res: Response) => {
             where: {
                 AND: [
                     {
-                        fileSender:{
+                        fileSender: {
                             not: req.user?.userId,
-                        }
+                        },
                     },
                     {
                         AND: [
@@ -65,7 +65,7 @@ fileRoutes.get("/getallfile", async (req: Request, res: Response) => {
             },
         })
         //result will add senderName
-        const result= [];
+        const result = []
         for (const item of everyone) {
             const user = await prisma.user_Profile.findFirst({
                 where: {
@@ -73,20 +73,20 @@ fileRoutes.get("/getallfile", async (req: Request, res: Response) => {
                 },
                 select: {
                     fName: true,
-                    lName: true
+                    lName: true,
                 },
             })
-            const senderId = item.fileSender;
+            const senderId = item.fileSender
             result.push({
                 ...item,
                 fileSender: user?.fName + " " + user?.lName,
-                senderId: senderId
+                senderId: senderId,
             })
         }
         const lastResult = result.map((item) => {
             return {
                 ...item,
-                comments:[]
+                comments: [],
             }
         })
         res.json(lastResult)
@@ -126,19 +126,18 @@ fileRoutes.get("/download/:type/:filename", (req: Request, res: Response) => {
     res.download(directoryPath + "/" + req.params.filename)
 })
 
-fileRoutes.post("/hidefile", async(req: Request, res: Response) => {
-    const {fileId} = req.body
+fileRoutes.post("/hidefile", async (req: Request, res: Response) => {
+    const { fileId } = req.body
     // console.log(req.body);
-    const payload:any = {
+    const payload: any = {
         userId: req.user?.userId,
         fileId: fileId,
     }
     const hide = await prisma.user_Show_File.create({
-        data: payload
+        data: payload,
     })
     res.json("hide file sucessful")
 })
-
 
 //function that will delete expired file
 const deleteExpiredFile = async () => {
@@ -167,6 +166,5 @@ const deleteExpiredFile = async () => {
 
 //check expired file every 30 min
 // setInterval(deleteExpiredFile, 1800000)
-
 
 export default fileRoutes

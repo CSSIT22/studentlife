@@ -64,18 +64,18 @@ function propertyEvent(props: any) {
                 <VStack spacing={8}>
                     <VStack>
                         <HStack spacing={4}>
-                            <FaCircle color="black" size={"40px"}/>
-                            <FaCircle color="blue" size={"40px"}/>
-                            <FaCircle color="gray" size={"40px"}/>
-                            <FaCircle color="red" size={"40px"}/>
-                            <FaCircle color="green" size={"40px"}/>
+                            <FaCircle color="black" size={"40px"} />
+                            <FaCircle color="blue" size={"40px"} />
+                            <FaCircle color="gray" size={"40px"} />
+                            <FaCircle color="red" size={"40px"} />
+                            <FaCircle color="green" size={"40px"} />
                         </HStack>
                         <HStack spacing={4}>
-                            <FaCircle color="purple" size={"40px"}/>
-                            <FaCircle color="pink" size={"40px"}/>
-                            <FaCircle color="peach" size={"40px"}/>
-                            <FaCircle color="teal" size={"40px"}/>
-                            <FaCircle color="yellow" size={"40px"}/>
+                            <FaCircle color="purple" size={"40px"} />
+                            <FaCircle color="pink" size={"40px"} />
+                            <FaCircle color="peach" size={"40px"} />
+                            <FaCircle color="teal" size={"40px"} />
+                            <FaCircle color="yellow" size={"40px"} />
                         </HStack>
                     </VStack>
                     <VStack>
@@ -90,7 +90,7 @@ function propertyEvent(props: any) {
         return (
             <Flex justifyContent={"center"}>
                 <VStack>
-                    <AiFillBug size={'40px'}/>
+                    <AiFillBug size={"40px"} />
                     <Text>Context you require to report</Text>
                     <Input placeholder="Context" w={96} />
                     <Text>Reason for reporting</Text>
@@ -108,17 +108,17 @@ function propertyEvent(props: any) {
                 </HStack>
                 <HStack spacing={4}>
                     <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                        <Heading size={"md"}>Dan</Heading>
+                    <Heading size={"md"}>Dan</Heading>
                 </HStack>
             </VStack>
         )
     }
     if (props === "Invite people") {
         return (
-            <Flex justifyContent={'center'}>
+            <Flex justifyContent={"center"}>
                 <Box bg={"gray.200"} w={"96"} p={4}>
-                    <Input placeholder="Search name or user id" borderColor={'black'}/>
-                    <VStack p={4} justifyContent={'flex-start'}>
+                    <Input placeholder="Search name or user id" borderColor={"black"} />
+                    <VStack p={4} justifyContent={"flex-start"}>
                         <HStack spacing={4}>
                             <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
                             <Heading size={"md"}>Neng</Heading>
@@ -159,9 +159,9 @@ function propertyEvent(props: any) {
         return (
             <Flex justifyContent={"center"}>
                 <Text textAlign={"center"}>
-                    If you leave this group, you'll not be able to see 
+                    If you leave this group, you'll not be able to see
                     <br />
-                    the chat message and group anymore. 
+                    the chat message and group anymore.
                     <br />
                     Are you sure you want to leave group?
                 </Text>

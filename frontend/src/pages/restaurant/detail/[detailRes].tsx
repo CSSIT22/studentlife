@@ -28,7 +28,16 @@ import {
     useBoolean,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import { AiFillGift, AiFillHeart, AiFillPhone, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
+import {
+    AiFillGift,
+    AiFillHeart,
+    AiFillPhone,
+    AiOutlineComment,
+    AiOutlineGlobal,
+    AiOutlineHeart,
+    AiOutlineLike,
+    AiOutlinePhone,
+} from "react-icons/ai"
 import { BiHeartCircle, BiPhone } from "react-icons/bi"
 import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
@@ -43,20 +52,18 @@ import { useParams, Link } from "react-router-dom"
 import { friend } from "../data/friend"
 
 function detail() {
-
     // const friendInfo = friend.filter((shareInfo) => {})
     const { isOpen, onOpen, onClose } = useDisclosure()
     const params = useParams()
-    const [numres, setnumres] = useState(parseInt(params.detailRes + ""));
+    const [numres, setnumres] = useState(parseInt(params.detailRes + ""))
     const property = Restaurant.filter((e1) => {
         return e1.id == parseInt(params.detailRes + "")
     })
 
     const addFavorite = () => {
-        console.log( Restaurant[numres].status);
+        console.log(Restaurant[numres].status)
         Restaurant[numres].status = true
-        console.log( Restaurant[numres].status);
-        
+        console.log(Restaurant[numres].status)
     }
 
     // const nextPage = () => {
@@ -67,14 +74,14 @@ function detail() {
     //         setnumres(0)
     //     }
     // }
-    
-    const [isFavorite, setIsFavorite] = useState(false);
+
+    const [isFavorite, setIsFavorite] = useState(false)
     useEffect(() => {
-        console.log(isFavorite);
-      }, [isFavorite])
+        console.log(isFavorite)
+    }, [isFavorite])
     const setFavoriteStatus = () => {
         console.log(isFavorite)
-    }  
+    }
     return (
         <AppBody
             secondarynav={[
@@ -90,7 +97,7 @@ function detail() {
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/${numres == Restaurant.length - 1? 0: numres + 1}`}>
+                                    <Link to={`/restaurant/${numres == Restaurant.length - 1 ? 0 : numres + 1}`}>
                                         <CloseButton my={-4} ml={-1} />
                                     </Link>
 
@@ -158,8 +165,18 @@ function detail() {
 
                                 <Box p="5">
                                     <Flex mt={10}>
-                                        <Button bg={"white"} width="50px" h="50px" borderRadius={"full"} p={0} onClick={()=>{setIsFavorite(!isFavorite); setFavoriteStatus}}>
-                                            {isFavorite ? <AiFillHeart size={"full"}/> : <AiOutlineHeart size={"full"} />}
+                                        <Button
+                                            bg={"white"}
+                                            width="50px"
+                                            h="50px"
+                                            borderRadius={"full"}
+                                            p={0}
+                                            onClick={() => {
+                                                setIsFavorite(!isFavorite)
+                                                setFavoriteStatus
+                                            }}
+                                        >
+                                            {isFavorite ? <AiFillHeart size={"full"} /> : <AiOutlineHeart size={"full"} />}
                                         </Button>
                                         <Spacer />
                                         {/* {friendInfo.map((shareInfo) => {
@@ -190,18 +207,13 @@ function detail() {
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                  
-                                                                    
-                                                                        {friend.map((f1) => {
-                                                                            return   (
-                                                                                <WrapItem>
+                                                                    {friend.map((f1) => {
+                                                                        return (
+                                                                            <WrapItem>
                                                                                 <Avatar as={"button"} name={f1.name} src={f1.picture} />
-                                                                             </WrapItem>
-                                                                            )
-
-
-                                                                        })}
-                                                                    
+                                                                            </WrapItem>
+                                                                        )
+                                                                    })}
                                                                 </Wrap>
                                                             </Flex>
                                                         </PopoverBody>
