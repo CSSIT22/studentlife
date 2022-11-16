@@ -3,7 +3,10 @@ import { FC } from "react"
 import { AiOutlineStop } from "react-icons/ai"
 import { AnimationControls } from "framer-motion"
 
-const DatingRandomCrossButton: FC<{ controlCross: AnimationControls; swipe: (dir: string) => Promise<void> }> = ({ controlCross, swipe }) => {
+const DatingRandomCrossButton: FC<{
+    controlCross: AnimationControls
+    swipe: (dir: string) => Promise<void>
+}> = ({ controlCross, swipe }) => {
     return (
         <motion.div
             style={{
@@ -18,7 +21,9 @@ const DatingRandomCrossButton: FC<{ controlCross: AnimationControls; swipe: (dir
                 cursor: "pointer",
             }}
             animate={controlCross}
-            onClick={() => swipe("left")}
+            onClick={() => {
+                swipe("left")
+            }}
             whileTap={{
                 scale: 1.2,
                 backgroundColor: "#E6702E",
