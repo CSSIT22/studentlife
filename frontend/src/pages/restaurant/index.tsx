@@ -9,28 +9,20 @@ import {
     ModalCloseButton,
     useDisclosure,
     Button,
-    Image,
     Heading,
-    Input,
-    Center,
-    Select,
-    Spacer,
     Box,
-    StackDivider,
     VStack,
-    GridItem,
     Flex,
     Text,
-    SimpleGrid,
+    Container,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { EffectCards } from "swiper"
+
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Restaurant } from "./data/restaurant"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 function Homepage() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = useState(0)
@@ -38,9 +30,9 @@ function Homepage() {
         return e1.id == count
     })
 
-    const countres = () => {
-        setcount(count + 1)
-    }
+    // const countres = () => {
+    //     setcount(count + 1)
+    // }
 
     return (
         <AppBody
@@ -66,59 +58,60 @@ function Homepage() {
                         </>
                     )
                 })}
+                <Container>
+                    <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
+                        <Box>
+                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
+                                <Link to={`/restaurant/detail/${count}`}>
+                                    <AiOutlineLike size={"xl"} />
+                                </Link>
+                            </Button>
+                        </Box>
 
-                <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
-                    <Box>
-                        <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
-                            <Link to={`/restaurant/detail/${count}`}>
-                                <AiOutlineLike size={"xl"} />
-                            </Link>
-                        </Button>
-                    </Box>
+                        <Box>
+                            <Button
+                                onClick={() => {
+                                    return setcount(count + 1)
+                                }}
+                                colorScheme="red"
+                                width="80px"
+                                h="80px"
+                                borderRadius={"full"}
+                            >
+                                <Link to={`/restaurant/${count + 1}`}>
+                                    <AiOutlineDislike size={"xl"} />
+                                </Link>
+                            </Button>
 
-                    <Box>
-                        <Button
-                            onClick={() => {
-                                return setcount(count + 1)
-                            }}
-                            colorScheme="red"
-                            width="80px"
-                            h="80px"
-                            borderRadius={"full"}
-                        >
-                            <Link to={`/restaurant/${count + 1}`}>
-                                <AiOutlineDislike size={"xl"} />
-                            </Link>
-                        </Button>
+                            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                                <ModalOverlay />
+                                <ModalContent textAlign={"center"}>
+                                    <ModalHeader fontWeight="800" fontSize={"35px"}>
+                                        Random Time!!!
+                                    </ModalHeader>
+                                    <VStack spacing={3} pt="30px">
+                                        <Text fontSize={"20px"} fontWeight="500">
+                                            Can not choose the restaurant?
+                                        </Text>
 
-                        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                            <ModalOverlay />
-                            <ModalContent textAlign={"center"}>
-                                <ModalHeader fontWeight="800" fontSize={"35px"}>
-                                    Random Time!!!
-                                </ModalHeader>
-                                <VStack spacing={3} pt="30px">
-                                    <Text fontSize={"20px"} fontWeight="500">
-                                        Can not choose the restaurant?
-                                    </Text>
-
-                                    <Text fontSize={"20px"} fontWeight="500">
-                                        Do you want to random the restaurant
-                                    </Text>
-                                </VStack>
-                                <ModalCloseButton />
-                                <ModalFooter justifyContent={"center"} pt="60px">
-                                    <Button colorScheme="blue" mr={3} onClick={onClose} borderRadius={"5px"}>
-                                        Random
-                                    </Button>
-                                    <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>
-                                        Cancel
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
-                    </Box>
-                </Flex>
+                                        <Text fontSize={"20px"} fontWeight="500">
+                                            Do you want to random the restaurant
+                                        </Text>
+                                    </VStack>
+                                    <ModalCloseButton />
+                                    <ModalFooter justifyContent={"center"} pt="60px">
+                                        <Button colorScheme="blue" mr={3} onClick={onClose} borderRadius={"5px"}>
+                                            Random
+                                        </Button>
+                                        <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>
+                                            Cancel
+                                        </Button>
+                                    </ModalFooter>
+                                </ModalContent>
+                            </Modal>
+                        </Box>
+                    </Flex>
+                </Container>
             </Box>
         </AppBody>
     )
