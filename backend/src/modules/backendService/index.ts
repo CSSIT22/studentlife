@@ -38,31 +38,6 @@ backendserviceRoutes.post("/revokeTokens", verifyUser, async (req: Request, res:
         const logoutId = nanoid()
         const logoutDate = new Date()
 
-        const userLoginDeviceInfo = await prisma.user_Back.findUniqueOrThrow({
-            where: {
-                userId_token: {
-                    userId: userId,
-                    token: token,
-                },
-            },
-            select: {
-                loginSession: {
-                    select: {
-                        detail: true,
-                    },
-                },
-            },
-        })
-        const user = await prisma.user_Back.delete({
-            where: {
-                userId_token: {
-                    userId: userId,
-                    token: token,
-                },
-            },
-        })
-        const deviceInfo = userLoginDeviceInfo.loginSession?.detail?.deviceInfo || ""
-        const ip = userLoginDeviceInfo.loginSession?.detail?.ip || ""
         const logoutResult = await prisma.logout_Info.create({
             data: {
                 userId: userId,
@@ -70,13 +45,25 @@ backendserviceRoutes.post("/revokeTokens", verifyUser, async (req: Request, res:
                 logoutId: logoutId,
                 detail: {
                     create: {
-                        deviceInfo: deviceInfo,
-                        ip: ip,
+                        deviceInfo: device.data.deviceCategory || "Unknow",
+                        ip: device.data.platform,
                         logoutDate: logoutDate,
                     },
                 },
             },
         })
+
+        await prisma.login_Info.delete({
+            where: {
+                userId_token: {
+                    userId: userId,
+                    token: token,
+                },
+            },
+        })
+
+        console.log(logoutResult)
+
         res.status(200).json({ token: token })
     } catch (err: any) {
         console.log(err)
