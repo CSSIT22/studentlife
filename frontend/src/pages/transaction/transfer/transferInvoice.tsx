@@ -2,8 +2,8 @@ import { ArrowBackIcon, ArrowDownIcon } from "@chakra-ui/icons"
 import { Box, Center, IconButton, Stack, useMediaQuery } from "@chakra-ui/react"
 import React from "react"
 import AppBody from "../../../components/share/app/AppBody"
-import ShowUser from "../../../components/transaction/transfer/ShowUser"
-import TransferPay from "../../../components/transaction/transfer/TransferPay"
+import ShowUser from "../../../components/transaction/TransactionShowUser"
+import TransferPay from "../../../components/transaction/transfer/TransferPayInvoice"
 
 const transferInvoice = () => {
     const [desktopthan1280] = useMediaQuery("(min-width: 800px)")

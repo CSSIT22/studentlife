@@ -10,9 +10,8 @@ const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
 
     let setTransfer = (e: any) => {
         e.preventDefault()
-        setAmount(amount)
-        setNote(note)
-        console.log(amount)
+        setInvoice([e.amount, e.note])
+        console.log(invoice)
     }
 
     let handlerNoteChange = (e: any) => {
@@ -30,7 +29,7 @@ const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
                         <NumberInputField maxLength={5} value={amount} onChange={handleAmountChange} />
                     </NumberInput>
                     {!AmountError ? (
-                        <FormHelperText color="grey">* Start at 1 not above 100,000</FormHelperText>
+                        <FormHelperText color="grey">* Start at 1 but not above 100,000</FormHelperText>
                     ) : (
                         <FormHelperText color="red">* Must have at least 1 Bath</FormHelperText>
                     )}
