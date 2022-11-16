@@ -13,7 +13,7 @@ datasource db {
 //User Profile Module
 model User_Profile {
   userId               String                           @id @default(uuid())
-  studentId            String                           @unique
+  studentId            String                           @unique @db.Char(11)
   fName                String
   lName                String
   email                String                           @unique
@@ -111,7 +111,7 @@ model User_Profile {
 
 model Detail {
   userId  String       @unique
-  birth   DateTime @db.Timestamp(0)
+  birth   DateTime     @db.Timestamp(0)
   sex     String
   address String
   hobby   String
@@ -140,7 +140,7 @@ model Faculty {
 model Role {
   roleId   String         @id @default(cuid())
   roleName Role_Type
-  expired  DateTime @db.Timestamp(0)
+  expired  DateTime       @db.Timestamp(0)
   users    User_To_Role[]
 }
 
@@ -229,7 +229,7 @@ model Student_Post {
 
 model Post_Body {
   postId String       @id
-  text   String
+  text   String @db.Char(1000)
   bodyOf Student_Post @relation(fields: [postId], references: [postId])
 }
 
@@ -271,8 +271,8 @@ model Post_Comment {
   userId          String
   commentOn       Student_Post     @relation(fields: [postId], references: [postId])
   postId          String
-  comment         String
-  cmTime          DateTime @db.Timestamp(0)
+  comment         String @db.Char(100)
+  cmTime          DateTime         @db.Timestamp(0)
   commentReported Comment_Report[]
   commentHided    Hide_Comment[]
 }
@@ -291,7 +291,7 @@ model Post_Report {
   userId   String
   reported Student_Post @relation(fields: [postId], references: [postId])
   postId   String
-  reason   String
+  reason   String @db.Char(1000)
 
   @@id([userId, postId])
 }
@@ -301,7 +301,7 @@ model Comment_Report {
   userId    String
   reported  Post_Comment @relation(fields: [commentId], references: [commentId])
   commentId String
-  reason    String
+  reason    String @db.Char(1000)
 
   @@id([userId, commentId])
 }
@@ -337,7 +337,7 @@ model User_Noti_Object {
 model Noti_Object {
   notiObjectId String             @id @default(cuid())
   templateId   String
-  date         DateTime @db.Timestamp(0)
+  date         DateTime           @db.Timestamp(0)
   isRead       Boolean
   moduleId     String
   url          String
@@ -401,8 +401,8 @@ model Event {
   eventId     String      @id @default(cuid())
   eventName   String
   placeId     String
-  stTime      DateTime @db.Timestamp(0)
-  endTime     DateTime @db.Timestamp(0)
+  stTime      DateTime    @db.Timestamp(0)
+  endTime     DateTime    @db.Timestamp(0)
   eventTypeId String
   descId      String      @unique
   hostAt      Event_Place @relation(fields: [placeId], references: [placeId])
@@ -456,7 +456,7 @@ model Task {
   taskName   String
   taskDesc   String
   created    DateTime       @default(now()) @db.Timestamp(0)
-  due        DateTime @db.Timestamp(0)
+  due        DateTime       @db.Timestamp(0)
   taskType   String
   folderId   String
   groupId    String
@@ -491,7 +491,7 @@ model User_To_Group {
 
 model Task_Track {
   userId     String       @id
-  percentage Float
+  percentage Decimal @db.Decimal(5, 2)
   userTask   User_Profile @relation(fields: [userId], references: [userId])
 }
 
@@ -508,7 +508,7 @@ model Task_Check {
 model Task_History {
   taskId   String
   userId   String       @unique
-  date     DateTime @db.Timestamp(0)
+  date     DateTime     @db.Timestamp(0)
   editTask Task         @relation(fields: [taskId], references: [taskId])
   editor   User_Profile @relation(fields: [userId], references: [userId])
 
@@ -524,7 +524,7 @@ model Announcement {
   annDetail   String
   filterId    Int
   annCreated  DateTime              @default(now()) @db.Timestamp(0)
-  annExpired  DateTime @db.Timestamp(0)
+  annExpired  DateTime              @db.Timestamp(0)
   isApprove   Boolean               @default(false)
   annCreator  User_Profile          @relation(fields: [userId], references: [userId])
   annLanguage Post_To_Language[]
@@ -611,9 +611,9 @@ model Chat_User {
 model Chat_Room {
   roomId     String               @id @default(cuid())
   roomName   String
-  chatColor  String
+  chatColor  String @db.Char(7)
   created    DateTime             @default(now()) @db.Timestamp(0)
-  deleted    DateTime @db.Timestamp(0)
+  deleted    DateTime             @db.Timestamp(0)
   roomType   Room_Type
   roomGroup  Chat_Group?
   haveUser   User_To_Room[]
@@ -635,7 +635,7 @@ model User_To_Room {
 model Chat_Group {
   roomId   String    @unique
   joined   DateTime  @default(now()) @db.Timestamp(0)
-  lefted   DateTime @db.Timestamp(0)
+  lefted   DateTime  @db.Timestamp(0)
   groupImg String
   room     Chat_Room @relation(fields: [roomId], references: [roomId])
 }
@@ -790,7 +790,7 @@ model Poll_Applicant {
   poll         Activity_Poll @relation(fields: [pollId], references: [pollId])
   pollId       String
   isAccepted   Boolean
-  registerTime DateTime @db.Timestamp(0)
+  registerTime DateTime      @db.Timestamp(0)
 
   @@id([userId, pollId])
 }
@@ -828,7 +828,7 @@ model Community_User {
   communityId String
   role        Community_Role @relation(fields: [roleId], references: [roleId])
   roleId      String         @unique
-  joined      DateTime @db.Timestamp(0)
+  joined      DateTime       @db.Timestamp(0)
 
   @@id([userId, communityId])
 }
@@ -850,7 +850,7 @@ model Community_Blacklist {
   userId      String
   community   Community    @relation(fields: [communityId], references: [communityId])
   communityId String
-  since       DateTime @db.Timestamp(0)
+  since       DateTime     @db.Timestamp(0)
 
   @@id([userId, communityId])
 }
@@ -866,7 +866,7 @@ model Community_Tag {
 
 model Tag {
   tagId        Int             @id @default(autoincrement())
-  tagName      String
+  tagName      String @db.Char(25)
   tagDesc      String
   communityTag Community_Tag[]
 }
@@ -893,7 +893,7 @@ model File_Info {
   fileSender  String
   sendType    String
   fileDesc    String
-  fileExpired DateTime @db.Timestamp(0)
+  fileExpired DateTime         @db.Timestamp(0)
   sender      User_Profile     @relation(fields: [fileSender], references: [userId])
   users       User_Show_File[]
   community   Community_File?
@@ -965,7 +965,7 @@ model File_History {
   fileId      String
   userId      String
   historyType History_Type
-  createdAt   DateTime @db.Timestamp(0)
+  createdAt   DateTime     @db.Timestamp(0)
 
   file File_Info    @relation(fields: [fileId], references: [fileId])
   user User_Profile @relation(fields: [userId], references: [userId])
@@ -1032,7 +1032,7 @@ model Login_Info {
 model Login_Detail {
   loginId      String     @id
   loginDate    DateTime   @default(now()) @db.Timestamp(0)
-  tokenExpired DateTime @db.Timestamp(0)
+  tokenExpired DateTime   @db.Timestamp(0)
   deviceInfo   String
   ip           String
   detailOf     Login_Info @relation(fields: [loginId], references: [loginId], onDelete: Cascade)
@@ -1062,7 +1062,7 @@ model Ban_Status {
   reason   String
   instance Int
   banFrom  DateTime     @default(now()) @db.Timestamp(0)
-  banTo    DateTime @db.Timestamp(0)
+  banTo    DateTime     @db.Timestamp(0)
   user     User_Profile @relation(fields: [userId], references: [userId])
 }
 
@@ -1131,7 +1131,7 @@ model Sn_Comment {
   commentId   String       @id @default(cuid())
   snId        String
   userId      String
-  comment     String 
+  comment     String
   commentedAt DateTime     @default(now()) @db.Timestamp(0)
   commentOn   Sn_Head      @relation(fields: [snId], references: [snId])
   commentor   User_Profile @relation(fields: [userId], references: [userId])
@@ -1149,7 +1149,7 @@ model Sn_Fav {
 model Sn_Recent {
   snId         String
   userId       String
-  viewedAt     DateTime @db.Timestamp(0)
+  viewedAt     DateTime     @db.Timestamp(0)
   shortNote    Sn_Head      @relation(fields: [snId], references: [snId])
   recentViewBy User_Profile @relation(fields: [userId], references: [userId])
 
@@ -1186,9 +1186,9 @@ model Transaction {
   transId         String               @id @default(cuid())
   userId          String
   payMethodId     Int
-  subTotalPrice   Float
+  subTotalPrice   Decimal @db.Decimal(9, 2)
   pointUse        Int
-  totalPrice      Float
+  totalPrice      Decimal @db.Decimal(9, 2)
   payer           User_Profile         @relation(fields: [userId], references: [userId])
   detail          Transaction_Detail?
   type            Transaction_Paytype?
@@ -1231,8 +1231,8 @@ model Credit_Card {
   country     String
   bank        String
   cvc         String
-  last4       String
-  cardExpired DateTime @db.Timestamp(0)
+  last4       String @db.Char(4)
+  cardExpired DateTime              @db.Date
   payMethod   Transaction_Paymethod @relation(fields: [tokenId], references: [tokenId])
 }
 
@@ -1251,7 +1251,7 @@ model QR {
   tokenId    String                @id @default(cuid())
   qrSourceId String
   qr         String
-  expired    DateTime @db.Timestamp(0)
+  expired    DateTime              @db.Timestamp(0)
   payMethod  Transaction_Paymethod @relation(fields: [tokenId], references: [tokenId])
 }
 
@@ -1269,7 +1269,7 @@ enum Payment_Type {
 model Kmutt_Point {
   kpId            String                @id @default(cuid())
   userId          String                @unique
-  point           Int
+  point           Decimal @db.Decimal(8, 2)
   userPoint       User_Profile          @relation(fields: [userId], references: [userId])
   pointAccumulate Kmutt_Point_History[]
 }
@@ -1278,8 +1278,8 @@ model Kmutt_Point_History {
   transId            String      @id
   kpId               String
   // userId String
-  pointsReceived     Int         @default(0)
-  pointsSpent        Int         @default(0)
+  pointsReceived     Decimal @db.Decimal(8, 2)         @default(0)
+  pointsSpent        Decimal @db.Decimal(8, 2)         @default(0)
   pointTransactionAt DateTime    @default(now()) @db.Timestamp(0)
   pointHistoryFrom   Transaction @relation(fields: [transId], references: [transId])
   pointHistoryOf     Kmutt_Point @relation(fields: [kpId], references: [kpId])
@@ -1291,8 +1291,8 @@ model Shop_Order {
   userId            String
   transId           String               @unique
   couponCode        String               @unique
-  totalPrice        Float
-  totalDeliveryFees Float
+  totalPrice        Decimal @db.Decimal(9, 2)
+  totalDeliveryFees Decimal @db.Decimal(9, 2)
   shipping          String
   orderPlaced       DateTime             @default(now()) @db.Timestamp(0)
   orderStatus       String
@@ -1304,10 +1304,10 @@ model Shop_Order {
 model Shop_Coupon {
   couponCode   String        @id
   couponDesc   String
-  discount     Float
-  validFrom    DateTime @db.Timestamp(0)
-  validTill    DateTime @db.Timestamp(0)
-  minimumSpend Float
+  discount     Decimal @db.Decimal(9, 2)
+  validFrom    DateTime      @db.Timestamp(0)
+  validTill    DateTime      @db.Timestamp(0)
+  minimumSpend Decimal @db.Decimal(9, 2)
   productId    Int
   quota        Int
   userCoupon   User_Coupon[]
@@ -1332,10 +1332,10 @@ model Shop_Product {
   productDesc  String
   productColor String
   productSize  String
-  productPrice Float
+  productPrice Decimal @db.Decimal(9, 2)
   productStock Int
   brandName    String
-  deliveryFees Float
+  deliveryFees Decimal @db.Decimal(9, 2)
   views        BigInt
   images       Shop_Product_Images[]
   inCategory   Shop_Categories       @relation(fields: [categoryId], references: [categoryId])
@@ -1425,8 +1425,8 @@ model Restaurant_Detail {
   website   String
   location  String
   vicinity  String
-  latitude  Float
-  longitude Float
+  latitude  Float @db.Real
+  longitude Float @db.Real
   detailOf  Restaurant @relation(fields: [resId], references: [resId])
 }
 
@@ -1440,7 +1440,7 @@ model Restaurant_Image {
 model Restaurant_Open {
   openId Int        @id @default(autoincrement())
   resId  String
-  open   DateTime @db.Timestamp(0)
+  open   DateTime   @db.Timestamp(0)
   day    Int
   openOf Restaurant @relation(fields: [resId], references: [resId])
 }
@@ -1448,7 +1448,7 @@ model Restaurant_Open {
 model Restaurant_Close {
   closeId Int        @id @default(autoincrement())
   resId   String
-  close   DateTime @db.Timestamp(0)
+  close   DateTime   @db.Timestamp(0)
   day     Int
   openOf  Restaurant @relation(fields: [resId], references: [resId])
 }
@@ -1490,9 +1490,9 @@ model SReview_Shop {
   close          String
   phoneNo        String
   address        String
-  latitude       String
-  longitude      String
-  aveRating      Float
+  latitude       Float @db.Real
+  longitude      Float @db.Real
+  aveRating      Decimal @db.Decimal(3, 2)
   reviewReceived Int
   images         SReview_Shop_Image[]
   reviews        SReview_Shop_Review[]
@@ -1553,7 +1553,7 @@ model SReview_Comment {
   reviewId     String
   userId       String
   text         String
-  commentedAt  DateTime @db.Timestamp(0)
+  commentedAt  DateTime               @db.Timestamp(0)
   likeReceived Int
   commentOf    SReview_Review         @relation(fields: [reviewId], references: [reviewId])
   userLike     SReview_Comment_Like[]
@@ -1705,7 +1705,7 @@ model ShortLink {
   originalLink  String
   shortenLink   String
   password      String                         @default("")
-  expired       DateTime @db.Timestamp(0)
+  expired       DateTime                       @db.Timestamp(0)
   linkCreator   User_Profile                   @relation(fields: [userId], references: [userId])
   permission    ShortLink_Permission?
   userAccess    ShortLink_Permission_User[]
@@ -1768,7 +1768,7 @@ model Analytic_User_Access {
 model Analytic_Report {
   reportId         Int                      @id @default(autoincrement())
   userId           String
-  reportTime       DateTime @db.Timestamp(0)
+  reportTime       DateTime                 @db.Timestamp(0)
   unAuthorizedView Int
   authorizedView   Int
   periodHours      Int
@@ -1793,7 +1793,7 @@ model Analytic_Report_Module {
 
 model Analytic_View {
   viewId           String                            @id @default(cuid())
-  time             DateTime @db.Timestamp(0)
+  time             DateTime                          @db.Timestamp(0)
   url              String
   module           String
   location         Json                              @db.JsonB //GeoJson
@@ -1806,19 +1806,19 @@ model Analytic_View {
 model Analytic_External_Platform {
   devId      Int             @id
   epName     String
-  created    DateTime @db.Timestamp(0)
+  created    DateTime        @db.Timestamp(0)
   platformOf Analytic_Device @relation(fields: [devId], references: [devId])
 }
 
 model Analytic_User_Report {
   reportId       String                         @id @default(cuid())
   userId         String
-  reportedAt     DateTime @db.Timestamp(0)
+  reportedAt     DateTime                       @db.Timestamp(0)
   timeActive     Int
   usedTimePerDay Int
   totalRequest   Int
-  start          DateTime @db.Timestamp(0)
-  end            DateTime @db.Timestamp(0)
+  start          DateTime                       @db.Timestamp(0)
+  end            DateTime                       @db.Timestamp(0)
   genBy          User_Profile                   @relation(fields: [userId], references: [userId])
   views          Analytic_View_In_User_Report[]
 }
@@ -1836,7 +1836,7 @@ model Analytic_Request {
   reqId      String                            @id @default(cuid())
   userId     String
   module     String
-  time       DateTime @db.Timestamp(0)
+  time       DateTime                          @db.Timestamp(0)
   body       Json                              @db.JsonB
   ip         String
   deviceName String
@@ -1851,7 +1851,7 @@ model Analytic_Device {
   reqId    String
   devName  String
   devOS    String
-  created  DateTime @db.Timestamp(0)
+  created  DateTime                    @db.Timestamp(0)
   deviceOf Analytic_Request            @relation(fields: [reqId], references: [reqId])
   platform Analytic_External_Platform?
 }
