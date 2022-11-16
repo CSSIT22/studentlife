@@ -79,10 +79,12 @@ router.get("/logout", async (req, res) => {
                 },
             })
 
-            await prisma.login_Info.deleteMany({
+            await prisma.login_Info.delete({
                 where: {
-                    userId: userid,
-                    token: sessid,
+                    userId_token: {
+                        userId: userid,
+                        token: sessid,
+                    },
                 },
             })
 
