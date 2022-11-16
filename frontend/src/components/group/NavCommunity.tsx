@@ -13,7 +13,7 @@ import useWindowDimensions from "src/pages/groups/hooks/useWindowDimensions";
 
 
 
-const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; communityID: number; communityName: string; coverPhoto: string; isPrivate: boolean, description: string, isMember: boolean, members: number }> = ({
+const CommunityList: FC<{ disableInvite?: boolean; disableBtn?: boolean; activeBtn?: number; tags?: any; communityID: number; communityName: string; coverPhoto: string; isPrivate: boolean, description: string, isMember: boolean, members: number }> = ({
     communityID,
     communityName,
     coverPhoto,
@@ -23,7 +23,8 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
     isMember,
     members,
     activeBtn,
-    disableBtn
+    disableInvite,
+    disableBtn,
 }) => {
     //t
     const [isModalOpen, setModalOpen] = useState(false);
@@ -84,7 +85,7 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                     </div>
                     <div>
                         {isMember ? <HStack>
-                            <Button onClick={modalOnClick} size="sm" background={'orange.500'} _hover={{ background: 'orange.200' }} color={'white'} >
+                            <Button disabled={disableInvite} onClick={modalOnClick} size="sm" background={'orange.500'} _hover={{ background: 'orange.200', cursor: 'default' }} color={'white'} >
                                 Invite
                             </Button>
 
@@ -182,13 +183,13 @@ const CommunityList: FC<{ disableBtn?: boolean; activeBtn?: number; tags?: any; 
                                     </ModalContent>
                                 </Modal>) : (<div />)}
 
-                            <Popover>
-                                <PopoverTrigger>
+                            <Popover >
+                                <PopoverTrigger >
                                     <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
                                         <BsThreeDots fontSize={"25px"} />
                                     </Box>
                                 </PopoverTrigger>
-                                <Portal>
+                                <Portal >
                                     <PopoverContent width="180px">
                                         <PopoverBody>
                                             <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>

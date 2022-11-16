@@ -366,6 +366,7 @@ const create = () => {
                                 members={1}
                                 communityID={1000}
                                 tags={chooseTag}
+                                disableInvite={true}
                             />
                         </Box>
                     </Box>
