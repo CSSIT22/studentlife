@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Heading, HStack, Input, useDisclosure, VStack, Text, Flex, Center } from "@chakra-ui/react"
+import { Avatar, Box, Button, Heading, HStack, Input, useDisclosure, VStack, Text, Flex, Center, IconButton, Divider } from "@chakra-ui/react"
 import AppBody from "../../../components/share/app/AppBody"
 import React from "react"
 import { AiFillBug, AiFillPicture, AiOutlinePlus } from "react-icons/ai"
@@ -9,6 +9,8 @@ const propertyDetail = (props: any) => {
 }
 
 function propertyEvent(props: any) {
+    const[ roomColor , setRoomColor ] = React.useState("")
+
     if (props === "Set room name") {
         return (
             <Box p={"6"}>
@@ -64,6 +66,8 @@ function propertyEvent(props: any) {
                 <VStack spacing={8}>
                     <VStack>
                         <HStack spacing={4}>
+                            {/* <IconButton icon={<FaCircle />} aria-label='Black' color="black" variant="ghost" size="lg" onClick={() => setRoomColor("black")}/>
+                            <IconButton icon={<FaCircle />} aria-label='Black' color="red" variant="ghost" size="40px" onClick={() => setRoomColor("red")}/> */}
                             <FaCircle color="black" size={"40px"}/>
                             <FaCircle color="blue" size={"40px"}/>
                             <FaCircle color="gray" size={"40px"}/>
@@ -79,7 +83,7 @@ function propertyEvent(props: any) {
                         </HStack>
                     </VStack>
                     <VStack>
-                        <Text>color code</Text>
+                        <Text color={roomColor}>color code</Text>
                         <Input placeholder="#000000" />
                     </VStack>
                 </VStack>
@@ -116,12 +120,22 @@ function propertyEvent(props: any) {
     if (props === "Invite people") {
         return (
             <Flex justifyContent={'center'}>
-                <Box bg={"gray.200"} w={"96"} p={4}>
+                <Box bg={"gray.200"} w={"96"} p={4} overflow={'scroll'}>
                     <Input placeholder="Search name or user id" borderColor={'black'}/>
                     <VStack p={4} justifyContent={'flex-start'}>
                         <HStack spacing={4}>
                             <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
                             <Heading size={"md"}>Neng</Heading>
+                            <AiOutlinePlus />
+                        </HStack>
+                        <HStack spacing={4}>
+                            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+                            <Heading size={"md"}>Dan</Heading>
+                            <AiOutlinePlus />
+                        </HStack>
+                        <HStack spacing={4}>
+                            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+                            <Heading size={"md"}>Dan</Heading>
                             <AiOutlinePlus />
                         </HStack>
                         <HStack spacing={4}>
@@ -158,7 +172,7 @@ function propertyEvent(props: any) {
     if (props === "Leave group") {
         return (
             <Flex justifyContent={"center"}>
-                <Text textAlign={"center"}>
+                <Text textAlign={"center"} >
                     If you leave this group, you'll not be able to see 
                     <br />
                     the chat message and group anymore. 

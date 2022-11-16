@@ -9,6 +9,7 @@ import {
     Center,
     Container,
     Flex,
+    Hide,
     HStack,
     Input,
     useDisclosure,
@@ -29,8 +30,6 @@ import AppBody from "../../../components/share/app/AppBody"
 import { useNavigate, useParams } from "react-router-dom"
 import Clist from "src/components/chat/Chat-list"
 import propertyDetail from "./propertyEvent"
-
-type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
 
 function showProperty() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -57,27 +56,27 @@ function showProperty() {
     }
     const eventsIndi = [
         { eventIcon: CgProfile, eventName: "View profile" },
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" , buttonValue : "Done"},
-        { eventIcon: RiUserSettingsLine, eventName: "Set nickname" , buttonValue : "Done"},
-        { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : "Add"},
-        { eventIcon: MdColorLens, eventName: "Change room color" , buttonValue : "Done"},
-        { eventIcon: MdFlag, eventName: "Report" , buttonValue : "Verify and send"},
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name", buttonValue: "Done" },
+        { eventIcon: RiUserSettingsLine, eventName: "Set nickname", buttonValue: "Done" },
+        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Add" },
+        { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
+        { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
     ]
     const eventsGroup = [
-        { eventIcon: FaUserFriends, eventName: "Member" , buttonValue : "Done"},
-        { eventIcon: FaUserPlus, eventName: "Invite people" , buttonValue : "Invite"},
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" , buttonValue : "Done"},
-        { eventIcon: AiFillPicture, eventName: "Set room profile" , buttonValue : "Done"},
-        { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : "Add"},
-        { eventIcon: MdColorLens, eventName: "Change room color" , buttonValue : "Done"},
-        { eventIcon: FaHome, eventName: "Create community" , buttonValue : "Create"},
-        { eventIcon: MdFlag, eventName: "Report" , buttonValue : "Verify and send"},
-        { eventIcon: FaDoorOpen, eventName: "Leave group" , buttonValue : "Leave"},
+        { eventIcon: FaUserFriends, eventName: "Member", buttonValue: "Done" },
+        { eventIcon: FaUserPlus, eventName: "Invite people", buttonValue: "Invite" },
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name", buttonValue: "Done" },
+        { eventIcon: AiFillPicture, eventName: "Set room profile", buttonValue: "Done" },
+        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Add" },
+        { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
+        { eventIcon: FaHome, eventName: "Create community", buttonValue: "Create" },
+        { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
+        { eventIcon: FaDoorOpen, eventName: "Leave group", buttonValue: "Leave" },
     ]
     return (
         <>
             <VStack spacing={8} alignItems={"flex-start"}>
-                {eventsIndi.map((event) => (
+                {eventsGroup.map((event) => (
                     <Button
                         onClick={() => handleSizeClick(event)}
                         leftIcon={<event.eventIcon />}
@@ -102,7 +101,7 @@ function showProperty() {
                     <ModalCloseButton />
                     <ModalBody>{propertyDetail(eventNames)}</ModalBody>
 
-                    <ModalFooter display={'flex'} justifyContent={'center'}>
+                    <ModalFooter display={"flex"} justifyContent={"center"}>
                         <Button colorScheme="orange" onClick={onClose}>
                             {eventButtons}
                         </Button>
@@ -112,10 +111,6 @@ function showProperty() {
             </Modal>
         </>
     )
-}
-
-function renderMember() {
-    return <VStack></VStack>
 }
 
 const Property = () => {
@@ -131,8 +126,10 @@ const Property = () => {
     return (
         <AppBody>
             <HStack align={"flex-start"} spacing={14}>
-                <Clist />
-                <VStack spacing={10}>
+                <Hide below="md">
+                    <Clist />
+                </Hide>
+                <VStack spacing={10} display={"flex"} justifyContent={"center"}>
                     <HStack spacing={5}>
                         <Button aria-label="Back to chat room" size="md" leftIcon={<ArrowBackIcon />} onClick={Navigate}></Button>
                         <Heading size="lg">Chat properties</Heading>
