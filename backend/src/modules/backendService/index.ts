@@ -25,7 +25,7 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
     }
 })
 
-backendserviceRoutes.post("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
+backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
     // console.log(req.body.token)
     // console.log(req.body.userId)

@@ -33,9 +33,11 @@ const index = () => {
     const [tokens, setTokens] = useState<any[]>([])
 
     async function handleRevoke(token: string) {
-        const res = await api.post("/backendservice/revokeTokens", {
-            token: token,
-            userId: tokens[0].userId,
+        const res = await api.delete("/backendservice/revokeTokens", {
+            data: {
+                token: token,
+                userId: tokens[0].userId,
+            },
         })
         setTokens([...tokens.filter((item) => item.token !== res.data.token)])
         console.log(res)
