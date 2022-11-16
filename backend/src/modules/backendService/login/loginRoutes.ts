@@ -3,6 +3,7 @@ import passport from "passport"
 import { Request, Response } from "express"
 import UserAgent from "user-agents"
 import { verifyUser } from "../middleware/verifyUser"
+import DeviceDetector from "node-device-detector"
 
 const router = Router()
 
@@ -22,7 +23,15 @@ router.get(
     }),
     verifyUser,
     async (req: Request, res: Response) => {
-        const device = new UserAgent(req.headers["user-agent"])
+        // const device = new UserAgent(req.headers["user-agent"])
+        // console.log(req.headers["user-agent"])
+        const detector = new DeviceDetector({
+            clientIndexes: true,
+            deviceIndexes: true,
+            deviceAliasCode: true,
+        })
+        const result = detector.detect(req.headers["user-agent"] || "")
+        // console.log(result)
         const { prisma } = res
         try {
             const user = await prisma.user_Back.create({
@@ -34,7 +43,7 @@ router.get(
                             detail: {
                                 create: {
                                     loginDate: new Date(),
-                                    deviceInfo: device.data.deviceCategory || "Unknow",
+                                    deviceInfo: result.device.type,
                                     ip: req.ip,
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
                                 },
@@ -62,7 +71,13 @@ router.get("/logout", async (req, res) => {
         }
         try {
             const { prisma } = res
-            const device = new UserAgent(req.headers["user-agent"])
+            // const device = new UserAgent(req.headers["user-agent"])
+            const detector = new DeviceDetector({
+                clientIndexes: true,
+                deviceIndexes: true,
+                deviceAliasCode: true,
+            })
+            const result = detector.detect(req.headers["user-agent"] || "")
 
             await prisma.logout_Info.create({
                 data: {
@@ -70,8 +85,8 @@ router.get("/logout", async (req, res) => {
                     token: sessid,
                     detail: {
                         create: {
-                            deviceInfo: device.data.deviceCategory || "Unknow",
-                            ip: device.data.platform,
+                            deviceInfo: result.device.type,
+                            ip: req.ip,
                             logoutDate: new Date(),
                         },
                     },
