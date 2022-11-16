@@ -50,8 +50,10 @@ const timetable = () => {
 
     return (
         <AppBody>
-            <SimpleGrid columns={[1, 6]} spacing="40px">
-                <IconButton aria-label="previous" icon={<ChevronLeftIcon />} />
+            <SimpleGrid columns={[1, 6]} spacing="30px">
+                <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px"
+                    h="62px" borderRightRadius="55"
+                    borderLeftRadius="55"/>
 
                 <Box boxShadow="md" p="6" rounded="md" bg="white">
                     Date
@@ -62,7 +64,9 @@ const timetable = () => {
                 <Box boxShadow="md" p="6" rounded="md" bg="white">
                     Year
                 </Box>
-                <IconButton aria-label="next" icon={<ChevronRightIcon />} />
+                <IconButton aria-label="next" icon={<ChevronRightIcon />} w="60px"
+                    h="62px" borderRightRadius="55"
+                    borderLeftRadius="55"/>
                 <IconButton
                     onClick={modal1.onOpen}
                     w="60px"
@@ -102,14 +106,14 @@ const timetable = () => {
                                     <FormLabel color="black">
                                         <Text fontSize="24px">Start Time</Text>
                                     </FormLabel>
-                                    <Input placeholder="Select time" size="xs" type="datetime-local" />
+                                    <Input placeholder="Select time" size="xs" type="time" />
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <FormLabel color="black">
                                         <Text fontSize="24px">End Time</Text>
                                     </FormLabel>
-                                    <Input placeholder="Select time" size="xs" type="datetime-local" />
+                                    <Input placeholder="Select time" size="xs" type="time" />
                                 </FormControl>
 
                                 <FormControl mt={4}>
@@ -157,16 +161,16 @@ const timetable = () => {
                     <h4>SAT</h4>
                 </Grid>
             </Box>
-            <Button id="deleteEvent" onClick={modal2.onOpen} bg="red" colorScheme="white">
+            <Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
                 Edit
             </Button>
 
-            <Modal id="deleteEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="sm">
+            <Modal id="editEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="xl">
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader color="red">
-                        <Text textAlign={["center"]} fontSize="3xl">
-                            Delete Event
+                    <ModalHeader color="black">
+                        <Text  fontSize="3xl">
+                            Edit Event
                         </Text>
                     </ModalHeader>
                     <ModalCloseButton />
@@ -225,12 +229,9 @@ const timetable = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button variant="ghost" bg="#38A169">
-                            Yes
-                        </Button>
-                        <Button bg="#E53E3E" mr={3} onClick={modal2.onClose}>
-                            No
-                        </Button>
+                    <Button colorScheme="blue" width="239px" height="40px" bg="#E1AB20">
+                               Edit
+                            </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -242,8 +243,8 @@ const timetable = () => {
             <Modal id="deleteEvent" isOpen={modal3.isOpen} onClose={modal3.onClose} size="sm">
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader color="red">
-                        <Text textAlign={["center"]} fontSize="3xl">
+                    <ModalHeader color="#E53E3E">
+                        <Text textAlign={["center"]} fontSize="5xl">
                             Delete Event
                         </Text>
                     </ModalHeader>
@@ -259,10 +260,10 @@ const timetable = () => {
 
                     <ModalFooter>
                         <Button variant="ghost" bg="#38A169">
-                            Yes
+                            <Text color="white">Yes</Text>
                         </Button>
                         <Button bg="#E53E3E" mr={3} onClick={modal3.onClose}>
-                            No
+                        <Text color="white">No</Text>
                         </Button>
                     </ModalFooter>
                 </ModalContent>
