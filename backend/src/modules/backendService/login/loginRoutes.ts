@@ -2,7 +2,6 @@ import { Router } from "express"
 import passport from "passport"
 import { Request, Response } from "express"
 import UserAgent from "user-agents"
-import cuid from "cuid"
 
 const router = Router()
 
@@ -25,7 +24,6 @@ router.get(
         const { prisma } = res
         if (!req.user) throw new Error("User don't exist")
         try {
-            const id = cuid()
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
