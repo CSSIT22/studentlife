@@ -93,14 +93,6 @@ const shopdetails = () => {
                         <Heading>Add Review</Heading>
                     </ModalHeader>
                     <ModalCloseButton />
-                    <Rating />
-                    {/* <Flex direction={"row"} justifyContent={"space-around"}>
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                    </Flex> */}
 
                     <ModalBody>Hello</ModalBody>
 
