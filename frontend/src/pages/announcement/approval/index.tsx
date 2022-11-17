@@ -12,7 +12,7 @@ const index = () => {
     const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
 
     return (
-        <AppBody
+        <AppBody 
             secondarynav={[
                 { name: "Announcement", to: "/announcement" },
                 { name: "Approval", to: "/announcement/approval" },
@@ -21,7 +21,7 @@ const index = () => {
             ]}
             p={{ md: "3rem" }}
         >
-            <Flex alignItems={"center"}>
+            <Flex alignItems={"center"} >
                 <HeaderPage head="Approval" />
             </Flex>
             {allPost
