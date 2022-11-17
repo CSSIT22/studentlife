@@ -3,6 +3,7 @@ import express from "express"
 import { nanoid } from "nanoid"
 import UserAgent from "user-agents"
 import { verifyUser } from "./middleware/verifyUser"
+import UAParser from "ua-parser-js"
 
 const backendserviceRoutes = express()
 
@@ -33,7 +34,7 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
     // console.log(req.ip)
 
     try {
-        const device = new UserAgent(req.headers["user-agent"])
+        const device = new UAParser(req.headers["user-agent"])
 
         const { token, userId } = req.body
         const logoutId = nanoid()
@@ -46,8 +47,8 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
                 logoutId: logoutId,
                 detail: {
                     create: {
-                        deviceInfo: device.data.deviceCategory || "Unknow",
-                        ip: device.data.platform,
+                        deviceInfo: (device.getOS().name || "") + (device.getOS().version || "") || "Unknow",
+                        ip: device.getBrowser().name || "",
                         logoutDate: logoutDate,
                     },
                 },
