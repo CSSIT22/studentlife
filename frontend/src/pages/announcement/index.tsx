@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { IoIosAddCircle } from "react-icons/io"
 import { Link } from "react-router-dom"
 import HeaderPage from "../../components/annoucement/HeaderPage"
@@ -7,6 +7,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { Box, Flex, SimpleGrid, Spacer } from "@chakra-ui/react"
 import { postInfoTest } from "./postInfoTest"
 import {post} from '@apiType/announcement'
+import API from "src/function/API"
 
 const index = () => {
     // const post = [
@@ -28,7 +29,11 @@ const index = () => {
 
     // console.log(postInfoTest[0].expiredOfPost);
 
-    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    const [allPost, setAllPost] = React.useState<post[]>([])
+    const getData = API.get("/announcement/getPostOnAnnouncement")
+    useEffect(() => {
+        getData.then((res) => setAllPost(res.data))
+    },[])
 
     return (
         <AppBody
@@ -48,11 +53,7 @@ const index = () => {
             </Flex>
             {allPost
                 .filter((p) => {
-                    const expired = new Date(p.expiredOfPost)
-                    const expiredPost = Math.round(expired.getTime() / day)
-                    const diff = expiredPost - current
-                    // console.log("current:"+current+" expired:"+expiredPost+" diff:"+(expiredPost-current+1));
-                    return p.pinStatus == true && p.isApprove == true && diff > 0
+                    return p.pinStatus == true 
                 })
                 .map((el) => {
                     return (
@@ -69,10 +70,7 @@ const index = () => {
                 })}
             {allPost
                 .filter((p) => {
-                    const expired = new Date(p.expiredOfPost)
-                    const expiredPost = Math.round(expired.getTime() / day)
-                    const diff = expiredPost - current
-                    return p.pinStatus == false && p.isApprove == true && diff > 0
+                    return p.pinStatus == false 
                 })
                 .map((el) => {
                     return (
