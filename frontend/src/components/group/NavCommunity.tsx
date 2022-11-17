@@ -30,6 +30,9 @@ const CommunityList: FC<{ disableInvite?: boolean; disableBtn?: boolean; activeB
     const [isModalOpen, setModalOpen] = useState(false);
     const modalOnClick = () => setModalOpen(!isModalOpen)
 
+    const [isLeaveOpen, setLeaveOpen] = useState(false);
+    const leaveOnClick = () => setLeaveOpen(!isLeaveOpen)
+
     const [searchValue, setSearchValue] = useState("") //for store search value
     const handleChange = (event: any) => setSearchValue(event.target.value)
     const handleSearchBtn = () => {
@@ -198,10 +201,33 @@ const CommunityList: FC<{ disableInvite?: boolean; disableBtn?: boolean; activeB
                                                     <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
                                                 </Link>
                                             </Box>
-                                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+
+
+                                            <Box onClick={leaveOnClick} gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
                                                 <FaBan />
                                                 <Text>Leave Community</Text>
                                             </Box>
+                                            <Modal closeOnOverlayClick={false} isOpen={isLeaveOpen} onClose={leaveOnClick} isCentered>
+                                                <ModalOverlay />
+                                                <ModalContent>
+                                                    <ModalHeader>Leave this community!?</ModalHeader>
+                                                    <ModalCloseButton />
+                                                    <ModalBody pb={6}>
+                                                        Are you sure you want to leave this community?
+                                                    </ModalBody>
+
+                                                    <ModalFooter>
+                                                        <Link to={`/groups/`}>
+                                                            <Button colorScheme='blue' mr={3} onClick={leaveOnClick}>
+                                                                Sure
+                                                            </Button>
+                                                        </Link>
+                                                        <Button onClick={leaveOnClick}>Cancel</Button>
+                                                    </ModalFooter>
+                                                </ModalContent>
+                                            </Modal>
+
+
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
