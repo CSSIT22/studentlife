@@ -6,9 +6,10 @@ import { Link } from "react-router-dom"
 import PostOnApproval from "../../../components/annoucement/PostOnApproval"
 import HeaderPage from "../../../components/annoucement/HeaderPage"
 import { postInfoTest } from "../postInfoTest"
+import { post } from "../create"
 
 const index = () => {
-    const [allPost, setAllPost] = React.useState(postInfoTest)
+    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
 
     return (
         <AppBody

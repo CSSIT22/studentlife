@@ -7,6 +7,7 @@ import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import { Box, Flex } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { postInfoTest } from "./postInfoTest"
+import { post } from "./create"
 
 const history = () => {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -49,7 +50,7 @@ const history = () => {
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "waiting", id: 12 },
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "disapprove", id: 13 },
     // ]
-    const [allPost, setAllPost] = React.useState(postInfoTest)
+    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     const deleteOrEdit = (status: string) => {
         if (status == "approve") {
             return (

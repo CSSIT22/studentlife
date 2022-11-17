@@ -4,6 +4,7 @@ import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import ModalForEvent from "../../../components/annoucement/ModalForEvent"
 import AppBody from "../../../components/share/app/AppBody"
+import { post } from "../create"
 import { postInfoTest } from "../postInfoTest"
 
 const approvalDetail = () => {
@@ -13,7 +14,7 @@ const approvalDetail = () => {
     const post = postInfoTest.filter((el) => {
         return el.postId == parseInt(params + "")
     })
-    const [allPost, setAllPost] = React.useState(postInfoTest)
+    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
 
     console.log(allPost)
     const changeStatus = (status: string) => {

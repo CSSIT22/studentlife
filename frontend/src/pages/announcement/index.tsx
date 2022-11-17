@@ -6,6 +6,7 @@ import PostOnAnnouncementPage from "../../components/annoucement/PostOnAnnouncem
 import AppBody from "../../components/share/app/AppBody"
 import { Box, Flex, SimpleGrid, Spacer } from "@chakra-ui/react"
 import { postInfoTest } from "./postInfoTest"
+import { post } from "./create"
 
 const index = () => {
     // const post = [
@@ -27,7 +28,7 @@ const index = () => {
 
     // console.log(postInfoTest[0].expiredOfPost);
 
-    const [allPost, setAllPost] = React.useState(postInfoTest)
+    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
 
     return (
         <AppBody

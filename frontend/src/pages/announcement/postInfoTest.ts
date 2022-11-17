@@ -127,7 +127,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: new Date("2022-11-17"),
-        expiredAfterDelete: new Date("Sat Nov 14 2022 13:50:11 GMT+0700"),
+        expiredAfterDelete: new Date("Sat Nov 19 2022 13:50:11 GMT+0700"),
         addMoreLang: [],
     },
     {
@@ -143,7 +143,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: new Date("2022-11-22"),
-        expiredAfterDelete: new Date("Sun Nov 12 2022 02:39:11 GMT+0700"),
+        expiredAfterDelete: new Date("Sun Nov 20 2022 02:39:11 GMT+0700"),
         addMoreLang: [],
     },
 ]

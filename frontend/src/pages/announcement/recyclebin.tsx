@@ -5,6 +5,7 @@ import HeaderPage from "../../components/annoucement/HeaderPage"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
 import AppBody from "../../components/share/app/AppBody"
+import { post } from "./create"
 import detail from "./detail/[postId]"
 import { postInfoTest } from "./postInfoTest"
 
@@ -42,7 +43,7 @@ const recyclebin = () => {
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "delete", id: 12, expired: "45:23:11" },
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
     // ]
-    const [allPost, setAllPost] = React.useState(postInfoTest)
+    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     const minute = 1000 * 60
     const hour = minute * 60
     const day = hour * 24
@@ -97,7 +98,7 @@ const recyclebin = () => {
             </Flex>
             {allPost
                 .filter((fl) => {
-                    const expired = new Date(fl.expiredAfterDelete)
+                    const expired = new Date(fl.expiredAfterDelete+"")
                     const expiredPost = Math.round(expired.getTime() / day)
                     const diffD = expiredPost - currentD
                     const hEpd = Math.round(expired.getTime() / hour)
@@ -105,7 +106,7 @@ const recyclebin = () => {
                     return fl.status == "delete" && (diffD > 0 || diffH > 0)
                 })
                 .map((el) => {
-                    const r = showRemaining(el.expiredAfterDelete)
+                    const r = showRemaining(el.expiredAfterDelete+"")
                     return (
                         <PostOnRecycle
                             topic={el.topic}
