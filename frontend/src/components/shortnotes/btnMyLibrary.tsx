@@ -3,33 +3,11 @@ import {
     Heading,
     Text,
     Button,
-    Flex,
-    Spacer,
     HStack,
-    SimpleGrid,
     VStack,
-    Select,
-    ButtonGroup,
-    Divider,
-    GridItem,
-    Grid,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
     useDisclosure,
     Input,
-    Textarea,
-    useRadioGroup,
-    useRadio,
-    Center,
-    InputGroup,
-    InputRightElement,
     Stack,
-    Square,
     Drawer,
     DrawerBody,
     DrawerFooter,
@@ -37,8 +15,6 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    RadioGroup,
-    Radio,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { BiLibrary } from "react-icons/bi"
@@ -123,10 +99,10 @@ const btnMyLibrary = () => {
                                 <Box
                                     as="button"
                                     onClick={() => {
-                                        setNPicked(li.name)
-                                        setPicked(li.id)
+                                        setNPicked(li.name) //collect selected li.name
+                                        setPicked(li.id) //collect selected li.id
                                         inliOnOpen()
-                                        console.log(nPicked)
+                                        console.log(picked)
                                     }}
                                 >
                                     <LiList name={li.name}></LiList>
