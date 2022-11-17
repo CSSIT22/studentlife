@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import express from "express"
 import { nanoid } from "nanoid"
-import UserAgent from "user-agents"
 import { verifyUser } from "./middleware/verifyUser"
 import UAParser from "ua-parser-js"
 
@@ -29,9 +28,6 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
 
 backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
-    // console.log(req.body.token)
-    // console.log(req.body.userId)
-    // console.log(req.ip)
 
     try {
         const device = new UAParser(req.headers["user-agent"])
