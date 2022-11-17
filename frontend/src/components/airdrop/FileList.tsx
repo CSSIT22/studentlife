@@ -15,20 +15,9 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    Fade,
-    Popover,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverFooter,
-    PopoverHeader,
-    PopoverTrigger,
-    Portal,
-    VStack,
 } from "@chakra-ui/react"
-import axios from "axios"
+import API from "src/function/API"
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
-import { IconType } from "react-icons"
 import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "react-icons/md"
 import FileComment from "./FileComment"
 import { fileListContext } from "src/pages/airdrop/receive"
@@ -94,7 +83,7 @@ const FileList: FC<{
     })
 
     const fetchSenderProfile = async () => {
-        const res = await axios.get(`http://localhost:8000/airdrop/user/userprofile/${info.senderId}`)
+        const res = await API.get(`http://localhost:8000/airdrop/user/userprofile/${info.senderId}`)
         setSenderProfile(res.data)
         const base64String = btoa(String.fromCharCode(...new Uint8Array(res.data.image.data)))
         setSenderImg(base64String)
@@ -177,7 +166,7 @@ const FileList: FC<{
 
     //handle function
     const handleDownload = async (type: string, name: string, sid: string, fid: string, event: any) => {
-        const downloadFile = await axios.get(`http://localhost:8000/airdrop/file/download/${type}/${sid + name}`, {
+        const downloadFile = await API.get(`http://localhost:8000/airdrop/file/download/${type}/${sid + name}`, {
             responseType: "blob",
         })
         const url = window.URL.createObjectURL(new Blob([downloadFile.data]))
@@ -188,25 +177,19 @@ const FileList: FC<{
         link.click()
         console.log(downloadFile)
 
-        const hideFile = await axios.post(
+        const hideFile = await API.post(
             "http://localhost:8000/airdrop/file/hidefile",
             {
                 fileId: fid,
-            },
-            {
-                withCredentials: true,
             }
         )
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== fid))
     }
     const handleDecline = async (id: string, event: any) => {
-        const hideFile = await axios.post(
+        const hideFile = await API.post(
             "http://localhost:8000/airdrop/file/hidefile",
             {
                 fileId: id,
-            },
-            {
-                withCredentials: true,
             }
         )
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== id))
@@ -233,7 +216,7 @@ const FileList: FC<{
                             border={"1px"}
                             borderColor={"gray.300"}
                             shadow={"xs"}
-                            bgColor={"white"}
+                            colorScheme={"green"}
                             onClick={async (e) => {
                                 handleDownload(info.sendType, info.fileName, info.senderId, info.fileId, e.target)
                             }}
@@ -245,7 +228,7 @@ const FileList: FC<{
                             border={"1px"}
                             borderColor={"gray.300"}
                             shadow={"xs"}
-                            bgColor={"white"}
+                            colorScheme={"red"}
                             onClick={async (e) => {
                                 handleDecline(info.fileId, e.target)
                             }}
@@ -257,7 +240,8 @@ const FileList: FC<{
                             border={"1px"}
                             borderColor={"gray.300"}
                             shadow={"xs"}
-                            bgColor={"white"}
+                            colorScheme={"orange"}
+
                             onClick={async () => {
                                 const setModal = await setModalData(info)
                                 onOpen()

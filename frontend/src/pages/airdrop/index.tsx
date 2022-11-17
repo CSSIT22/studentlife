@@ -7,8 +7,8 @@ import { HiDownload, HiUpload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory } from "react-icons/md"
 import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
 import Lottie from "lottie-react"
-import axios from "axios"
 import uploadAnimation from "../../components/airdrop/animation/upload.json"
+import API from "src/function/API"
 import {
     Tag,
     Flex,
@@ -27,7 +27,6 @@ import {
     ModalBody,
     ModalCloseButton,
     Select,
-    Checkbox,
     Switch,
     NumberInput,
     NumberInputField,
@@ -35,9 +34,9 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     SimpleGrid,
-    Stack,
-    ScaleFade,
     Fade,
+    useBoolean,
+    useToast,
 } from "@chakra-ui/react"
 
 const linkMenu = [
@@ -48,6 +47,10 @@ const linkMenu = [
 
 const dummyData22 = ["MR.ABC DEF", "MR.GHI JKL", "MR.MNO PQR", "MR.STU VWX", "MR.YZ GG", "MR.PPP PPP"]
 export default function Index<FC>() {
+
+    const toast = useToast();
+    const [isError, {on}] = useBoolean(false);
+    const [isLoading,{off}] = useBoolean(true);
     //useContext getuser
     const user = useContext(authContext)
     //ref
@@ -205,11 +208,15 @@ export default function Index<FC>() {
         })
 
         try {
-            const res = await axios.post("http://localhost:8000/airdrop/file/upload", fd, {
+            const res = await API.post("/airdrop/file/upload", fd, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                },
-                withCredentials: true,
+                }
+            }).then((res) => {
+                console.log(res);
+            }).catch((err) => {
+                setConfirmDrop(false)
+                on();
             })
             console.log(res)
         } catch {
@@ -225,7 +232,18 @@ export default function Index<FC>() {
             }
         }
     }, [isOpen])
-
+    useEffect(()=>{
+        if(isError){
+            toast({
+                title: "Error",
+                description: "Please Log In Before Using",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+        
+    },[isError])
     useEffect(()=>{ 
         filterReceive();
     },[textSearch])
@@ -248,10 +266,15 @@ export default function Index<FC>() {
         // setUserList({...userList,specific:res.data})
     }
     const fetchDepartment = async () => {
-        const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment",{
+        const res = await API.get("/airdrop/user/getdepartment",{
             withCredentials:true
+        }).then((res)=>{
+            setUserList({...userList,department:res.data})
+        }).catch((err)=>{
+            console.log(err);
+        }).finally(()=>{
+            off();
         })
-        setUserList({...userList,department:res.data})
     }
     return (
         <AppBody secondarynav={linkMenu}>
@@ -580,7 +603,11 @@ export default function Index<FC>() {
                                                         textAlign={"center"}
                                                         onClick={() => {
                                                             handleDrop()
-                                                            setConfirmDrop(true)
+                                                            if(isError == false){
+                                                                setConfirmDrop(true)
+                                                            }else{
+                                                                setConfirmDrop(false)
+                                                            }
                                                         }}
                                                     >
                                                         Confirm
