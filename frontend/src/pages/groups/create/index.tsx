@@ -41,6 +41,11 @@ const create = () => {
 
     const [tagBtn, setTagBtn] = useState(false)
 
+    const [searchValue, setSearchValue] = useState("") //for store search value
+    const handleChange = (event: any) => setSearchValue(event.target.value)
+    const handleSearchBtn = () => {
+        setSearchValue("")
+    }
 
     const handleTagChoose = () => {
         setTagBtn(!tagBtn)
@@ -248,12 +253,26 @@ const create = () => {
                         </Text>
 
                         <Box borderRadius={'md'}>
-                            <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} >
+                            <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} border='1px' borderColor='gray.200'>
                                 <Box color={'black'} mr={-1}>
-                                    <IconButton aria-label='Search database' background={'white'} _hover={{ background: 'default' }} icon={<SearchIcon />} />
+                                    <IconButton
+                                        aria-label='Search database'
+                                        disabled={true}
+                                        _hover={{ cursor: 'default', background: 'default' }}
+                                        background={'white'}
+                                        icon={<SearchIcon />}
+                                    />
                                 </Box>
-                                <Box width={'100%'} backgroundColor={'white'} color={'black'} >
-                                    < Input placeholder='Search for friends' />
+                                <Box width={'100%'} backgroundColor={'white'} color={'black'}  >
+                                    <Input
+                                        width={"100%"}
+                                        variant={"filled"}
+                                        type={"search"}
+                                        value={searchValue}
+                                        onChange={handleChange}
+                                        placeholder="Seacrh for friends"
+                                        focusBorderColor="gray.200"
+                                    ></Input>
                                 </Box>
                             </HStack>
 
@@ -276,28 +295,20 @@ const create = () => {
                                     },
                                 }}>
 
-                                <Flex gap={{ md: 1, sm: 3 }} direction='column' ml={1} color={'black'} borderRadius={'md'} >
-                                    <Box >
-                                        <FriendInviteList userName='Passakorn Puttama' isSelected={false} userProfile={''} />
-                                    </Box>
-                                    <Box >
-                                        <FriendInviteList userName='Patthadol Raksapram' isSelected={false} userProfile={''} />
-                                    </Box>
-                                    <Box >
-                                        <FriendInviteList userName='Vatcharamai Rodring' isSelected={false} userProfile={''} />
-                                    </Box>
-                                    <Box >
-                                        <FriendInviteList userName='Pakkawat Wassa' isSelected={false} userProfile={''} />
-                                    </Box>
-                                    <Box >
-                                        <FriendInviteList userName='Chokdee Meechai' isSelected={false} userProfile={''} />
-                                    </Box>
-                                    <Box >
-                                        <FriendInviteList userName='Chokchai Meecow' isSelected={false} userProfile={''} />
-                                    </Box>
-                                    <Box >
-                                        <FriendInviteList userName='Somchai Chansamorn' isSelected={false} userProfile={''} />
-                                    </Box>
+                                <Flex gap={{ md: 1, sm: 2 }} direction='column' ml={1} color={'black'} borderRadius={'md'} >
+
+                                    {
+                                        userData.friends.
+                                            filter((friends) => {
+                                                return searchValue.toLowerCase() == "" ? friends : friends.userName.toLowerCase().includes(searchValue)
+                                            }).map((i) => (
+                                                <FriendInviteList
+                                                    key={i.userName}
+                                                    userName={i.userName}
+                                                    userProfile={i.profile}
+                                                    isSelected={i.isSelected}
+                                                />
+                                            ))}
                                 </Flex>
                             </Box>
                         </Box>
