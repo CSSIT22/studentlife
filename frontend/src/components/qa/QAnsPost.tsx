@@ -10,8 +10,7 @@ const QAnsPost = (props: any) => {
                 Create Q&A
             </Button>
 
-            <Switch size="lg" colorScheme={"gray"}/>
-
+            <Switch size="lg" colorScheme={"gray"} />
         </>
     )
 }
