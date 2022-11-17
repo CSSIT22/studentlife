@@ -37,9 +37,11 @@ const ButtonForEvent: FC<{
         }
     }
     return (
-        <Stack position={"fixed"} bottom="5rem" width={{base:'91%',md:'96%'}} transition={"0.25s"}>
+        <Stack position={"fixed"} bottom="5rem" width={{ base: "91%", md: "96%" }} transition={"0.25s"}>
             {linkOrNot(status)}
-            <Button onClick={() => cancel()} boxShadow="2xl">Close</Button>
+            <Button onClick={() => cancel()} boxShadow="2xl">
+                Close
+            </Button>
         </Stack>
     )
 }
