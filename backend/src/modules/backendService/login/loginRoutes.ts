@@ -22,10 +22,6 @@ router.get(
     }),
     verifyUser,
     async (req: Request, res: Response) => {
-        if (req.session.id) {
-            // redirect to home page if already login
-            return res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
-        }
         const { prisma } = res
         try {
             console.log(req.headers["user-agent"])
