@@ -85,7 +85,7 @@ const CommunityList: FC<{ disableInvite?: boolean; disableBtn?: boolean; activeB
                     </div>
                     <div>
                         {isMember ? <HStack>
-                            <Button disabled={disableInvite} onClick={modalOnClick} size="sm" background={'orange.500'} _hover={{ background: 'orange.200', cursor: 'default' }} color={'white'} >
+                            <Button disabled={disableInvite} onClick={modalOnClick} size="sm" background={'orange.500'} _hover={{ background: 'orange.200', cursor: 'pointer' }} color={'white'} >
                                 Invite
                             </Button>
 
@@ -184,10 +184,10 @@ const CommunityList: FC<{ disableInvite?: boolean; disableBtn?: boolean; activeB
                                 </Modal>) : (<div />)}
 
                             <Popover >
-                                <PopoverTrigger >
-                                    <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
+                                <PopoverTrigger  >
+                                    <Button disabled={disableInvite} _hover={{ cursor: 'pointer' }} p={2} borderRadius="md">
                                         <BsThreeDots fontSize={"25px"} />
-                                    </Box>
+                                    </Button>
                                 </PopoverTrigger>
                                 <Portal >
                                     <PopoverContent width="180px">

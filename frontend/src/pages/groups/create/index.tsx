@@ -305,7 +305,7 @@ const create = () => {
                         <Button onClick={modalOnClick} width="100%" mt={2} color={{ md: 'black', sm: 'white' }} background={{ md: 'white', sm: 'orange.500' }} _hover={{ background: 'default.200' }} size={"md"}>
                             Create
                         </Button>
-                        <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick}>
+                        <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick} isCentered>
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Create your community!</ModalHeader>
@@ -318,7 +318,7 @@ const create = () => {
                                     <Button colorScheme='blue' mr={3} onClick={sureOnClick}>
                                         Sure
                                     </Button>
-                                    <Modal closeOnOverlayClick={false} isOpen={isSureOpen} onClose={sureOnClick}>
+                                    <Modal closeOnOverlayClick={false} isOpen={isSureOpen} onClose={sureOnClick} isCentered>
                                         <ModalOverlay />
                                         <ModalContent>
                                             <ModalHeader>Create your community!</ModalHeader>
