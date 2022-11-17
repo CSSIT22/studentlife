@@ -28,17 +28,17 @@ const DatingAppBody = (props: any) => {
             userSelect={props.userSelect}
             secondarynav={[
                 {
-                    name: "Randomization",
+                    name: "Discovery",
                     to: "/dating",
                     Icon: isMobile ? RandomizationWhiteImg : RandomizationBlackImg,
                 },
                 {
-                    name: "Heart checking",
+                    name: "History",
                     to: "/dating/likedyou",
                     Icon: isMobile ? HeartCheckingWhiteImg : HeartCheckingBlackImg,
                 },
                 {
-                    name: "You are match with",
+                    name: "Matches",
                     to: "/dating/match",
                     Icon: isMobile ? YouAreMatchWithWhiteImg : YouAreMatchWithBlackImg,
                 },
