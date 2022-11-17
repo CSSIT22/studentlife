@@ -9,6 +9,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import NotiSetting from "./NotiSetting"
 import { OBJECTS } from "./main/data/objectsTest"
 import { MODULES } from "./moduleList/moduleTest"
+import { Show } from '@chakra-ui/react'
 
 const NotiTable = () => {
     const [selectedModule, setSelectedModule] = React.useState("All")
@@ -65,15 +66,17 @@ const NotiTable = () => {
                     </Stack>
                 </Box>
             </Flex>
-            <Stack padding={4} paddingTop={2} height="50vh" overflow="auto">
+            <Stack padding={4} paddingTop={2} height={{sm:"75vh", md:"50vh"}} overflow="auto">
                 {showNotiList()}
             </Stack>
             <Center paddingTop={2}>
-                <Button size={"sm"} width={"100%"} bg={"orange.500"} color={"white"}>
-                    <Link to="/notification/viewAll">
-                        <Text>View All</Text>
-                    </Link>
-                </Button>
+                <Show above="md">
+                    <Button size={"sm"} width={"100%"} bg={"orange.500"} color={"white"}>
+                        <Link to="/notification/viewAll/1">
+                            <Text>View All</Text>
+                        </Link>
+                    </Button>
+                </Show>
             </Center>
         </Box>
     )
