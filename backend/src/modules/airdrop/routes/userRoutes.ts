@@ -1,13 +1,12 @@
 import express, { Request, Response } from "express"
-import { PrismaClient } from "@prisma/client"
-
+import { verifyUser } from "../.././backendService/middleware/verifyUser"
 const userRoutes = express()
-const prisma = new PrismaClient()
 
 //getdepartment
-userRoutes.get("/getdepartment", async (req: Request, res: Response) => {
+userRoutes.get("/getdepartment", verifyUser,async (req: Request, res: Response) => {
     try {
         const user = req.user?.userId
+        const {prisma} = res;
         const department = await prisma.user_Profile.findFirstOrThrow({
             where: {
                 userId: user,
