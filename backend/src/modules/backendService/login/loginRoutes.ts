@@ -63,7 +63,7 @@ router.get("/logout", async (req, res) => {
         }
         try {
             const { prisma } = res
-            const device = new UserAgent(req.headers["user-agent"])
+            const device1 = new UAParser(req.headers["user-agent"])
 
             await prisma.logout_Info.create({
                 data: {
@@ -71,8 +71,8 @@ router.get("/logout", async (req, res) => {
                     token: sessid,
                     detail: {
                         create: {
-                            deviceInfo: device.data.deviceCategory || "Unknow",
-                            ip: device.data.platform,
+                            deviceInfo: (device1.getOS().name || "") + (device1.getOS().version || "") || "Unknow",
+                            ip: device1.getBrowser().name || "",
                             logoutDate: new Date(),
                         },
                     },
