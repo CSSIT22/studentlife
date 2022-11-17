@@ -1,26 +1,29 @@
-import { Text, Container, Box, Stack, Button, Link } from "@chakra-ui/react"
+import { Text, Container, Box, Stack, Button, Link, Center, useMediaQuery, Hide, Show, Flex, Spacer } from "@chakra-ui/react"
 import React from "react"
+import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
+import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
 import AppBody from "../../../components/share/app/AppBody"
-import Header from "../../../components/transaction/Header"
-import OrderList from "../../../components/transaction/OrderList"
-import UserAndPoint from "../../../components/transaction/UserAndPoint"
+import Header from "../../../components/transaction/shoptransaction/Header"
+import OrderList from "../../../components/transaction/shoptransaction/OrderList"
 
 const shopTransaction = () => {
+    const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
     return (
-        <div>
-            <AppBody />
-            {/* header */}
-            <Header header="CHECK OUT" />
+        <AppBody>
+            <Header name="CHECKOUT" />
 
-            {/* user info + point */}
-            <UserAndPoint userId="14785236" userEmail="mail@kmutt.ac.th" point={123} />
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"}>
+                <Stack direction={isSmallerThan768 ? "column" : "row"} justifyContent={"center"}>
+                    <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
+                    <UsePoint point={123} />
+                </Stack>
+            </Container>
 
-            {/* order list */}
-            <Container maxW="80%" bg="orange.400" color="white" borderRadius="10px" py="23px" my={"24px"} shadow={"lg"}>
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Order List
                 </Text>
-                <Stack direction="column">
+                <Stack direction={isSmallerThan768 ? "row" : "column"}>
                     <OrderList
                         imageAlt=""
                         imageUrl="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1099&q=80"
@@ -35,73 +38,106 @@ const shopTransaction = () => {
                         quantity={1}
                         price={"11,259.78"}
                     />
-                    <OrderList
-                        imageAlt=""
-                        imageUrl="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-                        product="Sunglasses"
-                        quantity={2}
-                        price={"9,727"}
-                    />
                 </Stack>
             </Container>
 
-            {/* payment method */}
-            <Container maxW="80%" bg="orange.400" color="white" my={"24px"} py="23px" borderRadius="10px" shadow={"lg"}>
-                <Stack direction={"row"} gap="30%">
-                    <Text fontSize="xl" fontWeight={"bold"}>
-                        Payment Method
-                    </Text>
-                    <Stack direction="row" gap="100px">
-                        <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                            <Link href="shoptransaction/masterCard" target="_parent" color="black">
-                                <Text fontSize="lg" fontWeight={"bold"}>
-                                    MasterCard
-                                </Text>
-                            </Link>
-                        </Button>
-                        <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                            <Link href="shoptransaction/eBanking" target="_parent" color="black">
-                                <Text fontSize="lg" fontWeight={"bold"}>
-                                    Ebanking
-                                </Text>
-                            </Link>
-                        </Button>
-                        <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                            <Link href="shoptransaction/qrCode" target="_parent" color="black">
-                                <Text fontSize="lg" fontWeight={"bold"}>
-                                    QRcode
-                                </Text>
-                            </Link>
-                        </Button>
-                    </Stack>
-                </Stack>
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"} color="white">
+                <Show below="md">
+                    <Flex>
+                        <Stack direction={"column"}>
+                            <Text fontSize="md" fontWeight={"bold"}>
+                                Total payment 123,123
+                            </Text>
+                            <Text fontSize="md" fontWeight={"bold"}>
+                                Payment Method: ....
+                            </Text>
+                        </Stack>
+                        <Spacer />
+                        <Box>
+                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
+                                <Link href="shoptransaction/selectmethod" target="_parent" color="black">
+                                    <Text fontSize="sm" fontWeight={"bold"}>
+                                        Select Method
+                                    </Text>
+                                </Link>
+                            </Button>
+                        </Box>
+                    </Flex>
+                </Show>
+                <Hide below="md">
+                    <Flex>
+                        <Text fontSize={isSmallerThan768 ? "md" : "lg"} fontWeight={"bold"}>
+                            Payment Method
+                        </Text>
+                        <Spacer />
+                        <Stack direction="row" gap="20px">
+                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
+                                <Link href="shoptransaction/masterCard" target="_parent" color="black">
+                                    <Text fontSize="lg" fontWeight={"bold"}>
+                                        MasterCard
+                                    </Text>
+                                </Link>
+                            </Button>
+                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
+                                <Link href="shoptransaction/eBanking" target="_parent" color="black">
+                                    <Text fontSize="lg" fontWeight={"bold"}>
+                                        Ebanking
+                                    </Text>
+                                </Link>
+                            </Button>
+                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
+                                <Link href="shoptransaction/qrCode" target="_parent" color="black">
+                                    <Text fontSize="lg" fontWeight={"bold"}>
+                                        QRcode
+                                    </Text>
+                                </Link>
+                            </Button>
+                        </Stack>
+                    </Flex>
+                </Hide>
             </Container>
 
-            {/* payment detail */}
-            <Container maxW="80%" bg="orange.400" color="white" py="23px" borderRadius="10px" shadow={"lg"} my="24px">
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Payment Details
                 </Text>
-                <Text fontSize="lg">Merchandise subtotal 123123</Text>
-                <Text fontSize="lg">Point discount 123</Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Merchandise subtotal 123123</Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Point discount 123</Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Total 123</Text>
             </Container>
 
-            {/* footer */}
-            <Container maxW={"100%"} bg="orange.400" h={"103px"} py="25px">
-                <Stack direction="row" gap="2%" justifyContent="center">
-                    <Box bg="orange.50" h="50px" w={"71%"} py="9px" borderRadius="10px">
-                        <Text fontSize="xl" color={"black"} pl="5%" fontWeight={"bold"}>
-                            Total payment 123,123
+            <Show below="md">
+                <Stack direction={"row"} justifyContent="center" gap={"3%"}>
+                    <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
+                        <Text fontSize="lg" fontWeight={"bold"}>
+                            Cancle
                         </Text>
-                    </Box>
+                    </Button>
                     <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
                         <Text fontSize="lg" fontWeight={"bold"}>
                             Comfilm
                         </Text>
                     </Button>
                 </Stack>
-            </Container>
-        </div>
+            </Show>
+            <Hide below="md">
+                <Container bg={"#e67f45"} maxW="100%" my="24px" p={"1%"} color="white">
+                    <Flex>
+                        <Box bg="orange.50" h="50px" w={"80%"} py="9px" borderRadius="10px">
+                            <Text fontSize="xl" color={"black"} pl="5%" fontWeight={"bold"}>
+                                Total payment 123,123
+                            </Text>
+                        </Box>
+                        <Spacer />
+                        <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
+                            <Text fontSize="lg" fontWeight={"bold"}>
+                                Comfilm
+                            </Text>
+                        </Button>
+                    </Flex>
+                </Container>
+            </Hide>
+        </AppBody>
     )
 }
 

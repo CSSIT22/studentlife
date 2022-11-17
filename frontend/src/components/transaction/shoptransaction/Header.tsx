@@ -2,14 +2,14 @@ import React, { FC } from "react"
 import { Center, Text, Box } from "@chakra-ui/react"
 
 const header: FC<{
-    header: string
-}> = ({ header }) => {
+    name: string
+}> = ({ name }) => {
     return (
         <div>
-            <Box bg="orange.400" w={"100%"} m="0">
+            <Box bg="#E67f45" w={"100%"}>
                 <Center py="60px">
                     <Text fontSize="3xl" fontWeight={"bold"} color="white">
-                        {header}
+                        {name}
                     </Text>
                 </Center>
             </Box>

@@ -1,13 +1,13 @@
 import { Button, Container, Input, InputGroup, InputLeftAddon, Stack, Text } from "@chakra-ui/react"
 import React from "react"
 import AppBody from "../../../components/share/app/AppBody"
-import Header from "../../../components/transaction/Header"
+import Header from "../../../components/transaction/shoptransaction/Header"
 
 const addcard = () => {
     return (
         <div>
             <AppBody />
-            <Header header="Adding a new card"></Header>
+            <Header name="Adding a new card"></Header>
             <Container bg={"orange.400"} color="white" maxW="65%" my="24px" borderRadius="10px" shadow={"lg"} py="23px">
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Card Details
