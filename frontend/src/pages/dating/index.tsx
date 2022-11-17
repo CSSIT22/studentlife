@@ -1,4 +1,4 @@
-import { Box, Button, Center, Image, SimpleGrid, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text } from "@chakra-ui/react"
 import { CARD_QUEUE } from "src/components/dating/shared/card_queue"
 import DatingAppBody from "src/components/dating/DatingAppBody"
 import React, { useState, useMemo, useRef, FC, RefObject } from "react"
@@ -19,7 +19,8 @@ const RandomCardInside: FC<{
     character: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }
     likeText: AnimationControls
     nopeText: AnimationControls
-}> = ({ childRefs, index, character, likeText, nopeText }) => {
+    pointerEvents: ResponsiveValue<any>
+}> = ({ childRefs, index, character, likeText, nopeText, pointerEvents }) => {
     return (
         <Box
             ref={childRefs[index]}
@@ -33,7 +34,7 @@ const RandomCardInside: FC<{
             position="absolute"
             top="30px"
             cursor="pointer"
-            pointerEvents="initial"
+            pointerEvents={pointerEvents}
         >
             <Box display="flex">
                 <motion.div
@@ -214,13 +215,11 @@ const DatingRandomCard: FC<{
         if (dir == "left") {
             controlHeart.start("hidden")
             controlCross.start("visible")
-            likeText.start("hidden")
             nopeText.start("visible")
         } else if (dir === "right") {
             controlCross.start("hidden")
             controlHeart.start("visible")
             likeText.start("visible")
-            nopeText.start("hidden")
         } else if (dir === "up" || dir === "down") {
             controlCross.start("hidden")
             controlHeart.start("hidden")
@@ -252,129 +251,23 @@ const DatingRandomCard: FC<{
             <Center>
                 {/* Picture in the card */}
                 {characters.length - 1 == index ? (
-                    <RandomCardInside childRefs={childRefs} index={index} character={character} likeText={likeText} nopeText={nopeText} />
+                    <RandomCardInside
+                        childRefs={childRefs}
+                        index={index}
+                        character={character}
+                        likeText={likeText}
+                        nopeText={nopeText}
+                        pointerEvents="initial"
+                    />
                 ) : (
-                    <Box
-                        ref={childRefs[index]}
-                        id={index.toString()}
-                        borderRadius="10px"
-                        backgroundImage={character.url}
-                        w={{ base: "326px", md: "379px" }}
-                        h={{ base: "402px", md: "464px" }}
-                        backgroundSize="cover"
-                        className="card"
-                        position="absolute"
-                        top="30px"
-                        cursor="pointer"
+                    <RandomCardInside
+                        childRefs={childRefs}
+                        index={index}
+                        character={character}
+                        likeText={likeText}
+                        nopeText={nopeText}
                         pointerEvents="none"
-                    >
-                        <Box display="flex">
-                            <motion.div
-                                initial={{ scale: 1.5, opacity: 0 }}
-                                animate={likeText}
-                                variants={{
-                                    visible: {
-                                        scale: [1.5, 1],
-                                        opacity: [0, 1],
-                                        transition: {
-                                            duration: 0.1,
-                                        },
-                                    },
-                                    hidden: {
-                                        scale: 1.5,
-                                        opacity: [1, 0],
-                                        transition: {
-                                            duration: 0.001,
-                                        },
-                                    },
-                                    click: {
-                                        scale: 1,
-                                        opacity: 1,
-                                        transition: {
-                                            duration: 0.001,
-                                        },
-                                    },
-                                }}
-                            >
-                                <Box
-                                    w="150px"
-                                    transform="rotate(330deg)"
-                                    borderWidth="6px"
-                                    borderColor="green.400"
-                                    borderRadius="10px"
-                                    p="3"
-                                    mt="45px"
-                                    ml={{ base: "13px", md: "20px" }}
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                >
-                                    <Text textAlign="center" color="green.400" fontWeight="700" fontSize="36px" lineHeight="100%">
-                                        LIKE
-                                    </Text>
-                                </Box>
-                            </motion.div>
-                            <motion.div
-                                initial={{ scale: 1.5, opacity: 0 }}
-                                animate={nopeText}
-                                variants={{
-                                    visible: {
-                                        scale: [1.5, 1],
-                                        opacity: [0, 1],
-                                        transition: {
-                                            duration: 0.1,
-                                        },
-                                    },
-                                    hidden: {
-                                        scale: 1.5,
-                                        opacity: [1, 0],
-                                        transition: {
-                                            duration: 0.001,
-                                        },
-                                    },
-                                    click: {
-                                        scale: 1,
-                                        opacity: 1,
-                                        transition: {
-                                            duration: 0.001,
-                                        },
-                                    },
-                                }}
-                            >
-                                <Box
-                                    w="150px"
-                                    transform="rotate(30deg)"
-                                    borderWidth="6px"
-                                    borderColor="orange.400"
-                                    borderRadius="10px"
-                                    p="3"
-                                    mt="45px"
-                                    ml={{ md: "40px" }}
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                >
-                                    <Text textAlign="center" color="orange.400" fontWeight="700" fontSize="36px" lineHeight="100%">
-                                        NOPE
-                                    </Text>
-                                </Box>
-                            </motion.div>
-                        </Box>
-
-                        {/* Profile button to go into user's profile */}
-                        <Box w="100%" display="flex" alignItems="end" justifyContent="end" mt={{ base: "220px", md: "280px" }}>
-                            <Link to="../../user">
-                                <Button
-                                    aria-label="User Profile"
-                                    className="pressable"
-                                    w="50px"
-                                    h="50px"
-                                    colorScheme="orange"
-                                    borderRadius="full"
-                                    mr="10px"
-                                    mb="10px"
-                                >
-                                    <Image w="20px" className="pressable" src={ProfileImg}></Image>
-                                </Button>
-                            </Link>
-                        </Box>
-                    </Box>
+                    />
                 )}
             </Center>
         </TinderCard>

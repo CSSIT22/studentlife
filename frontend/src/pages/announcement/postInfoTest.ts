@@ -12,8 +12,11 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-30",
-        expiredAfterDelete:"",
-        addMoreLang: [{lang:"Thai",topic:"สวัสดีชาวโลก",detail:"สวัสดีฉันชื่อ modlifes"},{lang:"Korea",topic:"unnyeong",detail:"Korean Kimchi"}],
+        expiredAfterDelete: "",
+        addMoreLang: [
+            { lang: "Thai", topic: "สวัสดีชาวโลก", detail: "สวัสดีฉันชื่อ modlifes" },
+            { lang: "Korea", topic: "unnyeong", detail: "Korean Kimchi" },
+        ],
     },
     {
         postId: 1,
@@ -28,7 +31,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-30",
-        expiredAfterDelete:"",
+        expiredAfterDelete: "",
         addMoreLang: [],
     },
     {
@@ -44,7 +47,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-30",
-        expiredAfterDelete:"",
+        expiredAfterDelete: "",
         addMoreLang: [],
     },
     {
@@ -60,7 +63,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-13",
-        expiredAfterDelete:"",
+        expiredAfterDelete: "",
         addMoreLang: [],
     },
     {
@@ -76,7 +79,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-30",
-        expiredAfterDelete:"",
+        expiredAfterDelete: "",
         addMoreLang: [],
     },
     {
@@ -92,7 +95,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-12",
-        expiredAfterDelete:"",
+        expiredAfterDelete: "",
         addMoreLang: [],
     },
     {
@@ -108,7 +111,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-01",
-        expiredAfterDelete:"",
+        expiredAfterDelete: "",
         addMoreLang: [],
     },
     {
@@ -124,7 +127,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-17",
-        expiredAfterDelete:"Sat Nov 14 2022 13:50:11 GMT+0700",
+        expiredAfterDelete: "Sat Nov 14 2022 13:50:11 GMT+0700",
         addMoreLang: [],
     },
     {
@@ -140,8 +143,7 @@ export const postInfoTest = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: "2022-11-22",
-        expiredAfterDelete:"Sun Nov 12 2022 02:39:11 GMT+0700",
+        expiredAfterDelete: "Sun Nov 12 2022 02:39:11 GMT+0700",
         addMoreLang: [],
     },
-   
 ]
