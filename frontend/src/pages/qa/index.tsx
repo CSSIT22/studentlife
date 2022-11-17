@@ -1,7 +1,8 @@
 import QAnsAppBody from "../../components/qa/QAnsAppBody"
 import QAnsPost from "../../components/qa/QAnsPost"
-import { Heading, Input, Grid, GridItem, Flex } from "@chakra-ui/react"
+import { Heading, Input, Grid, GridItem, Flex, Button } from "@chakra-ui/react"
 import QAnsBox from "src/components/qa/QAnsBox"
+import QAnsInsertfile from "src/components/qa/QAnsInsertfile"
 
 const index = () => {
     return (
@@ -14,7 +15,18 @@ const index = () => {
                 <Input type="search" placeholder="🔍  Search..." size="md" id="search" />
                 <QAnsPost></QAnsPost>
             </Grid>
+            < Grid h="1em" templateColumns='repeat(2, 1fr)' gap={"10px"} >
+    
             <QAnsBox></QAnsBox>
+            <QAnsBox></QAnsBox>
+            <Button colorScheme="orange" size="md">
+            ➕
+            </Button>
+            <Button colorScheme="orange" size="md">
+            ➕
+            </Button>
+            </Grid>
+            
         </QAnsAppBody>
     )
 }

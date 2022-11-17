@@ -26,8 +26,7 @@ const TagQA = () => {
 
     return (
         <QAnsAppBody>
-            <QAnsPost>
-                <CheckboxGroup colorScheme="white">
+            <CheckboxGroup colorScheme="white">
                     {TState.allTags.map(({ tagId, tagName }) => (
                         // DatingInterestTag component: Used for generating interactive tag
                         <QAnsTag
@@ -42,8 +41,6 @@ const TagQA = () => {
                         />
                     ))}
                 </CheckboxGroup>
-            </QAnsPost>
-
         </QAnsAppBody>
     )
 }

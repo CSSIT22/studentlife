@@ -69,7 +69,7 @@ export const DEFAULT_TAGS = [
     },
     {
         tagId: "18",
-        tagName: "favorite Thing",
+        tagName: "Favorite Thing",
     },
     {
         tagId: "19",
