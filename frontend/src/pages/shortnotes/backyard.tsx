@@ -85,9 +85,6 @@ const data = {
     course: ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"],
 }
 const pg = () => {
-    const [pName, setName] = useState("")
-    const [people, setPeoples] = useState<string[]>([])
-
     const li = [
         { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
         { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
@@ -160,6 +157,8 @@ const pg = () => {
 
 export default pg
 
+// const [pName, setName] = useState("")
+// const [people, setPeoples] = useState<string[]>([])
 // <>
 //     <h1>Inspiring sculptors:</h1>
 //     <input value={pName} onChange={(e) => setName(e.target.value)} />

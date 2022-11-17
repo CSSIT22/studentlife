@@ -1,6 +1,6 @@
 import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
 import Rsn from "../../components/shortnotes/rsnList"
 import SnList from "../../components/shortnotes/snList"
@@ -36,7 +36,7 @@ const index = () => {
     const dataFiltered = () => {
         setFiltered(data.sn.filter((items) => items.course == coursePicked))
     }
-
+    const navigate = useNavigate()
     const data = {
         sn: [
             {
@@ -182,6 +182,9 @@ const index = () => {
                                 onClick={() => {
                                     setSnPicked(sn.id)
                                     console.log(snPicked)
+                                    navigate({
+                                        pathname: "./" + "s/" + sn.id,
+                                    })
                                 }}
                             >
                                 <SnList topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
