@@ -23,7 +23,7 @@ function FriendList() {
                 <Box color={"black"} mr={-1}>
                     <IconButton aria-label="Search database" background={"white"} _hover={{ background: "default" }} icon={<SearchIcon />} />
                 </Box>
-                <Box width={"100%"} backgroundColor={"white"} color={"black"}>
+                <Box width={"100%"} backgroundColor={"white"} color={"black"} position="sticky">
                     <Input onChange={(e) => setSearch(e.target.value.toLowerCase())} placeholder="Search for friends" />
                 </Box>
             </HStack>

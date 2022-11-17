@@ -4,6 +4,9 @@ import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
 import { Box, extendTheme, Flex, Grid, GridItem } from "@chakra-ui/react"
+import { StickyContainer, Sticky, StickyChildArgs } from "react-sticky"
+import { JSXElementConstructor, ReactElement, useState } from "react"
+import { Autoplay } from "swiper"
 
 function index() {
     const breakpoints = {
@@ -14,8 +17,8 @@ function index() {
         "2xl": "1536px",
     }
 
-    // 3. Extend the theme
     const theme = extendTheme({ breakpoints })
+
     return (
         <>
             <Box bg="orange.50">

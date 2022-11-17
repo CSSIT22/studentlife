@@ -17,16 +17,23 @@ function BlogHistory() {
                 BLOG HISTORY
             </Text>
 
-            <Container padding="5">
-                <Box rounded="lg" mx={6} my={5} bg="black" p={10} color="white" textAlign={"center"}>
+            <Container padding="2" mx={2} alignContent="center" alignSelf="center">
+                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
                     Blog1
                 </Box>
 
-                <Box rounded="lg" mx={6} my={5} bg="black" p={10} color="white" textAlign={"center"}>
+                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
                     Blog2
                 </Box>
 
-                <Box rounded="lg" mx={6} my={5} bg="black" p={10} color="white" textAlign={"center"}>
+                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
+                    Blog3
+                </Box>
+
+                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
+                    Blog3
+                </Box>
+                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
                     Blog3
                 </Box>
             </Container>
