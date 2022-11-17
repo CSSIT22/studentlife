@@ -2,6 +2,7 @@ import { HStack, Stack } from "@chakra-ui/react"
 import DatingAllActivityBox from "src/components/dating/DatingAllActivityBox"
 import DatingAllActivityButton from "src/components/dating/DatingAllActivityButton"
 import DatingAppliedActivityButton from "src/components/dating/DatingAppliedActivityButton"
+import DatingCreatePollButton from "src/components/dating/DatingCreatePollButton"
 import DatingYourActivityButton from "src/components/dating/DatingYourActivityButton"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 
@@ -16,6 +17,7 @@ const AllActivityPoll = () => {
             <Stack pt="30px">
                 <DatingAllActivityBox />
             </Stack>
+            <DatingCreatePollButton />
         </DatingAppBody>
     )
 }

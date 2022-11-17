@@ -64,6 +64,7 @@ const CreateActivityPoll = () => {
     const [interests, setInterests] = useState(INTERESTS)
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
+    const [selectedInterestsNew, setSelectedInterestNew] = useState<String[] | String>([])
     const [tagIsClicked, setTagIsClicked] = useState(false)
 
     //Tost for error message when submit
@@ -103,9 +104,9 @@ const CreateActivityPoll = () => {
         date.toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })
         // IDK Why it worked
         // It should be (date > previous && date !== previous) === true
-        globalThis.isPassDate = (date < previous && date !== previous) === true // Set value for validation
+        globalThis.isPassDate = ((date < previous && date !== previous) || date.getFullYear() - today.getFullYear() > 1) === true // Set value for validation
         //console.log(today + " & " + date)
-        return (date < previous && date !== previous) === true
+        return ((date < previous && date !== previous) || date.getFullYear() - today.getFullYear() > 1) === true
     }
 
     function isInTimePast(d: any) {
@@ -128,14 +129,17 @@ const CreateActivityPoll = () => {
 
     function handleTopic() {
         globalThis.topic = []
-        for (let i = 0; i < selectedInterests.length; i++) {
+        // for (let i = 0; i < selectedInterests.length; i++) {
+        for (let i = 0; i < selectedInterestsNew.length; i++) {
             for (let j = 0; j < interests.length; j++) {
-                if (selectedInterests[i] === interests[j].interestId) {
+                // if (selectedInterests[i] === interests[j].interestId) {
+                if (selectedInterestsNew[i] === interests[j].interestId) {
                     globalThis.topic.push(interests[j].interestName)
                     break
                 }
             }
-            if (i !== selectedInterests.length - 1) {
+            // if (i !== selectedInterests.length - 1) {
+            if (i !== selectedInterestsNew.length - 1) {
                 globalThis.topic.push(", ")
             }
         }
@@ -165,7 +169,8 @@ const CreateActivityPoll = () => {
                     " Time: " +
                     time +
                     " Date & Time: " +
-                    { d: handleDateTime() } +
+                    // { d: handleDateTime() } +
+                    handleDateTime() +
                     " people: " +
                     sliderValue
             )
@@ -249,7 +254,7 @@ const CreateActivityPoll = () => {
                             </Flex>
                             <Modal
                                 onClose={() => {
-                                    onClose()
+                                    onClose(), setSelectedInterestNew(selectedInterests)
                                     //, (globalThis.topic = []), setSelectedInterest([])
                                 }}
                                 isOpen={isOpen}
@@ -283,7 +288,8 @@ const CreateActivityPoll = () => {
                                                     </Heading>
                                                     {/* numOfInterest will change when you select/deselect the tags */}
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
-                                                        {selectedInterests.length}
+                                                        {/* {selectedInterests.length} */}
+                                                        {selectedInterestsNew.length}
                                                     </Heading>
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
                                                         &nbsp;of 5 selected)
@@ -314,9 +320,12 @@ const CreateActivityPoll = () => {
                                                 interestId={interestId}
                                                 interestName={interestName}
                                                 onOpen={onOpen}
-                                                selectedInterests={selectedInterests}
-                                                numOfSelectedInterest={selectedInterests.length}
-                                                setSelectedInterest={setSelectedInterest}
+                                                // selectedInterests={selectedInterests}
+                                                // numOfSelectedInterest={selectedInterests.length}
+                                                // setSelectedInterest={setSelectedInterest}
+                                                selectedInterests={selectedInterestsNew}
+                                                numOfSelectedInterest={selectedInterestsNew.length}
+                                                setSelectedInterest={setSelectedInterestNew}
                                                 tagIsClicked={tagIsClicked}
                                                 setTagIsClicked={setTagIsClicked}
                                                 type={"topics"}
@@ -327,8 +336,10 @@ const CreateActivityPoll = () => {
                                     <ModalFooter>
                                         <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }} onClick={onClose}>
                                             <DatingInterestDynamicButton
-                                                numOfSelectedInterest={selectedInterests.length}
-                                                selectedInterests={selectedInterests}
+                                                // numOfSelectedInterest={selectedInterests.length}
+                                                numOfSelectedInterest={selectedInterestsNew.length}
+                                                // selectedInterests={selectedInterests}
+                                                selectedInterests={selectedInterestsNew}
                                                 tagIsClicked={tagIsClicked}
                                             />
                                         </GridItem>
@@ -339,7 +350,7 @@ const CreateActivityPoll = () => {
                                 <></>
                             ) : (
                                 <FormHelperText color="gray">
-                                    You have selected {handleTopic()} as {selectedInterests.length > 1 ? " the topics." : "the topic."}
+                                    You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."}
                                 </FormHelperText>
                             )}
                         </FormControl>
@@ -442,20 +453,18 @@ const CreateActivityPoll = () => {
                             isRequired
                             shadow="lg"
                         />
-                        {/* Somehow this two are switching IDK why*/}
-                        {/* It should be isNoDate then isInThePast(date) */}
-                        {/* {!isLongYear(date) ? (
-                            <FormHelperText></FormHelperText>
-                        ) : (
-                            <FormErrorMessage color="red">You scheduled an activity way too soon.</FormErrorMessage>
-                        )} */}
+
                         {isInThePast(date) ? (
                             <FormHelperText></FormHelperText>
                         ) : (
                             <FormErrorMessage color="red">You must provide a date.</FormErrorMessage>
                         )}
 
-                        {isNoDate ? <FormHelperText></FormHelperText> : <FormErrorMessage color="red">The date has passed.</FormErrorMessage>}
+                        {isNoDate ? (
+                            <FormHelperText></FormHelperText>
+                        ) : (
+                            <FormErrorMessage color="red">The date has passed or is too far from today.</FormErrorMessage>
+                        )}
                     </FormControl>
                     {/* Time input & error control */}
                     <FormControl isInvalid={!isValidTime} isRequired>
