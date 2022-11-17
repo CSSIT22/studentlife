@@ -55,11 +55,11 @@ const LikedYou = () => {
                 <DatingYouLikedButton backgroundColor="orange.600" />
             </HStack>
 
-            <Box display={{ base: "grid", md: "block" }} gridTemplateColumns="repeat(auto-fill, 170px)" gridGap="10px" justifyContent="center">
+            <Box display={{ base: "grid", md: "block" }} ml={{base: "5px", md: "0px"}} gridTemplateColumns="repeat(auto-fill, 165px)" gridGap="10px" justifyContent="center">
                 {HState.heart_history
                     .filter((el) => !giveToUser?.some((f) => f.UserId == el.UserId))
                     .map(({ UserId, Fname, Lname, Gender, Age, Faculty, url, interestId }) => (
-                        <Box key={UserId} w={{ base: "159px", md: "100%" }} ml="10px" mr="10px">
+                        <Box key={UserId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
                             <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
                                 <Box>
                                     <DatingCheckImage url={url} />
