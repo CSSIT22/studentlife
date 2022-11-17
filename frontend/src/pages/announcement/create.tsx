@@ -27,6 +27,30 @@ import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 
+export type addMoreLangType = {
+    id:Number
+    lang_id:Number,
+    topic:String,
+    detail:String
+}
+export type post = {
+    postId:Number,
+    lang_id:Number,
+    topic:String,
+    detail:String,
+    sender:String,
+    status:String,
+    pinStatus:Boolean,
+    isApprove:Boolean,
+    targetType:String,
+    targetValue:String,
+    postAt:Date,
+    expiredOfPost:Date,
+    expiredAfterDelete:Date |null , 
+    addMoreLang:addMoreLangType[] 
+}
+
+
 const create = () => {
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
@@ -72,39 +96,41 @@ const create = () => {
         detail: " The announcement request has been sent.",
         event: "OK",
     }
-    const [allPost, setAllPost] = React.useState(postInfoTest)
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
-        setAllPost([
-            ...allPost,
-            {
-                postId: allPost.length,
-                lang: "English",
-                topic: title,
-                detail: detail,
-                sender: "1234",
-                status: "waiting",
-                pinStatus: false,
-                isApprove: false,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: new Date(),
-                expiredOfPost: expired,
-                expiredAfterDelete: "",
-                addMoreLang: addMoreLang,
-            },
-        ])
-    }
-    console.log(allPost)
 
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
     const [targetType, setTargetType] = React.useState(String)
     const [targetValue, setTargetValue] = React.useState(String)
     const [expired, setExpired] = React.useState(Date)
-    const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
+    const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
+    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
+        setAllPost([
+            ...allPost,
+            {
+                postId:allPost.length,
+                lang_id:1000,
+                topic:title,
+                detail:detail,
+                sender:"SAMO-SIT",
+                status:"waiting",
+                pinStatus:false,
+                isApprove:false,
+                targetType:targetType,
+                targetValue:targetValue,
+                postAt:new Date(),
+                expiredOfPost:expired,
+                expiredAfterDelete:null,
+                addMoreLang:addMoreLang
+            }
+        ])
+    }
+    console.log(allPost)
+
+   
     // console.log(expired);
-    const addLang = (lang: string, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { lang: lang, topic: topic, detail: detail }])
+    const addLang = (lang: Number, topic: string, detail: string) => {
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length,lang_id: lang, topic: topic, detail: detail }])
     }
     // console.log(addMoreLang)
 
@@ -119,9 +145,10 @@ const create = () => {
         AddLang()
     }
     const decreaseCount = () => {
-        setCount(count - 1)
-        decreaseLang()
-        setAddMoreLang(addMoreLang.pop())
+           setCount(count - 1)
+            decreaseLang()
+            setAddMoreLang(addMoreLang.filter((el) => el.id < addMoreLang.length-1))
+       
     }
     // console.log(count)
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
@@ -133,12 +160,7 @@ const create = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-    // console.log(moreLangField);
-    // console.log(post);
-    // const submit =useSubmit()
-    // const handleSubmit = (e)=>{
-    //     e.preventDefault();
-    // }
+  
     return (
         <AppBody
             secondarynav={[
@@ -154,7 +176,7 @@ const create = () => {
                 onSubmit={(e) => {
                     onOpen()
                     e.preventDefault()
-                    addPost(topic, detail, targetType, targetValue, expired, addMoreLang)
+                    addPost(topic, detail, targetType, targetValue, new Date(expired), addMoreLang)
                 }}
             >
                 <Flex alignItems={"center"}>
@@ -184,7 +206,7 @@ const create = () => {
                 <Stack spacing={3} p="5">
                     <FormControl>
                         <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English"></Select>
+                        <Select isDisabled placeholder="English" value={1000}></Select>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Title</FormLabel>

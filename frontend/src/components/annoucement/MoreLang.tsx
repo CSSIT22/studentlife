@@ -28,9 +28,9 @@ const MoreLang: FC<{
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
                 <Select placeholder="Select language" onChange={(e) => setOtherLang(e.target.value)} disabled={disable}>
-                    <option>Thai</option>
-                    <option>Korea</option>
-                    <option>Japanese</option>
+                    <option value={1101}>Thai</option>
+                    <option value={1102}>Korea</option>
+                    <option value={1103}>Japanese</option>
                 </Select>
             </FormControl>
             <FormControl isRequired>
