@@ -4,7 +4,7 @@ import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import ModalForEvent from "../../../components/annoucement/ModalForEvent"
 import AppBody from "../../../components/share/app/AppBody"
-import { post } from "../create"
+import {post} from '@apiType/announcement'
 import { postInfoTest } from "../postInfoTest"
 
 const approvalDetail = () => {

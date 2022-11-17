@@ -6,7 +6,7 @@ import PostOnAnnouncementPage from "../../components/annoucement/PostOnAnnouncem
 import AppBody from "../../components/share/app/AppBody"
 import { Box, Flex, SimpleGrid, Spacer } from "@chakra-ui/react"
 import { postInfoTest } from "./postInfoTest"
-import { post } from "./create"
+import {post} from '@apiType/announcement'
 
 const index = () => {
     // const post = [

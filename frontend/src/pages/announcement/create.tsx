@@ -26,29 +26,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
-
-export type addMoreLangType = {
-    id:number
-    lang_id:number,
-    topic:string,
-    detail:string
-}
-export type post = {
-    postId:number,
-    lang_id:number,
-    topic:string,
-    detail:string,
-    sender:string,
-    status:string,
-    pinStatus:boolean,
-    isApprove:boolean,
-    targetType:string,
-    targetValue:string,
-    postAt:Date,
-    expiredOfPost:Date,
-    expiredAfterDelete:Date |null , 
-    addMoreLang:addMoreLangType[] 
-}
+import { addMoreLangType, post } from "@apiType/announcement"
 
 
 const create = () => {

@@ -7,7 +7,7 @@ import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import { Box, Flex } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { postInfoTest } from "./postInfoTest"
-import { post } from "./create"
+import {post} from '@apiType/announcement'
 
 const history = () => {
     const [isOpen, setIsOpen] = React.useState(false)

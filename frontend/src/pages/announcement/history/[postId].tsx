@@ -24,7 +24,7 @@ import ModalForEvent from "../../../components/annoucement/ModalForEvent"
 import MoreLang from "../../../components/annoucement/MoreLang"
 import MoreLangForEdit from "../../../components/annoucement/MoreLangForEdit"
 import AppBody from "../../../components/share/app/AppBody"
-import { addMoreLangType, post } from "../create"
+import {addMoreLangType, post} from '@apiType/announcement'
 import detail from "../detail/[postId]"
 import { postInfoTest } from "../postInfoTest"
 

@@ -4,11 +4,8 @@ import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
+import {languageInfo} from '@apiType/announcement'
 
-export type languageInfo = {
-    lang_id:number,
-    langName:string
-}
 
 export let langInfos:languageInfo[]  = [
     {lang_id:1000, langName:"English"},
