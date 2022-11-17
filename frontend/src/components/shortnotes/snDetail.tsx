@@ -103,6 +103,7 @@ const liList: FC<{
                             {state.isChecked && (
                                 // <Box bg={"white"} p={4} shadow={"md"}>
                                 <BsCheckLg fontSize={30} color={"#e65d10"} />
+                                
                                 // </Box>
                             )}
                         </Flex>
@@ -112,7 +113,7 @@ const liList: FC<{
         )
     }
     const { value, getCheckboxProps } = useCheckboxGroup({
-        // defaultValue: [""],
+        //defaultValue: ["grehg343-gj54-4bad-9gre-fkg9fidhjd89"],
     })
     return (
         <Box>
@@ -198,9 +199,6 @@ const liList: FC<{
                     <DrawerHeader>
                         <HStack gap={4}>
                             <Heading size={"lg"}> My library</Heading>
-                            {/*<Link to={"./library/newLibrary"}>
-                                    <Button colorScheme="orange">New library</Button>
-                                </Link>*/}
                         </HStack>
                     </DrawerHeader>
                     <DrawerBody>
@@ -218,7 +216,7 @@ const liList: FC<{
                                 </Box>
                             ))} */}
                             {li.map((li, key) => (
-                                <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)} />
+                                <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)}/>
                             ))}
                         </Stack>
                     </DrawerBody>
