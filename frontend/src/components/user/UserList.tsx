@@ -1,11 +1,14 @@
 import { Avatar, Flex, HStack, Box, Text, Button } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { FiPlusSquare, FiMinusSquare } from "react-icons/fi"
-const UserList: FC<{ isSelected?: boolean; userProfile: string; userRole?: string; userName: string }> = ({
+import { people } from "./Mock_UpData"
+
+const UserList: FC<{ isSelected?: boolean; userProfile: string; userRole?: string; userName: string; lastName: string }> = ({
     userProfile,
     userName,
     userRole,
     isSelected,
+    lastName,
 }) => {
     const [isSelect, setIsSelect] = React.useState(true)
     const handleOnSelect = () => {
@@ -25,15 +28,22 @@ const UserList: FC<{ isSelected?: boolean; userProfile: string; userRole?: strin
             <Box p={2} borderRadius="md">
                 <Flex direction={"row"} gap={2} justify={"space-between"} mr={2} ml={2}>
                     <HStack gap={2}>
+                        {/* {people.map((person) => (
+                        <div key={person.id}> */}
                         <Avatar boxSize="55px" src={userProfile} name={userName} />
                         <div>
                             <Box display="flex" alignItems="center" gap={1}>
                                 <Text as="b" fontSize="sm">
                                     {userName}
                                 </Text>
+                                <Text as="b" fontSize="sm">
+                                    {lastName}
+                                </Text>
                             </Box>
                             {/* <Text fontSize="sm">{userRole}</Text> */}
                         </div>
+                        {/* </div>
+                    ))} */}
                     </HStack>
                     <HStack width={"6rem"} justify={{ base: "flex-end" }}>
                         {isSelect ? (

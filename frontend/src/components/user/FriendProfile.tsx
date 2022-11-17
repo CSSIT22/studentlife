@@ -53,7 +53,7 @@ export default function SimpleThreeColumns() {
     const [scrollBehavior, setScrollBehavior] = React.useState("inside")
     const btnRef = React.useRef(null)
 
-    const [isFollow, setIsFollow] = useState(false)
+    const [isFollow, setIsFollow] = useState(true)
 
     function handleClick() {
         setIsFollow(!isFollow)
@@ -151,22 +151,46 @@ export default function SimpleThreeColumns() {
                     </Stack>
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "", md: "10" }}>
-                    <ButtonGroup color="white" variant="outline" spacing={{ base: "1.5", sm: "3" }}>
+                    <ButtonGroup spacing={{ base: "1.5", sm: "3" }}>
+                        <HStack position="initial">
+                            {isFollow ? (
+                                <Button
+                                    _hover={{ cursor: "pointer", background: "orange.200" }}
+                                    onClick={() => {
+                                        handleClick()
+                                        setIsFolCount(FolCount + 1)
+                                    }}
+                                    shadow={"lg"}
+                                    colorScheme="orange"
+                                    color="black"
+                                    variant="solid"
+                                >
+                                    Follow
+                                </Button>
+                            ) : (
+                                <Button
+                                    _hover={{ cursor: "pointer", background: "" }}
+                                    onClick={() => {
+                                        handleClick()
+                                        setIsFolCount(FolCount - 1)
+                                    }}
+                                    shadow={"lg"}
+                                    colorScheme="orange"
+                                    variant="outline"
+                                >
+                                    Following
+                                </Button>
+                            )}
+                        </HStack>
                         <Button
                             pl={5}
                             bg="orange.600"
                             _hover={{ background: "orange.200" }}
+                            color="black"
                             position="initial"
                             value="inside"
                             shadow={"lg"}
-                            onClick={() => {
-                                handleClick()
-                                setIsFolCount(FolCount + 1)
-                            }}
                         >
-                            {isFollow ? "Following" : "Follow"}
-                        </Button>
-                        <Button pl={5} bg="orange.600" _hover={{ background: "orange.200" }} position="initial" value="inside" shadow={"lg"}>
                             Message
                         </Button>{" "}
                         <Menu>

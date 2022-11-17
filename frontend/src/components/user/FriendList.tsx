@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import UserList from "../user/UserList"
+import { people } from "./Mock_UpData"
 
 function FriendList() {
     const [search, setSearch] = useState("")
@@ -23,7 +24,7 @@ function FriendList() {
                     <IconButton aria-label="Search database" background={"white"} _hover={{ background: "default" }} icon={<SearchIcon />} />
                 </Box>
                 <Box width={"100%"} backgroundColor={"white"} color={"black"}>
-                    <Input onChange={(e) => setSearch(e.target.value)} placeholder="Search for friends" />
+                    <Input onChange={(e) => setSearch(e.target.value.toLowerCase())} placeholder="Search for friends" />
                 </Box>
             </HStack>
 
@@ -48,39 +49,11 @@ function FriendList() {
                 }}
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                    <Box>
-                        <UserList userProfile={""} userName={"Kevinindy"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Vatcharamai Rodring"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Daddy Dol"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Passakorn Puttama"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Warintorn Piewkhao"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Pakkawat The Flirter"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Hi My Melody"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Fahsai The Diamondhead"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Gift the sick"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Oilly"} />
-                    </Box>
-                    <Box>
-                        <UserList userProfile={""} userName={"Parn the kid"} />
-                    </Box>
+                    {people
+                        .filter((user) => user.name.toLowerCase().includes(search) || user.last.toLowerCase().includes(search))
+                        .map((user) => (
+                            <UserList userProfile={""} userName={user.name} key={user.id} lastName={user.last} />
+                        ))}
                 </Flex>
             </Box>
         </Box>
