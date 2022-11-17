@@ -127,7 +127,7 @@ const pg = () => {
                         <Flex w={"100%"} h={"100%"} justifyContent={"end"} alignItems={"center"} pr={30}>
                             {/* {state.isChecked && <Box w={"100%"} h={"100%"} bg="orange.500" rounded={8} />} */}
 
-                            {state.isChecked ? <BsCheckLg fontSize={30} color={"#e65d10"} />:null}
+                            {state.isChecked ? <BsCheckLg fontSize={30} color={"#e65d10"} /> : null}
                         </Flex>
                     </GridItem>
                 </Grid>
