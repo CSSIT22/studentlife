@@ -19,7 +19,8 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
                 detail: true,
             },
         })
-        return res.status(200).json({ tokens: result })
+        const response = result.filter((item) => item.token !== req.session.id)
+        return res.status(200).json({ tokens: response })
     } catch (err: any) {
         return res.status(400).json({ message: err })
     }
