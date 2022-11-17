@@ -18,7 +18,7 @@ const HeaderPage: FC<{
         // <Flex alignItems={"center"}>
         <>
             <Show below="lg">
-                <Text as={"b"} fontSize="xl" >
+                <Text as={"b"} fontSize="xl">
                     <GrClose />
                 </Text>
             </Show>

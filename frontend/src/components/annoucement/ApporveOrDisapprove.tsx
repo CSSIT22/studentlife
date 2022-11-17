@@ -9,8 +9,8 @@ const ApproveOrDisapprove: FC<{
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
     selectPost: number
     status: string
-    isApprove:boolean
-}> = ({ allPost, setAllPost, selectPost, status,isApprove }) => {
+    isApprove: boolean
+}> = ({ allPost, setAllPost, selectPost, status, isApprove }) => {
     const toggle = (changeTo: string) => {
         if (status == "waiting") {
             setAllPost(

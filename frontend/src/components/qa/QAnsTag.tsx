@@ -1,4 +1,4 @@
-import { Box, Checkbox } from '@chakra-ui/react';
+import { Box, Checkbox } from "@chakra-ui/react"
 import { Dispatch, FC, SetStateAction } from "react"
 
 const QAnsTag: FC<{
