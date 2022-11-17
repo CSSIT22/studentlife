@@ -1,8 +1,8 @@
 import { Router } from "express"
 import passport from "passport"
 import { Request, Response } from "express"
-import UserAgent from "user-agents"
 import { verifyUser } from "../middleware/verifyUser"
+import UAParser from "ua-parser-js"
 
 const router = Router()
 
@@ -22,9 +22,10 @@ router.get(
     }),
     verifyUser,
     async (req: Request, res: Response) => {
-        const device = new UserAgent(req.headers["user-agent"])
         const { prisma } = res
         try {
+            console.log(req.headers["user-agent"])
+            const device1 = new UAParser(req.headers["user-agent"])
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
@@ -34,8 +35,8 @@ router.get(
                             detail: {
                                 create: {
                                     loginDate: new Date(),
-                                    deviceInfo: device.data.deviceCategory || "Unknow",
-                                    ip: req.ip,
+                                    deviceInfo: (device1.getOS().name || "") + (device1.getOS().version || "") || "Unknow",
+                                    ip: device1.getBrowser().name || "",
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
                                 },
                             },
