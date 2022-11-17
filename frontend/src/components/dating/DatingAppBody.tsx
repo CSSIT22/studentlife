@@ -43,7 +43,7 @@ const DatingAppBody = (props: any) => {
                     Icon: isMobile ? YouAreMatchWithWhiteImg : YouAreMatchWithBlackImg,
                 },
                 {
-                    name: "Activity poll",
+                    name: "Activity polls",
                     to: "/dating/poll",
                     Icon: isMobile ? ActivityPollWhiteImg : ActivityPollBlackImg,
                 },
