@@ -1,13 +1,11 @@
 import { Request, Response } from "express"
 import calExp from "../expsystem/calExp"
-// import calExp from "../expsystem/calexp"
 
 const getExp = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user?.userId || ""
         const checkexp = await prisma.eXP.findFirst({ where: { userId } })
-        // calExp(prisma, req.user?.userId || "", "chatAddfriend")
         if (checkexp === null) {
             await prisma.eXP.create({
                 data: {
@@ -22,11 +20,9 @@ const getExp = async (req: Request, res: Response) => {
         res.json({
             exp: exp.currentXP,
         })
-        console.log(exp)
     } catch (err) {
         res.status(400).send("Error To Get Your CurrentExp")
     }
 }
 
 export default getExp
-// calExp(res.prisma, userId)
