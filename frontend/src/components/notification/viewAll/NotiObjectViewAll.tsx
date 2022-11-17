@@ -96,7 +96,7 @@ const NotiObjectViewAll: FC<{
     function showDescription() {
         return (
             <Stack direction={"row"}>
-                <div dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
+                <Text dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
             </Stack>
         )
     }
@@ -122,15 +122,7 @@ const NotiObjectViewAll: FC<{
     }
 
     return (
-        <Box
-            as="button"
-            bg={"white"}
-            _hover={{ bg: "#cdcdcd", transitionDuration: "0.2s" }}
-            transitionDuration="0.2s"
-            borderRadius="2xl"
-            padding={2}
-            key={id}
-        >
+        <Box as="button" bg={"white"} _hover={{ bg: "#cdcdcd", transitionDuration: "0.2s" }} transitionDuration="0.2s" borderRadius="2xl" padding={2}>
             <a href={link}>
                 <Stack direction={"row"} spacing={12}>
                     <Box>
@@ -140,7 +132,7 @@ const NotiObjectViewAll: FC<{
                             </Center>
                             <Center>{showUser()}</Center>
                             <Stack direction={"row"} spacing={300} padding={5}>
-                                <Text fontSize={"sm"}>{showDescription()}</Text>
+                                {showDescription()}
                             </Stack>
                         </Stack>
                     </Box>

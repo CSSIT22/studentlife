@@ -75,24 +75,16 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             }
         }
     }
-    console.log(listDay)
+    // console.log(listDay)
 
     return (
         <Box>
             {sortedList.map((el) => {
                 return (
-                    <Box>
-                        <Text>{showDate(el.date)}</Text>
+                    <Box key={el.id}>
+                        {showDate(el.date)}
                         <Stack spacing={3}>
-                            <NotiObject
-                                key={el.id}
-                                id={el.id}
-                                userId={el.user}
-                                description={el.description}
-                                isRead={el.isRead}
-                                date={el.date}
-                                link={el.link}
-                            />
+                            <NotiObject id={el.id} userId={el.user} description={el.description} isRead={el.isRead} date={el.date} link={el.link} />
                         </Stack>
                     </Box>
                 )

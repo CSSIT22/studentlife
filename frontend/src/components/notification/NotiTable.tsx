@@ -50,6 +50,34 @@ const NotiTable = () => {
             return <NotiList selectedList={notiListModule}></NotiList>
         }
     }
+    function ShowSetting() {
+        const { isOpen, onOpen, onClose } = useDisclosure()
+
+        return (
+            <Center>
+                <Button size={"1em"} onClick={onOpen}>
+                    <SettingsIcon color="orange.500" />
+                </Button>
+                <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>
+                            <Text align={"center"}>Notification Setting</Text>
+                        </ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <NotiSetting />
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
+                                Confirm
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </Center>
+        )
+    }
     return (
         <Box>
             <Flex padding={3} paddingBottom={0}>
@@ -60,9 +88,7 @@ const NotiTable = () => {
                 <Box>
                     <Stack direction={"row"}>
                         <MarkRead />
-                        <Button size={"1em"} bg={"transparent"}>
-                            <ShowSetting />
-                        </Button>
+                        {ShowSetting()}
                     </Stack>
                 </Box>
             </Flex>
@@ -79,35 +105,6 @@ const NotiTable = () => {
                 </Show>
             </Center>
         </Box>
-    )
-}
-function ShowSetting() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    return (
-        <Center>
-            <Button size={"1em"} onClick={onOpen}>
-                <SettingsIcon color="orange.500" />
-            </Button>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>
-                        <Text align={"center"}>Notification Setting</Text>
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        {" "}
-                        <NotiSetting />
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
-                            Confirm
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </Center>
     )
 }
 
