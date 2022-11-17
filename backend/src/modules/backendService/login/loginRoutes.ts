@@ -1,6 +1,6 @@
 import { Router } from "express"
 import passport from "passport"
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { verifyUser } from "../middleware/verifyUser"
 import UAParser from "ua-parser-js"
 
@@ -8,6 +8,11 @@ const router = Router()
 
 router.get(
     "/microsoft",
+    (req: Request, res: Response, next: NextFunction) => {
+        if (!req.user) return next()
+        console.log("already login")
+        return res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
+    },
     passport.authenticate("microsoft", {
         prompt: "select_account",
         session: true,
