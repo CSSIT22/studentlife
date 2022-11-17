@@ -28,22 +28,22 @@ import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 
 export type addMoreLangType = {
-    id:Number
-    lang_id:Number,
-    topic:String,
-    detail:String
+    id:number
+    lang_id:number,
+    topic:string,
+    detail:string
 }
 export type post = {
-    postId:Number,
-    lang_id:Number,
-    topic:String,
-    detail:String,
-    sender:String,
-    status:String,
+    postId:number,
+    lang_id:number,
+    topic:string,
+    detail:string,
+    sender:string,
+    status:string,
     pinStatus:Boolean,
     isApprove:Boolean,
-    targetType:String,
-    targetValue:String,
+    targetType:string,
+    targetValue:string,
     postAt:Date,
     expiredOfPost:Date,
     expiredAfterDelete:Date |null , 
@@ -129,7 +129,7 @@ const create = () => {
 
    
     // console.log(expired);
-    const addLang = (lang: Number, topic: string, detail: string) => {
+    const addLang = (lang: number, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { id: addMoreLang.length,lang_id: lang, topic: topic, detail: detail }])
     }
     // console.log(addMoreLang)

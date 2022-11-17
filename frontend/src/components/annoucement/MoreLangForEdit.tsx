@@ -5,17 +5,18 @@ import { BsPlusCircleFill } from "react-icons/bs"
 const MoreLangForEdit: FC<{
     onDecrease: Function
     addLang: Function
-    selectLang: string
+    id:number
+    selectLang: number
     title: string
     dt: string
     onAdd: Function
     add: boolean
-}> = ({ onDecrease, addLang, selectLang, title, dt, onAdd, add }) => {
+}> = ({ onDecrease, addLang, selectLang, title, dt, onAdd, add ,id}) => {
     const [otherLang, setOtherLang] = React.useState(selectLang)
     const [topic, setTopic] = React.useState(title)
     const [detail, setDetail] = React.useState(dt)
     const [disable, setDisable] = React.useState(false)
-    console.log(disable)
+    // console.log(disable)
 
     return (
         <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#DDDDDD"} my="10">
@@ -27,17 +28,17 @@ const MoreLangForEdit: FC<{
                 variant="solid"
                 colorScheme="blackAlpha"
                 mb="2rem"
-                onClick={() => onDecrease()}
+                onClick={() => onDecrease(id)}
             >
                 <TagLabel>Other Languages</TagLabel>
                 <TagCloseButton />
             </Tag>
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
-                <Select placeholder="Select language" onChange={(e) => setOtherLang(e.target.value)} disabled={add} value={otherLang}>
-                    <option>Thai</option>
-                    <option>Korea</option>
-                    <option>Japanese</option>
+                <Select placeholder="Select language" onChange={(e) => setOtherLang(parseInt(e.target.value+""))} disabled={add} value={otherLang}>
+                    <option value={1001}>Thai</option>
+                    <option value={1002}>Korea</option>
+                    <option value={1003}>Japanese</option>
                 </Select>
             </FormControl>
             <FormControl isRequired>

@@ -24,6 +24,7 @@ import ModalForEvent from "../../../components/annoucement/ModalForEvent"
 import MoreLang from "../../../components/annoucement/MoreLang"
 import MoreLangForEdit from "../../../components/annoucement/MoreLangForEdit"
 import AppBody from "../../../components/share/app/AppBody"
+import { addMoreLangType, post } from "../create"
 import detail from "../detail/[postId]"
 import { postInfoTest } from "../postInfoTest"
 
@@ -34,6 +35,8 @@ const history = () => {
     const postParams = allPost.filter((el) => {
         return el.postId == parseInt(params.postId + "")
     })
+    // console.log(allPost);
+    
     // console.log(postParams[0].addMoreLang.length)
 
     const tgType = postParams.map((el) => {
@@ -60,7 +63,8 @@ const history = () => {
     // console.log(postParams);
     const moreLangLength = postParams[0].addMoreLang.length
 
-    //  ยังเคลียร์ field value ตอนเลือก type ใหม่ไม่ได้
+    // console.log(epd[0].getFullYear()+"-"+epd[0].getMonth()+"-"+epd[0].getDate());
+    
 
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
@@ -74,32 +78,13 @@ const history = () => {
         detail: " The announcement request has been sent.",
         status: "edit",
     }
-    const [post, setPost] = React.useState(Array<any>)
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
-        setPost([
-            {
-                postId: Math.random(),
-                userId: "123456",
-                lang: "English",
-                topic: title,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: Date.now(),
-                expired: expired,
-                status: "waiting",
-                isApprove: false,
-                addMoreLang: addMoreLang,
-            },
-            ...post,
-        ])
-    }
+    const [post, setPost] = React.useState<post[]>([])
     // console.log(post);
     const [topic, setTopic] = React.useState(tp[0])
     const [detail, setDetail] = React.useState(dt[0])
     const [targetType, setTargetType] = React.useState(tgType[0])
     const [targetValue, setTargetValue] = React.useState(tgValue[0])
-    const [expired, setExpired] = React.useState(epd[0])
+    const [expired, setExpired] = React.useState<string>(epd[0].getFullYear()+"-"+epd[0].getMonth()+"-"+epd[0].getDate())
     // console.log("origin: "+tgType[0]+" new: "+targetType);
     // console.log("target value "+targetValue);
 
@@ -134,9 +119,8 @@ const history = () => {
             return ""
         }
     }
-    // remain this part
-    const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
-    // console.log(expired);
+    const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
+    // console.log(addMoreLang);
     const updatePost = () => {
         setAllPost(
             allPost.map((el) => {
@@ -145,7 +129,7 @@ const history = () => {
                     el.detail = detail
                     el.targetType = targetType
                     el.targetValue = targetValue
-                    el.expiredOfPost = expired
+                    el.expiredOfPost = new Date(expired)
                     el.addMoreLang = addMoreLang
                 }
                 return el
@@ -161,8 +145,8 @@ const history = () => {
     // console.log(allPost)
     // console.log(addMoreLang)
 
-    const addLang = (lang: string, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { lang: lang, topic: topic, detail: detail }])
+    const addLang = (lang: number, topic: string, detail: string) => {
+        setAddMoreLang([...addMoreLang, { id:addMoreLang.length,lang_id: lang, topic: topic, detail: detail }])
     }
     // console.log(addMoreLang)
     const [count, setCount] = React.useState(0)
@@ -170,10 +154,10 @@ const history = () => {
         setCount(count + 1)
         AddLang()
     }
-    const decreaseCount = () => {
+    const decreaseCount = (id:number) => {
         setCount(count - 1)
         decreaseLang()
-        setAddMoreLang(addMoreLang.pop())
+        setAddMoreLang(addMoreLang.filter((el) => el.id != id))
     }
     // console.log(count)
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
@@ -200,12 +184,13 @@ const history = () => {
             return addMoreLang.map((el) => {
                 return (
                     <MoreLangForEdit
+                        id={el.id}
                         onDecrease={decreaseCount}
                         addLang={addLang}
-                        selectLang={el.lang}
+                        selectLang={el.lang_id}
                         title={el.topic}
                         dt={el.detail}
-                        key={Math.random()}
+                        key={el.id}
                         onAdd={onAdd}
                         add={true}
                     />
@@ -216,11 +201,12 @@ const history = () => {
                 return (
                     <MoreLangForEdit
                         onDecrease={decreaseCount}
+                        id={el.id}
                         addLang={addLang}
-                        selectLang={el.lang}
+                        selectLang={el.lang_id}
                         title={el.topic}
                         dt={el.detail}
-                        key={Math.random()}
+                        key={el.id}
                         onAdd={onAdd}
                         add={false}
                     />
