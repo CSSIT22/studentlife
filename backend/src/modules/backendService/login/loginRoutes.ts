@@ -1,14 +1,18 @@
 import { Router } from "express"
 import passport from "passport"
-import { Request, Response } from "express"
-import UserAgent from "user-agents"
+import { NextFunction, Request, Response } from "express"
 import { verifyUser } from "../middleware/verifyUser"
-import DeviceDetector from "node-device-detector"
+import UAParser from "ua-parser-js"
 
 const router = Router()
 
 router.get(
     "/microsoft",
+    (req: Request, res: Response, next: NextFunction) => {
+        if (!req.user) return next()
+        console.log("already login")
+        return res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
+    },
     passport.authenticate("microsoft", {
         prompt: "select_account",
         session: true,
@@ -23,17 +27,10 @@ router.get(
     }),
     verifyUser,
     async (req: Request, res: Response) => {
-        // const device = new UserAgent(req.headers["user-agent"])
-        // console.log(req.headers["user-agent"])
-        const detector = new DeviceDetector({
-            clientIndexes: true,
-            deviceIndexes: true,
-            deviceAliasCode: true,
-        })
-        const result = detector.detect(req.headers["user-agent"] || "")
-        // console.log(result)
         const { prisma } = res
         try {
+            console.log(req.headers["user-agent"])
+            const device1 = new UAParser(req.headers["user-agent"])
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
@@ -43,8 +40,8 @@ router.get(
                             detail: {
                                 create: {
                                     loginDate: new Date(),
-                                    deviceInfo: result.device.type,
-                                    ip: req.ip,
+                                    deviceInfo: (device1.getOS().name || "") + (device1.getOS().version || "") || "Unknow",
+                                    ip: device1.getBrowser().name || "",
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
                                 },
                             },
@@ -71,13 +68,7 @@ router.get("/logout", async (req, res) => {
         }
         try {
             const { prisma } = res
-            // const device = new UserAgent(req.headers["user-agent"])
-            const detector = new DeviceDetector({
-                clientIndexes: true,
-                deviceIndexes: true,
-                deviceAliasCode: true,
-            })
-            const result = detector.detect(req.headers["user-agent"] || "")
+            const device1 = new UAParser(req.headers["user-agent"])
 
             await prisma.logout_Info.create({
                 data: {
@@ -85,8 +76,8 @@ router.get("/logout", async (req, res) => {
                     token: sessid,
                     detail: {
                         create: {
-                            deviceInfo: result.device.type,
-                            ip: req.ip,
+                            deviceInfo: (device1.getOS().name || "") + (device1.getOS().version || "") || "Unknow",
+                            ip: device1.getBrowser().name || "",
                             logoutDate: new Date(),
                         },
                     },
