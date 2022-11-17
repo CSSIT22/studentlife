@@ -3,10 +3,9 @@ import React, { FC } from "react"
 import { FiPlusSquare, FiMinusSquare } from "react-icons/fi"
 import { people } from "./Mock_UpData"
 
-const UserList: FC<{ isSelected?: boolean; userProfile: string; userRole?: string; userName: string; lastName: string }> = ({
+const UserList: FC<{ isSelected?: boolean; userProfile: string; userName: string; lastName: string }> = ({
     userProfile,
     userName,
-    userRole,
     isSelected,
     lastName,
 }) => {

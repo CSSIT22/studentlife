@@ -29,4 +29,29 @@ export const people = [
         name: "Mark",
         last: "Tiger",
     },
+    {
+        id: 7,
+        name: "Gift",
+        last: "TheSick",
+    },
+    {
+        id: 8,
+        name: "Fahsai",
+        last: "Diamondhead",
+    },
+    {
+        id: 9,
+        name: "Oil",
+        last: "NOLastname",
+    },
+    {
+        id: 10,
+        name: "Parn",
+        last: "TheKid",
+    },
+    {
+        id: 11,
+        name: "Almas",
+        last: "TheBaek",
+    },
 ]

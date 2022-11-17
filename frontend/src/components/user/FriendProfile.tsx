@@ -162,7 +162,7 @@ export default function SimpleThreeColumns() {
                                     }}
                                     shadow={"lg"}
                                     colorScheme="orange"
-                                    color="black"
+                                    color="White"
                                     variant="solid"
                                 >
                                     Follow
@@ -186,7 +186,7 @@ export default function SimpleThreeColumns() {
                             pl={5}
                             bg="orange.600"
                             _hover={{ background: "orange.200" }}
-                            color="black"
+                            color="White"
                             position="initial"
                             value="inside"
                             shadow={"lg"}
