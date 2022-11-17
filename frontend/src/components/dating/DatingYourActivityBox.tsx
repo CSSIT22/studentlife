@@ -11,15 +11,31 @@ const DatingYourActivityBox = () => {
     const [poll, setPoll] = useState(POLL)
 
     function handlePollDate(dateTime: string) {
-        return dateTime.substring(0, 10)
+        const chooseDate = new Date(dateTime)
+        // console.log(chooseDate.getMonth())
+        return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
     }
 
     function hanlePollTime(dateTime: string) {
         const time = new Date(dateTime)
-        time.toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })
-        const t = time.toString()
-        return t
-        //t.substring(11, 16)
+        let hours = time.getHours()
+        let minutes = time.getMinutes()
+        let ampm = hours >= 12 ? "pm" : "am"
+        hours = hours % 12
+        hours = hours ? hours : 12 // the hour '0' should be '12'
+        let minute = minutes < 10 ? "0" + minutes : minutes
+        let strTime = hours + ":" + minute + " " + ampm
+        return strTime
+    }
+
+    function handlePeople(min: number, max: number) {
+        if (max === min && max === 1) {
+            return min + " person"
+        } else if (max === min && max !== 1) {
+            return min + " people"
+        } else {
+            return min + "-" + max + " people"
+        }
     }
 
     return (
@@ -49,15 +65,13 @@ const DatingYourActivityBox = () => {
                             {values.pollName}
                         </Heading>
                         <Text fontSize="16px" pb="20px">
-                            Description: {values.pollText}
+                            {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
                         </Text>
                         <Text fontSize="16px">Location: {values.pollPlace}</Text>
 
                         <Text fontSize="16px">Date: {globalThis.date}</Text>
                         <Text fontSize="16px">Time: {globalThis.time}</Text>
-                        <Text fontSize="16px">
-                            Number of people: {values.participantMin}-{values.participantMax} people
-                        </Text>
+                        <Text fontSize="16px">Number of people: {handlePeople(values.participantMin, values.participantMax)}</Text>
                         <Flex justifyContent="end">
                             <Button
                                 display="flex-end"
@@ -68,7 +82,7 @@ const DatingYourActivityBox = () => {
                                 // onClick={() => handleSubmit()}
                                 m="10px"
                                 p="5px"
-                                mt="30px"
+                                mt="10px"
                             >
                                 <Center>
                                     <BsFillPeopleFill />
