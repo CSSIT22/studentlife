@@ -9,13 +9,7 @@ const QAnsAppBody = (props: any) => {
     md: true,
   })
 
-  if(isMobile) {
-  return (
-    <AppBody>
-      {props.children}
-    </AppBody>
-  ) 
-  } else {
+
   
   return (
       <AppBody 
@@ -38,6 +32,6 @@ const QAnsAppBody = (props: any) => {
     </AppBody>
     )
   }
-}
+
 
 export default QAnsAppBody

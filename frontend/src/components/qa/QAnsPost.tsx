@@ -7,7 +7,7 @@ const QAnsPost = (props: any) => {
     return (
         <>
 
-            <FormControl display="flex" alignItems="left">
+            <FormControl display="flex" alignItems="right">
                 <FormLabel htmlFor="email-alerts" mb="0">
                     🕵
                 </FormLabel>
