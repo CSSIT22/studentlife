@@ -169,7 +169,7 @@ const create = () => {
                     </Show>
                     <Spacer />
                     <Box textAlign={"right"}>
-                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
+                        <Input type={"submit"} value="Announce" backgroundColor={"#DD6B20"} color="white" cursor="pointer" shadow={"md"} />
                         <ModalForEvent
                             isOpen={isOpen}
                             onClose={onClose}
@@ -215,7 +215,7 @@ const create = () => {
                             {moreLangField.map((el) => {
                                 return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
                             })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"}>
+                            <Tag size={"lg"} key={"lg"} variant="subtle" backgroundColor={"#DD6B20"} color="white" onClick={increaseCount} cursor={"pointer"}>
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>

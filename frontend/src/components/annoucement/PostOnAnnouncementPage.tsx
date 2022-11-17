@@ -13,9 +13,9 @@ const PostOnAnnouncementPage: FC<{
 }> = ({ topic, sender, status, allPost, setAllPost, id }) => {
     const state = (stat: boolean) => {
         if (stat) {
-            return <BsPinAngleFill fontSize={"2rem"} onClick={toggle} />
+            return <BsPinAngleFill fontSize={"2rem"} onClick={toggle} color="#E65300" />
         } else {
-            return <BsPinAngle fontSize="2rem" onClick={toggle} />
+            return <BsPinAngle fontSize="2rem" onClick={toggle} color="#7A8A99" />
         }
     }
     const toggle = () => {
@@ -30,7 +30,7 @@ const PostOnAnnouncementPage: FC<{
     }
 
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg">
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#white" rounded="lg" shadow={"md"}>
             <Grid templateColumns="8fr 1fr" gap={4}>
                 <GridItem h="10">
                     <Link to={`/announcement/detail/${id}`}>

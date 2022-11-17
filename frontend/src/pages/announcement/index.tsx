@@ -48,7 +48,7 @@ const index = () => {
             <Flex alignItems={"center"}>
                 <HeaderPage head="Announcement" />
                 <Link to={"/announcement/create"}>
-                    <IoIosAddCircle fontSize={"2rem"} />
+                    <IoIosAddCircle fontSize={"2rem"} color="#E65300" />
                 </Link>
             </Flex>
             {allPost
