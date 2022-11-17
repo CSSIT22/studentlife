@@ -21,7 +21,7 @@ const NavBarMobileButton: FC<{ to: string; Icon: IconType | ComponentWithAs<"spa
                     <Icon />
                 </Heading>
             ) : (
-                <Icon size="sm" />
+                (Icon as any)
             )}
         </HStack>
     )
