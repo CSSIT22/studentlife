@@ -8,7 +8,31 @@ import Li from "../../components/shortnotes/liList"
 import BtnMl from "../../components/shortnotes/btnMyLibrary"
 import BtnNs from "../../components/shortnotes/btnNewShortnote"
 import { FaLock } from "react-icons/fa"
+import API from "src/function/API"
 const index = () => {
+    const [sn, setSn] = useState([])
+    useEffect(() => {
+        API.get("/shortnotes/getShortnotes").then((item) => {
+            setSn(item.data)
+            console.log(item.data)
+        })
+    }, [])
+
+    const [rsn, setRsn] = useState([])
+    useEffect(() => {
+        API.get("/shortnotes/getResentShortnotes").then((item) => {
+            setRsn(item.data)
+            console.log(item.data)
+        })
+    }, [])
+
+    const [course, setCourse] = useState([])
+    useEffect(() => {
+        API.get("/shortnotes/getCourses").then((item) => {
+            setCourse(item.data)
+            console.log(item.data)
+        })
+    }, [])
     const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
     const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
     const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
@@ -34,90 +58,90 @@ const index = () => {
         setCoursePicked(e.target.value)
     }
     const dataFiltered = () => {
-        setFiltered(data.sn.filter((items) => items.course == coursePicked))
+        setFiltered(sn.filter((items: any) => items.course == coursePicked))
     }
     const navigate = useNavigate()
-    const data = {
-        sn: [
-            {
-                id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
-                topic: "How to make ER diagram in 10 minutes.",
-                course: "CSC218",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: false,
-            },
-            {
-                id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
-                topic: "Network foro eginner.",
-                course: "CSC220",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: true,
-            },
-            {
-                id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
-                topic: "Productive with agile.",
-                course: "CSC218",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: true,
-            },
-            {
-                id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
-                topic: "How to make ER diagram in 10 minutes.",
-                course: "CSC218",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: false,
-            },
-            {
-                id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
-                topic: "Network foro eginner.",
-                course: "CSC220",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: true,
-            },
-            {
-                id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
-                topic: "Productive with agile.",
-                course: "CSC218",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: true,
-            },
-        ],
+    // const data = {
+    //     sn: [
+    //         {
+    //             id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
+    //             topic: "How to make ER diagram in 10 minutes.",
+    //             course: "CSC218",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: false,
+    //         },
+    //         {
+    //             id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+    //             topic: "Network foro eginner.",
+    //             course: "CSC220",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: true,
+    //         },
+    //         {
+    //             id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+    //             topic: "Productive with agile.",
+    //             course: "CSC218",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: true,
+    //         },
+    //         {
+    //             id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
+    //             topic: "How to make ER diagram in 10 minutes.",
+    //             course: "CSC218",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: false,
+    //         },
+    //         {
+    //             id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+    //             topic: "Network foro eginner.",
+    //             course: "CSC220",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: true,
+    //         },
+    //         {
+    //             id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+    //             topic: "Productive with agile.",
+    //             course: "CSC218",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: true,
+    //         },
+    //     ],
 
-        rsn: [
-            {
-                id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
-                topic: "How to make ER diagram in 10 minutes.",
-                course: "CSC218",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: true,
-            },
-            {
-                id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
-                topic: "Shortest path",
-                course: "CSC210",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: false,
-            },
-            {
-                id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
-                topic: "Java programming",
-                course: "CSC110",
-                owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-                createAt: "10-6-22",
-                isPublic: true,
-            },
-        ],
+    //     rsn: [
+    //         {
+    //             id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
+    //             topic: "How to make ER diagram in 10 minutes.",
+    //             course: "CSC218",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: true,
+    //         },
+    //         {
+    //             id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+    //             topic: "Shortest path",
+    //             course: "CSC210",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: false,
+    //         },
+    //         {
+    //             id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+    //             topic: "Java programming",
+    //             course: "CSC110",
+    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //             createAt: "10-6-22",
+    //             isPublic: true,
+    //         },
+    //     ],
 
-        course: ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"],
-    }
+    //     course: ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"],
+    // }
     return (
         <AppBody>
             {/*Recent view list section*/}
@@ -130,7 +154,7 @@ const index = () => {
             </HStack>
             <Box mt={4} mb={12}>
                 <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
-                    {data.rsn.map((rsn, key) => (
+                    {rsn.map((rsn: any, key) => (
                         <Rsn key={key} topic={rsn.topic}></Rsn>
                     ))}
                 </SimpleGrid>
@@ -152,7 +176,7 @@ const index = () => {
                     <VStack>
                         <Text alignSelf={"start"}>Course</Text>
                         <Select focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
-                            {data.course.map((course, key) => (
+                            {course.map((course: any, key) => (
                                 <option value={course}>{course}</option>
                             ))}
                         </Select>
@@ -175,7 +199,7 @@ const index = () => {
 
                 {coursePicked == "" ? (
                     <>
-                        {data.sn.map((sn: any) => (
+                        {sn.map((sn: any) => (
                             <Box
                                 as="button"
                                 w={"100%"}

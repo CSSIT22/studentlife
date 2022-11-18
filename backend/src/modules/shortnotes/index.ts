@@ -1,4 +1,6 @@
 import express from "express"
+import getCourses from "./routes/getCourses"
+import getResentShortnotes from "./routes/getResentShortnotes"
 const shortnotesRoutes = express()
 
 type s = {
@@ -60,10 +62,43 @@ let sn: s[] = [
     },
 ]
 
+export let rsn = [
+    {
+        id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6c",
+        topic: "How to make ER diagram in 10 minutes.",
+        course: "CSC218",
+        owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        createAt: "10-6-22",
+        isPublic: true,
+    },
+    {
+        id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
+        topic: "Shortest path",
+        course: "CSC210",
+        owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        createAt: "10-6-22",
+        isPublic: false,
+    },
+    {
+        id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
+        topic: "Java programming",
+        course: "CSC110",
+        owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+        createAt: "10-6-22",
+        isPublic: true,
+    },
+]
+
+export let course = ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"]
+
 shortnotesRoutes.use(express.json())
 
 shortnotesRoutes.get("/getShortnotes", (req, res) => {
     res.send(sn)
 })
+
+shortnotesRoutes.get("/getResentShortnotes", getResentShortnotes)
+
+shortnotesRoutes.get("/getCourses", getCourses)
 
 export default shortnotesRoutes
