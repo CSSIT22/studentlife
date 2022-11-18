@@ -1,12 +1,12 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
-import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
-import { IconButton, useDisclosure, Button, ButtonGroup } from "@chakra-ui/react"
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
 import { Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text } from "@chakra-ui/react"
+import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
+import { IconButton, useDisclosure, Button, ButtonGroup } from "@chakra-ui/react"
 //import { Select, Text } from "@chakra-ui/react"
 //import { ChevronRightIcon } from "@chakra-ui/icons"
 //import { AddIcon } from "@chakra-ui/icons"
@@ -268,6 +268,7 @@ const timetable = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+            
         </AppBody>
     )
 }
