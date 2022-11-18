@@ -32,6 +32,7 @@
         "@types/node": "^18.8.3",
         "@types/passport": "^1.0.11",
         "@types/passport-microsoft": "^0.0.0",
+        "@types/ua-parser-js": "^0.7.36",
         "@types/user-agents": "^1.0.2",
         "dotenv": "^16.0.3",
         "eslint-config-prettier": "^8.5.0",
@@ -62,6 +63,7 @@
         "passport-microsoft": "^1.0.0",
         "redis": "^4.3.1",
         "redis-jsonify": "^1.2.0",
+        "ua-parser-js": "^1.0.32",
         "user-agents": "^1.0.1193"
     }
 }
