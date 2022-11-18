@@ -125,7 +125,6 @@ const RandomCardInside: FC<{
                     </Box>
                 </motion.div>
             </Box>
-
             {/* Profile button to go into user's profile */}
             <Box w="100%" display="flex" alignItems="end" justifyContent="end" mt={{ base: "220px", md: "280px" }}>
                 <Link to="../../user">
@@ -307,7 +306,7 @@ const DatingRandomization = () => {
         // userSelect = none => prevent users from accidentally select texts
         <DatingAppBody userSelect="none">
             <SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
-                <Box className="cardContainer" overflow={{ base: "visible", md: "hidden" }} w={{ md: "379px" }}>
+                <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
                     <DatingRandomBase />
                     {characters.map((character, index) => (
@@ -331,7 +330,8 @@ const DatingRandomization = () => {
                         {/* Must have 2 boxs to hide the scroll bar in mobile */}
                         <Box pb="5" pl="18px" pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
                             <Box
-                                height="105px"
+                                height="70px"
+                                pt="5px"
                                 overflowX={{ base: "auto", md: "visible" }}
                                 whiteSpace={{ base: "nowrap", md: "initial" }}
                                 style={{ WebkitOverflowScrolling: "touch" }}
@@ -359,3 +359,4 @@ const DatingRandomization = () => {
 }
 
 export default DatingRandomization
+

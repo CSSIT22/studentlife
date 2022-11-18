@@ -21,7 +21,7 @@ const DatingRandomFaculty: FC<{
     })
     return (
         <>
-            <Box pt={{ base: "468px", md: "30px" }}>
+            <Box pt={{ base: "15px", md: "30px" }}>
                 <motion.div
                     key={currentIndex}
                     initial={{ scale: 0 }}
