@@ -10,7 +10,7 @@ const getAllFile = async (req: Request | any, res: Response | any) => {
                 fileId: true,
             },
         })
-        const everyone = await prisma.file_Info.findMany({
+        const fileList = await prisma.file_Info.findMany({
             where: {
                 AND: [
                     {
@@ -32,33 +32,18 @@ const getAllFile = async (req: Request | any, res: Response | any) => {
                     },
                 ],
             },
-        })
-        //result will add senderName
-        const result = []
-        for (const item of everyone) {
-            const user = await prisma.user_Profile.findFirst({
-                where: {
-                    userId: item.fileSender,
+            include:{
+                sender:{
+                    select: {
+                        userId:true,
+                        fName: true,
+                        lName: true,
+                    },
                 },
-                select: {
-                    fName: true,
-                    lName: true,
-                },
-            })
-            const senderId = item.fileSender
-            result.push({
-                ...item,
-                fileSender: user?.fName + " " + user?.lName,
-                senderId: senderId,
-            })
-        }
-        const lastResult = result.map((item) => {
-            return {
-                ...item,
-                comments: [],
+                comments:{}
             }
         })
-        res.json(lastResult)
+        res.json(fileList)
     } catch (err) {
         console.log(err)
     }

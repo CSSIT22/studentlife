@@ -4,6 +4,7 @@ import getAllFile from "./functions/getAllFile"
 import uploadFile from "./functions/uploadFile"
 import downloadFile from "./functions/downloadFile"
 import hideFile from "./functions/hideFile"
+import { extname } from "path"
 
 //file manage module
 const path = require("path")
@@ -19,7 +20,7 @@ const storage = multer.diskStorage({
         })
     },
     filename: function (req: any, file: any, cb: any) {
-        cb(null, req.user?.userId + file.originalname)
+        cb(null, req.user?.userId + file.originalname + extname(file.originalname))
     },
 })
 const upload = multer({ storage: storage })

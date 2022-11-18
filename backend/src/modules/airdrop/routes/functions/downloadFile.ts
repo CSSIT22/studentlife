@@ -4,9 +4,9 @@ const downloadFile = async(req: Request | any, res: Response | any) => {
     const user = await req.user?.userId;
     const arrFilename = req.params.filename.split('')
     const rfilename = arrFilename.slice(user?.length).join(''); //remove cuid
-    const directoryPath = path.join(__dirname, "../files" + "/" + req.params.type)
-
+    const directoryPath = path.join(__dirname, "./../../files" + "/" + req.params.type.toLowerCase())
     //find file id
+
     const file = await prisma.file_Info.findFirstOrThrow({
         where:{
             fileName:rfilename,
@@ -22,9 +22,15 @@ const downloadFile = async(req: Request | any, res: Response | any) => {
         createdAt:new Date(Date.now() + 60 * 60 * 1000),
     }
     //save into history
-    const downloadHis = await prisma.file_History.create({
-        data:payload
-    })
-    res.download(directoryPath + "/" + req.params.filename)
+    try{
+        const downloadHis = await prisma.file_History.create({
+            data:payload
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+    console.log(directoryPath)
+    res.download(directoryPath+"/"+req.params.filename+"."+req.params.filename.split('.')[1])
 }
 export default downloadFile;

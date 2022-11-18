@@ -36,6 +36,11 @@ const FileList: FC<{
             name: string
             comment: string
         }[]
+        sender:{
+            userId:string,
+            fName:string,
+            lName:string,
+        }
     }
     fadeToggle: any
 }> = ({ elementid, info, fadeToggle }) => {
@@ -71,6 +76,11 @@ const FileList: FC<{
             name: string
             comment: string
         }[]
+        sender:{
+            userId:string,
+            fName:string,
+            lName:string,
+        }
     }>({
         fileId: "",
         fileName: "",
@@ -80,10 +90,15 @@ const FileList: FC<{
         fileDesc: "",
         fileExpired: "",
         comments: [],
+        sender:{
+            userId:"",
+            fName:"",
+            lName:"",
+        }
     })
 
     const fetchSenderProfile = async () => {
-        const res = await API.get(`http://localhost:8000/airdrop/user/userprofile/${info.senderId}`)
+        const res = await API.get(`http://localhost:8000/airdrop/user/userprofile/${info.sender.userId}`)
         setSenderProfile(res.data)
         const base64String = btoa(String.fromCharCode(...new Uint8Array(res.data.image.data)))
         setSenderImg(base64String)
@@ -111,7 +126,7 @@ const FileList: FC<{
                             }, 2000)
                         }}
                     >
-                        <Text decoration={"underline"}>{modalData.fileSender}</Text>
+                        <Text decoration={"underline"}>{modalData.sender.fName + " "+ modalData.sender.lName}</Text>
                     </Box>
                     <Modal initialFocusRef={initRef} isOpen={proOpen} onClose={onClose} size={"2xl"}>
                         <ModalOverlay bg={"none"} />
@@ -169,13 +184,14 @@ const FileList: FC<{
         const downloadFile = await API.get(`http://localhost:8000/airdrop/file/download/${type}/${sid + name}`, {
             responseType: "blob",
         })
+        console.log(downloadFile)
         const url = window.URL.createObjectURL(new Blob([downloadFile.data]))
         const link = document.createElement("a")
         link.href = url
         link.setAttribute("download", name)
         document.body.appendChild(link)
         link.click()
-        console.log(downloadFile)
+
 
         const hideFile = await API.post(
             "http://localhost:8000/airdrop/file/hidefile",
@@ -206,7 +222,7 @@ const FileList: FC<{
                         <Text>{info.fileName}</Text>
                     </Hide>
 
-                    <Text fontSize={["0.76rem", "md"]}>{info.fileSender}</Text>
+                    <Text fontSize={["0.76rem", "md"]}>{info.sender.fName + " "+info.sender.lName}</Text>
 
                     <HStack>
                         <IconButton
@@ -218,7 +234,7 @@ const FileList: FC<{
                             shadow={"xs"}
                             colorScheme={"green"}
                             onClick={async (e) => {
-                                handleDownload(info.sendType, info.fileName, info.senderId, info.fileId, e.target)
+                                handleDownload(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
                             }}
                         ></IconButton>
                         <IconButton
