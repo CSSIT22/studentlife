@@ -6,25 +6,7 @@ export type addMoreLangType = {
 }
 export type post = {
     postId:number,
-    lang_id:number,
-    topic:string,
-    detail:string,
-    sender:string,
-    status:string,
-    pinStatus:boolean,
-    isApprove:boolean,
-    targetType:string,
-    targetValue:string,
-    postAt:Date,
-    expiredOfPost:Date,
-    expiredAfterDelete:Date |null , 
-    addMoreLang:addMoreLangType[] 
-}
-// post เก็บไว้ใช้ชั่วคร่าว เดี๋ยวไปใช้ postWithUser ทีหลัง
-
-export type postWithUser = {
-    postId:number,
-    userId:string,
+    userId:string
     lang_id:number,
     topic:string,
     detail:string,

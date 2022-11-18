@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { IoIosAddCircle } from "react-icons/io"
 import { Link } from "react-router-dom"
 import HeaderPage from "../../components/annoucement/HeaderPage"
@@ -19,20 +19,12 @@ const index = () => {
     // const nonexpired = postInfoTest.filter((el) => {
     //     const current = new Date().toISOString
     // })
-    const minute = 1000 * 60
-    const hour = minute * 60
-    const day = hour * 24
-    const year = day * 365
-
-    const date = new Date()
-    const current = Math.round(date.getTime() / day)
-
+    
     // console.log(postInfoTest[0].expiredOfPost);
-
     const [allPost, setAllPost] = React.useState<post[]>([])
-    const getData = API.get("/announcement/getPostOnAnnouncement")
+    const getDataPost = API.get("/announcement/getPostOnAnnouncement")
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data))
+        getDataPost.then((res) => setAllPost(res.data))
     },[])
 
     return (

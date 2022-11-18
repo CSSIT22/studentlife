@@ -13,9 +13,9 @@ const PostOnAnnouncementPage: FC<{
 }> = ({ topic, sender, status, allPost, setAllPost, id }) => {
     const state = (stat: boolean) => {
         if (stat) {
-            return <BsPinAngleFill fontSize={"2rem"} onClick={toggle} color="#E65300" />
+            return <BsPinAngleFill fontSize={"2rem"} color="#E65300" />
         } else {
-            return <BsPinAngle fontSize="2rem" onClick={toggle} color="#7A8A99" />
+            return <BsPinAngle fontSize="2rem" color="#7A8A99" />
         }
     }
     const toggle = () => {

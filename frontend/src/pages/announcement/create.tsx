@@ -87,6 +87,7 @@ const create = () => {
             ...allPost,
             {
                 postId:allPost.length,
+                userId:"0"+allPost.length+1,
                 lang_id:1000,
                 topic:title,
                 detail:detail,
