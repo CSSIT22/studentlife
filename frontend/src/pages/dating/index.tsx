@@ -51,7 +51,7 @@ const RandomCardInside: FC<{
                         },
                         hidden: {
                             scale: 1.5,
-                            opacity: [1, 0],
+                            opacity: 0,
                             transition: {
                                 duration: 0.001,
                             },
@@ -94,7 +94,7 @@ const RandomCardInside: FC<{
                         },
                         hidden: {
                             scale: 1.5,
-                            opacity: [1, 0],
+                            opacity: 0,
                             transition: {
                                 duration: 0.001,
                             },
