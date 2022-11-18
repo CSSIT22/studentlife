@@ -23,7 +23,7 @@ const TagOfInterest = () => {
             <Box display="flex" justifyContent="center">
                 <Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
                     <Container w="container.lg" maxW={"100%"}>
-                        <Box maxW="100%" bg="#FFF2E6" pt={{ base: "40px", md: "30px" }}>
+                        <Box maxW="100%" bg="#FFF2E6" pt={{ base: "70px", md: "35px" }}>
                             {/* Grid: Used for separating topic, button, and description into three areas */}
                             <Grid
                                 templateAreas={`"topic button" "desc desc"`}
