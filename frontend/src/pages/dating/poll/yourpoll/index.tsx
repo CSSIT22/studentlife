@@ -31,11 +31,20 @@ const YourActivityPoll = () => {
             <Stack pt="120px">
                 <DatingYourActivityBox />
             </Stack>
-            <Flex minWidth="max-content" alignItems="center">
-                <Box zIndex="3" position="fixed" pl={{ base: "75%", sm: "80%", md: "85%", lg: "70%" }} top="75%">
-                    <DatingCreatePollButton />
+            <Box display="flex" justifyContent="center">
+                <Box position="fixed" w="100%" justifyContent="end" top={{ base: "77%", md: "85%" }} id="bottomBar">
+                    <HStack
+                        gap={{ base: "75%", md: "44em", lg: "55em" }}
+                        display="flex"
+                        justifyContent="center"
+                        pt={{ base: "40px", md: "30px" }}
+                        pb="30px"
+                    >
+                        <Box></Box>
+                        <DatingCreatePollButton />
+                    </HStack>
                 </Box>
-            </Flex>
+            </Box>
         </DatingAppBody>
     )
 }

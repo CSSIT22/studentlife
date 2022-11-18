@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, Icon, Image, Spacer, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Heading, Image, Text } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
@@ -78,6 +78,10 @@ const DatingYourActivityBox = () => {
                         <Text fontSize="16px">Time: {globalThis.time}</Text>
                         <Text fontSize="16px">Number of people: {handlePeople(values.participantMin, values.participantMax)}</Text>
                         <Flex justifyContent="end">
+                            <Center>
+                                {/* Need data from database and need condition checking for people/person*/}
+                                <Text fontSize="16px">{2} people have applied</Text>
+                            </Center>
                             <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
                                 <Button
                                     display="flex-end"
@@ -89,6 +93,9 @@ const DatingYourActivityBox = () => {
                                     p="5px"
                                     mt="10px"
                                 >
+                                    {/* <Text fontSize="16px" ml="45px" >
+                                        {2}
+                                    </Text> */}
                                     <Center>
                                         <BsFillPeopleFill />
                                     </Center>
