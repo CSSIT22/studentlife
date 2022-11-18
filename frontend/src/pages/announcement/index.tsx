@@ -21,11 +21,16 @@ const index = () => {
     // })
     
     // console.log(postInfoTest[0].expiredOfPost);
+    const [toggle,settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
     const getDataPost = API.get("/announcement/getPostOnAnnouncement")
     useEffect(() => {
         getDataPost.then((res) => setAllPost(res.data))
-    },[])
+    },[toggle])
+    
+    const getpostidAndpinstatus = () =>{
+        settoggle(!toggle)
+    }
 
     return (
         <AppBody
@@ -57,6 +62,7 @@ const index = () => {
                             setAllPost={setAllPost}
                             id={el.postId}
                             key={el.postId}
+                            onClick={getpostidAndpinstatus}
                         />
                     )
                 })}
@@ -74,6 +80,7 @@ const index = () => {
                             setAllPost={setAllPost}
                             id={el.postId}
                             key={el.postId}
+                            onClick={getpostidAndpinstatus}
                         />
                     )
                 })}

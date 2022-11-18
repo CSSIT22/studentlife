@@ -1,7 +1,9 @@
+import { post } from "@apiType/announcement"
 import { Box, Flex, Grid, GridItem, Heading, Spacer, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { BsPinAngle, BsPinAngleFill } from "react-icons/all"
 import { Link } from "react-router-dom"
+import API from "src/function/API"
 
 const PostOnAnnouncementPage: FC<{
     topic: string
@@ -9,24 +11,27 @@ const PostOnAnnouncementPage: FC<{
     status: boolean
     allPost: Array<any>
     id: number
+    onClick:Function
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
-}> = ({ topic, sender, status, allPost, setAllPost, id }) => {
+}> = ({ topic, sender, status, allPost, setAllPost, id ,onClick}) => {
     const state = (stat: boolean) => {
         if (stat) {
-            return <BsPinAngleFill fontSize={"2rem"} color="#E65300" />
+            return <BsPinAngleFill fontSize={"2rem"} onClick={() => toggle()} color="#E65300" />
         } else {
-            return <BsPinAngle fontSize="2rem" color="#7A8A99" />
+            return <BsPinAngle fontSize="2rem" onClick={() => toggle()} color="#7A8A99" />
         }
     }
     const toggle = () => {
-        setAllPost(
-            allPost.map((el) => {
-                if (el.postId == id) {
-                    el.pinStatus = !el.pinStatus
-                }
-                return el
-            })
-        )
+        // setAllPost(
+        //     allPost.map((el) => {
+        //         if (el.postId == id) {
+        //             el.pinStatus = !el.pinStatus
+        //         }
+        //         return el
+        //     })
+        // )
+        onClick()
+        API.post<post>("/announcement/editpinstatus",{postId:id,pinStatus:!status})
     }
 
     return (
