@@ -102,32 +102,25 @@ function detail() {
                                 <Grid p={{ base: 0, md: 5 }} templateRows="repeat(1, 1fr)" templateColumns="repeat(8, 1fr)" columnGap={4} rowGap={1}>
                                     <GridItem colSpan={{ base: 8, md: 4 }}>
                                         <ShowImage img={e1.img} />
-                                        <Box px={4} py={3} display="flex" alignItems="baseline">
-                                            <Box fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
-                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.amoutOflike} liked
-                                            </Box>
-                                            <Spacer />
-                                            <Center
-                                                as="button"
-                                                bg={""}
-                                                fontWeight="semibold"
+                                        
+                                        <Box px={4} py={3} display="flex" fontWeight="semibold"
                                                 letterSpacing="wide"
                                                 fontSize="xs"
                                                 textTransform="uppercase"
-                                                borderWidth=""
-                                                borderRadius=""
-                                                px={2}
-                                                pt={1}
-                                                pb={1}
-                                            >
+                                                pr={6} >
+                                            <Box display="flex" verticalAlign={"AiOutlineLike"}>
+                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.amoutOflike} liked
+                                            </Box>
+                                            <Spacer />
                                                 <Link to={`/restaurant/review/${numres}`}>
-                                                    <Icon as={AiOutlineComment} fontSize="md" /> REVIEW
+                                                    <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
+                                                        <Icon as={AiOutlineComment} fontSize="md"/> Review      
+                                                    </Box>
                                                 </Link>
-                                            </Center>
                                         </Box>
                                     </GridItem>
 
-                                    <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }}>
+                                    <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }} fontWeight="600">
                                         <Box w={"full"} textAlign={"center"}>
                                             <Text color="" fontSize="md">
                                                 OPEN - CLOSE : {e1.open} - {e1.close} <br />
@@ -178,15 +171,17 @@ function detail() {
                                                             px={4}
                                                             py={1}
                                                             onClick={onOpen}
+                                                            borderWidth={2}
+                                                            borderColor="black"
                                                         >
-                                                            <Icon as={SlActionRedo} fontSize="md" />
+                                                            <Icon as={SlActionRedo} fontSize="md" mr={2} />
                                                             Share
                                                         </Button>
                                                     </PopoverTrigger>
                                                     <PopoverContent>
                                                         <PopoverArrow />
                                                         <PopoverCloseButton />
-                                                        <PopoverHeader textAlign={"center"}>Share</PopoverHeader>
+                                                        <PopoverHeader textAlign={"center"} >Share</PopoverHeader>
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
