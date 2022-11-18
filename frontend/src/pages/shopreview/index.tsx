@@ -1,4 +1,20 @@
-import { Box, Button, Container, Flex, Heading, Link, Text, SimpleGrid, VStack, Collapse, TabList, Tab, WrapItem, Center } from "@chakra-ui/react"
+import {
+    Box,
+    Button,
+    Container,
+    Flex,
+    Heading,
+    Link,
+    Text,
+    SimpleGrid,
+    VStack,
+    Collapse,
+    TabList,
+    Tab,
+    WrapItem,
+    Center,
+    Spacer,
+} from "@chakra-ui/react"
 import { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Myreview from "src/components/shopreview/Myreview"
@@ -99,13 +115,28 @@ const shopreview = () => {
             </Button>
         )
     }
+    const [count, setCount] = useState(1)
+    const ZoneCount = () => {
+        return <Tests name={"+" + count} />
+    }
+
     const [zones, setZones] = useState<string[]>([])
     function handleSetZones(zone: any) {
         if (!zones.includes(zone)) {
             setZones([...zones, zone])
+            if (zones.length > 2) {
+                setCount(count + 1)
+            } else if (count <= 0) {
+                setCount(1)
+            }
         } else {
             const newArr = zones.filter((value) => value !== zone)
             setZones(newArr)
+            if (zones.length > 2) {
+                setCount(count - 1)
+            } else if (count <= 0) {
+                setCount(1)
+            }
         }
     }
 
@@ -154,10 +185,22 @@ const shopreview = () => {
             </Flex>
             <Flex mb={5}>
                 <Zone name={"+zone"} handleSetZones={handleSetZones} />
-                {zones.map((item, index) => {
+                {/* {zones.map((item, index) => {
                     // return <SelectZone key={index} handleSetZones={handleSetZones} name={item} />
                     return <Tests key={index} name={item} />
-                })}
+                })} */}
+                {zones.length < 3 ? (
+                    zones.map((item, index) => {
+                        // return <SelectZone key={index} handleSetZones={handleSetZones} name={item} />
+                        return <Tests key={index} name={item} />
+                    })
+                ) : (
+                    <>
+                        <Tests name={zones[0]} />
+                        <Tests name={zones[1]} />
+                        <ZoneCount />
+                    </>
+                )}
                 {/* <SelectZone handleSetZones={handleSetZones} name={"หอหญิง"} /> */}
             </Flex>
             <Heading color={"black"} size={"lg"}>
