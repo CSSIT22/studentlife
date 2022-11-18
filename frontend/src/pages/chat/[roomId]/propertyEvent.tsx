@@ -1,15 +1,86 @@
-import { Avatar, Box, Button, Heading, HStack, Input, useDisclosure, VStack, Text, Flex, Center, IconButton, Divider } from "@chakra-ui/react"
+import {
+    Avatar,
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Input,
+    VStack,
+    Text,
+    Flex,
+    Center,
+    Divider,
+    border,
+    InputGroup,
+    InputLeftElement,
+    Spacer,
+    ListItem,
+    UnorderedList,
+} from "@chakra-ui/react"
 import AppBody from "../../../components/share/app/AppBody"
-import React from "react"
-import { AiFillBug, AiFillPicture, AiOutlinePlus } from "react-icons/ai"
+import React, { useState } from "react"
+import { AiFillBug, AiFillPicture, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { FaCircle } from "react-icons/fa"
+import { SearchIcon } from "@chakra-ui/icons"
 
 const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
 }
 
 function propertyEvent(props: any) {
-    const[ roomColor , setRoomColor ] = React.useState("")
+    const [roomColor, setRoomColor] = React.useState("")
+    const colors = ["black", "blue", "gray", "red", "green", "purple", "pink", "orange", "teal", "yellow"]
+
+    function colorRoom(e: any) {
+        return setRoomColor(e.target.value)
+    }
+
+    const members: any = [
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng1", id: "1"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng2", id: "2"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng3", id: "3"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng4", id: "4"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng5", id: "5"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng6", id: "6"},
+    ]
+
+    const [selectedMember, setSelectedMember] = useState<any>([])
+
+    const renderMember = (member: any) => {
+            return (
+                <Flex justifyContent={"space-between"} alignItems={"center"} key={member.id}>
+                    <Flex alignItems={"center"}>
+                        <Avatar name={member.memberName} src={member.memberPic} marginRight={4} />
+                        <Heading size={"md"}>{member.memberName}</Heading>
+                    </Flex>
+                    <Spacer />
+                    <Box padding={4} onClick={() => {selectedMemberHandler(member)}}>
+                        <AiOutlinePlus size={20} />
+                    </Box>
+                </Flex>
+            )
+    }
+
+    function selectedMemberHandler(member: any) {
+        const currentArray = selectedMember
+        currentArray.push(member)
+        setSelectedMember(currentArray)
+        renderSelectedMember()
+        console.log(selectedMember)
+    }
+
+    const renderSelectedMember = () => {
+        return(
+            selectedMember.map((e:any) => (
+                <Box key={e.id} pb={4}>
+                    <Avatar name={e.memberName} src={e.memberPic} />
+                    {/* <AiOutlineMinus onClick={() => setSelectedMember(selectedMember.filter((e:any)=> e.id !== selectedMember.id))}/> */}
+                </Box>
+            ))
+        )
+    }
+
+    const memberSearch = (search: String) => {}
 
     if (props === "Set room name") {
         return (
@@ -22,7 +93,7 @@ function propertyEvent(props: any) {
         return (
             <VStack m={4} spacing={6}>
                 <HStack spacing={4}>
-                    <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
+                    <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
                     <VStack spacing={1}>
                         <Heading size={"md"}>Neng</Heading>
                         <Text>rename</Text>
@@ -43,17 +114,14 @@ function propertyEvent(props: any) {
             <Flex justifyContent={"center"}>
                 <VStack>
                     <Text>Quote you added</Text>
-                    <Box bg={"gray.200"} w={"96"} p={4}>
-                        Quote 1
-                        <br />
-                        Quote 2
-                        <br />
-                        Quote 3
-                        <br />
-                        Quote 4
-                        <br />
-                        Quote 5
-                    </Box>
+                    <Flex bg={"gray.200"} w={"96"} p={4} overflowY={'auto'} maxH={'60'}>
+                        <UnorderedList>
+                            <ListItem>Quote1</ListItem>
+                            <ListItem>Quote2</ListItem>
+                            <ListItem>Quote3</ListItem>
+                            <ListItem>Quote4</ListItem>
+                        </UnorderedList>
+                    </Flex>
                     <Text>Quote you want to add</Text>
                     <Input placeholder="Quote" />
                 </VStack>
@@ -62,29 +130,22 @@ function propertyEvent(props: any) {
     }
     if (props === "Change room color") {
         return (
-            <Flex justifyContent={"center"} pt={4}>
-                <VStack spacing={8}>
+            <Flex justifyContent={"center"}>
+                <VStack spacing={6}>
                     <VStack>
-                        <HStack spacing={4}>
-                            {/* <IconButton icon={<FaCircle />} aria-label='Black' color="black" variant="ghost" size="lg" onClick={() => setRoomColor("black")}/>
-                            <IconButton icon={<FaCircle />} aria-label='Black' color="red" variant="ghost" size="40px" onClick={() => setRoomColor("red")}/> */}
-                            <FaCircle color="black" size={"40px"}/>
-                            <FaCircle color="blue" size={"40px"}/>
-                            <FaCircle color="gray" size={"40px"}/>
-                            <FaCircle color="red" size={"40px"}/>
-                            <FaCircle color="green" size={"40px"}/>
-                        </HStack>
-                        <HStack spacing={4}>
-                            <FaCircle color="purple" size={"40px"}/>
-                            <FaCircle color="pink" size={"40px"}/>
-                            <FaCircle color="peach" size={"40px"}/>
-                            <FaCircle color="teal" size={"40px"}/>
-                            <FaCircle color="yellow" size={"40px"}/>
-                        </HStack>
+                        <Flex alignItems={"center"} justifyContent={"space-between"} wrap={"wrap"} width={"80"}>
+                            {colors.map((color) => (
+                                <Box>
+                                    <Button width={"16"} height={"16"} variant="ghost" onClick={() => setRoomColor(color)}>
+                                        <FaCircle color={color} size={"40px"} />
+                                    </Button>
+                                </Box>
+                            ))}
+                        </Flex>
                     </VStack>
                     <VStack>
-                        <Text color={roomColor}>color code</Text>
-                        <Input placeholder="#000000" />
+                        <Text as="b">color code</Text>
+                        <Input placeholder="#000000" bgColor={roomColor} onChange={(e) => colorRoom(e)} />
                     </VStack>
                 </VStack>
             </Flex>
@@ -94,7 +155,7 @@ function propertyEvent(props: any) {
         return (
             <Flex justifyContent={"center"}>
                 <VStack>
-                    <AiFillBug size={'40px'}/>
+                    <AiFillBug size={"40px"} />
                     <Text>Context you require to report</Text>
                     <Input placeholder="Context" w={96} />
                     <Text>Reason for reporting</Text>
@@ -105,46 +166,35 @@ function propertyEvent(props: any) {
     }
     if (props === "Member") {
         return (
-            <VStack m={4} spacing={6}>
+            <VStack spacing={6}>
                 <HStack spacing={4}>
-                    <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
+                    <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
                     <Heading size={"md"}>Neng</Heading>
                 </HStack>
                 <HStack spacing={4}>
                     <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                        <Heading size={"md"}>Dan</Heading>
+                    <Heading size={"md"}>Dan</Heading>
                 </HStack>
             </VStack>
         )
     }
     if (props === "Invite people") {
         return (
-            <Flex justifyContent={'center'}>
-                <Box bg={"gray.200"} w={"96"} p={4} overflow={'scroll'}>
-                    <Input placeholder="Search name or user id" borderColor={'black'}/>
-                    <VStack p={4} justifyContent={'flex-start'}>
-                        <HStack spacing={4}>
-                            <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
-                            <Heading size={"md"}>Neng</Heading>
-                            <AiOutlinePlus />
-                        </HStack>
-                        <HStack spacing={4}>
-                            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                            <Heading size={"md"}>Dan</Heading>
-                            <AiOutlinePlus />
-                        </HStack>
-                        <HStack spacing={4}>
-                            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                            <Heading size={"md"}>Dan</Heading>
-                            <AiOutlinePlus />
-                        </HStack>
-                        <HStack spacing={4}>
-                            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                            <Heading size={"md"}>Dan</Heading>
-                            <AiOutlinePlus />
-                        </HStack>
-                    </VStack>
-                </Box>
+            <Flex justifyContent={"center"}>
+                <Flex w={"96"} direction={"column"} gap={4}>
+                    <InputGroup>
+                        <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
+                        <Input placeholder="Search name or user id" borderColor={"black"} />
+                    </InputGroup>
+                    <Flex gap={4} overflowX={'auto'}>
+                        {renderSelectedMember()}
+                    </Flex>
+                    <Box overflowY={"auto"} maxH={"60"}>
+                        <Flex direction={"column"} gap={4}>
+                            {members.map((e: any) => renderMember(e))}
+                        </Flex>
+                    </Box>
+                </Flex>
             </Flex>
         )
     }
@@ -152,7 +202,7 @@ function propertyEvent(props: any) {
         return (
             <Flex justifyContent={"center"}>
                 <VStack spacing={4}>
-                    <AiFillPicture />
+                    <AiFillPicture size={"40px"} />
                     <Button>Choose from my library</Button>
                 </VStack>
             </Flex>
@@ -172,10 +222,10 @@ function propertyEvent(props: any) {
     if (props === "Leave group") {
         return (
             <Flex justifyContent={"center"}>
-                <Text textAlign={"center"} >
-                    If you leave this group, you'll not be able to see 
+                <Text textAlign={"center"}>
+                    If you leave this group, you'll not be able to see
                     <br />
-                    the chat message and group anymore. 
+                    the chat message and group anymore.
                     <br />
                     Are you sure you want to leave group?
                 </Text>

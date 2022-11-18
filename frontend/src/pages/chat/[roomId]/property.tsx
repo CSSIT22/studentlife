@@ -40,7 +40,7 @@ function showProperty() {
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/profile/${param.roomID}`)
+        return navigate(`/profile/${param.roomId}`)
         
     }
 
