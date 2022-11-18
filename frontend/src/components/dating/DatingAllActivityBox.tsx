@@ -9,6 +9,7 @@ declare global {
     var date: string, time: string
 }
 
+// Component of all activity page
 const DatingAllActivityBox = () => {
     const [poll, setPoll] = useState(POLL)
     const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
@@ -25,6 +26,7 @@ const DatingAllActivityBox = () => {
         isApply(pId) ? (
             <></>
         ) : (
+            // If user apply -> tost, add data to db, change button state
             (appiled(pId),
             toast({
                 title: "Applied success.",
@@ -37,12 +39,14 @@ const DatingAllActivityBox = () => {
         )
     }
 
+    // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
         const chooseDate = new Date(dateTime)
         // console.log(chooseDate.getMonth())
         return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
     }
 
+    // Convert time in to format that easy to read
     function hanlePollTime(dateTime: string) {
         const time = new Date(dateTime)
         let hours = time.getHours()
@@ -55,6 +59,7 @@ const DatingAllActivityBox = () => {
         return strTime
     }
 
+    // Check for applied poll (Need data from database)
     function isApply(pId: string) {
         for (let i = 0; i < pollApplicant.length; i++) {
             if (pId === pollApplicant[i].poll_id) {
@@ -64,6 +69,7 @@ const DatingAllActivityBox = () => {
         return false
     }
 
+    // Make the number of people into correct grammar
     function handlePeople(min: number, max: number) {
         if (max === min && max === 1) {
             return min + " person"
@@ -112,7 +118,9 @@ const DatingAllActivityBox = () => {
                             {/* {values.participantMin}-{values.participantMax} people */}
                         </Text>
                         <Flex justifyContent="end">
+                            {/* Check if poll open or close to display different button */}
                             {values.isOpen ? (
+                                // If the poll have been applied user can click to navigate to appiledpoll page
                                 <Link to={isApply(values.pollId) ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
                                     <Box style={{ textDecoration: "none" }} onClick={() => handleApply(values.pollId)}>
                                         <Box

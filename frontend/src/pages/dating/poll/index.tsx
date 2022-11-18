@@ -9,6 +9,7 @@ import DatingAppBody from "../../../components/dating/DatingAppBody"
 const AllActivityPoll = () => {
     return (
         <DatingAppBody>
+            {/* Combine all Nav buttons */}
             <Center>
                 <Box
                     mt={{ base: "-20px", md: "7px" }}
@@ -28,9 +29,11 @@ const AllActivityPoll = () => {
                     </HStack>
                 </Box>
             </Center>
+            {/* Calling all activity poll out (Need to order by time)*/}
             <Stack pt="120px">
                 <DatingAllActivityBox />
             </Stack>
+            {/* Create poll button */}
             <Box display="flex" justifyContent="center">
                 <Box position="fixed" w="100%" justifyContent="end" top={{ base: "77%", md: "85%" }} id="bottomBar">
                     <HStack

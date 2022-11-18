@@ -8,15 +8,18 @@ declare global {
     var date: string, time: string
 }
 
+// Component of your activity page
 const DatingYourActivityBox = () => {
     const [poll, setPoll] = useState(POLL)
 
+    // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
         const chooseDate = new Date(dateTime)
         // console.log(chooseDate.getMonth())
         return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
     }
 
+    // Convert time in to format that easy to read
     function hanlePollTime(dateTime: string) {
         const time = new Date(dateTime)
         let hours = time.getHours()
@@ -29,6 +32,7 @@ const DatingYourActivityBox = () => {
         return strTime
     }
 
+    // Make the number of people into correct grammar
     function handlePeople(min: number, max: number) {
         if (max === min && max === 1) {
             return min + " person"
@@ -39,6 +43,7 @@ const DatingYourActivityBox = () => {
         }
     }
 
+    // Make the link navigate to that poll id
     function goToPoll(pId: string) {
         return "/dating/poll/yourpoll/" + pId + "/"
     }
