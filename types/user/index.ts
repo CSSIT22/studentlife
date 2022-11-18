@@ -16,5 +16,5 @@ export interface InitUserResponse {
   userId: string;
   levels: EXP | null;
   studentId: string;
-  roles: Role[];
+  // roles: Role[];
 }
