@@ -9,9 +9,9 @@ const YourActivityPoll = () => {
     return (
         <DatingAppBody>
             <HStack gap={{ base: "10px", md: "50px" }} display="flex" justifyContent="center" pt="20px">
-                <DatingAllActivityButton backgroundColor={"orange.600"} />
-                <DatingYourActivityButton backgroundColor={"orange.800"} />
-                <DatingAppliedActivityButton backgroundColor={"orange.600"} />
+                <DatingAllActivityButton backgroundColor={"orange.800"} />
+                <DatingYourActivityButton backgroundColor={"orange.600"} />
+                <DatingAppliedActivityButton backgroundColor={"orange.800"} />
             </HStack>
             <Stack pt="30px">
                 <DatingYourActivityBox />

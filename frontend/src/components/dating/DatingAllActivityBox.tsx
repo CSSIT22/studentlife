@@ -14,13 +14,19 @@ const DatingAllActivityBox = () => {
     const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
     const [applied, setAppiled] = useState(false)
 
+    function appiled(pId: string) {
+        const today = new Date()
+        // NEED TO ADD DATA TO DATABASE HERE!!!!
+        console.log("Is appiled " + pId)
+        console.log(today)
+    }
+
     const toast = useToast()
     function handleApply(pId: string) {
         isApply(pId) ? (
             <></>
         ) : (
-            // NEED TO ADD DATA TO DATABASE HERE!!!!
-            // setPollApplicant(pId);
+            (appiled(pId),
             toast({
                 title: "Applied success.",
                 description: "You have registered for the poll. Now you can chat with the poll creator.",
@@ -28,7 +34,7 @@ const DatingAllActivityBox = () => {
                 duration: 4500,
                 isClosable: true,
                 position: "top",
-            })
+            }))
         )
     }
 
@@ -108,23 +114,25 @@ const DatingAllActivityBox = () => {
                         </Text>
                         <Flex justifyContent="end">
                             {values.isOpen ? (
-                                <Link to="/dating/poll/appliedpoll" style={{ textDecoration: "none" }} onClick={() => handleApply(values.pollId)}>
-                                    <Box
-                                        display="flex"
-                                        cursor="pointer"
-                                        w="150px"
-                                        m="10px"
-                                        mt="20px"
-                                        pr="40px"
-                                        pl="40px"
-                                        backgroundColor={isApply(values.pollId) ? "#B24000" : "#E65300"}
-                                        borderRadius="5px"
-                                        justifyContent="center"
-                                        alignItems="center"
-                                    >
-                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                            {isApply(values.pollId) ? "Applied" : "Apply"}
-                                        </Text>
+                                <Link to={isApply(values.pollId) ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
+                                    <Box style={{ textDecoration: "none" }} onClick={() => handleApply(values.pollId)}>
+                                        <Box
+                                            display="flex"
+                                            cursor="pointer"
+                                            w="150px"
+                                            m="10px"
+                                            mt="20px"
+                                            pr="40px"
+                                            pl="40px"
+                                            backgroundColor={isApply(values.pollId) ? "#B24000" : "#E65300"}
+                                            borderRadius="5px"
+                                            justifyContent="center"
+                                            alignItems="center"
+                                        >
+                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                {isApply(values.pollId) ? "Applied" : "Apply"}
+                                            </Text>
+                                        </Box>
                                     </Box>
                                 </Link>
                             ) : (

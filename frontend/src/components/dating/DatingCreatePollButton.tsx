@@ -5,7 +5,7 @@ import { BsPencil } from "react-icons/bs"
 
 const DatingCreatePollButton = () => {
     return (
-        <Box position="fixed">
+        <Box>
             <Link to="/dating/poll/create" style={{ textDecoration: "none" }}>
                 <Button
                     display="flex-end"
