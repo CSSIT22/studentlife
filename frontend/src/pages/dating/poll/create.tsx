@@ -197,7 +197,7 @@ const CreateActivityPoll = () => {
 
     return (
         <DatingAppBody>
-            <Box mt="50px" p="50px" bg="white" borderRadius={"20px"} color={"black"}>
+            <Box m="10px" mt={{ base: "40px", md: "30px" }} p="50px" bg="white" mb="60px" borderRadius={"20px"} color={"black"}>
                 <Heading pb={"20px"}>Create a poll</Heading>
                 <Stack>
                     <Center>
