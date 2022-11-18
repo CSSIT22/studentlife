@@ -42,8 +42,8 @@ const Searchbar = () => {
                 onSubmit={handleSubmit}
             >
                 <Flex flexDirection={"column"} alignItems={"center"}>
-                    <InputGroup id="se" width={{ base: "13rem", lg: "20rem" }} mr="2" backgroundColor={"white"} boxShadow={"lg"}>
-                        <InputLeftElement children={<TfiSearch />} pb={1} />
+                    <InputGroup id="se" width={{ base: "13rem", lg: "20rem" }} mr="2" backgroundColor={"white"} boxShadow={"lg"} borderRadius={"6px"}>
+                        <InputLeftElement children={<TfiSearch />} pt={1} pl="2" />
 
                         <Input
                             placeholder="Search"
