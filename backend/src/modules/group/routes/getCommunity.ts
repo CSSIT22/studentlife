@@ -1,6 +1,5 @@
-import { prisma } from "@prisma/client"
 import { Request, Response } from "express"
-import { createCommunity } from "../../../../../types/group"
+
 
 
 const getCommunity = async (req: Request, res: Response) =>{

@@ -6,11 +6,5 @@ export type createCommunity = {
     communityPhoto?: Blob
 }
 
-export type getCommunity = {
-    name: string
-    id: string
-    owner: string
-    desc?: string
-    privacy: boolean
-    coverPhoto?: Blob
-}
+
+

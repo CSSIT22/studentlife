@@ -1,4 +1,3 @@
-import { prisma } from "@prisma/client"
 import { Request, Response } from "express"
 import { createCommunity } from "../../../../../types/group"
 
