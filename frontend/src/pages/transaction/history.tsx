@@ -2,9 +2,6 @@ import React from "react"
 import {
     Box,
     Button,
-    Card,
-    CardBody,
-    CardHeader,
     ChakraProvider,
     Container,
     Flex,
@@ -15,8 +12,11 @@ import {
     VStack,
 } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
-import Header from "src/components/transaction/paymenthistory/header"
-import PaymentHistory from "src/components/transaction/paymenthistory/paymentHistory"
+import Header from "src/components/transaction/paymenthistory/Header"
+import PaymentHistory from "src/components/transaction/paymenthistory/PaymentHistory"
+// import AppBody from "../src/components/share/app/AppBody"
+// import Header from "../src/components/transaction/paymenthistory/header"
+// import PaymentHistory from "../src/components/transaction/paymenthistory/paymentHistory"
 
 const historyTransaction = () => {
     return (
