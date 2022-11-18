@@ -5,7 +5,7 @@ const AmountRate: FC<{
     ratting: String
 }> = ({ ratting }) => {
     return (
-        <Box p={1} minWidth={"60px"} maxWidth={"80px"} height={"25px"} px={2} rounded={"2xl"} background={"#FF3939"}>
+        <Box p={1} minWidth={"60px"} maxWidth={"80px"} height={"25px"} px={2} rounded={"2xl"} background={"#E68E5C"}>
             <Flex mb={1} direction={"row"} justifyContent={"center"} alignItems={"center"}>
                 <img
                     style={{ maxWidth: 14 }}
