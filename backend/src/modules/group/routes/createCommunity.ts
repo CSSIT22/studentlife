@@ -1,26 +1,36 @@
+import { prisma } from "@prisma/client"
 import { Request, Response } from "express"
-import { Community } from "@apiType/group"
-import Communities, { getCommunity, setCommunity } from "../testData"
+import { createCommunity } from "../../../../../types/group"
 
 
-const createCommunity = (req: Request, res: Response) =>{
+const createCommunity = async (req: Request, res: Response) =>{
         
-        const reqCommunity = req.params
+        const prisma = res.prisma
+        const body = req.body
+        const userid = req.user?.userId
+        
+        const createCommunity : any = {   
+            communityName : body.name,
+            communityOwnerId : body.user,
+            communityDesc : body.desc,
+            communityPrivacy : body.privacy,
+            communityPhoto : body.photo
+        }
 
-        setCommunity([
-            { 
-                id: reqCommunity.id, 
-                name: reqCommunity.name,
-                owner: reqCommunity.owner,
-                desc: reqCommunity.desc,
-                privacy: reqCommunity.privacy,
-                coverPhoto: reqCommunity.coverPhoto
-            
-            },...Communities]);
+        try{
+        await prisma.community.create(   
+            {
+                data: createCommunity
+            }
+        )
 
-            let newCommunity: Community 
+        res.status(201).send("Created Success")
+        }
 
-        res.send(newCommunity)
+        catch(err){
+            res.status(403)
+        }
+        
     }
 
 
