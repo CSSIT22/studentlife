@@ -21,16 +21,16 @@ const TagOfInterest = () => {
     return (
         <DatingAppBody>
             <Box display="flex" justifyContent="center">
-                <Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157}} id="bottomBar">
+                <Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
                     <Container w="container.lg" maxW={"100%"}>
-                        <Box maxW="100%" pt={{ base: "40px", md: "7px" }} bg="#FFF2E6">
+                        <Box maxW="100%" bg="#FFF2E6" pt={{ base: "30px", md: "25px" }}>
                             {/* Grid: Used for separating topic, button, and description into three areas */}
                             <Grid
                                 templateAreas={`"topic button" "desc desc"`}
                                 gridTemplateRows={"50px 50px"}
                                 gridTemplateColumns={"12rem px"}
                                 h="125px"
-                                pt={{ base: "10", md: "5"}}
+                                pt={{ base: "10", md: "5" }}
                             >
                                 {/* Interests topic */}
                                 <GridItem pl="2" area={"topic"}>
@@ -76,7 +76,7 @@ const TagOfInterest = () => {
                     </Container>
                 </Box>
             </Box>
-            <Box pt="220px">
+            <Box pt={{ base: "190px", md: "230px" }}>
                 {/* CheckboxGroup : List of tags of interest */}
                 {interests.map(({ interestId, interestName }) => (
                     // DatingInterestTag component: Used for generating interactive tag
