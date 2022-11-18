@@ -4,6 +4,7 @@ import getAllFile from "./functions/getAllFile"
 import uploadFile from "./functions/uploadFile"
 import downloadFile from "./functions/downloadFile"
 import hideFile from "./functions/hideFile"
+import commentFile from "./functions/commentFile"
 import { extname } from "path"
 
 //file manage module
@@ -36,6 +37,7 @@ fileRoutes.get("/getallfile",verifyUser,getAllFile)
 fileRoutes.post("/upload",verifyUser, upload.array("files"), uploadFile)
 fileRoutes.get("/download/:type/:filename", downloadFile)
 fileRoutes.post("/hidefile", hideFile)
+fileRoutes.post("/comment",commentFile)
 
 //check expired file every 5 minutes
 // setInterval(deleteExpiredFile, 300000)

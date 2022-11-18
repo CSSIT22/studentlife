@@ -40,7 +40,20 @@ const getAllFile = async (req: Request | any, res: Response | any) => {
                         lName: true,
                     },
                 },
-                comments:{}
+                comments:{
+                    orderBy:{
+                        commentedAt:"desc",
+                    },
+                    include:{
+                        commentor:{
+                            select:{
+                                fName:true,
+                                lName:true,
+                            },
+                        },
+                    }
+
+                }
             }
         })
         res.json(fileList)

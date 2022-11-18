@@ -37,7 +37,7 @@ export default function Receivedrop<FC>() {
     const fetchAllFile = async () => {
         const res = await API.get("/airdrop/file/getallfile", {
             withCredentials: true,
-        }).then((res) => {
+        }).then((res) => {  
             if(fileList.length === 0){
                 setFileList(res.data)
             }else{
