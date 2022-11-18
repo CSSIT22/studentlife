@@ -2,6 +2,7 @@ import { Box, Button, Center, Flex, Heading, Icon, Image, Spacer, Text } from "@
 import React, { useState } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
+import { Link } from "react-router-dom"
 
 declare global {
     var date: string, time: string
@@ -36,6 +37,10 @@ const DatingYourActivityBox = () => {
         } else {
             return min + "-" + max + " people"
         }
+    }
+
+    function goToPoll(pId: string) {
+        return "/dating/poll/yourpoll/" + pId + "/"
     }
 
     return (
@@ -73,21 +78,22 @@ const DatingYourActivityBox = () => {
                         <Text fontSize="16px">Time: {globalThis.time}</Text>
                         <Text fontSize="16px">Number of people: {handlePeople(values.participantMin, values.participantMax)}</Text>
                         <Flex justifyContent="end">
-                            <Button
-                                display="flex-end"
-                                type="submit"
-                                form="new-note"
-                                borderRadius="full"
-                                colorScheme="orange"
-                                // onClick={() => handleSubmit()}
-                                m="10px"
-                                p="5px"
-                                mt="10px"
-                            >
-                                <Center>
-                                    <BsFillPeopleFill />
-                                </Center>
-                            </Button>
+                            <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
+                                <Button
+                                    display="flex-end"
+                                    type="submit"
+                                    form="new-note"
+                                    borderRadius="full"
+                                    colorScheme="orange"
+                                    m="10px"
+                                    p="5px"
+                                    mt="10px"
+                                >
+                                    <Center>
+                                        <BsFillPeopleFill />
+                                    </Center>
+                                </Button>
+                            </Link>
                         </Flex>
                     </Box>
                 )
