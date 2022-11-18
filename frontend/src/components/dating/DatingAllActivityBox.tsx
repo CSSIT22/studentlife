@@ -12,7 +12,6 @@ declare global {
 const DatingAllActivityBox = () => {
     const [poll, setPoll] = useState(POLL)
     const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
-    const [applied, setAppiled] = useState(false)
 
     function appiled(pId: string) {
         const today = new Date()
