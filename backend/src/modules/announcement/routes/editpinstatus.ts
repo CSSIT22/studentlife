@@ -9,8 +9,8 @@ const editPinStatus = (req:Request,res:Response) =>{
     const newData = getPost().map((post) => {
         if(post.postId == postId){
             post.pinStatus = pinStatus
+            editpinStatus = post
         }
-        editpinStatus = post
         return post
     })
     setPost(newData)
