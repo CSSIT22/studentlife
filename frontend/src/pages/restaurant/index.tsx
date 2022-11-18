@@ -22,13 +22,14 @@ import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Restaurant } from "./data/restaurant"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 function Homepage() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = useState(0)
     const property = Restaurant.filter((e1) => {
         return e1.id == count
     })
+    const navigate = useNavigate()
 
     // const countres = () => {
     //     setcount(count + 1)
@@ -41,6 +42,9 @@ function Homepage() {
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
+            onLoad={() => {
+                navigate("/restaurant/0")
+            }}
         >
             <Box mb={"30px"}>
                 <Searchbar />

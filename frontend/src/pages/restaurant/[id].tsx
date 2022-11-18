@@ -162,7 +162,7 @@ function LikeorNope() {
             <Box mb={"30px"}>
                 <Searchbar />
             </Box>
-            <Box px={2} borderWidth="1px" borderRadius="lg" h={"100%"} pb={6} pt={2}>
+            <Box px={2}  h={"100%"} pb={6} pt={2}>
                 {property.map((e1) => {
                     return (
                         <>
