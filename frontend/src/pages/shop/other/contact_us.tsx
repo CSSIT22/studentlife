@@ -11,20 +11,20 @@ const ContactUs = () => {
             <PageTitle title="Contact Us" />
             <Flex direction="column" gap="6">
                 <TitleBox title="Contact Us"></TitleBox>
-                <ContentBox>
+                <ContentBox bg="#fff" sh="xl">
                     <Flex direction="row" justify="space-evenly" gap="3" wrap="wrap">
-                        <Flex direction="column" gap="4" p="4">
+                        <Flex direction="column" gap="4" p="4" >
                             {phoneNo("+(66) 921 979 782")}
                             {phoneNo("+(66) 921 979 782")}
                             {phoneNo("+(66) 921 979 782")}
                         </Flex>
-                        <Flex direction="column" justify="center" p="4">
+                        <Flex direction="column" justify="center" p="4" >
                             {phoneNo("Line Id: khush")}
                         </Flex>
                     </Flex>
                 </ContentBox>
                 <TitleBox title="Read Me"></TitleBox>
-                <ContentBox>
+                <ContentBox bg="#fff"  sh="xl">
                     <Flex p="6" direction="column" gap="3">
                         <Text>Please send us the following information if you want to sell a product on our platform:</Text>
                         <UnorderedList>
@@ -47,9 +47,9 @@ const ContactUs = () => {
 
     function phoneNo(phone: string) {
         return (
-            <Box bg="#e9e8e8" p="4" borderRadius="lg">
-                <Center>
-                    <Text>{phone}</Text>
+            <Box bg="#E65300" py="4" px="12" borderRadius="lg" color="#fff" shadow="lg">
+                <Center minW={{base: 0, md: 200}}>
+                    <Text >{phone}</Text>
                 </Center>
             </Box>
         )

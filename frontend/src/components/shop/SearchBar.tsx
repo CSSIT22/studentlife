@@ -7,7 +7,7 @@ const Searchbar = () => {
         <Flex px="4">
             <InputGroup>
                 <InputLeftElement pl="2" pointerEvents="none" children={<TbSearch />} />
-                <Input type="search" placeholder="Search" shadow= "md" borderRadius="full" size={"md"} background="white"></Input>
+                <Input type="search" placeholder="Search" shadow= "md" border="1px solid #CBD5E0" borderRadius="10px" size={"md"} background="white"></Input>
             </InputGroup>
         </Flex>
             

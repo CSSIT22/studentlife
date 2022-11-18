@@ -11,14 +11,14 @@ const ProductDisplay: FC<{
 }> = ({ name, image, brandName, price, link }) => {
     return (
         <div>
-            <Box pt-6 background="white" width="11rem" height="16rem" borderRadius="lg" overflow="hidden" shadow="md">
+            <Box mt="6" background="white" width="11rem" height="16rem" borderRadius="lg" overflow="hidden" shadow="xl" border ="1px solid">
                 <LinkBox>
                     <Flex direction="column">
                         <LinkOverlay href={link}></LinkOverlay>
-                        <Center>
+                        <Box mt = "3" mx="3" mb="2" borderRadius="lg" overflow="hidden" shadow="md">
                             <Image width="11rem" height="9rem" src={image} alt="Img" objectFit="cover" />
-                        </Center>
-                        <Box pt="2" px="6">
+                        </Box>
+                        <Box px="6">
                             {/* // Uncomment to add Badge
                         <Box display="flex" alignItems="baseline">
                             <Badge borderRadius="full" px="2" colorScheme="teal">
