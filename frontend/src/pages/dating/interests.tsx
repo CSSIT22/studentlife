@@ -75,7 +75,7 @@ const TagOfInterest = () => {
                     </Container>
                 </Box>
             </Box>
-            <Box pt={{ base: "190px", md: "230px" }}>
+            <Box pt="230px">
                 {/* CheckboxGroup : List of tags of interest */}
                 {interests.map(({ interestId, interestName }) => (
                     // DatingInterestTag component: Used for generating interactive tag

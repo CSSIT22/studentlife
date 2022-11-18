@@ -1,13 +1,53 @@
-import { Box, Button, Container, Heading, Image, Text, useBreakpointValue } from "@chakra-ui/react"
+import {
+    Box,
+    Button,
+    Container,
+    Flex,
+    Heading,
+    Image,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Text,
+    useBreakpointValue,
+    useDisclosure,
+} from "@chakra-ui/react"
+import { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import DatingAllActivityBox from "src/components/dating/DatingAllActivityBox"
 import DatingAppBody from "../../../../components/dating/DatingAppBody"
 import ChatImg from "../../../../components/dating/pic/chat.png"
 import CheckImg from "../../../../components/dating/pic/check.png"
+import { POLL } from "../../../../components/dating/shared/poll"
+// import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
 
 const YourPoll = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+    const { pollId } = useParams()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
+
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
+
+    function handlePeople(min: number, max: number) {
+        if (max === min && max === 1) {
+            return min + " person"
+        } else if (max === min && max !== 1) {
+            return min + " people"
+        } else {
+            return min + "-" + max + " people"
+        }
+    }
 
     function handleBottomBar() {
         let bottomBar = document.getElementById("bottomBar") as HTMLInputElement
@@ -34,25 +74,33 @@ const YourPoll = () => {
                 >
                     <Box h="90%" mb="35px">
                         <Text pt="17px" pl="31px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
-                            Poll Header
+                            {pollInfo.pollName}
                         </Text>
                     </Box>
                     <Box h="10%" display="flex" justifyContent="end" alignItems="end">
                         <Text
-                            pb="17px"
-                            pr="31px"
+                            mb="17px"
+                            mr="31px"
                             fontWeight="400"
                             fontSize={{ base: "14px", md: "16px" }}
                             lineHeight="150%"
                             textDecorationLine="underline"
                             color="black"
                             cursor="pointer"
+                            onClick={onOpen}
                         >
                             Click to see more
                         </Text>
                     </Box>
                 </Box>
-                <Heading color="black" ml={{base: "10px", md: "0px"}} pb={{ base: "16px", md: "24px" }} fontWeight="700" fontSize={{ base: "25px", md: "26px" }} lineHeight="150%">
+                <Heading
+                    color="black"
+                    ml={{ base: "10px", md: "0px" }}
+                    pb={{ base: "16px", md: "24px" }}
+                    fontWeight="700"
+                    fontSize={{ base: "25px", md: "26px" }}
+                    lineHeight="150%"
+                >
                     People interested in joining your activity
                 </Heading>
                 <Box
@@ -265,6 +313,50 @@ const YourPoll = () => {
                     </Box>
                 </Container>
             </Box>
+
+            <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>
+                        <Flex alignItems="center">
+                            <Image
+                                borderRadius="full"
+                                boxSize="78px"
+                                objectFit="cover"
+                                src={pollInfo.creator.url}
+                                alt={pollInfo.creator.Fname + " " + pollInfo.creator.Lname}
+                            />
+                            <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
+                                {pollInfo.creator.Fname}
+                                &nbsp;
+                                {pollInfo.creator.Lname}
+                            </Text>
+                        </Flex>
+                    </ModalHeader>
+                    <ModalBody>
+                        <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
+                            {pollInfo.pollName}
+                        </Heading>
+                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
+                            {pollInfo.pollText.length > 1 ? "Description:" : ""} {pollInfo.pollText}
+                        </Text>
+                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                            Location: {pollInfo.pollPlace}
+                        </Text>
+
+                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                            Date: {globalThis.date}
+                        </Text>
+                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                            Time: {globalThis.time}
+                        </Text>
+                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
+                            Number of people: {handlePeople(pollInfo.participantMin, pollInfo.participantMax)}
+                        </Text>
+                    </ModalBody>
+                    <ModalCloseButton />
+                </ModalContent>
+            </Modal>
         </>
     )
 }
