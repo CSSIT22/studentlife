@@ -1,5 +1,6 @@
-import { Text, Container, Box, Stack, Button, Link, Center, useMediaQuery, Hide, Show, Flex, Spacer } from "@chakra-ui/react"
+import { Text, Container, Box, Stack, Button, Link, useMediaQuery, Hide, Show, Flex, Spacer } from "@chakra-ui/react"
 import React from "react"
+import SelectMasterCard from "src/components/transaction/methodpayment/MasterCardModal"
 import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
 import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
 import AppBody from "../../../components/share/app/AppBody"
@@ -8,6 +9,7 @@ import OrderList from "../../../components/transaction/shoptransaction/OrderList
 
 const shopTransaction = () => {
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
+
     return (
         <AppBody>
             <Header name="CHECKOUT" />
@@ -55,8 +57,8 @@ const shopTransaction = () => {
                         <Spacer />
                         <Box>
                             <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                                <Link href="shoptransaction/selectmethod" target="_parent" color="black">
-                                    <Text fontSize="sm" fontWeight={"bold"}>
+                                <Link href="shoptransaction/selectmethod">
+                                    <Text fontSize="sm" fontWeight={"bold"} color="black">
                                         Select Method
                                     </Text>
                                 </Link>
@@ -66,34 +68,39 @@ const shopTransaction = () => {
                 </Show>
                 <Hide below="md">
                     <Flex>
-                        <Text fontSize={isSmallerThan768 ? "md" : "lg"} fontWeight={"bold"}>
+                        <Text fontSize="lg" fontWeight={"bold"}>
                             Payment Method
                         </Text>
                         <Spacer />
-                        <Stack direction="row" gap="20px">
-                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                                <Link href="shoptransaction/masterCard" target="_parent" color="black">
-                                    <Text fontSize="lg" fontWeight={"bold"}>
-                                        MasterCard
-                                    </Text>
-                                </Link>
-                            </Button>
-                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                                <Link href="shoptransaction/eBanking" target="_parent" color="black">
-                                    <Text fontSize="lg" fontWeight={"bold"}>
-                                        Ebanking
-                                    </Text>
-                                </Link>
-                            </Button>
-                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                                <Link href="shoptransaction/qrCode" target="_parent" color="black">
-                                    <Text fontSize="lg" fontWeight={"bold"}>
-                                        QRcode
-                                    </Text>
-                                </Link>
-                            </Button>
-                        </Stack>
+                        <SelectMasterCard />
+                        <Spacer />
+                        {/* <Button colorScheme="whiteAlpha" onClick={onOpen} shadow={"lg"}>
+                            <Text fontSize="lg" fontWeight={"bold"} color="black">
+                                Ebanking
+                            </Text>
+                        </Button>
+                        <Spacer />
+                        <Button colorScheme="whiteAlpha" onClick={onOpen} shadow={"lg"}>
+                            <Text fontSize="lg" fontWeight={"bold"} color="black">
+                                QRcode
+                            </Text>
+                        </Button> */}
                     </Flex>
+                    {/* 
+                    <Collapse in={isOpen} animateOpacity>
+                        <Box w={"100%"} p="40px" color="white" mt="4" bg="#fff2e5" rounded="md" shadow="md">
+                            <Text fontSize="lg" color="black">
+                            {method ? 'MasterCard' : 'ffff'}
+                            </Text>
+                        </Box>
+                    </Collapse> */}
+                    {/* <Collapse in={isOpen} animateOpacity>
+                        <Box w={"100%"} p="40px" color="white" mt="4" bg="#fff2e5" rounded="md" shadow="md">
+                            <Text fontSize="lg" color="black">
+                                Card
+                            </Text>
+                        </Box>
+                    </Collapse> */}
                 </Hide>
             </Container>
 

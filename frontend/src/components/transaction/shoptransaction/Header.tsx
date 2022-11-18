@@ -6,7 +6,7 @@ const header: FC<{
 }> = ({ name }) => {
     return (
         <div>
-            <Box bg="#E67f45" w={"100%"}>
+            <Box bg="#E67f45" w={"100%"} shadow={"lg"}>
                 <Center py="60px">
                     <Text fontSize="3xl" fontWeight={"bold"} color="white">
                         {name}
