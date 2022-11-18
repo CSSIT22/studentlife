@@ -54,4 +54,9 @@ export const people = [
         name: "Almas",
         last: "TheBaek",
     },
+    {
+        id: 12,
+        name: "Poohsie",
+        last: "Sudlor",
+    },
 ]
