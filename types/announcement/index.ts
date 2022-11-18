@@ -6,6 +6,7 @@ export type addMoreLangType = {
 }
 export type post = {
     postId:number,
+    userId:string,
     lang_id:number,
     topic:string,
     detail:string,
