@@ -2,6 +2,7 @@ import { verifyUser } from './../backendService/middleware/verifyUser';
 import { post } from "./../../../../types/announcement/index"
 import express from "express"
 import { getHeapCodeStatistics } from "v8"
+import getDetail from './routes/getdetail';
 
 const announcementRoutes = express()
 
@@ -87,5 +88,7 @@ announcementRoutes.get("/getPostOnAnnouncement", verifyUser,(req, res) => {
     })
     res.send(selectpost)
 })
+
+announcementRoutes.get("/getdetail/:id",getDetail)
 
 export default announcementRoutes

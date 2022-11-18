@@ -1,10 +1,11 @@
-import { Box, Flex, Grid, GridItem, Heading, Select, Show, Spacer, Stack, Text } from "@chakra-ui/react"
-import React, { useState } from "react"
+import { Box, Flex, Grid, GridItem, Heading, Select, Show, Spacer, Stack, Text, useBoolean } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
-import {languageInfo} from '@apiType/announcement'
+import {languageInfo, post} from '@apiType/announcement'
+import API from "src/function/API"
 
 
 export let langInfos:languageInfo[]  = [
@@ -15,13 +16,27 @@ export let langInfos:languageInfo[]  = [
 ]
 
 const detail = () => {
-    // อย่าลืมเพิ่มส่วนที่ apply ข้อมูลตาม announcement ที่คลิก
-    const params = useParams().postId
-    // console.log(params)
-    const post = postInfoTest.filter((el) => {
-        return el.postId == parseInt(params + "")
-    })
-    // console.log(post)
+
+    const [isError,{on}] = useBoolean()
+    const params = useParams()
+    // console.log(params.postId)
+    // const post = postInfoTest.filter((el) => {
+    //     return el.postId == parseInt(params.postId + "")
+    // })
+    const [post, setpost] = useState<post[]>([])
+    const getData = API.get("/announcement/getdetail/"+params.postId)
+    useEffect(() => {
+        getData.then((item) => setpost(item.data)).catch(err => on())
+    },[])
+    // console.log(p);
+    if(isError) return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
+    // const otlang = p.map((el) => el.addMoreLang)
+    // console.log(otlang[0]);
+    // const slt = otlang[0]?.filter((el) => el.lang_id == 1001);
+    // console.log(slt);
+    
+    
+    
     
     const selectLangName = (lang_id:number) => {
         const lang = langInfos.filter((el) => el.lang_id == lang_id) 
@@ -30,16 +45,16 @@ const detail = () => {
     const [lang, setlang] = useState<number>(1000);
     // console.log(lang);
     const otherLang = post.map((el) => el.addMoreLang)
-    // console.log(otherLang[0]);
+    // console.log(otherLang);
     const selectLang = (lang:number ) =>{
-        const selected = otherLang[0].filter((el) => el.lang_id == lang)
+        const selected = otherLang[0]?.filter((el) => el.lang_id == lang)
         // console.log(selected);
         
         if(lang != 1000){
             return (
                 <>
                 <Heading as="h2" size="xl">
-                {selected.map((el) => {
+                {selected?.map((el) => {
                     return el.topic
                 })}
             </Heading>
@@ -62,7 +77,7 @@ const detail = () => {
             </Box>
             <Box>
                 <Text fontSize="sm" align="justify">
-                    {selected.map((el) => {
+                    {selected?.map((el) => {
                         return el.detail
                     })}
                 </Text>
@@ -136,8 +151,8 @@ const detail = () => {
             <Grid templateColumns={{base:"1fr 1fr",lg:"1fr 3fr"}} my={5}>
                 <GridItem>
                     <Select placeholder="select language" bg="blue.600" color="white" onChange={(el) => setlang( parseInt(el.target.value+""))}>
-                        {otherLang[0].map((el) => {
-                            return <option value={el.lang_id}>{selectLangName(el.lang_id)}</option>
+                        {otherLang[0]?.map((el) => {
+                            return <option value={el.lang_id} key={el.id}>{selectLangName(el.lang_id)}</option>
                         })}
                     </Select>
                 </GridItem>
