@@ -9,7 +9,8 @@ import { Restaurant } from "./data/restaurant"
 const search = () => {
     const location = useLocation()
     const filterres = Restaurant.filter((e1) => {
-        return e1.resName.toLowerCase() === new URLSearchParams(location.search).get('name')?.toLowerCase()
+        var num = new URLSearchParams(location.search).get('name')?.length
+        return e1.resName.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length) === new URLSearchParams(location.search).get('name')?.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length)
         
     })
     return (

@@ -1,37 +1,15 @@
-import { Box, Button, Center, Flex, FormControl, GridItem, Input, InputGroup, InputLeftElement, Select, SimpleGrid } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Input, InputGroup, InputLeftElement, Select, SimpleGrid } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { TfiSearch } from "react-icons/tfi"
-import { useNavigate, useParams, useSearchParams } from "react-router-dom"
-import { Restaurant } from "src/pages/restaurant/data/restaurant"
+import { useNavigate} from "react-router-dom"
 const Searchbar = () => {
-    // const [message, setmessage] = useState("")
     let [search, setSearch] = React.useState<any>()
     const navigate = useNavigate()
-    // const params = useParams<any>()
-
-    // const search = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setmessage(event.target.value);
-    //     console.log(event.target.value);
-    //     alert(message)
-    // }
-    // const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     event.preventDefault()
-    //     alert(message)
-    // }
-
-    const serializeFormQuery = () => {
-
-    }
 
     function handleSubmit(event:any) {
         event.preventDefault();
-        // The serialize function here would be responsible for
-        // creating an object of { key: value } pairs from the
-        // fields in the form that make up the query.
-        // console.log(searchParams);
-        
         setSearch(search);
-        console.log(search)
+        // console.log(search)
         
         navigate(`/restaurant/search?name=${search}`)
         
@@ -47,7 +25,6 @@ const Searchbar = () => {
 
                         <Input
                             placeholder="Search"
-                            borderRadius={"6px"}
                             onChange={(event) => {
                                 setSearch(event.target.value)
                             }}
