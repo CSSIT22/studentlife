@@ -15,12 +15,14 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    useToast,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
 import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "react-icons/md"
 import FileComment from "./FileComment"
 import { fileListContext } from "src/pages/airdrop/receive"
+import { authContext } from "src/context/AuthContext"
 
 const FileList: FC<{
     elementid: number
@@ -33,8 +35,11 @@ const FileList: FC<{
         fileDesc: string
         fileExpired: string
         comments: {
-            name: string
-            comment: string
+            commentor:{
+                fName: string
+                lName: string
+            }
+            commentText: string
         }[]
         sender:{
             userId:string,
@@ -44,7 +49,10 @@ const FileList: FC<{
     }
     fadeToggle: any
 }> = ({ elementid, info, fadeToggle }) => {
+    const [commentText,setComment] = useState("");
+    const toast = useToast();
     const fileContext = useContext(fileListContext)
+    const user = useContext(authContext)
     const initRef = useRef(null)
     const [senderImg, setSenderImg] = useState<string>("")
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -73,8 +81,11 @@ const FileList: FC<{
         fileDesc: string
         fileExpired: string
         comments: {
-            name: string
-            comment: string
+            commentor:{
+                fName: string | undefined
+                lName: string | undefined
+            }
+            commentText: string
         }[]
         sender:{
             userId:string,
@@ -98,7 +109,7 @@ const FileList: FC<{
     })
 
     const fetchSenderProfile = async () => {
-        const res = await API.get(`http://localhost:8000/airdrop/user/userprofile/${info.sender.userId}`)
+        const res = await API.get(`/airdrop/user/userprofile/${info.sender.userId}`)
         setSenderProfile(res.data)
         const base64String = btoa(String.fromCharCode(...new Uint8Array(res.data.image.data)))
         setSenderImg(base64String)
@@ -170,7 +181,7 @@ const FileList: FC<{
         modalData.comments.map((item: any) => {
             componentArr.push(
                 <>
-                    <FileComment name={item.name} comment={item.comment} />
+                    <FileComment name={item.commentor.fName + " "+item.commentor.lName} comment={item.commentText} />
                     <Divider />
                 </>
             )
@@ -181,7 +192,7 @@ const FileList: FC<{
 
     //handle function
     const handleDownload = async (type: string, name: string, sid: string, fid: string, event: any) => {
-        const downloadFile = await API.get(`http://localhost:8000/airdrop/file/download/${type}/${sid + name}`, {
+        const downloadFile = await API.get(`/airdrop/file/download/${type}/${sid + name}`, {
             responseType: "blob",
         })
         console.log(downloadFile)
@@ -194,7 +205,7 @@ const FileList: FC<{
 
 
         const hideFile = await API.post(
-            "http://localhost:8000/airdrop/file/hidefile",
+            "/airdrop/file/hidefile",
             {
                 fileId: fid,
             }
@@ -203,12 +214,37 @@ const FileList: FC<{
     }
     const handleDecline = async (id: string, event: any) => {
         const hideFile = await API.post(
-            "http://localhost:8000/airdrop/file/hidefile",
+            "/airdrop/file/hidefile",
             {
                 fileId: id,
             }
         )
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== id))
+    }
+    const handleComment = async() =>{
+
+        const comment = await API.post("/airdrop/file/comment",{
+            fileId : modalData.fileId,
+            commentTxt : commentText
+        }).then(res=>{
+        }).catch(err=>{
+            console.log(err)
+            toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
+        }).finally(()=>{
+            setComment("")
+            toast({ title: "Comment Success", status: "success", duration: 3000, isClosable: true })
+        })
+    }
+    const updateComment = async() => {
+        const modifiedModalData = modalData;
+        modifiedModalData.comments.push({
+            commentor:{
+                fName: user?.fName,
+                lName: user?.lName
+            },
+            commentText: commentText
+        })
+        setModalData(modifiedModalData)
     }
     // useEffect(() => {
     //     console.log(info)
@@ -298,10 +334,13 @@ const FileList: FC<{
                                 <Divider />
                                 {RenderModalComments()}
                                 <HStack>
-                                    <Input type={"text"} id="commentin" />
+                                    <Input type={"text"} id="commentin" value={commentText} onChange={(e)=>{
+                                        setComment(e.target.value)
+                                    }}/>
                                     <Button
                                         onClick={() => {
-                                            alert("comment")
+                                            handleComment()
+                                            updateComment()
                                         }}
                                     >
                                         Comment{" "}
