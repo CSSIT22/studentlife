@@ -31,10 +31,6 @@ function Homepage() {
     })
     const navigate = useNavigate()
 
-    // const countres = () => {
-    //     setcount(count + 1)
-    // }
-
     return (
         <AppBody
             secondarynav={[

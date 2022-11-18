@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { getRestaurant } from ".."
-import {Restaurant} from "@apiType/restaurant"
-const showRestaurant = (req:Request, res:Response) => {
+import { Restaurant } from "@apiType/restaurant"
+const showRestaurant = (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let selectedRes: Restaurant | null = null
     getRestaurant().forEach((res) => {
@@ -9,7 +9,6 @@ const showRestaurant = (req:Request, res:Response) => {
             selectedRes = res
         }
     })
-    return selectedRes
-   
+    res.send([selectedRes])
 }
 export default showRestaurant

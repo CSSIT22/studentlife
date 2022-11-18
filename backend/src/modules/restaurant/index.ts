@@ -2,6 +2,7 @@ import express from "express"
 import likedRestaurant from "./routes/likedRestaurant"
 import showRestaurant from "./routes/showRestaurant"
 import {Restaurant} from "@apiType/restaurant"
+import searchRestaurant from "./routes/searchRestaurant"
 
 const restaurantRoutes = express()
 
@@ -61,5 +62,7 @@ export const getRestaurant = () => restaurant
 restaurantRoutes.get("/:id", showRestaurant)
 
 // restaurantRoutes.post("/:id", likedRestaurant)
+
+restaurantRoutes.get("/search?name=:name", searchRestaurant)
 
 export default restaurantRoutes
