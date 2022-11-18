@@ -6,5 +6,11 @@ export type createCommunity = {
     communityPhoto?: Blob
 }
 
-
+export type editCommunity = {
+    communityId: string
+    communityName: string
+    communityDesc: string
+    communityPrivacy: boolean
+    communityPhoto?: Blob
+}
 

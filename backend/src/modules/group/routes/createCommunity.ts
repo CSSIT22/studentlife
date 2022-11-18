@@ -9,11 +9,11 @@ const createCommunity = async (req: Request, res: Response) =>{
         const userid = req.user?.userId
         
         const createCommunity : any = {   
-            communityName : body.name,
+            communityName : body.communityName,
             communityOwnerId : body.user,
-            communityDesc : body.desc,
-            communityPrivacy : body.privacy,
-            communityPhoto : body.photo
+            communityDesc : body.communityDesc,
+            communityPrivacy : body.communityPrivacy,
+            communityPhoto : body.communityCoverPhoto
         }
 
         try{
