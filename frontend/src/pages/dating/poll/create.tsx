@@ -31,6 +31,9 @@ import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
 import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
+import DatingCreateHeader from "src/components/dating/DatingCreateHeader"
+import DatingCreateDescription from "src/components/dating/DatingCreateDescription"
+import DatingCreateLocation from "src/components/dating/DatingCreateLocation"
 
 declare global {
     var isPassDate: boolean, isPassTime: boolean, isLongDate: boolean, people: number[], tag: number[], topic: string[]
@@ -39,10 +42,10 @@ declare global {
 const CreateActivityPoll = () => {
     // This use for set state to all variable
     const [header, setHeaderInput] = useState("")
-    const handleInputHeaderChange = (e: any) => setHeaderInput(e.target.value)
+    //const handleInputHeaderChange = (e: any) => setHeaderInput(e.target.value)
 
     const [description, setDescriptionInput] = useState("")
-    const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
+    //const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
 
     const [location, setLocationInput] = useState("")
     const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
@@ -80,7 +83,7 @@ const CreateActivityPoll = () => {
     //Validate the location
     const isTooLongLocation = location.length >= 100
     const isTooShortLocation = location.length < 5
-    let isValidLocation = isTooLongLocation && isTooShortLocation // Use for check all Location validate
+    let isValidLocation = !isTooLongLocation && !isTooShortLocation // Use for check all Location validate
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoDate = date.length < 8
     let isValidDate = !isNoDate && !globalThis.isPassDate // Use for check all Date validate
@@ -153,7 +156,7 @@ const CreateActivityPoll = () => {
 
     function handleSubmit() {
         // Validate all value before submit to database
-        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
+        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidLocation && isValidDate && !isNoTime && !isInTimePast(time)) {
             // console.log({ d: handleDateTime() })
             console.log(
                 "Header: " +
@@ -200,8 +203,9 @@ const CreateActivityPoll = () => {
             <Box m="10px" mt={{ base: "40px", md: "30px" }} p="50px" bg="white" mb="60px" borderRadius={"20px"} color={"black"}>
                 <Heading pb={"20px"}>Create a poll</Heading>
                 <Stack>
-                    <Center>
-                        {/* Header input & error control */}
+                    {/* Header input & error control */}
+                    <DatingCreateHeader getHeader={setHeaderInput} />
+                    {/* <Center>
                         <FormControl isInvalid={!isValidHeader} isRequired>
                             <FormLabel>Poll header</FormLabel>
                             <Input
@@ -230,7 +234,7 @@ const CreateActivityPoll = () => {
                                 <FormErrorMessage color="red">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
                             )}
                         </FormControl>
-                    </Center>
+                    </Center> */}
                     <Center>
                         {/* Topic (tag of interest) input */}
                         <FormControl>
@@ -320,9 +324,6 @@ const CreateActivityPoll = () => {
                                                 interestId={interestId}
                                                 interestName={interestName}
                                                 onOpen={onOpen}
-                                                // selectedInterests={selectedInterests}
-                                                // numOfSelectedInterest={selectedInterests.length}
-                                                // setSelectedInterest={setSelectedInterest}
                                                 selectedInterests={selectedInterests}
                                                 numOfSelectedInterest={selectedInterests.length}
                                                 setSelectedInterest={setSelectedInterest}
@@ -343,9 +344,7 @@ const CreateActivityPoll = () => {
                                             }}
                                         >
                                             <DatingInterestDynamicButton
-                                                // numOfSelectedInterest={selectedInterests.length}
                                                 numOfSelectedInterest={selectedInterests.length}
-                                                // selectedInterests={selectedInterests}
                                                 selectedInterests={selectedInterests}
                                                 tagIsClicked={tagIsClicked}
                                             />
@@ -362,8 +361,8 @@ const CreateActivityPoll = () => {
                             )}
                         </FormControl>
                     </Center>
-                    <Center>
-                        {/* Description input & error control */}
+                    {/* Description input & error control */}
+                    {/* <Center>
                         <FormControl isInvalid={isTooLongDescription} pt="8px">
                             <FormLabel color={"white"}>Poll description</FormLabel>
                             <Textarea
@@ -388,10 +387,10 @@ const CreateActivityPoll = () => {
                                 </FormErrorMessage>
                             )}
                         </FormControl>
-                    </Center>
-
-                    <FormControl isInvalid={!isValidLocation} isRequired>
-                        {/* Location input & error control */}
+                    </Center> */}
+                    <DatingCreateDescription getDescription={setDescriptionInput} />
+                    {/* Location input & error control */}
+                    {/* <FormControl isInvalid={!isValidLocation} isRequired>
                         <FormLabel>Location</FormLabel>
                         <Flex>
                             <Input
@@ -411,10 +410,10 @@ const CreateActivityPoll = () => {
                                 errorBorderColor="red"
                                 isRequired
                                 shadow="lg"
-                            />
-                            {/* IMPORTANT!!! */}
-                            {/* If that user haven't use the restaurant function we should block this feature*/}
-                            <Select
+                            /> */}
+                    {/* IMPORTANT!!! */}
+                    {/* If that user haven't use the restaurant function we should block this feature*/}
+                    {/* <Select
                                 borderRadius={"6px"}
                                 placeholder="Pick from your favorites."
                                 size="sm"
@@ -443,7 +442,8 @@ const CreateActivityPoll = () => {
                         ) : (
                             <FormErrorMessage color="red">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
                         )}
-                    </FormControl>
+                    </FormControl> */}
+                    <DatingCreateLocation getLocation={setLocationInput} />
                     {/* Date input & error control */}
                     <FormControl isInvalid={!isValidDate} isRequired>
                         <FormLabel>Date</FormLabel>
