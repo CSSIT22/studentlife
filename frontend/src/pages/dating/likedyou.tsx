@@ -1,4 +1,4 @@
-import { Box, HStack, SimpleGrid, useBreakpointValue } from "@chakra-ui/react"
+import { Box, Container, HStack, SimpleGrid, useBreakpointValue } from "@chakra-ui/react"
 import { useState } from "react"
 import DatingCheckDesktopDetails from "src/components/dating/DatingCheckDesktopDetails"
 import DatingCheckImage from "src/components/dating/DatingCheckImage"
@@ -50,16 +50,34 @@ const LikedYou = () => {
 
     return (
         <DatingAppBody>
-            <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "20px", md: "30px" }}>
-                <DatingLikedYouButton backgroundColor="orange.800" />
-                <DatingYouLikedButton backgroundColor="orange.600" />
-            </HStack>
+            <Box display="flex" justifyContent="center">
+                <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
+                    <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
+                    <HStack
+                        gap={{ base: "20px", md: "100px" }}
+                        display="flex"
+                        justifyContent="center"
+                        pt={{ base: "40px", md: "30px" }}
+                        pb="30px"
+                    >
+                        <DatingLikedYouButton backgroundColor="orange.600" />
+                        <DatingYouLikedButton backgroundColor="orange.800" />
+                    </HStack>
+                </Box>
+            </Box>
 
-            <Box display={{ base: "grid", md: "block" }} gridTemplateColumns="repeat(auto-fill, 200px)" gridGap="10px" justifyContent="center">
+            <Box
+                display={{ base: "grid", md: "block" }}
+                ml={{ base: "5px", md: "0px" }}
+                gridTemplateColumns="repeat(auto-fill, 165px)"
+                gridGap="10px"
+                justifyContent="center"
+                mt="120px"
+            >
                 {HState.heart_history
                     .filter((el) => !giveToUser?.some((f) => f.UserId == el.UserId))
                     .map(({ UserId, Fname, Lname, Gender, Age, Faculty, url, interestId }) => (
-                        <Box key={UserId} w={{ base: "159px", md: "100%" }} ml="10px" mr="10px">
+                        <Box key={UserId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
                             <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
                                 <Box>
                                     <DatingCheckImage url={url} />
@@ -94,3 +112,4 @@ const LikedYou = () => {
 }
 
 export default LikedYou
+

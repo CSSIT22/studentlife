@@ -59,9 +59,9 @@ const NotiTable = () => {
                 <Box>
                     <Stack direction={"row"}>
                         <MarkRead />
-                        <Button size={"1em"} bg={"transparent"}>
-                            <ShowSetting />
-                        </Button>
+                        {/* <Button size={"1em"} bg={"transparent"}> */}
+                        <ShowSetting />
+                        {/* </Button> */}
                     </Stack>
                 </Box>
             </Flex>

@@ -1,7 +1,7 @@
 import { Box, Button } from "@chakra-ui/react"
 import { FC } from "react"
 
-const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: String | String[]; tagIsClicked: boolean }> = ({
+const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: number[]; tagIsClicked: boolean }> = ({
     numOfSelectedInterest,
     selectedInterests,
     tagIsClicked,
@@ -27,11 +27,11 @@ const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedI
             onClick={handleSubmit}
         >
             {tagIsClicked || numOfSelectedInterest != 0 ? (
-                <Box font-weight="700" font-size="14px" line-height="120%">
+                <Box font-weight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
                     Done
                 </Box>
             ) : (
-                <Box font-weight="700" font-size="14px" line-height="120%">
+                <Box font-weight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
                     Skip
                 </Box>
             )}
