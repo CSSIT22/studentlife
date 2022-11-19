@@ -53,7 +53,7 @@ export const INTERESTS = [
     },
     {
         interestId: "14",
-        interestName: "Football",
+        interestName: "Volleyball",
     },
     {
         interestId: "15",
