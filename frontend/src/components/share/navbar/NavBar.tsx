@@ -17,7 +17,7 @@ export const NavBarMenu = [
 export const moreMenu = [
     { to: "/announcement", Icon: HiSpeakerphone, name: "Announcement" },
     { to: "/airdrop", Icon: BsFillCloudArrowUpFill, name: "Airdrop" },
-    { to: "/shortlink-feature", Icon: AiOutlineLink, name: "link-feature" },
+    { to: "/shortlink-feature", Icon: AiOutlin90eLink, name: "link-feature" },
     { to: "/shop", Icon: AiTwotoneShop, name: "Shop" },
     { to: "/restaurant", Icon: IoFastFoodSharp, name: "Restaurant" },
     { to: "/shopreview", Icon: MdReviews, name: "ShopReview" },
