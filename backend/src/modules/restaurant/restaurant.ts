@@ -2,6 +2,7 @@ import { Restaurant } from "@apiType/restaurant";
 
 export let restaurant: Restaurant[] = [
     {
+        userid: 101,
         id: 0,
         resName: "Kitchen cheif's",
         amountOflike: 123,
@@ -18,6 +19,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 1,
         resName: "BingSO",
         amountOflike: 442,
@@ -34,6 +36,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 2,
         resName: "KFC",
         amountOflike: 95,
@@ -50,6 +53,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 3,
         resName: "MC",
         open: "09.00",
@@ -66,6 +70,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 4,
         resName: "Amazon",
         open: "09.00",
@@ -82,6 +87,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 5,
         resName: "StarBuck",
         amountOflike: 1668,
@@ -98,6 +104,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 6,
         resName: "Ping House",
         amountOflike: 442,
@@ -114,6 +121,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 7,
         resName: "Bear House",
         amountOflike: 95,
@@ -130,6 +138,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 8,
         resName: "Tenjo",
         open: "09.00",
@@ -146,6 +155,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
+        userid: 101,
         id: 9,
         resName: "Zen",
         open: "09.00",

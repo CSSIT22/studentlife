@@ -1,4 +1,5 @@
 export type Restaurant = {
+    userid: number
     id: number
     resName: string;
     amountOflike: number;
