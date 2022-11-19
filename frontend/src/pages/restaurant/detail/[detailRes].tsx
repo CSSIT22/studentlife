@@ -30,13 +30,12 @@ import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
 import ShowImage from "../../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
-import { Restaurant } from ".././data/restaurant"
+// import { Restaurant } from ".././data/restaurant"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { friend } from "../data/friend"
 import API from "src/function/API"
-
 declare global {
-    var respage: number, rand: number
+    var respage: number
 }
 
 function detail() {
@@ -49,18 +48,21 @@ function detail() {
     const [property, setproperty] = React.useState<any>([])
     const navigate = useNavigate()
 
-    const addFavorite = () => {
-        console.log(Restaurant[numres].status)
-        Restaurant[numres].status = true
-        console.log(Restaurant[numres].status)
-    }
+    // const addFavorite = () => {
+    //     console.log(Restaurant[numres].status)
+    //     Restaurant[numres].status = true
+    //     console.log(Restaurant[numres].status)
+    // }
 
 
     useEffect(() => {
         API.get("/restaurant/detail/" + params.detailRes).
         then((item) => setproperty(item.data))
     }, [params.detailRes])
+
     console.log(property)
+
+    globalThis.respage = numres
 
     const [isFavorite, setIsFavorite] = useState(false)
     useEffect(() => {
@@ -84,7 +86,7 @@ function detail() {
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/${numres == Restaurant.length - 1 ? 0 : numres + 1}`}>
+                                    <Link to={`/restaurant/${globalThis.respage}`}>
                                         <CloseButton my={-4} ml={-1} />
                                     </Link>
 
@@ -108,10 +110,10 @@ function detail() {
                                             pr={6}
                                         >
                                             <Box display="flex" verticalAlign={"AiOutlineLike"}>
-                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.amoutOflike} liked
+                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.amountOflike} liked
                                             </Box>
                                             <Spacer />
-                                            <Link to={`/restaurant/review/${numres}`}>
+                                            <Link to={`/restaurant/review/${globalThis.respage}`}>
                                                 <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
                                                     <Icon as={AiOutlineComment} fontSize="md" /> Review
                                                 </Box>
@@ -164,8 +166,6 @@ function detail() {
                                             {isFavorite ? <AiFillHeart size={"full"} /> : <AiOutlineHeart size={"full"} />}
                                         </Button>
                                         <Spacer />
-                                        {/* {friendInfo.map((shareInfo) => {
-                                            return ( */}
                                         <Popover placement="top">
                                             {({ isOpen, onClose }) => (
                                                 <>

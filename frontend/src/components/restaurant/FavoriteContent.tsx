@@ -67,9 +67,9 @@ const FavoriteContent: FC<{
                                 <PopoverContent>
                                     <PopoverArrow />
                                     <PopoverCloseButton />
-                                    <PopoverHeader textAlign={"center"}>ARE YOU SURE</PopoverHeader>
-                                    <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
-                                    <PopoverFooter display="flex" justifyContent="center">
+                                    <PopoverHeader textAlign={"center"} border='0'>ARE YOU SURE</PopoverHeader>
+                                    <PopoverBody border='0'> you want to unfavorite this restaurant?</PopoverBody>
+                                    <PopoverFooter display="flex" justifyContent="center" border='0'>
                                         <ButtonGroup size="sm">
                                             <Button colorScheme="green" onClick={DeleteFv} mr={2}>
                                                 Yes
@@ -126,12 +126,12 @@ const FavoriteContent: FC<{
                                         <AiOutlineClose />
                                     </Flex>
                                 </PopoverTrigger>
-                                <PopoverContent>
-                                    <PopoverArrow />
+                                <PopoverContent borderWidth={"2px"} borderColor='black'>
+                                    <PopoverArrow bg={'red'}/>
                                     <PopoverCloseButton />
-                                    <PopoverHeader textAlign={"center"}>ARE YOU SURE</PopoverHeader>
-                                    <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
-                                    <PopoverFooter display="flex" justifyContent="center">
+                                    <PopoverHeader textAlign={"center"} border='0' color={"#E53E3E"} fontWeight={"bold"}>ARE YOU SURE</PopoverHeader>
+                                    <PopoverBody textAlign={"center"} fontWeight={"bold"} > you want to unfavorite <br/>this restaurant?</PopoverBody>
+                                    <PopoverFooter display="flex" justifyContent="center" border='0'>
                                         <ButtonGroup size="sm">
                                             <Button colorScheme="green" onClick={DeleteFv} mr={2}>
                                                 Yes
