@@ -26,6 +26,7 @@
         "react-icons": "^4.6.0",
         "react-router-dom": "^6.4.2",
         "react-tinder-card": "^1.6.2",
+        "socket.io-client": "^4.5.3",
         "sort-by": "^0.0.2",
         "swiper": "^8.4.4",
         "vite-tsconfig-paths": "^3.5.2"
