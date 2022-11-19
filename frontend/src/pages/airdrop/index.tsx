@@ -269,7 +269,10 @@ export default function Index<FC>() {
         const res = await API.get("/airdrop/user/getdepartment",{
             withCredentials:true
         }).then((res)=>{
-            setUserList({...userList,department:res.data})
+            const majorList = res.data.map((item:any)=>{
+                return item.majorName
+            })
+            setUserList({...userList,department:majorList})
         }).catch((err)=>{
             console.log(err);
         }).finally(()=>{
