@@ -1,40 +1,20 @@
-import {
-    Box,
-    Heading,
-    VStack,
-    Text,
-    Center,
-    Image,
-    Button,
-    ButtonGroup,
-    SimpleGrid,
-    Grid,
-    GridItem,
-    Flex,
-    IconButton,
-    Spacer,
-    Container,
-    Popover,
-    PopoverContent,
-    PopoverHeader,
-    PopoverTrigger,
-    Portal,
-    HStack,
-} from "@chakra-ui/react"
-import { PhoneIcon, AddIcon, WarningIcon, HamburgerIcon } from "@chakra-ui/icons"
-import AppBody from "../components/share/app/AppBody"
-import { AiFillAccountBook } from "react-icons/ai"
-import Profile from "../components/blog/Profile"
-import Optionbutton from "../components/blog/Optionbutton"
-import PostText from "../components/blog/PostText"
-import PostImage from "../components/blog/PostImage"
-import EmojiReaction from "../components/blog/EmojiReaction"
-import CommentButton from "../components/blog/CommentButton"
-import RemodButton from "../components/blog/RemodButton"
-import Username from "../components/blog/Username"
-import Time from "../components/blog/time"
+import { Center, Flex, Spacer, Box, Button } from "@chakra-ui/react"
+import React from "react"
+import CancelButton from "../../components/blog/cancleButton"
+import CommentButton from "../../components/blog/CommentButton"
+import EmojiReaction from "../../components/blog/EmojiReaction"
+import Optionbutton from "../../components/blog/Optionbutton"
+import PostImage from "../../components/blog/PostImage"
+import PostText from "../../components/blog/PostText"
+import PostType_modal from "../../components/blog/PostType_modal"
+import Profile from "../../components/blog/Profile"
+import RemodButton from "../../components/blog/RemodButton"
+import Time from "../../components/blog/time"
+import Username from "../../components/blog/Username"
+import UsernameOnly from "../../components/blog/UsernameOnly"
+import AppBody from "../../components/share/app/AppBody"
 
-const Home = () => {
+const create = () => {
     return (
         <AppBody>
             <Center>
@@ -44,14 +24,13 @@ const Home = () => {
                             <Profile image="https://www.sit.kmutt.ac.th/wp-content/uploads/2022/11/narongrit.jpg" />
 
                             <Box marginLeft={"4"}>
-                                <Username name="Narongrit Waraporn" />
-
-                                <Time date={13} month={11} year={2022} />
+                                <UsernameOnly name="Narongrit Waraporn" />
+                                <PostType_modal />
                             </Box>
 
                             <Spacer />
 
-                            <Optionbutton />
+                            <CancelButton />
                         </Flex>
                     </Box>
                     <PostText
@@ -90,4 +69,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default create
