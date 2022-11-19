@@ -37,6 +37,15 @@ const history = () => {
         return el.postId == parseInt(params.postId + "")
     })
     const [post, setPost] = React.useState<post[]>([])
+    useEffect(() => {
+        API.get("/announcement/getdetail/"+params.postId).then((item) => setPost(item.data))
+     },[])
+     console.log(post);
+     const tptest = post.map((el) => {
+        return el.topic
+    })
+    //  console.log(tptest[0]);
+     
     // console.log(postParams[0].addMoreLang.length)
 
     const tgType = postParams.map((el) => {
@@ -244,6 +253,7 @@ const history = () => {
         yyyy = today.getFullYear()
         return yyyy + "-" + mm + "-" + dd
     }
+   
     return (
         <AppBody
             secondarynav={[
@@ -258,17 +268,15 @@ const history = () => {
                 onSubmit={(e) => {
                     onOpen()
                     e.preventDefault()
-                    useEffect(() => {
-                        API.post<post>("/announcement/editdetailpost", {
-                            topic: topic,
-                            detail: detail,
-                            targetType: targetType,
-                            targetValue: targetValue,
-                            postAt: new Date(),
-                            expiredOfPost:  new Date(expired),
-                            addMoreLang: addMoreLang
-                        })
-                    },[])
+                    API.post<post>("/announcement/editdetailpost", {
+                        topic: topic,
+                        detail: detail,
+                        targetType: targetType,
+                        targetValue: targetValue,
+                        postAt: new Date(),
+                        expiredOfPost:  new Date(expired),
+                        addMoreLang: addMoreLang
+                    })
                 }}
             >
                 <Flex alignItems={"center"}>
