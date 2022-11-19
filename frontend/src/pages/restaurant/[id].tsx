@@ -21,7 +21,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Restaurant } from "./data/restaurant"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import API from "src/function/API"
 declare global {
     var respage: number, rand: number
@@ -41,11 +41,11 @@ function LikeorNope() {
             // .finally(off)
             
     }, [params.id])
-    console.log(property);
-    console.log(params.id);
+    // console.log(property);
+    // console.log(params.id);
     
     const Nope = () => {
-        if (res < Restaurant.length - 1) {
+        if (res < 9) {
             setres(res + 1)
         } else {
             setres(0)
@@ -99,7 +99,7 @@ function LikeorNope() {
 
                         <Box>
                             <Button onClick={Nope} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
-                                <Link to={`/restaurant/${globalThis.respage == Restaurant.length - 1 ? 0 : globalThis.respage + 1}`}>
+                                <Link to={`/restaurant/${globalThis.respage == 9 ? 0 : globalThis.respage + 1}`}>
                                     <AiOutlineDislike size={"xl"} />
                                 </Link>
                             </Button>
