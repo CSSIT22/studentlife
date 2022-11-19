@@ -14,7 +14,7 @@ const mockRoom: room = [
     { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://picsum.photos/200/300" },
     { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://picsum.photos/200/300" },
     { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "5555", roomName: "4Young", roomtype: "group", img: "hhttps://picsum.photos/200/300" },
+    { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://picsum.photos/200/300" },
     { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://picsum.photos/200/300" },
     { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://picsum.photos/200/300" },
     { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://picsum.photos/200/300" },
