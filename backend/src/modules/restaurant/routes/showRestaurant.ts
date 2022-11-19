@@ -3,6 +3,8 @@ import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
 const showRestaurant = (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
+    console.log(id);
+    
     let selectedRes: Restaurant | null = null
     getRestaurant().forEach((res) => {
         if (res.id == id) {

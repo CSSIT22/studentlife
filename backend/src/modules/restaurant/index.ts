@@ -58,11 +58,10 @@ export let restaurant: Restaurant[] = [
 ]
 
 export const getRestaurant = () => restaurant
+restaurantRoutes.get("/search", searchRestaurant)
 
 restaurantRoutes.get("/:id", showRestaurant)
 
 // restaurantRoutes.post("/:id", likedRestaurant)
-
-restaurantRoutes.get("/search?name=:name", searchRestaurant)
 
 export default restaurantRoutes

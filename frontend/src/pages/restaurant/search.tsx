@@ -10,6 +10,8 @@ const search = () => {
     const location = useLocation()
     const filterres = Restaurant.filter((e1) => {
         var num = new URLSearchParams(location.search).get('name')?.length
+        console.log();
+        
         return e1.resName.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length) === new URLSearchParams(location.search).get('name')?.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length)
         
     })

@@ -31,7 +31,6 @@ function LikeorNope() {
     const [count, setcount] = React.useState(1)
     const params = useParams()
     const [property, setproperty] = React.useState<any>([]);
-    const [check, setcheck] = useState(false);
     const navigate = useNavigate()
     // const property = Restaurant.filter((e1) => {
     //     return e1.id == parseInt(params.id + "")
@@ -45,7 +44,7 @@ function LikeorNope() {
             // .catch((err) => on())
             // .finally(off)
             
-    }, [check])
+    }, [params.id])
     console.log(property);
     console.log(params.id);
     
@@ -59,14 +58,7 @@ function LikeorNope() {
         if (count % 5 == 0) {
             return onOpen()
         }
-        if(check == false) {
-        setcheck(true)
-    }else{
-        setcheck(false)
     }
-    }
-    console.log(check);
-    
 
     globalThis.respage = res
     globalThis.rand = Math.floor(Math.random() * 10)
