@@ -184,6 +184,7 @@ const create = () => {
                             status={modalCreate.event}
                             allPost={allPost}
                             setAllPost={setAllPost}
+                            onClick={onClose}
                         />
                     </Box>
                 </Flex>

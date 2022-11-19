@@ -236,6 +236,14 @@ const history = () => {
     const tog = () => {
         settoggle(!toggle)
     }
+    const disabledDates = () => {
+        var today, dd, mm, yyyy
+        today = new Date()
+        dd = today.getDate()
+        mm = today.getMonth() + 1
+        yyyy = today.getFullYear()
+        return yyyy + "-" + mm + "-" + dd
+    }
     return (
         <AppBody
             secondarynav={[
@@ -314,7 +322,7 @@ const history = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Expired Date</FormLabel>
-                        <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} value={expired} />
+                        <Input placeholder="Select expired date" size="md" type="date" min={disabledDates()} onChange={(e) => setExpired(e.target.value)} value={expired} />
                     </FormControl>
                     <FormControl>
                         <>
