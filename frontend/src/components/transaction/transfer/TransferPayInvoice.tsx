@@ -2,10 +2,15 @@ import {
     Box,
     Button,
     Center,
+    Flex,
     FormControl,
     FormHelperText,
     FormLabel,
+    Hide,
     Input,
+    Show,
+    Spacer,
+    Stack,
     Tab,
     TabList,
     TabPanel,
@@ -14,10 +19,12 @@ import {
     Text,
     Textarea,
 } from "@chakra-ui/react"
-import React, { FC, useState } from "react"
-import { Form } from "react-router-dom"
+import React, { useState } from "react"
+import { Form, Link } from "react-router-dom"
+import EbankModal from "../methodpayment/EbankModal"
+import MasterCardModal from "../methodpayment/MasterCardModal"
 
-const TransferPay: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
+const TransferPay = () => {
     const amount = useState("50")
 
     return (
@@ -26,51 +33,44 @@ const TransferPay: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
                 <FormLabel fontSize="3xl">Payment Detail</FormLabel>
                 <FormControl p={4}>
                     <FormLabel>Amount</FormLabel>
-                    <Textarea isDisabled placeholder={{ amount }.toString()} />
-                    {displaySize ? (
-                        <Box padding={4}>
-                            <Text fontSize="2xl" fontWeight="bold">
+                    <Show below="md">
+                        <Flex>
+                            <Center>
+                                <Stack direction={"column"}>
+                                    <Text fontSize="md" fontWeight={"bold"}>
+                                        Total payment 123,123
+                                    </Text>
+                                    <Text fontSize="md" fontWeight={"bold"}>
+                                        Payment Method: ....
+                                    </Text>
+                                </Stack>
+                            </Center>
+                            <Spacer />
+                            <Center>
+                                <Box>
+                                    <Button colorScheme="whiteAlpha" shadow={"lg"}>
+                                        <Link to="shoptransaction/selectmethod">
+                                            <Text fontSize="sm" fontWeight={"bold"} color="black">
+                                                Select Method
+                                            </Text>
+                                        </Link>
+                                    </Button>
+                                </Box>
+                            </Center>
+                        </Flex>
+                    </Show>
+                    <Hide below="md">
+                        <Flex>
+                            <Text fontSize="lg" fontWeight={"bold"}>
                                 Payment Method
                             </Text>
-                            <Tabs variant="unstyled">
-                                <TabList>
-                                    <Tab _selected={{ color: "white", bg: "blue.500" }}>Tab 1</Tab>
-                                    <Tab _selected={{ color: "white", bg: "green.400" }}>Tab 2</Tab>
-                                </TabList>
-                                <TabPanels>
-                                    <TabPanel>
-                                        <p>one!</p>
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <p>two!</p>
-                                    </TabPanel>
-                                </TabPanels>
-                            </Tabs>
-                        </Box>
-                    ) : (
-                        <Button style={{ margin: 20 }} type="submit" variant="solid" bg="#E67F45" color="white" w="100%" _hover={{ bg: "green.500" }}>
-                            Payment Method
-                        </Button>
-                    )}
-                    <FormLabel paddingTop={5}>Note</FormLabel>
-                    <Textarea noOfLines={3} resize={"none"} maxLength={300} />
-                    <FormHelperText color="grey">* Limit 300 characters.</FormHelperText>
-
-                    <FormControl id="confirmation">
-                        <Center float={displaySize ? "right" : "none"}>
-                            <Button
-                                style={{ margin: 20 }}
-                                type="submit"
-                                variant="solid"
-                                bg="#E67F45"
-                                color="white"
-                                w="100%"
-                                _hover={{ bg: "green.500" }}
-                            >
-                                Confirm
-                            </Button>
-                        </Center>
-                    </FormControl>
+                            <Spacer />
+                            <MasterCardModal />
+                            <Spacer />
+                            <EbankModal />
+                            <Spacer />
+                        </Flex>
+                    </Hide>
                 </FormControl>
             </Form>
         </Box>

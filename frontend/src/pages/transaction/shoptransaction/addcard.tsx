@@ -10,35 +10,37 @@ const addcard = () => {
             <AppBody>
                 <Header name="Adding a new card"></Header>
                 <Container bg={"#e67f45"} color="white" maxW="90%" my="24px" borderRadius="10px" shadow={"lg"} py="23px">
-                    <Text fontSize={isSmallerThan630 ? "lg" : "xl"} fontWeight={"bold"} mb="10px">
+                    <Text fontSize={{base: "lg", lg: "xl"}} fontWeight={"bold"} mb="10px">
                         Card Details
                     </Text>
                     <Stack spacing={2}>
                         <InputGroup>
                             <InputLeftAddon
                                 children="Name on Card"
-                                fontSize={isSmallerThan630 ? "md" : "lg"}
+                                fontSize={{base: "md", lg: "lg"}}
                                 fontWeight={"bold"}
                                 color="black"
                                 bg={"orange.50"}
+
                             ></InputLeftAddon>
                             <Input type="text" />
                         </InputGroup>
                         <InputGroup>
                             <InputLeftAddon
                                 children="Card Number"
-                                fontSize={isSmallerThan630 ? "md" : "lg"}
+                                fontSize={{base: "md", lg: "lg"}}
                                 fontWeight={"bold"}
                                 color="black"
                                 bg={"orange.50"}
+                                
                             ></InputLeftAddon>
-                            <Input type="number" />
+                            <Input type="number" placeholder="xxxx-xxxx-xxxx-xxxx" _placeholder={{color:'white', fontSize:'lg'}} />
                         </InputGroup>
-                        <Stack direction={isSmallerThan630 ? "column" : "row"}>
+                        <Stack direction={{base: "column" ,lg: "row"}}>
                             <InputGroup>
                                 <InputLeftAddon
                                     children="Expiry Date"
-                                    fontSize={isSmallerThan630 ? "md" : "lg"}
+                                    fontSize={{base: "md", lg: "lg"}}
                                     fontWeight={"bold"}
                                     color="black"
                                     bg={"orange.50"}
@@ -59,25 +61,15 @@ const addcard = () => {
                     </Stack>
                 </Container>
                 <Stack direction={"row"} justifyContent="center" gap={"3%"}>
-                    <Show below="md">
+                    <Show below="lg">
                         <Link href="selectmastercard">
                             <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
                                 <Text fontSize={isSmallerThan630 ? "md" : "lg"} fontWeight={"bold"}>
-                                    Cancle
+                                    Cancel
                                 </Text>
                             </Button>
                         </Link>
                     </Show>
-
-                    <Hide below="md">
-                        <Link href="../shoptransaction">
-                            <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
-                                <Text fontSize={isSmallerThan630 ? "md" : "lg"} fontWeight={"bold"}>
-                                    Cancle
-                                </Text>
-                            </Button>
-                        </Link>
-                    </Hide>
 
                     <Link href="../shoptransaction">
                         <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">

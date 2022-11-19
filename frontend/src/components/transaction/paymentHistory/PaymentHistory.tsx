@@ -1,4 +1,4 @@
-import { Box, Button,  Flex, Heading, Stack, StackDivider, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, Flex, Heading, Stack, StackDivider, Text, VStack } from "@chakra-ui/react"
 
 const PaymentHistory = () => {
     return (
@@ -9,8 +9,8 @@ const PaymentHistory = () => {
                         Latest Transaction
                     </Text>
                     <Flex>
-                        <Box>
-                            
+                        <Card>
+                            <CardBody>
                                 <Stack divider={<StackDivider />} spacing="4">
                                     <Box as="button" h="70px" w="500px" bg="#FFF2E5" p="12px" borderWidth="1px" borderRadius="lg" textAlign="left">
                                         <Heading size="xs" textTransform="uppercase">
@@ -62,8 +62,8 @@ const PaymentHistory = () => {
                                             </Text>
                                         </Button> */}
                                 </Stack>
-                            
-                        </Box>
+                            </CardBody>
+                        </Card>
                     </Flex>
                 </Box>
                 <Button bgColor="#E65300" p="18px" mt="15px" ml="300px" maxWidth="700px" borderWidth="1px" borderRadius="lg" _hover={{ bg: "grey" }}>

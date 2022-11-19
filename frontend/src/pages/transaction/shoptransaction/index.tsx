@@ -15,9 +15,10 @@ const shopTransaction = () => {
         <AppBody>
             <Header name="CHECKOUT" />
 
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"}>
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"3%"} borderRadius="10px" shadow={"lg"}>
                 <Stack direction={isSmallerThan768 ? "column" : "row"} justifyContent={"center"}>
                     <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
+                    <Spacer/>
                     <UsePoint point={123} />
                 </Stack>
             </Container>
