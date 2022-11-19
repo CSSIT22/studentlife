@@ -1,6 +1,7 @@
 import { Text, Container, Box, Stack, Button, Link, useMediaQuery, Hide, Show, Flex, Spacer } from "@chakra-ui/react"
 import React from "react"
-import SelectMasterCard from "src/components/transaction/methodpayment/MasterCardModal"
+import EbankModal from "src/components/transaction/methodpayment/EbankModal"
+import MasterCardModal from "src/components/transaction/methodpayment/MasterCardModal"
 import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
 import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
 import AppBody from "../../../components/share/app/AppBody"
@@ -72,7 +73,9 @@ const shopTransaction = () => {
                             Payment Method
                         </Text>
                         <Spacer />
-                        <SelectMasterCard />
+                        <MasterCardModal />
+                        <Spacer />
+                        <EbankModal />
                         <Spacer />
                         {/* <Button colorScheme="whiteAlpha" onClick={onOpen} shadow={"lg"}>
                             <Text fontSize="lg" fontWeight={"bold"} color="black">
