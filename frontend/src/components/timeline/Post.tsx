@@ -2,7 +2,7 @@ import { Avatar, Box, Center, Container, HStack, Icon, Text, VStack } from "@cha
 import React from "react"
 import { AiFillLike } from "react-icons/ai"
 
-const Post = ({ name, dateTime, message, likes, photoUrl }: { name: string; dateTime: string; message: string; likes: string; photoUrl: string }) => {
+const Post = ({ name, dateTime, message, likes, photoUrl }: { name: string; dateTime: string; message: string; likes: number; photoUrl: string }) => {
     return (
         <Box p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" fontWeight="semibold">
             <HStack>
