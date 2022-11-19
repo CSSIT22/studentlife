@@ -23,17 +23,15 @@ const approvalDetail = () => {
         getData.then((item) => setpost(item.data)).catch((err) => on())
     }, [])
 
-    // console.log(post)
-    // // const changeStatus = (status: string) => {
-    //     setpost(
-    //         post.map((el) => {
-    //             if (el.postId == postId) {
-    //                 el.status = status
-    //             }
-    //             return el
-    //         })
-    //     )
-    // }
+
+    const changeStatus = (status: string) => {
+        if(status == "approve"){
+            API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:true})
+        }else if(status == "disapprove"){
+            API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:false})
+
+        }
+    }
 
     return (
         <AppBody
@@ -89,12 +87,12 @@ const approvalDetail = () => {
             <Box width="100%" p="5" mt="14">
                 <Flex justifyContent={"space-between"}>
                     <Link to={"/announcement/approval"}>
-                        <Button  bg={"#38A169"} color={"white"} shadow={"md"} >
+                        <Button  bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("approve")}>
                             Approve
                         </Button>
                     </Link>
                     <Link to={"/announcement/approval"}>
-                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} >Disapprove</Button>
+                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("disapprove")}>Disapprove</Button>
                     </Link>
                 </Flex>
             </Box>

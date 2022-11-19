@@ -6,7 +6,7 @@ import {post} from '@apiType/announcement'
 
 import API from "src/function/API"
 import { postInfoTest } from "../../postInfoTest"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import HeaderPage from "src/components/annoucement/HeaderPage"
 import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import PostOnHistory from "src/components/annoucement/PostOnHistory"
@@ -55,11 +55,15 @@ const history = () => {
     // ]
 
     const params = useParams()
+    const [toggle,settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
     const getData = API.get("/announcement/gethistorypost/"+ params.userid)
     useEffect(() => {
         getData.then((res) => setAllPost(res.data))
-    },[])
+    },[toggle])
+    const tog = () => {
+        settoggle(!toggle)
+    }
     console.log(allPost)
 
     const deleteOrEdit = (status: string) => {
@@ -75,6 +79,7 @@ const history = () => {
                         allPost={allPost}
                         setAllPost={setAllPost}
                         selectPost={selectPost}
+                        onClick={tog}
                     />
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
@@ -91,6 +96,7 @@ const history = () => {
                         allPost={allPost}
                         setAllPost={setAllPost}
                         selectPost={selectPost}
+                        onClick={tog}
                     />
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
@@ -107,6 +113,7 @@ const history = () => {
                         allPost={allPost}
                         setAllPost={setAllPost}
                         selectPost={selectPost}
+                        onClick={tog}
                     />
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
