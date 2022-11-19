@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
@@ -44,11 +44,14 @@ const recyclebin = () => {
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "delete", id: 12, expired: "45:23:11" },
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
     // ]
+    const [toggle,settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
     const getData = API.get("/announcement/getdeletepost")
     useEffect(() => {
         getData.then((res) => setAllPost(res.data))
-    },[])
+    },[toggle])
+
+    
     // console.log(allPost)
 
     const minute = 1000 * 60
@@ -130,6 +133,7 @@ const recyclebin = () => {
             <ModalForEvent
                 isOpen={isOpen}
                 onClose={onClose}
+                onClick={settoggle}
                 topic={modalRecycle.topic}
                 detail={modalRecycle.detail}
                 status={statusPostRequest}
