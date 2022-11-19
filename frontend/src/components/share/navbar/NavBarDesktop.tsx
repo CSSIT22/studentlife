@@ -85,7 +85,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                         </MenuButton>
                                         <MenuList>
                                             <MenuGroup title="User">
-                                                <MenuItem icon={<FaUserAlt />}>Profile</MenuItem>
+                                                <Link to="/user"><MenuItem icon={<FaUserAlt />}>Profile</MenuItem></Link>
                                                 <MenuItem icon={<FaHistory />}>Login Activity</MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
