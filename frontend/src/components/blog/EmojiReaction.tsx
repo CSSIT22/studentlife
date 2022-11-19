@@ -1,14 +1,15 @@
-import { Popover, PopoverTrigger, Button, Portal, PopoverContent, PopoverHeader, ButtonGroup, Box, Text } from "@chakra-ui/react"
+import { Popover, PopoverTrigger, Button, Portal, PopoverContent, PopoverHeader, ButtonGroup, Box, Text, Circle } from "@chakra-ui/react"
 import React from "react"
+import { AiFillSmile } from "react-icons/ai"
 
 const EmojiReaction = () => {
     return (
         <Box display={"flex"}>
             <Popover>
                 <PopoverTrigger>
-                    <Button borderRadius={"full"} rounded={"lg"} variant="outline" size="lg">
-                        Emoji
-                    </Button>
+                    <Circle size="60px" bg="tomato" color="white">
+                        <AiFillSmile size="60px" />
+                    </Circle>
                 </PopoverTrigger>
                 <Portal>
                     <PopoverContent width={"100%"} display="flex" alignItems="center">
@@ -24,9 +25,6 @@ const EmojiReaction = () => {
                     </PopoverContent>
                 </Portal>
             </Popover>
-            <Text marginTop={2.5} color="black" fontSize="lg">
-                Emotion
-            </Text>
         </Box>
     )
 }

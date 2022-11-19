@@ -1,4 +1,4 @@
-import { Center, Flex, Spacer, Box, Button } from "@chakra-ui/react"
+import { Center, Flex, Spacer, Box, Button, Textarea } from "@chakra-ui/react"
 import React from "react"
 import CancelButton from "../../components/blog/cancleButton"
 import CommentButton from "../../components/blog/CommentButton"
@@ -13,6 +13,11 @@ import Time from "../../components/blog/time"
 import Username from "../../components/blog/Username"
 import UsernameOnly from "../../components/blog/UsernameOnly"
 import AppBody from "../../components/share/app/AppBody"
+import { CiYoutube, CiImageOn } from "react-icons/ci"
+import TextAreaPost from "../../components/blog/TextAreaPost"
+import ImageInsert from "../../components/blog/ImageInsert"
+import VideoInsert from "../../components/blog/VideoInsert"
+import PostButton from "../../components/annoucement/PostButton"
 
 const create = () => {
     return (
@@ -25,7 +30,9 @@ const create = () => {
 
                             <Box marginLeft={"4"}>
                                 <UsernameOnly name="Narongrit Waraporn" />
-                                <PostType_modal />
+                                <Box mt={2}>
+                                    <PostType_modal />
+                                </Box>
                             </Box>
 
                             <Spacer />
@@ -33,34 +40,17 @@ const create = () => {
                             <CancelButton />
                         </Flex>
                     </Box>
-                    <PostText
-                        text="Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh (Oh)
-                                Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh
-                                Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh (Oh)      
-                                Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh"
-                    />
-                    <PostImage image="https://i.redd.it/ujfngj2v25k91.jpg" />
+
+                    <TextAreaPost />
+
+                    <Center>
+                        <ImageInsert />
+                        <Spacer />
+                        <VideoInsert />
+                    </Center>
                     <Center>
                         <Box marginTop={"6"}>
-                            <Flex>
-                                <Box>
-                                    <EmojiReaction />
-                                </Box>
-                                <Box marginLeft={8}>
-                                    <CommentButton />
-                                </Box>
-                                <Box marginLeft={8}>
-                                    <RemodButton />
-                                </Box>
-                            </Flex>
+                            <PostButton />
                         </Box>
                     </Center>
                 </Box>

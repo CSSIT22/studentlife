@@ -33,6 +33,7 @@ import CommentButton from "../components/blog/CommentButton"
 import RemodButton from "../components/blog/RemodButton"
 import Username from "../components/blog/Username"
 import Time from "../components/blog/time"
+import EmojiFeelingTelling from "../components/blog/EmojiFeelingTelling"
 
 const Home = () => {
     return (
@@ -71,17 +72,20 @@ const Home = () => {
                     <PostImage image="https://i.redd.it/ujfngj2v25k91.jpg" />
                     <Center>
                         <Box marginTop={"6"}>
-                            <Flex>
+                            <SimpleGrid columns={4} spacing={5}>
                                 <Box>
                                     <EmojiReaction />
                                 </Box>
-                                <Box marginLeft={8}>
+                                <Box>
+                                    <EmojiFeelingTelling />
+                                </Box>
+                                <Box>
                                     <CommentButton />
                                 </Box>
-                                <Box marginLeft={8}>
+                                <Box>
                                     <RemodButton />
                                 </Box>
-                            </Flex>
+                            </SimpleGrid>
                         </Box>
                     </Center>
                 </Box>

@@ -1,7 +1,7 @@
 import { Box, Button, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 
-const UsernameAndTime: FC<{
+const Username: FC<{
     name: string
 }> = ({ name }) => {
     return (
@@ -11,4 +11,4 @@ const UsernameAndTime: FC<{
     )
 }
 
-export default UsernameAndTime
+export default Username
