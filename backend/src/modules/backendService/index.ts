@@ -67,8 +67,8 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
                 logoutId: logoutId,
                 detail: {
                     create: {
-                        deviceInfo: (device.getOS().name || "") + (device.getOS().version || "") || "Unknow",
                         ip: device.getBrowser().name || "",
+                        deviceInfo: detectedResult.device.type || "Unknown",
                         logoutDate: logoutDate,
                     },
                 },
