@@ -1,4 +1,4 @@
-import { Box, Center, Flex, HStack, Stack } from "@chakra-ui/react"
+import { Box, Center, Container, Flex, HStack, Stack } from "@chakra-ui/react"
 import DatingAllActivityBox from "src/components/dating/DatingAllActivityBox"
 import DatingAllActivityButton from "src/components/dating/DatingAllActivityButton"
 import DatingAppliedActivityButton from "src/components/dating/DatingAppliedActivityButton"
@@ -34,19 +34,12 @@ const AllActivityPoll = () => {
                 <DatingAllActivityBox />
             </Stack>
             {/* Create poll button */}
-            <Box display="flex" justifyContent="center">
-                <Box position="fixed" w="100%" justifyContent="end" top={{ base: "77%", md: "85%" }} id="bottomBar">
-                    <HStack
-                        gap={{ base: "75%", md: "44em", lg: "55em" }}
-                        display="flex"
-                        justifyContent="center"
-                        pt={{ base: "40px", md: "30px" }}
-                        pb="30px"
-                    >
-                        <Box></Box>
+            <Box position="fixed" w="100%" bottom={{ base: "70px", md: "30px" }}>
+                <Container w="container.lg" maxW={"100%"} display="inline-flex" justifyContent="right" pr={{ base: "40px", md: "60px" }}>
+                    <Box maxW="100%">
                         <DatingCreatePollButton />
-                    </HStack>
-                </Box>
+                    </Box>
+                </Container>
             </Box>
         </DatingAppBody>
     )
