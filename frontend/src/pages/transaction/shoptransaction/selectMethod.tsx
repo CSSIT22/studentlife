@@ -1,4 +1,4 @@
-import { Container, Text, Show, Button, Link } from "@chakra-ui/react"
+import { Container, Text, Show, Button, Link, Center } from "@chakra-ui/react"
 import React from "react"
 import AppBody from "src/components/share/app/AppBody"
 import Header from "src/components/transaction/shoptransaction/Header"
@@ -34,6 +34,13 @@ const selectmethod = () => {
                             </Button>
                         </Link>
                     </Container>
+                    <Center>
+                        <Link href="../shoptransaction">
+                            <Button colorScheme="red" w={"100px"}>
+                                Back
+                            </Button>
+                        </Link>
+                    </Center>
                 </Show>
             </AppBody>
         </div>
