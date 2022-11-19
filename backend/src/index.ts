@@ -6,7 +6,7 @@ import blogRoutes from "./modules/blog"
 import chatRoutes from "./modules/chat"
 import datingRoutes from "./modules/dating"
 import groupRoutes from "./modules/group"
-import middlewareRoutes from "./modules/backendService"
+import backendserviceRoutes from "./modules/backendService"
 import notificationRoutes from "./modules/notification"
 import qaRoutes from "./modules/qa"
 import restaurantRoutes from "./modules/restaurant"
@@ -26,8 +26,9 @@ import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
-import AboutmeRoutes from "./modules/user/AboutMe"
-// const device = require("express-device")
+import http from "http"
+import { Server as IOServer } from "socket.io"
+import { verify } from "jsonwebtoken"
 
 const PORT = 8000
 const app = express()
@@ -65,8 +66,6 @@ redisClient.connect().catch((err) => console.log(err))
 
 // config passport for microsoft strategy
 passport.use(microsoft(prisma))
-
-// app.use(device.capture())
 
 app.use(
     cors({
@@ -114,7 +113,7 @@ app.use("/blog", blogRoutes)
 app.use("/chat", chatRoutes)
 app.use("/dating", datingRoutes)
 app.use("/group", groupRoutes)
-app.use("/middleware", middlewareRoutes)
+app.use("/backendservice", backendserviceRoutes)
 app.use("/notification", notificationRoutes)
 app.use("/qa", qaRoutes)
 app.use("/restaurant", restaurantRoutes)
@@ -128,6 +127,37 @@ app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
 
-app.use("/AboutMe", AboutmeRoutes)
+const server = http.createServer(app)
 
-app.listen(PORT, () => console.log(`running on ${PORT} !!`))
+const io = new IOServer(server)
+
+let store = new Map<string, string>()
+
+io.use((socket, next) => {
+    try {
+        const token = socket.handshake.headers.authorization
+        if (!token) {
+            throw new Error("not authorized")
+        }
+        const decoded = verify(token, process.env.COOKIE_SECRET || "") as { userId: string }
+
+        store.set(socket.id, decoded.userId)
+        return next()
+    } catch (err) {
+        return next(new Error("not authorized"))
+    }
+})
+
+io.on("connection", (socket) => {
+    socket.on("message", (data) => {
+        socket.emit("receive-message", data)
+    })
+
+    console.log(store)
+
+    console.log(socket.handshake.headers)
+    console.log("Hello")
+})
+
+server.listen(PORT, () => console.log(`running on ${PORT} !`))
+// app.listen(PORT, () => console.log(`running on ${PORT} !`))

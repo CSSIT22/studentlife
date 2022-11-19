@@ -15,65 +15,19 @@ import {
     Text,
     Textarea,
     Box,
+    Show,
 } from "@chakra-ui/react"
 import React from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
-import { Form, Link, To } from "react-router-dom"
+import { Link, To } from "react-router-dom"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
+import { postInfoTest } from "./postInfoTest"
 
 const create = () => {
-    const [isOpen, setIsOpen] = React.useState(false)
-    const onOpen = () => {
-        setIsOpen(true)
-    }
-    const onClose = () => {
-        setIsOpen(false)
-    }
-    const modalCreate = {
-        topic: "Sent announcement",
-        detail: " The announcement request has been sent.",
-        event: "OK",
-    }
-    const [post, setPost] = React.useState(Array<any>)
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
-        setPost([
-            {
-                postId: Math.random(),
-                userId: "123456",
-                lang_id: 1334,
-                topic: title,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: Date.now(),
-                expired: expired,
-                status: "waiting",
-                isApprove: false,
-                addMoreLang: addMoreLang,
-            },
-            ...post,
-        ])
-    }
-    // console.log(post);
-
-    const [topic, setTopic] = React.useState(String)
-    const [detail, setDetail] = React.useState(String)
-    const [targetType, setTargetType] = React.useState(String)
-    const [targetValue, setTargetValue] = React.useState(String)
-    const [expired, setExpired] = React.useState(Date)
-    const [addMoreLang, setAddMoreLang] = React.useState(Array<any>)
-    // console.log(expired);
-    const addLang = (lang_id: number, topic: string, detail: string) => {
-        setAddMoreLang([{ lang_id: lang_id, topic: topic, detail: detail }, ...addMoreLang])
-    }
-    const ALERT = () => {
-        alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
-        window.history.go(-1)
-    }
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
             return (
@@ -106,6 +60,59 @@ const create = () => {
             return ""
         }
     }
+    const [isOpen, setIsOpen] = React.useState(false)
+    const onOpen = () => {
+        setIsOpen(true)
+    }
+    const onClose = () => {
+        setIsOpen(false)
+    }
+    const modalCreate = {
+        topic: "Sent announcement",
+        detail: " The announcement request has been sent.",
+        event: "OK",
+    }
+    const [allPost, setAllPost] = React.useState(postInfoTest)
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
+        setAllPost([
+            ...allPost,
+            {
+                postId: allPost.length,
+                lang: "English",
+                topic: title,
+                detail: detail,
+                sender: "1234",
+                status: "waiting",
+                pinStatus: false,
+                isApprove: false,
+                targetType: targetType,
+                targetValue: targetValue,
+                postAt: new Date(),
+                expiredOfPost: expired,
+                expiredAfterDelete: "",
+                addMoreLang: addMoreLang,
+            },
+        ])
+    }
+    console.log(allPost)
+
+    const [topic, setTopic] = React.useState(String)
+    const [detail, setDetail] = React.useState(String)
+    const [targetType, setTargetType] = React.useState(String)
+    const [targetValue, setTargetValue] = React.useState(String)
+    const [expired, setExpired] = React.useState(Date)
+    const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
+    // console.log(expired);
+    const addLang = (lang: string, topic: string, detail: string) => {
+        setAddMoreLang([...addMoreLang, { lang: lang, topic: topic, detail: detail }])
+    }
+    // console.log(addMoreLang)
+
+    const ALERT = () => {
+        alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
+        window.history.go(-1)
+    }
+
     const [count, setCount] = React.useState(0)
     const increaseCount = () => {
         setCount(count + 1)
@@ -113,18 +120,25 @@ const create = () => {
     }
     const decreaseCount = () => {
         setCount(count - 1)
-        // decreaseLang()
+        decreaseLang()
+        setAddMoreLang(addMoreLang.pop())
     }
-    console.log(count)
-    const [moreLangField, setMoreLangField] = React.useState(Array<any>)
+    // console.log(count)
+    const [moreLangField, setMoreLangField] = React.useState<any[]>([])
     const AddLang = () => {
-        setMoreLangField([{ count: count }, ...moreLangField])
+        setMoreLangField([...moreLangField, { count: count }])
     }
+    // console.log(moreLangField)
+
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
     // console.log(moreLangField);
-
+    // console.log(post);
+    // const submit =useSubmit()
+    // const handleSubmit = (e)=>{
+    //     e.preventDefault();
+    // }
     return (
         <AppBody
             secondarynav={[
@@ -133,27 +147,39 @@ const create = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
+            p={{ md: "3rem" }}
         >
-            <Form>
+            {/* <Form> */}
+            <form
+                onSubmit={(e) => {
+                    onOpen()
+                    e.preventDefault()
+                    addPost(topic, detail, targetType, targetValue, expired, addMoreLang)
+                }}
+            >
                 <Flex alignItems={"center"}>
-                    <Text as={"b"} fontSize="xl">
-                        {/* <Link to={"/announcement"}> */}
-                        <GrClose />
-                        {/* </Link> */}
-                    </Text>
+                    <Show below="lg">
+                        <Text as={"b"} fontSize="xl">
+                            <Link to={"/announcement"}>
+                                <Box>
+                                    <GrClose />
+                                </Box>
+                            </Link>
+                        </Text>
+                    </Show>
                     <Spacer />
-                    {/* <Box textAlign={"right"}> */}
-                    <Button
-                        colorScheme="orange"
-                        size="sm"
-                        onClick={() => addPost(topic, detail, targetType, targetValue, expired, addMoreLang)}
-                        type="submit"
-                    >
-                        {/* onClick={onOpen} */}
-                        Announce
-                    </Button>
-                    {/* <ModalForEvent isOpen={isOpen} onClose={onClose} topic={modalCreate.topic} detail={modalCreate.detail} event={modalCreate.event} /> */}
-                    {/* </Box> */}
+                    <Box textAlign={"right"}>
+                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
+                        <ModalForEvent
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            topic={modalCreate.topic}
+                            detail={modalCreate.detail}
+                            status={modalCreate.event}
+                            allPost={allPost}
+                            setAllPost={setAllPost}
+                        />
+                    </Box>
                 </Flex>
                 <Stack spacing={3} p="5">
                     <FormControl>
@@ -185,50 +211,19 @@ const create = () => {
                         <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} />
                     </FormControl>
                     <FormControl>
-                        {/* <FormLabel>Add More Language</FormLabel>
-                        <Text as={"b"} fontSize="xl">
-                            <BsPlusCircleFill />
-                        </Text> */}
                         <>
                             {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} />
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
                             })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount}>
+                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"}>
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>
-                            {/* <Stack direction="row" h="100px" p={4}>
-                            <Tag height={"1.5"} size={"lg"} key={"lg"} borderRadius="full" variant="solid" colorScheme="green">
-                                <TagLabel>Second Language</TagLabel>
-                                <TagCloseButton />
-                            </Tag>
-                        </Stack> */}
                         </>
                     </FormControl>
-
-                    {/* <FormControl isRequired>
-                        <FormLabel>Select Language</FormLabel>
-                        <Select placeholder="Select language">
-                            <option>Thai</option>
-                            <option>Japanese</option>
-                        </Select>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} />
-                    </FormControl> 
-                     <FormControl>
-                        <FormLabel>Add More Language</FormLabel>
-                        <Text as={"b"} fontSize="xl">
-                            <BsPlusCircleFill />
-                        </Text>
-                    </FormControl>*/}
                 </Stack>
-            </Form>
+            </form>
+            {/* </Form> */}
         </AppBody>
     )
 }

@@ -3,7 +3,7 @@ import React from "react"
 
 const MarkRead = () => {
     return (
-        <Button bg={"transparent"} size="sm">
+        <Button color={"orange.500"} bg={"transparent"} size="sm">
             {" "}
             Mark all as read
         </Button>
