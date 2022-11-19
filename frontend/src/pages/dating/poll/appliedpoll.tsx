@@ -13,7 +13,7 @@ const YourAppliedActivityPoll = () => {
                     pr="500px"
                     pl="500px"
                     pt={{ base: "-20px", md: "20px" }}
-                    zIndex="2"
+                    zIndex="4"
                     position="fixed"
                     top={{ base: 20, md: 150 }}
                     justifyContent="center"
