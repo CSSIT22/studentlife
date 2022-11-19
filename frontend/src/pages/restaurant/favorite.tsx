@@ -18,7 +18,7 @@ function favorite() {
         >
             <Searchbar />
 
-            <Heading color={"#E65300"} mt={"20px"} textAlign="center">
+            <Heading color={"##000000"} mt={"20px"} textAlign="center">
                 Favorite
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>

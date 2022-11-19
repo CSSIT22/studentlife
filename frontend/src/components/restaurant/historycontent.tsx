@@ -45,10 +45,10 @@ const Historycontent: FC<{
                                     <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                                 </Text>
                                 <Text fontSize={"sm"}>
-                                    <span style={{ fontWeight: "bold" }}>Date:</span> {date}
+                                    <span style={{ fontWeight: "bold" }}>Date: </span> {date}
                                 </Text>
                                 <Text fontSize={"sm"}>
-                                    <span style={{ fontWeight: "bold" }}>Status:</span> {status ? "Liked" : "Nope"}
+                                    <span style={{ fontWeight: "bold" }}>Status: </span> {status ? "Liked" : "Nope"}
                                 </Text>
                             </Flex>
                         </Box>
@@ -74,7 +74,7 @@ const Historycontent: FC<{
                         </Text>
                         <Text>
                           
-                            <span style={{ fontWeight: "bold" }}>Status:</span>{status ? "Liked" : "Nope"}
+                            <span style={{ fontWeight: "bold" }}>Status:</span>{status ? " Liked" : " Nope"}
                         </Text>
                     </Box>
                 </Box>

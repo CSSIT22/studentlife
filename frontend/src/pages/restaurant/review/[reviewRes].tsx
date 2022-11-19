@@ -51,26 +51,27 @@ function review() {
                             <ShowImage img={e1.img} />
                             <Box p="4">
                                 <Box display="flex" alignItems="baseline" px={{ base: 0, md: 175 }}>
-                                    <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
+                                    <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase" display="flex" verticalAlign={"AiOutlineLike"}>
                                         <Icon as={AiOutlineLike} fontSize="md" />
                                          {e1.amoutOflike} liked
                                     </Box>
                                     <Spacer />
-                                    <Box
-                                        as="button"
-                                        bg={""}
-                                        fontWeight="semibold"
-                                        letterSpacing="wide"
-                                        fontSize="xs"
-                                        textTransform="uppercase"
-                                        px={2}
-                                        py={1}
-                                    >
-                                        <Link to={`/restaurant/detail/${numres}`}>
+                                    <Link to={`/restaurant/detail/${numres}`}>
+                                        <Box
+                                            as="button"
+                                            bg={""}
+                                            fontWeight="semibold"
+                                            letterSpacing="wide"
+                                            fontSize="xs"
+                                            textTransform="uppercase"
+                                            px={2}
+                                            py={1}
+                                            display="flex" verticalAlign={"AiOutlineComment"}
+                                        >                                      
                                             <Icon as={AiOutlineComment} fontSize="md" />
-                                             REVIEW
-                                        </Link>
-                                    </Box>
+                                             REVIEW                        
+                                        </Box>
+                                    </Link>
                                 </Box>
                                 {revi.map((e2) => {
                                     return (
