@@ -6,10 +6,18 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
 import { Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text } from "@chakra-ui/react"
 import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
-import { IconButton, useDisclosure, Button, ButtonGroup } from "@chakra-ui/react"
+import { IconButton, useDisclosure, Button, ButtonGroup, Divider } from "@chakra-ui/react"
 //import { Select, Text } from "@chakra-ui/react"
 //import { ChevronRightIcon } from "@chakra-ui/icons"
 //import { AddIcon } from "@chakra-ui/icons"
+import { useState } from "react"
+import { DESCRIPTION } from "src/components/notification/main/data/descTest"
+
+// function handleTime(){
+//     const starttime = new time(time)
+//     return starttime
+// }
+
 const theme = extendTheme({
     radii: {
         none: "0",
@@ -47,13 +55,26 @@ const timetable = () => {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
+    const [header, setHeaderInput] = useState("")
+    const handleInputHeaderChange = (e: any) => setHeaderInput(e.target.value)
+
+    const [description, setDescriptionInput] = useState("")
+    const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
+
+    const [location, setLocationInput] = useState("")
+    const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
+
+    const [time, setTimeInput] = useState("")
+    const handleInputTimeChange = (e: any) => setTimeInput(e.target.value)
+
+    function handleSubmit() {
+        console.log("Header: " + header + " Description:" + description + "Location: " + location)
+    }
 
     return (
         <AppBody>
             <SimpleGrid columns={[1, 6]} spacing="30px">
-                <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px"
-                    h="62px" borderRightRadius="55"
-                    borderLeftRadius="55"/>
+                <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
 
                 <Box boxShadow="md" p="6" rounded="md" bg="white">
                     Date
@@ -64,9 +85,7 @@ const timetable = () => {
                 <Box boxShadow="md" p="6" rounded="md" bg="white">
                     Year
                 </Box>
-                <IconButton aria-label="next" icon={<ChevronRightIcon />} w="60px"
-                    h="62px" borderRightRadius="55"
-                    borderLeftRadius="55"/>
+                <IconButton aria-label="next" icon={<ChevronRightIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
                 <IconButton
                     onClick={modal1.onOpen}
                     w="60px"
@@ -87,18 +106,33 @@ const timetable = () => {
                         </ModalHeader>
                         <ModalCloseButton />
                         <ModalBody pb={6}>
-                            <FormControl>
+                            <FormControl isRequired>
                                 <FormLabel color="black">
                                     <Text fontSize="24px">Event name</Text>
                                 </FormLabel>
-                                <Input ref={initialRef} placeholder="Meeting with PM" />
+                                <Input
+                                    id="header"
+                                    value={header}
+                                    onChange={handleInputHeaderChange}
+                                    maxLength={100}
+                                    isRequired
+                                    ref={initialRef}
+                                    placeholder="What's your event?"
+                                />
                             </FormControl>
 
                             <FormControl mt={4}>
                                 <FormLabel color="black">
                                     <Text fontSize="24px">Description</Text>
                                 </FormLabel>
-                                <Textarea placeholder="Detail about event" size="md" />
+                                <Textarea
+                                    id="description"
+                                    value={description}
+                                    onChange={handleInputDescriptionChange}
+                                    placeholder="Detail about event"
+                                    size="md"
+                                    isRequired
+                                />
                             </FormControl>
 
                             <Flex>
@@ -129,7 +163,18 @@ const timetable = () => {
                             </Flex>
                             <FormControl mt={4}>
                                 <FormLabel color="black">Location</FormLabel>
-                                <Input placeholder="Place/ Platform" />
+                                <Input
+                                    id="location"
+                                    type="text"
+                                    value={location}
+                                    onChange={(e) => {
+                                        setLocationInput("")
+                                        handleInputLocationChange(e)
+                                    }}
+                                    maxLength={100}
+                                    isRequired
+                                    placeholder="Place/ Platform"
+                                />
                             </FormControl>
 
                             <FormControl display="flex" alignItems="center">
@@ -152,14 +197,76 @@ const timetable = () => {
             <Box boxShadow="md" p="6" rounded="md" bg="white">
                 <Grid templateColumns="repeat(8, 1fr)" gap={2}>
                     <h4> </h4>
-                    <h4>SUN</h4>
+                    <h4>
+                        <Text color="#FF3939">SUN</Text>
+                    </h4>
                     <h4>MON</h4>
                     <h4>TUE</h4>
                     <h4>WED</h4>
                     <h4>THU</h4>
                     <h4>FRI</h4>
-                    <h4>SAT</h4>
+                    <h4>
+                        <Text color="#FF3939">SAT</Text>
+                    </h4>
                 </Grid>
+            </Box>
+            <br />
+            <Box boxShadow="md" p="6" rounded="md" bg="white">
+                <Text>01:00</Text>
+                <br />
+                <Divider orientation="horizontal" />
+                <Text>02:00</Text>
+                <br />
+                <Divider orientation="horizontal" />
+                <Text>03:00</Text>
+                <br />
+                <Divider />
+                <Text>04:00</Text>
+                <br />
+                <Divider />
+                <Text>05:00</Text>
+                <br />
+                <Divider />
+                <Text>06:00</Text>
+                <br />
+                <Divider />
+                <Text>07:00</Text>
+                <br />
+                <Divider />
+                <Text>08:00</Text>
+                <br />
+                <Divider />
+                <Text>09:00</Text>
+                <br />
+                <Divider />
+                <Text>10:00</Text>
+                <br />
+                <Divider />
+                <Text>11:00</Text>
+                <br />
+                <Divider />
+                <Text>12:00</Text>
+                <br />
+                <Divider />
+                <Text>13:00</Text>
+                <br />
+                <Divider />
+                <Text>14:00</Text>
+                <br />
+                <Divider />
+                <Text>15:00</Text>
+                <br />
+                <Divider />
+                <Text>16:00</Text>
+                <br />
+                <Divider />
+                <Text>17:00</Text>
+                <br />
+                <Divider />
+                <Text>18:00</Text>
+                <br />
+                <Divider />
+                {/* this part is for edit evet modal     */}
             </Box>
             <Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
                 Edit
@@ -169,9 +276,7 @@ const timetable = () => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader color="black">
-                        <Text  fontSize="3xl">
-                            Edit Event
-                        </Text>
+                        <Text fontSize="3xl">Edit Event</Text>
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
@@ -229,13 +334,13 @@ const timetable = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                    <Button colorScheme="blue" width="239px" height="40px" bg="#E1AB20">
-                               Edit
-                            </Button>
+                        <Button colorScheme="blue" width="239px" height="40px" bg="#E1AB20">
+                            Edit
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
+            {/* this part is for delete modal */}
             <Button id="deleteEvent" onClick={modal3.onOpen} bg="red" colorScheme="white">
                 Delete
             </Button>
@@ -263,12 +368,11 @@ const timetable = () => {
                             <Text color="white">Yes</Text>
                         </Button>
                         <Button bg="#E53E3E" mr={3} onClick={modal3.onClose}>
-                        <Text color="white">No</Text>
+                            <Text color="white">No</Text>
                         </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            
         </AppBody>
     )
 }
