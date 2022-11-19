@@ -1,17 +1,25 @@
-import { Box, Button } from "@chakra-ui/react"
+import { UserInterests } from "@apiType/dating"
+import { Box, Button, useToast } from "@chakra-ui/react"
 import { FC } from "react"
+import { useNavigate } from "react-router-dom"
+import API from "src/function/API"
 
 const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: number[]; tagIsClicked: boolean }> = ({
     numOfSelectedInterest,
     selectedInterests,
     tagIsClicked,
 }) => {
+    const navigate = useNavigate()
+    const toast = useToast()
     // When you click "Done" button, this function will be triggered.
     function handleSubmit() {
         if (numOfSelectedInterest == 0) {
             console.log("No Interested ID is selected")
         } else {
             console.log("List of Interest ID: " + selectedInterests)
+            API.post<UserInterests>("/dating/interests/setUserInterests", { interestId: selectedInterests })
+                .then(() => navigate("/dating/"))
+                .catch((err) => toast({ status: "error", title: "Error", description: "Error" }))
         }
     }
 

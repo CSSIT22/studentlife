@@ -1,5 +1,5 @@
 import express from "express"
-import getAllInterests from "./routes/getAllInterests"
+import interestsRoutes from "./routes/interests"
 
 const datingRoutes = express()
 
@@ -9,6 +9,7 @@ datingRoutes.get("/", (_, res) => {
     return res.send("Dating Module API")
 })
 
-datingRoutes.get("/getAllInterests", getAllInterests)
+// Interest page's routes
+datingRoutes.use("/interests", interestsRoutes)
 
 export default datingRoutes
