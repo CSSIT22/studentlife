@@ -76,7 +76,7 @@ export default function SimpleThreeColumns() {
     const theme = extendTheme({ breakpoints })
 
     return (
-        <Box maxW="100%" borderRadius="none" overflow="hidden" p="5">
+        <Box maxW="100%" borderRadius="none" overflow="hidden" p="5" ml={{ base: "3", md: "0" }}>
             <Grid
                 templateAreas={{
                     base: `
