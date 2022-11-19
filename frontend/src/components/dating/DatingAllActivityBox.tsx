@@ -22,8 +22,8 @@ const DatingAllActivityBox = () => {
     }
 
     const toast = useToast()
-    function handleApply(pId: string) {
-        isApply(pId) ? (
+    function handleApply(pId: string, apState: boolean) {
+        apState ? (
             <></>
         ) : (
             // If user apply -> tost, add data to db, change button state
@@ -83,6 +83,8 @@ const DatingAllActivityBox = () => {
     return (
         <Box borderRadius="10px" color="black">
             {poll.map((values) => {
+                // For set the apply state only
+                const [applyState, setApplyState] = useState(isApply(values.pollId))
                 globalThis.date = handlePollDate(values.pollAppointAt)
                 globalThis.time = hanlePollTime(values.pollAppointAt)
                 return (
@@ -121,26 +123,29 @@ const DatingAllActivityBox = () => {
                             {/* Check if poll open or close to display different button */}
                             {values.isOpen ? (
                                 // If the poll have been applied user can click to navigate to appiledpoll page
-                                <Link to={isApply(values.pollId) ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
-                                    <Box style={{ textDecoration: "none" }} onClick={() => handleApply(values.pollId)}>
-                                        <Box
-                                            display="flex"
-                                            cursor="pointer"
-                                            w="150px"
-                                            m="10px"
-                                            mt="20px"
-                                            pr="40px"
-                                            pl="40px"
-                                            backgroundColor={isApply(values.pollId) ? "#B24000" : "#E65300"}
-                                            borderRadius="5px"
-                                            justifyContent="center"
-                                            alignItems="center"
-                                        >
-                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                {isApply(values.pollId) ? "Applied" : "Apply"}
-                                            </Text>
-                                        </Box>
+                                <Link to={applyState ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
+                                    {/* <Box style={{ textDecoration: "none" }}> */}
+                                    <Box
+                                        display="flex"
+                                        cursor="pointer"
+                                        w="150px"
+                                        m="10px"
+                                        mt="20px"
+                                        pr="40px"
+                                        pl="40px"
+                                        backgroundColor={applyState ? "#B24000" : "#E65300"}
+                                        borderRadius="5px"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        onClick={() => {
+                                            handleApply(values.pollId, applyState), setApplyState(true)
+                                        }}
+                                    >
+                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                            {applyState ? "Applied" : "Apply"}
+                                        </Text>
                                     </Box>
+                                    {/* </Box> */}
                                 </Link>
                             ) : (
                                 <Box

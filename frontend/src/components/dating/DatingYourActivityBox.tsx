@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, Image, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Circle, Flex, Heading, Image, Text } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
@@ -51,6 +51,10 @@ const DatingYourActivityBox = () => {
     return (
         <Box borderRadius="10px" color="black">
             {poll.map((values) => {
+                // Need number of apply people from database
+                const [applyPeople, setApplyPeople] = useState(2)
+                // Need number of people who haven't approve in database
+                const [notApprovePeople, setNotApprovePeople] = useState(2)
                 globalThis.date = handlePollDate(values.pollAppointAt)
                 globalThis.time = hanlePollTime(values.pollAppointAt)
                 return (
@@ -85,8 +89,9 @@ const DatingYourActivityBox = () => {
                         <Flex justifyContent="end">
                             <Center>
                                 {/* Need data from database and need condition checking for people/person*/}
-                                <Text fontSize="16px">{2} people have applied</Text>
+                                <Text fontSize="16px">{applyPeople} people have applied</Text>
                             </Center>
+
                             <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
                                 <Button
                                     display="flex-end"
@@ -98,14 +103,17 @@ const DatingYourActivityBox = () => {
                                     p="5px"
                                     mt="10px"
                                 >
-                                    {/* <Text fontSize="16px" ml="45px" >
-                                        {2}
-                                    </Text> */}
                                     <Center>
                                         <BsFillPeopleFill />
                                     </Center>
                                 </Button>
                             </Link>
+                            <Circle backgroundColor="red" size="25px" ml="-24px" mr="20px" mt="7px" zIndex="2">
+                                <Text fontSize="12px" color="white" as="b">
+                                    {/* Number of people that haven't accept need to replace 2 with data from db*/}
+                                    {notApprovePeople > 99 ? "99+" : notApprovePeople}
+                                </Text>
+                            </Circle>
                         </Flex>
                     </Box>
                 )
