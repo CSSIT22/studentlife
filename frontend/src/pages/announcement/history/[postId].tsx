@@ -15,7 +15,7 @@ import {
     Box,
     Show,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
 import { Link, useParams } from "react-router-dom"
@@ -27,6 +27,7 @@ import AppBody from "../../../components/share/app/AppBody"
 import {addMoreLangType, post} from '@apiType/announcement'
 import detail from "../detail/[postId]"
 import { postInfoTest } from "../postInfoTest"
+import API from "src/function/API"
 
 const history = () => {
     const params = useParams()
@@ -35,8 +36,7 @@ const history = () => {
     const postParams = allPost.filter((el) => {
         return el.postId == parseInt(params.postId + "")
     })
-    // console.log(allPost);
-    
+    const [post, setPost] = React.useState<post[]>([])
     // console.log(postParams[0].addMoreLang.length)
 
     const tgType = postParams.map((el) => {
@@ -78,7 +78,7 @@ const history = () => {
         detail: " The announcement request has been sent.",
         status: "edit",
     }
-    const [post, setPost] = React.useState<post[]>([])
+  
     // console.log(post);
     const [topic, setTopic] = React.useState(tp[0])
     const [detail, setDetail] = React.useState(dt[0])
@@ -232,6 +232,10 @@ const history = () => {
         }
     }
 
+    const [toggle,settoggle] = useState(false)
+    const tog = () => {
+        settoggle(!toggle)
+    }
     return (
         <AppBody
             secondarynav={[
@@ -246,7 +250,17 @@ const history = () => {
                 onSubmit={(e) => {
                     onOpen()
                     e.preventDefault()
-                    updatePost()
+                    useEffect(() => {
+                        API.post<post>("/announcement/editdetailpost", {
+                            topic: topic,
+                            detail: detail,
+                            targetType: targetType,
+                            targetValue: targetValue,
+                            postAt: new Date(),
+                            expiredOfPost:  new Date(expired),
+                            addMoreLang: addMoreLang
+                        })
+                    },[])
                 }}
             >
                 <Flex alignItems={"center"}>
@@ -269,7 +283,7 @@ const history = () => {
                             allPost={allPost}
                             setAllPost={setAllPost}
                             //onclick not use in edit post
-                            onClick={onClose}
+                            onClick={tog}
                         />
                     </Box>
                 </Flex>
