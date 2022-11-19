@@ -138,6 +138,23 @@ export let posts: post[] = [
         expiredAfterDelete: new Date("2022-11-20"),
         addMoreLang: [],
     },
+    {
+        postId: 7,
+        userId:"wFbN9qrwUbCgrEtfpIEVf",
+        lang_id: 1000,
+        topic: "Hello World7",
+        detail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        sender: "SAMO-SIT",
+        status: "waiting",
+        pinStatus: false,
+        isApprove: false,
+        targetType: "Year",
+        targetValue: "1",
+        postAt: new Date(),
+        expiredOfPost: new Date("2022-11-24"),
+        expiredAfterDelete: new Date("2022-11-20"),
+        addMoreLang: [],
+    },
 ]
 
 export const getPost = () => {
@@ -172,7 +189,7 @@ announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
 
 announcementRoutes.get("/getdetail/:id", getDetail)
 
-announcementRoutes.get("/gethistorypost/:id", getHistoryPost)
+announcementRoutes.get("/gethistorypost", getHistoryPost)
 
 announcementRoutes.get("/getwaitingpost", getWaitingPost)
 
