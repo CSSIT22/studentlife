@@ -58,7 +58,7 @@ const index = () => {
         setCoursePicked(e.target.value)
     }
     const dataFiltered = () => {
-        setFiltered(sn.filter((items: any) => items.course == coursePicked))
+        setFiltered(sn.filter((items: any) => items.courseId == coursePicked))
     }
     const navigate = useNavigate()
     // const data = {
@@ -184,19 +184,6 @@ const index = () => {
                 </Stack>
             </Flex>
             <VStack gap={2} pt={4}>
-                {/* {data.sn.map((sn, key) => (
-                    <Box
-                        as="button"
-                        w={"100%"}
-                        onClick={() => {
-                            setSnPicked(sn.id)
-                            console.log(snPicked)
-                        }}
-                    >
-                        <SnList key={key} topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
-                    </Box>
-                ))} */}
-
                 {coursePicked == "" ? (
                     <>
                         {sn.map((sn: any) => (
@@ -205,13 +192,13 @@ const index = () => {
                                 w={"100%"}
                                 onClick={() => {
                                     setSnPicked(sn.id)
-                                    console.log(snPicked)
                                     navigate({
-                                        pathname: "./" + "s/" + sn.id,
+                                        pathname: "./" + "s/" + sn.snId,
                                     })
+                                    console.log(snPicked)
                                 }}
                             >
-                                <SnList topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
+                                <SnList topic={sn.snName} course={sn.courseId} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
                             </Box>
                         ))}
                     </>
@@ -223,10 +210,13 @@ const index = () => {
                                 w={"100%"}
                                 onClick={() => {
                                     setSnPicked(sn.id)
+                                    navigate({
+                                        pathname: "./" + "s/" + sn.snId,
+                                    })
                                     console.log(snPicked)
                                 }}
                             >
-                                <SnList topic={sn.topic} course={sn.course} date={sn.createAt} lock={sn.isPublic ? "" : <FaLock />} />
+                                <SnList topic={sn.snName} course={sn.courseId} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
                             </Box>
                         ))}
                     </>
