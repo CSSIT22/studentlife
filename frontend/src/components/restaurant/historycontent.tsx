@@ -23,7 +23,8 @@ const Historycontent: FC<{
     resName: string
     date: string
     status: boolean
-}> = ({ resName, date, status }) => {
+    img: string
+}> = ({ resName, date, status, img }) => {
     return (
         <>
             <Show below="sm">
@@ -37,7 +38,7 @@ const Historycontent: FC<{
                 >
                     <Flex >
                         <Box width={"30%"} ml={"1rem"}>
-                            <Image boxSize="5rem" src="https://bit.ly/dan-abramov" alt="Dan Abramov" borderRadius={"10px"} />
+                            <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
                         <Box width={"60%"} height={"6rem"} color={"black"}>
                             <Flex direction={"column"} justifyContent={"center"} height={"80%"}>
@@ -63,7 +64,7 @@ const Historycontent: FC<{
                         <Image
                             boxSize={"12.5rem"}
                             // height={{ lg: "9.5rem" }}
-                            src="https://bit.ly/dan-abramov"
+                            src={img}
                             alt="Dan Abramov"
                             borderRadius={"10px"}
                         />

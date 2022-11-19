@@ -6,9 +6,9 @@ const searchRestaurant = (req: Request, res: Response) => {
     const name  = req.query.name + ""
       let searchRes: Restaurant[] = []
       getRestaurant().forEach((res) => {
-      if(res.resName.substring(0,name.length).toLowerCase() == name.substring(0,name.length).toLowerCase()){
-        searchRes.push(res)
-      }
+        if(res.resName.substring(0,name.length).toLowerCase() == name.substring(0,name.length).toLowerCase()){
+          searchRes.push(res)
+        }
     })
     res.send(searchRes)
 }

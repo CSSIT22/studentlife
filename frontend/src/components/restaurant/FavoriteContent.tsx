@@ -87,10 +87,10 @@ const FavoriteContent: FC<{
 
                     <Flex mb={"15px"}>
                         {/* <Show below="lg"> */}
-                        <Box width={"30%"}>
+                        <Box>
                             <Image
-                                boxSize={{ base: "5rem", lg: "12.5rem" }}
-                                height={{ lg: "9.5rem" }}
+                                boxSize={{ base: "12rem", lg: "12.5rem" }}
+                                height={{base:"5.5rem", lg: "9.5rem" }}
                                 src={img}
                                 alt="Dan Abramov"
                                 borderRadius={"10px"}
