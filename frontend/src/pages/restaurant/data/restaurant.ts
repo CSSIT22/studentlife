@@ -1,7 +1,7 @@
 export const Restaurant = [
     {
         id: 0,
-        resName: "Kitchen cheif's",
+        resName: "Kitchen cheif's f ",
         amoutOflike: "1668",
         open: "09.00",
         close: "20.00",
@@ -17,7 +17,7 @@ export const Restaurant = [
     },
     {
         id: 1,
-        resName: "BingSO",
+        resName: "BingSO f",
         amoutOflike: "442",
         open: "09.00",
         close: "20.00",
@@ -33,7 +33,7 @@ export const Restaurant = [
     },
     {
         id: 2,
-        resName: "KFC",
+        resName: "KFC f" ,
         amoutOflike: "95",
         open: "09.00",
         close: "20.00",

@@ -1,32 +1,54 @@
 import { Text, Box, Center, CloseButton, Image, Spacer, Heading, Icon } from "@chakra-ui/react"
-import React from "react"
+import React, { useEffect } from "react"
 import ReviewContent from "../../../components/restaurant/ReviewContent"
 import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { EffectCards } from "swiper"
 import ShowImage from "../../../components/restaurant/ShowImage"
 import { Link, useParams } from "react-router-dom"
 import { Restaurant } from "../data/restaurant"
 import { Review } from "../data/review"
 import { AiOutlineComment, AiOutlineLike } from "react-icons/ai"
+import API from "src/function/API"
 
 function review() {
     const params = useParams()
     const numres = parseInt(params.reviewRes + "")
-    const property = Restaurant.filter((e1) => {
-        return e1.id == numres
-    })
+    // const property = Restaurant.filter((e1) => {
+    //     return e1.id == numres
+    // })
+    const [property, setproperty] = React.useState<any>([])
+    // const [revi, setrevi] = React.useState<any>([])
+
     const revi = Review.filter((e2) => {
         return e2.resId == numres
     })
+    console.log(revi)
+    
 
-    const reviewer = {
-        name: "Elon Malabo",
-        picture: "",
-        rate: "4",
-        review: "This restaurant is so good but it is a little pricey will come back ",
-    }
+    useEffect(() => {
+        API.get("/restaurant/review/" + params.reviewRes).then((item) => setproperty(item.data))
+    }, [params.reviewRes])
+    console.log(property)
+    const cloneArr = Object.assign([], property) 
+    console.log(cloneArr)
+    const resD = cloneArr.resD
+    console.log(resD)
+    const reviD = cloneArr.reviD
+    console.log(reviD)
+    const convReviD = {...reviD}
+    console.log(convReviD)
+    const selectedRevi = convReviD[0]
+    console.log(selectedRevi)
+    // console.log(resD[0].filter((e1: { id: number }) => {
+    //     return e1.id == numres
+    // }))
+    
+
+    // useEffect(() => {
+    //     API.get("/restaurant/review/" + params.reviewRes).then((item) => setrevi(item.data))
+    // }, [params.reviewRes])
+    // console.log(revi)
+
     return (
         <AppBody
             secondarynav={[
@@ -37,7 +59,7 @@ function review() {
         >
             <Searchbar />
             <Center mt={4}>
-                {property.map((e1) => {
+                {resD?.map((e1: any) => {
                     return (
                         <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
                             <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
@@ -53,7 +75,7 @@ function review() {
                                 <Box display="flex" alignItems="baseline" px={{ base: 0, md: 175 }}>
                                     <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase" display="flex" verticalAlign={"AiOutlineLike"}>
                                         <Icon as={AiOutlineLike} fontSize="md" />
-                                         {e1.amoutOflike} liked
+                                        {e1.amountOflike} liked
                                     </Box>
                                     <Spacer />
                                     <Link to={`/restaurant/detail/${numres}`}>
@@ -69,11 +91,11 @@ function review() {
                                             display="flex" verticalAlign={"AiOutlineComment"}
                                         >                                      
                                             <Icon as={AiOutlineComment} fontSize="md" />
-                                             REVIEW                        
+                                            REVIEW
                                         </Box>
                                     </Link>
                                 </Box>
-                                {revi.map((e2) => {
+                                {selectedRevi.map((e2: any) => {
                                     return (
                                         <>
                                             <ReviewContent name={e2.name} picture={e2.picture} rate={e2.rate} review={e2.review} />
