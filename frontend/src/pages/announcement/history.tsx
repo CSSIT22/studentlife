@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import AppBody from "../../components/share/app/AppBody"
 import PostOnHistory from "../../components/annoucement/PostOnHistory"
@@ -6,8 +6,11 @@ import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import { Box, Flex } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
-import { postInfoTest } from "./postInfoTest"
+
 import {post} from '@apiType/announcement'
+
+import API from "src/function/API"
+import { postInfoTest } from "./postInfoTest"
 
 const history = () => {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -50,7 +53,15 @@ const history = () => {
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "waiting", id: 12 },
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "disapprove", id: 13 },
     // ]
-    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+
+    
+    const [allPost, setAllPost] = React.useState<post[]>([])
+    const getData = API.get("/announcement/gethistorypost/:id")
+    useEffect(() => {
+        getData.then((res) => setAllPost(res.data))
+    },[])
+    console.log(allPost)
+
     const deleteOrEdit = (status: string) => {
         if (status == "approve") {
             return (

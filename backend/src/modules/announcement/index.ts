@@ -81,7 +81,7 @@ export let posts: post[] = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: new Date("2022-11-30"),
-        expiredAfterDelete: new Date(""),
+        expiredAfterDelete: new Date("2022-11-20"),
         addMoreLang: [],
     },
 ]
@@ -118,7 +118,7 @@ announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
 
 announcementRoutes.get("/getdetail/:id", getDetail)
 
-// announcementRoutes.get("/gethistorypost/:id", getHistoryPost)
+announcementRoutes.get("/gethistorypost/:id", getHistoryPost)
 
 announcementRoutes.get("/getwaitingpost", getWaitingPost)
 

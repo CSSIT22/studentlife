@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import AppBody from "../../../components/share/app/AppBody"
 import { GrClose } from "react-icons/gr"
 import { Flex, Heading, Spacer, Text } from "@chakra-ui/react"
@@ -7,9 +7,14 @@ import PostOnApproval from "../../../components/annoucement/PostOnApproval"
 import HeaderPage from "../../../components/annoucement/HeaderPage"
 import { postInfoTest } from "../postInfoTest"
 import {post} from '@apiType/announcement'
+import API from "src/function/API"
 
 const index = () => {
-    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    const [allPost, setAllPost] = React.useState<post[]>([])
+    const getData = API.get("/announcement/getwaitingpost")
+    useEffect(() => {
+        getData.then((res) => setAllPost(res.data))
+    },[])
 
     return (
         <AppBody 
