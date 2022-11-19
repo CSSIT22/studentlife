@@ -7,10 +7,10 @@ import getHistoryPost from "./routes/gethistorypost"
 import getWaitingPost from "./routes/getwaitingpost"
 import getDeletePost from "./routes/getdeletepost"
 import editPinStatus from "./routes/editpinstatus"
-import getDetailApprove from "./routes/getdetailapprove"
 import editstatusOnApproval from "./routes/editstatusonapproval"
 import editstatusOnRecyclebin from "./routes/editstatusonrecycle"
 import editstatusOnHistory from "./routes/editstausonhistory"
+import editDetailPost from "./routes/editdetailpost"
 
 const announcementRoutes = express()
 
@@ -195,8 +195,6 @@ announcementRoutes.get("/getwaitingpost", getWaitingPost)
 
 announcementRoutes.get("/getdeletepost", getDeletePost)
 
-announcementRoutes.get("/getdetailapprove/:id", getDetailApprove)
-
 announcementRoutes.post("/editpinstatus",editPinStatus)
 
 announcementRoutes.post("/editstatusonapprove", editstatusOnApproval)
@@ -204,6 +202,8 @@ announcementRoutes.post("/editstatusonapprove", editstatusOnApproval)
 announcementRoutes.post("/editstatusonrecycle", editstatusOnRecyclebin)
 
 announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
+
+announcementRoutes.post("/editdetailpost", editDetailPost)
 
 
 // announcementRoutes.get("/test", async (req,res) =>{

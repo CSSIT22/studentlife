@@ -113,6 +113,7 @@ const ModalForEvent: FC<{
                     <Button
                         onClick={() => {
                             onClose()
+                            onClick()
                         }}
                     >
                         Close

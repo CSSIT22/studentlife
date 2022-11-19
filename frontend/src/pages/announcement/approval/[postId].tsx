@@ -18,7 +18,7 @@ const approvalDetail = () => {
     // }
     
     const [post, setpost] = React.useState<post[]>([])
-    const getData = API.get("/announcement/getdetailapprove/" + params.postId)
+    const getData = API.get("/announcement/getdetail/" + params.postId)
     useEffect(() => {
         getData.then((item) => setpost(item.data)).catch((err) => on())
     }, [])
