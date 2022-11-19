@@ -7,7 +7,7 @@ import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
 import api from "../../../function/API"
-import { useContext, useEffect, useState } from "react"
+import { FC, ReactNode, useContext, useEffect, useState } from "react"
 import { authContext } from "src/context/AuthContext"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, extendTheme } from "@chakra-ui/react"
 
@@ -61,6 +61,44 @@ const index = () => {
     useEffect(() => {
         getTokensInfo()
     }, [])
+
+    const CustomModal: FC<{ modalHeader: string; modalBody: ReactNode; token: string }> = ({ modalHeader, modalBody, token }) => {
+        return (
+            <>
+                <Button onClick={onOpen} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
+                    Revoke
+                </Button>
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>{modalHeader}</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <p>{modalBody}</p>
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button colorScheme={"red"} variant={"solid"} color={"white"} backgroundColor={"red.400"} mr={3} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    handleRevoke(token)
+                                    onClose()
+                                }}
+                                colorScheme={"green"}
+                                variant={"solid"}
+                                color={"white"}
+                                backgroundColor={"green.400"}
+                            >
+                                Confirm
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </>
+        )
+    }
 
     console.log(tokens)
 
@@ -154,54 +192,23 @@ const index = () => {
                                                 </Box>
                                                 <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
                                                 <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
-                                                <Button
-                                                    onClick={onOpen}
-                                                    bg={"gray.700"}
-                                                    color={"white"}
-                                                    w={"100%"}
-                                                    _hover={{ color: "black", bg: "gray.500" }}
-                                                >
-                                                    Revoke
-                                                </Button>
+                                                {/* Insert CustomModal here */}
+                                                <CustomModal
+                                                    modalBody={
+                                                        item.currentDevice ? (
+                                                            <p>
+                                                                This is your <b>current device</b>.
+                                                            </p>
+                                                        ) : (
+                                                            <p>This will logout you out from selected device.</p>
+                                                        )
+                                                    }
+                                                    modalHeader="Are you sure?"
+                                                    token={item.token}
+                                                />
                                             </VStack>
                                         </Flex>
                                     </Box>
-
-                                    <Modal isOpen={isOpen} onClose={onClose}>
-                                        <ModalOverlay />
-                                        <ModalContent>
-                                            <ModalHeader>Are you sure?</ModalHeader>
-                                            <ModalCloseButton />
-                                            <ModalBody>
-                                                <p>This will logout from the device</p>
-                                            </ModalBody>
-
-                                            <ModalFooter>
-                                                <Button
-                                                    colorScheme={"red"}
-                                                    variant={"solid"}
-                                                    color={"white"}
-                                                    backgroundColor={"red.400"}
-                                                    mr={3}
-                                                    onClick={onClose}
-                                                >
-                                                    Cancel
-                                                </Button>
-                                                <Button
-                                                    onClick={() => {
-                                                        handleRevoke(item.token)
-                                                        onClose()
-                                                    }}
-                                                    colorScheme={"green"}
-                                                    variant={"solid"}
-                                                    color={"white"}
-                                                    backgroundColor={"green.400"}
-                                                >
-                                                    Confirm
-                                                </Button>
-                                            </ModalFooter>
-                                        </ModalContent>
-                                    </Modal>
                                 </SwiperSlide>
                             )
                         })}
