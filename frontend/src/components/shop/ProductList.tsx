@@ -1,29 +1,73 @@
-import React from "react"
+import React, { FC, useState } from "react"
 import { Flex } from "@chakra-ui/react"
 import ProductDisplay from "./ProductDisplay"
+import { products } from "./content/dummyData/products"
 
 // Get data from database
-const ProductList = () => {
+const ProductList: FC<{
+    products: {
+        productId: number
+        name: string
+        image: string
+        brand: string
+        price: number
+        categoryId: number
+        contactId: number
+        description: string
+        color: string
+        size: string
+        stock: number
+        deliveryFee: number
+    }[]
+    repeat?: boolean
+}> = ({ products, repeat }) => {
+    if (repeat == undefined) {
+        repeat = true
+    }
+    
     return (
         <Flex justify="center" pt="3" wrap="wrap" gap="1rem">
-            {generateProducts()}
+            {generateProducts(products, repeat)}
         </Flex>
     )
 }
 
 export default ProductList
-function generateProducts() {
-    let products = []
-    for (let i = 0; i < 25; i++) {
-        products.push(
+function generateProducts(
+    products: {
+        productId: number
+        name: string
+        image: string
+        brand: string
+        price: number
+        categoryId: number
+        contactId: number
+        description: string
+        color: string
+        size: string
+        stock: number
+        deliveryFee: number
+    }[],
+    repeat: boolean
+) {
+    let dummyData = []
+    const dummy = products.map((product) => {
+        return (
             <ProductDisplay
-                name="Pen"
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                brandName="Nike"
-                price={10000}
-                link="/shop/product/productDetail"
+                id = {product.productId}
+                name={product.name}
+                image={product.image}
+                brandName={product.brand}
+                price={product.price}
             ></ProductDisplay>
         )
+    })
+    if (repeat) {
+        for (let i = 0; i < 25; i++) {
+            dummyData.push(dummy)
+        }
+    } else {
+        dummyData.push(dummy)
     }
-    return products
+    return dummyData
 }

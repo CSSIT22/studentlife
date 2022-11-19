@@ -25,6 +25,9 @@ import {
     Textarea,
 } from "@chakra-ui/react"
 import { useState } from "react"
+import { useLocation } from "react-router-dom"
+import { contacts } from "src/components/shop/content/dummyData/contacts"
+import { products } from "src/components/shop/content/dummyData/products"
 import { EffectFade } from "swiper"
 import { Autoplay, Keyboard, Pagination, Scrollbar, Zoom, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -37,23 +40,16 @@ import ThemedButton from "../../../components/shop/ThemedButton"
 
 // Get info from databse and request
 const productDetail = () => {
-    const contact = {
-        phone: "0222222222",
-        lineId: "klkk",
-        address: "34 Street Sathorn, Bangkok, Thailand ",
-        productId: 55,
-    }
-    const product = {
-        name: "Iphone 13",
-        rating: 5,
-        brand: "Apple",
-        price: 55000.0,
-        deliveryFees: 25.0,
-        productId: 55,
-        size: "15 inch",
-        color: "Red",
-        description: "This is the Iphone 13 pro, the best phone you could buy at one point in time. ".repeat(6),
-    }
+    const location = useLocation()
+    const product_id = location.state.p_id
+    const product =
+        products.find((p) => p.productId === product_id) != undefined ? products.filter((p) => p.productId === product_id)[0] : products[0]
+    const contact =
+        contacts.find((c) => c.contactId === product.contactId) != undefined
+            ? contacts.filter((c) => c.contactId === product.contactId)[0]
+            : contacts[0]
+    // Need to calculate overall rating
+    const oRating = 4
 
     const [countReviews, setCountReviews] = useState(4)
     const [actionText, setActionText] = useState("Show All")
@@ -80,7 +76,7 @@ const productDetail = () => {
                     <Text fontSize={"xl"} color="black" fontWeight="500">
                         {product.name}
                     </Text>
-                    <Text>Overall Rating: {product.rating}</Text>
+                    <Text>Overall Rating: {oRating}</Text>
                     <Text>Sold By: {product.brand}</Text>
                 </GridItem>
                 <GridItem colSpan={{ base: 4, md: 3 }}>
@@ -90,7 +86,7 @@ const productDetail = () => {
                     <Text fontSize={"lg"} color="black" fontWeight="500">
                         Price: {convertCurrency(product.price)}
                     </Text>
-                    <Text>Delivery Fees: {convertCurrency(product.deliveryFees)}</Text>
+                    <Text>Delivery Fees: {convertCurrency(product.deliveryFee)}</Text>
                 </GridItem>
                 <GridItem colSpan={4}>
                     <ThemedButton width="full">Add to Cart</ThemedButton>
@@ -148,7 +144,7 @@ const productDetail = () => {
                     Contact Details of {product.name}
                 </Text>
                 <Flex direction="column">
-                    <Text>Phone no: {contact.phone}</Text>
+                    <Text>Phone no: {contact.phoneNo}</Text>
                     {contact.lineId ? <Text>Line Id: {contact.lineId}</Text> : <Text></Text>}
                     {contact.address ? <Text>Address: {contact.address}</Text> : <Text></Text>}
                 </Flex>
@@ -198,9 +194,13 @@ const productDetail = () => {
                                     <FormLabel>Tell us your experience</FormLabel>
                                     <Textarea></Textarea>
                                 </HStack>
-                                <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-                                    <GridItem w='100%' h='10'><Text>Upload Image</Text> </GridItem>
-                                    <GridItem colSpan={2} w='100%' h='10'><Input type="file" accept='image/*'></Input></GridItem>
+                                <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                                    <GridItem w="100%" h="10">
+                                        <Text>Upload Image</Text>{" "}
+                                    </GridItem>
+                                    <GridItem colSpan={2} w="100%" h="10">
+                                        <Input type="file" accept="image/*"></Input>
+                                    </GridItem>
                                 </Grid>
                             </Flex>
                         </FormControl>
