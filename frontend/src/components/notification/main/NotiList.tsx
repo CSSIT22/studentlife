@@ -5,13 +5,12 @@ import { OBJECTS } from "./data/objectsTest"
 
 const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
     //sort selectedList
-    // console.log("selectedList")
-    // console.log(selectedList)
+    //console.log(selectedList)
     const sortedList = selectedList.sort((a, b) => {
         return b.date - a.date
     })
     // console.log("sortedList")
-    // console.log(sortedList)
+    //console.log(sortedList)
     const listDay: any[] = []
     function showDate(date: Date) {
         //prop = date
