@@ -63,8 +63,8 @@ const CreateActivityPoll = () => {
     // to be used with some functions & Some of them are used in this file.
     const [interests, setInterests] = useState(INTERESTS)
     const [searchQuery, setSearchQuery] = useState("")
-    const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
-    const [selectedInterestsNew, setSelectedInterestNew] = useState<String[] | String>([])
+    const [selectedInterests, setSelectedInterest] = useState<number[]>([])
+    const [selectedInterestsNew, setSelectedInterestNew] = useState<number[]>([])
     const [tagIsClicked, setTagIsClicked] = useState(false)
 
     //Tost for error message when submit
@@ -304,7 +304,7 @@ const CreateActivityPoll = () => {
                                                 searchQuery={searchQuery}
                                                 setSearchQuery={setSearchQuery}
                                                 setInterests={setInterests}
-                                                INTERESTS={INTERESTS}
+                                                allInterests={INTERESTS}
                                             />
                                         </Box>
                                     </ModalHeader>
@@ -517,3 +517,4 @@ const CreateActivityPoll = () => {
 }
 
 export default CreateActivityPoll
+

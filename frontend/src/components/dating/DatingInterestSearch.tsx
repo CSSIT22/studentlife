@@ -1,23 +1,14 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
+import { AllInterests } from "@apiType/dating"
 
 const DatingInterestSearch: FC<{
     setSearchQuery: Dispatch<SetStateAction<string>>
     searchQuery: string
-    setInterests: React.Dispatch<
-        React.SetStateAction<
-            {
-                interestId: string
-                interestName: string
-            }[]
-        >
-    >
-    INTERESTS: {
-        interestId: string
-        interestName: string
-    }[]
-}> = ({ setSearchQuery, searchQuery, setInterests, INTERESTS }) => {
+    setInterests: React.Dispatch<React.SetStateAction<AllInterests[]>>
+    allInterests: AllInterests[]
+}> = ({ setSearchQuery, searchQuery, setInterests, allInterests }) => {
     // Used for prevent delay when typing in search box
     const [timer, setTimer] = useState<number | null>(null)
     // Prevent useEffect from triggering immediately when enter the page
@@ -26,7 +17,7 @@ const DatingInterestSearch: FC<{
     // set the interests
     useEffect(() => {
         if (didMount) {
-            setInterests(() => INTERESTS.filter((arr) => arr.interestName.toLowerCase().includes(searchQuery.toLowerCase())))
+            setInterests(() => allInterests.filter((arr) => arr.interestName.toLowerCase().includes(searchQuery.toLowerCase())))
         }
     }, [searchQuery])
 
