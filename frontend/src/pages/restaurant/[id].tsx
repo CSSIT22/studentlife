@@ -31,10 +31,6 @@ function LikeorNope() {
     const [count, setcount] = React.useState(1)
     const params = useParams()
     const [property, setproperty] = React.useState<any>([]);
-    const navigate = useNavigate()
-    // const property = Restaurant.filter((e1) => {
-    //     return e1.id == parseInt(params.id + "")
-    // })
 
     const [res, setres] = React.useState(parseInt(params.id + ""))
 
