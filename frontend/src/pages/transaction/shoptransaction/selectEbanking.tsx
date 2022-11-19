@@ -11,25 +11,16 @@ const selectEbanking = () => {
                 <Show below="md">
                     <Header name="EBanking selection"></Header>
                     <Container maxW="90%" my="10px" p={"1%"}>
-                        <BankButton bank={"Bankok Bank"} />
-                        <BankButton bank={"Kasikorn Bank"} />
-                        <BankButton bank={"Krungthai Bank"} />
-                        <BankButton bank={"Siam Commercial Bank"} />
-
-                        <BankButton bank={"Krungsri Bank"} />
-                        <BankButton bank={"Bank of Ayudhya"} />
-                        <BankButton bank={"TTB"} />
+                        <BankButton bank={"Bangkok Bank"} link="#" />
+                        <BankButton bank={"Kasikorn Bank"} link="#" />
+                        <BankButton bank={"Krungthai Bank"} link="#" />
+                        <BankButton bank={"Siam Commercial Bank"} link="#" />
+                        <BankButton bank={"Krungsri Bank"} link="#" />
                     </Container>
-                    <Center gap={"30px"}>
+                    <Center>
                         <Link href="selectmethod">
                             <Button colorScheme="red" w={"100px"}>
-                                Cancel
-                            </Button>
-                        </Link>
-
-                        <Link href="../shoptransaction">
-                            <Button colorScheme="green" w={"100px"}>
-                                Save
+                                Back
                             </Button>
                         </Link>
                     </Center>

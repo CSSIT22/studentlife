@@ -63,7 +63,7 @@ const addcard = () => {
                         <Link href="selectmastercard">
                             <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
                                 <Text fontSize={isSmallerThan630 ? "md" : "lg"} fontWeight={"bold"}>
-                                    Cancle
+                                    Cancel
                                 </Text>
                             </Button>
                         </Link>
