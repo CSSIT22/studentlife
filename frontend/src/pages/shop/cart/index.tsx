@@ -1,10 +1,12 @@
 import { useBreakpointValue, Container, Divider, Flex, Grid, GridItem, Heading, Box, Text, Checkbox, Button, Hide, Image, LinkBox, LinkOverlay,
-ButtonGroup, IconButton, Center } from "@chakra-ui/react"
-import { DeleteIcon, AddIcon, MinusIcon } from "@chakra-ui/icons"
+ButtonGroup, IconButton, Center, Stack } from "@chakra-ui/react"
+import { DeleteIcon, AddIcon, MinusIcon, ViewOffIcon } from "@chakra-ui/icons"
 import React, { FC, useState } from "react"
 import PageTitle from "../../../components/shop/PageTitle"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
 import convertCurrency from "../../../components/shop/functions/usefulFunctions"
+
+
 const Cart = () => {
     const isMobile = useBreakpointValue({ base: false, md: false })
     const handleChange = () => {
@@ -12,11 +14,39 @@ const Cart = () => {
     return (
         <ShopAppBody>
             <Text as='b' fontSize='xl'> <PageTitle title="Cart" /> </Text>
+            {/* <Grid templateRows='repeat(3, 1fr)' templateColumns='repeat(5, 1fr)' gap={6}>
+                <GridItem colSpan={isMobile?5:3} rowSpan={1}>
+                    <Flex bg="#fff" borderRadius="lg" shadow="lg" border="#Fafafa solid 1px">
+                        <Checkbox px="5" py="1.5" fontSize="lg">Select All</Checkbox>
+                        <Button variant='ghost' fontWeight='light' ml="auto"><DeleteIcon /> &nbsp; Delete</Button>
+                    </Flex>
+                </GridItem>
+                <GridItem colSpan={isMobile?5:2} rowSpan={1}>
+                    <Flex bg="#fff" borderRadius="lg" shadow="lg" border="#Fafafa solid 1px">
+                        <Checkbox px="5" py="1.5" fontSize="lg">Your Order</Checkbox>
+                        <Button variant='ghost' fontWeight='light' ml="auto"><DeleteIcon /> &nbsp; Delete</Button>
+                    </Flex>
+                </GridItem>
+                    <GridItem colSpan={isMobile?5:3} rowSpan={1}>
+                        {generateCartProducts()}
+                    </GridItem>
+                </Grid> */}
             <Hide breakpoint='(max-width: 400px)'>
-                <Flex bg="#fff" borderRadius="lg" shadow="lg" border="#Fafafa solid 1px" width="60%">
-                    <Checkbox px="5" py="1.5" fontSize="lg">Select All</Checkbox>
-                    <Button variant='ghost' fontWeight='light' ml="auto"><DeleteIcon /> &nbsp; Delete</Button>
+            <Flex>
+                <Flex bg="#fff" borderRadius="lg" shadow="lg" border="#Fafafa solid 1px " width='60%'>
+                        <Checkbox px="5" py="1.5" fontSize="lg">Select All</Checkbox>
+                        <Button variant='ghost' fontWeight='light' ml='auto'><DeleteIcon /> &nbsp; Delete</Button>
                 </Flex>
+                <Box bg="#fff" borderRadius="lg" shadow="lg" border="#Fafafa solid 1px" ml={3} width='40%'>
+                    <Flex>
+                        <Text px="5" py="1.5" fontSize="lg">Order Summary</Text>
+                    </Flex>
+                    <Flex>
+                        <Text>Subtotal</Text>
+                        <Text>{convertCurrency(3210)}</Text>
+                    </Flex>
+                </Box>
+            </Flex>
             </Hide>
             <Hide breakpoint='(min-width: 400px)'>
                 <Flex bg="#fff" borderRadius="lg" shadow="lg" border="#Fafafa solid 1px" width="100%">
@@ -30,7 +60,7 @@ const Cart = () => {
                 </Box>
             </Hide>
             <Hide breakpoint='(min-width: 400px)'>
-                <Box width='100%'>
+            <Box width='100%'>
                 {generateCartProducts()}
                 </Box>
             </Hide>
