@@ -130,16 +130,16 @@ const CreateActivityPoll = () => {
     function handleTopic() {
         globalThis.topic = []
         // for (let i = 0; i < selectedInterests.length; i++) {
-        for (let i = 0; i < selectedInterestsNew.length; i++) {
+        for (let i = 0; i < selectedInterests.length; i++) {
             for (let j = 0; j < interests.length; j++) {
                 // if (selectedInterests[i] === interests[j].interestId) {
-                if (selectedInterestsNew[i] === interests[j].interestId) {
+                if (selectedInterests[i] === interests[j].interestId) {
                     globalThis.topic.push(interests[j].interestName)
                     break
                 }
             }
             // if (i !== selectedInterests.length - 1) {
-            if (i !== selectedInterestsNew.length - 1) {
+            if (i !== selectedInterests.length - 1) {
                 globalThis.topic.push(", ")
             }
         }
@@ -254,7 +254,7 @@ const CreateActivityPoll = () => {
                             </Flex>
                             <Modal
                                 onClose={() => {
-                                    onClose(), setSelectedInterestNew(selectedInterests)
+                                    onClose(), setSelectedInterest(selectedInterestsNew)
                                     //, (globalThis.topic = []), setSelectedInterest([])
                                 }}
                                 isOpen={isOpen}
@@ -289,7 +289,7 @@ const CreateActivityPoll = () => {
                                                     {/* numOfInterest will change when you select/deselect the tags */}
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
                                                         {/* {selectedInterests.length} */}
-                                                        {selectedInterestsNew.length}
+                                                        {selectedInterests.length}
                                                     </Heading>
                                                     <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
                                                         &nbsp;of 5 selected)
@@ -323,9 +323,9 @@ const CreateActivityPoll = () => {
                                                 // selectedInterests={selectedInterests}
                                                 // numOfSelectedInterest={selectedInterests.length}
                                                 // setSelectedInterest={setSelectedInterest}
-                                                selectedInterests={selectedInterestsNew}
-                                                numOfSelectedInterest={selectedInterestsNew.length}
-                                                setSelectedInterest={setSelectedInterestNew}
+                                                selectedInterests={selectedInterests}
+                                                numOfSelectedInterest={selectedInterests.length}
+                                                setSelectedInterest={setSelectedInterest}
                                                 tagIsClicked={tagIsClicked}
                                                 setTagIsClicked={setTagIsClicked}
                                                 type={"topics"}
@@ -334,12 +334,19 @@ const CreateActivityPoll = () => {
                                         ))}
                                     </ModalBody>
                                     <ModalFooter>
-                                        <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }} onClick={onClose}>
+                                        <GridItem
+                                            pl="2"
+                                            area={"button"}
+                                            mt={{ base: "6px", md: "10px" }}
+                                            onClick={() => {
+                                                onClose(), setSelectedInterestNew(selectedInterests)
+                                            }}
+                                        >
                                             <DatingInterestDynamicButton
                                                 // numOfSelectedInterest={selectedInterests.length}
-                                                numOfSelectedInterest={selectedInterestsNew.length}
+                                                numOfSelectedInterest={selectedInterests.length}
                                                 // selectedInterests={selectedInterests}
-                                                selectedInterests={selectedInterestsNew}
+                                                selectedInterests={selectedInterests}
                                                 tagIsClicked={tagIsClicked}
                                             />
                                         </GridItem>
