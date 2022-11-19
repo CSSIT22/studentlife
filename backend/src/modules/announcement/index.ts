@@ -7,6 +7,7 @@ import getHistoryPost from "./routes/gethistorypost"
 import getWaitingPost from "./routes/getwaitingpost"
 import getDeletePost from "./routes/getdeletepost"
 import editPinStatus from "./routes/editpinstatus"
+import getDetailApprove from "./routes/getdetailapprove"
 
 const announcementRoutes = express()
 
@@ -38,7 +39,7 @@ export let posts: post[] = [
         userId: "02",
         lang_id: 1000,
         topic: "Hello World1",
-        detail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        detail: "yyy Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "waiting",
         pinStatus: false,
@@ -125,5 +126,7 @@ announcementRoutes.get("/getwaitingpost", getWaitingPost)
 announcementRoutes.get("/getdeletepost", getDeletePost)
 
 announcementRoutes.post("/editpinstatus",editPinStatus)
+
+announcementRoutes.get("/getdetailapprove/:id", getDetailApprove)
 
 export default announcementRoutes

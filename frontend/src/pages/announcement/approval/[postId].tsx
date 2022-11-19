@@ -1,32 +1,39 @@
-import { Flex, Spacer, Heading, Text, Stack, Box, ButtonGroup, Button, Alert, AlertIcon, useControllableState, Show } from "@chakra-ui/react"
-import React, { Children, FC } from "react"
+import { Flex, Spacer, Heading, Text, Stack, Box, ButtonGroup, Button, Alert, AlertIcon, useControllableState, Show, useBoolean } from "@chakra-ui/react"
+import React, { Children, FC, useEffect } from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import ModalForEvent from "../../../components/annoucement/ModalForEvent"
 import AppBody from "../../../components/share/app/AppBody"
 import {post} from '@apiType/announcement'
 import { postInfoTest } from "../postInfoTest"
+import API from "src/function/API"
 
 const approvalDetail = () => {
-    const params = useParams().postId
-    console.log(params)
-    const postId = parseInt(params + "")
-    const post = postInfoTest.filter((el) => {
-        return el.postId == parseInt(params + "")
-    })
-    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    const [isError, { on }] = useBoolean()
+    const params = useParams()
+    // console.log(params)
+    // const postId = parseInt(params + "")
+    // const post = postInfoTest.filter((el) => {
+    //     return el.postId == parseInt(params + "")
+    // }
+    
+    const [post, setpost] = React.useState<post[]>([])
+    const getData = API.get("/announcement/getdetailapprove/" + params.postId)
+    useEffect(() => {
+        getData.then((item) => setpost(item.data)).catch((err) => on())
+    }, [])
 
-    console.log(allPost)
-    const changeStatus = (status: string) => {
-        setAllPost(
-            allPost.map((el) => {
-                if (el.postId == postId) {
-                    el.status = status
-                }
-                return el
-            })
-        )
-    }
+    // console.log(post)
+    // // const changeStatus = (status: string) => {
+    //     setpost(
+    //         post.map((el) => {
+    //             if (el.postId == postId) {
+    //                 el.status = status
+    //             }
+    //             return el
+    //         })
+    //     )
+    // }
 
     return (
         <AppBody
@@ -82,12 +89,12 @@ const approvalDetail = () => {
             <Box width="100%" p="5" mt="14">
                 <Flex justifyContent={"space-between"}>
                     <Link to={"/announcement/approval"}>
-                        <Button  bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("approve")}>
+                        <Button  bg={"#38A169"} color={"white"} shadow={"md"} >
                             Approve
                         </Button>
                     </Link>
                     <Link to={"/announcement/approval"}>
-                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("disapprove")}>Disapprove</Button>
+                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} >Disapprove</Button>
                     </Link>
                 </Flex>
             </Box>
