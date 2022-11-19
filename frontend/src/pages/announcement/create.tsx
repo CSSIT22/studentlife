@@ -28,7 +28,6 @@ import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post } from "@apiType/announcement"
 
-
 const create = () => {
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
@@ -80,36 +79,43 @@ const create = () => {
     const [targetType, setTargetType] = React.useState(String)
     const [targetValue, setTargetValue] = React.useState(String)
     const [expired, setExpired] = React.useState(Date)
+    const disabledDates = () => {
+        var today, dd, mm, yyyy
+        today = new Date()
+        dd = today.getDate()
+        mm = today.getMonth() + 1
+        yyyy = today.getFullYear()
+        return yyyy + "-" + mm + "-" + dd
+    }
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
     const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
         setAllPost([
             ...allPost,
             {
-                postId:allPost.length,
-                userId:"0"+allPost.length+1,
-                lang_id:1000,
-                topic:title,
-                detail:detail,
-                sender:"SAMO-SIT",
-                status:"waiting",
-                pinStatus:false,
-                isApprove:false,
-                targetType:targetType,
-                targetValue:targetValue,
-                postAt:new Date(),
-                expiredOfPost:expired,
-                expiredAfterDelete:null,
-                addMoreLang:addMoreLang
-            }
+                postId: allPost.length,
+                userId: "0" + allPost.length + 1,
+                lang_id: 1000,
+                topic: title,
+                detail: detail,
+                sender: "SAMO-SIT",
+                status: "waiting",
+                pinStatus: false,
+                isApprove: false,
+                targetType: targetType,
+                targetValue: targetValue,
+                postAt: new Date(),
+                expiredOfPost: expired,
+                expiredAfterDelete: null,
+                addMoreLang: addMoreLang,
+            },
         ])
     }
     console.log(allPost)
 
-   
     // console.log(expired);
     const addLang = (lang: number, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { id: addMoreLang.length,lang_id: lang, topic: topic, detail: detail }])
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, lang_id: lang, topic: topic, detail: detail }])
     }
     // console.log(addMoreLang)
 
@@ -124,10 +130,9 @@ const create = () => {
         AddLang()
     }
     const decreaseCount = () => {
-           setCount(count - 1)
-            decreaseLang()
-            setAddMoreLang(addMoreLang.filter((el) => el.id < addMoreLang.length-1))
-       
+        setCount(count - 1)
+        decreaseLang()
+        setAddMoreLang(addMoreLang.filter((el) => el.id < addMoreLang.length - 1))
     }
     // console.log(count)
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
@@ -139,7 +144,7 @@ const create = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-  
+
     return (
         <AppBody
             secondarynav={[
@@ -209,14 +214,28 @@ const create = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Expired Date</FormLabel>
-                        <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} />
+                        <Input
+                            placeholder="Select expired date"
+                            size="md"
+                            type="date"
+                            min={disabledDates()}
+                            onChange={(e) => setExpired(e.target.value)}
+                        />
                     </FormControl>
                     <FormControl>
                         <>
                             {moreLangField.map((el) => {
                                 return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
                             })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle" backgroundColor={"#DD6B20"} color="white" onClick={increaseCount} cursor={"pointer"}>
+                            <Tag
+                                size={"lg"}
+                                key={"lg"}
+                                variant="subtle"
+                                backgroundColor={"#DD6B20"}
+                                color="white"
+                                onClick={increaseCount}
+                                cursor={"pointer"}
+                            >
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>
