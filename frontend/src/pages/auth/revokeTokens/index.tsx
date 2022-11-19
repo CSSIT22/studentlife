@@ -65,7 +65,7 @@ const index = () => {
         getTokensInfo()
     }, [])
 
-    const CustomModal: FC<{ modalHeader: string; modalBody: ReactNode; token: string }> = ({ modalHeader, modalBody, token }) => {
+    const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean }> = ({ modalHeader, token, isCurrentDevice }) => {
         return (
             <>
                 <Button onClick={onOpen} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
@@ -77,7 +77,13 @@ const index = () => {
                         <ModalHeader>{modalHeader}</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <p>{modalBody}</p>
+                            {isCurrentDevice ? (
+                                <p>
+                                    This is your <b>current device</b>.
+                                </p>
+                            ) : (
+                                <p>This will logout you out from selected device.</p>
+                            )}
                         </ModalBody>
 
                         <ModalFooter>
@@ -196,19 +202,7 @@ const index = () => {
                                                 <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
                                                 <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
                                                 {/* Insert CustomModal here */}
-                                                <CustomModal
-                                                    modalBody={
-                                                        item.currentDevice ? (
-                                                            <p>
-                                                                This is your <b>current device</b>.
-                                                            </p>
-                                                        ) : (
-                                                            <p>This will logout you out from selected device.</p>
-                                                        )
-                                                    }
-                                                    modalHeader="Are you sure?"
-                                                    token={item.token}
-                                                />
+                                                <CustomModal modalHeader="Are you sure?" token={item.token} isCurrentDevice={item.currentDevice} />
                                             </VStack>
                                         </Flex>
                                     </Box>
