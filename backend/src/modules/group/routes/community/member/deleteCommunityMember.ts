@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 
-const deleteCommunity = async(req: Request, res: Response) =>{
+const deleteMember = async(req: Request, res: Response) =>{
     
     const prisma = res.prisma
     const userid = req.body.userId
@@ -23,4 +23,4 @@ const deleteCommunity = async(req: Request, res: Response) =>{
 
 
 
-export default deleteCommunity
+export default deleteMember
