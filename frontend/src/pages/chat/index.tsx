@@ -1,4 +1,6 @@
 import { Box, Flex, Portal } from "@chakra-ui/react"
+import { useEffect } from "react"
+import API from "src/function/API"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
 
@@ -16,6 +18,11 @@ import AppBody from "../../components/share/app/AppBody"
 //     { roomID: "9999", roomName: "Almas", roomtype: "individual",img:"https://s.thistine.com/dog" },
 // ]
 const Chat = () => {
+    const result = API.get('/chat');
+    useEffect(()=>{
+        console.log(result);
+        
+    },[])
     return (
         <AppBody>
             <Clist />

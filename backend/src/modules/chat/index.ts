@@ -1,9 +1,8 @@
 import express from "express"
-import { Prisma} from "@prisma/client"
-import getRoom from "./router/getRoom";
-const chatRoutes = express()
+import getRoom from "./router/getRoom"
+const chatRoutes = express.Router();
 
-chatRoutes.get('/',getRoom);
+chatRoutes.get("/",getRoom)
 
 
 export default chatRoutes
