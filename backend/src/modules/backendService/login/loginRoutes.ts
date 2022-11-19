@@ -50,8 +50,8 @@ router.get(
                             detail: {
                                 create: {
                                     loginDate: new Date(),
-                                    ip: device.getBrowser().name || "",
                                     deviceInfo: detectedResult.device.type || "Unknown",
+                                    ip: req.ip,
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
                                 },
                             },
@@ -96,8 +96,8 @@ router.get("/logout", async (req, res) => {
                     token: sessid,
                     detail: {
                         create: {
-                            ip: device1.getBrowser().name || "",
                             deviceInfo: detectedResult.device.type || "Unknown",
+                            ip: req.ip,
                             logoutDate: new Date(),
                         },
                     },
