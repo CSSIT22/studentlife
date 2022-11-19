@@ -3,6 +3,7 @@ import passport from "passport"
 import { Request, Response } from "express"
 import { verifyUser } from "../middleware/verifyUser"
 import UAParser from "ua-parser-js"
+import jwt from "jsonwebtoken"
 
 const router = Router()
 
@@ -75,6 +76,11 @@ router.get("/logout", async (req, res) => {
 
         return res.send("success")
     })
+})
+
+router.get("/sockettoken", verifyUser, (req: Request, res: Response) => {
+    const token = jwt.sign({ userId: req.user?.userId }, process.env.COOKIE_SECRET || "")
+    res.send(token)
 })
 
 export { router as loginRoutes }
