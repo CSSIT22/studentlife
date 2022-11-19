@@ -10,6 +10,7 @@ import api from "../../../function/API"
 import { FC, ReactNode, useContext, useEffect, useState } from "react"
 import { authContext } from "src/context/AuthContext"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, extendTheme } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 
 const Card = (props: any) => {
     return (
@@ -51,7 +52,6 @@ const index = () => {
         })
         if (res.data.isLogoutCurrentDevice) {
             await api.get("auth/logout")
-            location.reload()
         } else setTokens([...tokens.filter((item) => item.token !== res.data.token)])
         console.log(res)
     }
@@ -66,6 +66,7 @@ const index = () => {
     }, [])
 
     const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean }> = ({ modalHeader, token, isCurrentDevice }) => {
+        const navigate = useNavigate()
         return (
             <>
                 <Button onClick={onOpen} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
@@ -94,6 +95,7 @@ const index = () => {
                                 onClick={() => {
                                     handleRevoke(token)
                                     onClose()
+                                    if (isCurrentDevice) navigate("/auth")
                                 }}
                                 colorScheme={"green"}
                                 variant={"solid"}
