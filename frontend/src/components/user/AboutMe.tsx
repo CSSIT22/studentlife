@@ -16,7 +16,7 @@ function AboutMe() {
     return (
         <div>
             <Flex rounded="xl" direction="column" my={4} mx={4} bg="white" position="initial" shadow={"lg"}>
-                <Text color="black" p="5" fontSize="xl" fontWeight="500">
+                <Text color="black" p="5" fontSize="2xl" fontWeight="600">
                     ABOUT ME
                 </Text>
                 <Box id="detail" ml={5}>

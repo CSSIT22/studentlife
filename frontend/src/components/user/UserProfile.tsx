@@ -173,16 +173,22 @@ export default function SimpleThreeColumns() {
                                         <Input ref={initialRef} placeholder="Phone Number" />
                                     </FormControl>
 
-                                    <FormControl mt={4}>
-                                        <FormLabel>Age</FormLabel>
-                                        <NumberInput max={999} min={0}>
-                                            <NumberInputField />
-                                            <NumberInputStepper>
-                                                <NumberIncrementStepper />
-                                                <NumberDecrementStepper />
-                                            </NumberInputStepper>
-                                        </NumberInput>
-                                    </FormControl>
+                                    <HStack mt={4}>
+                                        <FormControl>
+                                            <FormLabel>Age</FormLabel>
+                                            <NumberInput max={999} min={0}>
+                                                <NumberInputField />
+                                                <NumberInputStepper>
+                                                    <NumberIncrementStepper />
+                                                    <NumberDecrementStepper />
+                                                </NumberInputStepper>
+                                            </NumberInput>
+                                        </FormControl>
+                                        <FormControl>
+                                            <FormLabel>BrithDate</FormLabel>
+                                            <Input placeholder="Select Date and Time" size="md" type="date" />
+                                        </FormControl>
+                                    </HStack>
 
                                     <FormControl mt={4}>
                                         <FormLabel>Sex</FormLabel>
@@ -196,6 +202,17 @@ export default function SimpleThreeColumns() {
                                     <FormControl mt={4}>
                                         <FormLabel>Hobby</FormLabel>
                                         <Input placeholder="your favorite free time activity" />
+                                    </FormControl>
+
+                                    <FormControl mt={4}>
+                                        <FormLabel>Years</FormLabel>
+                                        <NumberInput max={8} min={1}>
+                                            <NumberInputField />
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper />
+                                                <NumberDecrementStepper />
+                                            </NumberInputStepper>
+                                        </NumberInput>
                                     </FormControl>
                                 </ModalBody>
 
