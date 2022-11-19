@@ -18,10 +18,18 @@ import { FaPlus } from "react-icons/fa"
 import { HiOutlineMusicNote } from "react-icons/hi"
 import { MdAttachMoney, MdFastfood } from "react-icons/md"
 import { RiMenuFoldLine } from "react-icons/ri"
+import { useNavigate, useParams } from "react-router-dom"
 
 function Plustoggle() {
+    let param = useParams()
     const { isOpen, onOpen, onClose } = useDisclosure()
     // const [placement, setPlacement] = React.useState("bottom")
+    const navigate = useNavigate()
+    //function handle
+    function Navigate() {
+        return navigate(`/chat/${param.roomId}/property`)
+        
+    }
 
     return (
         <>
@@ -80,7 +88,7 @@ function Plustoggle() {
                                 // _active={{ background: "transparent" }}
                                 _hover={{ background: "transparent", transform: "scale(1.5)" }}
                             >
-                                <RiMenuFoldLine size={"40px"} />
+                                <RiMenuFoldLine size={"40px"} onClick={Navigate} />
                             </Box>
                         </Flex>
                     </DrawerBody>
