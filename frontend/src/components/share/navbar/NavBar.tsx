@@ -16,11 +16,11 @@ export const NavBarMenu = [
 
 export const moreMenu = [
     { to: "/announcement", Icon: HiSpeakerphone, name: "Announcement" },
-    { to: "/airdrop", Icon: BsFillCloudArrowUpFill, name: "Airdrop" },
-    { to: "/shortlink-feature", Icon: AiOutlin90eLink, name: "link-feature" },
-    { to: "/shop", Icon: AiTwotoneShop, name: "Shop" },
-    { to: "/restaurant", Icon: IoFastFoodSharp, name: "Restaurant" },
-    { to: "/shopreview", Icon: MdReviews, name: "ShopReview" },
+    { to: "/airdrop", Icon: HiSpeakerphone, name: "Airdrop" },
+    { to: "/shop", Icon: HiSpeakerphone, name: "Shop" },
+    { to: "/restaurant", Icon: HiSpeakerphone, name: "Restaurant" },
+    { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
+    { to: "/dating/rating", Icon: HiSpeakerphone, name: "Rating" },
 ]
 
 const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
