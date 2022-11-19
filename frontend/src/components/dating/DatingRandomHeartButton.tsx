@@ -2,7 +2,10 @@ import { AnimationControls, motion } from "framer-motion"
 import { FC } from "react"
 import { AiOutlineHeart } from "react-icons/ai"
 
-const DatingRandomHeartButton: FC<{ controlHeart: AnimationControls; swipe: (dir: string) => Promise<void> }> = ({ controlHeart, swipe }) => {
+const DatingRandomHeartButton: FC<{
+    controlHeart: AnimationControls
+    swipe: (dir: string) => Promise<void>
+}> = ({ controlHeart, swipe }) => {
     return (
         <motion.div
             style={{
@@ -18,14 +21,24 @@ const DatingRandomHeartButton: FC<{ controlHeart: AnimationControls; swipe: (dir
             }}
             animate={controlHeart}
             onClick={() => swipe("right")}
+            whileTap={{
+                scale: 1.2,
+                backgroundColor: "#E6702E",
+                transition: {
+                    duration: 0.001,
+                },
+            }}
             variants={{
                 visible: {
-                    scale: [1, 0.8, 1],
-                    backgroundColor: ["#FFF2E6", "#E6702E", "#FFF2E6"],
+                    scale: [1, 1.2],
+                    backgroundColor: ["#FFF2E6", "#E6702E"],
                     transition: {
-                        duration: 0.4,
-                        ease: [0.075, 0.82, 0.165, 1],
+                        duration: 0.001,
                     },
+                },
+                hidden: {
+                    scale: 1,
+                    backgroundColor: "#FFF2E6",
                 },
             }}
         >
