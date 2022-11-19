@@ -3,42 +3,14 @@ import { verifyUser } from "../.././backendService/middleware/verifyUser"
 const userRoutes = express()
 
 //getdepartment
-userRoutes.get("/getdepartment", verifyUser,async (req: Request, res: Response) => {
+userRoutes.get("/getdepartment", verifyUser,async (req: Request | any, res: Response | any) => {
     try {
         const user = req.user?.userId
         const {prisma} = res;
-        const department = await prisma.user_Profile.findFirstOrThrow({
-            where: {
-                userId: user,
-            },
-            select: {
-                majorId: true,
-            },
+        const department =  await prisma.major.groupBy({
+            by:["facultyId","majorName"],
         })
-        const departmentList = await prisma.user_Profile.findMany({
-            where: {
-                AND: [
-                    {
-                        userId: {
-                            not: user,
-                        },
-                    },
-                    {
-                        majorId: department?.majorId,
-                    },
-                ],
-            },
-            select: {
-                fName: true,
-                lName: true,
-            },
-        })
-        const result: string[] = []
-        departmentList.map((item) => {
-            result.push(item.fName + " " + item.lName)
-        })
-        // console.log(departmentList)
-        res.json(result)
+        res.json(department)
     } catch (err) {
         console.log(err)
     }
