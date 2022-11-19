@@ -76,7 +76,7 @@ export default function SimpleThreeColumns() {
     const theme = extendTheme({ breakpoints })
 
     return (
-        <Box maxW="100%" borderRadius="none" overflow="hidden" p="5" ml={{ base: "3", md: "0" }}>
+        <Box maxW="100%" borderRadius="none" rounded="2xl" overflow="hidden" p={5} pt={{ md: "45px", base: "0" }} ml={{ base: "3", md: "0" }}>
             <Grid
                 templateAreas={{
                     base: `
@@ -85,7 +85,7 @@ export default function SimpleThreeColumns() {
                 "nav footer"`,
                     md: `
                   "nav main followlist"
-                  "nav footer footer"`,
+                  "nav main footer"`,
                 }}
                 gridTemplateRows={{ base: "80% 1fr 50%", md: "70% 1fr 50%" }}
                 gridTemplateColumns={"20% 1fr"}
@@ -101,9 +101,11 @@ export default function SimpleThreeColumns() {
                     <VStack align="stretch" alignItems="center" ml={7}>
                         <Avatar
                             pt={2}
+                            mt={{ md: "-70px", base: "0" }}
                             display="flex"
                             position="initial"
-                            size="2xl"
+                            float={"inline-end"}
+                            size={{ md: "3xl", base: "2xl" }}
                             shadow="xl"
                             name="Christian Nwamba"
                             src="https://bit.ly/code-beast"
@@ -113,7 +115,7 @@ export default function SimpleThreeColumns() {
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" mt={15} ml={{ base: "10", md: "" }} area={"main"} color="gray.700">
+                <GridItem pl="2" mt={15} ml={{ base: "10", md: "" }} alignSelf={"end"} area={"main"} color="gray.700">
                     <HStack p={1}>
                         <Box fontSize={"lg"} color="orange.700">
                             ID :
@@ -121,19 +123,19 @@ export default function SimpleThreeColumns() {
                         <Box fontSize={"xl"}>64130500XXX</Box>
                     </HStack>
 
-                    <HStack p={1}>
-                        <Box fontSize={"lg"} color="orange.700">
-                            Name :
-                        </Box>
-                        <Box fontSize={"xl"}>John Doe</Box>
-                    </HStack>
+                    <Stack p={1} direction={{ base: "column", lg: "row" }}>
+                        <Box fontSize={{ md: "5xl", base: "xl" }}>Vatcharamai Rodring</Box>
+                    </Stack>
 
                     <Stack direction={{ base: "column", lg: "row" }} alignItems="flex-start" spacing={-0.5} mb="5">
                         <Stack p={1} direction="row" alignItems="center">
-                            <Box fontSize={{ base: "sm", md: "lg" }} color="orange.700">
+                            <Box fontSize={{ base: "sm", md: "lg" }} display={{ base: "block", md: "none" }} color="orange.700">
                                 Faculty :
                             </Box>
                             <Box fontSize={{ base: "md", md: "xl" }}>SIT</Box>
+                            <Box fontSize={{ base: "lg", md: "lg" }} display={{ base: "none", md: "block" }} color="orange.700">
+                                ,
+                            </Box>
                         </Stack>
 
                         <Stack
@@ -142,17 +144,20 @@ export default function SimpleThreeColumns() {
                             alignItems={{ base: "center", md: "flex-start", lg: "center" }}
                             spacing={{ base: "2", md: "-1", lg: "2" }}
                         >
-                            <Box fontSize={{ base: "sm", md: "lg" }} color="orange.700">
+                            <Box fontSize={{ base: "sm", md: "lg" }} display={{ base: "block", md: "none" }} color="orange.700">
                                 Major :
                             </Box>
                             <Box fontSize={{ base: "md", md: "xl" }}>Computer Science</Box>
                         </Stack>
                     </Stack>
                 </GridItem>
-                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "", md: "10" }}>
+                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "", md: "6" }}>
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
                         <Button
                             pl={5}
+                            width={{ md: "7rem", base: "" }}
+                            height={{ md: "3rem", base: "2rem" }}
+                            fontSize={{ base: "", md: "lg" }}
                             bg="orange.600"
                             _hover={{ background: "orange.200" }}
                             position="initial"
@@ -224,17 +229,18 @@ export default function SimpleThreeColumns() {
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-                        <Button pl={5} bg="orange.600" _hover={{ background: "orange.200" }} position="initial" shadow={"lg"}>
+                        <Button pl={5} bg="orange.600" _hover={{ background: "orange.200" }} width={{ md: "9rem", base: "" }}
+                            height={{ md: "3rem", base: "2rem" }} fontSize={{ base: "", md: "lg" }} position="initial" shadow={"lg"}>
                             Create blog
                         </Button>{" "}
                     </ButtonGroup>
                 </GridItem>
-                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2.5rem", md: "3rem" }} mr={5}>
+                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "3rem" }} mr={5}>
                     <Stack direction="row" mx={{ base: "50", md: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
-                            <Box fontSize={"lg"}>0</Box>
+                            <Box fontSize={{ base: "lg", md: "2xl" }}>0</Box>
                             <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
-                                <Box fontSize={"lg"} color="orange.700">
+                                <Box fontSize={{ base: "lg", md: "2xl" }} color="orange.700">
                                     Follower
                                 </Box>
 
@@ -256,10 +262,10 @@ export default function SimpleThreeColumns() {
                             </Link>
                         </Stack>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-3.5", md: "" }}>
-                            <Box fontSize={"lg"}>0</Box>
+                            <Box fontSize={{ base: "lg", md: "2xl" }}>0</Box>
 
                             <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
-                                <Box fontSize={"lg"} color="orange.700" mt="0.5rem">
+                                <Box fontSize={{ base: "lg", md: "2xl" }} color="orange.700" mt="0.5rem">
                                     Following
                                 </Box>
 

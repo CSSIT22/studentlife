@@ -29,12 +29,11 @@ function BlogHistory() {
                 <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
                     Blog3
                 </Box>
-
                 <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog3
+                    Blog4
                 </Box>
                 <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog3
+                    Blog5
                 </Box>
             </Container>
         </Flex>

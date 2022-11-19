@@ -77,7 +77,7 @@ export default function SimpleThreeColumns() {
     const theme = extendTheme({ breakpoints })
 
     return (
-        <Box maxW="100%" borderRadius="none" overflow="hidden" p="5">
+        <Box maxW="100%" borderRadius="none" rounded="2xl" overflow="hidden" p={5} pt={{ md: "45px", base: "0" }} ml={{ base: "3", md: "0" }}>
             <Grid
                 templateAreas={{
                     base: `
@@ -86,11 +86,11 @@ export default function SimpleThreeColumns() {
                 "nav footer"`,
                     md: `
                   "nav main followlist"
-                  "nav footer footer"`,
+                  "nav main footer"`,
                 }}
                 gridTemplateRows={{ base: "80% 1fr 50%", md: "70% 1fr 50%" }}
                 gridTemplateColumns={"20% 1fr"}
-                h={{ base: "16rem", md: "100%" }}
+                h="100%"
                 gap="2"
                 color="blackAlpha.700"
                 fontWeight="bold"
@@ -102,10 +102,12 @@ export default function SimpleThreeColumns() {
                     <VStack align="stretch" alignItems="center" ml={7}>
                         <Avatar
                             pt={2}
+                            mt={{ md: "-70px", base: "0" }}
                             display="flex"
                             position="initial"
+                            float={"inline-end"}
+                            size={{ md: "3xl", base: "2xl" }}
                             shadow="xl"
-                            size="2xl"
                             name="Christian Nwamba"
                             src="https://bit.ly/code-beast"
                         />{" "}
@@ -114,7 +116,7 @@ export default function SimpleThreeColumns() {
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" mt={15} ml={{ base: "10", md: "" }} area={"main"} color="gray.700">
+                <GridItem pl="2" mt={15} ml={{ base: "10", md: "" }} alignSelf={"end"} area={"main"} color="gray.700">
                     <HStack p={1}>
                         <Box fontSize={"lg"} color="orange.700">
                             ID :
@@ -122,19 +124,19 @@ export default function SimpleThreeColumns() {
                         <Box fontSize={"xl"}>64130500XXX</Box>
                     </HStack>
 
-                    <HStack p={1}>
-                        <Box fontSize={"lg"} color="orange.700">
-                            Name :
-                        </Box>
-                        <Box fontSize={"xl"}>John Doe</Box>
-                    </HStack>
+                    <Stack p={1} direction={{ base: "column", lg: "row" }}>
+                        <Box fontSize={{ md: "5xl", base: "xl" }}>Vatcharamai Rodring</Box>
+                    </Stack>
 
                     <Stack direction={{ base: "column", lg: "row" }} alignItems="flex-start" spacing={-0.5} mb="5">
                         <Stack p={1} direction="row" alignItems="center">
-                            <Box fontSize={{ base: "sm", md: "lg" }} color="orange.700">
+                            <Box fontSize={{ base: "sm", md: "lg" }} display={{ base: "block", md: "none" }} color="orange.700">
                                 Faculty :
                             </Box>
                             <Box fontSize={{ base: "md", md: "xl" }}>SIT</Box>
+                            <Box fontSize={{ base: "lg", md: "lg" }} display={{ base: "none", md: "block" }} color="orange.700">
+                                ,
+                            </Box>
                         </Stack>
 
                         <Stack
@@ -143,15 +145,15 @@ export default function SimpleThreeColumns() {
                             alignItems={{ base: "center", md: "flex-start", lg: "center" }}
                             spacing={{ base: "2", md: "-1", lg: "2" }}
                         >
-                            <Box fontSize={{ base: "sm", md: "lg" }} color="orange.700">
+                            <Box fontSize={{ base: "sm", md: "lg" }} display={{ base: "block", md: "none" }} color="orange.700">
                                 Major :
                             </Box>
                             <Box fontSize={{ base: "md", md: "xl" }}>Computer Science</Box>
                         </Stack>
                     </Stack>
                 </GridItem>
-                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "", md: "10" }}>
-                    <ButtonGroup spacing={{ base: "1.5", sm: "3" }}>
+                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "", md: "6" }}>
+                    <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
                         <HStack position="initial">
                             {isFollow ? (
                                 <Button
@@ -160,10 +162,14 @@ export default function SimpleThreeColumns() {
                                         handleClick()
                                         setIsFolCount(FolCount + 1)
                                     }}
+                                    pl={5}
+                                    width={{ md: "7rem", base: "" }}
+                                    height={{ md: "3rem", base: "2rem" }}
+                                    fontSize={{ base: "", md: "lg" }}
+                                    bg="orange.600"
+                                    position="initial"
+                                    value="inside"
                                     shadow={"lg"}
-                                    colorScheme="orange"
-                                    color="White"
-                                    variant="solid"
                                 >
                                     Follow
                                 </Button>
@@ -177,6 +183,12 @@ export default function SimpleThreeColumns() {
                                     shadow={"lg"}
                                     colorScheme="orange"
                                     variant="outline"
+                                    pl={5}
+                                    width={{ md: "7rem", base: "" }}
+                                    height={{ md: "3rem", base: "2rem" }}
+                                    fontSize={{ base: "", md: "lg" }}
+                                    position="initial"
+                                    value="inside"
                                 >
                                     Following
                                 </Button>
@@ -186,7 +198,9 @@ export default function SimpleThreeColumns() {
                             pl={5}
                             bg="orange.600"
                             _hover={{ background: "orange.200" }}
-                            color="White"
+                            width={{ md: "7rem", base: "" }}
+                            height={{ md: "3rem", base: "2rem" }}
+                            fontSize={{ base: "", md: "lg" }}
                             position="initial"
                             value="inside"
                             shadow={"lg"}
@@ -195,6 +209,7 @@ export default function SimpleThreeColumns() {
                         </Button>{" "}
                         <Menu>
                             <MenuButton
+                                alignContent={"center"}
                                 as={IconButton}
                                 bgColor={{ base: "white", md: "orange.600" }}
                                 icon={<BsThreeDotsVertical />}
@@ -204,6 +219,11 @@ export default function SimpleThreeColumns() {
                                 position="initial"
                                 variant="solid"
                                 shadow={"lg"}
+                                width={{ md: "2rem", base: "" }}
+                                height={{ md: "3rem", base: "2rem" }}
+                                fontSize={{ base: "", md: "lg" }}
+                                bg="orange.600"
+                                value="inside"
                             />
                             <MenuList>
                                 <MenuItem color="orange.700" icon={<BsFillFlagFill />} onClick={onReportModalOpen}>
@@ -326,12 +346,12 @@ export default function SimpleThreeColumns() {
                         </Menu>
                     </ButtonGroup>
                 </GridItem>
-                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-3rem", md: "3rem" }} mr={5}>
+                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "3rem" }} mr={5}>
                     <Stack direction="row" mx={{ base: "50", md: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
-                            <Box fontSize={"lg"}>{FolCount}</Box>
+                            <Box fontSize={{ base: "lg", md: "2xl" }}>{FolCount}</Box>
                             <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
-                                <Box fontSize={"lg"} color="orange.700">
+                                <Box fontSize={{ base: "lg", md: "2xl" }} color="orange.700">
                                     Follower
                                 </Box>
 
@@ -353,10 +373,10 @@ export default function SimpleThreeColumns() {
                             </Link>
                         </Stack>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-3.5", md: "" }}>
-                            <Box fontSize={"lg"}>0</Box>
+                            <Box fontSize={{ base: "lg", md: "2xl" }}>0</Box>
 
                             <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
-                                <Box fontSize={"lg"} color="orange.700" mt="0.5rem">
+                                <Box fontSize={{ base: "lg", md: "2xl" }} color="orange.700" mt="0.5rem">
                                     Following
                                 </Box>
 
@@ -384,6 +404,189 @@ export default function SimpleThreeColumns() {
 
         // Help me goddddd it almost finish but my eyes can handle much any more sorry for what i done this is the end of me nowww thank you everyone for support me and help me love you mom dad and my bro sry to be a
         // croward is sorry
+
+
+
+        // <ButtonGroup spacing={{ base: "1.5", sm: "3" }}>
+        //                 <HStack position="initial">
+        //                     {isFollow ? (
+        //                         <Button
+        //                             _hover={{ cursor: "pointer", background: "orange.200" }}
+        //                             onClick={() => {
+        //                                 handleClick()
+        //                                 setIsFolCount(FolCount + 1)
+        //                             }}
+        //                             shadow={"lg"}
+        //                             colorScheme="orange"
+        //                             color="White"
+        //                             variant="solid"
+        //                         >
+        //                             Follow
+        //                         </Button>
+        //                     ) : (
+        //                         <Button
+        //                             _hover={{ cursor: "pointer", background: "" }}
+        //                             onClick={() => {
+        //                                 handleClick()
+        //                                 setIsFolCount(FolCount - 1)
+        //                             }}
+        //                             shadow={"lg"}
+        //                             colorScheme="orange"
+        //                             variant="outline"
+        //                         >
+        //                             Following
+        //                         </Button>
+        //                     )}
+        //                 </HStack>
+        //                 <Button
+        //                     pl={5}
+        //                     bg="orange.600"
+        //                     _hover={{ background: "orange.200" }}
+        //                     color="White"
+        //                     position="initial"
+        //                     value="inside"
+        //                     shadow={"lg"}
+        //                 >
+        //                     Message
+        //                 </Button>{" "}
+        //                 <Menu>
+        //                     <MenuButton
+        //                         as={IconButton}
+        //                         bgColor={{ base: "white", md: "orange.600" }}
+        //                         icon={<BsThreeDotsVertical />}
+        //                         color={{ base: "orange.600", md: "white" }}
+        //                         aria-label="Options"
+        //                         _hover={{ background: "orange.200" }}
+        //                         position="initial"
+        //                         variant="solid"
+        //                         shadow={"lg"}
+        //                     />
+        //                     <MenuList>
+        //                         <MenuItem color="orange.700" icon={<BsFillFlagFill />} onClick={onReportModalOpen}>
+        //                             Report
+        //                         </MenuItem>
+
+        //                         <Modal
+        //                             initialFocusRef={initialRef}
+        //                             finalFocusRef={finalRef}
+        //                             isOpen={isReportModalOpen}
+        //                             onClose={onReportModalClose}
+        //                             motionPreset="slideInBottom"
+        //                         >
+        //                             <ModalOverlay />
+        //                             <ModalContent>
+        //                                 <ModalHeader>REPORT</ModalHeader>
+        //                                 <ModalCloseButton />
+        //                                 <ModalBody pb={6}>
+        //                                     <FormLabel>Why are you reporting this account?</FormLabel>
+        //                                     <Stack spacing={5} direction="column">
+        //                                         <Checkbox colorScheme="orange">Post inappropriate content</Checkbox>
+        //                                         <Checkbox colorScheme="orange">Making anxious/guilty</Checkbox>
+        //                                         <Checkbox colorScheme="orange">Toxic</Checkbox>
+        //                                         <Checkbox colorScheme="orange">Bullying</Checkbox>
+        //                                         <Checkbox colorScheme="orange">Harassment</Checkbox>
+        //                                     </Stack>
+
+        //                                     <FormControl mt={4}>
+        //                                         <FormLabel>Other :</FormLabel>
+        //                                         <Input placeholder="Details" />
+        //                                     </FormControl>
+        //                                 </ModalBody>
+
+        //                                 <ModalFooter>
+        //                                     <Button colorScheme="orange" mr={3} onClick={onConfirmRPModalOpen}>
+        //                                         Report
+        //                                     </Button>
+        //                                     <Modal isCentered isOpen={isConfirmRPModalOpen} onClose={onConfirmRPModalClose}>
+        //                                         <ModalOverlay />
+        //                                         <ModalContent>
+        //                                             <ModalHeader>Are you sure to report this account?</ModalHeader>
+        //                                             <ModalCloseButton />
+        //                                             <ModalBody>
+        //                                                 <Text></Text>
+        //                                             </ModalBody>
+
+        //                                             <ModalFooter>
+        //                                                 <Button
+        //                                                     colorScheme="orange"
+        //                                                     mr={3}
+        //                                                     onClick={() => {
+        //                                                         onReportModalClose()
+        //                                                         onConfirmRPModalClose()
+        //                                                     }}
+        //                                                 >
+        //                                                     Report
+        //                                                 </Button>
+        //                                                 <Button
+        //                                                     variant="ghost"
+        //                                                     onClick={() => {
+        //                                                         onReportModalClose()
+        //                                                         onConfirmRPModalClose()
+        //                                                     }}
+        //                                                 >
+        //                                                     Close
+        //                                                 </Button>
+        //                                             </ModalFooter>
+        //                                         </ModalContent>
+        //                                     </Modal>
+
+        //                                     <Button onClick={onReportModalClose}>Cancel</Button>
+        //                                 </ModalFooter>
+        //                             </ModalContent>
+        //                         </Modal>
+        //                         <MenuItem color="orange.700" icon={<BsXOctagonFill />} onClick={onBlockModalOpen}>
+        //                             Block
+        //                         </MenuItem>
+        //                         <Modal isCentered isOpen={isBlockModalOpen} onClose={onBlockModalClose}>
+        //                             <ModalOverlay />
+        //                             <ModalContent>
+        //                                 <ModalHeader>Are you sure to block this account?</ModalHeader>
+        //                                 <ModalCloseButton />
+        //                                 <ModalBody>
+        //                                     <Text></Text>
+        //                                 </ModalBody>
+
+        //                                 <ModalFooter>
+        //                                     <Button colorScheme="orange" mr={3} onClick={onBlockModalClose}>
+        //                                         Block
+        //                                     </Button>
+        //                                     <Button variant="ghost" onClick={onBlockModalClose}>
+        //                                         Close
+        //                                     </Button>
+        //                                 </ModalFooter>
+        //                             </ModalContent>
+        //                         </Modal>
+        //                         <MenuItem color="orange.700" icon={<BsHandIndexThumbFill />} onClick={onPokeModalOpen}>
+        //                             Poke
+        //                         </MenuItem>
+        //                         <Modal isCentered isOpen={isPokeModalOpen} onClose={onPokeModalClose}>
+        //                             <ModalOverlay />
+        //                             <ModalContent>
+        //                                 <ModalHeader>Are you sure to poke this account?</ModalHeader>
+        //                                 <ModalCloseButton />
+        //                                 <ModalBody>
+        //                                     <Text></Text>
+        //                                 </ModalBody>
+
+        //                                 <ModalFooter>
+        //                                     <Button colorScheme="orange" mr={3} onClick={onPokeModalClose}>
+        //                                         Poke
+        //                                     </Button>
+        //                                     <Button variant="ghost" onClick={onPokeModalClose}>
+        //                                         Close
+        //                                     </Button>
+        //                                 </ModalFooter>
+        //                             </ModalContent>
+        //                         </Modal>
+        //                     </MenuList>
+        //                 </Menu>
+        //             </ButtonGroup>
+
+
+
+
+
+
 
         // <GridItem pl="2" area={"footer"} rounded="xl">
         //             <ButtonGroup color="white" variant="outline" spacing="6">

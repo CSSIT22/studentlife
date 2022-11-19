@@ -34,6 +34,12 @@ function AboutMe() {
                             20
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
+                            BIRTHDATE
+                        </Text>
+                        <Text color="black" fontSize="lg" fontWeight="700">
+                            23/APR/2002
+                        </Text>
+                        <Text color="orange.700" fontSize="md" fontWeight="500">
                             SEX
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
@@ -45,12 +51,7 @@ function AboutMe() {
                         <Text color="black" fontSize="lg" fontWeight="700">
                             Playing Soccer, Sleeping
                         </Text>
-                        <Text color="orange.700" fontSize="md" fontWeight="500">
-                            BRITHDATE
-                        </Text>
-                        <Text color="black" fontSize="lg" fontWeight="700">
-                            23/APR/2002
-                        </Text>
+
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             YEAES
                         </Text>
