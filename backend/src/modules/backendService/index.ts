@@ -3,6 +3,7 @@ import express from "express"
 import { nanoid } from "nanoid"
 import { verifyUser } from "./middleware/verifyUser"
 import UAParser from "ua-parser-js"
+import DeviceDetector from "node-device-detector"
 
 const backendserviceRoutes = express()
 
@@ -36,6 +37,14 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
 backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
 
+    const detector = new DeviceDetector({
+        clientIndexes: true,
+        deviceIndexes: true,
+        deviceAliasCode: true,
+    })
+    const userAgent = req.headers["user-agent"] || ""
+    const detectedResult = detector.detect(userAgent)
+    console.log(detectedResult)
 
     const selectedDeviceToken = req.body.token
     const currentUserDeviceToken = req.session.id
@@ -51,7 +60,6 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
     }
 
     try {
-
         const logoutResult = await prisma.logout_Info.create({
             data: {
                 userId: userId,

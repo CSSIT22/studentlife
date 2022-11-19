@@ -5,6 +5,7 @@ import UserAgent from "user-agents"
 import { verifyUser } from "../middleware/verifyUser"
 import UAParser from "ua-parser-js"
 import jwt from "jsonwebtoken"
+import DeviceDetector from "node-device-detector"
 
 const router = Router()
 
@@ -32,7 +33,14 @@ router.get(
         const { prisma } = res
         try {
             console.log(req.headers["user-agent"])
-            const device = new UAParser(req.headers["user-agent"])
+            const detector = new DeviceDetector({
+                clientIndexes: true,
+                deviceIndexes: true,
+                deviceAliasCode: true,
+            })
+            const userAgent = req.headers["user-agent"] || ""
+            const detectedResult = detector.detect(userAgent)
+            console.log(detectedResult)
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
@@ -64,6 +72,16 @@ router.get("/showtoken", (req, res) => {
 router.get("/logout", async (req, res) => {
     const userid = req.user?.userId || ""
     const sessid = req.sessionID
+
+    const detector = new DeviceDetector({
+        clientIndexes: true,
+        deviceIndexes: true,
+        deviceAliasCode: true,
+    })
+    const userAgent = req.headers["user-agent"] || ""
+    const detectedResult = detector.detect(userAgent)
+    console.log(detectedResult)
+
     req.logOut({}, async (err) => {
         if (err) {
             return res.status(400).send("Error")
