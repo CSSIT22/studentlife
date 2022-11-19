@@ -1,18 +1,20 @@
 import { Box, LinkBox, LinkOverlay, Spacer, VStack, Grid, GridItem, HStack, Divider } from "@chakra-ui/react"
 import React, { FC } from "react"
-import { Badge, Button, Center, Flex, Heading, Image, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react"
+import { Badge, Button, Center, Flex, Heading, Image, Stack, Text, useColorModeValue } from "@chakra-ui/react"
 import convertCurrency from "../../../components/shop/functions/usefulFunctions"
+import { Link } from "react-router-dom"
 
 const OrderedProductDisplay: FC<{
+    id: number
     name: string
     price: number
     quantity: number
     image: string
     link: string
-}> = ({ name, price, quantity, image, link }) => {
+}> = ({ id, name, price, quantity, image, link }) => {
     return (
         <LinkBox>
-            <LinkOverlay href={link}>
+            <Link to={link ? link : "/shop/product/productDetail"} state={{ p_id: id }}>
                     <Flex  justify = {"space-evenly"} direction={"row"} wrap={"wrap"}>
                                 <Image
                                     width={{ base: 100, xl: 135 }}
@@ -42,7 +44,7 @@ const OrderedProductDisplay: FC<{
                             </Flex>
                         </Flex>
                     </Flex>
-            </LinkOverlay>
+            </Link>
         </LinkBox>
     )
 }

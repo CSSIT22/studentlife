@@ -10,6 +10,7 @@ export function generateProducts() {
         products.push(
             <GridItem bg="" borderBottom="1px">
                 <OrderedProductDisplay
+                id = {1}
                 name="Pen"
                 price={10000}
                 quantity={2}
