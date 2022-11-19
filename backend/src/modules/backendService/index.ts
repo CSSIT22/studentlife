@@ -19,7 +19,14 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
                 detail: true,
             },
         })
-        const response = result.filter((item) => item.token !== req.session.id)
+        let response: any[] = []
+        result.forEach((item) => {
+            response.push({
+                ...item,
+                currentDevice: item.token === req.session.id,
+            })
+        })
+        console.log(response)
         return res.status(200).json({ tokens: response })
     } catch (err: any) {
         return res.status(400).json({ message: err })
@@ -29,12 +36,21 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
 backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
 
-    try {
-        const device = new UAParser(req.headers["user-agent"])
 
-        const { token, userId } = req.body
-        const logoutId = nanoid()
-        const logoutDate = new Date()
+    const selectedDeviceToken = req.body.token
+    const currentUserDeviceToken = req.session.id
+    const isLogoutCurrentDevice = selectedDeviceToken === currentUserDeviceToken
+
+    const device = new UAParser(req.headers["user-agent"])
+    const { token, userId } = req.body
+    const logoutId = nanoid()
+    const logoutDate = new Date()
+
+    if (isLogoutCurrentDevice) {
+        return res.status(200).json({ isLogoutCurrentDevice: isLogoutCurrentDevice })
+    }
+
+    try {
 
         const logoutResult = await prisma.logout_Info.create({
             data: {

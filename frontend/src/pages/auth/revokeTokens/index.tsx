@@ -49,7 +49,10 @@ const index = () => {
                 userId: tokens[0].userId,
             },
         })
-        setTokens([...tokens.filter((item) => item.token !== res.data.token)])
+        if (res.data.isLogoutCurrentDevice) {
+            await api.get("auth/logout")
+            location.reload()
+        } else setTokens([...tokens.filter((item) => item.token !== res.data.token)])
         console.log(res)
     }
 
