@@ -2,10 +2,10 @@ import { Box, Checkbox, Text, useToast } from "@chakra-ui/react"
 import { Dispatch, FC } from "react"
 
 const DatingInterestTag: FC<{
-    interestId: string
+    interestId: number
     interestName: string
     onOpen: () => void
-    selectedInterests: String | String[]
+    selectedInterests: Number[]
     numOfSelectedInterest: number
     setSelectedInterest: Dispatch<any>
     tagIsClicked: boolean
@@ -26,7 +26,7 @@ const DatingInterestTag: FC<{
 }) => {
     const toast = useToast()
     // Check if interestId is in the selectedInterest state or not
-    function idExists(interestId: string) {
+    function idExists(interestId: number) {
         for (let i = 0; i < selectedInterests.length; i++) {
             if (selectedInterests[i] == interestId) {
                 return true
@@ -52,11 +52,11 @@ const DatingInterestTag: FC<{
                         description: descriptionText,
                     })
                 }
-                setSelectedInterest(selectedInterests.concat(interest.target.value))
+                setSelectedInterest(selectedInterests.concat(parseInt(interest.target.value)))
             }
         } else {
             if (numOfSelectedInterest <= 5) {
-                setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
+                setSelectedInterest((selectedInterests as number[]).filter((arr) => arr != parseInt(interest.target.value)))
             }
         }
     }
@@ -74,7 +74,7 @@ const DatingInterestTag: FC<{
             color="white"
             backgroundColor="orange.500"
             borderRadius="full"
-            id={interestId}
+            id={interestId.toString()}
             name="interest"
             onChange={handleTag}
             value={interestId}
@@ -98,7 +98,7 @@ const DatingInterestTag: FC<{
                 mb="23px"
                 backgroundColor="gray.200"
                 borderRadius="full"
-                id={interestId}
+                id={interestId.toString()}
                 name="interest"
                 value={interestId}
                 readOnly={true}
@@ -117,7 +117,7 @@ const DatingInterestTag: FC<{
             h="36.4px"
             backgroundColor="gray.200"
             borderRadius="full"
-            id={interestId}
+            id={interestId.toString()}
             mr="11px"
             mb="23px"
             name="interest"

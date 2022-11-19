@@ -32,7 +32,7 @@ const DatingRandomTag: FC<{
             >
                 <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
                     {/* Convert interest id to interest name */}
-                    {interests.find((interest) => interest.interestId === id.toString())?.interestName}
+                    {interests.find((interest) => interest.interestId === id)?.interestName}
                 </Text>
             </Tag>
         </motion.div>

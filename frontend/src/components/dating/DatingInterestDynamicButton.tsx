@@ -1,7 +1,7 @@
 import { Box, Button } from "@chakra-ui/react"
 import { FC } from "react"
 
-const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: String | String[]; tagIsClicked: boolean }> = ({
+const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: number[]; tagIsClicked: boolean }> = ({
     numOfSelectedInterest,
     selectedInterests,
     tagIsClicked,

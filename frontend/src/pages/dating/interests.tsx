@@ -1,21 +1,50 @@
-import { INTERESTS } from "../../components/dating/shared/interests"
-import { Heading, Box, Grid, GridItem, useDisclosure, Container } from "@chakra-ui/react"
-import { useState } from "react"
+import { Heading, Box, Grid, GridItem, useDisclosure, Container, useBoolean, Spinner } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingInterestModal from "../../components/dating/DatingInterestModal"
 import DatingInterestSearch from "../../components/dating/DatingInterestSearch"
 import DatingInterestTag from "../../components/dating/DatingInterestTag"
 import DatingInterestDynamicButton from "../../components/dating/DatingInterestDynamicButton"
+import { AllInterests } from "@apiType/dating"
+import API from "src/function/API"
 
 const TagOfInterest = () => {
+    const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
+    const [interests, setInterests] = useState<AllInterests[]>([])
+
+    const didMount = useDidMount()
+
+    useEffect(() => {
+        if (didMount) {
+            API.get("/dating/getAllInterests")
+                .then((allInterests) => {
+                    setAllInterests(allInterests.data)
+                    setInterests(allInterests.data)
+                })
+                .catch((err) => on())
+                .finally(off)
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     // Used for DatingInterestModal & DatingInterestTag components to trigger the modal
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
 
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
-    const [interests, setInterests] = useState(INTERESTS)
+
     const [searchQuery, setSearchQuery] = useState("")
-    const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
+    const [selectedInterests, setSelectedInterest] = useState<number[]>([])
     const [tagIsClicked, setTagIsClicked] = useState(false)
 
     return (
@@ -68,7 +97,7 @@ const TagOfInterest = () => {
                                     searchQuery={searchQuery}
                                     setSearchQuery={setSearchQuery}
                                     setInterests={setInterests}
-                                    INTERESTS={INTERESTS}
+                                    allInterests={allInterests}
                                 />
                             </Box>
                         </Box>
@@ -77,6 +106,13 @@ const TagOfInterest = () => {
             </Box>
             <Box pt="230px">
                 {/* CheckboxGroup : List of tags of interest */}
+                {isLoading ? (
+                    <Box display="flex" justifyContent="center" alignItems="center" pt="50px">
+                        <Spinner size="xl" />
+                    </Box>
+                ) : (
+                    <></>
+                )}
                 {interests.map(({ interestId, interestName }) => (
                     // DatingInterestTag component: Used for generating interactive tag
                     <DatingInterestTag
