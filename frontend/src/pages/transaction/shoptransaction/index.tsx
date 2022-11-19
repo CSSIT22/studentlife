@@ -1,4 +1,4 @@
-import { Text, Container, Box, Stack, Button, Link, useMediaQuery, Hide, Show, Flex, Spacer } from "@chakra-ui/react"
+import { Text, Container, Box, Stack, Button, Link, useMediaQuery, Hide, Show, Flex, Spacer, Center } from "@chakra-ui/react"
 import React from "react"
 import EbankModal from "src/components/transaction/methodpayment/EbankModal"
 import MasterCardModal from "src/components/transaction/methodpayment/MasterCardModal"
@@ -15,14 +15,14 @@ const shopTransaction = () => {
         <AppBody>
             <Header name="CHECKOUT" />
 
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"}>
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"}>
                 <Stack direction={isSmallerThan768 ? "column" : "row"} justifyContent={"center"}>
                     <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
                     <UsePoint point={123} />
                 </Stack>
             </Container>
 
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"} color="white">
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Order List
                 </Text>
@@ -44,9 +44,10 @@ const shopTransaction = () => {
                 </Stack>
             </Container>
 
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"} color="white">
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Show below="md">
                     <Flex>
+                        <Center>
                         <Stack direction={"column"}>
                             <Text fontSize="md" fontWeight={"bold"}>
                                 Total payment 123,123
@@ -54,8 +55,9 @@ const shopTransaction = () => {
                             <Text fontSize="md" fontWeight={"bold"}>
                                 Payment Method: ....
                             </Text>
-                        </Stack>
+                        </Stack></Center>
                         <Spacer />
+                        <Center>
                         <Box>
                             <Button colorScheme="whiteAlpha" shadow={"lg"}>
                                 <Link href="shoptransaction/selectmethod">
@@ -64,7 +66,8 @@ const shopTransaction = () => {
                                     </Text>
                                 </Link>
                             </Button>
-                        </Box>
+                        </Box></Center>
+                        
                     </Flex>
                 </Show>
                 <Hide below="md">
@@ -107,20 +110,20 @@ const shopTransaction = () => {
                 </Hide>
             </Container>
 
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"1%"} borderRadius="10px" shadow={"lg"} color="white">
+            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Payment Details
                 </Text>
-                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Merchandise subtotal 123123</Text>
-                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Point discount 123</Text>
-                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Total 123</Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Merchandise subtotal : 123123</Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Point discount : 123</Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Total : 123</Text>
             </Container>
 
             <Show below="md">
                 <Stack direction={"row"} justifyContent="center" gap={"3%"}>
                     <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
                         <Text fontSize="lg" fontWeight={"bold"}>
-                            Cancle
+                            Cancel
                         </Text>
                     </Button>
                     <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
@@ -131,7 +134,7 @@ const shopTransaction = () => {
                 </Stack>
             </Show>
             <Hide below="md">
-                <Container bg={"#e67f45"} maxW="100%" my="24px" p={"1%"} color="white">
+                <Container bg={"#e67f45"} maxW="100%" my="24px" p={"2%"} color="white">
                     <Flex>
                         <Box bg="orange.50" h="50px" w={"80%"} py="9px" borderRadius="10px">
                             <Text fontSize="xl" color={"black"} pl="5%" fontWeight={"bold"}>

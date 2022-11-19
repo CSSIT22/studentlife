@@ -2,9 +2,7 @@ import React from "react"
 import {
     Box,
     Button,
-    Card,
-    CardBody,
-    CardHeader,
+
     ChakraProvider,
     Container,
     Flex,

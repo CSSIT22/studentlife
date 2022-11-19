@@ -37,16 +37,12 @@ const UsePoint: FC<{
                         <Stack bg={"#e67f45"} color="white" borderRadius="10px" shadow={"lg"} w={"40%"}>
                             <FormControl>
                                 <Center>
-                                    <FormLabel>Use Point</FormLabel>
+                                    <FormLabel>Using Point</FormLabel>
                                 </Center>
-
                                 <NumberInput defaultValue={0} min={0}>
                                     <NumberInputField />
-                                    <NumberInputStepper>
-                                        <NumberIncrementStepper />
-                                        <NumberDecrementStepper />
-                                    </NumberInputStepper>
                                 </NumberInput>
+                                
                             </FormControl>
                         </Stack>
                     </Flex>

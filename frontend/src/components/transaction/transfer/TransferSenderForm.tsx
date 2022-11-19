@@ -1,15 +1,31 @@
 import { Box, Button, Center, FormControl, FormHelperText, FormLabel, Input, NumberInput, NumberInputField, Text, Textarea } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 
+interface RegisterForm {
+    amount: number;
+    note:string|null;
+
+}
+
 const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
     let [note, setNote] = React.useState("")
     let [amount, setAmount] = React.useState(0)
     let [invoice, setInvoice] = React.useState([0, ""])
-    const AmountError = amount === 0
-    const handleAmountChange = (e: any) => setAmount(e.target.value)
 
-    let setTransfer = (e: any) => {
-        e.preventDefault()
+    const sleep = (ms: number | undefined) => new Promise(resolve => setTimeout(resolve, ms));
+
+    
+
+    // const onSubmit = async (values: any) => {
+    //     await sleep(300);
+    //     window.alert(JSON.stringify(values, 0, 1));
+    // };
+    
+
+    let AmountError = amount === 0
+    let handleAmountChange = (e: any) => setAmount(e.target.value)
+
+    const setTransfer = (e:any) => {
         setInvoice([e.amount, e.note])
         console.log(invoice)
     }
@@ -18,15 +34,17 @@ const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
         const inputNote = e.target.value
         setNote(inputNote)
     }
+    
 
     return (
         <Box bgColor="white" padding={3} borderRadius="3xl">
-            <FormControl onSubmit={setTransfer}>
+            {/* onSubmit={onSubmit} */}
+            <FormControl className="myForm" >
                 <FormLabel fontSize="3xl">Payment Detail</FormLabel>
                 <FormControl p={4}>
                     <FormLabel>Amount</FormLabel>
-                    <NumberInput>
-                        <NumberInputField maxLength={5} value={amount} onChange={handleAmountChange} />
+                    <NumberInput name="amountInput" max={100000} min={0} clampValueOnBlur={true} >
+                        <NumberInputField onChange={handleAmountChange} value={amount} placeholder="0"/>
                     </NumberInput>
                     {!AmountError ? (
                         <FormHelperText color="grey">* Start at 1 but not above 100,000</FormHelperText>
@@ -37,7 +55,7 @@ const SenderForm: FC<{ displaySize: boolean }> = ({ displaySize }, props) => {
                     <FormLabel paddingTop={5}>Note</FormLabel>
                     <Textarea noOfLines={3} resize={"none"} maxLength={300} value={note} onChange={handlerNoteChange} />
                     <FormHelperText color="grey">* Limit 300 characters.</FormHelperText>
-
+                        
                     <FormControl id="confirmation">
                         <Center float={displaySize ? "right" : "none"}>
                             <Button

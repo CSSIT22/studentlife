@@ -7,6 +7,7 @@ import TransferPay from "../../../components/transaction/transfer/TransferPayInv
 
 const transferInvoice = () => {
     const [desktopthan1280] = useMediaQuery("(min-width: 800px)")
+    
     return (
         <AppBody>
             <IconButton size="lg" variant="unstyled" colorScheme="orange" aria-label="back" icon={<ArrowBackIcon boxSize={"2em"} />} />
