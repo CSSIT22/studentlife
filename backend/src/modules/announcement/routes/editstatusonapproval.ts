@@ -2,7 +2,7 @@ import { post } from "@apiType/announcement";
 import { Request, Response } from "express";
 import { getPost, setPost } from "..";
 
-const editstatusOnApprovel = (req:Request,res:Response) =>{
+const editstatusOnApproval = (req:Request,res:Response) =>{
     const postId = req.body.postId
     const status = req.body.status
     const isapprove = req.body.isapprove
@@ -16,8 +16,8 @@ const editstatusOnApprovel = (req:Request,res:Response) =>{
         return post
     })
     setPost(newData)
-    console.log(newData);
+    // console.log(newData);
     res.send(editstatusA);
 }
 
-export default editstatusOnApprovel;
+export default editstatusOnApproval;

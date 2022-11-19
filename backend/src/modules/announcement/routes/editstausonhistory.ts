@@ -5,12 +5,10 @@ import { getPost, setPost } from "..";
 const editstatusOnHistory = (req:Request,res:Response) => {
     const postId = req.body.postId
     const status = req.body.status
-    const isapprove = req.body.isapprove
     let editstatusH:post | null = null
     const newData = getPost().map((post) => {
         if(post.postId == postId){
             post.status = status
-            post.isApprove = isapprove
             editstatusH = post
         }
         return post
