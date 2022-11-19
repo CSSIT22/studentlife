@@ -50,7 +50,9 @@ const recyclebin = () => {
     useEffect(() => {
         getData.then((res) => setAllPost(res.data))
     },[toggle])
-
+    const click = () => {
+        settoggle(!toggle)
+    }
     
     // console.log(allPost)
 
@@ -133,7 +135,7 @@ const recyclebin = () => {
             <ModalForEvent
                 isOpen={isOpen}
                 onClose={onClose}
-                onClick={settoggle}
+                onClick={click}
                 topic={modalRecycle.topic}
                 detail={modalRecycle.detail}
                 status={statusPostRequest}
