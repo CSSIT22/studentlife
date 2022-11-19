@@ -1,7 +1,7 @@
-import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack, Text } from "@chakra-ui/react"
 import React from "react"
 import { Input } from '@chakra-ui/react'
-import AppBody from "../../share/app/AppBody"
+import AppBody from "src/components/share/app/AppBody"
 import {
     AlertDialog,
     AlertDialogBody,
@@ -21,7 +21,7 @@ import {
     PopoverCloseButton,
     PopoverAnchor,
   } from '@chakra-ui/react'
-const shortlink = () =>{
+const customize = () =>{
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
   
@@ -37,14 +37,14 @@ const shortlink = () =>{
     <Box width={"100%"} >
         
     <Center>
-    <Input placeholder='intregate.modules.com' w={'50%'} height={"60px"} />
+    <Input placeholder='link url:' w={'50%'} height={"60px"} />
        </Center>
     </Box>
     
 </Box>
 <Box h='70px' > 
     <Center>
-    <Input placeholder='https:bit.ly/asniteft228f' w={'50%'} height={"60px"} /></Center>
+    <Input placeholder='shorten link' w={'50%'} height={"60px"} /></Center>
 </Box>
 </VStack>
 </Box></Center>
@@ -57,7 +57,7 @@ const shortlink = () =>{
 <Box h='70px' >
 <AlertDialog
         isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
+        leastDestructiveRef={cancelRef }
         onClose={onClose}
       >
         <AlertDialogOverlay>
@@ -71,11 +71,11 @@ const shortlink = () =>{
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme='red' onClick={onClose} ml={3}>
+            <Button colorScheme='green' onClick={onClose} ml={3}>
                 SAVE
+              </Button>
+              <Button ref={cancelRef} onClick={onClose} ml={3}>
+                Cancel
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -83,7 +83,7 @@ const shortlink = () =>{
       </AlertDialog>
     <Box width={"100%"} >
     <Center>
-        <Button colorScheme='yellow' w={'50%'} height={"60px"} onClick={onOpen}>SAVE</Button></Center>
+        <Button colorScheme='green' w={'50%'} height={"60px"} onClick={onOpen}>SAVE</Button></Center>
     </Box>
     
 </Box>
@@ -92,13 +92,17 @@ const shortlink = () =>{
 
     <Popover>
   <PopoverTrigger>
-  <Button colorScheme='green' w={'50%'} height={"60px"}>ADD</Button>
+  <Button colorScheme='purple' w={'50%'} height={"60px"}>ADD-ON</Button>
   </PopoverTrigger>
   <PopoverContent>
     <PopoverArrow />
     <PopoverCloseButton />
-    <PopoverHeader>Confirmation!</PopoverHeader>
-    <PopoverBody>Are you sure you want to have that milkshake</PopoverBody>
+    <PopoverHeader><Text as={"b"}>Select the Shortlink Add on!</Text></PopoverHeader>
+    <PopoverBody>
+        <Button bg={"orange.200"} w={"100%"} mt={3}>Shortlink Password</Button>
+        <Button bg={"pink.200"} w={"100%"} mt={3}>Shortlink Unblock</Button>
+        <Button bg={"cyan.200"} w={"100%"} mt={3}>Shrtlink Permission</Button>
+    </PopoverBody>
   </PopoverContent>
 </Popover>
        </Center>
@@ -108,5 +112,5 @@ const shortlink = () =>{
     </AppBody>
     )
 }
-export default shortlink
+export default customize
 
