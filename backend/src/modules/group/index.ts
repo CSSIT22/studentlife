@@ -1,35 +1,26 @@
 import express from "express"
-import createCommunity from "./routes/createCommunity"
-import deleteCommunity from "./routes/deleteCommunity"
-import editCommunity from "./routes/editCommunity"
+import createCommunity from "./routes/community/createCommunity"
+import deleteCommunity from "./routes/community/deleteCommunity"
+import editCommunity from "./routes/community/editCommunity"
 import getCommunity from "./routes/getCommunity"
-import getCommunityFile from "./routes/getCommunityFile"
-import getCommunityMember from "./routes/getCommunityMember"
-import getCommunityPost from "./routes/getCommunityPost"
+import getCommunityFile from "./routes/community/file/getCommunityFile"
+import getCommunityMember from "./routes/community/member/getCommunityMember"
+import getCommunityPost from "./routes/community/post/getCommunityPost"
 import searchCommunity from "./routes/searchCommunity"
-
 
 const groupRoutes = express()
 groupRoutes.use(express.json())
 
-
-groupRoutes.get("/getCommunity",getCommunity)
-groupRoutes.post("/createCommunity",createCommunity)
-groupRoutes.delete("/deleteCommunity",deleteCommunity)
+groupRoutes.get("/getCommunity", getCommunity)
+groupRoutes.post("/createCommunity", createCommunity)
+groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.search("/searchCommunity", searchCommunity)
-groupRoutes.get("/editCommunity",editCommunity)
+groupRoutes.get("/editCommunity", editCommunity)
 
+groupRoutes.get("/getCommunityFile", getCommunityFile)
 
+groupRoutes.get("/getCommunityPost", getCommunityPost)
 
-groupRoutes.get("/getCommunityFile",getCommunityFile)
-
-
-groupRoutes.get("/getCommunityPost",getCommunityPost)
-
-
-groupRoutes.get("/getCommunityMember",getCommunityMember)
-
-
-
+groupRoutes.get("/getCommunityMember", getCommunityMember)
 
 export default groupRoutes

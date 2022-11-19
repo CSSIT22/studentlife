@@ -27,8 +27,4 @@ const getMember = async (req: Request, res: Response) =>{
         
     }
 
-
-
-
-
 export default getMember
