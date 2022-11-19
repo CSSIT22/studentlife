@@ -41,14 +41,15 @@ const ModalForEvent: FC<{
             // )
             API.post<post>("/announcement/editstatusonhistory", {postId:selectPost, status:"deleted"})
         } else if (status == "delete") {
-            setAllPost(
-                allPost.map((el) => {
-                    if (el.postId == selectPost) {
-                        el.status = "approve"
-                    }
-                    return el
-                })
-            )
+            // setAllPost(
+            //     allPost.map((el) => {
+            //         if (el.postId == selectPost) {
+            //             el.status = "approve"
+            //         }
+            //         return el
+            //     })
+            // )
+            API.post<post>("/announcement/editstatusonrecycle",{postId:selectPost})
         }
     }
     // console.log(status);

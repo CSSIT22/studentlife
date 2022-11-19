@@ -9,6 +9,8 @@ import getDeletePost from "./routes/getdeletepost"
 import editPinStatus from "./routes/editpinstatus"
 import getDetailApprove from "./routes/getdetailapprove"
 import editstatusOnApproval from "./routes/editstatusonapproval"
+import editstatusOnRecyclebin from "./routes/editstatusonrecycle"
+import editstatusOnHistory from "./routes/editstausonhistory"
 
 const announcementRoutes = express()
 
@@ -176,29 +178,15 @@ announcementRoutes.get("/getwaitingpost", getWaitingPost)
 
 announcementRoutes.get("/getdeletepost", getDeletePost)
 
-announcementRoutes.post("/editpinstatus",editPinStatus)
-
 announcementRoutes.get("/getdetailapprove/:id", getDetailApprove)
+
+announcementRoutes.post("/editpinstatus",editPinStatus)
 
 announcementRoutes.post("/editstatusonapprove", editstatusOnApproval)
 
-announcementRoutes.post("/editstatusonhistory", (req,res) => {
-    const postId = req.body.postId
-    const status = req.body.status
-    const isapprove = req.body.isapprove
-    let editstatusH:post | null = null
-    const newData = getPost().map((post) => {
-        if(post.postId == postId){
-            post.status = status
-            post.isApprove = isapprove
-            editstatusH = post
-        }
-        return post
-    })
-    setPost(newData)
-    // console.log(newData);
-    res.send(editstatusH);
-})
+announcementRoutes.post("/editstatusonrecycle", editstatusOnRecyclebin)
+
+announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
 
 
 // announcementRoutes.get("/test", async (req,res) =>{
