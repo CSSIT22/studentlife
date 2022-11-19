@@ -52,7 +52,14 @@ const YourPoll = () => {
                         </Text>
                     </Box>
                 </Box>
-                <Heading color="black" ml={{base: "10px", md: "0px"}} pb={{ base: "16px", md: "24px" }} fontWeight="700" fontSize={{ base: "25px", md: "26px" }} lineHeight="150%">
+                <Heading
+                    color="black"
+                    ml={{ base: "10px", md: "0px" }}
+                    pb={{ base: "16px", md: "24px" }}
+                    fontWeight="700"
+                    fontSize={{ base: "25px", md: "26px" }}
+                    lineHeight="150%"
+                >
                     People interested in joining your activity
                 </Heading>
                 <Box
