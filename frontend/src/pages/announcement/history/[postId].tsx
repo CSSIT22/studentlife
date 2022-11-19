@@ -268,6 +268,8 @@ const history = () => {
                             status={modalEdit.status}
                             allPost={allPost}
                             setAllPost={setAllPost}
+                            //onclick not use in edit post
+                            onClick={onClose}
                         />
                     </Box>
                 </Flex>

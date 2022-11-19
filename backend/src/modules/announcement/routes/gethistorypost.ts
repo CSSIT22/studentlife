@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { getPost } from "..";
 
 const getHistoryPost = (req: Request, res: Response) => {
-    const id = req.params.id
+    const id = req.user?.userId
     let selectedposts: post[] = []
     getPost().forEach((post) => {
         if(post.userId == id){
