@@ -1,12 +1,13 @@
-import { Box, Button, Center, Flex, Heading, Image, Spacer, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Heading, Icon, Image, Spacer, Text } from "@chakra-ui/react"
 import React, { useState } from "react"
+import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
 
 declare global {
     var date: string, time: string
 }
 
-const DatingAllActivityBox = () => {
+const DatingYourActivityBox = () => {
     const [poll, setPoll] = useState(POLL)
 
     function handlePollDate(dateTime: string) {
@@ -62,16 +63,16 @@ const DatingAllActivityBox = () => {
                                 display="flex-end"
                                 type="submit"
                                 form="new-note"
-                                borderRadius="5px"
+                                borderRadius="full"
                                 colorScheme="orange"
                                 // onClick={() => handleSubmit()}
                                 m="10px"
                                 p="5px"
                                 mt="30px"
-                                pr="40px"
-                                pl="40px"
                             >
-                                Apply
+                                <Center>
+                                    <BsFillPeopleFill />
+                                </Center>
                             </Button>
                         </Flex>
                     </Box>
@@ -81,4 +82,4 @@ const DatingAllActivityBox = () => {
     )
 }
 
-export default DatingAllActivityBox
+export default DatingYourActivityBox

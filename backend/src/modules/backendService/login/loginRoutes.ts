@@ -1,8 +1,10 @@
 import { Router } from "express"
 import passport from "passport"
 import { NextFunction, Request, Response } from "express"
+import UserAgent from "user-agents"
 import { verifyUser } from "../middleware/verifyUser"
 import UAParser from "ua-parser-js"
+import jwt from "jsonwebtoken"
 
 const router = Router()
 
@@ -30,7 +32,7 @@ router.get(
         const { prisma } = res
         try {
             console.log(req.headers["user-agent"])
-            const device1 = new UAParser(req.headers["user-agent"])
+            const device = new UAParser(req.headers["user-agent"])
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
@@ -99,6 +101,11 @@ router.get("/logout", async (req, res) => {
             console.log(error)
         }
     })
+})
+
+router.get("/sockettoken", verifyUser, (req: Request, res: Response) => {
+    const token = jwt.sign({ userId: req.user?.userId }, process.env.COOKIE_SECRET || "")
+    res.send(token)
 })
 
 export { router as loginRoutes }
