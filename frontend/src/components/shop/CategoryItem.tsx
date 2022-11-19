@@ -18,7 +18,7 @@ export const CategoryItem: FC<{
         <Box bg={"white"} w="9rem" h="11rem" borderRadius="lg" rounded="md" shadow="md" position="relative" overflow={"hidden"}>
             <Box pt= "5" px="5">
                 <Center >
-                    <Image src={image} alt={`Picture of ${name}`} h="7rem" w="9rem" p="0" objectFit="contain" />
+                    <Image src={image} alt={`Picture of ${name}`} h="7rem" w="9rem" p="0" objectFit="contain" borderRadius="50%"/>
                 </Center>
             </Box>
 
