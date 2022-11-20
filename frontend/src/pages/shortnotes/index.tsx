@@ -104,6 +104,12 @@ const index = () => {
                 </Stack>
             </Flex>
             <VStack gap={2} pt={4}>
+                <Box w={"100%"}>
+                    <Link to={"./shortnoteDetail"}>
+                        <SnList topic={"Shortnote name"} course={"CSC213"} date={"2022-11-18T00:00:00.000Z"} lock={true ? "" : <FaLock />} />{" "}
+                        {/* fake */}
+                    </Link>
+                </Box>
                 {coursePicked == "" ? (
                     <>
                         {sn.map((sn: any) => (
