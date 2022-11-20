@@ -15,23 +15,15 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    Fade,
-    Popover,
-    PopoverBody,
-    PopoverCloseButton,
-    PopoverContent,
-    PopoverFooter,
-    PopoverHeader,
-    PopoverTrigger,
-    Portal,
-    VStack,
+    useToast,
+    useBreakpointValue,
 } from "@chakra-ui/react"
-import axios from "axios"
+import API from "src/function/API"
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
-import { IconType } from "react-icons"
 import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "react-icons/md"
 import FileComment from "./FileComment"
 import { fileListContext } from "src/pages/airdrop/receive"
+import { authContext } from "src/context/AuthContext"
 
 const FileList: FC<{
     elementid: number
@@ -44,16 +36,28 @@ const FileList: FC<{
         fileDesc: string
         fileExpired: string
         comments: {
-            name: string
-            comment: string
+            commentor: {
+                fName: string
+                lName: string
+            }
+            commentText: string
         }[]
+        sender: {
+            userId: string
+            fName: string
+            lName: string
+        }
     }
     fadeToggle: any
 }> = ({ elementid, info, fadeToggle }) => {
+    const [commentText, setComment] = useState("")
+    const toast = useToast()
     const fileContext = useContext(fileListContext)
+    const user = useContext(authContext)
     const initRef = useRef(null)
     const [senderImg, setSenderImg] = useState<string>("")
     const { isOpen, onOpen, onClose } = useDisclosure()
+
     const { isOpen: proOpen, onOpen: proOpenFunc, onClose: proCloseFunc } = useDisclosure()
     //modal page
     const [modalPage, setModalPage] = useState(0)
@@ -79,9 +83,17 @@ const FileList: FC<{
         fileDesc: string
         fileExpired: string
         comments: {
-            name: string
-            comment: string
+            commentor: {
+                fName: string | undefined
+                lName: string | undefined
+            }
+            commentText: string
         }[]
+        sender: {
+            userId: string
+            fName: string
+            lName: string
+        }
     }>({
         fileId: "",
         fileName: "",
@@ -91,10 +103,22 @@ const FileList: FC<{
         fileDesc: "",
         fileExpired: "",
         comments: [],
+        sender: {
+            userId: "",
+            fName: "",
+            lName: "",
+        },
     })
-
+    const senderNameModal = useBreakpointValue({
+        base: senderProfile.fName,
+        md: senderProfile.fName + " " + senderProfile.lName,
+    })
+    const senderName = useBreakpointValue({
+        base: info.sender.fName,
+        md: info.sender.fName + " " + info.sender.lName,
+    })
     const fetchSenderProfile = async () => {
-        const res = await axios.get(`http://localhost:8000/airdrop/user/userprofile/${info.senderId}`)
+        const res = await API.get(`/airdrop/user/userprofile/${info.sender.userId}`)
         setSenderProfile(res.data)
         const base64String = btoa(String.fromCharCode(...new Uint8Array(res.data.image.data)))
         setSenderImg(base64String)
@@ -113,7 +137,7 @@ const FileList: FC<{
                 <HStack ref={initRef}>
                     <Text fontSize={"xl"}>File Sender:</Text>
                     <Box
-                        fontSize={"xl"}
+                        fontSize={"lg"}
                         onMouseEnter={() => {
                             proOpenFunc()
                             fetchSenderProfile()
@@ -122,18 +146,18 @@ const FileList: FC<{
                             }, 2000)
                         }}
                     >
-                        <Text decoration={"underline"}>{modalData.fileSender}</Text>
+                        <Text decoration={"underline"}>{modalData.sender.fName + " " + modalData.sender.lName}</Text>
                     </Box>
                     <Modal initialFocusRef={initRef} isOpen={proOpen} onClose={onClose} size={"2xl"}>
                         <ModalOverlay bg={"none"} />
-                        <ModalContent position={"absolute"} right={[-1, 0, 50, 50, 200]} top={[5, 10, 20, 100, 500]}>
+                        <ModalContent position={"sticky"}>
                             <ModalHeader></ModalHeader>
                             <ModalBody pb={6}>
                                 {senderProfile && (
                                     <>
                                         <Flex justify={"space-around"} gap={5} flexDirection={"row"} alignItems={"center"} flexWrap={"wrap"}>
                                             <img src={`data:image/jpg;base64,${senderImg}`} alt="" />
-                                            <Text>{senderProfile.fName + " " + senderProfile.lName}</Text>
+                                            <Text>{senderNameModal}</Text>
                                             <Text>{senderProfile.studentId}</Text>
                                             <Text>{senderProfile.majorId + " Student"}</Text>
                                         </Flex>
@@ -166,7 +190,7 @@ const FileList: FC<{
         modalData.comments.map((item: any) => {
             componentArr.push(
                 <>
-                    <FileComment name={item.name} comment={item.comment} />
+                    <FileComment name={item.commentor.fName + " " + item.commentor.lName} comment={item.commentText} />
                     <Divider />
                 </>
             )
@@ -177,53 +201,76 @@ const FileList: FC<{
 
     //handle function
     const handleDownload = async (type: string, name: string, sid: string, fid: string, event: any) => {
-        const downloadFile = await axios.get(`http://localhost:8000/airdrop/file/download/${type}/${sid + name}`, {
+        const downloadFile = await API.get(`/airdrop/file/download/${type}/${sid + name}`, {
             responseType: "blob",
         })
+        console.log(downloadFile)
         const url = window.URL.createObjectURL(new Blob([downloadFile.data]))
         const link = document.createElement("a")
         link.href = url
         link.setAttribute("download", name)
         document.body.appendChild(link)
         link.click()
-        console.log(downloadFile)
 
-        const hideFile = await axios.post(
-            "http://localhost:8000/airdrop/file/hidefile",
-            {
-                fileId: fid,
-            },
-            {
-                withCredentials: true,
-            }
-        )
+        const hideFile = await API.post("/airdrop/file/hidefile", {
+            fileId: fid,
+        })
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== fid))
     }
     const handleDecline = async (id: string, event: any) => {
-        const hideFile = await axios.post(
-            "http://localhost:8000/airdrop/file/hidefile",
-            {
-                fileId: id,
-            },
-            {
-                withCredentials: true,
-            }
-        )
+        const hideFile = await API.post("/airdrop/file/hidefile", {
+            fileId: id,
+        })
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== id))
     }
-    // useEffect(() => {
-    //     console.log(info)
-    // })
+    const handleComment = async () => {
+        const comment = await API.post("/airdrop/file/comment", {
+            fileId: modalData.fileId,
+            commentTxt: commentText,
+        })
+            .then((res) => {})
+            .catch((err) => {
+                console.log(err)
+                toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
+            })
+            .finally(() => {
+                setComment("")
+                toast({ title: "Comment Success", status: "success", duration: 3000, isClosable: true })
+            })
+    }
+    const updateComment = async () => {
+        const modifiedModalData = modalData
+        modifiedModalData.comments.push({
+            commentor: {
+                fName: user?.fName,
+                lName: user?.lName,
+            },
+            commentText: commentText,
+        })
+        setModalData(modifiedModalData)
+    }
+
     return (
         <>
             <div id={elementid.toString()}>
-                <Flex direction={"row"} justifyContent={"space-between"} alignItems={"center"} px={"10"} py={"3"} gap={3}>
+                <Flex
+                    direction={"row"}
+                    justifyContent={{
+                        base: "space-evenly",
+                        md: "space-between",
+                        lg: "space-between",
+                    }}
+                    alignItems={"center"}
+                    px={"10"}
+                    py={"3"}
+                    gap={3}
+                >
                     <Box as={MdFileCopy} size={"2rem"} />
                     <Hide below={"md"}>
-                        <Text>{info.fileName}</Text>
+                        <Text>{info.fileName.length > 12 ? info.fileName.slice(0, 12) + "..." : info.fileName}</Text>
                     </Hide>
 
-                    <Text fontSize={["0.76rem", "md"]}>{info.fileSender}</Text>
+                    <Text fontSize={["0.76rem", "md"]}>{senderName}</Text>
 
                     <HStack>
                         <IconButton
@@ -233,9 +280,9 @@ const FileList: FC<{
                             border={"1px"}
                             borderColor={"gray.300"}
                             shadow={"xs"}
-                            bgColor={"white"}
+                            colorScheme={"green"}
                             onClick={async (e) => {
-                                handleDownload(info.sendType, info.fileName, info.senderId, info.fileId, e.target)
+                                handleDownload(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
                             }}
                         ></IconButton>
                         <IconButton
@@ -245,7 +292,7 @@ const FileList: FC<{
                             border={"1px"}
                             borderColor={"gray.300"}
                             shadow={"xs"}
-                            bgColor={"white"}
+                            colorScheme={"red"}
                             onClick={async (e) => {
                                 handleDecline(info.fileId, e.target)
                             }}
@@ -257,7 +304,8 @@ const FileList: FC<{
                             border={"1px"}
                             borderColor={"gray.300"}
                             shadow={"xs"}
-                            bgColor={"white"}
+                            colorScheme={"orange"}
+                            size={"md"}
                             onClick={async () => {
                                 const setModal = await setModalData(info)
                                 onOpen()
@@ -298,10 +346,18 @@ const FileList: FC<{
                                 <Divider />
                                 {RenderModalComments()}
                                 <HStack>
-                                    <Input type={"text"} id="commentin" />
+                                    <Input
+                                        type={"text"}
+                                        id="commentin"
+                                        value={commentText}
+                                        onChange={(e) => {
+                                            setComment(e.target.value)
+                                        }}
+                                    />
                                     <Button
                                         onClick={() => {
-                                            alert("comment")
+                                            handleComment()
+                                            updateComment()
                                         }}
                                     >
                                         Comment{" "}
