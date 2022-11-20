@@ -7,11 +7,6 @@ import {
     Flex,
     Spacer,
     HStack,
-    SimpleGrid,
-    VStack,
-    Select,
-    ButtonGroup,
-    Divider,
     GridItem,
     Grid,
     Modal,
@@ -22,15 +17,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    Input,
-    Textarea,
-    useRadioGroup,
-    useRadio,
-    Center,
-    InputGroup,
-    InputRightElement,
     Stack,
-    Square,
     Drawer,
     DrawerBody,
     DrawerFooter,
@@ -38,14 +25,11 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    RadioGroup,
-    Radio,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
     IconButton,
-    color,
     chakra,
     useCheckboxGroup,
     useCheckbox,
@@ -55,7 +39,7 @@ import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import search from "src/pages/restaurant/search"
 import { BsCheckLg } from "react-icons/bs"
 
@@ -103,7 +87,7 @@ const liList: FC<{
                             {state.isChecked && (
                                 // <Box bg={"white"} p={4} shadow={"md"}>
                                 <BsCheckLg fontSize={30} color={"#e65d10"} />
-                                
+
                                 // </Box>
                             )}
                         </Flex>
@@ -144,7 +128,9 @@ const liList: FC<{
             </Box>
             <Box mb={4}>
                 <Heading size={"md"}>Link</Heading>
-                <Text>{link}</Text>
+                <Link to={"./fileId"}>
+                    <Text color={"blue.500"}>{link}</Text>
+                </Link>
             </Box>
             <HStack>
                 {/* <HStack>
@@ -216,7 +202,7 @@ const liList: FC<{
                                 </Box>
                             ))} */}
                             {li.map((li, key) => (
-                                <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)}/>
+                                <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)} />
                             ))}
                         </Stack>
                     </DrawerBody>
