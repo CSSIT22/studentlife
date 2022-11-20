@@ -117,7 +117,7 @@ const TagOfInterest = () => {
                     </Container>
                 </Box>
             </Box>
-            <Box pt="230px">
+            <Box pt="260px">
                 {/* CheckboxGroup : List of tags of interest */}
                 {isLoading ? (
                     <Box display="flex" justifyContent="center" pt="50px">
