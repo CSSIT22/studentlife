@@ -41,7 +41,7 @@ const Clist: FC<any> = () => {
     }
 
     function DeleteRoom(e: any) {
-        const result = userRoom.filter((el: any) => el.roomID !== e.roomID)
+        const result = userRoom.filter((el: any) => el.roomId !== e.roomId)
         setuserRoom(result)
     }
 
@@ -107,6 +107,7 @@ const Clist: FC<any> = () => {
                         }}
                         transitionDuration="300ms"
                         onClick={() => Navigate(e.roomId)}
+                        w={"93%"}
                     >
                         <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
@@ -132,6 +133,7 @@ const Clist: FC<any> = () => {
                         }}
                         transitionDuration="300ms"
                         onClick={() => Navigate(e.roomId)}
+                        w={"93%"}
                     >
                         <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>

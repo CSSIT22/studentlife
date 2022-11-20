@@ -13,17 +13,17 @@ import API from "src/function/API"
 
 type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
-const mockRoom: room = [
-    { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://s.thistine.com/rodo" },
-    { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://s.thistine.com/dog" },
-    { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://s.thistine.com/dog" },
-]
+// const mockRoom: room = [
+//     { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://s.thistine.com/dog" },
+//     { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://s.thistine.com/dog" },
+//     { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://s.thistine.com/dog" },
+//     { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://s.thistine.com/dog" },
+//     { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://s.thistine.com/rodo" },
+//     { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://s.thistine.com/dog" },
+//     { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://s.thistine.com/dog" },
+//     { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://s.thistine.com/dog" },
+//     { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://s.thistine.com/dog" },
+// ]
 
 const mockMessage = [
     { text: "Hi,how are you doing?", from: "others", timeSent: "20:10" },
@@ -70,7 +70,7 @@ const Room = () => {
 
                 // maxH={'5000px'}
                 >
-                    <Flex h={"55px"} alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }}>
+                    <Flex alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }} rounded={'xl'} py={2}>
                         <Flex alignItems={"center"}>
                             <Avatar marginLeft={4} name={Room.roomName} src={Room.image} />
                             <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5}>
@@ -91,7 +91,7 @@ const Room = () => {
 
                     <Box overflowY={'auto'} flex={1} bg="#FFF2E6"
                         width={{ base: "100%", md: "auto" }}
-                        height={"64vh"}
+                        height={"60vh"}
                     >
                         {msg.map(({ text, from, timeSent }, roomID) => (
                             <TextBar
