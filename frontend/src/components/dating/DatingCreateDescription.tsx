@@ -19,7 +19,7 @@ const DatingCreateDescription: FC<{
                     value={description}
                     onChange={(e) => {
                         handleInputDescriptionChange(e)
-                        getDescription(description)
+                        getDescription(e.target.value)
                     }}
                     backgroundColor="white"
                     placeholder="Description"

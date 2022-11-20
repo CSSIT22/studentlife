@@ -21,7 +21,7 @@ const DatingCreateHeader: FC<{
                     value={header}
                     onChange={(e) => {
                         handleInputHeaderChange(e)
-                        getHeader(header)
+                        getHeader(e.target.value)
                     }}
                     backgroundColor="white"
                     placeholder="Your poll header"

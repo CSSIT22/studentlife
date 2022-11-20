@@ -8,7 +8,7 @@ const DatingCreateLocation: FC<{
     const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
 
     const [locationD, setLocationInputD] = useState("")
-    // const handleInputLocationChangeD = (e: any) => setLocationInputD(e.target.value)
+    const handleInputLocationChangeD = (e: any) => setLocationInputD(e.target.value)
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -29,7 +29,7 @@ const DatingCreateLocation: FC<{
                     onChange={(e) => {
                         setLocationInputD("")
                         handleInputLocationChange(e)
-                        getLocation(location)
+                        getLocation(e.target.value)
                     }}
                     backgroundColor="white"
                     placeholder="Location"
@@ -54,7 +54,7 @@ const DatingCreateLocation: FC<{
                     shadow="lg"
                     onChange={(e: any) => {
                         handleInputLocationChange(e)
-                        getLocation(location)
+                        getLocation(e.target.value)
                     }}
                 >
                     {res.map((value) => {
