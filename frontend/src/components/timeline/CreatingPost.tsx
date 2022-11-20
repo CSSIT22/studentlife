@@ -3,7 +3,7 @@ import { Avatar, Icon, Input } from "@chakra-ui/react"
 import { FaVideo, FaRegImages, FaRegGrinSquint } from "react-icons/fa"
 import React from "react"
 
-const CreatingPost = ({ name, photoUrl }: { name: string; photoUrl: string }) => {
+const CreatingPost = ({ photoUrl }: { photoUrl: string }) => {
     return (
         <Box p="3" minW="sm" maxW="xl" borderWidth="1px" borderRadius="lg" overflow="hidden" fontWeight="semibold">
             <VStack divider={<StackDivider borderColor="gray.200" />} spacing="4" align="stretch">
