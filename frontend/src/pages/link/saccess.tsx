@@ -2,13 +2,10 @@ import { Box, Button, Center, Heading, VStack, Text, Checkbox, ListItem, Ordered
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 
-const permission = () => {
+const ShortAc = () => {
     const navigate = useNavigate()
-    const userac = () => {
-        navigate("/link/uaccess")
-    }
-    const shortac = () => {
-        navigate("/link/saccess")
+    const complete = () => {
+        navigate("/link/complete")
     }
     return (
         <AppBody>
@@ -37,25 +34,36 @@ const permission = () => {
                                 <Center>
                                     <List>
                                         <ListItem marginBottom={""}>
-                                            <Text as={"b"} fontSize="2xl">
-                                                User Access
-                                            </Text>
+                                            <Center><Text as={"b"}  fontSize="2xl">
+                                                Major
+                                            </Text></Center>
                                         </ListItem>
 
-                                        <ListItem marginBottom={"50px"}>
-                                            <Button bg={"orange.200"} w={"100%"} height={"60px"} onClick={userac}>
+                                        <ListItem marginBottom={"20px"}>
+                                            <Button bg={"orange.200"} w={"100%"} height={"60px"} onClick={complete}>
                                                 <Text as={"b"}>Click!</Text>
                                             </Button>
                                         </ListItem>
 
                                         <ListItem>
-                                            <Text as={"b"} fontSize="2xl">
-                                                Shortlink Access
-                                            </Text>
+                                        <Center><Text as={"b"} fontSize="2xl">
+                                                Faculty
+                                            </Text></Center>
                                         </ListItem>
 
-                                        <ListItem marginBottom={"50px"}>
-                                            <Button bg={"orange.200"} w={"100%"} height={"60px"} onClick={shortac}>
+                                        <ListItem marginBottom={"20px"}>
+                                            <Button bg={"orange.200"} w={"300px"} height={"60px"} onClick={complete}>
+                                                <Text as={"b"}>Click!</Text>
+                                            </Button>
+                                        </ListItem>
+                                        
+                                        <ListItem>
+                                        <Center><Text as={"b"} fontSize="2xl">
+                                                Year
+                                            </Text></Center>
+                                        </ListItem>
+                                        <ListItem marginBottom={"20px"}>
+                                            <Button bg={"orange.200"} w={"100%"} height={"60px"} onClick={complete}>
                                                 <Text as={"b"}>Click!</Text>
                                             </Button>
                                         </ListItem>
@@ -73,4 +81,4 @@ const permission = () => {
         </AppBody>
     )
 }
-export default permission
+export default ShortAc

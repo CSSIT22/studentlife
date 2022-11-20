@@ -19,12 +19,14 @@ const unblock = () => {
                 </Box>
                 <br />
                 <Box bgColor={"orange.200"} p="10rem">
-                <Box bgColor={"white"} p="10%" w = "15rem" h="10rem" borderRadius = "15" >
+                <Center >
+                <Box bgColor={"white"} p="10%" w = "30rem" h="10rem" borderRadius = "15" >
                     <Text align="center" fontWeight="bold" fontSize = "30px"> UNBLOCK </Text>
                     <br />
                     <Text align="center" fontWeight="bold" fontSize = "30px"> SUCCESS </Text>
 
                 </Box>
+                </Center>
                 </Box>
             </Container>
         </AppBody>
