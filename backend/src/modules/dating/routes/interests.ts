@@ -23,10 +23,9 @@ interestsRoutes.get("/getAllInterests", async (req: Request, res: Response) => {
 interestsRoutes.get("/getUserInterests", async (req: Request, res: Response) => {
     try {
         const userId = req.user?.userId
-        if(userId == null) {
+        if (userId == null) {
             return res.send([])
-        }
-        else {
+        } else {
             const userInterestsDB = await prisma.user_Interest.findMany({
                 where: {
                     userId: userId,
@@ -34,7 +33,6 @@ interestsRoutes.get("/getUserInterests", async (req: Request, res: Response) => 
             })
             return res.send(userInterestsDB)
         }
-
     } catch (err) {
         return res.status(404).send("User interests not found")
     }
@@ -68,8 +66,8 @@ interestsRoutes.put("/updateUserInterests", verifyUser, async (req: Request, res
         })
         await prisma.user_Interest.deleteMany({
             where: {
-                userId: req.user?.userId
-            }
+                userId: userId,
+            },
         })
         await prisma.user_Interest.createMany({
             data: payload,
@@ -78,6 +76,20 @@ interestsRoutes.put("/updateUserInterests", verifyUser, async (req: Request, res
         return res.send("Success!")
     } catch {
         return res.status(400).send("Cannot update interests")
+    }
+})
+
+interestsRoutes.delete("/deleteUserInterests", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        await prisma.user_Interest.deleteMany({
+            where: {
+                userId: userId,
+            },
+        })
+        return res.send("Success!")
+    } catch {
+        return res.status(400).send("Cannot delete interests")
     }
 })
 
