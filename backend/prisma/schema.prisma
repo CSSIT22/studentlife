@@ -626,6 +626,7 @@ model Chat_Room {
   deleted    DateTime?            @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   roomType   Room_Type
   roomGroup  Chat_Group?
+  poll Activity_Poll?
   haveUser   User_To_Room[]
   messages   Message[]
   quotes     Chat_Quote[]
@@ -788,8 +789,9 @@ model Activity_Poll {
   participantMax Int
   isOpen         Boolean
   pollcreated    DateTime         @default(now()) @db.Timestamp(0)
-  // roomId         String
+  roomId         String @unique
   pollCreator    User_Profile?    @relation(fields: [userId], references: [userId])
+  pollIn Chat_Room @relation(fields: [roomId], references: [roomId])
   participants   Poll_Applicant[]
   interests      Poll_Interest[]
 }
