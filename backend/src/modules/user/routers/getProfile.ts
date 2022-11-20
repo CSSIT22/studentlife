@@ -9,6 +9,7 @@ const getProfile = async (req: Request, res: Response) => {
             select: { studentId: true, fName: true, lName: true, image: true, majorId: true },
         })
         res.json(profile)
+        console.log(req.user?.fName)
     } catch (err) {
         res.status(400).send("Error find Profile")
     }
