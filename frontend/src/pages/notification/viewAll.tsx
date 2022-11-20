@@ -17,31 +17,50 @@ import {
     ModalBody,
     ModalCloseButton,
 } from "@chakra-ui/react"
-import React from "react"
+import React, {useEffect, useState } from "react"
 import MarkRead from "../../components/notification/MarkRead"
 import Modulelist from "../../components/notification/moduleList/Modulelist"
 import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
 import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectViewAll"
 import AppBody from "../../components/share/app/AppBody"
-import { FiSettings } from "react-icons/fi"
-import { Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import API from "src/function/API"
+import { Notiobject } from "@apiType/notification"
 import { OBJECTS } from "../../components/notification/main/mockupData/objectsTest"
 import { MODULES } from "../../components/notification/moduleList/moduleTest"
 
 const viewAll = () => {
+    //reload noti
+    const [reLoad, setreLoad] = useState(false)
+    function load() {
+        setreLoad(!reLoad)
+    }
+
+    //getNotiobjectViewAll
+    const param = useParams()
+    const getUserNotiObject = API.get("/notification/getusernotiobject/" + param.id)
+    const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
+    useEffect(() => {
+        getUserNotiObject.then((res) => {
+            setUserNotiObject(res.data)
+        })
+    }, [reLoad])
+    //console.log(userNotiObjectViewAll)
+    //console.log(OBJECTS)
+
+    //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
-    //console.log(selectedModule)
     function showSelectedModule(module: string) {
         setSelectedModule(module)
     }
     // const selectedModule: any[] = MODULES.filter((el) => el.isSelect === true)
-    const notiListModule: any[] = OBJECTS.filter((el) => el.module == selectedModule)
+    const notiListModule: any[] = userNotiObject.filter((el) => el.module == selectedModule)
 
     function showNotiListViewAll(): any {
         if (selectedModule == "All") {
-            return <NotiListViewAll selectedList={OBJECTS}></NotiListViewAll>
+            return <NotiListViewAll selectedList={userNotiObject} onClick={load}></NotiListViewAll>
         } else {
-            return <NotiListViewAll selectedList={notiListModule}></NotiListViewAll>
+            return <NotiListViewAll selectedList={notiListModule} onClick={load}></NotiListViewAll>
         }
     }
 
@@ -59,7 +78,7 @@ const viewAll = () => {
                 <Spacer />
                 <Box>
                     <Stack direction={"row"}>
-                        <MarkRead />
+                        <MarkRead module={selectedModule} onClick={load} />
                     </Stack>
                 </Box>
             </Flex>

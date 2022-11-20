@@ -2,15 +2,15 @@ import { Box, Stack, Text, Divider } from "@chakra-ui/react"
 import React, { FC } from "react"
 import NotiObjectViewAll from "./NotiObjectViewAll"
 
-const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
+
+const NotiListViewAll: FC<{ selectedList: any[]; onClick: Function }> = ({ selectedList, onClick }) => {
     //sort selectedList
-    // console.log("selectedList")
-    // console.log(selectedList)
     const sortedList = selectedList.sort((a, b) => {
         return b.date - a.date
     })
-    // console.log("sortedList")
-    // console.log(sortedList)
+
+
+    // show date
     const list: any[] = []
     function showDate(date: Date) {
         //prop = date
@@ -81,19 +81,20 @@ const NotiListViewAll: FC<{ selectedList: any[] }> = ({ selectedList }) => {
 
     return (
         <Box>
-            {sortedList.map((el) => {
+            {sortedList?.map((el) => {
                 return (
                     <Box key={el.id}>
-                        {showDate(el.date)}
+                         {showDate(new Date(el.date))}
                         <Stack spacing={3}>
                             <NotiObjectViewAll
                                 id={el.id}
                                 userId={el.user}
                                 description={el.description}
                                 isRead={el.isRead}
-                                date={el.date}
+                                date={new Date(el.date)}
                                 module={el.module}
                                 link={el.link}
+                                onClick={onClick}
                             />
                         </Stack>
                         <Divider />

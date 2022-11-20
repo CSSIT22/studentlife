@@ -4,10 +4,10 @@ import addUserNotiObject from "./routes/addUserNotiObject"
 import getUserNotiObject from "./routes/getUserNotiObject"
 import markallasRead from "./routes/markallasRead"
 import readNotiObject from "./routes/readNotiObject"
-
 //mockup data
 import { DESCRIPTION } from "./routes/mockupData/descTest"
 import { USER } from "./routes/mockupData/userProfile"
+
 export let objects = [
     {
         id: "0ygyli7",
