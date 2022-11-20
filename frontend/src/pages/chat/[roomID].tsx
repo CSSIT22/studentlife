@@ -70,10 +70,10 @@ const Room = () => {
 
                 // maxH={'5000px'}
                 >
-                    <Flex alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }} rounded={'xl'} py={2}>
+                    <Flex alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }} roundedTopLeft={"lg"} roundedTopRight={"lg"} py={2}>
                         <Flex alignItems={"center"}>
                             <Avatar marginLeft={4} name={Room.roomName} src={Room.image} />
-                            <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5}>
+                            <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
                                 {Room.roomName}
                             </Box>
                         </Flex>
@@ -91,7 +91,7 @@ const Room = () => {
 
                     <Box overflowY={'auto'} flex={1} bg="#FFF2E6"
                         width={{ base: "100%", md: "auto" }}
-                        height={"60vh"}
+                        height={"430px"}
                     >
                         {msg.map(({ text, from, timeSent }, roomID) => (
                             <TextBar

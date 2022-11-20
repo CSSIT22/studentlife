@@ -97,7 +97,7 @@ const Clist: FC<any> = () => {
     const renderRoom = (e: any) => {
         if (target === 1 && e.roomtype === "INDIVIDUAL") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
                         alignItems={"center"}
                         key={e.roomId}
@@ -108,6 +108,7 @@ const Clist: FC<any> = () => {
                         transitionDuration="300ms"
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
+                        
                     >
                         <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
@@ -123,7 +124,7 @@ const Clist: FC<any> = () => {
         }
         if (target === 2 && e.roomtype === "GROUP") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
                         alignItems={"center"}
                         key={e.roomId}
@@ -158,11 +159,13 @@ const Clist: FC<any> = () => {
     }
 
     return (
-        <Box maxH={"75vh"} overflow={"scroll"} minH={"75vh"} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
+        <Box minH={"550px"} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
+                <Box overflowX={"auto"} maxH={"380px"}>
                 {renderSearch(search)}
+                </Box>
             </Flex>
         </Box>
     )

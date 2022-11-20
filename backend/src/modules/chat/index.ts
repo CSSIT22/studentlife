@@ -39,6 +39,8 @@ let Room: Room[] = [
         roomtype: "GROUP",
         image: "https://picsum.photos/200",
     },
+    { roomId: "6", roomName: "Parn", chatColor: "#ffffffff", createAt: "2002-02-01", roomtype: "INDIVIDUAL", image: "https://picsum.photos/200" },
+    //{ roomId: "7", roomName: "Toddy", chatColor: "#ffffffff", createAt: "2002-02-01", roomtype: "INDIVIDUAL", image: "https://picsum.photos/200" },
 ]
 
 // function get data
@@ -55,6 +57,10 @@ chatRoutes.get("/:id", (req, res) => {
         return e.roomId === id
     })
     res.json(result[0])
+})
+
+chatRoutes.delete("/", (req, res) => {
+    const { id } = req.body
 })
 
 export default chatRoutes
