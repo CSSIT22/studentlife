@@ -2,6 +2,7 @@ import express from "express"
 import createAPollRoutes from "./routes/create"
 import interestsRoutes from "./routes/interests"
 import optionRoutes from "./routes/option"
+import readDBRoutes from "./routes/readDB"
 
 const datingRoutes = express()
 
@@ -14,5 +15,6 @@ datingRoutes.get("/", (_, res) => {
 datingRoutes.use("/interests", interestsRoutes)
 datingRoutes.use("/option", optionRoutes)
 datingRoutes.use("/create", createAPollRoutes)
+datingRoutes.use("/readDB", readDBRoutes)
 
 export default datingRoutes
