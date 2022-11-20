@@ -1,21 +1,38 @@
-import { Flex } from "@chakra-ui/react"
+import { Category } from "@apiType/shop"
+import { Flex, Heading, useBoolean } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
+import API from "src/function/API"
 import { CategoryItem } from "./CategoryItem"
-import { categories } from "./content/dummyData/categories"
 
 // Get info from database
-const CategoryList = () => {
-    const categoriese = categories
+const CategoryList = () => { 
+    const [categoryList, setCategoryList] = useState<null | Category[]>(null)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const getAllCategories = API.get("/shop/getAllCategories")
+    useEffect(() => {
+        getAllCategories.then((res) => setCategoryList(res.data)).catch((err) => on()).finally(() => off())
+    }, [])
+    if (isError){
+        return <Heading>There is an Error! Please Try Again Later</Heading>
+        
+    } 
+    if (isLoading){
+        return <Heading>Loading...</Heading>
+        
+    } 
     return (
         <Flex justify="center" align="center" p="2" wrap="wrap" gap="1rem">
-            {generateCategories()}
+            {generateCategories(categoryList)}
         </Flex>
     )
 }
-function generateCategories() {
-    let dummy = categories.map((category) => {
+function generateCategories(categoryList: Category[] | null) {
+    if (categoryList != null){
+    let dummy = categoryList.map((category) => {
         return <CategoryItem id={category.id} name={category.name} image={category.image}></CategoryItem>
     })
-    return dummy
+    return dummy}
 }
 //testing
 export default CategoryList

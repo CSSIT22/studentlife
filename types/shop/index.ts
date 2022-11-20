@@ -13,3 +13,9 @@ export type Product = {
     deliveryFee: number,
     views: number
 }
+
+export type Category = {
+    id: number,
+    name: string,
+    image: string
+}

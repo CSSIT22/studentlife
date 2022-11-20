@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
-import { getProducts, Product } from "../dummyData/products"
+import {Product} from "@apiType/shop"
+import { getProducts } from "../dummyData/products"
 
 const  getProductInformation = (req:Request, res: Response) => {
         const prodId = req.params.id

@@ -1,8 +1,8 @@
-import { Center, Container, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, Select } from "@chakra-ui/react"
+import { Center, Container, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, Select, useBoolean } from "@chakra-ui/react"
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import { MdPadding } from "react-icons/md"
 import { TbSearch } from "react-icons/tb"
-import { products } from "./content/dummyData/products"
+import API from "src/function/API"
 // Search Bar without Actions -> Dummy
 const Searchbar: FC<{
     setSearchQuery: Dispatch<SetStateAction<string>>
@@ -42,13 +42,6 @@ const Searchbar: FC<{
 }> = ({ productsIn, searchQuery, setSearchQuery, setProducts}) => {
     const [timer, setTimer] = useState<number | null>(null)
     const didMount = useDidMount()
-
-    useEffect(() => {
-        if (didMount) {
-            setProducts(() => products.filter((arr) => arr.name.toLowerCase().includes(searchQuery.toLowerCase())))
-        }
-    }, [searchQuery])
-
     function useDidMount() {
         const [didMount, setDidMount] = useState(false)
         useEffect(() => {
@@ -57,6 +50,23 @@ const Searchbar: FC<{
 
         return didMount
     }
+
+    const [products, setProductList] = useState<any>(null)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const getAllProducts = API.get("/shop/getAllProducts")
+    useEffect(() => {
+        getAllProducts.then((res) => setProductList(res.data)).catch((err) => on()).finally(() => off())
+        if (didMount) {
+            setProducts(() => products.filter((arr: any) => arr.name.toLowerCase().includes(searchQuery.toLowerCase())))
+        }
+    }, [searchQuery])
+    if (isError){
+        return <Heading>There is an Error! Please Try Again Later</Heading>
+    } 
+    if (isLoading){
+        return<Heading>Loading...</Heading>
+    } 
 
     // Check if user has press enter when currently in the search bar
     function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {

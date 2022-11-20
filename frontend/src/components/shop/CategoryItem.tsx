@@ -12,7 +12,7 @@ export const CategoryItem: FC<{
     return (
         <LinkBox>
         <Link  
-        to = {link? link : "/shop/categories/categoryDetails"}
+        to = {link? link : "/shop/categories/" + id}
         state = {{cat_id: id, cat_name: name}}
          >
         <Box bg={"white"} w="9rem" h="11rem" borderRadius="lg" rounded="md" shadow="md" position="relative" overflow={"hidden"} border='1px solid #E65300'>
