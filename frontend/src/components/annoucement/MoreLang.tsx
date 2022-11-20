@@ -5,7 +5,7 @@ import { BsPlusCircleFill } from "react-icons/bs"
 const MoreLang: FC<{
     onClick: Function
     addLang: Function
-}> = ({ onClick, addLang }) => {
+}> = ({ onClick, addLang}) => {
     const [otherLang, setOtherLang] = React.useState(String)
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
@@ -28,9 +28,9 @@ const MoreLang: FC<{
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
                 <Select placeholder="Select language" onChange={(e) => setOtherLang(e.target.value)} disabled={disable}>
-                    <option value={1101}>Thai</option>
-                    <option value={1102}>Korea</option>
-                    <option value={1103}>Japanese</option>
+                    <option value={1001}>Thai</option>
+                    <option value={1002}>Korea</option>
+                    <option value={1003}>Japanese</option>
                 </Select>
             </FormControl>
             <FormControl isRequired>
@@ -46,7 +46,7 @@ const MoreLang: FC<{
             </Text>
             <Button
                 onClick={() => {
-                    addLang(otherLang, topic, detail), setDisable(true)
+                    addLang(parseInt(otherLang), topic, detail), setDisable(true)
                 }}
                 disabled={disable}
             >

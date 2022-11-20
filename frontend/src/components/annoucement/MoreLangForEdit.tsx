@@ -12,11 +12,10 @@ const MoreLangForEdit: FC<{
     onAdd: Function
     add: boolean
 }> = ({ onDecrease, addLang, selectLang, title, dt, onAdd, add ,id}) => {
-    const [otherLang, setOtherLang] = React.useState(selectLang)
+    const [otherLang, setOtherLang] = React.useState<number>(selectLang)
     const [topic, setTopic] = React.useState(title)
     const [detail, setDetail] = React.useState(dt)
     const [disable, setDisable] = React.useState(false)
-    // console.log(disable)
 
     return (
         <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#DDDDDD"} my="10">
@@ -54,7 +53,7 @@ const MoreLangForEdit: FC<{
             </Text>
             <Button
                 onClick={() => {
-                    addLang(otherLang, topic, detail), setDisable(true), onAdd()
+                    addLang( parseInt(otherLang+"") , topic,  detail), setDisable(true), onAdd()
                 }}
                 disabled={disable}
             >
