@@ -3,7 +3,7 @@ import React, { useContext } from "react"
 import { Link, Navigate } from "react-router-dom"
 import { authContext } from "src/context/AuthContext"
 import AppBody from "../components/share/app/AppBody"
-import { moreMenu } from "../components/share/navbar/NavBar"
+import { logout, moreMenu } from "../components/share/navbar/NavBar"
 
 const More = () => {
     const isDesktop = useBreakpointValue({ base: false, md: true }, { ssr: false })
@@ -22,10 +22,12 @@ const More = () => {
                 </Link>
             </VStack>
             <HStack mt={3} gap={3}>
-                <Box flex={3} p={3} py={5} bg="blue.400" color="white" shadow={"md"} rounded="lg">
-                    <Heading size="md">Login activity</Heading>
-                </Box>
-                <Box flex={1} p={3} py={5} bg="red.400" color="white" shadow={"md"} rounded="lg">
+                <Link to="/auth/revokeTokens" style={{ flex: 3 }} >
+                    <Box flex={3} p={3} py={5} bg="blue.400" color="white" shadow={"md"} rounded="lg">
+                        <Heading size="md">Login activity</Heading>
+                    </Box>
+                </Link>
+                <Box onClick={logout} flex={1} p={3} py={5} bg="red.400" color="white" shadow={"md"} rounded="lg">
                     <Heading size="md">Logout</Heading>
                 </Box>
             </HStack>
