@@ -1,24 +1,25 @@
 import { Badge, Box, Center, Flex, Image, LinkBox, LinkOverlay, Spacer, VStack } from "@chakra-ui/react"
 import React, { FC } from "react"
+import { Link } from "react-router-dom"
+import convertCurrency from "./functions/usefulFunctions"
 
 const ProductDisplay: FC<{
+    id: number
     name: string
     image: string
     brandName: string
-    price: string
-    link: string
-}> = ({ name, image, brandName, price, link }) => {
+    price: number
+    link?: string
+}> = ({ id, name, image, brandName, price, link }) => {
     return (
-        <div>
-            <Box pt-6 background="white" width="223px" height="261px" borderWidth="1px" borderRadius="lg" overflow="hidden">
-                <LinkBox>
+        <LinkBox>
+            <Link to={link ? link : "/shop/product/" + id} state={{ p_id: id }}>
+                <Box mt="6" background="white" width="11rem" height="16rem" borderRadius="lg" overflow="hidden" shadow="xl" border="1px solid">
                     <Flex direction="column">
-                        <Spacer />
-                        <LinkOverlay href={link}></LinkOverlay>
-                        <Center pt="2">
-                            <Image width="188px" height="141px" src={image} alt="Img" />
-                        </Center>
-                        <Box pt="2" px="6">
+                        <Box mt="3" mx="3" mb="2" borderRadius="lg" overflow="hidden" shadow="md">
+                            <Image width="11rem" height="9rem" src={image} alt="Img" objectFit="cover" />
+                        </Box>
+                        <Box px="6">
                             {/* // Uncomment to add Badge
                         <Box display="flex" alignItems="baseline">
                             <Badge borderRadius="full" px="2" colorScheme="teal">
@@ -37,14 +38,14 @@ const ProductDisplay: FC<{
 
                             <Box>
                                 <Box as="span" color="gray.600" fontSize="sm">
-                                    {"฿" + price}
+                                    {convertCurrency(price)}
                                 </Box>
                             </Box>
                         </Box>
                     </Flex>
-                </LinkBox>
-            </Box>
-        </div>
+                </Box>
+            </Link>
+        </LinkBox>
     )
 }
 

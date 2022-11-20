@@ -1,14 +1,12 @@
-import { useBreakpointValue, Flex, Grid, GridItem, Box, Text, Checkbox, Button, Input } from "@chakra-ui/react"
 import { DeleteIcon } from "@chakra-ui/icons"
-import PageTitle from "../../../components/shop/PageTitle"
-import ShopAppBody from "../../../components/shop/ShopAppBody"
-import convertCurrency from "../../../components/shop/functions/usefulFunctions"
+import { Box, Button, Checkbox, Flex, Grid, GridItem, Text } from "@chakra-ui/react"
 import CartProduct from "src/components/shop/CartProduct"
 import ContentBox from "src/components/shop/ContentBox"
-import ThemedButton from "src/components/shop/ThemedButton"
+import convertCurrency from "src/components/shop/functions/usefulFunctions"
+import PageTitle from "src/components/shop/PageTitle"
+import ShopAppBody from "src/components/shop/ShopAppBody"
 
-// Cart
-const Cart = () => {
+const index = () => {
     const selectBox = (
         <ContentBox bg="#fff">
             <Flex justify="space-between" wrap="wrap">
@@ -28,41 +26,13 @@ const Cart = () => {
     )
     const orderSummary = (
         <ContentBox bg="#fff">
-            <Flex direction="column" gap={5} p="5">
-                <Text fontSize="md" fontWeight="700">Order Summary</Text>
-                <Flex gap={2} justify="space-between">
+            <Flex direction="column" gap={2} p="5">
+                <Text fontSize="lg">Order Summary</Text>
+                <Flex gap={2}>
                     <Text>Subtotal</Text>
-                    <Text as="b">{convertCurrency(3210)}</Text>
-                </Flex>
-                <Flex gap={2} justify="space-between">
-                    <Text>DeliveryFees</Text>
-                    <Text as="b">{convertCurrency(50)}</Text>
-                </Flex>
-                <Flex gap={2} justify="space-between">
-                    <Input
-                        type="text"
-                        placeholder="Enter Coupon Code"
-                        shadow="md"
-                        border="1px solid #CBD5E0"
-                        borderRadius="10px"
-                        size={"md"}
-                        background="white"
-                       
-                    ></Input>
-                    <ThemedButton maxW="24"> APPLY </ThemedButton>
-                </Flex>
-                <Button variant="link" width="min">
-                    See Your Coupons
-                </Button>
-                <Flex gap={2} justify="space-between">
-                    <Text >Total</Text>
-                    <Text as="b">{convertCurrency(3260)}</Text>
-                </Flex>
-                <Flex justify="center" >
-                    <ThemedButton>CHECKOUT</ThemedButton>
+                    <Text>{convertCurrency(3210)}</Text>
                 </Flex>
             </Flex>
-
         </ContentBox>
     )
 
@@ -99,4 +69,4 @@ function generateCartProducts() {
     return cart
 }
 
-export default Cart
+export default index
