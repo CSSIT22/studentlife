@@ -67,7 +67,7 @@ const DatingOption = () => {
         globalThis.gender = selected
         globalThis.faculty = selectedFac
         //console.log(selectedFac)
-        alert(
+        console.log(
             "Age min =" +
                 globalThis.age[0] +
                 " | Age max =" +
