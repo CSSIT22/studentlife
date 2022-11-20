@@ -65,7 +65,8 @@ const shopTransaction = () => {
                                 <Text fontSize="md" fontWeight={"bold"}>
                                     Payment Method: ....
                                 </Text>
-                            </Stack></Center>
+                            </Stack>
+                        </Center>
                         <Spacer />
                         <Center>
                             <Box>
@@ -76,8 +77,8 @@ const shopTransaction = () => {
                                         </Text>
                                     </Link>
                                 </Button>
-                            </Box></Center>
-
+                            </Box>
+                        </Center>
                     </Flex>
                 </Show>
                 <Hide below="md">
@@ -90,17 +91,11 @@ const shopTransaction = () => {
                         <Spacer />
                         <EbankModal />
                         <Spacer />
-                        {/* <Button colorScheme="whiteAlpha" onClick={onOpen} shadow={"lg"}>
+                        <Button colorScheme="whiteAlpha" shadow={"lg"}>
                             <Text fontSize="lg" fontWeight={"bold"} color="black">
-                                Ebanking
+                                QRCODE
                             </Text>
                         </Button>
-                        <Spacer />
-                        <Button colorScheme="whiteAlpha" onClick={onOpen} shadow={"lg"}>
-                            <Text fontSize="lg" fontWeight={"bold"} color="black">
-                                QRcode
-                            </Text>
-                        </Button> */}
                     </Flex>
                     {/* 
                     <Collapse in={isOpen} animateOpacity>
