@@ -26,7 +26,6 @@ import API from "src/function/API"
 import AppBody from "../../components/share/app/AppBody"
 import SecondaryNav from "../../components/share/navbar/SecondaryNav"
 import DetailBox from "../../components/shopreview/DetailBox"
-import Header from "../../components/shopreview/Header"
 import ReviewDetail from "../../components/shopreview/ReviewDetail"
 import ShopName from "../../components/shopreview/ShopName"
 
@@ -55,11 +54,11 @@ const shopreview = () => {
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                         {shops.map((item: any) => {
-                            if (zones.length === 0) {
+                            if (zones.length === 0 && item.type === "shop") {
                                 return (
                                     <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
                                 )
-                            } else if (zones.includes(item.zone)) {
+                            } else if (zones.includes(item.zone) && item.type === "shop") {
                                 return (
                                     <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
                                 )
@@ -78,11 +77,11 @@ const shopreview = () => {
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                         {res.map((item: any) => {
-                            if (zones.length === 0) {
+                            if (zones.length === 0 && item.type === "restaurant") {
                                 return (
                                     <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
                                 )
-                            } else if (zones.includes(item.zone)) {
+                            } else if (zones.includes(item.zone) && item.type === "restaurant") {
                                 return (
                                     <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
                                 )

@@ -18,6 +18,7 @@ import {
     Textarea,
     Input,
     Image,
+    Container,
 } from "@chakra-ui/react"
 import AmountRate from "src/components/shopreview/AmountRate"
 import AmountReview from "src/components/shopreview/AmountReview"
@@ -25,6 +26,7 @@ import LocationShop from "src/components/shopreview/LocationShop"
 import Myreview from "src/components/shopreview/Myreview"
 import Rate from "src/components/shopreview/Rate"
 import RatingStar from "src/components/shopreview/RatingStar"
+import ReviewDetail from "src/components/shopreview/ReviewDetail"
 import ShopDetailName from "src/components/shopreview/ShopDetailName"
 import AppBody from "../../components/share/app/AppBody"
 import Rating from "../rating"
@@ -36,7 +38,7 @@ const shopdetails = () => {
             <ShopDetailName name={"ป้าตุ๊กข้าวมันไก่"} />
             <Box
                 flex={1}
-                bgImage={"url('https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSEmAUm74bI2EL8Sb34rOSLQkKjXQF.jpg')"}
+                bgImage={"https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSEmAUm74bI2EL8Sb34rOSLQkKjXQF.jpg"}
                 shadow={"lg"}
                 w={"100%"}
                 height={"sm"}
@@ -111,15 +113,23 @@ const shopdetails = () => {
                             minHeight={"100px"}
                             maxHeight={"200px"}
                         ></Textarea>
-
-                        <Image
-                            src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
-                            width={"40px"}
-                            borderRadius="full"
-                            marginLeft={"1"}
-                            marginTop={"-40px"}
-                            padding={"4px"}
-                        />
+                        <Input type={"file"} id="id" hidden multiple></Input>
+                        <Box
+                            onClick={() => {
+                                document.getElementById("id")?.click()
+                            }}
+                            as="button"
+                            paddingTop={"10px"}
+                        >
+                            <Image
+                                src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
+                                width={"40px"}
+                                borderRadius="full"
+                                marginLeft={"1"}
+                                marginTop={"-58px"}
+                                padding={"4px"}
+                            />
+                        </Box>
                     </ModalBody>
 
                     <ModalFooter>
@@ -133,55 +143,26 @@ const shopdetails = () => {
                 </ModalContent>
             </Modal>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-                <Myreview
+                <ReviewDetail
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
+                    name={"Micky"}
                     ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
+                    date={"2022/05/18"}
                 />
-                <Myreview
+                <ReviewDetail
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
+                    name={"Minny"}
+                    ment={"Yummy"}
+                    date={"2020/10/10"}
                 />
             </SimpleGrid>
+            <Container my={5} textAlign={"center"}>
+                That's all~
+            </Container>
         </AppBody>
     )
 }

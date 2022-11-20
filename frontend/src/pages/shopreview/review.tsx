@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from "@chakra-ui/icons"
-import { Box, Center, Flex, Heading, Link, SimpleGrid, useBreakpointValue, useMediaQuery } from "@chakra-ui/react"
+import { Box, Center, Container, Flex, Heading, Link, SimpleGrid, useBreakpointValue, useMediaQuery } from "@chakra-ui/react"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
@@ -57,6 +57,9 @@ const review = () => {
                     date={"Nov 19 22"}
                 />
             </Box>
+            <Container my={5} textAlign={"center"}>
+                That's all~
+            </Container>
             <CommentBar />
         </AppBody>
     )

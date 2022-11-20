@@ -28,7 +28,14 @@ import AmountLike from "./AmountLike"
 import AmountRate from "./AmountRate"
 import ShopName from "./ShopName"
 
-const Myreview: FC<{ image: String; name: String; ment: String; date: String }> = ({ image, name, ment, date }) => {
+const Myreview: FC<{ image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
+    image,
+    name,
+    ment,
+    date,
+    am_like,
+    ratting,
+}) => {
     const [show, setShow] = React.useState(false)
     const handleToggle = () => setShow(!show)
 
@@ -99,9 +106,9 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String }> 
                     {}
                 </Box>
                 <ShopName name="ข้าวมันไก่ป้าตุ๊ก" />
-                <AmountLike am_like={"100"} />
+                <AmountLike am_like={am_like} />
                 {/* ดีงข้อมูลมาจาก database */}
-                <AmountRate ratting={"5"} />
+                <AmountRate ratting={ratting} />
                 {/* ดีงข้อมูลมาจาก database */}
             </Flex>
         </Box>

@@ -12,6 +12,7 @@ const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String
     const navigate = useNavigate()
     const navigateReview = () => {
         navigate("/shopreview/review")
+        window.scrollTo(0, 0)
     }
     return (
         <Box p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>

@@ -5,7 +5,7 @@ const getShop = (req: Request, res: Response) => {
     const id = req.params.id
     let getshop: Shop | null = null
     getAllShop().forEach((shop) => {
-        if (shop.id == id) {
+        if (shop.shopId == id) {
             getshop = shop
         }
     })

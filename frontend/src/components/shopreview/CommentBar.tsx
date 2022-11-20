@@ -4,24 +4,24 @@ const CommentBar = () => {
     const isMobile = useBreakpointValue({ base: false, md: true }, { ssr: false })
     return (
         <Box
+            width={{ base: "102%", lg: "65%" }}
+            position={"fixed"}
             mb={2}
             background={"white"}
-            bottom={"55px"}
-            width={"100%"}
-            p={1}
-            minHeight={18}
-            maxHeight={"100px"}
+            bottom={{ base: "45px", lg: "-10px" }}
+            left={{ base: "-5px", lg: "265px" }}
+            p={2}
             border={"1px solid rgba(0, 0, 0, 0.1)"}
         >
-            <Stack spacing={4} direction="row" alignItems="center">
+            <Stack direction="row" alignItems="center">
                 <Flex>
                     <Box mb={5} height={"20px"}>
                         <Textarea rows={1} cols={150} placeholder="Type your comment" />
                     </Box>
                 </Flex>
 
-                <Button alignSelf={"flex-end"} colorScheme="teal" size={"lg"} width={"60"} mt={2} mr={2}>
-                    <Box boxSize={""}>Comment</Box>
+                <Button colorScheme="teal" size={"lg"} width={"60"} mt={2} mr={2}>
+                    Comment
                 </Button>
             </Stack>
         </Box>
