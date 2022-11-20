@@ -26,6 +26,9 @@ import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
+import http from "http"
+import { Server as IOServer } from "socket.io"
+import { verify } from "jsonwebtoken"
 
 const PORT = 8000
 const app = express()
@@ -124,4 +127,37 @@ app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
 
-app.listen(PORT, () => console.log(`running on ${PORT} !`))
+const server = http.createServer(app)
+
+const io = new IOServer(server)
+
+let store = new Map<string, string>()
+
+io.use((socket, next) => {
+    try {
+        const token = socket.handshake.headers.authorization
+        if (!token) {
+            throw new Error("not authorized")
+        }
+        const decoded = verify(token, process.env.COOKIE_SECRET || "") as { userId: string }
+
+        store.set(socket.id, decoded.userId)
+        return next()
+    } catch (err) {
+        return next(new Error("not authorized"))
+    }
+})
+
+io.on("connection", (socket) => {
+    socket.on("message", (data) => {
+        socket.emit("receive-message", data)
+    })
+
+    console.log(store)
+
+    console.log(socket.handshake.headers)
+    console.log("Hello")
+})
+
+server.listen(PORT, () => console.log(`running on ${PORT} !`))
+// app.listen(PORT, () => console.log(`running on ${PORT} !`))

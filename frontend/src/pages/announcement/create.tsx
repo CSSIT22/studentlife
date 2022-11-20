@@ -72,25 +72,26 @@ const create = () => {
         detail: " The announcement request has been sent.",
         event: "OK",
     }
-    const [allPost,setAllPost] = React.useState(postInfoTest);
+    const [allPost, setAllPost] = React.useState(postInfoTest)
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
         setAllPost([
-            ...allPost, {
+            ...allPost,
+            {
                 postId: allPost.length,
-                lang:"English",
-                topic:title,
-                detail:detail,
-                sender:"1234",
-                status:"waiting",
-                pinStatus:false,
-                isApprove:false,
-                targetType:targetType,
-                targetValue:targetValue,
+                lang: "English",
+                topic: title,
+                detail: detail,
+                sender: "1234",
+                status: "waiting",
+                pinStatus: false,
+                isApprove: false,
+                targetType: targetType,
+                targetValue: targetValue,
                 postAt: new Date(),
-                expiredOfPost:expired, 
-                expiredAfterDelete:"",
-                addMoreLang:addMoreLang,
-            }
+                expiredOfPost: expired,
+                expiredAfterDelete: "",
+                addMoreLang: addMoreLang,
+            },
         ])
     }
     console.log(allPost)

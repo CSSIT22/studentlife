@@ -56,22 +56,22 @@ function showProperty() {
     }
     const eventsIndi = [
         { eventIcon: CgProfile, eventName: "View profile" },
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" , buttonValue : "Done"},
-        { eventIcon: RiUserSettingsLine, eventName: "Set nickname" , buttonValue : "Done"},
-        { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : "Add"},
-        { eventIcon: MdColorLens, eventName: "Change room color" , buttonValue : "Done"},
-        { eventIcon: MdFlag, eventName: "Report" , buttonValue : "Verify and send"},
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name", buttonValue: "Done" },
+        { eventIcon: RiUserSettingsLine, eventName: "Set nickname", buttonValue: "Done" },
+        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Add" },
+        { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
+        { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
     ]
     const eventsGroup = [
-        { eventIcon: FaUserFriends, eventName: "Member" , buttonValue : "Done"},
-        { eventIcon: FaUserPlus, eventName: "Invite people" , buttonValue : "Invite"},
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name" , buttonValue : "Done"},
-        { eventIcon: AiFillPicture, eventName: "Set room profile" , buttonValue : "Done"},
-        { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : "Add"},
-        { eventIcon: MdColorLens, eventName: "Change room color" , buttonValue : "Done"},
-        { eventIcon: FaHome, eventName: "Create community" , buttonValue : "Create"},
-        { eventIcon: MdFlag, eventName: "Report" , buttonValue : "Verify and send"},
-        { eventIcon: FaDoorOpen, eventName: "Leave group" , buttonValue : "Leave"},
+        { eventIcon: FaUserFriends, eventName: "Member", buttonValue: "Done" },
+        { eventIcon: FaUserPlus, eventName: "Invite people", buttonValue: "Invite" },
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name", buttonValue: "Done" },
+        { eventIcon: AiFillPicture, eventName: "Set room profile", buttonValue: "Done" },
+        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Add" },
+        { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
+        { eventIcon: FaHome, eventName: "Create community", buttonValue: "Create" },
+        { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
+        { eventIcon: FaDoorOpen, eventName: "Leave group", buttonValue: "Leave" },
     ]
     return (
         <>
@@ -101,7 +101,7 @@ function showProperty() {
                     <ModalCloseButton />
                     <ModalBody>{propertyDetail(eventNames)}</ModalBody>
 
-                    <ModalFooter display={'flex'} justifyContent={'center'}>
+                    <ModalFooter display={"flex"} justifyContent={"center"}>
                         <Button colorScheme="orange" onClick={onClose}>
                             {eventButtons}
                         </Button>

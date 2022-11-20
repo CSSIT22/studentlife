@@ -51,7 +51,10 @@ userRoutes.get("/userprofile/:id", async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.params["id"]
-        const profile = await prisma.user_Profile.findFirstOrThrow({ where: { userId }, select: { studentId: true, fName:true,lName:true,image: true,majorId:true } })
+        const profile = await prisma.user_Profile.findFirstOrThrow({
+            where: { userId },
+            select: { studentId: true, fName: true, lName: true, image: true, majorId: true },
+        })
         res.json(profile)
     } catch (err) {
         res.status(400).send("Error find image")
