@@ -1,3 +1,19 @@
+export type Product = {
+    productId: number,
+    name: string,
+    image: string,
+    brand: string,
+    price: number,
+    categoryId: number,
+    contactId: number,
+    description: string,
+    color: string,
+    size: string,
+    stock: number,
+    deliveryFee: number,
+    views: number
+}
+
 export const products= [
     {
         productId: 1,
@@ -11,7 +27,8 @@ export const products= [
         color: "Black",
         size: "12 inch",
         stock: 50000,
-        deliveryFee: 10
+        deliveryFee: 10,
+        views: 1
     },
     {
         productId: 2,
@@ -25,7 +42,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
         productId: 3,
@@ -39,7 +57,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
         productId: 4,
@@ -53,7 +72,8 @@ export const products= [
         color: "Black",
         size: "12 inch",
         stock: 50000,
-        deliveryFee: 10
+        deliveryFee: 10,
+        views: 1
     },
     {
         productId: 5,
@@ -67,7 +87,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
         productId: 6,
@@ -81,7 +102,8 @@ export const products= [
         color: "Black",
         size: "12 inch",
         stock: 50000,
-        deliveryFee: 10
+        deliveryFee: 10,
+        views: 1
     },
     {
         productId: 7,
@@ -95,7 +117,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     }
     ,
     {
@@ -110,7 +133,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     }
     ,
     {
@@ -125,7 +149,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     }
     ,
     {
@@ -140,10 +165,11 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
-        productId: 3,
+        productId: 11,
         name: 'Nothing Phone (1) 256GB,8GB RAM-Black',
         image: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSTMIGX9C_wVT4kFI2v8defZtDjqWqpVQT5Wr1_U9H0dwHdva8omJxX4LNIs0LgdAMR8fPJu_T2UvjjXn0G9n2w0SfOVnnO3GzLbgxI5sp_3iwRXke1gFo1Wg',
         brand: "Nothing",
@@ -160,6 +186,7 @@ export const products= [
         color: "White",
         size: "16.64 cm (6.55 inch) Full HD+ Display",
         stock: 20,
-        deliveryFee: 120
+        deliveryFee: 120,
+        views: 1
     }
 ]
