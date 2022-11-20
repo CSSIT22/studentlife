@@ -9,7 +9,7 @@ const getResentShortnotes = async (req: Request, res: Response) => {
         where: {
             userId: user,
         },
-        orderBy: { viewedAt: "desc" },
+        orderBy: { viewedAt: "asc" },
         take: 3,
     })
     //console.log(rsn)
@@ -17,6 +17,7 @@ const getResentShortnotes = async (req: Request, res: Response) => {
     const idList = rsn.map((item: any) => {
         return item.snId
     })
+    //console.log(idList)
 
     const newRsn: any = await prisma.sn_Head.findMany({
         where: {
