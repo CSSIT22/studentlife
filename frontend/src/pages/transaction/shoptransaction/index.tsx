@@ -18,7 +18,7 @@ const shopTransaction = () => {
             <Container bg={"#e67f45"} maxW="90%" my="24px" p={"3%"} borderRadius="10px" shadow={"lg"}>
                 <Stack direction={isSmallerThan768 ? "column" : "row"} justifyContent={"center"}>
                     <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
-                    <Spacer/>
+                    <Spacer />
                     <UsePoint point={123} />
                 </Stack>
             </Container>
@@ -49,26 +49,27 @@ const shopTransaction = () => {
                 <Show below="md">
                     <Flex>
                         <Center>
-                        <Stack direction={"column"}>
-                            <Text fontSize="md" fontWeight={"bold"}>
-                                Total payment 123,123
-                            </Text>
-                            <Text fontSize="md" fontWeight={"bold"}>
-                                Payment Method: ....
-                            </Text>
-                        </Stack></Center>
+                            <Stack direction={"column"}>
+                                <Text fontSize="md" fontWeight={"bold"}>
+                                    Total payment 123,123
+                                </Text>
+                                <Text fontSize="md" fontWeight={"bold"}>
+                                    Payment Method: ....
+                                </Text>
+                            </Stack>
+                        </Center>
                         <Spacer />
                         <Center>
-                        <Box>
-                            <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                                <Link href="shoptransaction/selectmethod">
-                                    <Text fontSize="sm" fontWeight={"bold"} color="black">
-                                        Select Method
-                                    </Text>
-                                </Link>
-                            </Button>
-                        </Box></Center>
-                        
+                            <Box>
+                                <Button colorScheme="whiteAlpha" shadow={"lg"}>
+                                    <Link href="shoptransaction/selectmethod">
+                                        <Text fontSize="sm" fontWeight={"bold"} color="black">
+                                            Select Method
+                                        </Text>
+                                    </Link>
+                                </Button>
+                            </Box>
+                        </Center>
                     </Flex>
                 </Show>
                 <Hide below="md">
@@ -81,17 +82,11 @@ const shopTransaction = () => {
                         <Spacer />
                         <EbankModal />
                         <Spacer />
-                        {/* <Button colorScheme="whiteAlpha" onClick={onOpen} shadow={"lg"}>
+                        <Button colorScheme="whiteAlpha" shadow={"lg"}>
                             <Text fontSize="lg" fontWeight={"bold"} color="black">
-                                Ebanking
+                                QRCODE
                             </Text>
                         </Button>
-                        <Spacer />
-                        <Button colorScheme="whiteAlpha" onClick={onOpen} shadow={"lg"}>
-                            <Text fontSize="lg" fontWeight={"bold"} color="black">
-                                QRcode
-                            </Text>
-                        </Button> */}
                     </Flex>
                     {/* 
                     <Collapse in={isOpen} animateOpacity>

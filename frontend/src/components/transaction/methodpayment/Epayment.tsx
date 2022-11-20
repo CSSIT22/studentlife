@@ -12,11 +12,11 @@ const Epayment: FC<{
     return (
         <div>
             <Stack align={"center"}>
-                <Text fontSize={isSmallerThan768 ? "lg" : "xl"}>Pay with {bank} </Text>
-                <Text fontSize={isSmallerThan768 ? "lg" : "xl"}>Amount {amount} THB </Text>
-                <Text fontSize={isSmallerThan768 ? "lg" : "xl"}>Pay to {payto} </Text>
-                <Text fontSize={isSmallerThan768 ? "lg" : "xl"}>Payment ID: {paymentId} </Text>
-                <Text fontSize={isSmallerThan768 ? "lg" : "xl"}>Product Name: {product} </Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "xl"}>Pay with {bank} </Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "xl"}>Amount {amount} THB </Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "xl"}>Pay to {payto} </Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "xl"}>Payment ID: {paymentId} </Text>
+                <Text fontSize={isSmallerThan768 ? "md" : "xl"}>Product : {product} </Text>
             </Stack>
         </div>
     )
