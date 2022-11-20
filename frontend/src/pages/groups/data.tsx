@@ -103,38 +103,45 @@ export const userData = {
         {
             tagID: 1,
             tagName: "#Sport",
+            isSelected: false,
             tagDescription: "Sport and any outside activity"
 
         },
         {
             tagID: 2,
             tagName: "#Game",
+            isSelected: false,
             tagDescription: "PC&Moblie Game, Boardgame"
         },
         {
             tagID: 3,
             tagName: "#Education",
+            isSelected: false,
             tagDescription: "Learning, Book, Studying"
         },
         {
             tagID: 4,
             tagName: "#Food",
+            isSelected: false,
             tagDescription: "Food, Cooking, Restaurant"
         }
         ,
         {
             tagID: 5,
             tagName: "#IT",
+            isSelected: false,
             tagDescription: "Information and Technology"
         },
         {
             tagID: 6,
             tagName: "#Hangout",
+            isSelected: false,
             tagDescription: "Movie, Party, Activity, Meeting"
         },
         {
             tagID: 7,
             tagName: "#Science",
+            isSelected: false,
             tagDescription: "Physic, Chemical, Biology"
         }
     ],
