@@ -1,21 +1,16 @@
-// import React from 'react'
-
-// const calendar = () => {
-//   return (
-//     <div>calendar</div>
-//   )
-// }
-
 import React, { useState } from "react"
 import Calendar from "react-calendar"
 
 function calendar() {
-    const [value, onChange] = useState(new Date())
+    const [date, setDate] = useState(new Date())
 
     return (
-        <div>
-            <Calendar onChange={onChange} value={value} />
+        <div className="app">
+            <div className="calendar-container">
+                <Calendar onChange={setDate} value={date} />
+            </div>
         </div>
     )
 }
+
 export default calendar

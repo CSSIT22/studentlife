@@ -73,12 +73,15 @@ function handleTime(){
     }
 
     return (
-        <AppBody >
+        <AppBody>
             <SimpleGrid columns={[1, 6]} spacing="30px">
                 <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
 
-                <Button boxShadow="md" p="6" rounded="md" bg="white">
-                    Date
+                <Button boxShadow="md" p="6" rounded="md" bg="white" >
+                   Date 
+                   {/* <calendar 
+                   date ={date}
+                   setDate={setDate}/> */}
                 </Button>
                 <Button boxShadow="md" p="6" rounded="md" bg="white">
                     Month
