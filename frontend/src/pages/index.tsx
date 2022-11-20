@@ -7,25 +7,29 @@ import Feed from "src/components/timeline/Feed"
 const Home = () => {
     return (
         <AppBody
-            secondarynav={[
-                {
-                    name: "Test",
-                    to: "/ad",
-                    Icon: img,
-                    isRight: true,
-                    disableText: true,
-                },
-                {
-                    name: "Test2",
-                    to: "/ad",
+        // secondarynav={[
+        //     {
+        //         name: "Test",
+        //         to: "/ad",
+        //         Icon: img,
+        //         isRight: true,
+        //         disableText: true,
+        //     },
+        //     {
+        //         name: "Test2",
+        //         to: "/ad",
 
-                    Icon: AiFillAccountBook,
-                    subNav: [{ name: "Sub1", to: "/asd", Icon: AiFillAccountBook }],
-                },
-            ]}
+        //         Icon: AiFillAccountBook,
+        //         subNav: [{ name: "Sub1", to: "/asd", Icon: AiFillAccountBook }],
+        //     },
+        //     {
+        //         name: "Timeline Testing Ground",
+        //         to: "/timeline",
+        //     },
+        // ]}
         >
-            <VStack maxW="100vw" minH="100vh" alignItems={"center"} justifyContent="center" spacing={"10"}>
-                <Box p={5} bg="white" shadow={"lg"} rounded="xl">
+            <VStack maxW="100vw" minH="100vh" alignItems={"center"} justifyContent="center">
+                <Box margin={10} p={5} bg="white" shadow={"lg"} rounded="xl">
                     <Heading fontSize={{ base: "md", lg: "lg", xl: "2xl" }}>
                         Welcome ! to Student-life{" "}
                         <Box as="span" color="orange.400">
@@ -34,7 +38,7 @@ const Home = () => {
                         !
                     </Heading>
                 </Box>
-                {/* <Feed></Feed> */}
+                <Feed></Feed>
             </VStack>
         </AppBody>
     )

@@ -4,52 +4,79 @@ import AlgoTester from "./AlgoTester"
 import Post from "./Post"
 
 const Feed = () => {
-    function currentDate(): string {
+    function CurrentDate(): string {
         var date: Date = new Date()
         var dmy = date.toDateString()
         var hours = date.getHours().toString()
         var minutes = date.getMinutes().toString()
-        var seconds = date.getSeconds().toString()
-        let currentDate: string = dmy + " " + hours + ":" + minutes + ":" + seconds
+        // var seconds = date.getSeconds().toString()
+        let currentDate: string = dmy + " " + hours + ":" + minutes /* + ":" + seconds */
         return currentDate
+    }
+
+    function ScoreUp(likes: number, comments: number, shares: number) {
+        comments *= 4 // 1 comment = 4 scores
+        shares *= 2 // 1 shares = 2 scores
+        return likes + comments + shares
+    }
+
+    function RandomNumber() {
+        return Math.floor(Math.random() * 1001)
     }
 
     return (
         <VStack>
             <AlgoTester></AlgoTester>
             <Post
+                id="1"
                 name="Mr.Cat 1"
-                dateTime={currentDate()} /*"23m"*/
+                dateTime={CurrentDate()} /*"23m"*/
                 message="Hello from the other side!"
-                likes={20}
+                // likes=RandomNumber()
+                likes={100}
+                comment={10}
+                share={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media="https://img.freepik.com/premium-vector/boy-waving-hand-greeting-cute-people-illustration_107355-500.jpg?w=1380"
-                score={112312341240}
+                // score={ScoreUp(GetLikes(), GetComments(), GetShares())}
+                score={100}
             />
             <Post
+                id="2"
                 name="Mr.Cat 2"
-                dateTime={currentDate()} /*"1d"*/
+                dateTime={CurrentDate()} /*"1d"*/
                 message="Seek success, but always be prepared for random cats."
-                likes={132}
+                // likes={Math.floor(Math.random() * 1001)}
+                likes={100}
+                comment={10}
+                share={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media="https://img.freepik.com/premium-vector/smiling-young-man-showing-thumbs-up-illustration-hand-drawn-style_213307-233.jpg?w=1380"
                 score={0}
             />
             <Post
+                id="3"
                 name="Mr.Cat 3"
-                dateTime={currentDate()} /*"4h"*/
+                dateTime={CurrentDate()} /*"4h"*/
                 message="Sometimes I stare at a door or a wall and I wonder what is this reality, why am I alive, and what is this all about?"
-                likes={11}
+                // likes={Math.floor(Math.random() * 1001)}
+                likes={100}
+                comment={10}
+                share={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media="https://img.freepik.com/premium-vector/big-obstacle-concept-illustration_1133-825.jpg?w=1800"
                 score={0}
             />
             <Post
+                id="4"
                 name="Mr.Cat 4"
-                dateTime={currentDate()} /*"14m"*/
+                dateTime={CurrentDate()} /*"14m"*/
                 message="Football is a family of team sports that involve, to varying degrees, kicking a ball to score a goal. Unqualified, the word football normally means the form of football that is the most popular where the word is used. Sports commonly called football include association football (known as soccer in North America and Oceania);
                 gridiron football (specifically American football or Canadian football); Australian rules football; rugby union and rugby league; and Gaelic football. These various forms of football share to varying extent common origins and are known as football codes."
-                likes={150}
+                // likes={Math.floor(Math.random() * 1001)}
+                likes={100}
+                comment={10}
+                share={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media=""
                 score={0}
@@ -59,3 +86,6 @@ const Feed = () => {
 }
 
 export default Feed
+function UseState(): [any, any] {
+    throw new Error("Function not implemented.")
+}
