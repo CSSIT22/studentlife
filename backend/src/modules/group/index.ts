@@ -12,6 +12,23 @@ const groupRoutes = express()
 groupRoutes.use(express.json())
 
 groupRoutes.get("/getCommunity", getCommunity)
+groupRoutes.post("/createtest", (req, res) => {
+    const body = req.body
+    const userid = req.user?.userId
+    const createCommunity: any = {
+        communityName: body.communityName,
+        communityOwnerId: userid,
+        communityDesc: body.communityDesc,
+        communityPrivacy: body.communityPrivacy,
+        communityPhoto: body.communityCoverPhoto,
+        communityTags: body.communityTags,
+    }
+    console.log("hello")
+    console.log(createCommunity)
+    console.log(req.body.communityName)
+    console.log(req.body.communityTags)
+    res.sendStatus(201)
+})
 groupRoutes.get("/getcommunitys", (req, res) => {
     let communitys: any = {
         ownCommunitys: [

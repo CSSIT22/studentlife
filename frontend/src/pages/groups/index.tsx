@@ -40,10 +40,26 @@ const index = () => {
         return (
             // will fix the design later
             <AppBody>
-                <Box>
-                    <Text>Loading...</Text>
-                </Box>
-            </AppBody>
+                {/* <Box sx={{
+                    display: "inline - block",
+                    position: "relative",
+                    width: "80px",
+                    height: "80px",
+                }}>
+                    <Box sx={{
+                        position: "absolute",
+                        top: "33px",
+                        width: "13px",
+                        height: "13px",
+                        borderRadius: "50%",
+                        background: "#fff",
+                        animationTimingFunction: "cubic-bezier(0, 1, 1, 0)",
+                    }}>
+
+                    </Box> */}
+                <Text>Loading...</Text>
+                {/* </Box> */}
+            </AppBody >
         )
     }
     if (isError) {

@@ -23,7 +23,7 @@ const createCommunity = () => {
     let isDesktop = (width || 0) > 768
     //form values
     const [communityName, setCommunityName] = useState("")
-    const [communityDes, setCommunityDes] = useState("")
+    const [communityDesc, setCommunityDesc] = useState("")
     const [communityPrivacy, setCommunityPrivacy] = useState(true)//true = public, false = private
     const [communityCoverPhoto, setCommunityCoverPhoto] = useState("https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg")
 
@@ -108,10 +108,10 @@ const createCommunity = () => {
         // console.log(communityPrivacy)
         // console.log(communityCoverPhoto)
         console.log(updatedTag)
-        API.post("/group/createcommunity", {
+        API.post("/group/createtest", {
             // communityID: Date.now(),
             communityName: communityName,
-            communityDes: communityDes,
+            communityDesc: communityDesc,
             communityPrivacy: communityPrivacy,
             communityCoverPhoto: communityCoverPhoto,
             communityTags: updatedTag,
@@ -364,8 +364,8 @@ const createCommunity = () => {
                         <Textarea
                             focusBorderColor='none'
                             sx={isDesktop ? desktopStyle.input : mobileStyle.input}
-                            value={communityDes}
-                            onChange={(e) => setCommunityDes(e.target.value)}
+                            value={communityDesc}
+                            onChange={(e) => setCommunityDesc(e.target.value)}
                             // placeholder="Type your group description here"
                             size='sm' background={"white"}
                             color="black" />
@@ -512,7 +512,7 @@ const createCommunity = () => {
                                     communityName={communityName ? communityName : "Community Name"}
                                     isPrivate={!communityPrivacy}
                                     isMember={true}
-                                    description={communityDes ? communityDes : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"}
+                                    description={communityDesc ? communityDesc : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"}
                                     coverPhoto={communityCoverPhoto}
                                     members={1}
                                     communityID={1000}

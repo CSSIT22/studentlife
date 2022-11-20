@@ -14,10 +14,11 @@ const createCommunity = async (req: Request, res: Response) => {
         communityPhoto: body.communityCoverPhoto,
         communityTags: body.communityTags,
     }
-    console.log(createCommunity)
+    console.log("hello")
+    // console.log(createCommunity)
     // console.log(req.body.communityName)
     // console.log(req.body.communityTags)
-    res.sendStatus(201)
+    // res.sendStatus(201)
     // try {
     //     await prisma.community.create({
     //         data: createCommunity,
