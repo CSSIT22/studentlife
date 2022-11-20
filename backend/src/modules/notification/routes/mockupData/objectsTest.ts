@@ -1,14 +1,7 @@
-import { Notiobject } from "@apiType/notification"
-import express from "express"
-import addUserNotiObject from "./routes/addUserNotiObject"
-import getUserNotiObject from "./routes/getUserNotiObject"
-import markallasRead from "./routes/markallasRead"
-import readNotiObject from "./routes/readNotiObject"
-//mockup data
-import { DESCRIPTION } from "./routes/mockupData/descTest"
-import { USER } from "./routes/mockupData/userProfile"
+import { DESCRIPTION } from "./descTest"
+import { USER } from "./userProfile"
 
-export let objects = [
+export const OBJECTS = [
     {
         id: "0ygyli7",
         user: USER[0].id,
@@ -21,7 +14,7 @@ export let objects = [
     {
         id: "1asdfgeasd",
         user: USER[1].id,
-        description: "test isRead",
+        description: "descriptionnnnnnnnn",
         isRead: false,
         date: new Date("2022-11-14 09:38:00"),
         module: "Shop",
@@ -73,17 +66,3 @@ export let objects = [
         link: "https://www.google.com/",
     },
 ]
-export function getObject() {
-    return objects
-}
-export function setObject(newobject: any) {
-    objects = newobject
-}
-
-const notificationRoutes = express()
-notificationRoutes.get("/getusernotiobject/:userId", getUserNotiObject)
-notificationRoutes.get("/addusernotiobject", addUserNotiObject)
-notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
-notificationRoutes.post("/markallasread/:module", markallasRead)
-
-export default notificationRoutes
