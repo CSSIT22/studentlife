@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { ReactElement } from "react"
 import { motion } from "framer-motion"
 import FriendList from "../user/FriendList"
@@ -39,6 +39,7 @@ import {
     extendTheme,
     HStack,
     Link,
+    tokenToCSSVar,
 } from "@chakra-ui/react"
 
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -48,14 +49,24 @@ import { Menu, MenuButton, MenuList, MenuItem, MenuItemOption, MenuGroup, MenuOp
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 
 import { BsThreeDotsVertical, BsFillFlagFill } from "react-icons/bs"
+import API from "src/function/API"
+import { authContext } from "src/context/AuthContext"
 
 export default function SimpleThreeColumns() {
+    const user = useContext(authContext)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
     const btnRef = React.useRef(null)
 
     const [isFollow, setIsFollow] = useState(false)
+    const [name, setName] = useState<any>()
+
+    const GetAboutme = API.get("/user/Aboutme")
+    useEffect(() => {
+
+    })
+
 
     function handleClick() {
         setIsFollow(!isFollow)
@@ -125,7 +136,7 @@ export default function SimpleThreeColumns() {
                         <Box fontSize={{ lg: "md", base: "sm" }} color="orange.700">
                             ID :
                         </Box>
-                        <Box fontSize={{ lg: "lg", base: "md" }}>64130500XXX</Box>
+                        <Box fontSize={{ lg: "lg", base: "md" }}>{user?.studentId}</Box>
                     </HStack>
 
                     <Stack p={1} direction={{ base: "column", md: "row" }}>
@@ -137,7 +148,7 @@ export default function SimpleThreeColumns() {
                                 stiffness: 500,
                                 damping: 20,
                             }}
-                        > <Box fontSize={{ lg: "5xl", base: "xl" }}>Vatcharamai Rodring</Box></motion.div>
+                        > <Box fontSize={{ lg: "5xl", base: "xl" }}>{user?.fName} {user?.lName}</Box></motion.div>
 
                     </Stack>
 
