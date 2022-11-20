@@ -23,6 +23,9 @@ import {
     ModalOverlay,
     useDisclosure,
     VStack,
+    useBoolean,
+    Fade,
+    Spinner,
 } from "@chakra-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
@@ -51,6 +54,7 @@ const dummyData = [
 ]
 export default function Drophistory<FC>() {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isLoading, { off }] = useBoolean(true)
     const [selectedHistory, setSelectedHistory] = useState<any>({
         historyType: "",
         file: {
@@ -61,19 +65,21 @@ export default function Drophistory<FC>() {
             },
             sendType: "",
             fileExpired: "",
-        }
-
+        },
     })
     const [historyData, setHistoryData] = useState<any>(null)
     useEffect(() => {
-        API.get("/airdrop/file/getHistory").then((res) => {
-            console.log(res.data)
-            setHistoryData(res.data)
-        })
+        API.get("/airdrop/file/getHistory")
+            .then((res) => {
+                console.log(res.data)
+                setHistoryData(res.data)
+            })
+            .catch((err) => {})
+            .finally(() => {
+                off()
+            })
 
-        return () => {
-
-        }
+        return () => {}
     }, [])
 
     const renderFileHistory = () => {
@@ -93,7 +99,9 @@ export default function Drophistory<FC>() {
                             <Text>Type:{"   " + selectedHistory.file.sendType}</Text>{" "}
                         </HStack>
                         <HStack>
-                            <Text>Date:{"   " + selectedHistory.file.fileExpired}</Text>{" "}
+                            <Text>
+                                Date:{"   " + new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", { timeZone: "Asia/Bangkok" })}
+                            </Text>{" "}
                         </HStack>
 
                         <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
@@ -111,48 +119,62 @@ export default function Drophistory<FC>() {
                 <Box mb={3}>
                     <Text fontSize={"3xl"}>History</Text>
                 </Box>
-                {/* component for list will coming sooner */}
-                <Divider orientation="horizontal" />
-                {historyData?.map((item: any, index: any) => {
-                    return (
-                        <>
-                            <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
-                                <Box as={MdImage} size={"3rem"} />
-                                <Hide below={"md"}>
-                                    <Text>{item.file.fileName}</Text>
-                                </Hide>
-                                {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}
-                                <Text color={"gray.400"}>{item.createdAt}</Text>
-                                <HStack>
-                                    <IconButton
-                                        aria-label="infomation"
-                                        icon={<MdInfoOutline />}
-                                        rounded={"3xl"}
-                                        border={"1px"}
-                                        borderColor={"gray.300"}
-                                        shadow={"xs"}
-                                        bgColor={"white"}
-                                        onClick={() => {
-                                            onOpen()
-                                            setSelectedHistory(item)
-                                        }}
-                                    ></IconButton>
-                                </HStack>
-                            </Flex>
-                            <Divider orientation="horizontal" />
-                        </>
-                    )
-                })}
-                <Modal
-                    isOpen={isOpen}
-                    onClose={() => {
-                        onClose()
-                    }}
-                    isCentered
-                >
-                    <ModalOverlay />
-                    {renderFileHistory()}
-                </Modal>
+                {isLoading ? (
+                    <Fade in={isLoading} unmountOnExit={true}>
+                        <Box w={"100%"} h={"30vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                            <Spinner />
+                            <Text fontSize={"2xl"}> Loading...</Text>
+                        </Box>
+                    </Fade>
+                ) : (
+                    <>
+                        <Divider orientation="horizontal" />
+                        {historyData?.map((item: any, index: any) => {
+                            return (
+                                <>
+                                    <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
+                                        <Box as={MdImage} size={"3rem"} />
+                                        <Hide below={"md"}>
+                                            <Text>
+                                                {item.file.fileName.length > 12 ? item.file.fileName.substring(0, 12) + "..." : item.file.fileName.concat(" ") }
+                                            </Text>
+                                        </Hide>
+                                        {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}
+                                        <Text color={"gray.400"}>
+                                            {new Date(item.createdAt).toLocaleString("en-US", { timeZone: "Asia/Bangkok" })}
+                                        </Text>
+                                        <HStack>
+                                            <IconButton
+                                                aria-label="infomation"
+                                                icon={<MdInfoOutline />}
+                                                rounded={"3xl"}
+                                                border={"1px"}
+                                                borderColor={"gray.300"}
+                                                shadow={"xs"}
+                                                bgColor={"white"}
+                                                onClick={() => {
+                                                    onOpen()
+                                                    setSelectedHistory(item)
+                                                }}
+                                            ></IconButton>
+                                        </HStack>
+                                    </Flex>
+                                    <Divider orientation="horizontal" />
+                                </>
+                            )
+                        })}
+                        <Modal
+                            isOpen={isOpen}
+                            onClose={() => {
+                                onClose()
+                            }}
+                            isCentered
+                        >
+                            <ModalOverlay />
+                            {renderFileHistory()}
+                        </Modal>
+                    </>
+                )}
             </PageBox>
         </AppBody>
     )
