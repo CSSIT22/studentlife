@@ -1,15 +1,24 @@
 import { Text, Container, Box, Stack, Button, Link, useMediaQuery, Hide, Show, Flex, Spacer, Center } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import EbankModal from "src/components/transaction/methodpayment/EbankModal"
 import MasterCardModal from "src/components/transaction/methodpayment/MasterCardModal"
 import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
 import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
+import API from "src/function/API"
 import AppBody from "../../../components/share/app/AppBody"
 import Header from "../../../components/transaction/shoptransaction/Header"
 import OrderList from "../../../components/transaction/shoptransaction/OrderList"
+import { useParams } from 'react-router-dom';
 
 const shopTransaction = () => {
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
+    const param = useParams()
+    const [order, setOrder] = useState("")
+    const submit = () => {
+        API.post("/transaction/createTransaction", {
+            orderId: param.orderid,
+        })
+    }
 
     return (
         <AppBody>
@@ -122,9 +131,9 @@ const shopTransaction = () => {
                             Cancel
                         </Text>
                     </Button>
-                    <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
+                    <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
                         <Text fontSize="lg" fontWeight={"bold"}>
-                            Comfilm
+                            Comfirm
                         </Text>
                     </Button>
                 </Stack>
@@ -138,9 +147,9 @@ const shopTransaction = () => {
                             </Text>
                         </Box>
                         <Spacer />
-                        <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
+                        <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
                             <Text fontSize="lg" fontWeight={"bold"}>
-                                Comfilm
+                                Comfirm
                             </Text>
                         </Button>
                     </Flex>
