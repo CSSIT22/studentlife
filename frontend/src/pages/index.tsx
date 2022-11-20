@@ -7,26 +7,22 @@ import Feed from "src/components/timeline/Feed"
 const Home = () => {
     return (
         <AppBody
-        // secondarynav={[
-        //     {
-        //         name: "Test",
-        //         to: "/ad",
-        //         Icon: img,
-        //         isRight: true,
-        //         disableText: true,
-        //     },
-        //     {
-        //         name: "Test2",
-        //         to: "/ad",
+            secondarynav={[
+                {
+                    name: "Test",
+                    to: "/ad",
+                    Icon: img,
+                    isRight: true,
+                    disableText: true,
+                },
+                {
+                    name: "Test2",
+                    to: "/ad",
 
-        //         Icon: AiFillAccountBook,
-        //         subNav: [{ name: "Sub1", to: "/asd", Icon: AiFillAccountBook }],
-        //     },
-        //     {
-        //         name: "Timeline Testing Ground",
-        //         to: "/timeline",
-        //     },
-        // ]}
+                    Icon: AiFillAccountBook,
+                    subNav: [{ name: "Sub1", to: "/asd", Icon: AiFillAccountBook }],
+                },
+            ]}
         >
             <VStack maxW="100vw" minH="100vh" alignItems={"center"} justifyContent="center">
                 <Box margin={10} p={5} bg="white" shadow={"lg"} rounded="xl">
@@ -45,3 +41,4 @@ const Home = () => {
 }
 
 export default Home
+

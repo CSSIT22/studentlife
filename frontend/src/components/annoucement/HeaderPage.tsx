@@ -1,4 +1,4 @@
-import { Flex, Spacer, Heading, Box, Text } from "@chakra-ui/react"
+import { Flex, Spacer, Heading, Box, Text, Show } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { IconType } from "react-icons"
 import { GrClose } from "react-icons/gr"
@@ -17,9 +17,11 @@ const HeaderPage: FC<{
     return (
         // <Flex alignItems={"center"}>
         <>
-            <Text as={"b"} fontSize="xl">
-                <GrClose />
-            </Text>
+            <Show below="lg">
+                <Text as={"b"} fontSize="xl">
+                    <GrClose />
+                </Text>
+            </Show>
             <Spacer />
             <Heading>{head}</Heading>
             <Spacer />

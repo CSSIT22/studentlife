@@ -53,7 +53,7 @@ function review() {
                                 <Box display="flex" alignItems="baseline" px={{ base: 0, md: 175 }}>
                                     <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
                                         <Icon as={AiOutlineLike} fontSize="md" />
-                                         {e1.amoutOflike} liked
+                                        {e1.amoutOflike} liked
                                     </Box>
                                     <Spacer />
                                     <Box
@@ -68,7 +68,7 @@ function review() {
                                     >
                                         <Link to={`/restaurant/detail/${numres}`}>
                                             <Icon as={AiOutlineComment} fontSize="md" />
-                                             REVIEW
+                                            REVIEW
                                         </Link>
                                     </Box>
                                 </Box>
