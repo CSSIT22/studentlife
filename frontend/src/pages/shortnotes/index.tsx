@@ -61,87 +61,7 @@ const index = () => {
         setFiltered(sn.filter((items: any) => items.courseId == coursePicked))
     }
     const navigate = useNavigate()
-    // const data = {
-    //     sn: [
-    //         {
-    //             id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
-    //             topic: "How to make ER diagram in 10 minutes.",
-    //             course: "CSC218",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: false,
-    //         },
-    //         {
-    //             id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
-    //             topic: "Network foro eginner.",
-    //             course: "CSC220",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: true,
-    //         },
-    //         {
-    //             id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
-    //             topic: "Productive with agile.",
-    //             course: "CSC218",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: true,
-    //         },
-    //         {
-    //             id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
-    //             topic: "How to make ER diagram in 10 minutes.",
-    //             course: "CSC218",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: false,
-    //         },
-    //         {
-    //             id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
-    //             topic: "Network foro eginner.",
-    //             course: "CSC220",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: true,
-    //         },
-    //         {
-    //             id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
-    //             topic: "Productive with agile.",
-    //             course: "CSC218",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: true,
-    //         },
-    //     ],
 
-    //     rsn: [
-    //         {
-    //             id: "9b1deb4d-3b7d-4bad-fb78-2b0d7b3dcb6d",
-    //             topic: "How to make ER diagram in 10 minutes.",
-    //             course: "CSC218",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: true,
-    //         },
-    //         {
-    //             id: "f6hjk89o-d458-4bad-9bdd-j8fklg0d9ifh",
-    //             topic: "Shortest path",
-    //             course: "CSC210",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: false,
-    //         },
-    //         {
-    //             id: "fvb4h8l6-3b7d-f5jv-grt7-lfepgb9ogldg",
-    //             topic: "Java programming",
-    //             course: "CSC110",
-    //             owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //             createAt: "10-6-22",
-    //             isPublic: true,
-    //         },
-    //     ],
-
-    //     course: ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"],
-    // }
     return (
         <AppBody>
             {/*Recent view list section*/}
@@ -155,7 +75,7 @@ const index = () => {
             <Box mt={4} mb={12}>
                 <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
                     {rsn.map((rsn: any, key) => (
-                        <Rsn key={key} topic={rsn.topic}></Rsn>
+                        <Rsn key={key} topic={rsn.snName}></Rsn>
                     ))}
                 </SimpleGrid>
             </Box>
