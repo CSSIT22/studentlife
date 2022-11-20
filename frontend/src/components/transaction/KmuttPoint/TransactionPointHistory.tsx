@@ -1,4 +1,4 @@
-import { Box, Center, HStack, SimpleGrid, Text, useMediaQuery } from "@chakra-ui/react"
+import { Box, Center, HStack, SimpleGrid, Stack, Text, useMediaQuery, VStack } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { P_history } from "../shared/PointHistory"
 import TransactionCheckDesktopDetail from "./TransactionCheckDesktopDetail"
@@ -20,16 +20,14 @@ const TransactionPointHistory = () => {
             <Text color={"white"} as="b" fontSize={"xl"}>
                 History
             </Text>
-            <Center>
-                <Box w={{ base: "159px", md: "100%" }} ml="10px" mr="10px">
-                    {PState.point_history.map(({ orderId, point_Used }) => (
-                        <Box bgColor={"white"}>
-                            <TransactionCheckDesktopDetail orderId={orderId} point_Used={point_Used} />
-                        </Box>
-                    ))}
-                </Box>
-            </Center>
-        </Box>
+            <Box w={{ base: "159px", md: "100%" }} ml="10px" mr="10px">
+                {PState.point_history.map(({ orderId, point_Used }) => (
+                    <Box gap={5}>
+                        <TransactionCheckDesktopDetail orderId={orderId} point_Used={point_Used} />
+                    </Box>
+                ))}
+            </Box>
+        </Box >
     )
 }
 

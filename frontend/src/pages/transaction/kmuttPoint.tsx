@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/react"
+import { Box, Spacer, Stack } from "@chakra-ui/react"
 import React from "react"
 import AppBody from "src/components/share/app/AppBody"
 import TransactionKmuttPoint from "src/components/transaction/KmuttPoint/TransactionKmuttPoint"

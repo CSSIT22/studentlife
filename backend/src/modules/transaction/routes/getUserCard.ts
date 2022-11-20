@@ -10,9 +10,10 @@ const getUserCard = (req: Request, res: Response) => {
         }
     })
     if (selectedUser != null) {
-        return res.status(400).send("Credit Card Token not found")
+        return res.send(selectedUser)
     }
-    return res.send(selectedUser)
+
+    return res.status(400).send("Credit Card Token not found")
 }
 
 export default getUserCard
