@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom"
 import { logout } from "src/components/share/navbar/NavBarDesktop"
 import { authContext } from "src/context/AuthContext"
 import AppBody from "../components/share/app/AppBody"
-import { moreMenu } from "../components/share/navbar/NavBar"
+import { logout, moreMenu } from "../components/share/navbar/NavBar"
 
 const More = () => {
     const isDesktop = useBreakpointValue({ base: false, md: true }, { ssr: false })

@@ -813,7 +813,7 @@ model Community {
   communityPrivacy Boolean
   communityPhoto   Bytes?
   member           Community_User[]
-  owner            User_Profile          @relation(fields: [communityOwnerId], references: [userId])
+  owner            User_Profile?          @relation(fields: [communityOwnerId], references: [userId])
   blacklist        Community_Blacklist[]
   tags             Community_Tag[]
   posts            Community_Post[]
