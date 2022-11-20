@@ -10,7 +10,7 @@ const getProfile = async (req: Request, res: Response) => {
         })
         res.json(profile)
     } catch (err) {
-        res.status(400).send("Error find image")
+        res.status(400).send("Error find Profile")
     }
 
     // try {
