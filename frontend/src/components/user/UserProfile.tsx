@@ -145,10 +145,10 @@ export default function SimpleThreeColumns() {
                             animate={{ scale: 1 }}
                             transition={{
                                 type: "spring",
-                                stiffness: 500,
+                                stiffness: 300,
                                 damping: 20,
                             }}
-                        > <Box fontSize={{ lg: "5xl", base: "xl" }}>{user?.fName} {user?.lName}</Box></motion.div>
+                        > <Box key={user?.userId} fontSize={{ lg: "4xl", base: "xl" }}>{user?.fName} {user?.lName}</Box></motion.div>
 
                     </Stack>
 
@@ -178,20 +178,22 @@ export default function SimpleThreeColumns() {
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "10", lg: "6" }}>
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
-                        <Button
-                            pl={5}
-                            width={{ lg: "7rem", base: "" }}
-                            height={{ lg: "3rem", base: "2rem" }}
-                            fontSize={{ base: "", lg: "lg" }}
-                            bg="orange.600"
-                            _hover={{ background: "orange.200" }}
-                            position="initial"
-                            value="inside"
-                            shadow={"lg"}
-                            onClick={onOpen}
-                        >
-                            Edit
-                        </Button>
+                        <motion.div whileHover={{ scale: 0.9 }}>
+                            <Button
+                                pl={5}
+                                width={{ lg: "7rem", base: "" }}
+                                height={{ lg: "3rem", base: "2rem" }}
+                                fontSize={{ base: "", lg: "lg" }}
+                                bg="orange.600"
+                                _hover={{ background: "orange.200" }}
+                                position="initial"
+                                value="inside"
+                                shadow={"lg"}
+                                onClick={onOpen}
+                            >
+                                Edit
+                            </Button>
+                        </motion.div>
                         <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
@@ -254,10 +256,13 @@ export default function SimpleThreeColumns() {
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-                        <Button pl={5} bg="orange.600" _hover={{ background: "orange.200" }} width={{ lg: "9rem", base: "" }}
-                            height={{ lg: "3rem", base: "2rem" }} fontSize={{ base: "", lg: "lg" }} position="initial" shadow={"lg"}>
-                            Create blog
-                        </Button>{" "}
+                        <motion.div whileHover={{ scale: 0.9 }}>
+                            <Button pl={5} bg="orange.600" _hover={{ background: "orange.200" }} width={{ lg: "9rem", base: "" }}
+                                height={{ lg: "3rem", base: "2rem" }} fontSize={{ base: "", lg: "lg" }} position="initial" shadow={"lg"}>
+                                Create blog
+                            </Button>
+                        </motion.div>
+                        {" "}
                     </ButtonGroup>
                 </GridItem>
                 <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "3rem" }} mr={5}>
