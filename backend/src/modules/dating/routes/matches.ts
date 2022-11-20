@@ -9,4 +9,9 @@ matchesRoutes.get("/", (_, res) => {
     return res.send("Dating Module Matches page API")
 })
 
+// Get matches people from heart history joined with user profile table
+matchesRoutes.get("/getMatches", verifyUser, async (req: Request, res: Response) => {
+    // Put Songnapha's code here
+})
+
 export default matchesRoutes

@@ -9,4 +9,9 @@ tutorialRoutes.get("/", (_, res) => {
     return res.send("Dating Module Tutorial page API")
 })
 
+// Set the dating enroll
+tutorialRoutes.post("/setDatingEnroll", verifyUser, async (req: Request, res: Response) => {
+    // Put Songnapha's code here
+})
+
 export default tutorialRoutes

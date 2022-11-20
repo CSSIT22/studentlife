@@ -9,6 +9,7 @@ interestsRoutes.get("/", (_, res) => {
     return res.send("Dating Module Interest page API")
 })
 
+// Get all interest
 interestsRoutes.get("/getAllInterests", verifyUser, async (req: Request, res: Response) => {
     try {
         const allInterestsDB = await prisma.interest.findMany()
@@ -17,6 +18,8 @@ interestsRoutes.get("/getAllInterests", verifyUser, async (req: Request, res: Re
         res.status(404).send("Interests not found")
     }
 })
+
+// Get user interests
 interestsRoutes.get("/getUserInterests", verifyUser, async (req: Request, res: Response) => {
     try {
         const userInterestsDB = await prisma.user_Interest.findMany({
@@ -29,6 +32,8 @@ interestsRoutes.get("/getUserInterests", verifyUser, async (req: Request, res: R
         res.status(404).send("User interests not found")
     }
 })
+
+// Set the user interests
 interestsRoutes.post("/setUserInterests", verifyUser, async (req: Request, res: Response) => {
     try {
         const userId = req.user?.userId
@@ -44,6 +49,11 @@ interestsRoutes.post("/setUserInterests", verifyUser, async (req: Request, res: 
     } catch {
         res.status(400).send("Cannot set interests")
     }
+})
+
+// Update the user interests
+interestsRoutes.put("/updateUserInterests", verifyUser, async (req: Request, res: Response) => {
+    // Put Pawin's code here
 })
 
 export default interestsRoutes

@@ -9,18 +9,17 @@ createAPollRoutes.get("/", (_, res) => {
     return res.send("Dating Module Create a Poll page API")
 })
 
-createAPollRoutes.get("/getAllTopics", verifyUser, async (req: Request, res: Response) => {
+// Get all the poll topics
+createAPollRoutes.get("/getAllTopic", verifyUser, async (req: Request, res: Response) => {
     // Put Thitipa's code here
 })
 
+// Get favorite restaurants
 createAPollRoutes.get("/getFavRestaurants", verifyUser, async (req: Request, res: Response) => {
     // Put Thitipa's code here
 })
 
-createAPollRoutes.post("/setTopics", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
-})
-
+// Create the poll and poll topics
 createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Response) => {
     // Put Thitipa's code here
 })
