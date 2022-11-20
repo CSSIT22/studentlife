@@ -35,7 +35,7 @@ const AllActivityPoll = () => {
                 <DatingAllActivityBox />
             </Stack>
             {/* Create poll button */}
-            <Box position="fixed" w="100%" bottom={{ base: "70px", md: "30px" }}>
+            <Box zIndex="4" position="fixed" w="100%" bottom={{ base: "70px", md: "30px" }}>
                 <Container w="container.lg" maxW={"100%"} display="inline-flex" justifyContent="right" pr={{ base: "40px", md: "60px" }}>
                     <Box maxW="100%">
                         <DatingCreatePollButton />
