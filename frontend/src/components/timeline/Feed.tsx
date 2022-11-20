@@ -1,6 +1,7 @@
 import { Button, Image, VStack } from "@chakra-ui/react"
 import React from "react"
-import AlgoTester from "./AlgoTester"
+import CreatingPost from "./CreatingPost"
+import FriendSuggestion from "./FriendSuggestion"
 import Post from "./Post"
 
 const Feed = () => {
@@ -26,7 +27,8 @@ const Feed = () => {
 
     return (
         <VStack>
-            <AlgoTester></AlgoTester>
+            <CreatingPost photoUrl="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"></CreatingPost>
+            <FriendSuggestion photoUrl="" year={0} department={""} faculty={""}></FriendSuggestion>
             <Post
                 id="1"
                 name="Mr.Cat 1"
