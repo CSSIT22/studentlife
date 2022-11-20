@@ -11,10 +11,14 @@ import {
     AlertDialogOverlay,
     IconButton,
     useDisclosure,
+    Spacer,
+    Input,
 } from "@chakra-ui/react"
 import React from "react"
 import { Center } from "@chakra-ui/react"
 import PostType_modal from "./PostType_modal"
+import PostType_modal_reMOD from "./PostType_modal_reMOD"
+import CopyLinkToast from "./CopyLinkToast"
 
 // const RemodButton = () => {
 //     return (
@@ -33,7 +37,7 @@ function RemodButton() {
     return (
         <>
             <Box>
-                <Button onClick={onOpen} colorScheme="orange" size="lg" >
+                <Button onClick={onOpen} colorScheme="orange" size="lg">
                     Remod
                 </Button>
             </Box>
@@ -46,15 +50,20 @@ function RemodButton() {
                     </AlertDialogHeader>
                     <AlertDialogCloseButton />
                     <AlertDialogBody>
-                        <Center>
-                            <PostType_modal />
-                        </Center>
+                        <Box>
+                            <Center>
+                                <PostType_modal_reMOD />
+                            </Center>
+                        </Box>
+                        <Input placeholder="Basic usage" marginTop={5} />
                     </AlertDialogBody>
                     <AlertDialogFooter>
-                        <Button onClick={onClose}>No</Button>
-                        <Button colorScheme="red" ml={3}>
-                            Yes
-                        </Button>
+                        <Box display="flex" gap={5}>
+                            <Button colorScheme="orange" onClick={onClose}>
+                                Comfirm
+                            </Button>
+                            <CopyLinkToast />
+                        </Box>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
