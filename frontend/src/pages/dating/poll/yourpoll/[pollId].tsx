@@ -360,4 +360,3 @@ const YourPoll = () => {
 }
 
 export default YourPoll
-
