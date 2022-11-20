@@ -6,8 +6,8 @@ import convertCurrency from "../../../components/shop/functions/usefulFunctions"
 import CartProduct from "src/components/shop/CartProduct"
 import ContentBox from "src/components/shop/ContentBox"
 
-
-const Cart = () => {
+// Cart
+const Cart = () => {  
     const selectBox = (
         <ContentBox bg="#fff">
             <Flex justify="space-between" wrap="wrap">
