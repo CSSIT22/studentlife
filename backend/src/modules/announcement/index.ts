@@ -11,6 +11,7 @@ import editstatusOnApproval from "./routes/editstatusonapproval"
 import editstatusOnRecyclebin from "./routes/editstatusonrecycle"
 import editstatusOnHistory from "./routes/editstausonhistory"
 import editDetailPost from "./routes/editdetailpost"
+import getDetailEdit from "./routes/getdetailedit"
 
 const announcementRoutes = express()
 
@@ -41,8 +42,8 @@ export let posts: post[] = [
         postId: 1,
         userId: "s9MVUEgDL1Oq8yrzaEL6z",
         lang_id: 1000,
-        topic: "Hello World1",
-        detail: "Lrem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        topic: "Hello World12",
+        detail: "Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "waiting",
         pinStatus: false,
@@ -85,7 +86,7 @@ export let posts: post[] = [
         targetValue: "1",
         postAt: new Date(),
         expiredOfPost: new Date("2022-11-30"),
-        expiredAfterDelete: new Date("2022-11-20"),
+        expiredAfterDelete: new Date("2022-11-22"),
         addMoreLang: [],
     },{
         postId: 4,
@@ -195,6 +196,8 @@ announcementRoutes.get("/getwaitingpost", getWaitingPost)
 
 announcementRoutes.get("/getdeletepost", getDeletePost)
 
+announcementRoutes.get("/getdetailedit/:id", getDetailEdit)
+
 announcementRoutes.post("/editpinstatus",editPinStatus)
 
 announcementRoutes.post("/editstatusonapprove", editstatusOnApproval)
@@ -204,6 +207,7 @@ announcementRoutes.post("/editstatusonrecycle", editstatusOnRecyclebin)
 announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
 
 announcementRoutes.post("/editdetailpost", editDetailPost)
+
 
 
 // announcementRoutes.get("/test", async (req,res) =>{
