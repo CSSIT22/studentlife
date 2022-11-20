@@ -270,6 +270,8 @@ const CreateActivityPoll = () => {
                                                 numOfSelectedInterest={selectedInterests.length}
                                                 selectedInterests={selectedInterests}
                                                 tagIsClicked={tagIsClicked}
+                                                hasSelectedInterest={true}
+                                                type="topic"
                                             />
                                         </GridItem>
                                     </ModalFooter>

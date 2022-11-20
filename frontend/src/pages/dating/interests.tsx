@@ -98,6 +98,7 @@ const TagOfInterest = () => {
                                         selectedInterests={selectedInterests}
                                         tagIsClicked={tagIsClicked}
                                         hasSelectedInterest={hasSelectedInterest}
+                                        type="interest"
                                     />
                                 </GridItem>
                             </Grid>
