@@ -35,7 +35,7 @@ const PostOnAnnouncementPage: FC<{
     }
 
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#white" rounded="lg" shadow={"md"}>
+        <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="white" rounded="lg" shadow={"md"}>
             <Grid templateColumns="8fr 1fr" gap={4}>
                 <GridItem h="10">
                     <Link to={`/announcement/detail/${id}`}>

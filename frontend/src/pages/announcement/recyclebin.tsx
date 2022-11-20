@@ -62,8 +62,8 @@ const recyclebin = () => {
 
     const date = new Date()
     // console.log(date);
-    const d = new Date("Sat Nov 12 2022 01:39:11 GMT+0700")
-    console.log(d)
+    // const d = new Date("Sat Nov 12 2022 01:39:11 GMT+0700")
+    // console.log(d)
 
     const currentD = Math.round(date.getTime() / day)
     const currentH = Math.round(date.getTime() / hour)
