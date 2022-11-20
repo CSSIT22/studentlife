@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import Header from "src/components/transaction/paymentHistory/Header"
-import PaymentHistory from "src/components/transaction/paymentHistory/PaymentHistory"
+// import PaymentHistory from "src/components/transaction/paymentHistory/PaymentHistory"
 
 const historyTransaction = () => {
     return (
@@ -22,7 +22,7 @@ const historyTransaction = () => {
             <AppBody />
             <Box bg="#FFF2E5" w="1280" h="3580px" p="auto">
                 <Header />
-                <PaymentHistory />
+                {/* <PaymentHistory /> */}
             </Box>
         </>
 
