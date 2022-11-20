@@ -1,17 +1,14 @@
 import express from "express"
+import { Product, getProducts } from "./dummyData/products"
+import getAllProducts from "./routes/getAllProducts"
+import getProductInformation from "./routes/getProductInformation"
 
 const shopRoutes = express()
 
-
-
 shopRoutes.use(express.json())
 
-shopRoutes.get("/getAllProducts", (req, res) => {
-    res.send([1,2,3,4])
-})
-shopRoutes.get("/getProductInformation", (req, res) => {
-    let prodId = req.body.productId
-    res.send(prodId)
-})
+shopRoutes.get("/getAllProducts", getAllProducts)
+shopRoutes.get("/getProductInformation/:id", getProductInformation)
 
 export default shopRoutes
+

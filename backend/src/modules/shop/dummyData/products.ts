@@ -10,13 +10,14 @@ export type Product = {
     color: string,
     size: string,
     stock: number,
-    deliveryFee: number
+    deliveryFee: number,
+    views: number
 }
 
-export const products= [
+let products: Product[] = [
     {
         productId: 1,
-        name: 'Gel Ink Pen Energel',
+        name: 'Gel New Ink Pen Energel',
         image: 'https://res.cloudinary.com/cenergy-innovation-limited-head-office/image/fetch/c_scale,q_70,f_auto,h_740/https://d1dtruvuor2iuy.cloudfront.net/media/catalog/product/1/6/161957aa913956408ae7b68c635c57302aa7666d_mkp0994344dummy_4.jpg',
         brand: "Pentel",
         price: 55,
@@ -26,7 +27,8 @@ export const products= [
         color: "Black",
         size: "12 inch",
         stock: 50000,
-        deliveryFee: 10
+        deliveryFee: 10,
+        views: 1
     },
     {
         productId: 2,
@@ -40,7 +42,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
         productId: 3,
@@ -54,7 +57,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
         productId: 4,
@@ -68,7 +72,8 @@ export const products= [
         color: "Black",
         size: "12 inch",
         stock: 50000,
-        deliveryFee: 10
+        deliveryFee: 10,
+        views: 1
     },
     {
         productId: 5,
@@ -82,7 +87,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
         productId: 6,
@@ -96,7 +102,8 @@ export const products= [
         color: "Black",
         size: "12 inch",
         stock: 50000,
-        deliveryFee: 10
+        deliveryFee: 10,
+        views: 1
     },
     {
         productId: 7,
@@ -110,7 +117,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     }
     ,
     {
@@ -125,7 +133,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     }
     ,
     {
@@ -140,7 +149,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     }
     ,
     {
@@ -155,7 +165,8 @@ export const products= [
         color: "Red",
         size: "12 inch",
         stock: 5000,
-        deliveryFee: 50
+        deliveryFee: 50,
+        views: 1
     },
     {
         productId: 11,
@@ -175,6 +186,12 @@ export const products= [
         color: "White",
         size: "16.64 cm (6.55 inch) Full HD+ Display",
         stock: 20,
-        deliveryFee: 120
+        deliveryFee: 120,
+        views: 1
     }
 ]
+
+export const getProducts = () => products
+export const setProducts = (newProducts: Product[]) => {
+    products = newProducts
+}

@@ -1,49 +1,45 @@
-import {
-    Box,
-    Flex,
-    Image,
-    SimpleGrid,
-    Text,
-    Grid,
-    GridItem,
-    Button,
-    useDisclosure,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    FormControl,
-    FormLabel,
-    Select,
-    InputGroup,
-    Input,
-    HStack,
-    VStack,
-    Textarea,
-} from "@chakra-ui/react"
-import { useState } from "react"
-import { useLocation } from "react-router-dom"
-import { contacts } from "src/components/shop/content/dummyData/contacts"
+import { useEffect, useState } from "react"
 import { products } from "src/components/shop/content/dummyData/products"
-import { EffectFade } from "swiper"
-import { Autoplay, Keyboard, Pagination, Scrollbar, Zoom, Navigation } from "swiper"
-import { Swiper, SwiperSlide } from "swiper/react"
-import ContentBox from "../../../components/shop/ContentBox"
-import convertCurrency from "../../../components/shop/functions/usefulFunctions"
-import PageTitle from "../../../components/shop/PageTitle"
-import ReviewItem from "../../../components/shop/ReviewItem"
-import ShopAppBody from "../../../components/shop/ShopAppBody"
-import ThemedButton from "../../../components/shop/ThemedButton"
+import API from "src/function/API"
 
-// Get info from databse and request
-const productDetail = () => {
-    const location = useLocation()
-    const product_id = location.state.p_id
-    const product =
-        products.find((p) => p.productId === product_id) != undefined ? products.filter((p) => p.productId === product_id)[0] : products[0]
+import { Product } from "@apiType/shop"
+import { useParams } from "react-router-dom"
+import PageTitle from "src/components/shop/PageTitle"
+import ProductList from "src/components/shop/ProductList"
+import ShopAppBody from "src/components/shop/ShopAppBody"
+import Searchbar from "src/components/shop/SearchBar"
+import ProductDisplay from "src/components/shop/ProductDisplay"
+import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure } from "@chakra-ui/react"
+import { contacts } from "src/components/shop/content/dummyData/contacts"
+import ContentBox from "src/components/shop/ContentBox"
+import convertCurrency from "src/components/shop/functions/usefulFunctions"
+import ReviewItem from "src/components/shop/ReviewItem"
+import ThemedButton from "src/components/shop/ThemedButton"
+import { Autoplay, Keyboard, Pagination, Zoom, EffectFade } from "swiper"
+import { Swiper, SwiperSlide } from "swiper/react"
+
+const index = () => {
+    const param = useParams()
+    const [product, setProduct] = useState<any>(null)
+    const [countReviews, setCountReviews] = useState(4)
+    const [actionText, setActionText] = useState("Show All")
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const getProductInfo = API.get("/shop/getProductInformation/" + param.id)
+    useEffect(() => {
+        getProductInfo.then((res) => setProduct(res.data)).catch((err) => on()).finally(() => off())
+    }, [])
+    if (isLoading){
+        return <>
+        Loading
+        </>
+    }
+    if (isError){
+        return (<>
+        There is an Error
+        </>)
+    }
     const contact =
         contacts.find((c) => c.contactId === product.contactId) != undefined
             ? contacts.filter((c) => c.contactId === product.contactId)[0]
@@ -51,8 +47,7 @@ const productDetail = () => {
     // Need to calculate overall rating
     const oRating = 4
 
-    const [countReviews, setCountReviews] = useState(4)
-    const [actionText, setActionText] = useState("Show All")
+    
 
     const productBox = (
         <ContentBox>
@@ -106,7 +101,7 @@ const productDetail = () => {
             </Flex>
         </ContentBox>
     )
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    
     const reviewBox = (
         <ContentBox>
             <Flex direction="column" gap={3} p={6}>
@@ -254,4 +249,4 @@ function generateReviews(count: number) {
     )
 }
 
-export default productDetail
+export default index

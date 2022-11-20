@@ -13,7 +13,7 @@ const ProductDisplay: FC<{
 }> = ({ id, name, image, brandName, price, link }) => {
     return (
         <LinkBox>
-            <Link to={link ? link : "/shop/product/productDetail"} state={{ p_id: id }}>
+            <Link to={link ? link : "/shop/product/" + id} state={{ p_id: id }}>
                 <Box mt="6" background="white" width="11rem" height="16rem" borderRadius="lg" overflow="hidden" shadow="xl" border="1px solid">
                     <Flex direction="column">
                         <Box mt="3" mx="3" mb="2" borderRadius="lg" overflow="hidden" shadow="md">
