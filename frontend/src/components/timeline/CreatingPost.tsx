@@ -5,7 +5,7 @@ import React from "react"
 
 const CreatingPost = ({ photoUrl }: { photoUrl: string }) => {
     return (
-        <Box p="3" minW="sm" maxW="xl" borderWidth="1px" borderRadius="lg" overflow="hidden" fontWeight="semibold">
+        <Box p="3" minW="sm" maxW="xl" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} overflow="hidden" fontWeight="semibold">
             <VStack divider={<StackDivider borderColor="gray.200" />} spacing="4" align="stretch">
                 <HStack>
                     <Avatar size="md" src={photoUrl} />
