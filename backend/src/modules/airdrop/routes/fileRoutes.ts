@@ -33,13 +33,13 @@ fileRoutes.get("/", async (req: Request, res: Response) => {
     res.send(" Welcome to airdrop file API")
 })
 
-fileRoutes.get("/getallfile",verifyUser,getAllFile)
-fileRoutes.get("/comment",getHistory)
+fileRoutes.get("/getallfile", verifyUser, getAllFile)
+fileRoutes.get("/comment", getHistory)
 fileRoutes.get("/download/:type/:filename", downloadFile)
-fileRoutes.post("/upload",verifyUser, upload.array("files"), uploadFile)
+fileRoutes.post("/upload", verifyUser, upload.array("files"), uploadFile)
 fileRoutes.post("/hidefile", hideFile)
-fileRoutes.post("/comment",commentFile)
-
+fileRoutes.post("/comment", commentFile)
+fileRoutes.get("/gethistory", getHistory)
 
 //check expired file every 5 minutes
 // setInterval(deleteExpiredFile, 300000)
