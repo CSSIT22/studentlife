@@ -17,5 +17,5 @@ function generateCategories() {
     })
     return dummy
 }
-
+//testing
 export default CategoryList
