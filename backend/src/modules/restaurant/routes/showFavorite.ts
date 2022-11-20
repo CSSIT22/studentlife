@@ -7,7 +7,6 @@ const showFavorite = (req: Request, res: Response) => {
     getRestaurant().forEach((res) => {
         if (res.userid == userid) {
             if(res.isFavorite == true){
-                console.log(res.status)
                 isFavorite.push(res)
             }          
         }

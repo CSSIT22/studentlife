@@ -14,13 +14,12 @@ import {
     VStack,
     Flex,
     Text,
-    Container,
+    Container
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import ShowImage from "../../components/restaurant/ShowImage"
-import { Restaurant } from "./data/restaurant"
 import { Link, useParams } from "react-router-dom"
 import API from "src/function/API"
 declare global {
@@ -33,6 +32,11 @@ function LikeorNope() {
     const [property, setproperty] = React.useState<any>([]);
 
     const [res, setres] = React.useState(parseInt(params.id + ""))
+
+    const likedRestaurant = () => {
+        API.post("restaurant/" + params.id, {id: params.id })
+        
+    }
 
     useEffect(() => {
         API.get("/restaurant/" + params.id)
@@ -90,7 +94,7 @@ function LikeorNope() {
                 <Container>
                     <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                         <Box>
-                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"}>
+                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={likedRestaurant}>
                                 <Link to={`/restaurant/detail/${globalThis.respage}`}>
                                     <AiOutlineLike size={"xl"} />
                                 </Link>
@@ -104,7 +108,7 @@ function LikeorNope() {
                                 </Link>
                             </Button>
 
-                            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                            <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false}>
                                 <ModalOverlay />
                                 <ModalContent textAlign={"center"}>
                                     <ModalHeader fontWeight="800" fontSize={"35px"}>

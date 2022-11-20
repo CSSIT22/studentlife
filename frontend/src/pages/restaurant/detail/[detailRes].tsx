@@ -30,7 +30,6 @@ import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
 import ShowImage from "../../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
-// import { Restaurant } from ".././data/restaurant"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { friend } from "../data/friend"
 import API from "src/function/API"
@@ -46,7 +45,6 @@ function detail() {
     //     return e1.id == parseInt(params.detailRes + "")
     // })
     const [property, setproperty] = React.useState<any>([])
-    const navigate = useNavigate()
 
     // const addFavorite = () => {
     //     console.log(Restaurant[numres].status)
@@ -167,7 +165,7 @@ function detail() {
                                         </Button>
                                         <Spacer />
                                         <Popover placement="top">
-                                            {({ isOpen, onClose }) => (
+                                            {({onClose}) => (
                                                 <>
                                                     <PopoverTrigger>
                                                         <Button

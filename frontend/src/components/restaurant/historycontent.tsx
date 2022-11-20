@@ -36,11 +36,11 @@ const Historycontent: FC<{
                     borderRadius="lg"
                     boxShadow={"lg"}
                 >
-                    <Flex >
+                    <Flex alignItems={"center"}>
                         <Box width={"30%"} ml={"1rem"}>
                             <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
-                        <Box width={"60%"} height={"6rem"} color={"black"}>
+                        <Box width={"60%"} color={"black"}>
                             <Flex direction={"column"} justifyContent={"center"} height={"80%"}>
                                 <Text fontSize={"sm"}>
                                     <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
