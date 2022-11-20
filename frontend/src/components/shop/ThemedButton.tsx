@@ -3,7 +3,7 @@ import React from 'react'
 
 const ThemedButton = (props: any) => {
   return (
-    <Button colorScheme="orange" w= {props.width ? props.width : "100%"} > {props.children}</Button>
+    <Button colorScheme="orange" w= {props.width ? props.width : "100%"} maxW = {props.maxW ? props.maxW : "none"} shadow="lg" > {props.children}</Button>
   )
 }
 

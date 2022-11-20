@@ -11,7 +11,7 @@ const Shop = () => {
         <ShopAppBody>
             <PageTitle title= "Explore" />
             <Searchbar productsIn={prods} setProducts={setprods} setSearchQuery={setSearchQuery} searchQuery={searchQuery}></Searchbar>
-            <ProductList products= {prods}/>
+            <ProductList products= {prods} repeat={false}/>
         </ShopAppBody>
     )
 }
