@@ -42,6 +42,7 @@ const index = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const user = useContext(authContext)
     const [tokens, setTokens] = useState<any[]>([])
+    let dateLogin = new Date()
 
     async function handleRevoke(token: string) {
         const res = await api.delete("/backendservice/revokeTokens", {
@@ -59,6 +60,7 @@ const index = () => {
     async function getTokensInfo() {
         const getTokens = await api.get("/backendservice/tokens")
         setTokens([...tokens, ...getTokens.data.tokens])
+        dateLogin = tokens.filter((item) => item.currentDevice)[0].detail.loginDate
     }
 
     useEffect(() => {
@@ -123,7 +125,7 @@ const index = () => {
                                 Welcome! {user?.fName} {user?.lName}
                             </Text>
                             <Text alignSelf={"end"} fontSize="xl">
-                                {new Date().toISOString().substring(0, 10)}
+                                {dateLogin.toISOString().substring(0, 10)}
                             </Text>
                         </Stack>
                     </Flex>
