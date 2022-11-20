@@ -8,8 +8,10 @@ const declineRequest = async(req: Request, res: Response) =>{
     try{
         await prisma.community_User.delete({
             where:{
-                //userId:body.userId
-                //communityId:req.body.communityId,
+                userId_communityId:{
+                    userId:req.body.userId,
+                    communityId:req.body.communityId
+                }
             }
         })
 
@@ -19,7 +21,6 @@ const declineRequest = async(req: Request, res: Response) =>{
         res.status(403)
     }
 }
-
 
 
 export default declineRequest

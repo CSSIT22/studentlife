@@ -15,8 +15,10 @@ const acceptRequest = async(req: Request, res: Response) =>{
     try{
         await prisma.community_User.update({  
             where:{
-                //userId: body.userId
-                //communityId: body.communityId,
+                userId_communityId:{
+                    userId:req.body.userId,
+                    communityId:req.body.communityId
+                }
             },
             data:invite
         })
