@@ -36,13 +36,6 @@ import NotiTable from "src/components/notification/NotiTable"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
 
-export const logout = async () => {
-    try {
-        await API.get("/auth/logout")
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
