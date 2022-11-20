@@ -25,6 +25,4 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
     // Put Thitipa's code here
 })
 
-
-
 export default createAPollRoutes
