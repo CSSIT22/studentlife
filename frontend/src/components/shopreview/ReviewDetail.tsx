@@ -49,7 +49,7 @@ const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String
                         style={{ width: 20 }}
                         src="https://toppng.com/public/uploads/thumbnail/white-location-icon-png-location-logo-png-white-11562856661b4wsud8br0.png"
                     ></img>
-                    {}
+                    { }
                 </Box>
                 <AmountLike am_like={"100"} />
                 {/* ดีงข้อมูลมาจาก database */}

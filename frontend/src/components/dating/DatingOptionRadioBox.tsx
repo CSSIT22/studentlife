@@ -1,6 +1,5 @@
 /* A custom radio button component. */
-import { Box } from "@chakra-ui/react"
-import { useRadio } from "@chakra-ui/react"
+import { Box, useRadio } from "@chakra-ui/react"
 
 // RadioBox component for dating option page
 export function DatingOptionRadioBox(props: any) {
@@ -19,12 +18,13 @@ export function DatingOptionRadioBox(props: any) {
                 }}
                 cursor="pointer"
                 borderWidth="1px"
-                borderRadius="md"
-                boxShadow="md"
+                borderRadius="15px"
+                //boxShadow="md"
+                backgroundColor="#B24000"
+                color="white"
                 _checked={{
-                    bg: "orange.200",
+                    bg: "#E65300",
                     color: "white",
-                    borderColor: "yellow.600",
                 }}
                 _focus={{
                     boxShadow: "outline",

@@ -29,7 +29,7 @@ import RatingStar from "src/components/shopreview/RatingStar"
 import ReviewDetail from "src/components/shopreview/ReviewDetail"
 import ShopDetailName from "src/components/shopreview/ShopDetailName"
 import AppBody from "../../components/share/app/AppBody"
-import Rating from "../rating"
+// import Rating from "../rating"
 
 const shopdetails = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
