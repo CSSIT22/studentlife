@@ -20,7 +20,6 @@ import {
 import React, { FC, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import { Link } from "react-router-dom"
-import { Restaurant } from "src/pages/restaurant/data/restaurant"
 
 const FavoriteContent: FC<{
     id: number
@@ -33,10 +32,10 @@ const FavoriteContent: FC<{
     img: string
 }> = ({ id,resName, phone, open, close, website,link, img }) => {
     const {onClose} = useDisclosure()
-    const DeleteFv = () => {
-        Restaurant[id].status = false
-        console.log(Restaurant[id].status)
-    }
+    // const DeleteFv = () => {
+    //     Restaurant[id].status = false
+    //     console.log(Restaurant[id].status)
+    // }
     
 
     return (
@@ -58,7 +57,7 @@ const FavoriteContent: FC<{
                                     <PopoverBody border='0'> you want to unfavorite this restaurant?</PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center" border='0'>
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={DeleteFv} mr={2}>
+                                            <Button colorScheme="green" mr={2}>
                                                 Yes
                                             </Button>
 
@@ -113,7 +112,7 @@ const FavoriteContent: FC<{
                                     <PopoverBody textAlign={"center"} fontWeight={"bold"} > you want to unfavorite <br/>this restaurant?</PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center" border='0'>
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={DeleteFv} mr={2}>
+                                            <Button colorScheme="green"  mr={2}>
                                                 Yes
                                             </Button>
 

@@ -22,6 +22,7 @@ import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Link, useParams } from "react-router-dom"
 import API from "src/function/API"
+import { Restaurant } from "@apiType/restaurant"
 declare global {
     var respage: number, rand: number
 }
@@ -29,7 +30,7 @@ function LikeorNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = React.useState(1)
     const params = useParams()
-    const [property, setproperty] = React.useState<any>([]);
+    const [property, setproperty] = React.useState<Restaurant[]>([]);
 
     const [res, setres] = React.useState(parseInt(params.id + ""))
 

@@ -6,18 +6,17 @@ import API from "src/function/API"
 import Searchbar from "../../components/restaurant/searchbar"
 import Searchcontent from "../../components/restaurant/searchcontent"
 import AppBody from "../../components/share/app/AppBody"
-import { Restaurant } from "./data/restaurant"
 const search = () => {
     const location = useLocation()
     // const params = useParams()
     const [search, setsearch] = useState<any>([]);
-    const filterres = Restaurant.filter((e1) => {
-        var num = new URLSearchParams(location.search).get('name')?.length
-        console.log();
+    // const filterres = Restaurant.filter((e1) => {
+    //     var num = new URLSearchParams(location.search).get('name')?.length
+    //     console.log();
         
-        return e1.resName.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length) === new URLSearchParams(location.search).get('name')?.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length)
+    //     return e1.resName.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length) === new URLSearchParams(location.search).get('name')?.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length)
         
-    })
+    // })
 
     
     

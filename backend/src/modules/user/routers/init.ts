@@ -22,4 +22,4 @@ const init = async (req: Request, res: Response<InitUserResponse | string>) => {
     }
 }
 
-// export default init
+export default init

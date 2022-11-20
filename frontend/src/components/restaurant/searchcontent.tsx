@@ -30,12 +30,12 @@ const Searchcontent: FC<{
     return (
         <>
             <Show below="sm">
-                <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
-                    <Flex alignItems={"center"}>
+                <Box width={"100%"} height={"8rem"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
+                    <Flex mb={"15px"}>
                         <Box width={"30%"} ml={"1rem"}>
                             <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
-                        <Box width={"60%"} color={"black"}>
+                        <Box width={"60%"} height={"6rem"} color={"black"}>
                             <Text fontSize={"sm"}>
                                 <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                             </Text>

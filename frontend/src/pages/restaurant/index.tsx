@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
     Modal,
     ModalOverlay,
@@ -21,16 +21,26 @@ import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 
 import ShowImage from "../../components/restaurant/ShowImage"
-import { Restaurant } from "./data/restaurant"
 import { Link, useNavigate } from "react-router-dom"
+import API from "src/function/API"
+import { Restaurant } from "@apiType/restaurant"
 function Homepage() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = useState(0)
-    const property = Restaurant.filter((e1) => {
-        return e1.id == count
-    })
+    const [property, setproperty] = React.useState<Restaurant[]>([]);
+    // const property = Restaurant.filter((e1) => {
+    //     return e1.id == count
+    // })
+
     const navigate = useNavigate()
 
+    useEffect(() => {
+        API.get("/restaurant/" + 0)
+            .then((item) => setproperty(item.data))
+            // .catch((err) => on())
+            // .finally(off)
+            
+    }, [])
     return (
         <AppBody
             secondarynav={[

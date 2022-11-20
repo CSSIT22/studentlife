@@ -5,8 +5,6 @@ import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
 import ShowImage from "../../../components/restaurant/ShowImage"
 import { Link, useParams } from "react-router-dom"
-import { Restaurant } from "../data/restaurant"
-import { Review } from "../data/review"
 import { AiOutlineComment, AiOutlineLike } from "react-icons/ai"
 import API from "src/function/API"
 
@@ -19,10 +17,10 @@ function review() {
     const [property, setproperty] = React.useState<any>([])
     // const [revi, setrevi] = React.useState<any>([])
 
-    const revi = Review.filter((e2) => {
-        return e2.resId == numres
-    })
-    console.log(revi)
+    // const revi = Review.filter((e2) => {
+    //     return e2.resId == numres
+    // })
+    // console.log(revi)
     
 
     useEffect(() => {
