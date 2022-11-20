@@ -1106,7 +1106,7 @@ model Filtered_Word {
 model Sn_Head {
   snId       String          @id @default(cuid())
   courseId   String
-  created    DateTime        @default(now()) @db.Date
+  created    DateTime        @default(now()) @db.Timestamp(0)
   userId     String
   isPublic   Boolean
   snName     String
