@@ -72,7 +72,7 @@ function review() {
                             </Box>
                             <ShowImage img={e1.img} />
                             <Box p="4">
-                                <Box display="flex" alignItems="baseline" px={{ base: 0, md: 175 }}>
+                                <Box display="flex" alignItems="baseline" px={{ base: 10, md: 290 }}>
                                     <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase" display="flex" verticalAlign={"AiOutlineLike"}>
                                         <Icon as={AiOutlineLike} fontSize="md" />
                                         {e1.amountOflike} liked
