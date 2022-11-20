@@ -30,7 +30,6 @@ const downloadFile = async(req: Request | any, res: Response | any) => {
     catch(err){
         console.log(err)
     }
-    console.log(directoryPath)
     res.download(directoryPath+"/"+req.params.filename+"."+req.params.filename.split('.')[1])
 }
 export default downloadFile;
