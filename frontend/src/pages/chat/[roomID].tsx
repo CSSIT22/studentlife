@@ -1,5 +1,5 @@
-import { Avatar, Box, Button, Circle, Flex, Input, SkeletonCircle, useDisclosure } from "@chakra-ui/react"
-import { useState } from "react"
+import { Avatar, Box, Button, Circle, Flex, Hide, HStack, Input, SkeletonCircle, Textarea, useDisclosure } from "@chakra-ui/react"
+import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
@@ -9,6 +9,7 @@ import { FiSend } from "react-icons/fi"
 import Plustoggle from "src/components/chat/Pbutton"
 import { BiSticker } from "react-icons/bi"
 import { render } from "react-dom"
+import  TextBar  from "../chat/textConversation"
 
 type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
@@ -24,22 +25,53 @@ const mockRoom: room = [
     { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://s.thistine.com/dog" },
 ]
 
+const mockMessage = [
+    {text: "Hi,how are you doing?", from: "others", timeSent: "20:10" },
+    {text: "I'm doing good, hbu?", from: "me", timeSent: "20:11" },
+    {text: "I'm so so. Thx", from: "others", timeSent: "20:15" },
+    {text: "Where are u from?", from: "me", timeSent: "20:16" },
+    {text: "Hmm..", from: "others", timeSent: "20:19" },
+    {text: "wait..? what?", from: "me", timeSent: "20:27" },
+    {text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
+]
+
 const Room = () => {
     let param = useParams()
     const [isMute, setIsMute] = useState(false)
+    const [Text , setText] = useState("")
+    const [msg , setmsg] = useState(mockMessage)
 
     const filterRoom = mockRoom.filter((e) => {
-        return e.roomID === param.roomID
+        return e.roomID === param.roomID;
     })
     const result = filterRoom[0]
     console.log(result)
 
+    //function
+    function onType(e : any){
+        setText(e.target.value)
+    }
+
+    function onSend(){
+       setmsg([...msg,{text :Text, from :"me", timeSent:""}])
+       setText("")
+    }
+
+    // let d = new Date()
+    // d.toLocaleString
+
     return (
         <AppBody>
-            <Flex>
-                <Clist />
-                <Box w={"600px"} bg="#FFF2E6" marginLeft={8} minH={"80vh"} rounded={"lg"}>
-                    <Flex h={"55px"} alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"}>
+            <HStack>
+                <Hide below="md">
+                    <Clist />
+                </Hide>
+                <Box  flex={1} bg="#FFF2E6" 
+                marginLeft={8}  
+                width={{ base: "100%", md: "300px" }}
+                // maxH={'5000px'}
+                 >
+                    <Flex h={"55px"} alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }}>
                         <Flex alignItems={"center"}>
                             <Avatar marginLeft={4} name={result.roomName} src={result.img} />
                             <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5}>
@@ -57,10 +89,25 @@ const Room = () => {
                             </Box>
                         </Flex>
                     </Flex>
+                    
+                <Box   overflowY={'auto'} flex={1} bg="#FFF2E6" 
+                width={{ base: "100%", md: "auto" }}
+                height={"64vh"}
+                 >
+                    {msg.map(({text, from, timeSent},roomID) => (
+                        <TextBar
+                        key = {roomID}
+                        message = {text}
+                        timeSent={timeSent}
+                        from={from}
+                        />
+                    ))}
+                    </Box>
 
-                    <Flex h={"55px"} bg="#E68E5C" justifyContent={"space-between"} alignItems={"center"} marginTop={"80vh"}>
+                    <Flex h={"55px"} bg="#E68E5C" justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
                         <Plustoggle />
                         <Input
+                            marginLeft={5}
                             isInvalid
                             width={"md"}
                             size={"md"}
@@ -69,18 +116,20 @@ const Room = () => {
                             type={"text"}
                             focusBorderColor="#606070"
                             errorBorderColor="#F8B88B"
+                            onChange={(e)=>onType(e)}
+                            value={Text}
                         />
                         <Flex>
-                            <Box cursor={"pointer"} marginRight={2}>
+                            <Box cursor={"pointer"} marginRight={4} >
                                 <BiSticker size={30} />
                             </Box>
-                            <Box cursor={"pointer"} marginRight={4}>
+                            <Box cursor={"pointer"} marginRight={4} onClick={onSend}>
                                 <FiSend size={30} />
                             </Box>
                         </Flex>
                     </Flex>
                 </Box>
-            </Flex>
+            </HStack>
         </AppBody>
     )
 }

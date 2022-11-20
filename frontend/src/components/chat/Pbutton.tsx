@@ -27,69 +27,69 @@ function Plustoggle() {
     const navigate = useNavigate()
     //function handle
     function Navigate() {
-        return navigate(`/chat/${param.roomId}/property`)
+        return navigate(`/chat/${param.roomID}/property`)
         
     }
 
     return (
         <>
-            <RadioGroup defaultValue={"bottom"} children={undefined}></RadioGroup>
-            <FaPlus size={"20px"} cursor={"pointer"} onClick={onOpen}>
-                Open
-            </FaPlus>
+            <RadioGroup defaultValue={"bottom"} children={undefined} ></RadioGroup>
+            <Box marginLeft={5}>
+            <FaPlus size={"20px"} cursor={"pointer"} onClick={onOpen}  />
+            </Box>
             <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerBody>
+                    <DrawerBody >
                         <Flex bg={"#FFF2E9"} justifyContent={"center"} gap={"25px"}>
-                            <Box
-                                as="button"
+                            <Button
+                                h={'10vh'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
                                 px={10}
-                                h={"15vh"}
+                                size = {'lg'}
                                 _active={{ background: "transparent" }}
                                 _hover={{ background: "transparent", transform: "scale(1.5)" }}
                             >
                                 <MdFastfood size={"40px"} />
-                            </Box>
-                            <Box
-                                as="button"
+                            </Button>
+                            <Button
+                                size={'lg'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
                                 px={10}
-                                h={"15vh"}
+                                h={"10vh"}
                                 // _active={{ background: "transparent" }}
                                 _hover={{ background: "transparent", transform: "scale(1.5)" }}
                             >
                                 <MdAttachMoney size={"40px"} />
-                            </Box>
-                            <Box
-                                as="button"
+                            </Button>
+                            <Button
+                                size={'lg'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
                                 px={10}
-                                h={"15vh"}
+                                h={"10vh"}
                                 // _active={{ background: "transparent" }}
                                 _hover={{ background: "transparent", transform: "scale(1.5)" }}
                             >
                                 <HiOutlineMusicNote size={"40px"} />
-                            </Box>
-                            <Box
-                                as="button"
+                            </Button>
+                            <Button
+                                size={'lg'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
                                 px={10}
-                                h={"15vh"}
+                                h={"10vh"}
                                 // _active={{ background: "transparent" }}
                                 _hover={{ background: "transparent", transform: "scale(1.5)" }}
                             >
                                 <RiMenuFoldLine size={"40px"} onClick={Navigate} />
-                            </Box>
+                            </Button>
                         </Flex>
                     </DrawerBody>
                 </DrawerContent>

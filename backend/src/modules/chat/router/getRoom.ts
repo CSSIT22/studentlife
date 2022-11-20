@@ -40,3 +40,4 @@ const getRoom = async (req: Request, res: Response) => {
     }
 }
 export default getRoom;
+
