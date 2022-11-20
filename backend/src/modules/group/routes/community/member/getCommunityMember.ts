@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 
-const getMember = async (req: Request, res: Response) =>{
+const getCommunityMember = async (req: Request, res: Response) =>{
         
         const prisma = res.prisma
         const body = req.body
@@ -31,4 +31,4 @@ const getMember = async (req: Request, res: Response) =>{
 
 
 
-export default getMember
+export default getCommunityMember

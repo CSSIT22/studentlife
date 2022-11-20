@@ -1,14 +1,16 @@
 import { Request, Response } from "express"
 
-const deleteCommunityMember = async(req: Request, res: Response) =>{
+const deleteMember = async(req: Request, res: Response) =>{
     
     const prisma = res.prisma
-    const target = req.body.userId
+    const userid = req.body.userId
+    const community = req.body.communityID
+
 
     try{
         await prisma.community_User.delete({
             where:{
-                
+                //userId_communityId:userid
             }
         })
 
@@ -21,4 +23,4 @@ const deleteCommunityMember = async(req: Request, res: Response) =>{
 
 
 
-export default deleteCommunityMember
+export default deleteMember
