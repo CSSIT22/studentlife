@@ -114,20 +114,20 @@ const CreateActivityPoll = () => {
         ) {
             console.log(
                 "Header: " +
-                    header +
-                    " Tag: " +
-                    selectedInterests +
-                    " Description: " +
-                    description +
-                    " Location: " +
-                    location +
-                    " Date & Time: " +
-                    // { d: handleDateTime() } +
-                    handleDateTime() +
-                    " Now: " +
-                    new Date() +
-                    " people: " +
-                    sliderValue
+                header +
+                " Tag: " +
+                selectedInterests +
+                " Description: " +
+                description +
+                " Location: " +
+                location +
+                " Date & Time: " +
+                // { d: handleDateTime() } +
+                handleDateTime() +
+                " Now: " +
+                new Date() +
+                " people: " +
+                sliderValue
             )
             toast({
                 title: "Poll created.",

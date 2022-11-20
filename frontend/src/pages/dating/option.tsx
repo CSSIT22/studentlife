@@ -22,7 +22,6 @@ const DatingOption = () => {
         "School of Bioresources and Technology ",
         "School of Liberal Arts",
         "Graduate School of Management and Innovation (GMI)",
-        "Faculty of Industrial Education and Technology",
         "Institute of FIeld RoBOtics (FIBO)",
         "The Joint Graduate School of Energy and Environment (JGSEE)",
         "Collage of Multidiscliplinary Sciences",
