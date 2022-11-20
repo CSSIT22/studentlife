@@ -8,9 +8,9 @@ const MoreLangForEdit: FC<{
     selectLang: string
     title: string
     dt: string
-    onAdd:Function
-    add:boolean
-}> = ({ onDecrease, addLang, selectLang, title, dt,onAdd,add }) => {
+    onAdd: Function
+    add: boolean
+}> = ({ onDecrease, addLang, selectLang, title, dt, onAdd, add }) => {
     const [otherLang, setOtherLang] = React.useState(selectLang)
     const [topic, setTopic] = React.useState(title)
     const [detail, setDetail] = React.useState(dt)
@@ -42,11 +42,11 @@ const MoreLangForEdit: FC<{
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Title</FormLabel>
-                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={add} value={topic}/>
+                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={add} value={topic} />
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Detail</FormLabel>
-                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={add} value={detail}/>
+                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={add} value={detail} />
             </FormControl>
             <Text color={"red.300"} fontSize={"0.8rem"} my={"2"}>
                 Note: if you added, you can't change it anymore

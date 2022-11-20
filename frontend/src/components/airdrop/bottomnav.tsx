@@ -13,7 +13,7 @@ const linkMenu = [
 export default function Bottomnav() {
     return (
         <>
-            <SimpleGrid columns={[1,2]} spacing={10}>
+            <SimpleGrid columns={[1, 2]} spacing={10}>
                 <Box bg="tomato" height="80px"></Box>
                 <Box bg="tomato" height="80px"></Box>
                 <Box bg="tomato" height="80px"></Box>

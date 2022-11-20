@@ -4,11 +4,10 @@ import { GrDown } from "react-icons/gr"
 import { TfiAnnouncement } from "react-icons/tfi"
 
 const PostOnTop: FC<{
-    topic: string,
-    sender: string,
-    clickToExpand : Function
-}> = ({ topic, sender,clickToExpand }) => {
-
+    topic: string
+    sender: string
+    clickToExpand: Function
+}> = ({ topic, sender, clickToExpand }) => {
     return (
         <Box height={"5rem"} width={"100%"} p="5" mt="0" backgroundColor="#D9D9D9" rounded="lg">
             <Flex alignItems={"center"}>
@@ -21,7 +20,7 @@ const PostOnTop: FC<{
                 </Box>
                 <Spacer />
                 <Box>
-                    <GrDown onClick={()=>clickToExpand()} cursor={"pointer"}/>
+                    <GrDown onClick={() => clickToExpand()} cursor={"pointer"} />
                 </Box>
             </Flex>
         </Box>
