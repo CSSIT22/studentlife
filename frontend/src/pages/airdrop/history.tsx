@@ -1,9 +1,32 @@
-import React, { useState } from "react"
+import React, { useState, FC, useEffect } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import { HiUpload, HiDownload } from "react-icons/hi"
+import API from "src/function/API"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
-import { Container, Flex, Box, Text, Divider, Hide, HStack, IconButton } from "@chakra-ui/react"
+import {
+    Container,
+    Flex,
+    Box,
+    Text,
+    Divider,
+    Hide,
+    HStack,
+    IconButton,
+    Button,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    VStack,
+    useBoolean,
+    Fade,
+    Spinner,
+} from "@chakra-ui/react"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -11,83 +34,147 @@ const linkMenu = [
 ]
 const dummyData = [
     {
-        icon: MdImage,
         name: "pic1.jpeg",
-        type: HiDownload,
+        sender: "ABC DEF",
+        type: "Download",
+        date: "10/10/2021 10:41:00",
+    },
+    {
+        name: "pic2.jpeg",
+        sender: "KNL AWF",
+        type: "Upload",
         date: "10/10/2021 10:43:00",
     },
+    {
+        name: "pic3.jpeg",
+        sender: "GHI JKL",
+        type: "Download",
+        date: "10/10/2021 10:45:00",
+    },
 ]
-export default function Drophistory() {
+export default function Drophistory<FC>() {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isLoading, { off }] = useBoolean(true)
+    const [selectedHistory, setSelectedHistory] = useState<any>({
+        historyType: "",
+        file: {
+            fileSender: "",
+            sender: {
+                fName: "",
+                lName: "",
+            },
+            sendType: "",
+            fileExpired: "",
+        },
+    })
+    const [historyData, setHistoryData] = useState<any>(null)
+    useEffect(() => {
+        API.get("/airdrop/file/getHistory")
+            .then((res) => {
+                console.log(res.data)
+                setHistoryData(res.data)
+            })
+            .catch((err) => {})
+            .finally(() => {
+                off()
+            })
+
+        return () => {}
+    }, [])
+
+    const renderFileHistory = () => {
+        return (
+            <>
+                <ModalContent textAlign={"center"}>
+                    <ModalHeader>{selectedHistory.historyType == "DOWNLOAD" ? "Download Information" : "Upload Information"}</ModalHeader>
+                    <ModalBody>
+                        <HStack>
+                            <Text>Name:{"   " + selectedHistory.file.fileName}</Text>
+                        </HStack>
+
+                        <HStack>
+                            <Text>Sender:{"   " + selectedHistory.file.sender.fName + " " + selectedHistory.file.sender.lName}</Text>{" "}
+                        </HStack>
+                        <HStack>
+                            <Text>Type:{"   " + selectedHistory.file.sendType}</Text>{" "}
+                        </HStack>
+                        <HStack>
+                            <Text>
+                                Date:{"   " + new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", { timeZone: "Asia/Bangkok" })}
+                            </Text>{" "}
+                        </HStack>
+
+                        <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
+                            (Tap outside to close)
+                        </Text>
+                    </ModalBody>
+                    <ModalFooter></ModalFooter>
+                </ModalContent>
+            </>
+        )
+    }
     return (
         <AppBody secondarynav={linkMenu}>
-            <PageBox pageName="history"
-            >
+            <PageBox pageName="history">
                 <Box mb={3}>
                     <Text fontSize={"3xl"}>History</Text>
                 </Box>
-                {/* component for list will coming sooner */}
-                <Divider orientation="horizontal" />
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
-                    <Box as={dummyData[0].type} size={"2rem"} />
-                    <Text color={"gray.400"}>{dummyData[0].date}</Text>
-                    <HStack>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-                <Divider orientation="horizontal" />
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
-                    <Box as={HiUpload} size={"2rem"} />
-                    <Text color={"gray.400"}>{dummyData[0].date}</Text>
-                    <HStack>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-                <Divider orientation="horizontal" />
-                <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
-                    <Box as={dummyData[0].icon} size={"3rem"} />
-                    <Hide below={"md"}>
-                        <Text>{dummyData[0].name}</Text>
-                    </Hide>
-                    <Box as={dummyData[0].type} size={"2rem"} />
-                    <Text color={"gray.400"}>{dummyData[0].date}</Text>
-                    <HStack>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            bgColor={"white"}
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-
-                <Divider orientation="horizontal" />
+                {isLoading ? (
+                    <Fade in={isLoading} unmountOnExit={true}>
+                        <Box w={"100%"} h={"30vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                            <Spinner />
+                            <Text fontSize={"2xl"}> Loading...</Text>
+                        </Box>
+                    </Fade>
+                ) : (
+                    <>
+                        <Divider orientation="horizontal" />
+                        {historyData?.map((item: any, index: any) => {
+                            return (
+                                <>
+                                    <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
+                                        <Box as={MdImage} size={"3rem"} />
+                                        <Hide below={"md"}>
+                                            <Text>
+                                                {item.file.fileName.length > 12 ? item.file.fileName.substring(0, 12) + "..." : item.file.fileName.concat(" ") }
+                                            </Text>
+                                        </Hide>
+                                        {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}
+                                        <Text color={"gray.400"}>
+                                            {new Date(item.createdAt).toLocaleString("en-US", { timeZone: "Asia/Bangkok" })}
+                                        </Text>
+                                        <HStack>
+                                            <IconButton
+                                                aria-label="infomation"
+                                                icon={<MdInfoOutline />}
+                                                rounded={"3xl"}
+                                                border={"1px"}
+                                                borderColor={"gray.300"}
+                                                shadow={"xs"}
+                                                bgColor={"white"}
+                                                onClick={() => {
+                                                    onOpen()
+                                                    setSelectedHistory(item)
+                                                }}
+                                            ></IconButton>
+                                        </HStack>
+                                    </Flex>
+                                    <Divider orientation="horizontal" />
+                                </>
+                            )
+                        })}
+                        <Modal
+                            isOpen={isOpen}
+                            onClose={() => {
+                                onClose()
+                            }}
+                            isCentered
+                        >
+                            <ModalOverlay />
+                            {renderFileHistory()}
+                        </Modal>
+                    </>
+                )}
             </PageBox>
         </AppBody>
     )

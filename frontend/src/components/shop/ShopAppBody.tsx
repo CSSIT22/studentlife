@@ -1,26 +1,39 @@
 import React, { Component } from "react"
 import AppBody from "../share/app/AppBody"
+import { FiShoppingCart } from "react-icons/fi"
 
 const ShopAppBody = (props: any) => {
     return <AppBody secondarynav={[
         {
             name: "Explore",
             to: "/shop"
-        }
-        // Need to add these without the problem of navbar alignment
-        //,
-        // {
-        //     name: "Categories",
-        //     to: "/shop/categories"
-        // },
+        },
+        {
+            name: "Categories",
+            to: "/shop/categories"
+        },
+        {
+            name: "Contact Us To Sell",
+            to: "/shop/other/contact_us"
+        },
+        {
+            name: "Order History",
+            to: "/shop/orders"
+        },
+        {
+            name: "Your Coupons",
+            to: "/shop/other/coupons"
+        },
         // {
         //     name: "Recommended Items",
         //     to: "/shop/recommendation"
         // },
-        // {
-        //     name: "Cart",
-        //     to: "/shop/cart"
-        // }
+        {
+            name: "",
+            to: "/shop/cart",
+            Icon: FiShoppingCart,
+            isRight: true
+        }
     ]
     }> 
         {props.children}
