@@ -3,12 +3,12 @@ import { verifyUser } from "../.././backendService/middleware/verifyUser"
 const userRoutes = express()
 
 //getdepartment
-userRoutes.get("/getdepartment", verifyUser,async (req: Request | any, res: Response | any) => {
+userRoutes.get("/getdepartment", verifyUser, async (req: Request | any, res: Response | any) => {
     try {
         const user = req.user?.userId
-        const {prisma} = res;
-        const department =  await prisma.major.groupBy({
-            by:["facultyId","majorName"],
+        const { prisma } = res
+        const department = await prisma.major.groupBy({
+            by: ["facultyId", "majorName"],
         })
         res.json(department)
     } catch (err) {
@@ -16,18 +16,27 @@ userRoutes.get("/getdepartment", verifyUser,async (req: Request | any, res: Resp
     }
 })
 userRoutes.get("/community", async (req: Request, res: Response) => {
-    try{
-        const {prisma} = res;
-    }catch(err){
-
-    }
+    try {
+        const { prisma } = res
+        const community = await prisma.community.findMany({
+            select: {
+                communityName: true,
+            },
+        })
+        res.json(community)
+    } catch (err) {}
 })
 userRoutes.get("/specific", async (req: Request, res: Response) => {
-    try{
-        const {prisma} = res;
-    }catch(err){
-        
-    }
+    try {
+        const { prisma } = res
+        const specific = await prisma.user_Profile.findMany({
+            select: {
+                fName: true,
+                lName: true,
+            },
+        })
+        res.json(specific)
+    } catch (err) {}
 })
 
 userRoutes.get("/userprofile/:id", async (req: Request, res: Response) => {
