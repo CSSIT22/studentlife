@@ -17,7 +17,7 @@ import {
     Box,
     Show,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
 import { Link, To } from "react-router-dom"
@@ -144,7 +144,10 @@ const create = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-
+    const [disable ,setdisable] = useState(true)
+    const onDisable = () => {
+        setdisable(!disable)
+    }
     return (
         <AppBody
             secondarynav={[
@@ -226,7 +229,7 @@ const create = () => {
                     <FormControl>
                         <>
                             {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
                             })}
                             <Tag
                                 size={"lg"}

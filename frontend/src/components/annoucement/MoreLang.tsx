@@ -5,7 +5,8 @@ import { BsPlusCircleFill } from "react-icons/bs"
 const MoreLang: FC<{
     onClick: Function
     addLang: Function
-}> = ({ onClick, addLang}) => {
+    onDisable:Function
+}> = ({ onClick, addLang, onDisable}) => {
     const [otherLang, setOtherLang] = React.useState(String)
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
@@ -46,7 +47,7 @@ const MoreLang: FC<{
             </Text>
             <Button
                 onClick={() => {
-                    addLang(parseInt(otherLang), topic, detail), setDisable(true)
+                    addLang(parseInt(otherLang), topic, detail), setDisable(true), onDisable()
                 }}
                 disabled={disable}
             >

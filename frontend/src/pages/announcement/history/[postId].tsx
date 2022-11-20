@@ -94,7 +94,7 @@ const history = () => {
         status: "edit",
     }
 
-    const selectTargetValue = (tgType: string) => {
+    const selectTargetValue = (tgType: string | undefined) => {
         if (tgType == "Faculty") {
             return (
                 <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
@@ -177,9 +177,9 @@ const history = () => {
     }
     console.log(moreLangLength);
     console.log(addMoreLang.length);
-    // const onDisable = () => {
-    //     setdisable(!disable)
-    // }
+    const onDisable = () => {
+        setdisable(!disable)
+    }
     // console.log(disable);
     
     
@@ -334,10 +334,11 @@ const history = () => {
                     <FormControl>
                         <>
                             {showMoreLang(moreLangLength, add)}
-                            {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
+                            {disable && moreLangField.map((el) => {
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable}/>
                             })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={() => {increaseCount()}} cursor={"pointer"} mt="5">
+                            <Tag size={"lg"} key={"lg"} variant="subtle"    backgroundColor={"#DD6B20"}
+                                color="white" onClick={() => {increaseCount()}} cursor={"pointer"} mt="5">
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>
