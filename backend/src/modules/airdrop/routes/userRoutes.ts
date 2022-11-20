@@ -15,7 +15,7 @@ userRoutes.get("/getdepartment", verifyUser, async (req: Request | any, res: Res
         console.log(err)
     }
 })
-userRoutes.get("/community", async (req: Request, res: Response) => {
+userRoutes.get("/getcommunity", async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const community = await prisma.community.findMany({
@@ -24,9 +24,11 @@ userRoutes.get("/community", async (req: Request, res: Response) => {
             },
         })
         res.json(community)
-    } catch (err) {}
+    } catch (err) {
+        console.log(err)
+    }
 })
-userRoutes.get("/specific", async (req: Request, res: Response) => {
+userRoutes.get("/getspecific", async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const specific = await prisma.user_Profile.findMany({
@@ -36,7 +38,9 @@ userRoutes.get("/specific", async (req: Request, res: Response) => {
             },
         })
         res.json(specific)
-    } catch (err) {}
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 userRoutes.get("/userprofile/:id", async (req: Request, res: Response) => {
