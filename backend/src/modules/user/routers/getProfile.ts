@@ -8,8 +8,8 @@ const getProfile = async (req: Request, res: Response) => {
             where: { userId },
             select: { studentId: true, fName: true, lName: true, image: true, majorId: true },
         })
-        res.json(profile)
         console.log(req.user?.fName)
+        res.json(profile)
     } catch (err) {
         res.status(400).send("Error find Profile")
     }
