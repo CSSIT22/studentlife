@@ -21,11 +21,11 @@ const ModalForEvent: FC<{
     let date:number = new Date().getDate()
     let month:number = new Date().getMonth()
     let year:number = new Date().getFullYear()
-    console.log(year+"-"+month+"-"+date);
+    // console.log  (year+"-"+month+"-"+date);
     expiredonrecycle.setDate(date+3)
     expiredonrecycle.setMonth(month)
     expiredonrecycle.setFullYear(year)
-    console.log(expiredonrecycle);
+    // console.log(expiredonrecycle);
     
     
     const toggle = () => {
