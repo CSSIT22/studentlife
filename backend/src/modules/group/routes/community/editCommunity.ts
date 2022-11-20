@@ -4,7 +4,6 @@ const editCommunity = async(req: Request, res: Response) =>{
         
     const prisma = res.prisma
     const body = req.body
-    const userid = req.user?.userId
 
     const editCommunity : any = {
         communityName : body.communityName,
@@ -25,8 +24,6 @@ const editCommunity = async(req: Request, res: Response) =>{
         res.status(404)
     }
 }
-
-
 
 
 export default editCommunity
