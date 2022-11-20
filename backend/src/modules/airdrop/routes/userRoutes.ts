@@ -15,8 +15,20 @@ userRoutes.get("/getdepartment", verifyUser,async (req: Request | any, res: Resp
         console.log(err)
     }
 })
-userRoutes.get("/community", async (req: Request, res: Response) => {})
-userRoutes.get("/specific", async (req: Request, res: Response) => {})
+userRoutes.get("/community", async (req: Request, res: Response) => {
+    try{
+        const {prisma} = res;
+    }catch(err){
+
+    }
+})
+userRoutes.get("/specific", async (req: Request, res: Response) => {
+    try{
+        const {prisma} = res;
+    }catch(err){
+        
+    }
+})
 
 userRoutes.get("/userprofile/:id", async (req: Request, res: Response) => {
     try {
