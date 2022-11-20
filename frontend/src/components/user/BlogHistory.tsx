@@ -13,7 +13,7 @@ function BlogHistory() {
     const theme = extendTheme({ breakpoints })
     return (
         <Flex rounded="xl" direction="column" mt={{ base: "0", md: "4" }} mx={4} bg="white" p={2} position="initial" shadow={"lg"}>
-            <Text color="Black" p="5" fontSize="xl" fontWeight="500">
+            <Text color="Black" p="5" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
                 BLOG HISTORY
             </Text>
 

@@ -16,11 +16,11 @@ function AboutMe() {
     return (
         <div>
             <Flex rounded="xl" direction="column" my={4} mx={4} bg="white" position="initial" shadow={"lg"}>
-                <Text color="black" p="5" fontSize="2xl" fontWeight="600">
+                <Text color="black" p="5" fontSize={{ base: "xl", md: "2xl" }} fontWeight="600">
                     ABOUT ME
                 </Text>
                 <Box id="detail" ml={5}>
-                    <SimpleGrid columns={2} spacing={10} p={5}>
+                    <SimpleGrid columns={2} spacing={7} p={5}>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             PHONE
                         </Text>
@@ -34,7 +34,7 @@ function AboutMe() {
                             20
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
-                            BIRTHDATE
+                            BIRTH DATE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
                             23/APR/2002
