@@ -6,8 +6,8 @@ import downloadFile from "./functions/downloadFile"
 import hideFile from "./functions/hideFile"
 import commentFile from "./functions/commentFile"
 import { extname } from "path"
+import getHistory from "./functions/getHistory"
 
-//file manage module
 const path = require("path")
 const fs = require("fs")
 const multer = require("multer")
@@ -34,10 +34,12 @@ fileRoutes.get("/", async (req: Request, res: Response) => {
 })
 
 fileRoutes.get("/getallfile",verifyUser,getAllFile)
-fileRoutes.post("/upload",verifyUser, upload.array("files"), uploadFile)
+fileRoutes.get("/comment",getHistory)
 fileRoutes.get("/download/:type/:filename", downloadFile)
+fileRoutes.post("/upload",verifyUser, upload.array("files"), uploadFile)
 fileRoutes.post("/hidefile", hideFile)
 fileRoutes.post("/comment",commentFile)
+
 
 //check expired file every 5 minutes
 // setInterval(deleteExpiredFile, 300000)
