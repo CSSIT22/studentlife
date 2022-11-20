@@ -1,6 +1,7 @@
 import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
+import API from "src/function/API"
 import { MODULES } from "../moduleList/moduleTest"
 import { USER } from "./data/userProfile"
 
@@ -11,7 +12,8 @@ const NotiObject: FC<{
     isRead: boolean
     date: Date
     link: string
-}> = ({ id, description, isRead, date, userId, link }) => {
+    onClick: Function
+}> = ({ id, description, isRead, date, userId, link, onClick }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.6em" bg="gray" />
@@ -113,7 +115,9 @@ const NotiObject: FC<{
             )
         }
     }
-
+    function read() {
+        API.post("/notification/readnotiobject/" + id)
+    }
     return (
         <Box
             as="button"
@@ -123,20 +127,23 @@ const NotiObject: FC<{
             borderRadius="2xl"
             bg="white"
             padding={2}
+            onClick={() => {
+                read(), onClick()
+            }}
         >
-            <a href={link}>
-                <Stack direction={"row"} spacing={5} padding={"1"}>
-                    <Center>{showUser()}</Center>
+            {/* <a href={link}> */}
+            <Stack direction={"row"} spacing={5} padding={"1"}>
+                <Center>{showUser()}</Center>
 
-                    <Stack>
-                        {showDescription()}
-                        {showDate()}
-                    </Stack>
-
-                    <Spacer />
-                    <Center paddingRight={3}>{showStatus()}</Center>
+                <Stack>
+                    {showDescription()}
+                    {showDate()}
                 </Stack>
-            </a>
+
+                <Spacer />
+                <Center paddingRight={3}>{showStatus()}</Center>
+            </Stack>
+            {/* </a> */}
         </Box>
     )
 }

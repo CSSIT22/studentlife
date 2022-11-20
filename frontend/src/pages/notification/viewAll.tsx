@@ -39,16 +39,8 @@ const viewAll = () => {
 
     function showNotiListViewAll(): any {
         if (selectedModule == "All") {
-            // console.log("all")
-            // return OBJECTS.map((el) => {
-            //     return <NotiList key={Math.random()} selectedList={OBJECTS} date={el.date}></NotiList>
-            // })
             return <NotiListViewAll selectedList={OBJECTS}></NotiListViewAll>
         } else {
-            // console.log("others")
-            // return notiListModule.map((el) => {
-            //     return <NotiList key={Math.random()} selectedList={notiListModule} date={el.date}></NotiList>
-            // })
             return <NotiListViewAll selectedList={notiListModule}></NotiListViewAll>
         }
     }
