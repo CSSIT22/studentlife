@@ -170,58 +170,61 @@ export default function SimpleThreeColumns() {
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
                         <HStack position="initial">
                             {isFollow ? (
-                                <Button
-                                    _hover={{ cursor: "pointer", background: "orange.200" }}
-                                    onClick={() => {
-                                        handleClick()
-                                        setIsFolCount(FolCount + 1)
-                                    }}
-                                    pl={5}
-                                    width={{ lg: "7rem", base: "" }}
-                                    height={{ lg: "3rem", base: "2rem" }}
-                                    fontSize={{ base: "", lg: "lg" }}
-                                    bg="orange.600"
-                                    position="initial"
-                                    value="inside"
-                                    shadow={"lg"}
-                                >
-                                    Follow
-                                </Button>
+                                <motion.div whileHover={{ scale: 0.9 }}>
+                                    <Button
+                                        _hover={{ cursor: "pointer", background: "orange.200" }}
+                                        onClick={() => {
+                                            handleClick()
+                                            setIsFolCount(FolCount + 1)
+                                        }}
+                                        pl={5}
+                                        width={{ lg: "7rem", base: "" }}
+                                        height={{ lg: "3rem", base: "2rem" }}
+                                        fontSize={{ base: "", lg: "lg" }}
+                                        bg="orange.600"
+                                        position="initial"
+                                        value="inside"
+                                        shadow={"lg"}
+                                    >
+                                        Follow
+                                    </Button></motion.div>
                             ) : (
-                                <Button
-                                    _hover={{ cursor: "pointer", background: "" }}
-                                    onClick={() => {
-                                        handleClick()
-                                        setIsFolCount(FolCount - 1)
-                                    }}
-                                    shadow={"lg"}
-                                    colorScheme="orange"
-                                    variant="outline"
-                                    pl={5}
-                                    width={{ lg: "7rem", base: "" }}
-                                    height={{ lg: "3rem", base: "2rem" }}
-                                    fontSize={{ base: "", lg: "lg" }}
-                                    position="initial"
-                                    value="inside"
-                                >
-                                    Following
-                                </Button>
+                                <motion.div whileHover={{ scale: 0.9 }}>
+                                    <Button
+                                        _hover={{ cursor: "pointer", background: "" }}
+                                        onClick={() => {
+                                            handleClick()
+                                            setIsFolCount(FolCount - 1)
+                                        }}
+                                        shadow={"lg"}
+                                        colorScheme="orange"
+                                        variant="outline"
+                                        pl={5}
+                                        width={{ lg: "7rem", base: "" }}
+                                        height={{ lg: "3rem", base: "2rem" }}
+                                        fontSize={{ base: "", lg: "lg" }}
+                                        position="initial"
+                                        value="inside"
+                                    >
+                                        Following
+                                    </Button></motion.div>
                             )}
                         </HStack>
-                        <Button
-                            pl={5}
-                            bg="orange.600"
-                            _hover={{ background: "orange.200" }}
-                            width={{ lg: "7rem", base: "" }}
-                            height={{ lg: "3rem", base: "2rem" }}
-                            fontSize={{ base: "", lg: "lg" }}
-                            position="initial"
-                            value="inside"
-                            shadow={"lg"}
-                        >
-                            Message
-                        </Button>{" "}
-                        <Menu>
+                        <motion.div whileHover={{ scale: 0.9 }}>
+                            <Button
+                                pl={5}
+                                bg="orange.600"
+                                _hover={{ background: "orange.200" }}
+                                width={{ lg: "7rem", base: "" }}
+                                height={{ lg: "3rem", base: "2rem" }}
+                                fontSize={{ base: "", lg: "lg" }}
+                                position="initial"
+                                value="inside"
+                                shadow={"lg"}
+                            >
+                                Message
+                            </Button></motion.div>{" "}
+                        <Menu><motion.div whileHover={{ scale: 0.9 }}>
                             <MenuButton
                                 alignContent={"center"}
                                 as={IconButton}
@@ -238,7 +241,7 @@ export default function SimpleThreeColumns() {
                                 fontSize={{ base: "", lg: "lg" }}
                                 bg="orange.600"
                                 value="inside"
-                            />
+                            /></motion.div>
                             <MenuList>
                                 <MenuItem color="orange.700" icon={<BsFillFlagFill />} onClick={onReportModalOpen}>
                                     Report
