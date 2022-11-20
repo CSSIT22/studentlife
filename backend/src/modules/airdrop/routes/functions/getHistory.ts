@@ -6,7 +6,11 @@ const getHistory = async (req: Request | any, res: Response | any) => {
             userId: user,
         },
         include: {
-            file: true,
+            file: {
+                include: {
+                    sender: true,
+                },
+            },
         },
     })
     res.json(history)
