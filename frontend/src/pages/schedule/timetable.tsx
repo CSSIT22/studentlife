@@ -11,7 +11,7 @@ import { IconButton, useDisclosure, Button, ButtonGroup, Divider } from "@chakra
 //import { ChevronRightIcon } from "@chakra-ui/icons"
 //import { AddIcon } from "@chakra-ui/icons"
 import { useState } from "react"
-// import { DESCRIPTION } from "src/components/notification/main/data/descTest"
+import { DESCRIPTION } from "src/components/notification/main/data/descTest"
 
 
 
@@ -148,7 +148,7 @@ function handleTime(){
                                     <FormLabel color="black">
                                         <Text fontSize="24px">Start Time</Text>
                                     </FormLabel>
-                                    <Input placeholder="Select time" size="xs" type="time" />
+                                    <Input placeholder="Select time" size="xs" id="time" type="time" value={time} onChange={handleInputTimeChange}/>
                                 </FormControl>
 
                                 <FormControl mt={4}>
@@ -225,11 +225,17 @@ function handleTime(){
                 </Grid>
             </Box>
             <br />
+
+
             <Box boxShadow="md" p="4" rounded="md" bg="white">
                 <Text>01:00</Text>
+                {/* <Box zIndex="4"  position="fixed" bgColor="#FFA740"><Text color='black' width="88px" height="295px">Assignment</Text>  </Box>
+                 */}
+                 
                 <br />
                 <Divider orientation="horizontal" />
                 <Text>02:00</Text>
+                {/* <Box zIndex="5" position="fixed" bgColor="#7EFF69"><Text color='black' width="88px" height="295px">Course</Text>  </Box> */}
                 <br />
                 <Divider orientation="horizontal" />
                 <Text>03:00</Text>
@@ -298,9 +304,18 @@ function handleTime(){
                 <Text>24:00</Text>
                 <br />
                 <Divider />
+                {/* <Grid templateColumns="repeat(8, 1fr)" gap={2}> */}
+                    <h4></h4>
+                
+                <Box zIndex="2" position="fixed" bgColor="#FFA740"><Text color='black' width="88px" height="295px">Course</Text>  </Box>
+                <Box zIndex="2" position="fixed" bgColor="#FFA740"><Text color='black' width="88px" height="295px">what</Text>  </Box>
+                {/* </Grid> */}
+               
 
                 {/* this part is for edit evet modal     */}
             </Box>
+            
+
             <Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
                 Edit
             </Button>
