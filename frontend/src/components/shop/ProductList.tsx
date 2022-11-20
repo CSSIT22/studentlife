@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react"
 import { Flex } from "@chakra-ui/react"
 import ProductDisplay from "./ProductDisplay"
-import { products } from "./content/dummyData/products"
 
 // Get data from database
 const ProductList: FC<{

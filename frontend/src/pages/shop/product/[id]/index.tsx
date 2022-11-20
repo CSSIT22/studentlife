@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { products } from "src/components/shop/content/dummyData/products"
 import API from "src/function/API"
 
 import { Product } from "@apiType/shop"
