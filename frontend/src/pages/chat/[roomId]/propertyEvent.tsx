@@ -16,12 +16,17 @@ import {
     Spacer,
     ListItem,
     UnorderedList,
+    Image,
+    Editable,
+    EditablePreview,
+    EditableInput,
 } from "@chakra-ui/react"
 import AppBody from "../../../components/share/app/AppBody"
 import React, { useState } from "react"
 import { AiFillBug, AiFillPicture, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { FaCircle } from "react-icons/fa"
 import { SearchIcon } from "@chakra-ui/icons"
+import API from "src/function/API"
 
 const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
@@ -33,6 +38,11 @@ function propertyEvent(props: any) {
 
     function colorRoom(e: any) {
         return setRoomColor(e.target.value)
+    }
+
+    const [roomName,setRoomName] = useState("")
+    const submitRoomName = () => {
+        API.post("/chat")
     }
 
     const members: any = [
@@ -62,11 +72,8 @@ function propertyEvent(props: any) {
     }
 
     function selectedMemberHandler(member: any) {
-        const currentArray = selectedMember
-        currentArray.push(member)
-        setSelectedMember(currentArray)
-        renderSelectedMember()
-        console.log(selectedMember)
+        setSelectedMember([...selectedMember,member])
+        // console.log(selectedMember)
     }
 
     const renderSelectedMember = () => {
@@ -94,17 +101,21 @@ function propertyEvent(props: any) {
             <VStack m={4} spacing={6}>
                 <HStack spacing={4}>
                     <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
-                    <VStack spacing={1}>
+                    <Flex direction={'column'}>
                         <Heading size={"md"}>Neng</Heading>
-                        <Text>rename</Text>
-                    </VStack>
+                        <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
+                            rename
+                        </Button>
+                    </Flex>
                 </HStack>
                 <HStack spacing={4}>
                     <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                    <VStack spacing={1}>
+                    <Flex direction={'column'}>
                         <Heading size={"md"}>Dan</Heading>
-                        <Text>rename</Text>
-                    </VStack>
+                        <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
+                            rename
+                        </Button>
+                    </Flex>
                 </HStack>
             </VStack>
         )
@@ -169,11 +180,21 @@ function propertyEvent(props: any) {
             <VStack spacing={6}>
                 <HStack spacing={4}>
                     <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
-                    <Heading size={"md"}>Neng</Heading>
+                    <Heading size={"md"}>
+                        <Editable defaultValue="Neng">
+                            <EditablePreview />
+                            <EditableInput />
+                        </Editable>
+                    </Heading>
                 </HStack>
                 <HStack spacing={4}>
                     <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                    <Heading size={"md"}>Dan</Heading>
+                    <Heading size={"md"}>
+                        <Editable defaultValue="Neng">
+                            <EditablePreview />
+                            <EditableInput />
+                        </Editable>
+                    </Heading>
                 </HStack>
             </VStack>
         )
@@ -202,7 +223,12 @@ function propertyEvent(props: any) {
         return (
             <Flex justifyContent={"center"}>
                 <VStack spacing={4}>
-                    <AiFillPicture size={"40px"} />
+                <Image
+                        borderRadius="full"
+                        boxSize="150px"
+                        src="https://www.macmillandictionary.com/us/external/slideshow/full/Grey_full.png"
+                        alt="Room profile"
+                    />
                     <Button>Choose from my library</Button>
                 </VStack>
             </Flex>

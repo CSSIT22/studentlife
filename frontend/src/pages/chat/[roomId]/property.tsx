@@ -40,7 +40,7 @@ function showProperty() {
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/profile/${param.roomId}`)
+        return navigate(`/user/${param.roomId}`)
         
     }
 
@@ -75,8 +75,8 @@ function showProperty() {
     ]
     return (
         <>
-            <VStack spacing={8} alignItems={"flex-start"}>
-                {eventsGroup.map((event) => (
+            <VStack spacing={6} alignItems={"flex-start"}>
+                {eventsIndi.map((event) => (
                     <Button
                         onClick={() => handleSizeClick(event)}
                         leftIcon={<event.eventIcon />}
