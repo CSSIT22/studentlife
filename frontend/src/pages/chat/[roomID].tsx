@@ -1,5 +1,5 @@
-import { Avatar, Box, Button, Circle, Flex, Hide, HStack, Input, SkeletonCircle, Textarea, useDisclosure } from "@chakra-ui/react"
-import { useEffect, useRef, useState } from "react"
+import { Avatar, Box, Flex, Hide, HStack, Input } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
@@ -8,7 +8,6 @@ import { AiFillThunderbolt } from "react-icons/ai"
 import { FiSend } from "react-icons/fi"
 import Plustoggle from "src/components/chat/Pbutton"
 import { BiSticker } from "react-icons/bi"
-import { render } from "react-dom"
 import TextBar from "../../components/chat/textConversation"
 import API from "src/function/API"
 
@@ -53,7 +52,7 @@ const Room = () => {
     }
 
     function onSend() {
-        setmsg([...msg, { text: Text, from: "me", timeSent: "" }])
+        setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
         setText("")
     }
 
@@ -66,8 +65,9 @@ const Room = () => {
                     <Clist />
                 </Hide>
                 <Box flex={1} bg="#FFF2E6"
-                    marginLeft={8}
+                    marginLeft={{ base: 0, md: 5 }}
                     width={{ base: "100%", md: "300px" }}
+
                 // maxH={'5000px'}
                 >
                     <Flex h={"55px"} alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }}>

@@ -28,65 +28,61 @@ function Plustoggle() {
     //function handle
     function Navigate() {
         return navigate(`/chat/${param.roomID}/property`)
-        
+
     }
 
     return (
         <>
             <RadioGroup defaultValue={"bottom"} children={undefined} ></RadioGroup>
             <Box marginLeft={5}>
-            <FaPlus size={"20px"} cursor={"pointer"} onClick={onOpen}  />
+                <FaPlus size={"20px"} cursor={"pointer"} onClick={onOpen} />
             </Box>
             <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerBody >
-                        <Flex bg={"#FFF2E9"} justifyContent={"center"} gap={"25px"}>
+                    <DrawerBody>
+                        <Flex bg={"#FFF2E9"} justifyContent={"center"} gap={"25px"} h={"100px"} alignItems={"center"}>
                             <Button
-                                h={'10vh'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
-                                px={10}
-                                size = {'lg'}
+                                h={"80%"}
+                                px={5}
                                 _active={{ background: "transparent" }}
-                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                                _hover={{ background: "transparent", transform: "scale(1.2)" }}
                             >
                                 <MdFastfood size={"40px"} />
                             </Button>
                             <Button
-                                size={'lg'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
-                                px={10}
-                                h={"10vh"}
-                                // _active={{ background: "transparent" }}
-                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                                px={5}
+                                h={"80%"}
+                                _active={{ background: "transparent" }}
+                                _hover={{ background: "transparent", transform: "scale(1.2)" }}
                             >
                                 <MdAttachMoney size={"40px"} />
                             </Button>
                             <Button
-                                size={'lg'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
-                                px={10}
-                                h={"10vh"}
-                                // _active={{ background: "transparent" }}
-                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                                px={5}
+                                h={"80%"}
+                                _active={{ background: "transparent" }}
+                                _hover={{ background: "transparent", transform: "scale(1.2)" }}
                             >
                                 <HiOutlineMusicNote size={"40px"} />
                             </Button>
                             <Button
-                                size={'lg'}
                                 borderRadius="md"
                                 bg="peachpuff"
                                 color="orange.700"
-                                px={10}
-                                h={"10vh"}
-                                // _active={{ background: "transparent" }}
-                                _hover={{ background: "transparent", transform: "scale(1.5)" }}
+                                px={5}
+                                h={"80%"}
+                                _active={{ background: "transparent" }}
+                                _hover={{ background: "transparent", transform: "scale(1.2)" }}
                             >
                                 <RiMenuFoldLine size={"40px"} onClick={Navigate} />
                             </Button>
