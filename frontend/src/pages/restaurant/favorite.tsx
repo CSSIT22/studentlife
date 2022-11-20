@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
-import { Restaurant } from "./data/restaurant"
 import API from "src/function/API"
 import { key } from "localforage"
 
