@@ -148,10 +148,10 @@ const Clist: FC<any> = () => {
     }
     const renderSearch = (search: string) => {
         if (search === "") {
-            return userRoom.map((e) => renderRoom(e))
+            return userRoom.map((e: any) => renderRoom(e))
         } else {
-            const result = userRoom.filter((e) => e.roomName.includes(search))
-            return result.map((e) => renderRoom(e))
+            const result = userRoom.filter((e: any) => e.roomName.includes(search))
+            return result.map((e: any) => renderRoom(e))
         }
     }
 
