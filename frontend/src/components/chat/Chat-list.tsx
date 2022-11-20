@@ -122,18 +122,18 @@ const Clist: FC<any> = () => {
         }
         if (target === 2 && e.roomtype === "GROUP") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"} key={e.roomID}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId}>
                     <Flex
                         alignItems={"center"}
-                        key={e.roomID}
+                        key={e.roomId}
                         marginY={3}
                         _hover={{
                             transform: "scale(1.1)",
                         }}
                         transitionDuration="300ms"
-                        onClick={() => Navigate(e.roomID)}
+                        onClick={() => Navigate(e.roomId)}
                     >
-                        <Avatar name={e.Roomname} src={e.img} />
+                        <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">

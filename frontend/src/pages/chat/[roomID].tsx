@@ -9,7 +9,8 @@ import { FiSend } from "react-icons/fi"
 import Plustoggle from "src/components/chat/Pbutton"
 import { BiSticker } from "react-icons/bi"
 import { render } from "react-dom"
-import  TextBar  from "../chat/textConversation"
+import TextBar from "../../components/chat/textConversation"
+import API from "src/function/API"
 
 type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
@@ -26,39 +27,37 @@ const mockRoom: room = [
 ]
 
 const mockMessage = [
-    {text: "Hi,how are you doing?", from: "others", timeSent: "20:10" },
-    {text: "I'm doing good, hbu?", from: "me", timeSent: "20:11" },
-    {text: "I'm so so. Thx", from: "others", timeSent: "20:15" },
-    {text: "Where are u from?", from: "me", timeSent: "20:16" },
-    {text: "Hmm..", from: "others", timeSent: "20:19" },
-    {text: "wait..? what?", from: "me", timeSent: "20:27" },
-    {text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
+    { text: "Hi,how are you doing?", from: "others", timeSent: "20:10" },
+    { text: "I'm doing good, hbu?", from: "me", timeSent: "20:11" },
+    { text: "I'm so so. Thx", from: "others", timeSent: "20:15" },
+    { text: "Where are u from?", from: "me", timeSent: "20:16" },
+    { text: "Hmm..", from: "others", timeSent: "20:19" },
+    { text: "wait..? what?", from: "me", timeSent: "20:27" },
+    { text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
 ]
 
 const Room = () => {
     let param = useParams()
     const [isMute, setIsMute] = useState(false)
-    const [Text , setText] = useState("")
-    const [msg , setmsg] = useState(mockMessage)
-
-    const filterRoom = mockRoom.filter((e) => {
-        return e.roomID === param.roomID;
-    })
-    const result = filterRoom[0]
-    console.log(result)
+    const [Text, setText] = useState("")
+    const [msg, setmsg] = useState(mockMessage)
+    const [Room, setRoom] = useState({ roomId: "", roomName: "", image: "" });
+    useEffect(() => {
+        API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data)
+        )
+    }, [param])
 
     //function
-    function onType(e : any){
+    function onType(e: any) {
         setText(e.target.value)
     }
 
-    function onSend(){
-       setmsg([...msg,{text :Text, from :"me", timeSent:""}])
-       setText("")
+    function onSend() {
+        setmsg([...msg, { text: Text, from: "me", timeSent: "" }])
+        setText("")
     }
 
-    // let d = new Date()
-    // d.toLocaleString
+
 
     return (
         <AppBody>
@@ -66,16 +65,16 @@ const Room = () => {
                 <Hide below="md">
                     <Clist />
                 </Hide>
-                <Box  flex={1} bg="#FFF2E6" 
-                marginLeft={8}  
-                width={{ base: "100%", md: "300px" }}
+                <Box flex={1} bg="#FFF2E6"
+                    marginLeft={8}
+                    width={{ base: "100%", md: "300px" }}
                 // maxH={'5000px'}
-                 >
+                >
                     <Flex h={"55px"} alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }}>
                         <Flex alignItems={"center"}>
-                            <Avatar marginLeft={4} name={result.roomName} src={result.img} />
+                            <Avatar marginLeft={4} name={Room.roomName} src={Room.image} />
                             <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5}>
-                                {result.roomName}
+                                {Room.roomName}
                             </Box>
                         </Flex>
                         <Flex marginRight={4}>
@@ -89,19 +88,19 @@ const Room = () => {
                             </Box>
                         </Flex>
                     </Flex>
-                    
-                <Box   overflowY={'auto'} flex={1} bg="#FFF2E6" 
-                width={{ base: "100%", md: "auto" }}
-                height={"64vh"}
-                 >
-                    {msg.map(({text, from, timeSent},roomID) => (
-                        <TextBar
-                        key = {roomID}
-                        message = {text}
-                        timeSent={timeSent}
-                        from={from}
-                        />
-                    ))}
+
+                    <Box overflowY={'auto'} flex={1} bg="#FFF2E6"
+                        width={{ base: "100%", md: "auto" }}
+                        height={"64vh"}
+                    >
+                        {msg.map(({ text, from, timeSent }, roomID) => (
+                            <TextBar
+                                key={roomID}
+                                message={text}
+                                timeSent={timeSent}
+                                from={from}
+                            />
+                        ))}
                     </Box>
 
                     <Flex h={"55px"} bg="#E68E5C" justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
@@ -116,7 +115,7 @@ const Room = () => {
                             type={"text"}
                             focusBorderColor="#606070"
                             errorBorderColor="#F8B88B"
-                            onChange={(e)=>onType(e)}
+                            onChange={(e) => onType(e)}
                             value={Text}
                         />
                         <Flex>
