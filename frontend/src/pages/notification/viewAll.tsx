@@ -25,7 +25,7 @@ import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectV
 import AppBody from "../../components/share/app/AppBody"
 import { FiSettings } from "react-icons/fi"
 import { Link } from "react-router-dom"
-import { OBJECTS } from "../../components/notification/main/data/objectsTest"
+import { OBJECTS } from "../../components/notification/main/mockupData/objectsTest"
 import { MODULES } from "../../components/notification/moduleList/moduleTest"
 
 const viewAll = () => {

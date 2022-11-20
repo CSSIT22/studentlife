@@ -6,8 +6,8 @@ import markallasRead from "./routes/markallasRead"
 import readNotiObject from "./routes/readNotiObject"
 
 //mockup data
-import { DESCRIPTION } from "./routes/testdata/descTest"
-import { USER } from "./routes/testdata/userProfile"
+import { DESCRIPTION } from "./routes/mockupData/descTest"
+import { USER } from "./routes/mockupData/userProfile"
 export let objects = [
     {
         id: "0ygyli7",

@@ -5,10 +5,10 @@ export const DESCRIPTION = [
     },
     {
         id: "1",
-        template: "<p><b>{USER[0].name}</b> testttttttttttt </p> ",
+        template: "<p><b>username1</b> testttttttttttt </p> ",
     },
     {
         id: "2",
-        template: "<p><b>eiei</b> testttttttttttt </p> ",
+        template: "<p><b>title</b> testttttttttttt </p> ",
     },
 ]

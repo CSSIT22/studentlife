@@ -14,7 +14,7 @@ export const OBJECTS = [
     {
         id: "1asdfgeasd",
         user: USER[1].id,
-        description: "sdasdf sadf asfasf",
+        description: "descriptionnnnnnnnn",
         isRead: false,
         date: new Date("2022-11-14 09:38:00"),
         module: "Shop",

@@ -3,7 +3,7 @@ import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import API from "src/function/API"
 import { MODULES } from "../moduleList/moduleTest"
-import { USER } from "./data/userProfile"
+import { USER } from "./mockupData/userProfile"
 
 const NotiObject: FC<{
     id: number
@@ -131,19 +131,19 @@ const NotiObject: FC<{
                 read(), onClick()
             }}
         >
-            {/* <a href={link}> */}
-            <Stack direction={"row"} spacing={5} padding={"1"}>
-                <Center>{showUser()}</Center>
+            <a href={link}>
+                <Stack direction={"row"} spacing={5} padding={"1"}>
+                    <Center>{showUser()}</Center>
 
-                <Stack>
-                    {showDescription()}
-                    {showDate()}
+                    <Stack>
+                        {showDescription()}
+                        {showDate()}
+                    </Stack>
+
+                    <Spacer />
+                    <Center paddingRight={3}>{showStatus()}</Center>
                 </Stack>
-
-                <Spacer />
-                <Center paddingRight={3}>{showStatus()}</Center>
-            </Stack>
-            {/* </a> */}
+            </a>
         </Box>
     )
 }
