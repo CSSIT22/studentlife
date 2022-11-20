@@ -4,11 +4,8 @@ import API from "src/function/API"
 import { Product } from "@apiType/shop"
 import { useParams } from "react-router-dom"
 import PageTitle from "src/components/shop/PageTitle"
-import ProductList from "src/components/shop/ProductList"
 import ShopAppBody from "src/components/shop/ShopAppBody"
-import Searchbar from "src/components/shop/SearchBar"
-import ProductDisplay from "src/components/shop/ProductDisplay"
-import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure } from "@chakra-ui/react"
+import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast } from "@chakra-ui/react"
 import { contacts } from "src/components/shop/content/dummyData/contacts"
 import ContentBox from "src/components/shop/ContentBox"
 import convertCurrency from "src/components/shop/functions/usefulFunctions"
@@ -22,6 +19,7 @@ const index = () => {
     const [product, setProduct] = useState<any>(null)
     const [countReviews, setCountReviews] = useState(4)
     const [actionText, setActionText] = useState("Show All")
+    const toast = useToast()
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -29,24 +27,25 @@ const index = () => {
     useEffect(() => {
         getProductInfo.then((res) => setProduct(res.data)).catch((err) => on()).finally(() => off())
     }, [])
-    if (isLoading){
+    if (isLoading) {
         return <>
-        Loading
+            Loading
         </>
     }
-    if (isError){
+    if (isError) {
         return (<>
-        There is an Error
+            There is an Error
         </>)
     }
     const contact =
         contacts.find((c) => c.contactId === product.contactId) != undefined
             ? contacts.filter((c) => c.contactId === product.contactId)[0]
             : contacts[0]
+
     // Need to calculate overall rating
     const oRating = 4
 
-    
+
 
     const productBox = (
         <ContentBox>
@@ -83,7 +82,12 @@ const index = () => {
                     <Text>Delivery Fees: {convertCurrency(product.deliveryFee)}</Text>
                 </GridItem>
                 <GridItem colSpan={4}>
-                    <ThemedButton width="full">Add to Cart</ThemedButton>
+                    <ThemedButton width="full" onClick={() => toast({
+                        title: 'Product Added to Cart Successfully',
+                        status: 'success',
+                        isClosable: true,
+                        duration: 1500,
+                    })}>Add to Cart</ThemedButton>
                 </GridItem>
             </Grid>
         </ContentBox>
@@ -100,7 +104,7 @@ const index = () => {
             </Flex>
         </ContentBox>
     )
-    
+
     const reviewBox = (
         <ContentBox>
             <Flex direction="column" gap={3} p={6}>
@@ -249,3 +253,7 @@ function generateReviews(count: number) {
 }
 
 export default index
+
+function toast(arg0: { title: string; description: string; status: string; duration: number; isClosable: boolean }) {
+    throw new Error("Function not implemented.")
+}

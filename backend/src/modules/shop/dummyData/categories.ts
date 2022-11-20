@@ -117,19 +117,9 @@ let categories = [
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUTA-7xy5Fut_tdVaadtm_MO2cG0gUDH9Agg&usqp=CAU"
     },
     {
-        id: 24,
-        name: "Lotion",
-        image: "https://api.watsons.co.th/medias/prd-front-275382.jpg?context=bWFzdGVyfGltYWdlc3wyMDg2ODB8aW1hZ2UvanBlZ3xoMTcvaDY3LzkzNTk1Njc2NTA4NDYvV1RDVEgtMjc1MzgyLWZyb250LmpwZ3w0ZGRhMTQ3YzQzOTRlNjA2MWQzMDUyYjAxYWY4MTM0YTk2NzFhMTE1Zjg3NmYyNjdlZDdiZDg1MGYwNGY4MGE2"
-    },
-    {
         id: 25,
-        name: "Shower Cream",
+        name: "Cosmetics",
         image: "https://www.thann.co.th/wp-content/uploads/2015/11/240620-AW-shower-gel-1-web.jpg"
-    },
-    {
-        id: 26,
-        name: "Shampoo",
-        image: "https://cdn.shopify.com/s/files/1/0052/8085/8198/products/e2bda94af90875a9de1a4f694b6bc68b2a667bba.jpg?v=1663593261"
     },
     {
         id: 27,
