@@ -4,7 +4,7 @@ import React, { FC } from "react"
 const snList: FC<{
     topic: String
     course: String
-    date: String
+    date: String | any
     lock: any
 }> = ({ topic, course, date, lock }) => {
     return (
@@ -22,7 +22,7 @@ const snList: FC<{
                 </GridItem>
                 <GridItem colSpan={2}>
                     <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
-                        <Text>{date}</Text>
+                        <Text>{new Date(date).toLocaleDateString("en-us", { timeZone: "Asia/Bangkok" })}</Text>
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={1} textAlign={"right"}>
