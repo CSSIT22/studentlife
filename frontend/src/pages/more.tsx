@@ -1,7 +1,6 @@
 import { Avatar, Box, Heading, HStack, SimpleGrid, useBreakpointValue, VStack } from "@chakra-ui/react"
 import React, { useContext } from "react"
 import { Link, Navigate } from "react-router-dom"
-import { logout } from "src/components/share/navbar/NavBarDesktop"
 import { authContext } from "src/context/AuthContext"
 import AppBody from "../components/share/app/AppBody"
 import { logout, moreMenu } from "../components/share/navbar/NavBar"
