@@ -61,7 +61,7 @@ router.get(
             })
             res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
-            res.status(500).send("These is an error in login")
+            res.status(500).send("These is an error in login ")
             console.log(error)
         }
     }
