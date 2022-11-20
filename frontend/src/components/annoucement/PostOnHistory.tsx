@@ -22,9 +22,17 @@ const PostOnHistory: FC<{
     }
     const button = (status: string) => {
         if (status == "approve" || status == "disapprove") {
-            return (<Text fontSize={"0.7rem"} color="red" as={"b"}>DELETE</Text>)
+            return (
+                <Text fontSize={"0.7rem"} color="red" as={"b"}>
+                    DELETE
+                </Text>
+            )
         } else if (status == "waiting") {
-            return (<Text fontSize={"0.7rem"} as={"b"}>EDIT</Text>)
+            return (
+                <Text fontSize={"0.7rem"} as={"b"}>
+                    EDIT
+                </Text>
+            )
         }
     }
     return (
@@ -50,9 +58,7 @@ const PostOnHistory: FC<{
                     <Text fontSize={"xs"}>{sender}</Text>
                 </Box>
                 <Spacer />
-                <Box>
-                    {button(status)}
-                </Box>
+                <Box>{button(status)}</Box>
             </Flex>
         </Box>
     )

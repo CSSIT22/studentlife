@@ -70,9 +70,9 @@ const DatingInterestTag: FC<{
             h="36.4px"
             mr="11px"
             mb="23px"
-            colorScheme="black"
+            colorScheme="orange"
             color="white"
-            backgroundColor="gray.400"
+            backgroundColor="orange.500"
             borderRadius="full"
             id={interestId}
             name="interest"
@@ -81,7 +81,7 @@ const DatingInterestTag: FC<{
             iconColor="white"
             defaultChecked
         >
-            <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+            <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
                 {interestName}
             </Text>
         </Checkbox>
@@ -93,17 +93,17 @@ const DatingInterestTag: FC<{
                 p="1"
                 pr="5"
                 pl="2"
-                color="white"
+                color="black"
                 h="36.4px"
                 mb="23px"
-                backgroundColor="orange.400"
+                backgroundColor="gray.200"
                 borderRadius="full"
                 id={interestId}
                 name="interest"
                 value={interestId}
                 readOnly={true}
             >
-                <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+                <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
                     {interestName}
                 </Text>
             </Checkbox>
@@ -113,9 +113,9 @@ const DatingInterestTag: FC<{
             p="1"
             pr="5"
             pl="2"
-            color="white"
+            color="black"
             h="36.4px"
-            backgroundColor="orange.400"
+            backgroundColor="gray.200"
             borderRadius="full"
             id={interestId}
             mr="11px"
@@ -124,7 +124,7 @@ const DatingInterestTag: FC<{
             onChange={handleTag}
             value={interestId}
         >
-            <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+            <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
                 {interestName}
             </Text>
         </Checkbox>

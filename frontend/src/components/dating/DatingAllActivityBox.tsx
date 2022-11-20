@@ -2,12 +2,30 @@ import { Box, Button, Center, Flex, Heading, Image, Spacer, Text } from "@chakra
 import React, { useState } from "react"
 import { POLL } from "./shared/poll"
 
+declare global {
+    var date: string, time: string
+}
+
 const DatingAllActivityBox = () => {
     const [poll, setPoll] = useState(POLL)
+
+    function handlePollDate(dateTime: string) {
+        return dateTime.substring(0, 10)
+    }
+
+    function hanlePollTime(dateTime: string) {
+        const time = new Date(dateTime)
+        time.toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })
+        const t = time.toString()
+        return t
+        //t.substring(11, 16)
+    }
 
     return (
         <Box borderRadius="10px" color="black">
             {poll.map((values) => {
+                globalThis.date = handlePollDate(values.pollAppointAt)
+                globalThis.time = hanlePollTime(values.pollAppointAt)
                 return (
                     <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                         <Flex>
@@ -32,26 +50,30 @@ const DatingAllActivityBox = () => {
                         <Text fontSize="16px" pb="20px">
                             Description: {values.pollText}
                         </Text>
-                        <Text fontSize="16px">Location: {values.pollAppointAt}</Text>
-                        <Text fontSize="16px">Date: {values.pollAppointAt}</Text>
-                        <Text fontSize="16px">Time: {values.pollAppointAt}</Text>
+                        <Text fontSize="16px">Location: {values.pollPlace}</Text>
+
+                        <Text fontSize="16px">Date: {globalThis.date}</Text>
+                        <Text fontSize="16px">Time: {globalThis.time}</Text>
                         <Text fontSize="16px">
                             Number of people: {values.participantMin}-{values.participantMax} people
                         </Text>
-
-                        <Button
-                            type="submit"
-                            form="new-note"
-                            borderRadius="5px"
-                            colorScheme="orange"
-                            // onClick={() => handleSubmit()}
-                            m="10px"
-                            p="10px"
-                            pr="50px"
-                            pl="50px"
-                        >
-                            Apply
-                        </Button>
+                        <Flex justifyContent="end">
+                            <Button
+                                display="flex-end"
+                                type="submit"
+                                form="new-note"
+                                borderRadius="5px"
+                                colorScheme="orange"
+                                // onClick={() => handleSubmit()}
+                                m="10px"
+                                p="5px"
+                                mt="30px"
+                                pr="40px"
+                                pl="40px"
+                            >
+                                Apply
+                            </Button>
+                        </Flex>
                     </Box>
                 )
             })}

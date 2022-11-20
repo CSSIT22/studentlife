@@ -7,9 +7,7 @@ import Searchcontent from "../../components/restaurant/searchcontent"
 import AppBody from "../../components/share/app/AppBody"
 import { Restaurant } from "./data/restaurant"
 const search = () => {
-    const filterres = () => {
-
-    }
+    const filterres = () => {}
     return (
         <AppBody
             secondarynav={[
@@ -28,7 +26,14 @@ const search = () => {
                     return (
                         <GridItem>
                             <Link to={`/restaurant/detail/${e1.id}`}>
-                                <Searchcontent resName={e1.resName} phone={e1.phone} open={e1.open} close={e1.close} website={e1.website} img={e1.img[0]}/>
+                                <Searchcontent
+                                    resName={e1.resName}
+                                    phone={e1.phone}
+                                    open={e1.open}
+                                    close={e1.close}
+                                    website={e1.website}
+                                    img={e1.img[0]}
+                                />
                             </Link>
                         </GridItem>
                     )

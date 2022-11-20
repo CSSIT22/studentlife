@@ -5,7 +5,6 @@ import QAnsAppBody from "../../components/qa/QAnsAppBody"
 import QAnsTag from "../../components/qa/QAnsTag"
 import QAnsPost from "../../components/qa/QAnsPost"
 
-
 interface state {
     allTags: {
         tagId: string
@@ -43,7 +42,6 @@ const TagQA = () => {
                     ))}
                 </CheckboxGroup>
             </QAnsPost>
-
         </QAnsAppBody>
     )
 }

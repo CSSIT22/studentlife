@@ -50,9 +50,8 @@ const recyclebin = () => {
     const date = new Date()
     // console.log(date);
     const d = new Date("Sat Nov 12 2022 01:39:11 GMT+0700")
-    console.log(d);
-    
-    
+    console.log(d)
+
     const currentD = Math.round(date.getTime() / day)
     const currentH = Math.round(date.getTime() / hour)
     const currentM = Math.round(date.getTime() / minute)
@@ -60,29 +59,29 @@ const recyclebin = () => {
         const expired = new Date(epd)
         const dEpd = Math.round(expired.getTime() / day)
         const diffD = dEpd - currentD
-        if(diffD <= 3 && diffD > 0){
-            if(diffD == 1){
-                return diffD+" day"
-            }else {
-                return diffD+" days"
+        if (diffD <= 3 && diffD > 0) {
+            if (diffD == 1) {
+                return diffD + " day"
+            } else {
+                return diffD + " days"
             }
-        }else if(diffD == 0){
+        } else if (diffD == 0) {
             const hEpd = Math.round(expired.getTime() / hour)
-            const diffH = hEpd-currentH
-            if(diffH <=24 && diffH > 0){
-                if(diffH == 1){
-                    return diffH+" hour"
-                }else {
-                    return diffH+" hours"
+            const diffH = hEpd - currentH
+            if (diffH <= 24 && diffH > 0) {
+                if (diffH == 1) {
+                    return diffH + " hour"
+                } else {
+                    return diffH + " hours"
                 }
-            }else {
-                return diffH+" H"
+            } else {
+                return diffH + " H"
             }
-        }else {
+        } else {
             return ""
         }
     }
-    
+
     return (
         <AppBody
             secondarynav={[
@@ -91,7 +90,7 @@ const recyclebin = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            p={{md:"3rem"}}
+            p={{ md: "3rem" }}
         >
             <Flex alignItems={"center"}>
                 <HeaderPage head="Recycle bin" />
@@ -100,10 +99,10 @@ const recyclebin = () => {
                 .filter((fl) => {
                     const expired = new Date(fl.expiredAfterDelete)
                     const expiredPost = Math.round(expired.getTime() / day)
-                    const diffD = expiredPost - currentD 
+                    const diffD = expiredPost - currentD
                     const hEpd = Math.round(expired.getTime() / hour)
-                    const diffH = hEpd-currentH
-                    return fl.status == "delete" && ((diffD > 0) || (diffH > 0))
+                    const diffH = hEpd - currentH
+                    return fl.status == "delete" && (diffD > 0 || diffH > 0)
                 })
                 .map((el) => {
                     const r = showRemaining(el.expiredAfterDelete)
