@@ -33,9 +33,13 @@ import ExtarSecondaryNav from "./ExtarSecondaryNav"
 import logo from "./pic/logo.png"
 import { authContext } from "src/context/AuthContext"
 import NotiTable from "src/components/notification/NotiTable"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
+
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
+    const navigate = useNavigate()
     return (
         <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
@@ -86,7 +90,9 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                         <MenuList>
                                             <MenuGroup title="User">
                                                 <MenuItem icon={<FaUserAlt />}>Profile</MenuItem>
-                                                <MenuItem icon={<FaHistory />}>Login Activity</MenuItem>
+                                                <MenuItem as={Link} to={"/auth/revokeTokens"} icon={<FaHistory />}>
+                                                    Login Activity
+                                                </MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
                                                 <MenuItem onClick={logout} icon={<BiLogOut />}>Logout</MenuItem>
