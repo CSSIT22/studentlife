@@ -9,6 +9,11 @@ optionRoutes.get("/", (_, res) => {
     return res.send("Dating Module Option page API")
 })
 
+// Get all faculty
+optionRoutes.get("/getFaculty", verifyUser, async (req: Request, res: Response) => {
+    // Put Thitipa's code here
+})
+
 // Get the previous option
 optionRoutes.get("/getOption", verifyUser, async (req: Request, res: Response) => {
     // Put Thitipa's code here

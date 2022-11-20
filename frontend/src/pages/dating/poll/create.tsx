@@ -272,6 +272,7 @@ const CreateActivityPoll = () => {
                                                 tagIsClicked={tagIsClicked}
                                                 hasSelectedInterest={true}
                                                 type="topic"
+                                                isLoading={false}
                                             />
                                         </GridItem>
                                     </ModalFooter>

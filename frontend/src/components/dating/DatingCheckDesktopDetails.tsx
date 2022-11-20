@@ -18,7 +18,10 @@ const DatingCheckDetails: FC<{ Fname: string; Lname: string; Gender: string; Age
                     {Fname.length > 19 ? Fname.substring(0, 19) + "..." : Fname}
                 </Text>
                 <Text color="black" mt="46px" fontWeight="700" fontSize="30px" lineHeight="133%">
-                    &nbsp;{Lname.substring(0, 1)}.&nbsp;&nbsp;{Gender},&nbsp;{Age}
+                    &nbsp;{Lname.substring(0, 1)}.
+                </Text>
+                <Text color="black" mt="46px" fontWeight="400" fontSize="30px" lineHeight="133%">
+                    &nbsp;&nbsp;{Gender},&nbsp;{Age}
                 </Text>
             </Box>
 
