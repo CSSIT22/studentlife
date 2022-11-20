@@ -1,82 +1,82 @@
 export const DEFAULT_TAGS = [
     {
-        tagId: "1",
+        tagId: 1,
         tagName: "Studying",
     },
     {
-        tagId: "2",
+        tagId: 2,
         tagName: "Food",
     },
     {
-        tagId: "3",
+        tagId: 3,
         tagName: "Working",
     },
     {
-        tagId: "4",
+        tagId: 4,
         tagName: "Funny",
     },
     {
-        tagId: "5",
+        tagId: 5,
         tagName: "Normal Thing",
     },
     {
-        tagId: "6",
+        tagId: 6,
         tagName: "Suggestion",
     },
     {
-        tagId: "7",
-        tagName: "Daily life",
+        tagId: 7,
+        tagName: "Daily Life",
     },
     {
-        tagId: "8",
+        tagId: 8,
         tagName: "Secret",
     },
     {
-        tagId: "9",
+        tagId: 9,
         tagName: "Serious",
     },
     {
-        tagId: "10",
+        tagId: 10,
         tagName: "Drama",
     },
     {
-        tagId: "11",
-        tagName: "Sharing thing",
+        tagId: 11,
+        tagName: "Sharing Thing",
     },
     {
-        tagId: "12",
+        tagId: 12,
         tagName: "Personal Question",
     },
     {
-        tagId: "13",
+        tagId: 13,
         tagName: "This or That",
     },
     {
-        tagId: "14",
+        tagId: 14,
         tagName: "Love",
     },
     {
-        tagId: "15",
+        tagId: 15,
         tagName: "Meeting",
     },
     {
-        tagId: "16",
+        tagId: 16,
         tagName: "Travel",
     },
     {
-        tagId: "17",
-        tagName: "Mental health",
+        tagId: 17,
+        tagName: "Mental Health",
     },
     {
-        tagId: "18",
+        tagId: 18,
         tagName: "Favorite Thing",
     },
     {
-        tagId: "19",
+        tagId: 19,
         tagName: "Opinion",
     },
     {
-        tagId: "20",
+        tagId: 20,
         tagName: "Activity",
     },
 ]
