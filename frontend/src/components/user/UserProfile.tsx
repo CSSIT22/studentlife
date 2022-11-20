@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { ReactElement } from "react"
+import { motion } from "framer-motion"
 import FriendList from "../user/FriendList"
 import {
     Box,
@@ -99,17 +100,21 @@ export default function SimpleThreeColumns() {
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <VStack align="stretch" alignItems="center" ml={7}>
-                        <Avatar
-                            pt={2}
-                            mt={{ md: "-70px", base: "0" }}
-                            display="flex"
-                            position="initial"
-                            float={"inline-end"}
-                            size={{ md: "3xl", base: "2xl" }}
-                            shadow="xl"
-                            name="Christian Nwamba"
-                            src="https://bit.ly/code-beast"
-                        />{" "}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
+                            <Avatar
+                                pt={2}
+                                mt={{ md: "-70px", base: "0" }}
+                                display="flex"
+                                position="initial"
+                                float={"inline-end"}
+                                size={{ md: "3xl", base: "2xl" }}
+                                shadow="xl"
+                                name="Christian Nwamba"
+                                src="https://bit.ly/code-beast"
+                            /></motion.div>
+                        {" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
@@ -124,7 +129,16 @@ export default function SimpleThreeColumns() {
                     </HStack>
 
                     <Stack p={1} direction={{ base: "column", md: "row" }}>
-                        <Box fontSize={{ lg: "5xl", base: "xl" }}>Vatcharamai Rodring</Box>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 500,
+                                damping: 20,
+                            }}
+                        > <Box fontSize={{ lg: "5xl", base: "xl" }}>Vatcharamai Rodring</Box></motion.div>
+
                     </Stack>
 
                     <Stack direction={{ base: "column", lg: "row" }} alignItems="flex-start" spacing={-0.5} mb="5">
@@ -179,7 +193,7 @@ export default function SimpleThreeColumns() {
                                     </FormControl>
 
                                     <HStack mt={4}>
-                                        <FormControl>
+                                        {/* <FormControl>
                                             <FormLabel>Age</FormLabel>
                                             <NumberInput max={999} min={0}>
                                                 <NumberInputField />
@@ -188,7 +202,7 @@ export default function SimpleThreeColumns() {
                                                     <NumberDecrementStepper />
                                                 </NumberInputStepper>
                                             </NumberInput>
-                                        </FormControl>
+                                        </FormControl> */}
                                         <FormControl>
                                             <FormLabel>Birth Date</FormLabel>
                                             <Input placeholder="Select Date and Time" size="md" type="date" />

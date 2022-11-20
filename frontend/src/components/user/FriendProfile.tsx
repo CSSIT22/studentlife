@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { ReactElement } from "react"
+import { motion } from "framer-motion"
 import FriendList from "../user/FriendList"
 import {
     Box,
@@ -100,17 +101,21 @@ export default function SimpleThreeColumns() {
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <VStack align="stretch" alignItems="center" ml={7}>
-                        <Avatar
-                            pt={2}
-                            mt={{ md: "-70px", base: "0" }}
-                            display="flex"
-                            position="initial"
-                            float={"inline-end"}
-                            size={{ md: "3xl", base: "2xl" }}
-                            shadow="xl"
-                            name="Christian Nwamba"
-                            src="https://bit.ly/code-beast"
-                        />{" "}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
+                            <Avatar
+                                pt={2}
+                                mt={{ md: "-70px", base: "0" }}
+                                display="flex"
+                                position="initial"
+                                float={"inline-end"}
+                                size={{ md: "3xl", base: "2xl" }}
+                                shadow="xl"
+                                name="Christian Nwamba"
+                                src="https://bit.ly/code-beast"
+                            /></motion.div>
+                        {" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
@@ -125,7 +130,16 @@ export default function SimpleThreeColumns() {
                     </HStack>
 
                     <Stack p={1} direction={{ base: "column", md: "row" }}>
-                        <Box fontSize={{ lg: "5xl", base: "xl" }}>Vatcharamai Rodring</Box>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 500,
+                                damping: 20,
+                            }}>
+                            <Box fontSize={{ lg: "5xl", base: "xl" }}>Vatcharamai Rodring</Box>
+                        </motion.div>
                     </Stack>
 
                     <Stack direction={{ base: "column", lg: "row" }} alignItems="flex-start" spacing={-0.5} mb="5">
@@ -152,7 +166,7 @@ export default function SimpleThreeColumns() {
                         </Stack>
                     </Stack>
                 </GridItem>
-                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "2", lg: "6" }}>
+                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "0", md: "2", lg: "6" }}>
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
                         <HStack position="initial">
                             {isFollow ? (
@@ -258,7 +272,7 @@ export default function SimpleThreeColumns() {
                                         </ModalBody>
 
                                         <ModalFooter>
-                                            <Button colorScheme="orange" mr={3} onClick={onConfirmRPModalOpen}>
+                                            <Button colorScheme="orange" mr={3} _hover={{ background: "orange.200" }} onClick={onConfirmRPModalOpen}>
                                                 Report
                                             </Button>
                                             <Modal isCentered isOpen={isConfirmRPModalOpen} onClose={onConfirmRPModalClose}>
@@ -349,7 +363,7 @@ export default function SimpleThreeColumns() {
                 <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "3rem" }} mr={5}>
                     <Stack direction="row" mx={{ base: "50", lg: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
-                            <Box fontSize={{ base: "lg", lg: "2xl" }}>0</Box>
+                            <Box fontSize={{ base: "lg", lg: "2xl" }}>{FolCount}</Box>
                             <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
                                 <Box fontSize={{ base: "lg", lg: "2xl" }} color="orange.700">
                                     Follower
@@ -400,7 +414,7 @@ export default function SimpleThreeColumns() {
                     </Stack>
                 </GridItem>
             </Grid>
-        </Box>
+        </Box >
 
         // Help me goddddd it almost finish but my eyes can handle much any more sorry for what i done this is the end of me nowww thank you everyone for support me and help me love you mom dad and my bro sry to be a
         // croward is sorry

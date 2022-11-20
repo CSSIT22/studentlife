@@ -27,12 +27,12 @@ function AboutMe() {
                         <Text color="black" fontSize="lg" fontWeight="700">
                             09xxxxxxxx
                         </Text>
-                        <Text color="orange.700" fontSize="md" fontWeight="500">
+                        {/* <Text color="orange.700" fontSize="md" fontWeight="500">
                             AGE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
                             20
-                        </Text>
+                        </Text> */}
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             BIRTH DATE
                         </Text>
