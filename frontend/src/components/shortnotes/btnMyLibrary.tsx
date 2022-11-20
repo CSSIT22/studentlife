@@ -3,33 +3,11 @@ import {
     Heading,
     Text,
     Button,
-    Flex,
-    Spacer,
     HStack,
-    SimpleGrid,
     VStack,
-    Select,
-    ButtonGroup,
-    Divider,
-    GridItem,
-    Grid,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
     useDisclosure,
     Input,
-    Textarea,
-    useRadioGroup,
-    useRadio,
-    Center,
-    InputGroup,
-    InputRightElement,
     Stack,
-    Square,
     Drawer,
     DrawerBody,
     DrawerFooter,
@@ -37,8 +15,6 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    RadioGroup,
-    Radio,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { BiLibrary } from "react-icons/bi"
@@ -76,8 +52,8 @@ const btnMyLibrary = () => {
     }
 
     const li = [
-        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
-        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
+        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "Network midterm", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
+        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "Year 1 term 2 ", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
     ]
     const inLi = [
         {
@@ -123,10 +99,10 @@ const btnMyLibrary = () => {
                                 <Box
                                     as="button"
                                     onClick={() => {
-                                        setNPicked(li.name)
-                                        setPicked(li.id)
+                                        setNPicked(li.name) //collect selected li.name
+                                        setPicked(li.id) //collect selected li.id
                                         inliOnOpen()
-                                        console.log(nPicked)
+                                        console.log(picked)
                                     }}
                                 >
                                     <LiList name={li.name}></LiList>
@@ -164,7 +140,7 @@ const btnMyLibrary = () => {
 
                                 <Box w={"100%"}>
                                     <Text>Name</Text>
-                                    <Input variant="outline" placeholder="" />
+                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" />
                                 </Box>
                                 <Button colorScheme="orange" w={"100%"}>
                                     Create
