@@ -7,6 +7,7 @@ import DatingInterestTag from "../../components/dating/DatingInterestTag"
 import DatingInterestDynamicButton from "../../components/dating/DatingInterestDynamicButton"
 import { AllInterests } from "@apiType/dating"
 import API from "src/function/API"
+import DatingWentWrong from "src/components/dating/DatingWentWrong"
 
 const TagOfInterest = () => {
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
@@ -93,14 +94,14 @@ const TagOfInterest = () => {
                                 {/* DatingInterestDynamicButton component: Skip & Done button */}
 
                                 <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }}>
-                                    <DatingInterestDynamicButton
+                                    {!isError ? <DatingInterestDynamicButton
                                         numOfSelectedInterest={selectedInterests.length}
                                         selectedInterests={selectedInterests}
                                         tagIsClicked={tagIsClicked}
                                         hasSelectedInterest={hasSelectedInterest}
                                         type="interest"
                                         isLoading={isLoading}
-                                    />
+                                    /> : <></>}
                                 </GridItem>
                             </Grid>
                             {/* DatingInterestSearch component: Search Bar */}
@@ -125,11 +126,7 @@ const TagOfInterest = () => {
                 ) : <></>}
                 {isError ? (
                     <Box pt={{ base: "50px", md: "100px" }}>
-                        <Heading color="black" fontWeight="700" fontSize={{ base: "24px", md: "32px" }} lineHeight="120%" textAlign="center">Something went wrong...</Heading>
-                        <Heading color="black" fontWeight="400" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%" textAlign="center">Try refreshing the page?</Heading>
-                        <Box pt="30px" display="flex" justifyContent="center">
-                            <Button colorScheme="orange" onClick={() => window.location.reload()}><Text color="white">Refresh</Text></Button>
-                        </Box>
+                        <DatingWentWrong />
                     </Box>
                 ) : (
                     <></>

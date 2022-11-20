@@ -1,6 +1,7 @@
 import {
     Box,
     Button,
+    Center,
     Container,
     Flex,
     Heading,
@@ -9,6 +10,7 @@ import {
     ModalBody,
     ModalCloseButton,
     ModalContent,
+    ModalFooter,
     ModalHeader,
     ModalOverlay,
     Text,
@@ -16,7 +18,11 @@ import {
     useDisclosure,
 } from "@chakra-ui/react"
 import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import DatingYourPollCancel from "src/components/dating/DatingYourPollCancel"
+import DatingYourPollClose from "src/components/dating/DatingYourPollClose"
+import DatingYourPollCloseAndAcceptAll from "src/components/dating/DatingYourPollCloseAndAcceptAll"
+import DatingYourPollSeeMore from "src/components/dating/DatingYourPollSeeMore"
 import DatingAppBody from "../../../../components/dating/DatingAppBody"
 import ChatImg from "../../../../components/dating/pic/chat.png"
 import CheckImg from "../../../../components/dating/pic/check.png"
@@ -29,23 +35,12 @@ const YourPoll = () => {
     }, [])
 
     const { pollId } = useParams()
-    const { isOpen, onOpen, onClose } = useDisclosure()
     const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
 
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
-
-    function handlePeople(min: number, max: number) {
-        if (max === min && max === 1) {
-            return min + " person"
-        } else if (max === min && max !== 1) {
-            return min + " people"
-        } else {
-            return min + "-" + max + " people"
-        }
-    }
 
     function handleBottomBar() {
         let bottomBar = document.getElementById("bottomBar") as HTMLInputElement
@@ -75,21 +70,7 @@ const YourPoll = () => {
                             {pollInfo.pollName}
                         </Text>
                     </Box>
-                    <Box h="10%" display="flex" justifyContent="end" alignItems="end">
-                        <Text
-                            mb="17px"
-                            mr="31px"
-                            fontWeight="400"
-                            fontSize={{ base: "14px", md: "16px" }}
-                            lineHeight="150%"
-                            textDecorationLine="underline"
-                            color="black"
-                            cursor="pointer"
-                            onClick={onOpen}
-                        >
-                            Click to see more
-                        </Text>
-                    </Box>
+                    <DatingYourPollSeeMore pollInfo={pollInfo} />
                 </Box>
                 <Heading
                     color="black"
@@ -249,40 +230,10 @@ const YourPoll = () => {
                                     Do you want to close the poll?
                                 </Text>
                                 <Box display="flex" justifyContent="center" pt={"30px"}>
-                                    <Button
-                                        colorScheme="orange"
-                                        w={{ base: "167px", md: "172px" }}
-                                        h="36px"
-                                        mr={{ base: "5px", md: "47px" }}
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    >
-                                        <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
-                                            Close now
-                                        </Text>
-                                    </Button>
-                                    <Button
-                                        colorScheme="orange"
-                                        w={{ base: "167px", md: "172px" }}
-                                        h="36px"
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    >
-                                        <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
-                                            Close & accept all
-                                        </Text>
-                                    </Button>
+                                    <DatingYourPollClose />
+                                    <DatingYourPollCloseAndAcceptAll />
                                 </Box>
-                                <Box display="flex" justifyContent="center" pt={{ base: "5px", md: "20px" }} pb={{ base: "80px", md: "25px" }}>
-                                    <Button
-                                        colorScheme="orange"
-                                        w={{ base: "167px", md: "380px" }}
-                                        h="36px"
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    >
-                                        <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
-                                            Cancel the activity
-                                        </Text>
-                                    </Button>
-                                </Box>
+                                <DatingYourPollCancel />
                             </Box>
                         </Box>
                     </Box>
@@ -311,50 +262,6 @@ const YourPoll = () => {
                     </Box>
                 </Container>
             </Box>
-
-            <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>
-                        <Flex alignItems="center">
-                            <Image
-                                borderRadius="full"
-                                boxSize="78px"
-                                objectFit="cover"
-                                src={pollInfo.creator.url}
-                                alt={pollInfo.creator.Fname + " " + pollInfo.creator.Lname}
-                            />
-                            <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
-                                {pollInfo.creator.Fname}
-                                &nbsp;
-                                {pollInfo.creator.Lname}
-                            </Text>
-                        </Flex>
-                    </ModalHeader>
-                    <ModalBody>
-                        <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
-                            {pollInfo.pollName}
-                        </Heading>
-                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
-                            {pollInfo.pollText.length > 1 ? "Description:" : ""} {pollInfo.pollText}
-                        </Text>
-                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                            Location: {pollInfo.pollPlace}
-                        </Text>
-
-                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                            Date: {globalThis.date}
-                        </Text>
-                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                            Time: {globalThis.time}
-                        </Text>
-                        <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
-                            Number of people: {handlePeople(pollInfo.participantMin, pollInfo.participantMax)}
-                        </Text>
-                    </ModalBody>
-                    <ModalCloseButton />
-                </ModalContent>
-            </Modal>
         </>
     )
 }
