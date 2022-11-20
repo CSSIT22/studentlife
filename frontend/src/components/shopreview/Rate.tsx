@@ -4,7 +4,7 @@ import AmountRate from "./AmountRate"
 const Rate = () => {
     return (
         <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-            <Box as="button" p={3} h={32} background={"white"} shadow={"md"} rounded={"2xl"}>
+            <Box as="button" p={5} h={32} background={"white"} shadow={"md"} rounded={"2xl"}>
                 <Box p={1} width={"60px"} height={"25px"} px={2} rounded={"2xl"} background={"#FF3939"}>
                     <Flex mb={1} direction={"row"} justifyContent={"center"} alignItems={"center"}>
                         <img

@@ -1,12 +1,20 @@
-import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Collapse, Flex, Heading, Link, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import AmountLike from "./AmountLike"
 import AmountRate from "./AmountRate"
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 
 const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String }> = ({ image, name, ment, date }) => {
+    const [show, setShow] = React.useState(false)
+    const handleToggle = () => setShow(!show)
+
+    const navigate = useNavigate()
+    const navigateReview = () => {
+        navigate("/shopreview/review")
+    }
     return (
-        <Box p={3} minHeight={32} maxHeight={"200px"} background={"white"} shadow={"md"} rounded={"2xl"}>
+        <Box p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
             <Stack mb={3} direction={"row"} spacing={"24px"}>
                 <Avatar name="" src={`url('${image}')`} />
                 {/* ดีงข้อมูลมาจาก database */}
@@ -19,14 +27,22 @@ const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String
                     </Text>
                 </Flex>
                 {/* ดีงข้อมูลมาจาก database */}
+                <Spacer onClick={navigateReview} as="button"></Spacer>
             </Stack>
-            <Flex direction={"row"} alignItems={"flex-start"}>
-                <Text as={"b"} color={"black"} mb={3} size={"sm"}>
-                    {ment}
-                </Text>
-            </Flex>
+            <Collapse startingHeight={20} in={show}>
+                <Flex direction={"row"} alignItems={"flex-start"}>
+                    <Box as="button">
+                        <Text overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} as={"b"} color={"black"} mb={3} size={"sm"}>
+                            {ment}
+                        </Text>
+                    </Box>
+                </Flex>
+            </Collapse>
+            {/* <Button _hover={{ background: "gray.500", color: "white" }} mb={4} size="sm" onClick={handleToggle} mt="1rem">
+                Show {show ? "Less" : "More"}
+            </Button> */}
             {/* ดีงข้อมูลมาจาก database */}
-            <Flex direction={"row"} justifyContent={"flex-end"}>
+            <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
                 <Box>
                     <img
                         style={{ width: 20 }}

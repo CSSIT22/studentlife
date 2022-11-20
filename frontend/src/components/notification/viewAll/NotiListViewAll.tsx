@@ -84,7 +84,7 @@ const NotiListViewAll: FC<{ selectedList: any[]; onClick: Function }> = ({ selec
             {sortedList?.map((el) => {
                 return (
                     <Box key={el.id}>
-                         {showDate(new Date(el.date))}
+                        {showDate(new Date(el.date))}
                         <Stack spacing={3}>
                             <NotiObjectViewAll
                                 id={el.id}

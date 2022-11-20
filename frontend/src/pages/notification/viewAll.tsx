@@ -17,7 +17,7 @@ import {
     ModalBody,
     ModalCloseButton,
 } from "@chakra-ui/react"
-import React, {useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import MarkRead from "../../components/notification/MarkRead"
 import Modulelist from "../../components/notification/moduleList/Modulelist"
 import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
@@ -26,7 +26,6 @@ import AppBody from "../../components/share/app/AppBody"
 import { useParams } from "react-router-dom"
 import API from "src/function/API"
 import { Notiobject } from "@apiType/notification"
-import { OBJECTS } from "../../components/notification/main/mockupData/objectsTest"
 import { MODULES } from "../../components/notification/moduleList/moduleTest"
 
 const viewAll = () => {

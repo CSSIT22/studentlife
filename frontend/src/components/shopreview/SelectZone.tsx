@@ -4,26 +4,29 @@ import Zone from "./Zone"
 
 const SelectZone: FC<{
     name: String
-}> = ({ name }) => {
+    handleSetZones: Function
+}> = ({ name, handleSetZones }) => {
+    const [active, setActive] = useState(false)
+    const handleClick = (e: React.MouseEvent) => {
+        setActive(!active)
+        handleSetZones(name)
+        if (e.stopPropagation) {
+            e.stopPropagation()
+            console.log(name)
+        }
+    }
     return (
-        <Button onClick={ColorChange} mr={2} ml={2} width={"100px"} rounded={"3xl"}>
+        <Button
+            onClick={(e) => handleClick(e)}
+            style={{ background: active ? "#FF7E20" : "", color: active ? "white" : "" }}
+            mr={2}
+            ml={2}
+            transitionDuration="300ms"
+            width={"100px"}
+            rounded={"3xl"}
+        >
             {name}
         </Button>
-    )
-}
-
-function ColorChange() {
-    const [active, setActive] = useState(false)
-    const handleClick = () => {
-        setActive(!active)
-    }
-
-    return (
-        <div>
-            <Button onClick={handleClick} style={{ color: active ? "orange" : "gray" }}>
-                <Zone name={"+zone"} />
-            </Button>
-        </div>
     )
 }
 
