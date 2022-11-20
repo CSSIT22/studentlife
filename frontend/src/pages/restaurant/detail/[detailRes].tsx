@@ -39,7 +39,7 @@ declare global {
 }
 
 function detail() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const {onOpen} = useDisclosure()
     const params = useParams()
     const [numres, setnumres] = useState(parseInt(params.detailRes + ""))
     // const property = Restaurant.filter((e1) => {
