@@ -14,11 +14,11 @@ const Feed = () => {
         return currentDate
     }
 
-    function ScoreUp(likes: number, comments: number, shares: number) {
-        comments *= 4 // 1 comment = 4 scores
-        shares *= 2 // 1 shares = 2 scores
-        return likes + comments + shares
-    }
+    // function ScoreUp(likes: number, comments: number, shares: number) {
+    //     comments *= 4 // 1 comment = 4 scores
+    //     shares *= 2 // 1 shares = 2 scores
+    //     return likes + comments + shares
+    // }
 
     function RandomNumber() {
         return Math.floor(Math.random() * 1001)
@@ -33,13 +33,11 @@ const Feed = () => {
                 dateTime={CurrentDate()} /*"23m"*/
                 message="Hello from the other side!"
                 // likes=RandomNumber()
-                likes={100}
-                comment={10}
-                share={20}
+                likes={RandomNumber()}
+                comments={10}
+                shares={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media="https://img.freepik.com/premium-vector/boy-waving-hand-greeting-cute-people-illustration_107355-500.jpg?w=1380"
-                // score={ScoreUp(GetLikes(), GetComments(), GetShares())}
-                score={100}
             />
             <Post
                 id="2"
@@ -48,11 +46,11 @@ const Feed = () => {
                 message="Seek success, but always be prepared for random cats."
                 // likes={Math.floor(Math.random() * 1001)}
                 likes={100}
-                comment={10}
-                share={20}
+                comments={10}
+                shares={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media="https://img.freepik.com/premium-vector/smiling-young-man-showing-thumbs-up-illustration-hand-drawn-style_213307-233.jpg?w=1380"
-                score={0}
+                // score={0}
             />
             <Post
                 id="3"
@@ -61,11 +59,11 @@ const Feed = () => {
                 message="Sometimes I stare at a door or a wall and I wonder what is this reality, why am I alive, and what is this all about?"
                 // likes={Math.floor(Math.random() * 1001)}
                 likes={100}
-                comment={10}
-                share={20}
+                comments={10}
+                shares={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media="https://img.freepik.com/premium-vector/big-obstacle-concept-illustration_1133-825.jpg?w=1800"
-                score={0}
+                // score={0}
             />
             <Post
                 id="4"
@@ -75,8 +73,8 @@ const Feed = () => {
                 gridiron football (specifically American football or Canadian football); Australian rules football; rugby union and rugby league; and Gaelic football. These various forms of football share to varying extent common origins and are known as football codes."
                 // likes={Math.floor(Math.random() * 1001)}
                 likes={100}
-                comment={10}
-                share={20}
+                comments={10}
+                shares={20}
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media=""
                 score={0}

@@ -1,6 +1,6 @@
 import { Avatar, Box, Center, Container, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react"
 import React from "react"
-import { AiFillLike } from "react-icons/ai"
+import { AiFillLike, AiOutlineShareAlt } from "react-icons/ai"
 import AppBody from "../share/app/AppBody"
 import Feed from "./Feed"
 
@@ -10,16 +10,22 @@ export type PostProps = {
     dateTime: string
     message: string
     likes: number
-    comment: number
-    share: number
+    comments: number
+    shares: number
     avatar: string
     media: string
-    score: number
+    score?: number
 }
 export const Post = (props: PostProps) => {
+    function ScoreUp(likes: number, comments: number, shares: number) {
+        comments *= 4 // 1 comment = 4 scores
+        shares *= 2 // 1 shares = 2 scores
+        return likes + comments + shares
+    }
+
     return (
         <Box p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" fontWeight="semibold">
-            <Text align="right"> score: {props.score} </Text>
+            <Text align="right"> score: {ScoreUp(props.likes, props.comments, props.shares)} </Text>
             <HStack>
                 <Avatar size="md" name={props.name} src={props.avatar} />
                 <VStack spacing="0.5" align={"-moz-initial"}>
@@ -36,19 +42,20 @@ export const Post = (props: PostProps) => {
             <HStack spacing="0.5">
                 <Icon as={AiFillLike} color="#E65300"></Icon>
                 <Text p="1" fontSize="xs">
-                    {props.likes} {props.comment} {props.share}
+                    {props.likes} {props.comments} {props.shares}
                 </Text>
+                <Icon as={AiOutlineShareAlt}></Icon>
             </HStack>
         </Box>
     )
 }
 
 // export function GetLikes() {
-//     return {props.likes}
+//     return props.likes
 // }
 
 // export function GetComments(props: PostProps) {
-//     return 0
+//     return {props.comments}
 // }
 
 // export function GetShares(props: PostProps) {
