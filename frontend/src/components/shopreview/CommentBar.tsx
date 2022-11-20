@@ -1,32 +1,21 @@
-import { Box, Button, Flex, Stack, Textarea } from "@chakra-ui/react"
+import { Box, Button, Flex, Stack, Textarea, useBreakpointValue } from "@chakra-ui/react"
 import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react"
 const CommentBar = () => {
-    const [sticky, setSticky] = useState(false)
-    useEffect(() => {
-        const handleScroll = () => {
-            setSticky(window.scrollY > 200)
-            console.log(window.scrollY)
-        }
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
-    })
-
+    const isMobile = useBreakpointValue({ base: false, md: true }, { ssr: false })
     return (
         <Box
-            background={"#D9D9D9"}
-            p={3}
-            minWidth={50}
-            maxWidth={"1000px"}
+            mb={2}
+            background={"white"}
+            bottom={"55px"}
+            width={"100%"}
+            p={1}
             minHeight={18}
             maxHeight={"100px"}
             border={"1px solid rgba(0, 0, 0, 0.1)"}
-            rounded={"2xl"}
         >
             <Stack spacing={4} direction="row" alignItems="center">
                 <Flex>
-                    {" "}
                     <Box mb={5} height={"20px"}>
-                        {" "}
                         <Textarea rows={1} cols={150} placeholder="Type your comment" />
                     </Box>
                 </Flex>

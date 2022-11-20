@@ -24,6 +24,7 @@
         "react-dom": "^18.2.0",
         "react-fix": "^0.1.6",
         "react-icons": "^4.6.0",
+        "react-photo-album": "^1.16.1",
         "react-responsive": "^9.0.0",
         "react-router-dom": "^6.4.2",
         "react-sticky": "^6.0.3",

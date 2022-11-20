@@ -1,12 +1,14 @@
 import { ChevronLeftIcon } from "@chakra-ui/icons"
-import { Box, Container, Flex, Heading, Link, SimpleGrid } from "@chakra-ui/react"
-import React from "react"
+import { Box, Button, Container, Flex, Heading, Link, SimpleGrid } from "@chakra-ui/react"
+import React, { useContext } from "react"
 import ReviewDetail from "src/components/shopreview/ReviewDetail"
 import Myreview from "src/components/shopreview/Myreview"
 import AppBody from "../../components/share/app/AppBody"
 import { useNavigate } from "react-router-dom"
+import { authContext } from "src/context/AuthContext"
 
 const myreview = () => {
+    const user = useContext(authContext)
     const navigate = useNavigate()
     const navigateHome = () => {
         navigate("/shopreview")
@@ -25,7 +27,7 @@ const myreview = () => {
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
+                    name={String(user?.fName) + " " + String(user?.lName)}
                     ment={"Love this so much!!!"}
                     date={"18 พ.ย. 2022"}
                 />
@@ -33,7 +35,7 @@ const myreview = () => {
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
+                    name={String(user?.fName) + " " + String(user?.lName)}
                     ment={"Love this so much!!!"}
                     date={"18 พ.ย. 2022"}
                 />
@@ -41,7 +43,7 @@ const myreview = () => {
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
+                    name={String(user?.fName) + " " + String(user?.lName)}
                     ment={"Love this so much!!!"}
                     date={"18 พ.ย. 2022"}
                 />
@@ -49,7 +51,7 @@ const myreview = () => {
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
+                    name={String(user?.fName) + " " + String(user?.lName)}
                     ment={"Love this so much!!!"}
                     date={"18 พ.ย. 2022"}
                 />

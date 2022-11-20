@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from "@chakra-ui/react"
+import { Box, Flex, Heading, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 
 const AmountRate: FC<{
@@ -11,9 +11,9 @@ const AmountRate: FC<{
                     style={{ maxWidth: 14 }}
                     src={"https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/1999085/yellow-star-clipart-xl.png"}
                 ></img>
-                <Heading ml={2} size={"xs"} color="white">
+                <Text ml={1} as={"b"} fontSize={"xs"} color="white">
                     {ratting}/5
-                </Heading>
+                </Text>
             </Flex>
         </Box>
     )

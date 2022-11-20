@@ -1,42 +1,45 @@
-import { VStack, Heading, Box, Flex, Link, Avatar, Text, Center } from "@chakra-ui/react"
+import { VStack, Heading, Box, Flex, Link, Avatar, Text, Center, Image } from "@chakra-ui/react"
 import React, { FC } from "react"
+import PhotoAlbum from "react-photo-album"
 import { Autoplay } from "swiper"
 import AmountRate from "./AmountRate"
 import AmountReview from "./AmountReview"
 const ReviewCards = () => {
+    const photos = [
+        {
+            src: "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/7a50544f-7025-484c-ab9c-b68d9a138242/Derivates/2dbce5cd-ed5d-48be-8ef5-6eb1c7b42078.jpg",
+            width: 800,
+            height: 600,
+        },
+        {
+            src: "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/7a50544f-7025-484c-ab9c-b68d9a138242/Derivates/2dbce5cd-ed5d-48be-8ef5-6eb1c7b42078.jpg",
+            width: 800,
+            height: 600,
+        },
+    ]
     return (
-        <Box width={''} minWidth={"full"} minHeight={"auto"} alignContent={"center"}>
-                <Avatar marginBottom={5} marginRight={5} name="Joe" src={`url('${"image"}')`} />
-                <Text as={"b"}>Joeleely</Text>
+        <Box width={""} minWidth={"full"} minHeight={"auto"} alignContent={"center"}>
+            <Avatar marginBottom={5} marginRight={5} name="Joe" src={`url('${"image"}')`} />
+            <Text as={"b"}>Joeleely</Text>
+            <PhotoAlbum layout="rows" photos={photos} />
+            <Box ml={2}>
+                <Heading color="white" mt={5}>
+                    <AmountRate ratting={"5"} />
+                </Heading>
 
-                <Box p={3} height={"200px"} background={"orange"} shadow={"md"} rounded={"2xl"}>
-                    <Heading overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} size="md" textAlign={"left"} color="black"></Heading>
-                    <Flex direction="row" justifyContent={"space-between"} alignItems="flex-end"></Flex>
-                </Box>
+                <Text fontSize="20px" mt={3} color={"black"}>
+                    Love this so much!!!
+                </Text>
+                <Text color={"gray"} ml={5} fontSize={"sm"}>
+                    14/11/2022
+                </Text>
+            </Box>
 
-                <Box pl={"50px"} pr={"50px"} >
-                    <Center>
-                        <Heading color="white" mt={5}>
-                            <AmountRate ratting={"5"} />
-                        </Heading>
-                    </Center>
-
-                    <Text fontSize="20px" mb={2} mt={5} color={"black"} >
-                        sdddsdlfksdlkf;l;'gkkglkfsdklfdsklgjlkdl;fks;lsddfd. dl;fld';fl;fd. s;/fldlkkgj5i.jldmg,hm.m sdsd.s dcmv0t
-                    </Text>
-                    <Center>
-                        {" "}
-                        <Text>14/11/2022</Text>
-                    </Center>
-                </Box>
-
-                <Center>
-                    <Box mt={5} background={"#D9D9D9"} rounded={"3xl"} width={"90%"} height={"5px"}></Box>
-                </Center>
-       
+            <Center mb={3}>
+                <Box mt={3} background={"#D9D9D9"} rounded={"3xl"} width={"100%"} height={"3px"}></Box>
+            </Center>
         </Box>
     )
-
 }
 
 export default ReviewCards
