@@ -11,15 +11,21 @@ import API from "src/function/API"
 const TagOfInterest = () => {
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
     const [interests, setInterests] = useState<AllInterests[]>([])
-
+    const [selectedInterests, setSelectedInterest] = useState<number[]>([])
     const didMount = useDidMount()
 
     useEffect(() => {
         if (didMount) {
-            API.get("/dating/getAllInterests")
-                .then((allInterests) => {
-                    setAllInterests(allInterests.data)
-                    setInterests(allInterests.data)
+            API.get("/dating/interests/getUserInterests")
+                .then((selectedInterests) => {
+                    const interests: number[] = selectedInterests.data.flatMap((e: any) => e.interestId)
+
+                    setSelectedInterest(interests)
+
+                    API.get("/dating/interests/getAllInterests").then((allInterests) => {
+                        setAllInterests(allInterests.data)
+                        setInterests(allInterests.data)
+                    })
                 })
                 .catch((err) => on())
                 .finally(off)
@@ -44,7 +50,7 @@ const TagOfInterest = () => {
     // to be used with some functions & Some of them are used in this file.
 
     const [searchQuery, setSearchQuery] = useState("")
-    const [selectedInterests, setSelectedInterest] = useState<number[]>([])
+
     const [tagIsClicked, setTagIsClicked] = useState(false)
 
     return (
@@ -107,8 +113,14 @@ const TagOfInterest = () => {
             <Box pt="230px">
                 {/* CheckboxGroup : List of tags of interest */}
                 {isLoading ? (
-                    <Box display="flex" justifyContent="center" alignItems="center" pt="50px">
+                    <Box display="flex" justifyContent="center" pt="50px">
                         <Spinner size="xl" />
+                    </Box>
+                ) : <></> }
+                {isError && allInterests.length == 0 ? (
+                    <Box pt="50px">
+                        <Heading color="red" fontWeight="700" fontSize={{ base: "26px", md: "43px" }} lineHeight="120%" textAlign="center">Something has gone wrong...</Heading>
+                        <Heading color="Black" fontWeight="700" fontSize={{ base: "20px", md: "36px" }} lineHeight="120%" textAlign="center">Have you login yet?</Heading>
                     </Box>
                 ) : (
                     <></>
