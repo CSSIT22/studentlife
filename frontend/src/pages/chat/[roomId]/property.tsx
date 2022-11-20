@@ -25,16 +25,18 @@ import { RiUserSettingsLine } from "react-icons/ri"
 import { FaUserFriends, FaUserPlus, FaHome, FaDoorOpen } from "react-icons/fa"
 import { AiFillPicture } from "react-icons/ai"
 
-import React from "react"
+import React, { useEffect } from "react"
 import AppBody from "../../../components/share/app/AppBody"
 import { useNavigate, useParams } from "react-router-dom"
 import Clist from "src/components/chat/Chat-list"
 import propertyDetail from "./propertyEvent"
+import API from "src/function/API"
 
 function showProperty() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [eventNames, setEventName] = React.useState("")
     const [eventButtons, setEventButton] = React.useState("")
+    const [Room, setRoom] = React.useState({ roomId: "", roomName: "", roomtype :"" });
 
     let param = useParams()
     const navigate = useNavigate()
@@ -43,6 +45,46 @@ function showProperty() {
         return navigate(`/user/${param.roomId}`)
         
     }
+
+    function renderRoomProp() {
+        if(Room.roomtype === "INDIVIDUAL"){
+            return(
+                eventsIndi.map((event) => (
+                    <Button
+                        onClick={() => handleSizeClick(event)}
+                        leftIcon={<event.eventIcon />}
+                        key={event.eventName}
+                        variant="ghost"
+                        size="lg"
+                        iconSpacing={"5"}
+                    >
+                        {`${event.eventName}`}
+                    </Button>
+                ))
+            )
+        }
+        else if(Room.roomtype === "GROUP"){
+            return(
+                eventsGroup.map((event) => (
+                    <Button
+                        onClick={() => handleSizeClick(event)}
+                        leftIcon={<event.eventIcon />}
+                        key={event.eventName}
+                        variant="ghost"
+                        size="lg"
+                        iconSpacing={"5"}
+                    >
+                        {`${event.eventName}`}
+                    </Button>
+                ))
+            )
+        }
+    }
+
+    useEffect(() => {
+        API.get(`chat/${param.roomId}`).then((e) => setRoom(e.data)
+        )
+    }, [param])
 
     const handleSizeClick = (event: any) => {
         setEventName(event.eventName)
@@ -73,21 +115,13 @@ function showProperty() {
         { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
         { eventIcon: FaDoorOpen, eventName: "Leave group", buttonValue: "Leave" },
     ]
+
+    console.log(Room);
+    
     return (
         <>
             <VStack spacing={6} alignItems={"flex-start"}>
-                {eventsIndi.map((event) => (
-                    <Button
-                        onClick={() => handleSizeClick(event)}
-                        leftIcon={<event.eventIcon />}
-                        key={event.eventName}
-                        variant="ghost"
-                        size="lg"
-                        iconSpacing={"5"}
-                    >
-                        {`${event.eventName}`}
-                    </Button>
-                ))}
+                {renderRoomProp()}
             </VStack>
 
             <Modal isOpen={isOpen} onClose={onClose} size={"lg"} isCentered>

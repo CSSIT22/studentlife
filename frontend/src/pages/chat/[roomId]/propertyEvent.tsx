@@ -46,12 +46,12 @@ function propertyEvent(props: any) {
     }
 
     const members: any = [
-        { memberPic: "https://picsum.photos/200/300", memberName: "Neng1", id: "1"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Neng2", id: "2"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Neng3", id: "3"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Neng4", id: "4"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Neng5", id: "5"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Neng6", id: "6"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng", id: "1"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Gift", id: "2"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Oil", id: "3"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Tine", id: "4"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Parn", id: "5"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Dolly", id: "6"},
     ]
 
     const [selectedMember, setSelectedMember] = useState<any>([])
