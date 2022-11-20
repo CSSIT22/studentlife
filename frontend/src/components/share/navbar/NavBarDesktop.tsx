@@ -26,7 +26,7 @@ import { FaHistory, FaUserAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import NavBarWithNoti from "./NavBarWithNoti"
 import SecondaryNav from "./SecondaryNav"
-import { moreMenu, NavBarMenu } from "./NavBar"
+import { logout, moreMenu, NavBarMenu } from "./NavBar"
 import { FC, useContext } from "react"
 import { secondaryNavProps } from "../app/AppBody"
 import ExtarSecondaryNav from "./ExtarSecondaryNav"
@@ -89,7 +89,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                                 <MenuItem icon={<FaHistory />}>Login Activity</MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
-                                                <MenuItem icon={<BiLogOut />}>Logout</MenuItem>
+                                                <MenuItem onClick={logout} icon={<BiLogOut />}>Logout</MenuItem>
                                             </MenuGroup>
                                         </MenuList>
                                     </>
