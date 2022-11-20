@@ -33,7 +33,7 @@ import DatingInterestTag from "../../../components/dating/DatingInterestTag"
 import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
 
 declare global {
-    var isPassDate: boolean, isPassTime: boolean, people: number[], tag: number[], topic: string[]
+    var isPassDate: boolean, isPassTime: boolean, isLongDate: boolean, people: number[], tag: number[], topic: string[]
 }
 
 const CreateActivityPoll = () => {
@@ -83,11 +83,11 @@ const CreateActivityPoll = () => {
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoDate = date.length < 8
     let isValidDate = !isNoDate && !globalThis.isPassDate // Use for check all Date validate
+
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoTime = time.length < 3
     let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
     let isNoTopic = handleTopic().length < 1
-    let isNull = location.length > 1
 
     //Restaurant name
     const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
@@ -117,12 +117,6 @@ const CreateActivityPoll = () => {
             chosenDate.getMonth() === today.getMonth() &&
             chosenDate.getFullYear() === today.getFullYear()
         ) {
-            // console.log(
-            //     today.getMinutes() +
-            //         " and " +
-            //         parseInt(d.substring(3, 5)) +
-            //         (today.getHours() > parseInt(d.substring(0, 2)) && today.getMinutes() > parseInt(d.substring(3, 5)))
-            // )
             //If user pick the same date check if the time have pass
             if (today.getHours() >= parseInt(d.substring(0, 2)) && today.getMinutes() >= parseInt(d.substring(3, 5))) {
                 globalThis.isPassTime = true
@@ -148,10 +142,16 @@ const CreateActivityPoll = () => {
         return globalThis.topic
     }
 
+    function handleDateTime() {
+        const dateTime = new Date(date + " " + time)
+        return dateTime
+    }
+
     function handleSubmit() {
         // Validate all value before submit to database
         if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
-            alert(
+            // console.log({ d: handleDateTime() })
+            console.log(
                 "Header: " +
                     header +
                     " Tag: " +
@@ -164,6 +164,8 @@ const CreateActivityPoll = () => {
                     date +
                     " Time: " +
                     time +
+                    " Date & Time: " +
+                    { d: handleDateTime() } +
                     " people: " +
                     sliderValue
             )
@@ -247,7 +249,8 @@ const CreateActivityPoll = () => {
                             </Flex>
                             <Modal
                                 onClose={() => {
-                                    onClose(), (globalThis.topic = []), setSelectedInterest([])
+                                    onClose()
+                                    //, (globalThis.topic = []), setSelectedInterest([])
                                 }}
                                 isOpen={isOpen}
                                 size="lg"
@@ -441,11 +444,17 @@ const CreateActivityPoll = () => {
                         />
                         {/* Somehow this two are switching IDK why*/}
                         {/* It should be isNoDate then isInThePast(date) */}
+                        {/* {!isLongYear(date) ? (
+                            <FormHelperText></FormHelperText>
+                        ) : (
+                            <FormErrorMessage color="red">You scheduled an activity way too soon.</FormErrorMessage>
+                        )} */}
                         {isInThePast(date) ? (
                             <FormHelperText></FormHelperText>
                         ) : (
                             <FormErrorMessage color="red">You must provide a date.</FormErrorMessage>
                         )}
+
                         {isNoDate ? <FormHelperText></FormHelperText> : <FormErrorMessage color="red">The date has passed.</FormErrorMessage>}
                     </FormControl>
                     {/* Time input & error control */}
