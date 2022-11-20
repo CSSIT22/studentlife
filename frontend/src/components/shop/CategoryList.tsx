@@ -15,11 +15,7 @@ function generateCategories() {
     let dummy = categories.map((category) => {
         return <CategoryItem id={category.id} name={category.name} image={category.image}></CategoryItem>
     })
-    let cats = []
-    for (let i = 0; i < 10; i++) {
-        cats.push(dummy)
-    }
-    return cats
+    return dummy
 }
 
 export default CategoryList

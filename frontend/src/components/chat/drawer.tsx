@@ -24,10 +24,12 @@ function DrawerExample(props: any) {
 
                     <DrawerBody textAlign={"center"}>
                         <Box>
-                            <Button width={"100%"} marginBottom={2}>Mute</Button>
+                            <Button width={"100%"} marginBottom={2}>
+                                Mute
+                            </Button>
                         </Box>
                         <Box>
-                            <Button width={"100%"} marginBottom={2} onClick={()=>DeleteRoom(room)}>
+                            <Button width={"100%"} marginBottom={2} onClick={() => DeleteRoom(room)}>
                                 Deleteroom
                             </Button>
                         </Box>

@@ -17,7 +17,7 @@ const Home = () => {
                 {
                     name: "Test2",
                     to: "/ad",
-                    
+
                     Icon: AiFillAccountBook,
                     subNav: [{ name: "Sub1", to: "/asd", Icon: AiFillAccountBook }],
                 },

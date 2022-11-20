@@ -69,7 +69,7 @@ const productDetail = () => {
                         pagination={true}
                         className="mySwiper"
                     >
-                        {slidesGenerator()}
+                        {slidesGenerator(product)}
                     </Swiper>
                 </GridItem>
                 <GridItem rowSpan={2} colSpan={{ base: 4, md: 3 }}>
@@ -216,14 +216,14 @@ const productDetail = () => {
     }
 }
 
-function slidesGenerator() {
+function slidesGenerator(product: any) {
     const slides = []
     for (let i = 0; i < 5; i++) {
         slides.push(
             <SwiperSlide>
                 <Image
                     borderRadius="3xl"
-                    src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bW9iaWxlJTIwcGhvbmV8ZW58MHx8MHx8&w=1000&q=80"
+                    src={product.image}
                     width={"auto"}
                 ></Image>
             </SwiperSlide>

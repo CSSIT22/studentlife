@@ -62,7 +62,7 @@ export const POLL = [
     },
     {
         pollId: "4",
-        pollName: "เล่นบอร์ดเกมดัน",
+        pollName: "เล่นบอร์ดเกมกัน",
         pollPlace: "ตึก SOLA",
         pollAppointAt: "2038-01-19 03:14:07.9999",
         pollText: "หาคนเล่นแวร์วูฟ",
