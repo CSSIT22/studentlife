@@ -10,26 +10,33 @@ interestsRoutes.get("/", (_, res) => {
 })
 
 // Get all interest
-interestsRoutes.get("/getAllInterests", verifyUser, async (req: Request, res: Response) => {
+interestsRoutes.get("/getAllInterests", async (req: Request, res: Response) => {
     try {
         const allInterestsDB = await prisma.interest.findMany()
-        res.send(allInterestsDB)
+        return res.send(allInterestsDB)
     } catch (err) {
-        res.status(404).send("Interests not found")
+        return res.status(404).send("Interests not found")
     }
 })
 
 // Get user interests
-interestsRoutes.get("/getUserInterests", verifyUser, async (req: Request, res: Response) => {
+interestsRoutes.get("/getUserInterests", async (req: Request, res: Response) => {
     try {
-        const userInterestsDB = await prisma.user_Interest.findMany({
-            where: {
-                userId: req.user?.userId,
-            },
-        })
-        res.send(userInterestsDB)
+        const userId = req.user?.userId
+        if(userId == null) {
+            return res.send([])
+        }
+        else {
+            const userInterestsDB = await prisma.user_Interest.findMany({
+                where: {
+                    userId: userId,
+                },
+            })
+            return res.send(userInterestsDB)
+        }
+
     } catch (err) {
-        res.status(404).send("User interests not found")
+        return res.status(404).send("User interests not found")
     }
 })
 
@@ -45,15 +52,33 @@ interestsRoutes.post("/setUserInterests", verifyUser, async (req: Request, res: 
             data: payload,
         })
 
-        res.send("Success!")
+        return res.send("Success!")
     } catch {
-        res.status(400).send("Cannot set interests")
+        return res.status(400).send("Cannot set interests")
     }
 })
 
 // Update the user interests
 interestsRoutes.put("/updateUserInterests", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const userId = req.user?.userId
+        const payload: any = []
+        req.body.interestId.map((interest: number) => {
+            payload.push({ userId: userId, interestId: interest })
+        })
+        await prisma.user_Interest.deleteMany({
+            where: {
+                userId: req.user?.userId
+            }
+        })
+        await prisma.user_Interest.createMany({
+            data: payload,
+        })
+
+        return res.send("Success!")
+    } catch {
+        return res.status(400).send("Cannot update interests")
+    }
 })
 
 export default interestsRoutes

@@ -46,7 +46,8 @@ const DatingInterestTag: FC<{
                     let descriptionText = 'Submit your preference by clicking "Done" at the ' + buttonLocation
                     toast({
                         title: titleText,
-                        status: "success",
+                        status: "info",
+                        duration: 5000,
                         isClosable: true,
                         position: "top",
                         description: descriptionText,

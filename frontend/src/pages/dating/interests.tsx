@@ -1,4 +1,4 @@
-import { Heading, Box, Grid, GridItem, useDisclosure, Container, useBoolean, Spinner } from "@chakra-ui/react"
+import { Heading, Box, Grid, GridItem, useDisclosure, Container, useBoolean, Spinner, Button, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingInterestModal from "../../components/dating/DatingInterestModal"
@@ -12,6 +12,7 @@ const TagOfInterest = () => {
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
     const [interests, setInterests] = useState<AllInterests[]>([])
     const [selectedInterests, setSelectedInterest] = useState<number[]>([])
+    const [hasSelectedInterest, setHasSelectedInterest] = useState(false)
     const didMount = useDidMount()
 
     useEffect(() => {
@@ -19,7 +20,9 @@ const TagOfInterest = () => {
             API.get("/dating/interests/getUserInterests")
                 .then((selectedInterests) => {
                     const interests: number[] = selectedInterests.data.flatMap((e: any) => e.interestId)
-
+                    if (interests.length != 0) {
+                        setHasSelectedInterest(true)
+                    }
                     setSelectedInterest(interests)
 
                     API.get("/dating/interests/getAllInterests").then((allInterests) => {
@@ -94,6 +97,7 @@ const TagOfInterest = () => {
                                         numOfSelectedInterest={selectedInterests.length}
                                         selectedInterests={selectedInterests}
                                         tagIsClicked={tagIsClicked}
+                                        hasSelectedInterest={hasSelectedInterest}
                                     />
                                 </GridItem>
                             </Grid>
@@ -116,11 +120,14 @@ const TagOfInterest = () => {
                     <Box display="flex" justifyContent="center" pt="50px">
                         <Spinner size="xl" />
                     </Box>
-                ) : <></> }
-                {isError && allInterests.length == 0 ? (
-                    <Box pt="50px">
-                        <Heading color="red" fontWeight="700" fontSize={{ base: "26px", md: "43px" }} lineHeight="120%" textAlign="center">Something has gone wrong...</Heading>
-                        <Heading color="Black" fontWeight="700" fontSize={{ base: "20px", md: "36px" }} lineHeight="120%" textAlign="center">Have you login yet?</Heading>
+                ) : <></>}
+                {isError ? (
+                    <Box pt={{ base: "50px", md: "100px" }}>
+                        <Heading color="black" fontWeight="700" fontSize={{ base: "24px", md: "32px" }} lineHeight="120%" textAlign="center">Something went wrong...</Heading>
+                        <Heading color="black" fontWeight="400" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%" textAlign="center">Try refreshing the page?</Heading>
+                        <Box pt="30px" display="flex" justifyContent="center">
+                            <Button colorScheme="orange" onClick={() => window.location.reload()}><Text color="white">Refresh</Text></Button>
+                        </Box>
                     </Box>
                 ) : (
                     <></>
