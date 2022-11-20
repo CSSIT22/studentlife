@@ -32,7 +32,7 @@ import EmojiReaction from "../components/blog/EmojiReaction"
 import CommentButton from "../components/blog/CommentButton"
 import RemodButton from "../components/blog/RemodButton"
 import Username from "../components/blog/Username"
-import Time from "../components/blog/time"
+import Time from "../components/blog/Time"
 import EmojiFeelingTelling from "../components/blog/EmojiFeelingTelling"
 
 const Home = () => {
@@ -71,21 +71,19 @@ const Home = () => {
                     />
                     <PostImage image="https://i.redd.it/ujfngj2v25k91.jpg" />
                     <Center>
-                        <Box marginTop={"6"}>
-                            <SimpleGrid columns={4} spacing={5}>
-                                <Box>
-                                    <EmojiReaction />
-                                </Box>
-                                <Box>
-                                    <EmojiFeelingTelling />
-                                </Box>
-                                <Box>
-                                    <CommentButton />
-                                </Box>
-                                <Box>
-                                    <RemodButton />
-                                </Box>
-                            </SimpleGrid>
+                        <Box marginTop={"6"} display="flex" gap={10}>
+                            <Box>
+                                <EmojiReaction />
+                            </Box>
+                            <Box>
+                                <EmojiFeelingTelling number={10} emotion="K" />
+                            </Box>
+                            <Box>
+                                <CommentButton />
+                            </Box>
+                            <Box>
+                                <RemodButton />
+                            </Box>
                         </Box>
                     </Center>
                 </Box>

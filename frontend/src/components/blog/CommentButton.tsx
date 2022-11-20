@@ -4,7 +4,7 @@ import React from "react"
 const CommentButton = () => {
     return (
         <Box>
-            <Button variant="outline" size="lg">
+            <Button colorScheme="orange" size="lg" w={250}>
                 Comment
             </Button>
         </Box>

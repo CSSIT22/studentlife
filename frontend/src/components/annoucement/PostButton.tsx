@@ -6,7 +6,9 @@ const PostButton = () => {
         <Box>
             <Flex>
                 <Box>
-                    <Button colorScheme="orange">Post</Button>
+                    <Button colorScheme="orange" size="lg">
+                        Post
+                    </Button>
                 </Box>
             </Flex>
         </Box>

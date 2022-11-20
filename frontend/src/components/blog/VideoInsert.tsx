@@ -6,8 +6,8 @@ import { CiYoutube } from "react-icons/ci"
 const VideoInsert = () => {
     return (
         <Box>
-            <Button rightIcon={<CiYoutube />} colorScheme="orange" variant="outline" marginTop="5" width="330px" height="330px">
-                Video
+            <Button rightIcon={<CiYoutube size="50px" />} colorScheme="orange" variant="outline" marginTop="5" width="330px" height="330px">
+                VIDEO
             </Button>
         </Box>
     )

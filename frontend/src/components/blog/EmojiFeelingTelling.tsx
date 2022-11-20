@@ -1,12 +1,15 @@
-import { Box, Text } from "@chakra-ui/react"
-import React from "react"
+import { Box, Button, Center, Text } from "@chakra-ui/react"
+import React, { FC } from "react"
 
-const EmojiFeelingTelling = () => {
+
+
+const EmojiFeelingTelling: FC<{ number: number; emotion: string }> = ({ number, emotion }) => {
     return (
-        <Box border={4} borderRadius={10}>
-            <Text marginTop={2.5} color="black" fontSize="lg">
-                Emotion
-            </Text>
+        <Box>
+            <Button colorScheme="orange" size="lg" variant="outline">
+                {number}
+                {emotion}
+            </Button>
         </Box>
     )
 }

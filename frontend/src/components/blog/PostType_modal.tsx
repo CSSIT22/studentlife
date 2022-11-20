@@ -18,7 +18,7 @@ import {
     Menu,
     MenuButton,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { FC } from "react"
 
 function PostType_modal() {
     const { isOpen, onOpen, onClose } = useDisclosure()
