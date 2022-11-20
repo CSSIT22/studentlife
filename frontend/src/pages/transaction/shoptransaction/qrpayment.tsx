@@ -9,7 +9,7 @@ const qrpayment = () => {
     return (
         <div>
             <AppBody>
-                <Header name="QRCode"></Header>
+                <Header name="QRCode" />
 
                 <Container maxW="90%" my="10px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
                     <QRpayment total="50,000.00" paywithin="60 sec" />
