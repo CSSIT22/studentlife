@@ -12,7 +12,7 @@ import { IconButton, useDisclosure, Button, ButtonGroup, Divider } from "@chakra
 //import { ChevronRightIcon } from "@chakra-ui/icons"
 //import { AddIcon } from "@chakra-ui/icons"
 import { useState } from "react"
-import { DESCRIPTION } from "src/components/notification/main/data/descTest"
+// import { DESCRIPTION } from "src/components/notification/main/data/descTest"
 
 
 
