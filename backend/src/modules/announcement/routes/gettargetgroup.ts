@@ -89,9 +89,15 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 }
             }
             console.log(selectedUserIds)
-            // console.log(allUserIds.length)
-            
-            
+            // console.log(allUserIds.length)  
+        }
+        else if(targetType=="Everyone"){
+            const everyUserId = await prisma.user_Profile.findMany({
+              select:{
+                userId: true
+              }   
+            }) 
+            console.log(everyUserId)
         }
     } catch (err: any) {
         console.log(err)
