@@ -165,7 +165,7 @@ function detail() {
                                         </Button>
                                         <Spacer />
                                         <Popover placement="top">
-                                            {({onClose}) => (
+                                            {({onClose}:any) => (
                                                 <>
                                                     <PopoverTrigger>
                                                         <Button
