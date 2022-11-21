@@ -61,7 +61,7 @@ const Cart = () => {
                 </Flex>
                 <Flex justify="center" >
                     <LinkBox>
-                        <Link to="../shop/checkout/">
+                        <Link to="../shop/checkout">
                             <ThemedButton>CHECKOUT</ThemedButton>
                         </Link>
                     </LinkBox>

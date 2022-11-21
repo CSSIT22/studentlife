@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, FormControl, FormLabel, Input, Link } from "@chakra-ui/react"
+import { Box, FormControl, FormLabel, Input } from "@chakra-ui/react"
+import { Link } from "react-router-dom"
 import ThemedButton from 'src/components/shop/ThemedButton'
 
 const ShippingAddress = () => {
@@ -28,10 +29,8 @@ const ShippingAddress = () => {
                 </FormControl>
             </Box>
             <Box mt='10' mb='20'>
-                <Link to="../shop/confirm_order/">
-                    <ThemedButton>
-                        Next
-                    </ThemedButton>
+                <Link to='../shop/confirm_order'>
+                    <ThemedButton>Next</ThemedButton>
                 </Link>
             </Box>
         </div>

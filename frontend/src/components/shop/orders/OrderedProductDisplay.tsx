@@ -15,35 +15,35 @@ const OrderedProductDisplay: FC<{
     return (
         <LinkBox>
             <Link to={link ? link : "/shop/product/productDetail"} state={{ p_id: id }}>
-                    <Flex  justify = {"space-evenly"} direction={"row"} wrap={"wrap"}>
-                                <Image
-                                    width={{ base: 100, xl: 135 }}
-                                    height={{ base: 100, xl: 118 }}
-                                    my= "3"
-                                    src={image}
-                                    alt="product picture"
-                                    placeholder="blur"
-                                    borderRadius="5%"
-                                    objectFit="cover"
-                                />
-                        <Flex wrap="wrap" align="center" justify="space-around" my="5" >
-                            <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
-                                {name}
+                <Flex justify={"space-evenly"} direction={"row"} wrap={"wrap"}>
+                    <Image
+                        width={{ base: 100, xl: 135 }}
+                        height={{ base: 100, xl: 118 }}
+                        my="3"
+                        src={image}
+                        alt="product picture"
+                        placeholder="blur"
+                        borderRadius="5%"
+                        objectFit="cover"
+                    />
+                    <Flex wrap="wrap" align="center" justify="space-around" my="5" >
+                        <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
+                            {name}
+                        </Box>
+                        <Flex wrap="wrap" align="center" justify="center">
+                            <Box>
+                                <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
+                                    Price: {convertCurrency(price)}
+                                </Box>
                             </Box>
-                            <Flex wrap="wrap" align="center" justify="center">
-                                <Box>
-                                    <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
-                                        Price: {convertCurrency(price)}
-                                    </Box>
+                            <Box>
+                                <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
+                                    Qt: {quantity}
                                 </Box>
-                                <Box>
-                                    <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
-                                        Qt: {quantity}
-                                    </Box>
-                                </Box>
-                            </Flex>
+                            </Box>
                         </Flex>
                     </Flex>
+                </Flex>
             </Link>
         </LinkBox>
     )
