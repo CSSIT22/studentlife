@@ -43,7 +43,7 @@ const test = () => {
                 { name: "History", to: "/announcement/history" },
                 { name: "Recycle bin", to: "/announcement/recyclebin" },
             ]}
-            px={{ md: "3rem" }}
+            p={{ md: "3rem" }}
         >
             {/* type 1 */}
             {clickArrowUp && (
@@ -68,7 +68,7 @@ const test = () => {
 
             {clickArrowDown && (
                 <Slide direction="top" in={isOpen} style={{ zIndex: 10, position: "relative" }}>
-                    <Box pb="5" px="5" mt={5} bg="#D9d9d9" rounded="md" shadow="md">
+                    <Box pb="5" px="5" mt={5} bg="white" rounded="md" shadow="md">
                         {allPost
                             // อันนี้มันยังเรียงตามid น้อยไปมากอยู่ ไม่ได้เอาอันใหม่สุดขึ้นบน ตอนดึงจากdb น่าจะต้องใช้order by
                             .filter((fl) => fl.postId > postInfoTest.length - 6)

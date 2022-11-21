@@ -7,8 +7,6 @@ import {
     Flex,
     Grid,
     GridItem,
-    Hide,
-    Image,
     Popover,
     PopoverArrow,
     PopoverBody,
@@ -25,55 +23,44 @@ import {
     WrapItem,
     Icon,
     Heading,
-    useBoolean,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import {
-    AiFillGift,
-    AiFillHeart,
-    AiFillPhone,
-    AiOutlineComment,
-    AiOutlineGlobal,
-    AiOutlineHeart,
-    AiOutlineLike,
-    AiOutlinePhone,
-} from "react-icons/ai"
-import { BiHeartCircle, BiPhone } from "react-icons/bi"
+import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
 import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { EffectCards, FreeMode, Mousewheel, Navigation, Scrollbar } from "swiper"
 import ShowImage from "../../../components/restaurant/ShowImage"
-import { Md10K } from "react-icons/md"
-import ReviewContent from "../../../components/restaurant/ReviewContent"
 import { SlActionRedo } from "react-icons/sl"
-import { Restaurant } from ".././data/restaurant"
-import { useParams, Link } from "react-router-dom"
+import { useParams, useNavigate, Link } from "react-router-dom"
 import { friend } from "../data/friend"
+import API from "src/function/API"
+declare global {
+    var respage: number
+}
 
 function detail() {
-    // const friendInfo = friend.filter((shareInfo) => {})
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const {onOpen} = useDisclosure()
     const params = useParams()
     const [numres, setnumres] = useState(parseInt(params.detailRes + ""))
-    const property = Restaurant.filter((e1) => {
-        return e1.id == parseInt(params.detailRes + "")
-    })
+    // const property = Restaurant.filter((e1) => {
+    //     return e1.id == parseInt(params.detailRes + "")
+    // })
+    const [property, setproperty] = React.useState<any>([])
 
-    const addFavorite = () => {
-        console.log(Restaurant[numres].status)
-        Restaurant[numres].status = true
-        console.log(Restaurant[numres].status)
-    }
-
-    // const nextPage = () => {
-    //     if (numres < Restaurant.length - 2) {
-    //         setnumres(numres + 1)
-    //     }
-    //     else{
-    //         setnumres(0)
-    //     }
+    // const addFavorite = () => {
+    //     console.log(Restaurant[numres].status)
+    //     Restaurant[numres].status = true
+    //     console.log(Restaurant[numres].status)
     // }
+
+
+    useEffect(() => {
+        API.get("/restaurant/detail/" + params.detailRes).
+        then((item) => setproperty(item.data))
+    }, [params.detailRes])
+
+    console.log(property)
+
+    globalThis.respage = numres
 
     const [isFavorite, setIsFavorite] = useState(false)
     useEffect(() => {
@@ -92,12 +79,12 @@ function detail() {
         >
             <Searchbar />
             <Center w={"full"} mt={4}>
-                {property.map((e1) => {
+                {property.map((e1: any) => {
                     return (
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/${numres == Restaurant.length - 1 ? 0 : numres + 1}`}>
+                                    <Link to={`/restaurant/${globalThis.respage}`}>
                                         <CloseButton my={-4} ml={-1} />
                                     </Link>
 
@@ -109,32 +96,30 @@ function detail() {
                                 <Grid p={{ base: 0, md: 5 }} templateRows="repeat(1, 1fr)" templateColumns="repeat(8, 1fr)" columnGap={4} rowGap={1}>
                                     <GridItem colSpan={{ base: 8, md: 4 }}>
                                         <ShowImage img={e1.img} />
-                                        <Box px={4} py={3} display="flex" alignItems="baseline">
-                                            <Box fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase">
-                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.amoutOflike} liked
+
+                                        <Box
+                                            px={4}
+                                            py={3}
+                                            display="flex"
+                                            fontWeight="semibold"
+                                            letterSpacing="wide"
+                                            fontSize="xs"
+                                            textTransform="uppercase"
+                                            pr={6}
+                                        >
+                                            <Box display="flex" verticalAlign={"AiOutlineLike"}>
+                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.amountOflike} liked
                                             </Box>
                                             <Spacer />
-                                            <Center
-                                                as="button"
-                                                bg={""}
-                                                fontWeight="semibold"
-                                                letterSpacing="wide"
-                                                fontSize="xs"
-                                                textTransform="uppercase"
-                                                borderWidth=""
-                                                borderRadius=""
-                                                px={2}
-                                                pt={1}
-                                                pb={1}
-                                            >
-                                                <Link to={`/restaurant/review/${numres}`}>
-                                                    <Icon as={AiOutlineComment} fontSize="md" /> REVIEW
-                                                </Link>
-                                            </Center>
+                                            <Link to={`/restaurant/review/${globalThis.respage}`}>
+                                                <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
+                                                    <Icon as={AiOutlineComment} fontSize="md" /> Review
+                                                </Box>
+                                            </Link>
                                         </Box>
                                     </GridItem>
 
-                                    <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }}>
+                                    <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }} fontWeight="600">
                                         <Box w={"full"} textAlign={"center"}>
                                             <Text color="" fontSize="md">
                                                 OPEN - CLOSE : {e1.open} - {e1.close} <br />
@@ -179,10 +164,8 @@ function detail() {
                                             {isFavorite ? <AiFillHeart size={"full"} /> : <AiOutlineHeart size={"full"} />}
                                         </Button>
                                         <Spacer />
-                                        {/* {friendInfo.map((shareInfo) => {
-                                            return ( */}
                                         <Popover placement="top">
-                                            {({ isOpen, onClose }) => (
+                                            {({onClose}:any) => (
                                                 <>
                                                     <PopoverTrigger>
                                                         <Button
@@ -195,8 +178,10 @@ function detail() {
                                                             px={4}
                                                             py={1}
                                                             onClick={onOpen}
+                                                            borderWidth={2}
+                                                            borderColor="black"
                                                         >
-                                                            <Icon as={SlActionRedo} fontSize="md" />
+                                                            <Icon as={SlActionRedo} fontSize="md" mr={2} />
                                                             Share
                                                         </Button>
                                                     </PopoverTrigger>
@@ -250,8 +235,6 @@ function detail() {
                                                 </>
                                             )}
                                         </Popover>
-                                        {/* )
-                                        })} */}
 
                                         <Spacer />
                                         <Button bg={"#E65300"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
