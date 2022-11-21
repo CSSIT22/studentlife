@@ -13,7 +13,6 @@ const permission = () => {
     return (
         <AppBody>
             <Center>
-                {" "}
                 <Box width={"80%"} height={"500px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
