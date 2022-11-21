@@ -12,8 +12,8 @@ const Rating = () => {
     return (
         <AppBody>
             <Box display="flex" justifyContent="center" mb={{ base: "150px", md: "200px" }} >
-                <Box zIndex="2" mt="-20px" position="fixed" w="100%" top={{ base: 21, md: 157 }}  >
-                    <Box maxW="100%" bg="#FFF2E6" pt={{ base: "70px", md: "35px" }}>
+                <Box zIndex="2" mt="-35px" position="fixed" w="100%" top={{ base: 21, md: 157 }}  >
+                    <Box maxW="100%" bg="#FFF2E6" pt={{ base: "80px", md: "50px" }}>
                         <Container w="container.lg" maxW={"100%"}>
                             <Stack color="black" pt="10px">
                                 <Heading>Rating</Heading>

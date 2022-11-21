@@ -29,7 +29,7 @@ const DatingAllActivityBox = () => {
             // If user apply -> tost, add data to db, change button state
             (appiled(pId),
             toast({
-                title: "Applied success.",
+                title: "Applied success",
                 description: "You have registered for the poll. Now you can chat with the poll creator.",
                 status: "success",
                 duration: 4500,

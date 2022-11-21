@@ -44,7 +44,7 @@ const DatingCreateLocation: FC<{
                 {/* If that user haven't use the restaurant function we should block this feature*/}
                 <Select
                     borderRadius={"6px"}
-                    placeholder="Pick from your favorites."
+                    placeholder="Pick from your favorites"
                     size="sm"
                     bgColor="white"
                     pl="20px"
