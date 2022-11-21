@@ -1,5 +1,6 @@
 import React from "react"
 import { Box, Flex, Spacer, Text, Container, extendTheme } from "@chakra-ui/react"
+import Feed from "../timeline/Feed"
 
 function BlogHistory() {
     const breakpoints = {
@@ -18,23 +19,7 @@ function BlogHistory() {
             </Text>
 
             <Container padding="2" mx={2} alignContent="center" alignSelf="center">
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog1
-                </Box>
-
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog2
-                </Box>
-
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog3
-                </Box>
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog4
-                </Box>
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog5
-                </Box>
+                <Feed />
             </Container>
         </Flex>
     )
