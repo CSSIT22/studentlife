@@ -68,15 +68,15 @@ const DatingOption = () => {
         //console.log(selectedFac)
         console.log(
             "Age min =" +
-                globalThis.age[0] +
-                " | Age max =" +
-                globalThis.age[1] +
-                " | Use age: " +
-                globalThis.useAge +
-                " | Gender : " +
-                globalThis.gender +
-                " | Selected Faculty: " +
-                globalThis.faculty
+            globalThis.age[0] +
+            " | Age max =" +
+            globalThis.age[1] +
+            " | Use age: " +
+            globalThis.useAge +
+            " | Gender : " +
+            globalThis.gender +
+            " | Selected Faculty: " +
+            globalThis.faculty
         )
         toast({
             title: "Options are selected.",
