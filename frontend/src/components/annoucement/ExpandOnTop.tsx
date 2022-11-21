@@ -9,7 +9,7 @@ const ExpandOnTop: FC<{
     return (
         <Flex alignItems={"center"} py={"5"} borderBottom={"1px solid"}>
             <Box pr={"5"}>
-                <TfiAnnouncement fontSize={"1.5rem"} />
+                <TfiAnnouncement fontSize={"1.5rem"} color="#E65300" />
             </Box>
             <Box>
                 <Heading size={"sm"}>{topic}</Heading>
