@@ -69,7 +69,7 @@ export default function SimpleThreeColumns() {
     const [Sex, setSex] = useState<any>()
     const [Hobbies, setHobbies] = useState<any>()
     const [Years, setYears] = useState<any>()
-
+    const [Address, setAddress] = useState<any>()
     useEffect(() => {
         API.get("/user/profile/aboutme").then(res => {
             console.log(res.data)
@@ -264,6 +264,12 @@ export default function SimpleThreeColumns() {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </FormControl>
+
+                                    <FormControl mt={4}>
+                                        <FormLabel>Address</FormLabel>
+                                        <Input placeholder="your address" onChange={(e) => setHobbies(e.target.value)} />
+                                    </FormControl>
+
                                 </ModalBody>
 
                                 <ModalFooter>
