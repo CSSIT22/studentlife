@@ -17,7 +17,7 @@ const complete = () => {
                         borderRadius={"10px"}>
                         <Center>
                             <Heading size='sm'>
-                                SHORTLINK UNBLOCK
+                                SHORTLINK COMPLETE
                             </Heading>
                         </Center>
 
