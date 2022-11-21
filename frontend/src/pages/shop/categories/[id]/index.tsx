@@ -8,6 +8,7 @@ import API from 'src/function/API'
 
 const index = () => {
     const param = useParams()
+    const location = useLocation()
     const [productList, setProductList] = useState<any>(null)
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
@@ -25,7 +26,6 @@ const index = () => {
         There is an Error
         </>)
     }
-    const location = useLocation()
     const category_name = location.state.cat_name
     const str = "Category: " + category_name
     const numProducts = productList.length
