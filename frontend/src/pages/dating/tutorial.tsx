@@ -1,13 +1,17 @@
-import { Box, Button, Center, Heading, Text, useBoolean, useBreakpointValue } from '@chakra-ui/react'
+import { Box, Button, Center, Heading, Text, useBoolean, useBreakpointValue, useToast } from '@chakra-ui/react'
 import DatingAppBody from 'src/components/dating/DatingAppBody'
 import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
 import Lottie from "lottie-react"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
+import { useEffect, useState } from 'react'
+import API from 'src/function/API'
+import { useNavigate } from 'react-router-dom'
 
 const FirstPageNextButton = (props: any) => {
     const swiper = useSwiper();
+
     return (<Button className="swiper-no-swiping" colorScheme="orange" w={{ base: "132px", md: "178px" }} h={{ base: "54px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" onClick={() => swiper.slideNext()}>{props.children}</Button>);
 }
 
@@ -22,16 +26,50 @@ const RightButton = (props: any) => {
 }
 
 const Tutorial = () => {
+    const [fName, setFName] = useState("")
+    const [lName, setLName] = useState("")
+    const [isLoading, { off }] = useBoolean(true)
+    const [isError, setIsError] = useState(false)
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+    const toast = useToast()
+
+    useEffect(() => {
+        if (didMount) {
+            API.get("/dating/tutorial/getUserProfile")
+                .then((userProfile) => {
+                    setFName(userProfile.data.fName)
+                    setLName(userProfile.data.lName)
+                })
+                .catch((err) => setIsError(true))
+                .finally(off)
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
     const [isSubmitted, { on }] = useBoolean(false)
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
 
+    function handleSubmit() {
+        API.post("/dating/tutorial/setDatingEnroll")
+                    .then(() => navigate("/dating/"))
+                    .catch((err) => {toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }), setIsError(true)})
+    }
+
     return (
         <DatingAppBody>
             <Box>
-                {isSubmitted ? <Box position="absolute" top={{ base: "180", md: "-100" }}>
+                {isSubmitted || isLoading ? <Box position="absolute" top={{ base: "180", md: "-100" }}>
                     <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
                     <Heading textAlign={"center"} color="black" size={{ base: "xl", md: "2xl" }} mt={{ base: "-120px", md: "-335px" }}>
                         LOADING...
@@ -48,13 +86,13 @@ const Tutorial = () => {
                                         isMobile ?
                                             (<Text textAlign="center" fontWeight="700"
                                                 fontSize="36px"
-                                                lineHeight="133%" color="orange.600" pt="33px" >Firstname Lastname</Text>) :
+                                                lineHeight="133%" color="orange.600" pt="33px" >{fName.charAt(0) + fName.substring(1).toLowerCase()}&nbsp;{lName.charAt(0) + lName.substring(1).toLowerCase()}</Text>) :
                                             (<><Text textAlign="center" fontWeight="700"
                                                 fontSize="30px"
-                                                lineHeight="133%" color="orange.600" pt="39.5px">Firstname</Text>
+                                                lineHeight="133%" color="orange.600" pt="39.5px">{fName.charAt(0) + fName.substring(1).toLowerCase()}</Text>
                                                 <Text textAlign="center" fontWeight="700"
                                                     fontSize="30px"
-                                                    lineHeight="133%" color="orange.600" >Lastname</Text></>)
+                                                    lineHeight="133%" color="orange.600" >{lName.charAt(0) + lName.substring(1).toLowerCase()}</Text></>)
                                     }
                                     {
                                         isMobile ?
@@ -316,7 +354,7 @@ const Tutorial = () => {
                                         <Center>
 
 
-                                            <Button onClick={() => on()} className="swiper-no-swiping" colorScheme="orange" w={{ base: "179px", md: "183px" }} h={{ base: "53px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" mt={{ base: "45px", md: "24px" }}>
+                                            <Button onClick={() => {on(), handleSubmit()}} className="swiper-no-swiping" colorScheme="orange" w={{ base: "179px", md: "183px" }} h={{ base: "53px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" mt={{ base: "45px", md: "24px" }}>
                                                 <Box>
                                                     <Text fontWeight="700"
                                                         fontSize="14px"
@@ -324,13 +362,10 @@ const Tutorial = () => {
                                                     <Text fontWeight="700"
                                                         fontSize="14px"
                                                         lineHeight="120%">& Finding Friend</Text></Box></Button>
-
-
                                         </Center>
                                     </Box>
                                 </Center>
                             </>
-
                         </SwiperSlide>
 
                     </Swiper>
