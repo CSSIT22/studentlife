@@ -14,7 +14,7 @@ const More = () => {
         <AppBody>
             <VStack w="100%" alignItems={"flex-start"}>
                 <Heading>Profile</Heading>
-                <Link to="/profile" style={{ width: "100%" }}>
+                <Link to="/user" style={{ width: "100%" }}>
                     <HStack w="100%" p={5} gap={5} justifyContent="space-between" bg="white" shadow={"md"} rounded="3xl">
                         <Avatar src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user?.userId} />
                         <Heading>{user?.fName}</Heading>
@@ -22,7 +22,7 @@ const More = () => {
                 </Link>
             </VStack>
             <HStack mt={3} gap={3}>
-                <Link to="/auth/revokeTokens" style={{ flex: 3 }} >
+                <Link to="/auth/revokeTokens" style={{ flex: 3 }}>
                     <Box flex={3} p={3} py={5} bg="blue.400" color="white" shadow={"md"} rounded="lg">
                         <Heading size="md">Login activity</Heading>
                     </Box>
