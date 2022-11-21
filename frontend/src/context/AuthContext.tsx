@@ -28,7 +28,7 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
     if (loading) {
         return <Loading />
     }
-    if (!user && !location.pathname.startsWith("/auth")) {
+    if (!user && !(location.pathname === "/auth")) {
         return <Navigate to="/auth" />
     }
     return <authContext.Provider value={user as any} {...props} />
