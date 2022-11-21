@@ -24,7 +24,7 @@ export const Post = (props: PostProps) => {
     }
 
     return (
-        <Box p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" fontWeight="semibold">
+        <Box p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} overflow="hidden" fontWeight="semibold">
             <Text align="right"> score: {ScoreUp(props.likes, props.comments, props.shares)} </Text>
             <HStack>
                 <Avatar size="md" name={props.name} src={props.avatar} />
