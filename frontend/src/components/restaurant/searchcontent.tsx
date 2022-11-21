@@ -53,7 +53,7 @@ const Searchcontent: FC<{
                 </Box>
             </Show>
             <Show above="sm">
-            <Box width={"100%"} p={5} shadow='md' borderWidth='1px' mt={"35px"} borderRadius={"lg"}>
+            <Box width={"100%"} p={5} shadow='md' borderWidth='1px' mt={"35px"} borderRadius={"lg"}  backgroundColor={"white"}>
                     <Flex direction={"column"} alignItems={"center"} gap={"4"}>
                         <Heading color={"#E65D10"} fontSize="xl">{resName}</Heading>
                         <Image

@@ -31,7 +31,6 @@ const FavoriteContent: FC<{
     link: string
     img: string
 }> = ({ id,resName, phone, open, close, website,link, img }) => {
-    const {onClose} = useDisclosure()
     // const DeleteFv = () => {
     //     Restaurant[id].status = false
     //     console.log(Restaurant[id].status)
@@ -43,8 +42,8 @@ const FavoriteContent: FC<{
             <Show below="sm">
             <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"} >
                     <Popover placement="auto">
-                        {/* {({onClose}) => (
-                            <> */}
+                        {({onClose}:any) => (
+                            <> 
                                 <PopoverTrigger>
                                     <Flex justifyContent={"end"} height={3}>
                                         <AiOutlineClose />
@@ -57,7 +56,7 @@ const FavoriteContent: FC<{
                                     <PopoverBody border='0'> you want to unfavorite this restaurant?</PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center" border='0'>
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" mr={2}>
+                                            <Button colorScheme="green" onClick={onClose}  mr={2}>
                                                 Yes
                                             </Button>
 
@@ -67,8 +66,8 @@ const FavoriteContent: FC<{
                                         </ButtonGroup>
                                     </PopoverFooter>
                                 </PopoverContent>
-                            {/* </>
-                        )} */}
+                            </>
+                        )} 
                     </Popover>
 
                     <Flex alignItems={"center"}>
@@ -96,9 +95,9 @@ const FavoriteContent: FC<{
                 </Box>
             </Show>
             <Show above="sm">
-                <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
+                <Box width={"100%"} p={5} shadow="md"  backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
                     <Popover placement="bottom">
-                        {({ onClose }) => (
+                        {({ onClose }:any) => (
                             <>
                                 <PopoverTrigger>
                                     <Flex justifyContent={"end"} height={3}>
