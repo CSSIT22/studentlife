@@ -3,12 +3,14 @@ import { getPost } from "./../index"
 import { Request, Response } from "express"
 
 
+
 const getTargetGroup = async (req: Request, res: Response) => {
     // const postid = parseInt(req.params.id+"")
     const postId = req.body.postId
     const targetType = req.body.targetType
     const targetValue = req.body.targetValue
     const prisma = res.prisma
+    
     try {
         if (targetType == "Major") {
             const majorUsers = await prisma.user_Profile.findMany({
@@ -20,6 +22,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 },
             })
             console.log(majorUsers)
+            res.send(majorUsers)
         } 
         else if (targetType == "Faculty") {
             const majors = await prisma.major.findMany({
@@ -52,7 +55,8 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 }
             }
             console.log(allUserIds)
-
+            res.send(allUserIds)
+            
         } 
         else if (targetType == "Year") {
             let year = new Date()
@@ -89,6 +93,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 }
             }
             console.log(selectedUserIds)
+            res.send(selectedUserIds)
             // console.log(allUserIds.length)  
         }
         else if(targetType=="Everyone"){
@@ -98,6 +103,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
               }   
             }) 
             console.log(everyUserId)
+            res.send(everyUserId)
         }
     } catch (err: any) {
         console.log(err)
