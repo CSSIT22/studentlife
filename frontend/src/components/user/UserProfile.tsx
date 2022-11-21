@@ -52,6 +52,7 @@ import { BsThreeDotsVertical, BsFillFlagFill } from "react-icons/bs"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import { getPathContributingMatches } from "@remix-run/router/dist/utils"
+import { useNavigate } from 'react-router-dom';
 
 
 export default function SimpleThreeColumns() {
@@ -60,7 +61,7 @@ export default function SimpleThreeColumns() {
 
     const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
     const btnRef = React.useRef(null)
-
+    let history = useNavigate();
     const [isFollow, setIsFollow] = useState(false)
     const [name, setName] = useState<any>()
     const [Phone, setPhone] = useState<any>()
@@ -69,13 +70,23 @@ export default function SimpleThreeColumns() {
     const [Hobbies, setHobbies] = useState<any>()
     const [Years, setYears] = useState<any>()
 
-    // const AboutMe = 
     useEffect(() => {
         API.get("/user/profile/aboutme").then(res => {
             console.log(res.data)
         })
     }, [])
 
+    const postData = () => {
+        API.post(``, {
+            Phone,
+            BirthDate,
+            Sex,
+            Hobbies,
+            Years,
+        }).then(() => {
+            history('/read')
+        })
+    }
 
     function handleClick() {
         setIsFollow(!isFollow)
@@ -209,7 +220,7 @@ export default function SimpleThreeColumns() {
                                 <ModalBody pb={6}>
                                     <FormControl>
                                         <FormLabel>Phone</FormLabel>
-                                        <Input ref={initialRef} placeholder="Phone Number" />
+                                        <Input ref={initialRef} placeholder="Phone Number" onChange={(e) => setPhone(e.target.value)} />
                                     </FormControl>
 
                                     <HStack mt={4}>
@@ -225,13 +236,13 @@ export default function SimpleThreeColumns() {
                                         </FormControl> */}
                                         <FormControl>
                                             <FormLabel>Birth Date</FormLabel>
-                                            <Input placeholder="Select Date and Time" size="md" type="date" />
+                                            <Input placeholder="Select Date and Time" size="md" type="date" onChange={(e) => setBirthDate(e.target.value)} />
                                         </FormControl>
                                     </HStack>
 
                                     <FormControl mt={4}>
                                         <FormLabel>Sex</FormLabel>
-                                        <Select>
+                                        <Select onChange={(e) => setSex(e.target.value)}>
                                             <option>Male</option>
                                             <option>Female</option>
                                             <option>LGBTQ+</option>
@@ -240,12 +251,12 @@ export default function SimpleThreeColumns() {
 
                                     <FormControl mt={4}>
                                         <FormLabel>Hobby</FormLabel>
-                                        <Input placeholder="your favorite free time activity" />
+                                        <Input placeholder="your favorite free time activity" onChange={(e) => setHobbies(e.target.value)} />
                                     </FormControl>
 
                                     <FormControl mt={4}>
                                         <FormLabel>Years</FormLabel>
-                                        <NumberInput max={8} min={1}>
+                                        <NumberInput max={8} min={1} onChange={(e) => setYears((e.target.value) as string)}>
                                             <NumberInputField />
                                             <NumberInputStepper>
                                                 <NumberIncrementStepper />
@@ -256,7 +267,7 @@ export default function SimpleThreeColumns() {
                                 </ModalBody>
 
                                 <ModalFooter>
-                                    <Button colorScheme="orange" mr={3}>
+                                    <Button onClick={postData} colorScheme="orange" mr={3}>
                                         Save
                                     </Button>
                                     <Button onClick={onClose}>Cancel</Button>
