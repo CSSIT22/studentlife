@@ -30,6 +30,7 @@ const permission = () => {
                         </Heading>
                     </Box>
 
+
                     <VStack spacing={4} align="stretch" marginTop={"10%"}>
                         <Box h="70px">
                             <Box width={"100%"}>
