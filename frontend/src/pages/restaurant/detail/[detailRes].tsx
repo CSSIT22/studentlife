@@ -52,6 +52,10 @@ function detail() {
     //     console.log(Restaurant[numres].status)
     // }
 
+    const addFavorite = () => {
+        API.post("/restaurant/detail/" + params.detailRes)
+    }
+
 
     useEffect(() => {
         API.get("/restaurant/detail/" + params.detailRes).
@@ -159,6 +163,7 @@ function detail() {
                                             onClick={() => {
                                                 setIsFavorite(!isFavorite)
                                                 setFavoriteStatus
+                                                addFavorite()
                                             }}
                                         >
                                             {isFavorite ? <AiFillHeart size={"full"} /> : <AiOutlineHeart size={"full"} />}

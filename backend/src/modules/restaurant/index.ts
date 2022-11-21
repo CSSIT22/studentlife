@@ -10,6 +10,7 @@ import showHistory from "./routes/showHistory"
 import { Restaurant } from "@apiType/restaurant"
 import { verifyUser } from "../backendService/middleware/verifyUser"
 import deleteFavorite from "./routes/deleteFavorite"
+import addFavorite from "./routes/addFavorite"
 const restaurantRoutes = express()
 restaurantRoutes.use(express.json())
 
@@ -221,6 +222,7 @@ restaurantRoutes.get("/history", showHistory)
 restaurantRoutes.get("/:id", verifyUser ,showRestaurant)
 restaurantRoutes.post("/:id", likedRestaurant)
 restaurantRoutes.get("/detail/:id", showDetail)
+restaurantRoutes.post("/detail/:id", addFavorite)
 restaurantRoutes.get("/review/:id", showReview)
 
 
