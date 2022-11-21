@@ -1,44 +1,53 @@
-import { UserInterests } from "@apiType/dating"
+import { AllInterests, UserInterests } from "@apiType/dating"
 import { Box, Button, Text, useBoolean, useToast } from "@chakra-ui/react"
-import { FC } from "react"
+import { Dispatch, FC, SetStateAction } from "react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 
-const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: number[]; tagIsClicked: boolean; hasSelectedInterest: boolean; type: string; isLoading: boolean; }> = ({
+const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedInterests: number[]; tagIsClicked: boolean; hasSelectedInterest: boolean; type: string; isLoading: boolean; setInterests: Dispatch<SetStateAction<AllInterests[]>>; setIsSubmiited: React.Dispatch<React.SetStateAction<boolean>>; isSubmitted: boolean; }> = ({
     numOfSelectedInterest,
     selectedInterests,
     tagIsClicked,
     hasSelectedInterest,
     type,
-    isLoading
+    isLoading,
+    setInterests,
+    setIsSubmiited,
+    isSubmitted
 }) => {
     const navigate = useNavigate()
     const toast = useToast()
     // When you click "Done" button, this function will be triggered.
-    function handleSubmit() {
-        if (type == "interest") {
-            if (hasSelectedInterest) {
-                if (selectedInterests.length != 0) {
-                    API.put<UserInterests>("/dating/interests/updateUserInterests", { interestId: selectedInterests })
-                        .then(() => navigate("/dating/"))
-                        .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
-                }
 
-                else {
-                    API.delete<UserInterests>("/dating/interests/deleteUserInterests")
-                        .then(() => navigate("/dating/"))
-                        .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
-                }
+    function handleClick() {
+        if (type == "interest") {
+            setInterests([])
+            setIsSubmiited(true)
+            handleSubmit()
+        }
+    }
+    function handleSubmit() {
+        if (hasSelectedInterest) {
+            if (selectedInterests.length != 0) {
+                API.put<UserInterests>("/dating/interests/updateUserInterests", { interestId: selectedInterests })
+                    .then(() => navigate("/dating/"))
+                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+            }
+
+            else {
+                API.delete<UserInterests>("/dating/interests/deleteUserInterests")
+                    .then(() => navigate("/dating/"))
+                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+            }
+        }
+        else {
+            if (selectedInterests.length != 0) {
+                API.post<UserInterests>("/dating/interests/setUserInterests", { interestId: selectedInterests })
+                    .then(() => navigate("/dating/"))
+                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
             }
             else {
-                if (selectedInterests.length != 0) {
-                    API.post<UserInterests>("/dating/interests/setUserInterests", { interestId: selectedInterests })
-                        .then(() => navigate("/dating/"))
-                        .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
-                }
-                else {
-                    navigate("/dating/")
-                }
+                navigate("/dating/")
             }
         }
     }
@@ -47,14 +56,14 @@ const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedI
     // If you have not choose any interest tag, the skip button will show up.
     // Else, the done button will show up.
     return (
-        !isLoading ? (
+        !(isLoading || isSubmitted) ? (
             <Button
                 colorScheme="orange"
                 width={{ base: "79px", md: "200px" }}
                 height={{ base: "33px", md: "70px" }}
                 borderRadius="5px"
                 float="right"
-                onClick={handleSubmit}
+                onClick={() => handleClick()}
             >
                 {tagIsClicked || numOfSelectedInterest != 0 ? (
                     <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
@@ -65,21 +74,34 @@ const DatingInterestDynamicButton: FC<{ numOfSelectedInterest: number; selectedI
                         Skip
                     </Box>
                 )}
-            </Button>) :
-            <Box
-                backgroundColor="orange.800"
-                width={{ base: "79px", md: "200px" }}
-                height={{ base: "33px", md: "70px" }}
-                borderRadius="5px"
-                float="right"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%"
-                color="white"
-            >
-                Loading...
-            </Box>
+            </Button>) : (isLoading ? (
+                <Box
+                    backgroundColor="orange.800"
+                    width={{ base: "79px", md: "200px" }}
+                    height={{ base: "33px", md: "70px" }}
+                    borderRadius="5px"
+                    float="right"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%"
+                    color="white"
+                >
+                    Loading...
+                </Box>) : (<Box
+                    backgroundColor="orange.800"
+                    width={{ base: "100px", md: "200px" }}
+                    height={{ base: "33px", md: "70px" }}
+                    borderRadius="5px"
+                    float="right"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%"
+                    color="white"
+                >
+                    Submitting...
+                </Box>))
     )
 }
 
