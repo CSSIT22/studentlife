@@ -10,14 +10,14 @@ const addcard = () => {
             <AppBody>
                 <Header name="Adding a new card"></Header>
                 <Container bg={"#e67f45"} color="white" maxW="90%" my="24px" borderRadius="10px" shadow={"lg"} py="23px">
-                    <Text fontSize={{base: "lg", lg: "xl"}} fontWeight={"bold"} mb="10px">
+                    <Text fontSize={{ base: "lg", lg: "xl" }} fontWeight={"bold"} mb="10px">
                         Card Details
                     </Text>
                     <Stack spacing={2}>
                         <InputGroup>
                             <InputLeftAddon
                                 children="Name on Card"
-                                fontSize={{base: "md", lg: "lg"}}
+                                fontSize={{ base: "md", lg: "lg" }}
                                 fontWeight={"bold"}
                                 color="black"
                                 bg={"orange.50"}
@@ -28,19 +28,19 @@ const addcard = () => {
                         <InputGroup>
                             <InputLeftAddon
                                 children="Card Number"
-                                fontSize={{base: "md", lg: "lg"}}
+                                fontSize={{ base: "md", lg: "lg" }}
                                 fontWeight={"bold"}
                                 color="black"
                                 bg={"orange.50"}
-                                
+
                             ></InputLeftAddon>
-                            <Input type="number" placeholder="xxxx-xxxx-xxxx-xxxx" _placeholder={{color:'white', fontSize:'lg'}} />
+                            <Input type="number" placeholder="xxxx-xxxx-xxxx-xxxx" _placeholder={{ color: 'white', fontSize: 'lg' }} />
                         </InputGroup>
-                        <Stack direction={{base: "column" ,lg: "row"}}>
+                        <Stack direction={{ base: "column", lg: "row" }}>
                             <InputGroup>
                                 <InputLeftAddon
                                     children="Expiry Date"
-                                    fontSize={{base: "md", lg: "lg"}}
+                                    fontSize={{ base: "md", lg: "lg" }}
                                     fontWeight={"bold"}
                                     color="black"
                                     bg={"orange.50"}
@@ -50,7 +50,7 @@ const addcard = () => {
                             <InputGroup>
                                 <InputLeftAddon
                                     children="CVV"
-                                    fontSize={isSmallerThan630 ? "md" : "lg"}
+                                    fontSize={{ base: "md", lg: "lg" }}
                                     fontWeight={"bold"}
                                     color="black"
                                     bg={"orange.50"}
@@ -64,7 +64,7 @@ const addcard = () => {
                     <Show below="lg">
                         <Link href="selectmastercard">
                             <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
-                                <Text fontSize={isSmallerThan630 ? "md" : "lg"} fontWeight={"bold"}>
+                                <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"}>
                                     Cancel
                                 </Text>
                             </Button>
@@ -73,7 +73,7 @@ const addcard = () => {
 
                     <Link href="../shoptransaction">
                         <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
-                            <Text fontSize={isSmallerThan630 ? "md" : "lg"} fontWeight={"bold"}>
+                            <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"}>
                                 Save
                             </Text>
                         </Button>

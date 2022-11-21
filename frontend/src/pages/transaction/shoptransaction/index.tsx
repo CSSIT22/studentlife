@@ -25,7 +25,7 @@ const shopTransaction = () => {
             <Header name="CHECKOUT" />
 
             <Container bg={"#e67f45"} maxW="90%" my="24px" p={"3%"} borderRadius="10px" shadow={"lg"}>
-                <Stack direction={isSmallerThan768 ? "column" : "row"} justifyContent={"center"}>
+                <Stack direction={{ base: "column", lg: "row" }} justifyContent={"center"}>
                     <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
                     <Spacer />
                     <UsePoint point={123} />
@@ -36,7 +36,7 @@ const shopTransaction = () => {
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Order List
                 </Text>
-                <Stack direction={isSmallerThan768 ? "row" : "column"}>
+                <Stack direction={{ base: "row", lg: "column" }}>
                     <OrderList
                         imageAlt=""
                         imageUrl="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1099&q=80"
@@ -119,9 +119,9 @@ const shopTransaction = () => {
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Payment Details
                 </Text>
-                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Merchandise subtotal : 123123</Text>
-                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Point discount : 123</Text>
-                <Text fontSize={isSmallerThan768 ? "md" : "lg"}>Total : 123</Text>
+                <Text fontSize={{ base: "md", lg: "lg" }}>Merchandise subtotal : 123123</Text>
+                <Text fontSize={{ base: "md", lg: "lg" }}>Point discount : 123</Text>
+                <Text fontSize={{ base: "md", lg: "lg" }}>Total : 123</Text>
             </Container>
 
             <Show below="md">
@@ -155,7 +155,7 @@ const shopTransaction = () => {
                     </Flex>
                 </Container>
             </Hide>
-        </AppBody>
+        </AppBody >
     )
 }
 
