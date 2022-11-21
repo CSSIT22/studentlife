@@ -78,6 +78,10 @@ function handleTime(){
     function handleSubmit() {
         console.log("Name: " + name + " Description: " + description + " Location: " + location + " Time: " + handleTime() )
     }
+    function selectDate() {
+        dateSelect
+        console.log("Date: " + dateSelect )
+    }
 
     return (
         <AppBody>
@@ -288,7 +292,7 @@ function handleTime(){
                             <h4></h4>
                             <h4></h4>
                             <h4>
-                            <Box bg='#7EFF69' w='100%' p={4} color='black' onClick={detailModal.onOpen} cursor='pointer'> Assignment </Box>
+                            <Box bg='#7EFF69' w='100%' p="3" color='black' onClick={detailModal.onOpen} cursor='pointer'> Assignment </Box>
                             </h4>
                             <h4></h4>
                             <h4></h4>
