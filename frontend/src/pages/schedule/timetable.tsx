@@ -1,6 +1,7 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
+import Calendar from 'react-calendar';
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
@@ -50,6 +51,8 @@ const timetable = () => {
     const modal1 = useDisclosure()
     const modal2 = useDisclosure()
     const modal3 = useDisclosure()
+    const calendarModal = useDisclosure()
+    const detailModal = useDisclosure()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -64,6 +67,10 @@ const timetable = () => {
 
     const [time, setTimeInput] = useState("")
     const handleInputTimeChange = (e: any) => setTimeInput(e.target.value)
+    const [dateSelect, setDateInput] = useState(new Date())
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const dateButton = document.getElementById('my-element')
+
 function handleTime(){
     const starttime = new Date(time)
     return starttime
@@ -77,18 +84,43 @@ function handleTime(){
             <SimpleGrid columns={[1, 6]} spacing="30px">
                 <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
 
-                <Button boxShadow="md" p="6" rounded="md" bg="white" >
-                   Date 
+                <Button id="dateButton" boxShadow="md" p="6" rounded="md" bg="white"onClick={calendarModal.onOpen}>
+                {dateSelect.getDate()}
+                   {/* Date  */}
                    {/* <calendar 
                    date ={date}
                    setDate={setDate}/> */}
                 </Button>
-                <Button boxShadow="md" p="6" rounded="md" bg="white">
+                <Modal id="calendarButton" initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={calendarModal.isOpen} onClose={calendarModal.onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalCloseButton />
+                        <ModalBody pb={6}>
+                            <Flex>
+                                <FormControl mt={5}>
+                                    <Calendar
+                                    defaultActiveStartDate={dateSelect}
+                                    onChange={ (dateNow: any) => {
+                                        setDateInput(dateNow)
+                                    }}
+                                     />
+                                </FormControl>
+                            </Flex>
+                        </ModalBody>
+                    </ModalContent>
+                </Modal>
+                <Button boxShadow="md" p="6" rounded="md" bg="white" onClick={calendarModal.onOpen}>
+                    {monthNames[dateSelect.getMonth()]}
+                </Button>
+                <Button boxShadow="md" p="6" rounded="md" bg="white" onClick={calendarModal.onOpen}>
+                    {dateSelect.getFullYear()}
+                </Button>
+                {/* <Button id="calendarButton" boxShadow="md" p="6" rounded="md" bg="white" isOpen={calendarModal.isOpen} onClose={calendarModal.onClose}>
                     Month
-                </Button>
-                <Button boxShadow="md" p="6" rounded="md" bg="white">
+                </Button> */}
+                {/* <Button boxShadow="md" p="6" rounded="md" bg="white">
                     Year
-                </Button>
+                </Button> */}
                 <IconButton aria-label="next" icon={<ChevronRightIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
                 
                 <IconButton
@@ -248,6 +280,20 @@ function handleTime(){
                 <br />
                 <Divider />
                 <Text>06:00</Text>
+                <Box boxShadow="md" p="6" rounded="md" bg="white">
+                        <Grid templateColumns="repeat(8, 1fr)" gap={2}>
+                            <h4></h4>
+                            <h4></h4>
+                            <h4></h4>
+                            <h4></h4>
+                            <h4></h4>
+                            <h4>
+                            <Box bg='#7EFF69' w='100%' p={4} color='black' onClick={detailModal.onOpen} cursor='pointer'> Assignment </Box>
+                            </h4>
+                            <h4></h4>
+                            <h4></h4>
+                        </Grid>
+                    </Box>
                 <br />
                 <Divider />
                 <Text>07:00</Text>
