@@ -1,4 +1,5 @@
 import { prisma } from "@prisma/client"
+import cuid from "cuid"
 import { Request, Response } from "express"
 
 const postShortnote = async (req: Request<any>, res: Response<any>) => {
@@ -7,12 +8,13 @@ const postShortnote = async (req: Request<any>, res: Response<any>) => {
         const user = req.user?.userId
 
         const payload: any = {
+            snId: cuid(),
+            courseId: req.body.courseId,
+            userId: user,
+            isPublic: req.body.isPublic,
             snName: req.body.snName,
             snDesc: req.body.snDesc,
             snLink: req.body.snLink,
-            courseId: req.body.snName,
-            isPublic: req.body.isPublic,
-            userId: user,
         }
 
         const sn = await prisma.sn_Head.create({
@@ -20,7 +22,9 @@ const postShortnote = async (req: Request<any>, res: Response<any>) => {
         })
         res.send(sn)
     } catch (err) {
-        res.send("some error")
+        console.log(err)
+
+        return res.send(err)
     }
 }
 
