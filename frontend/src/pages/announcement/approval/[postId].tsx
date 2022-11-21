@@ -18,15 +18,41 @@ const approvalDetail = () => {
     // }
     
     const [post, setpost] = React.useState<post[]>([])
-    const getData = API.get("/announcement/getdetail/" + params.postId)
-    useEffect(() => {
-        getData.then((item) => setpost(item.data)).catch((err) => on())
-    }, [])
+    const [targetType, setTargetType] = React.useState()
+    const [targetValue, setTargetValue] = React.useState()
+    const [topic, setTopic] = React.useState()
+    const [sender, setSender] = React.useState()
+    const [detail, setDetail] = React.useState()
 
+
+    async function getPost() {
+        const getData = await API.get("/announcement/getdetailedit/" + params.postId)
+        setpost(getData.data)
+        setTargetType(getData.data.targetType)
+        setTargetValue(getData.data.targetValue)
+        setTopic(getData.data.topic)
+        setSender(getData.data.sender)
+        setDetail(getData.data.detail)
+
+    }
+
+    useEffect(() => {
+        getPost()
+     },[])
+
+    // useEffect(() => {
+    //     getData.then((item) => setpost(item.data)).catch((err) => on())
+    // }, [])
+ 
+ 
+    // const targetType = post.map((el) => el.targetType)
+    // const targetValue = post.map((el)=> el.targetValue)
+    // console.log(targetType[0], targetValue[0])
 
     const changeStatus = (status: string) => {
         if(status == "approve"){
             API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:true})
+            API.post<post>("/announcement/gettargetgroup", {postId:parseInt(params.postId+""), targetType:targetType, targetValue:targetValue })
         }else if(status == "disapprove"){
             API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:false})
 
@@ -55,32 +81,22 @@ const approvalDetail = () => {
             </Flex>
             <Stack spacing={3} p="5">
                 <Heading as="h2" size="xl">
-                    {post.map((el) => {
-                        return el.topic
-                    })}
+                    {topic}
                 </Heading>
                 <Box>
                     <Text fontSize="md">
                         Sender:{" "}
-                        {post.map((el) => {
-                            return el.sender
-                        })}
+                        {sender}
                     </Text>
                     <Text fontSize="md">
                         To:{" "}
-                        {post.map((el) => {
-                            return el.targetType
-                        })}{" "}
-                        {post.map((el) => {
-                            return el.targetValue
-                        })}
+                        {targetType}{" "}
+                        {targetValue}
                     </Text>
                 </Box>
                 <Box>
                     <Text fontSize="sm" align="justify">
-                        {post.map((el) => {
-                            return el.detail
-                        })}
+                        {detail}
                     </Text>
                 </Box>
             </Stack>
