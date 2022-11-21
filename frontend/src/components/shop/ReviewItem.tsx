@@ -23,7 +23,7 @@ const ReviewItem: FC<{
     const { isOpen, onOpen, onClose } = useDisclosure()
     const userReviewInformation = (isStar?: boolean) => {
         return (
-            <Flex pt="0" gap=" 24px" align="center">
+            <Flex pt="0" gap=" 24px" align="center" wrap= "wrap">
                 <Avatar name="" src={userPhoto}></Avatar>
                 <Flex direction={"column"}>
                     <Text as={"b"} color="black" textAlign={"start"} size={"sm"}>
@@ -38,7 +38,7 @@ const ReviewItem: FC<{
         )
     }
     const starDisplay = (
-        <Pill ml = "auto">
+        <Pill ml = {{base: null, sm: "auto"}}>
             <BsStarFill color="#fecd04" size="1.3rem"></BsStarFill>
             <Text as={"b"} fontSize={"md"} color="white">{rating + "/5"}</Text>
         </Pill>
