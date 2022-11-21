@@ -18,7 +18,7 @@ const MoreLangForEdit: FC<{
     const [disable, setDisable] = React.useState(false)
 
     return (
-        <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#DDDDDD"} my="10">
+        <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#000"} my="10">
             <Tag
                 height={"1.5"}
                 size={"lg"}
@@ -34,7 +34,7 @@ const MoreLangForEdit: FC<{
             </Tag>
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
-                <Select placeholder="Select language" onChange={(e) => setOtherLang(parseInt(e.target.value+""))} disabled={add} value={otherLang}>
+                <Select placeholder="Select language" onChange={(e) => setOtherLang(parseInt(e.target.value+""))} disabled={add} value={otherLang} bg="white">
                     <option value={1001}>Thai</option>
                     <option value={1002}>Korea</option>
                     <option value={1003}>Japanese</option>
@@ -42,11 +42,11 @@ const MoreLangForEdit: FC<{
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Title</FormLabel>
-                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={add} value={topic} />
+                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={add} value={topic} bg="white"/>
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Detail</FormLabel>
-                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={add} value={detail} />
+                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={add} value={detail} bg="white"/>
             </FormControl>
             <Text color={"red.300"} fontSize={"0.8rem"} my={"2"}>
                 Note: if you added, you can't change it anymore
@@ -56,6 +56,8 @@ const MoreLangForEdit: FC<{
                     addLang( parseInt(otherLang+"") , topic,  detail), setDisable(true), onAdd()
                 }}
                 disabled={disable}
+                bg="blue.700"
+                color="white"
             >
                 Add
             </Button>

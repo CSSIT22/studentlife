@@ -27,12 +27,13 @@ import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post } from "@apiType/announcement"
+import API from "src/function/API"
 
 const create = () => {
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
             return (
-                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)}>
+                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} bg="white">
                     <option>Science</option>
                     <option>Engineering</option>
                     <option>Information Technology</option>
@@ -41,7 +42,7 @@ const create = () => {
             )
         } else if (targetType == "Major") {
             return (
-                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)}>
+                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} bg="white">
                     <option>Computer Science</option>
                     <option>Math</option>
                     <option>Biology</option>
@@ -50,7 +51,7 @@ const create = () => {
             )
         } else if (targetType == "Year") {
             return (
-                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)}>
+                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} bg="white">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -90,26 +91,27 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
     const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
-        setAllPost([
-            ...allPost,
-            {
-                postId: allPost.length,
-                userId: "0" + allPost.length + 1,
-                lang_id: 1000,
-                topic: title,
-                detail: detail,
-                sender: "SAMO-SIT",
-                status: "waiting",
-                pinStatus: false,
-                isApprove: false,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: new Date(),
-                expiredOfPost: expired,
-                expiredAfterDelete: null,
-                addMoreLang: addMoreLang,
-            },
-        ])
+        // setAllPost([
+        //     ...allPost,
+        //     {
+        //         postId: allPost.length,
+        //         userId: "0" + allPost.length + 1,
+        //         lang_id: 1000,
+        //         topic: title,
+        //         detail: detail,
+        //         sender: "SAMO-SIT",
+        //         status: "waiting",
+        //         pinStatus: false,
+        //         isApprove: false,
+        //         targetType: targetType,
+        //         targetValue: targetValue,
+        //         postAt: new Date(),
+        //         expiredOfPost: expired,
+        //         expiredAfterDelete: null,
+        //         addMoreLang: addMoreLang,
+        //     },
+        // ])
+        API.post<post>("/announcement/createpost" , {topic:title,detail:detail,targetType:targetType,targetValue:targetValue,expiredPost:expired,addmorelang:addMoreLang})
     }
     console.log(allPost)
 
@@ -166,7 +168,7 @@ const create = () => {
                     addPost(topic, detail, targetType, targetValue, new Date(expired), addMoreLang)
                 }}
             >
-                <Flex alignItems={"center"}>
+                <Flex alignItems={"center"} >
                     <Show below="lg">
                         <Text as={"b"} fontSize="xl">
                             <Link to={"/announcement"}>
@@ -191,23 +193,23 @@ const create = () => {
                         />
                     </Box>
                 </Flex>
-                <Stack spacing={3} p="5">
+                <Stack spacing={3} p="5" color="black">
                     <FormControl>
                         <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English" value={1000}></Select>
+                        <Select isDisabled placeholder="English" value={1000} bg="white"></Select>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} />
+                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} bg="white"/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} />
+                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} bg="white"/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Target Group</FormLabel>
                         <Flex>
-                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)}>
+                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} bg="white">
                                 <option>Everyone</option>
                                 <option>Year</option>
                                 <option>Major</option>
@@ -224,6 +226,7 @@ const create = () => {
                             type="date"
                             min={disabledDates()}
                             onChange={(e) => setExpired(e.target.value)}
+                            bg="white"
                         />
                     </FormControl>
                     <FormControl>
