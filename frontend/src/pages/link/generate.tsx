@@ -1,4 +1,18 @@
-import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack, Text, useToast, Editable } from "@chakra-ui/react"
+import {
+    Box,
+    Button,
+    Center,
+    Heading,
+    Link,
+    Portal,
+    StackDivider,
+    useDisclosure,
+    VStack,
+    Text,
+    ButtonGroup,
+    useToast,
+    Editable,
+} from "@chakra-ui/react"
 import React from "react"
 import { Input } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
@@ -15,7 +29,7 @@ import {
     PopoverAnchor,
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-const customize = () => {
+const generate = () => {
     const navigate = useNavigate()
     const password = () => {
         navigate("/link/password")
@@ -27,10 +41,11 @@ const customize = () => {
         navigate("/link/permission")
     }
     const complete = () => {
-      navigate("/link/complete")
-  }
+        navigate("/link/complete")
+    }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
+    const toast = useToast()
 
     const breakpoints = {
         sm: "320px",
@@ -39,7 +54,6 @@ const customize = () => {
         xl: "1200px",
         "2xl": "1536px",
     }
-    const toast = useToast()
     return (
         <AppBody>
             <Center>
@@ -57,7 +71,7 @@ const customize = () => {
                             border={"3px solid white"}
                             textAlign={"center"}
                         >
-                            SHORTLINK CUSTOMIZE
+                            SHORTLINK GENERATOR
                         </Heading>
                     </Box>
 
@@ -71,7 +85,14 @@ const customize = () => {
                         </Box>
                         <Box h="70px" w={"100%"}>
                             <Center>
-                            <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"}></Editable>
+                                <Editable
+                                    defaultValue="Take some chakra"
+                                    w={"75%"}
+                                    height={"60px"}
+                                    border={"4px"}
+                                    borderColor={"black"}
+                                    rounded={"md"}
+                                ></Editable>
                             </Center>
                         </Box>
                     </VStack>
@@ -85,6 +106,54 @@ const customize = () => {
                 <Box width={"80%"} height={"200px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"1%"}>
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
+                            <Center>
+                                <ButtonGroup gap={2}>
+                                    <Button colorScheme="yellow" w={"100px"} height={"60px"}>
+                                        GENERATE
+                                    </Button>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button colorScheme="purple" w={"100px"} height={"60px"}>
+                                                ADD-ON
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <PopoverArrow />
+                                            <PopoverCloseButton />
+                                            <PopoverHeader>
+                                                <Text as={"b"}>Select the Shortlink Add on!</Text>
+                                            </PopoverHeader>
+                                            <PopoverBody>
+                                                <Button bg={"orange.200"} w={"100%"} mt={3} onClick={password}>
+                                                    Shortlink Password
+                                                </Button>
+                                                <Button
+                                                    bg={"pink.200"}
+                                                    w={"100%"}
+                                                    mt={3}
+                                                    onClick={() =>
+                                                        toast({
+                                                            title: "Add Unblock features!",
+                                                            description: "Unblock shortlink success",
+                                                            status: "success",
+                                                            duration: 3000,
+                                                            isClosable: true,
+                                                        })
+                                                    }
+                                                >
+                                                    Shortlink Unblock
+                                                </Button>
+                                                <Button bg={"cyan.200"} w={"100%"} mt={3} onClick={permission}>
+                                                    Shortlink Permission
+                                                </Button>
+                                            </PopoverBody>
+                                        </PopoverContent>
+                                    </Popover>
+                                </ButtonGroup>
+                            </Center>
+                        </Box>
+
+                        <Box h="70px">
                             <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
                                 <AlertDialogOverlay>
                                     <AlertDialogContent>
@@ -95,7 +164,7 @@ const customize = () => {
                                         <AlertDialogBody>Are you sure?</AlertDialogBody>
 
                                         <AlertDialogFooter>
-                                            <Button colorScheme='green' onClick={complete} ml={3}>
+                                            <Button colorScheme="green" onClick={complete} ml={3}>
                                                 SAVE
                                             </Button>
                                             <Button ref={cancelRef} onClick={onClose} ml={3}>
@@ -113,50 +182,10 @@ const customize = () => {
                                 </Center>
                             </Box>
                         </Box>
-                        <Box h="70px">
-                            <Center>
-                                <Popover>
-                                    <PopoverTrigger>
-                                        <Button colorScheme="purple" w={"50%"} height={"60px"}>
-                                            ADD-ON
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverCloseButton />
-                                        <PopoverHeader>
-                                            <Text as={"b"}>Select the Shortlink Add on!</Text>
-                                        </PopoverHeader>
-                                        <PopoverBody>
-                                            <Button bg={"orange.200"} w={"100%"} mt={3} onClick={password}>
-                                                Shortlink Password
-                                            </Button>
-                                            <Button bg={"pink.200"} w={"100%"} mt={3}
-                                                onClick={() =>
-                                                    toast({
-                                                        title: "Add Unblock features!",
-                                                        description: "Unblock shortlink success",
-                                                        status: "success",
-                                                        duration: 3000,
-                                                        isClosable: true,
-                                                    })
-
-                                                }
-                                                    >
-                                                Shortlink Unblock
-                                            </Button>
-                                            <Button bg={"cyan.200"} w={"100%"} mt={3} onClick={permission}>
-                                                Shortlink Permission
-                                            </Button>
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Popover>
-                            </Center>
-                        </Box>
                     </VStack>
                 </Box>
             </Center>
         </AppBody>
     )
 }
-export default customize
+export default generate
