@@ -37,9 +37,7 @@ model User_Profile {
   cReported            Comment_Report[]
   pHided               Hide_Post[]
   cHided               Hide_Comment[]
-  notis                User_Noti_Object[]
-  emailNotis           Noti_Setting_Email?
-  appNotis             Noti_Setting_App?
+  notis                Noti_User?
   userTimetable        Timetable[]
   tasks                Task[]
   groups               User_To_Group[]
@@ -327,10 +325,18 @@ model Hide_Comment {
 }
 
 //Notification Module
+model Noti_User {
+  userId           String             @id
+  user             User_Profile       @relation(fields: [userId], references: [userId])
+  notiSettingEmail Noti_Type          @default(ALL)
+  notiSettingApp   Noti_Type          @default(ALL)
+  notiObjects      User_Noti_Object[]
+}
+
 model User_Noti_Object {
-  notiObject   Noti_Object  @relation(fields: [notiObjectId], references: [notiObjectId], onDelete: Cascade)
+  notiObject   Noti_Object @relation(fields: [notiObjectId], references: [notiObjectId], onDelete: Cascade)
   notiObjectId String
-  user         User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user         Noti_User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId       String
 
   @@id([notiObjectId, userId])
@@ -338,21 +344,33 @@ model User_Noti_Object {
 
 model Noti_Object {
   notiObjectId String             @id @default(cuid())
-  templateId   String
+  template Template
   date         DateTime           @db.Timestamp(0)
   isRead       Boolean
-  moduleId     String
+  module     Module
   url          String
   users        User_Noti_Object[]
-  template     Template           @relation(fields: [templateId], references: [templateId], onDelete: Cascade)
   values       Value[]
-  module       Module             @relation(fields: [moduleId], references: [moduleId])
 }
 
-model Template {
-  templateId  String        @id @default(cuid())
-  template    String
-  notiObjects Noti_Object[]
+enum Template {
+  ANNOUNCEMENT_APPROVED
+  ANNOUNCEMENT_NEW
+  ANNOUNCEMENT_WAIT_FOR_APPROVE
+  CHAT_MESSAGE
+  COMMUNITY_INVITE
+  COMMUNITY_POST
+  DATING_ACCEPTED
+  DATING_INTERESTED
+  DATING_MATCH
+  DATING_MATCH_FRIEND
+  QnA_ANSWER
+  QnA_ANSWER_ANONYMOUS
+  SCHEDULE_EVENT
+  SHOP_REVIEW_COMMENT
+  TODO_LIST_TASK
+  TRANSACTION_SUCCESS
+  TRANSACTION_TRANSFER
 }
 
 model Value {
@@ -362,32 +380,22 @@ model Value {
   valueOf      Noti_Object @relation(fields: [notiObjectId], references: [notiObjectId], onDelete: Cascade)
 }
 
-model Module {
-  moduleId   String        @id @default(cuid())
-  moduleName String
-  notiObject Noti_Object[]
+enum Module {
+  ANNOUNCEMENT
+  CHAT
+  COMMUNITY
+  DATING
+  QnA
+  SCHEDULE
+  SHOP_REVIEW
+  TODO_LIST
+  TRANSACTION
 }
 
-model Noti_Type {
-  notiTypeId   String              @id @default(cuid())
-  notiType     String              @default("All")
-  notiTypeDesc String
-  emailSetting Noti_Setting_Email?
-  appSetting   Noti_Setting_App?
-}
-
-model Noti_Setting_Email {
-  userId      String       @unique
-  userSetting User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  notiTypeId  String       @unique
-  notiSetting Noti_Type    @relation(fields: [notiTypeId], references: [notiTypeId], onDelete: Cascade)
-}
-
-model Noti_Setting_App {
-  userId      String       @unique
-  userSetting User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  notiTypeId  String       @unique
-  notiSetting Noti_Type    @relation(fields: [notiTypeId], references: [notiTypeId], onDelete: Cascade)
+enum Noti_Type {
+  ALL
+  MENTION
+  IGNORE
 }
 
 //Schedule Module
