@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Tooltip, Text, useDisclosure, Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, Input, Modal, Radio, RadioGroup, Textarea, useToast, VStack, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Collapse, IconButton, HStack } from '@chakra-ui/react'
 import API from 'src/function/API'
 import AppBody from 'src/components/share/app/AppBody'
-import { IoIosArrowBack } from 'react-icons/io'
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { MdDesktopWindows } from 'react-icons/md'
 import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2'
 import { Link } from 'react-router-dom'
@@ -143,6 +143,7 @@ const createCommunity = () => {
         <AppBody>
             {/* <form method='post' onSubmit={submit}> */}
             <Flex gap='2' alignItems='flex-start'>
+
                 {/* Form input */}
                 <Box
                     maxWidth={{ base: 'full', md: '320px' }}
@@ -153,6 +154,16 @@ const createCommunity = () => {
                     background={{ base: 'none', md: '#E67F45' }}
                     width='full'
                 >
+                    <Flex flexDirection={'column'} display={{ md: 'block', base: 'none' }} color={'white'} fontSize={'xs'} mb='1' _hover={{ textDecoration: 'underline' }}>
+                        <Link to={"/groups"}>
+                            Community
+                        </Link>
+                        <ChevronRightIcon />
+                        <Text display={'inline-block'}>
+                            Create Community
+                        </Text>
+                    </Flex>
+
                     <Heading
                         color={{ base: 'gray.600', md: 'white' }}
                         size={{ base: 'lg', md: 'md' }}
@@ -160,9 +171,13 @@ const createCommunity = () => {
                         alignItems="center"
                         mb={4}
                     >
-                        <Link to={"/groups"}>
-                            <IoIosArrowBack />
-                        </Link>
+
+                        <Box display={{ md: 'none', base: 'block' }}>
+                            <Link to={"/groups"} >
+                                <ChevronLeftIcon mb='1' />
+                            </Link>
+                        </Box>
+
                         Create Community
                     </Heading>
                     <FormControl
@@ -386,16 +401,16 @@ const createCommunity = () => {
                     {/* </form> */}
 
                     {/* Modal for confirmation */}
-                    <Modal isOpen={isOpen} onClose={onClose}>
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
                         <ModalOverlay />
                         <ModalContent>
                             <ModalHeader> Are you sure you want to create the community?</ModalHeader>
                             <ModalCloseButton />
                             <ModalFooter>
-                                <Button onClick={submit} colorScheme='blue' mr={3} >
+                                <Button onClick={submit} colorScheme='blue' mr={3} boxShadow={'md'}>
                                     Sure
                                 </Button>
-                                <Button variant='cancel'>Cancel</Button>
+                                <Button variant='cancel' boxShadow={'md'} onClick={onClose}>Cancel</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Modal>
