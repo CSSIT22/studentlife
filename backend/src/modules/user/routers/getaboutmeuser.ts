@@ -3,10 +3,25 @@ import { Request, Response } from "express"
 const getaboutmeuser = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
-        const userId = req.user?.userId
-        const detail = await prisma.detail.findFirstOrThrow({
-            where: { userId },
-            select: { phone: true, birth: true, sex: true, hobby: true, year: true },
+        const userId = req.user?.userId || ""
+        // const tail = req.body
+        const detail = await prisma.detail.upsert({
+            where: {
+                userId: userId,
+            },
+            update: {},
+            create: {
+                userId: userId || "",
+                address: "",
+                birth: "",
+                hobby: "",
+                phone: "",
+                sex: "",
+                year: 2000,
+                // student: {
+                //     create: {},
+                // },
+            },
         })
         res.json(detail)
     } catch (err) {

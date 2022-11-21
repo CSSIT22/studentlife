@@ -6,21 +6,28 @@ const getaboutmeuser = async (req: Request, res: Response) => {
         const userId = req.user?.userId
         const tail = req.body
         const upsertUser = await prisma.detail.upsert({
-            where: { userId },
+            where: {
+                userId: userId,
+            },
             update: {
-                phone: tail.phone,
+                address: tail.address,
                 birth: tail.birth,
-                sex: tail.sex,
                 hobby: tail.hobby,
+                phone: tail.phone,
+                sex: tail.sex,
                 year: tail.year,
             },
             create: {
+                userId: userId || "",
                 address: tail.address,
-                phone: tail.phone,
                 birth: tail.birth,
-                sex: tail.sex,
                 hobby: tail.hobby,
+                phone: tail.phone,
+                sex: tail.sex,
                 year: tail.year,
+                // student: {
+                //     create: {},
+                // },
             },
         })
 
