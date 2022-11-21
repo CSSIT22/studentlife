@@ -205,7 +205,7 @@ export default function Index<FC>() {
             }
         }
         files.map((item: any) => {
-            fd.append("files", item.file)
+            fd.append("upload", item.file)
         })
 
         try {
