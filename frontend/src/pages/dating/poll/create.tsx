@@ -81,6 +81,7 @@ const CreateActivityPoll = () => {
     //Tost for error message when submit
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isSubmitted, setIsSubmitted] = useState(false)
 
     //Validate the Header
     const isTooShortHeader = header.length < 10
@@ -289,6 +290,9 @@ const CreateActivityPoll = () => {
                                                 hasSelectedInterest={true}
                                                 type="topic"
                                                 isLoading={false}
+                                                setInterests={setInterests}
+                                                setIsSubmiited={setIsSubmitted}
+                                                isSubmitted={isSubmitted}
                                             />
                                         </GridItem>
                                     </ModalFooter>

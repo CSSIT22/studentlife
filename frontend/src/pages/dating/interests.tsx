@@ -1,4 +1,4 @@
-import { Heading, Box, Grid, GridItem, useDisclosure, Container, useBoolean, Spinner, Button, Text } from "@chakra-ui/react"
+import { Heading, Box, Grid, GridItem, useDisclosure, Container, useBoolean } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingInterestModal from "../../components/dating/DatingInterestModal"
@@ -8,6 +8,8 @@ import DatingInterestDynamicButton from "../../components/dating/DatingInterestD
 import { AllInterests } from "@apiType/dating"
 import API from "src/function/API"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import Lottie from "lottie-react"
+import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 
 const TagOfInterest = () => {
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
@@ -54,7 +56,7 @@ const TagOfInterest = () => {
     // to be used with some functions & Some of them are used in this file.
 
     const [searchQuery, setSearchQuery] = useState("")
-
+    const [isSubmitted, setIsSubmitted] = useState(false)
     const [tagIsClicked, setTagIsClicked] = useState(false)
 
     return (
@@ -101,11 +103,14 @@ const TagOfInterest = () => {
                                         hasSelectedInterest={hasSelectedInterest}
                                         type="interest"
                                         isLoading={isLoading}
+                                        setInterests={setInterests}
+                                        setIsSubmiited={setIsSubmitted}
+                                        isSubmitted={isSubmitted}
                                     /> : <></>}
                                 </GridItem>
                             </Grid>
                             {/* DatingInterestSearch component: Search Bar */}
-                            <Box pb="10">
+                            <Box pb="7">
                                 <DatingInterestSearch
                                     searchQuery={searchQuery}
                                     setSearchQuery={setSearchQuery}
@@ -117,36 +122,50 @@ const TagOfInterest = () => {
                     </Container>
                 </Box>
             </Box>
-            <Box pt="260px">
+            <Box>
                 {/* CheckboxGroup : List of tags of interest */}
                 {isLoading ? (
-                    <Box display="flex" justifyContent="center" pt="50px">
-                        <Spinner size="xl" />
+                    <Box position="absolute" top={{ base: "300", md: "8" }}>
+                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
+                        <Heading textAlign={"center"} color="black" size={{ base: "xl", md: "2xl" }} mt={{ base: "-120px", md: "-335px" }}>
+                            LOADING...
+                        </Heading>
                     </Box>
                 ) : <></>}
-                {isError ? (
-                    <Box pt={{ base: "50px", md: "100px" }}>
+                {isSubmitted ? (
+                    <Box position="absolute" top={{ base: "300", md: "8" }}>
+                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
+                        <Heading textAlign={"center"} color="black" size={{ base: "xl", md: "2xl" }} mt={{ base: "-120px", md: "-335px" }}>
+                            SUBMITTING...
+                        </Heading>
+                    </Box>
+                ) : <></>}
+                {isError && allInterests.length == 0 ? (
+                    <Box pt={{ base: "270px", md: "320px" }}>
                         <DatingWentWrong />
                     </Box>
                 ) : (
                     <></>
                 )}
-                {interests.map(({ interestId, interestName }) => (
-                    // DatingInterestTag component: Used for generating interactive tag
-                    <DatingInterestTag
-                        key={interestId}
-                        interestId={interestId}
-                        interestName={interestName}
-                        onOpen={onOpen}
-                        selectedInterests={selectedInterests}
-                        numOfSelectedInterest={selectedInterests.length}
-                        setSelectedInterest={setSelectedInterest}
-                        tagIsClicked={tagIsClicked}
-                        setTagIsClicked={setTagIsClicked}
-                        type={"interests"}
-                        buttonLocation={"top right"}
-                    />
-                ))}
+                <Box pt={{base: "230px" ,md: "255px"}}>
+                    {interests.map(({ interestId, interestName }) => (
+                        // DatingInterestTag component: Used for generating interactive tag
+                        <DatingInterestTag
+                            key={interestId}
+                            interestId={interestId}
+                            interestName={interestName}
+                            onOpen={onOpen}
+                            selectedInterests={selectedInterests}
+                            numOfSelectedInterest={selectedInterests.length}
+                            setSelectedInterest={setSelectedInterest}
+                            tagIsClicked={tagIsClicked}
+                            setTagIsClicked={setTagIsClicked}
+                            type={"interests"}
+                            buttonLocation={"top right"}
+                        />
+                    ))}
+                </Box>
+
             </Box>
 
             {/* DatingInterestModal: Modal that will appear when you select more than 5 tags of interest */}
