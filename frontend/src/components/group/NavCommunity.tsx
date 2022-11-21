@@ -9,7 +9,7 @@ import FriendInviteList from "./FriendInviteList";
 import { SearchIcon } from "@chakra-ui/icons";
 import { userData } from "src/pages/groups/data";
 import InvitationBox from "./InvitationBox";
-import useWindowDimensions from "src/pages/groups/hooks/useWindowDimensions";
+import useWindowDimensions from "./hooks/useWindowDimensions";
 
 
 

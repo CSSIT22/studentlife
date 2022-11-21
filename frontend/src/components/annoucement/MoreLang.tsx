@@ -5,13 +5,14 @@ import { BsPlusCircleFill } from "react-icons/bs"
 const MoreLang: FC<{
     onClick: Function
     addLang: Function
-}> = ({ onClick, addLang }) => {
+    onDisable:Function
+}> = ({ onClick, addLang, onDisable}) => {
     const [otherLang, setOtherLang] = React.useState(String)
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
     const [disable, setDisable] = React.useState(false)
     return (
-        <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#DDDDDD"} my="10">
+        <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#000"} my="10">
             <Tag
                 height={"1.5"}
                 size={"lg"}
@@ -27,28 +28,30 @@ const MoreLang: FC<{
             </Tag>
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
-                <Select placeholder="Select language" onChange={(e) => setOtherLang(e.target.value)} disabled={disable}>
-                    <option>Thai</option>
-                    <option>Korea</option>
-                    <option>Japanese</option>
+                <Select placeholder="Select language" onChange={(e) => setOtherLang(e.target.value)} disabled={disable} bg="white">
+                    <option value={1001}>Thai</option>
+                    <option value={1002}>Korea</option>
+                    <option value={1003}>Japanese</option>
                 </Select>
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Title</FormLabel>
-                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={disable} />
+                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={disable} bg="white"/>
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Detail</FormLabel>
-                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={disable} />
+                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={disable} bg="white"/>
             </FormControl>
             <Text color={"red.300"} fontSize={"0.8rem"} my={"2"}>
                 Note: if you added, you can't change it anymore
             </Text>
             <Button
                 onClick={() => {
-                    addLang(otherLang, topic, detail), setDisable(true)
+                    addLang(parseInt(otherLang), topic, detail), setDisable(true), onDisable()
                 }}
                 disabled={disable}
+                bg="blue.700"
+                color="white"
             >
                 Add
             </Button>

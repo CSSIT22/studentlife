@@ -56,24 +56,19 @@ import { BiDownArrow, BiDownvote, BiUpArrow, BiUpvote } from "react-icons/bi"
 const snDetail = () => {
     return (
         <AppBody>
-            <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
-                {/* <Spacer /> */}
-                <GridItem colSpan={12} p={6}>
-                    <SnDetail
-                        topic={"Shortnote name"}
-                        course={"CSC213"}
-                        desc={
-                            " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum sint, odio ut praesentium explicabo hic harum voluptatem veniam architecto, recusandae, nisi aliquid? Fuga placeat dolore voluptates eligendi ut, aut dignissimos."
-                        }
-                        link={"modlink.me/shortnote/filename.pdf"}
-                        owner={"Shortnote Shotenot"}
-                    />
-                </GridItem>
-                {/* <Spacer /> */}
-            </Grid>
-            <Grid templateColumns="repeat(12, 1fr)" bg={"white"} boxShadow={"xl"} rounded={8}>
-                {/* <Spacer /> */}
-                <GridItem colSpan={12} p={6}>
+            <Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+                <SnDetail
+                    topic={"Shortnote name"}
+                    course={"CSC213"}
+                    desc={
+                        " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum sint, odio ut praesentium explicabo hic harum voluptatem veniam architecto, recusandae, nisi aliquid? Fuga placeat dolore voluptates eligendi ut, aut dignissimos."
+                    }
+                    link={"modlink.me/shortnote/filename.pdf"}
+                    owner={"Shortnote Shotenot"}
+                />
+            </Box>
+            <Box bg={"white"} boxShadow={"xl"} rounded={8}>
+                <GridItem p={6}>
                     <Box mb={4} boxShadow={"base"} rounded={8} p={4}>
                         <Box>
                             <Heading size={"md"} mb={1}>
@@ -107,7 +102,7 @@ const snDetail = () => {
                         />
                     </VStack>
                 </GridItem>
-            </Grid>
+            </Box>
         </AppBody>
     )
 }
