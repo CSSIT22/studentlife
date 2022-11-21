@@ -1,35 +1,51 @@
 import React from 'react'
 import AppBody from 'src/components/share/app/AppBody'
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box } from "@chakra-ui/react"
+import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box, SimpleGrid } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, useDisclosure, Text, Flex, Select, Switch, Input, Textarea } from "@chakra-ui/react"
 import { Grid, GridItem } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
 
 const showEvent = () => {
     const modal2 = useDisclosure()
     const modal3 = useDisclosure()
+    const navigate =  useNavigate()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
   return (
     <AppBody>
-        <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
-        
+        <IconButton aria-label="previous" icon={<ChevronLeftIcon />} onClick={() => navigate("/schedule/timetable/")} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
+        <br />
             <Box boxShadow="md" p="6" rounded="md" bg="white" >
                 <Text textAlign={["center"]} fontSize="5xl"> 
-                Meeting with PM
+                Assignment
                 </Text> 
             </Box>
+            <br />
             <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="5xl"> 
-                Meeting with PM
+                <Text textAlign={["center"]} fontSize="md"> 
+                Do Tower of Hanoi p.405 - 409
                 </Text> 
             </Box><br />
+            <SimpleGrid columns={[1, 3]} spacing="30px">
             <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="5xl"> 
-                Meeting with PM
+                <Text textAlign={["center"]} fontSize="2xl"> 
+                06:00-06:30 AM
                 </Text> 
             </Box>
+            <Box boxShadow="md" p="6" rounded="md" bg="white" >
+                <Text textAlign={["center"]} fontSize="2xl"> 
+                Assignment
+                </Text> 
+            </Box>
+            <Box boxShadow="md" p="6" rounded="md" bg="white" >
+                <Text textAlign={["center"]} fontSize="2xl"> 
+                MS Team
+                </Text> 
+            </Box>
+            </SimpleGrid>
+            <br />
 <Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
                 Edit
             </Button>

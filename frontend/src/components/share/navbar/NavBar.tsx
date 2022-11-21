@@ -33,6 +33,7 @@ export const moreMenu = [
     { to: "/link", Icon: HiSpeakerphone, name: "Short link" },
     { to: "/todolist", Icon: HiSpeakerphone, name: "To-Do List" },
     { to: "/dating/rating", Icon: HiSpeakerphone, name: "Rating" },
+    { to: "/schedule/timetable", Icon: HiSpeakerphone, name: "Schedule" },
 
 ]
 

@@ -12,6 +12,7 @@ import { IconButton, useDisclosure, Button, ButtonGroup, Divider } from "@chakra
 //import { ChevronRightIcon } from "@chakra-ui/icons"
 //import { AddIcon } from "@chakra-ui/icons"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 // import { DESCRIPTION } from "src/components/notification/main/data/descTest"
 
 
@@ -53,6 +54,7 @@ const timetable = () => {
     const modal3 = useDisclosure()
     const calendarModal = useDisclosure()
     const detailModal = useDisclosure()
+    const navigate =  useNavigate()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -243,6 +245,7 @@ function handleTime(){
                     </ModalContent>
                 </Modal>
             </SimpleGrid>
+            <br />
 
             <Box boxShadow="md" p="6" rounded="md" bg="white">
                 <Grid templateColumns="repeat(8, 1fr)" gap={2}>
@@ -292,7 +295,8 @@ function handleTime(){
                             <h4></h4>
                             <h4></h4>
                             <h4>
-                            <Box bg='#7EFF69' w='100%' p="3" color='black' onClick={detailModal.onOpen} cursor='pointer'> Assignment </Box>
+                            <Button bg='#7EFF69' w='100%' p="3" color='black' onClick={() => navigate("/schedule/showEvent/")}> Assignment </Button>
+                            {/* onClick={detailModal.onOpen} cursor='pointer' */}
                             </h4>
                             <h4></h4>
                             <h4></h4>
