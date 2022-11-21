@@ -53,11 +53,9 @@ const Searchcontent: FC<{
                 </Box>
             </Show>
             <Show above="sm">
-                <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
+            <Box width={"100%"} p={5} shadow='md' borderWidth='1px' mt={"35px"} borderRadius={"lg"}  backgroundColor={"white"}>
                     <Flex direction={"column"} alignItems={"center"} gap={"4"}>
-                        <Heading color={"#E65D10"} fontSize="xl">
-                            {resName}
-                        </Heading>
+                        <Heading color={"#E65D10"} fontSize="xl">{resName}</Heading>
                         <Image
                             boxSize={"12.5rem"}
                             // height={{ lg: "9.5rem" }}
@@ -71,6 +69,7 @@ const Searchcontent: FC<{
                             <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
                         </Text>
                         <Text>
+                           
                             <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
                         </Text>
                         <Text>

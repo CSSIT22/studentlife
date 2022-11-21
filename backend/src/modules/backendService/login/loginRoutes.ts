@@ -1,13 +1,21 @@
 import { Router } from "express"
 import passport from "passport"
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
+import UserAgent from "user-agents"
 import { verifyUser } from "../middleware/verifyUser"
 import UAParser from "ua-parser-js"
+import jwt from "jsonwebtoken"
+import DeviceDetector from "node-device-detector"
 
 const router = Router()
 
 router.get(
     "/microsoft",
+    (req: Request, res: Response, next: NextFunction) => {
+        if (!req.user) return next()
+        console.log("already login")
+        return res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
+    },
     passport.authenticate("microsoft", {
         prompt: "select_account",
         session: true,
@@ -23,10 +31,16 @@ router.get(
     verifyUser,
     async (req: Request, res: Response) => {
         const { prisma } = res
-        console.log(req.user?.userId)
         try {
             console.log(req.headers["user-agent"])
-            const device1 = new UAParser(req.headers["user-agent"])
+            const detector = new DeviceDetector({
+                clientIndexes: true,
+                deviceIndexes: true,
+                deviceAliasCode: true,
+            })
+            const userAgent = req.headers["user-agent"] || ""
+            const detectedResult = detector.detect(userAgent)
+            console.log(detectedResult)
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
@@ -35,8 +49,9 @@ router.get(
                         create: {
                             detail: {
                                 create: {
-                                    deviceInfo: (device1.getOS().name || "") + (device1.getOS().version || "") || "Unknow",
-                                    ip: device1.getBrowser().name || "",
+                                    loginDate: new Date(),
+                                    deviceInfo: detectedResult.device.type || "Unknown",
+                                    ip: req.ip,
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
                                 },
                             },
@@ -46,7 +61,7 @@ router.get(
             })
             res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
-            res.status(500).send("These is an error in login")
+            res.status(500).send("These is an error in login ")
             console.log(error)
         }
     }
@@ -55,26 +70,60 @@ router.get("/showtoken", (req, res) => {
     res.send(req.session.id)
 })
 router.get("/logout", async (req, res) => {
-    const userID: string = req.user?.userId || ""
-    const tokenID: string = req.session.id
+    const userid = req.user?.userId || ""
+    const sessid = req.sessionID
+
+    const detector = new DeviceDetector({
+        clientIndexes: true,
+        deviceIndexes: true,
+        deviceAliasCode: true,
+    })
+    const userAgent = req.headers["user-agent"] || ""
+    const detectedResult = detector.detect(userAgent)
+    console.log(detectedResult)
+
     req.logOut({}, async (err) => {
         if (err) {
             return res.status(400).send("Error")
         }
-        const { prisma } = res
+        try {
+            const { prisma } = res
+            const device1 = new UAParser(req.headers["user-agent"])
 
-        // รอริเเก้ db
-        const user = await prisma.user_Back.delete({
-            where: {
-                userId_token: {
-                    userId: userID,
-                    token: tokenID,
+            await prisma.logout_Info.create({
+                data: {
+                    userId: userid,
+                    token: sessid,
+                    detail: {
+                        create: {
+                            deviceInfo: detectedResult.device.type || "Unknown",
+                            ip: req.ip,
+                            logoutDate: new Date(),
+                        },
+                    },
                 },
-            },
-        })
+            })
 
-        return res.send("success")
+            await prisma.login_Info.delete({
+                where: {
+                    userId_token: {
+                        userId: userid,
+                        token: sessid,
+                    },
+                },
+            })
+
+            return res.send(true)
+        } catch (error) {
+            res.status(500).send("These is an error in logout")
+            console.log(error)
+        }
     })
+})
+
+router.get("/sockettoken", verifyUser, (req: Request, res: Response) => {
+    const token = jwt.sign({ userId: req.user?.userId }, process.env.COOKIE_SECRET || "")
+    res.send(token)
 })
 
 export { router as loginRoutes }
