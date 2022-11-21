@@ -12,6 +12,7 @@ import editstatusOnRecyclebin from "./routes/editstatusonrecycle"
 import editstatusOnHistory from "./routes/editstausonhistory"
 import editDetailPost from "./routes/editdetailpost"
 import getDetailEdit from "./routes/getdetailedit"
+import getTargetGroup from "./routes/gettargetgroup"
 
 const announcementRoutes = express()
 
@@ -168,7 +169,7 @@ export let posts: post[] = [
         pinStatus: false,
         isApprove: false,
         targetType: "Year",
-        targetValue: "1",
+        targetValue: "2",
         postAt: new Date(),
         expiredOfPost: new Date("2022-11-24"),
         expiredAfterDelete: new Date(),
@@ -215,6 +216,8 @@ announcementRoutes.get("/getwaitingpost", getWaitingPost)
 announcementRoutes.get("/getdeletepost", getDeletePost)
 
 announcementRoutes.get("/getdetailedit/:id", getDetailEdit)
+
+announcementRoutes.post("/gettargetgroup", getTargetGroup)
 
 announcementRoutes.post("/editpinstatus",editPinStatus)
 
