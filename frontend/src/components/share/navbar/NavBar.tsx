@@ -23,13 +23,17 @@ export const NavBarMenu = [
 
 export const moreMenu = [
     { to: "/announcement", Icon: HiSpeakerphone, name: "Announcement" },
+    { to: "/shortnotes", Icon: HiSpeakerphone, name: "Short notes" },
+    { to: "/Blog", Icon: HiSpeakerphone, name: "Blog" },
     { to: "/airdrop", Icon: HiSpeakerphone, name: "Airdrop" },
     { to: "/shop", Icon: HiSpeakerphone, name: "Shop" },
     { to: "/restaurant", Icon: HiSpeakerphone, name: "Restaurant" },
+    { to: "/qa", Icon: HiSpeakerphone, name: "Question and answer" },
     { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
     { to: "/link", Icon: HiSpeakerphone, name: "Short link" },
     { to: "/todolist", Icon: HiSpeakerphone, name: "To-Do List" },
     { to: "/dating/rating", Icon: HiSpeakerphone, name: "Rating" },
+
 ]
 
 const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
