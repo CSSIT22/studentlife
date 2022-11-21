@@ -35,7 +35,7 @@ const ShopAppBody = (props: any) => {
             isRight: true
         }
     ]
-    }> 
+    }>
         {props.children}
     </AppBody>
 }

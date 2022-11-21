@@ -1,5 +1,6 @@
-import { useBreakpointValue, Flex, Grid, GridItem, Box, Text, Checkbox, Button, Input } from "@chakra-ui/react"
+import { useBreakpointValue, Flex, Grid, GridItem, Box, Text, Checkbox, Button, Input, LinkBox } from "@chakra-ui/react"
 import { DeleteIcon } from "@chakra-ui/icons"
+import { Link } from "react-router-dom"
 import PageTitle from "../../../components/shop/PageTitle"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
 import convertCurrency from "../../../components/shop/functions/usefulFunctions"
@@ -47,7 +48,7 @@ const Cart = () => {
                         borderRadius="10px"
                         size={"md"}
                         background="white"
-                       
+
                     ></Input>
                     <ThemedButton maxW="24"> APPLY </ThemedButton>
                 </Flex>
@@ -59,7 +60,11 @@ const Cart = () => {
                     <Text as="b">{convertCurrency(3260)}</Text>
                 </Flex>
                 <Flex justify="center" >
-                    <ThemedButton>CHECKOUT</ThemedButton>
+                    <LinkBox>
+                        <Link to="../shop/checkout/">
+                            <ThemedButton>CHECKOUT</ThemedButton>
+                        </Link>
+                    </LinkBox>
                 </Flex>
             </Flex>
 
