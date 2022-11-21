@@ -4,15 +4,22 @@ const getaboutmeuser = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user?.userId
-        const { tail } = req.body
+        const tail = req.body
         const upsertUser = await prisma.detail.upsert({
             where: { userId },
             update: {
-                name: tail,
+                phone: tail.phone,
+                birth: tail.birth,
+                sex: tail.sex,
+                hobby: tail.hobby,
+                year: tail.year,
             },
             create: {
-                email: tail,
-                name: tail,
+                phone: tail.phone,
+                birth: tail.birth,
+                sex: tail.sex,
+                hobby: tail.hobby,
+                year: tail.year,
             },
         })
 
