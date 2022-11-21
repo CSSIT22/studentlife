@@ -97,7 +97,7 @@ const history = () => {
     const selectTargetValue = (tgType: string | undefined) => {
         if (tgType == "Faculty") {
             return (
-                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
                     <option>Science</option>
                     <option>Engineering</option>
                     <option>Information Technology</option>
@@ -106,7 +106,7 @@ const history = () => {
             )
         } else if (tgType == "Major") {
             return (
-                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
                     <option>Computer Science</option>=<option>Math</option>
                     <option>Biology</option>
                     <option>Chemistry</option>
@@ -114,7 +114,7 @@ const history = () => {
             )
         } else if (tgType == "Year") {
             return (
-                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -302,23 +302,23 @@ const history = () => {
                         />
                     </Box>
                 </Flex>
-                <Stack spacing={3} p="5">
+                <Stack spacing={3} p="5" color="black">
                     <FormControl>
                         <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English"></Select>
+                        <Select isDisabled placeholder="English" bg="white"></Select>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} />
+                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white"/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} />
+                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white"/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Target Group</FormLabel>
                         <Flex>
-                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} value={targetType}>
+                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} value={targetType} bg="white">
                                 <option>Everyone</option>
                                 <option>Year</option>
                                 <option>Major</option>
@@ -329,7 +329,7 @@ const history = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Expired Date</FormLabel>
-                        <Input placeholder="Select expired date" size="md" type="date" min={disabledDates()} onChange={(e) => setExpired(e.target.value)} value={expired} />
+                        <Input placeholder="Select expired date" size="md" type="date" min={disabledDates()} onChange={(e) => setExpired(e.target.value)} value={expired} bg="white" />
                     </FormControl>
                     <FormControl>
                         <>
