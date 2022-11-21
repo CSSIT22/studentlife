@@ -42,16 +42,15 @@ tutorialRoutes.post("/setDatingEnroll", verifyUser, async (req: Request, res: Re
                 hasCompleteTutorial: true,
                 hasCompleteSetting: false,
             }
-            const findUserId = await prisma.dating_Enroll.findFirstOrThrow({
+            const findUser = await prisma.dating_Enroll.findFirst({
                 where: {
                     userId: userId,
                 },
             })
-            console.log(findUserId)
-            if (!findUserId.userId) {
+            if (!findUser) {
                 const dating_EnrollDB = await prisma.dating_Enroll.create({ data: payload })
                 console.log(dating_EnrollDB)
-                return res.send(dating_EnrollDB)
+                return res.send("Success!")
             }
             else {
                 return res.send("Success!")
