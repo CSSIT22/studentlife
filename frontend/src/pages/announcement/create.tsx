@@ -27,6 +27,7 @@ import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post } from "@apiType/announcement"
+import API from "src/function/API"
 
 const create = () => {
     const selectTargetValue = (targetType: string) => {
@@ -90,26 +91,27 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
     const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
-        setAllPost([
-            ...allPost,
-            {
-                postId: allPost.length,
-                userId: "0" + allPost.length + 1,
-                lang_id: 1000,
-                topic: title,
-                detail: detail,
-                sender: "SAMO-SIT",
-                status: "waiting",
-                pinStatus: false,
-                isApprove: false,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: new Date(),
-                expiredOfPost: expired,
-                expiredAfterDelete: null,
-                addMoreLang: addMoreLang,
-            },
-        ])
+        // setAllPost([
+        //     ...allPost,
+        //     {
+        //         postId: allPost.length,
+        //         userId: "0" + allPost.length + 1,
+        //         lang_id: 1000,
+        //         topic: title,
+        //         detail: detail,
+        //         sender: "SAMO-SIT",
+        //         status: "waiting",
+        //         pinStatus: false,
+        //         isApprove: false,
+        //         targetType: targetType,
+        //         targetValue: targetValue,
+        //         postAt: new Date(),
+        //         expiredOfPost: expired,
+        //         expiredAfterDelete: null,
+        //         addMoreLang: addMoreLang,
+        //     },
+        // ])
+        API.post<post>("/announcement/createpost" , {topic:title,detail:detail,targetType:targetType,targetValue:targetValue,expiredPost:expired,addmorelang:addMoreLang})
     }
     console.log(allPost)
 

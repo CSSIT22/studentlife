@@ -13,6 +13,7 @@ import editstatusOnHistory from "./routes/editstausonhistory"
 import editDetailPost from "./routes/editdetailpost"
 import getDetailEdit from "./routes/getdetailedit"
 import getTargetGroup from "./routes/gettargetgroup"
+import createPost from "./routes/createpost"
 
 const announcementRoutes = express()
 
@@ -228,6 +229,8 @@ announcementRoutes.post("/editstatusonrecycle", editstatusOnRecyclebin)
 announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
 
 announcementRoutes.post("/editdetailpost", editDetailPost)
+
+announcementRoutes.post("/createpost", createPost )
 
 
 
