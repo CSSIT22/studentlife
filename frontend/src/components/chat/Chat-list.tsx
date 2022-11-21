@@ -1,31 +1,37 @@
 import { Box, Button, Flex, Img, Hide, Show } from "@chakra-ui/react"
 import { Avatar } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
 import { Input } from "@chakra-ui/react"
 import DrawerExample from "./drawer"
 import Nmodal from "./Nmodal"
+import API from "src/function/API"
 
-type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
+// type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
 
-const mockRoom: room = [
-    { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "5555", roomName: "4Young", roomtype: "group", img: "hhttps://picsum.photos/200/300" },
-    { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://picsum.photos/200/300" },
-    { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://picsum.photos/200/300" },
-]
+// const mockRoom: room = [
+//     { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://picsum.photos/200/300" },
+//     { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://picsum.photos/200/300" },
+//     { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://picsum.photos/200/300" },
+//     { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://picsum.photos/200/300" },
+//     { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://picsum.photos/200/300" },
+//     { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://picsum.photos/200/300" },
+//     { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://picsum.photos/200/300" },
+//     { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://picsum.photos/200/300" },
+//     { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://picsum.photos/200/300" },
+// ]
 
 const Clist: FC<any> = () => {
-    const [userRoom, setuserRoom] = useState<room>(mockRoom)
+    const [userRoom, setuserRoom] = useState<any>([])
     const [target, setTarget] = useState(1)
     const [search, setSearch] = useState("")
     const navigate = useNavigate()
+
+    useEffect(() => {
+        API.get("/chat").then((e) => setuserRoom(e.data)
+        )
+    }, [])
     //function handle
     function Navigate(target: any) {
         return navigate(`/chat/${target}`)
@@ -35,7 +41,7 @@ const Clist: FC<any> = () => {
     }
 
     function DeleteRoom(e: any) {
-        const result = userRoom.filter((el) => el.roomID !== e.roomID)
+        const result = userRoom.filter((el: any) => el.roomId !== e.roomId)
         setuserRoom(result)
     }
 
@@ -89,20 +95,22 @@ const Clist: FC<any> = () => {
     }
 
     const renderRoom = (e: any) => {
-        if (target === 1 && e.roomtype === "individual") {
+        if (target === 1 && e.roomtype === "INDIVIDUAL") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"} key={e.roomID}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
                         alignItems={"center"}
-                        key={e.roomID}
+                        key={e.roomId}
                         marginY={3}
                         _hover={{
                             transform: "scale(1.1)",
                         }}
                         transitionDuration="300ms"
-                        onClick={() => Navigate(e.roomID)}
+                        onClick={() => Navigate(e.roomId)}
+                        w={"93%"}
+                        
                     >
-                        <Avatar name={e.Roomname} src={e.img} />
+                        <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
@@ -114,20 +122,21 @@ const Clist: FC<any> = () => {
                 </Flex>
             )
         }
-        if (target === 2 && e.roomtype === "group") {
+        if (target === 2 && e.roomtype === "GROUP") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"} key={e.roomID}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
                         alignItems={"center"}
-                        key={e.roomID}
+                        key={e.roomId}
                         marginY={3}
                         _hover={{
                             transform: "scale(1.1)",
                         }}
                         transitionDuration="300ms"
-                        onClick={() => Navigate(e.roomID)}
+                        onClick={() => Navigate(e.roomId)}
+                        w={"93%"}
                     >
-                        <Avatar name={e.Roomname} src={e.img} />
+                        <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
@@ -142,19 +151,21 @@ const Clist: FC<any> = () => {
     }
     const renderSearch = (search: string) => {
         if (search === "") {
-            return userRoom.map((e) => renderRoom(e))
+            return userRoom.map((e: any) => renderRoom(e))
         } else {
-            const result = userRoom.filter((e) => e.roomName.includes(search))
-            return result.map((e) => renderRoom(e))
+            const result = userRoom.filter((e: any) => e.roomName.includes(search))
+            return result.map((e: any) => renderRoom(e))
         }
     }
 
     return (
-        <Box minH={{ base: "80vh", md: "700px" }} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
+        <Box minH={"550px"} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
+                <Box overflowX={"auto"} maxH={"380px"}>
                 {renderSearch(search)}
+                </Box>
             </Flex>
         </Box>
     )

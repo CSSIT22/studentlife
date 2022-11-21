@@ -1,5 +1,5 @@
+import { FC, Dispatch, SetStateAction } from "react"
 import { Box, Checkbox } from "@chakra-ui/react"
-import { Dispatch, FC, SetStateAction } from "react"
 
 const QAnsTag: FC<{
     tagId: string
@@ -56,6 +56,7 @@ const QAnsTag: FC<{
             onChange={handleTag}
             value={tagId}
             iconColor="orange.500"
+            defaultChecked
         >
             {tagName}
         </Checkbox>
@@ -90,7 +91,7 @@ const QAnsTag: FC<{
             borderRadius="full"
             id={tagId}
             m="1"
-            name="interest"
+            name="tag"
             onChange={handleTag}
             value={tagId}
         >
