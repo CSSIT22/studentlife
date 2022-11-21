@@ -75,7 +75,14 @@ const index = () => {
             <Box mt={4} mb={12}>
                 <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
                     {rsn.map((rsn: any, key) => (
-                        <Rsn key={key} topic={rsn.snName}></Rsn>
+                        <Box as="button" onClick={() => {
+                            navigate({
+                                pathname: "./" + "s/" + rsn.snId,
+                            })
+                        }}>
+                            <Rsn key={key} topic={rsn.snName}></Rsn>
+
+                        </Box>
                     ))}
                 </SimpleGrid>
             </Box>
@@ -104,12 +111,6 @@ const index = () => {
                 </Stack>
             </Flex>
             <VStack gap={2} pt={4}>
-                <Box w={"100%"}>
-                    <Link to={"./shortnoteDetail"}>
-                        <SnList topic={"Shortnote name"} course={"CSC213"} date={"2022-11-18T00:00:00.000Z"} lock={true ? "" : <FaLock />} />{" "}
-                        {/* fake */}
-                    </Link>
-                </Box>
                 {coursePicked == "" ? (
                     <>
                         {sn.map((sn: any) => (
