@@ -29,7 +29,13 @@ const InvitationBox: FC<{
             setDeclinetBtn(false)
         }
         return (
-            <Box borderRadius="md" backgroundColor="white" mt={2} boxShadow={'2xl'}>
+            <Box
+                sx={{ transition: "transform ease 300ms" }}
+                _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }}
+                borderRadius="md"
+                backgroundColor="white"
+                mt={2}
+                boxShadow={'lg'}>
                 {(acceptBtn && declinetBtn) ? (
 
                     <Box p={3} borderRadius="md">

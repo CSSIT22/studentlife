@@ -25,7 +25,7 @@ const Zone: FC<{
     return (
         <Popover>
             <PopoverTrigger>
-                <Button mr={2} ml={2} width={"100px"} colorScheme="gray" rounded={"3xl"}>
+                <Button shadow={"lg"} mr={2} ml={2} width={"100px"} colorScheme="gray" rounded={"3xl"}>
                     {name}
                 </Button>
             </PopoverTrigger>

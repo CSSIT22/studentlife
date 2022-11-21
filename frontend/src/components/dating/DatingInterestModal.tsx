@@ -37,7 +37,7 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                         <Text
                             color="black"
                             textAlign="center"
-                            fontWeight={{ base: "700", md: "400" }}
+                            fontWeight="700"
                             fontSize={{ base: "16px", md: "20px" }}
                             lineHeight="120%"
                         >
@@ -46,7 +46,7 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                         <Text
                             color="black"
                             textAlign="center"
-                            fontWeight={{ base: "700", md: "400" }}
+                            fontWeight="700"
                             fontSize={{ base: "16px", md: "20px" }}
                             lineHeight="120%"
                         >
@@ -56,7 +56,7 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                         <Text
                             color="black"
                             textAlign="center"
-                            fontWeight={{ base: "700", md: "400" }}
+                            fontWeight="700"
                             fontSize={{ base: "16px", md: "20px" }}
                             lineHeight="120%"
                         >

@@ -17,7 +17,7 @@ import {
     Box,
     Show,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
 import { Link, To } from "react-router-dom"
@@ -26,6 +26,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
+import { addMoreLangType, post } from "@apiType/announcement"
 
 const create = () => {
     const selectTargetValue = (targetType: string) => {
@@ -72,16 +73,32 @@ const create = () => {
         detail: " The announcement request has been sent.",
         event: "OK",
     }
-    const [allPost, setAllPost] = React.useState(postInfoTest)
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
+
+    const [topic, setTopic] = React.useState(String)
+    const [detail, setDetail] = React.useState(String)
+    const [targetType, setTargetType] = React.useState(String)
+    const [targetValue, setTargetValue] = React.useState(String)
+    const [expired, setExpired] = React.useState(Date)
+    const disabledDates = () => {
+        var today, dd, mm, yyyy
+        today = new Date()
+        dd = today.getDate()
+        mm = today.getMonth() + 1
+        yyyy = today.getFullYear()
+        return yyyy + "-" + mm + "-" + dd
+    }
+    const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
+    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
         setAllPost([
             ...allPost,
             {
                 postId: allPost.length,
-                lang: "English",
+                userId: "0" + allPost.length + 1,
+                lang_id: 1000,
                 topic: title,
                 detail: detail,
-                sender: "1234",
+                sender: "SAMO-SIT",
                 status: "waiting",
                 pinStatus: false,
                 isApprove: false,
@@ -89,22 +106,16 @@ const create = () => {
                 targetValue: targetValue,
                 postAt: new Date(),
                 expiredOfPost: expired,
-                expiredAfterDelete: "",
+                expiredAfterDelete: null,
                 addMoreLang: addMoreLang,
             },
         ])
     }
     console.log(allPost)
 
-    const [topic, setTopic] = React.useState(String)
-    const [detail, setDetail] = React.useState(String)
-    const [targetType, setTargetType] = React.useState(String)
-    const [targetValue, setTargetValue] = React.useState(String)
-    const [expired, setExpired] = React.useState(Date)
-    const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
     // console.log(expired);
-    const addLang = (lang: string, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { lang: lang, topic: topic, detail: detail }])
+    const addLang = (lang: number, topic: string, detail: string) => {
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, lang_id: lang, topic: topic, detail: detail }])
     }
     // console.log(addMoreLang)
 
@@ -121,7 +132,7 @@ const create = () => {
     const decreaseCount = () => {
         setCount(count - 1)
         decreaseLang()
-        setAddMoreLang(addMoreLang.pop())
+        setAddMoreLang(addMoreLang.filter((el) => el.id < addMoreLang.length - 1))
     }
     // console.log(count)
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
@@ -133,12 +144,10 @@ const create = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-    // console.log(moreLangField);
-    // console.log(post);
-    // const submit =useSubmit()
-    // const handleSubmit = (e)=>{
-    //     e.preventDefault();
-    // }
+    const [disable ,setdisable] = useState(true)
+    const onDisable = () => {
+        setdisable(!disable)
+    }
     return (
         <AppBody
             secondarynav={[
@@ -154,7 +163,7 @@ const create = () => {
                 onSubmit={(e) => {
                     onOpen()
                     e.preventDefault()
-                    addPost(topic, detail, targetType, targetValue, expired, addMoreLang)
+                    addPost(topic, detail, targetType, targetValue, new Date(expired), addMoreLang)
                 }}
             >
                 <Flex alignItems={"center"}>
@@ -169,7 +178,7 @@ const create = () => {
                     </Show>
                     <Spacer />
                     <Box textAlign={"right"}>
-                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
+                        <Input type={"submit"} value="Announce" backgroundColor={"#DD6B20"} color="white" cursor="pointer" shadow={"md"} />
                         <ModalForEvent
                             isOpen={isOpen}
                             onClose={onClose}
@@ -178,13 +187,14 @@ const create = () => {
                             status={modalCreate.event}
                             allPost={allPost}
                             setAllPost={setAllPost}
+                            onClick={onClose}
                         />
                     </Box>
                 </Flex>
                 <Stack spacing={3} p="5">
                     <FormControl>
                         <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English"></Select>
+                        <Select isDisabled placeholder="English" value={1000}></Select>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Title</FormLabel>
@@ -208,14 +218,28 @@ const create = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Expired Date</FormLabel>
-                        <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} />
+                        <Input
+                            placeholder="Select expired date"
+                            size="md"
+                            type="date"
+                            min={disabledDates()}
+                            onChange={(e) => setExpired(e.target.value)}
+                        />
                     </FormControl>
                     <FormControl>
                         <>
                             {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
                             })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"}>
+                            <Tag
+                                size={"lg"}
+                                key={"lg"}
+                                variant="subtle"
+                                backgroundColor={"#DD6B20"}
+                                color="white"
+                                onClick={increaseCount}
+                                cursor={"pointer"}
+                            >
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>

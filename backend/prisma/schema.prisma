@@ -626,7 +626,7 @@ model Chat_Room {
   deleted    DateTime?            @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   roomType   Room_Type
   roomGroup  Chat_Group?
-  poll Activity_Poll?
+  poll       Activity_Poll?
   haveUser   User_To_Room[]
   messages   Message[]
   quotes     Chat_Quote[]
@@ -646,7 +646,7 @@ model User_To_Room {
 model Chat_Group {
   roomId   String    @unique
   joined   DateTime  @default(now()) @db.Timestamp(0)
-  lefted   DateTime  @db.Timestamp(0) @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)"))
+  lefted   DateTime  @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   groupImg String
   room     Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
 }
@@ -789,9 +789,9 @@ model Activity_Poll {
   participantMax Int
   isOpen         Boolean
   pollcreated    DateTime         @default(now()) @db.Timestamp(0)
-  roomId         String @unique
+  roomId         String           @unique
   pollCreator    User_Profile?    @relation(fields: [userId], references: [userId])
-  pollIn Chat_Room @relation(fields: [roomId], references: [roomId])
+  pollIn         Chat_Room        @relation(fields: [roomId], references: [roomId])
   participants   Poll_Applicant[]
   interests      Poll_Interest[]
 }
@@ -841,6 +841,7 @@ model Community_User {
   role        Community_Role @relation(fields: [roleId], references: [roleId], onDelete: SetDefault)
   roleId      String         @unique
   joined      DateTime       @db.Timestamp(0)
+  status      Boolean        @default(false)
 
   @@id([userId, communityId])
 }
@@ -862,7 +863,7 @@ model Community_Blacklist {
   userId      String
   community   Community    @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
-  since       DateTime     @db.Timestamp(0) @default(now())
+  since       DateTime     @default(now()) @db.Timestamp(0)
 
   @@id([userId, communityId])
 }
@@ -977,7 +978,7 @@ model File_History {
   fileId      String
   userId      String
   historyType History_Type
-  createdAt   DateTime     @db.Timestamp(0) @default(now())
+  createdAt   DateTime     @default(now()) @db.Timestamp(0)
 
   file File_Info    @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
   user User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
@@ -1161,7 +1162,7 @@ model Sn_Fav {
 model Sn_Recent {
   snId         String
   userId       String
-  viewedAt     DateTime     @db.Timestamp(0) @default(now())
+  viewedAt     DateTime     @default(now()) @db.Timestamp(0)
   shortNote    Sn_Head      @relation(fields: [snId], references: [snId], onDelete: Cascade)
   recentViewBy User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
@@ -1263,7 +1264,7 @@ model QR {
   tokenId    String                @id @default(cuid())
   qrSourceId String
   qr         String
-  expired    DateTime              @db.Timestamp(0) @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)"))
+  expired    DateTime              @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   payMethod  Transaction_Paymethod @relation(fields: [tokenId], references: [tokenId], onDelete: Cascade)
 }
 
@@ -1565,7 +1566,7 @@ model SReview_Comment {
   reviewId     String
   userId       String
   text         String
-  commentedAt  DateTime               @db.Timestamp(0) @default(now())
+  commentedAt  DateTime               @default(now()) @db.Timestamp(0)
   likeReceived Int
   commentOf    SReview_Review         @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   commentBy    User_Profile           @relation(fields: [userId], references: [userId], onDelete: Cascade)
@@ -1718,7 +1719,7 @@ model ShortLink {
   originalLink  String
   shortenLink   String
   password      String                         @default("")
-  expired       DateTime                       @db.Timestamp(0) @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)"))
+  expired       DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   linkCreator   User_Profile                   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   permission    ShortLink_Permission?
   userAccess    ShortLink_Permission_User[]
@@ -1781,7 +1782,7 @@ model Analytic_User_Access {
 model Analytic_Report {
   reportId         Int                      @id @default(autoincrement())
   userId           String
-  reportTime       DateTime                 @db.Timestamp(0) @default(now())
+  reportTime       DateTime                 @default(now()) @db.Timestamp(0)
   unAuthorizedView Int
   authorizedView   Int
   periodHours      Int
@@ -1806,7 +1807,7 @@ model Analytic_Report_Module {
 
 model Analytic_View {
   viewId           String                            @id @default(cuid())
-  time             DateTime                          @db.Timestamp(0) @default(now())
+  time             DateTime                          @default(now()) @db.Timestamp(0)
   url              String
   module           String
   location         Json                              @db.JsonB //GeoJson
@@ -1819,7 +1820,7 @@ model Analytic_View {
 model Analytic_External_Platform {
   devId      Int             @id
   epName     String
-  created    DateTime        @db.Timestamp(0) @default(now())
+  created    DateTime        @default(now()) @db.Timestamp(0)
   platformOf Analytic_Device @relation(fields: [devId], references: [devId])
 }
 
@@ -1830,8 +1831,8 @@ model Analytic_User_Report {
   timeActive     Int
   usedTimePerDay Int
   totalRequest   Int
-  start          DateTime                       @db.Timestamp(0) @default(now())
-  end            DateTime                       @db.Timestamp(0) @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)"))
+  start          DateTime                       @default(now()) @db.Timestamp(0)
+  end            DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   genBy          User_Profile                   @relation(fields: [userId], references: [userId])
   views          Analytic_View_In_User_Report[]
 }
@@ -1849,7 +1850,7 @@ model Analytic_Request {
   reqId      String                            @id @default(cuid())
   userId     String
   module     String
-  time       DateTime                          @db.Timestamp(0) @default(now())
+  time       DateTime                          @default(now()) @db.Timestamp(0)
   body       Json                              @db.JsonB
   ip         String
   deviceName String
@@ -1864,7 +1865,7 @@ model Analytic_Device {
   reqId    String
   devName  String
   devOS    String
-  created  DateTime                    @db.Timestamp(0) @default(now())
+  created  DateTime                    @default(now()) @db.Timestamp(0)
   deviceOf Analytic_Request            @relation(fields: [reqId], references: [reqId])
   platform Analytic_External_Platform?
 }
