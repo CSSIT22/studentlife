@@ -2,6 +2,7 @@ import { Flex, Box, Image, Text, useBreakpointValue, LinkBox, LinkOverlay, useDi
 import React, { FC } from "react"
 import { BsStarFill } from "react-icons/bs"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
+import Pill from "./Pill"
 
 const ReviewItem: FC<{
     userName: string
@@ -36,12 +37,12 @@ const ReviewItem: FC<{
             </Flex>
         )
     }
-    const starDisplay = <Box ml="auto" rounded={"full"} background={"#4D608C"} shadow={"md"}>
-        <Flex justify="center" align="center" gap={2} px={2} py={1}>
+    const starDisplay = (
+        <Pill ml = "auto">
             <BsStarFill color="#fecd04" size="1.3rem"></BsStarFill>
             <Text as={"b"} fontSize={"md"} color="white">{rating + "/5"}</Text>
-        </Flex>
-    </Box>
+        </Pill>
+    )
     const reviewDetails = <Flex direction="column">
         <Text noOfLines={2} as={"b"} color={"black"} size={"sm"}>
             {reviewBody}
@@ -49,7 +50,7 @@ const ReviewItem: FC<{
         {image ? <Image mt="3" w="28" h="28" src={image} borderRadius="xl" border="2px solid" shadow="lg" alt="Review Photo" objectFit="cover"></Image> : <></>}
     </Flex>
     return (
-        <Box onClick={onOpen} rounded={"2xl"} shadow="md" p="7" bg="#fff" cursor={"pointer"} _hover={{ transform: "scale(1.01)" }} _active={{ transform: "scale(1.00)" }} transitionDuration="300ms">
+        <Box onClick={onOpen} rounded={"2xl"} shadow="md" p="7" bg="#fff" cursor={"pointer"} _hover={{ transform: "scale(1.03)" }} _active={{ transform: "scale(1.00)" }} transitionDuration="300ms">
             <Modal isOpen={isOpen} onClose={onClose} isCentered size={"xl"} scrollBehavior={'inside'}>
                 <ModalOverlay bg='blackAlpha.500' backdropFilter="auto" backdropBlur="2px" />
                 <ModalContent>

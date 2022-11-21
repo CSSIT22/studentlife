@@ -5,7 +5,7 @@ import { Product } from "@apiType/shop"
 import { useParams } from "react-router-dom"
 import PageTitle from "src/components/shop/PageTitle"
 import ShopAppBody from "src/components/shop/ShopAppBody"
-import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast } from "@chakra-ui/react"
+import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast, Spacer } from "@chakra-ui/react"
 import { contacts } from "src/components/shop/content/dummyData/contacts"
 import ContentBox from "src/components/shop/ContentBox"
 import convertCurrency from "src/components/shop/functions/usefulFunctions"
@@ -13,6 +13,7 @@ import ReviewItem from "src/components/shop/ReviewItem"
 import ThemedButton from "src/components/shop/ThemedButton"
 import { Autoplay, Keyboard, Pagination, Zoom, EffectFade } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
+import Pill from "src/components/shop/Pill"
 
 const index = () => {
     const param = useParams()
@@ -98,9 +99,17 @@ const index = () => {
                 <Text fontWeight="500" fontSize="xl" color="black">
                     Product Details of {product.name}
                 </Text>
-                <Text pt="3">Size: {product.size}</Text>
-                <Text>Color: {product.color}</Text>
+               
                 <Text pt="3">{product.description}</Text>
+                <Flex gap={3} pt="5">
+                <Spacer />
+                <Pill bg="#a5e" p ="1">
+                <Text color="#fff" as="b">Size: {product.size}</Text>
+                </Pill>
+                <Pill bg={product.color} p ="1">
+                <Text color={product.color.toLowerCase() == "white" ? "#222" : "#fff"} as="b">{product.color}</Text>
+                </Pill>
+                </Flex>
             </Flex>
         </ContentBox>
     )
