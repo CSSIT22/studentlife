@@ -254,16 +254,25 @@ export default function SimpleThreeColumns() {
                                         <Input placeholder="your favorite free time activity" onChange={(e) => setHobbies(e.target.value)} />
                                     </FormControl>
 
-                                    <FormControl mt={4}>
+                                    {/* <FormControl mt={4}>
                                         <FormLabel>Years</FormLabel>
-                                        <NumberInput max={8} min={1} onChange={(e) => setYears((e.target.value) as string)}>
+                                        <NumberInput max={8} min={1} onChange={(e) => {
+                                            const currentYear = parseInt((new Date().getFullYear() + 543).toString().substring(2))
+                                            const userYear = parseInt((user?.studentId || "0").substring(0, 2))
+                                            const uniYear = currentYear - userYear
+                                            console.log(currentYear)
+                                            console.log(userYear)
+                                            console.log(uniYear)
+                                            setYears(uniYear)
+
+                                        }}>
                                             <NumberInputField />
                                             <NumberInputStepper>
                                                 <NumberIncrementStepper />
                                                 <NumberDecrementStepper />
                                             </NumberInputStepper>
                                         </NumberInput>
-                                    </FormControl>
+                                    </FormControl> */}
 
                                     <FormControl mt={4}>
                                         <FormLabel>Address</FormLabel>
