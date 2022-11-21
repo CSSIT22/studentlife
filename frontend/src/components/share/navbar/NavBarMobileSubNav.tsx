@@ -7,9 +7,15 @@ const NavBarMobileSubNav: FC<secondaryNavProps> = ({ name, Icon }) => {
         <Box flex={1}>
             <HStack>
                 {Icon && (
-                    <Heading>
-                        <Icon />
-                    </Heading>
+                    <>
+                        {typeof Icon !== "string" ? (
+                            <Heading>
+                                <Icon />
+                            </Heading>
+                        ) : (
+                            <img src={Icon} style={{ height: "22px" }} />
+                        )}
+                    </>
                 )}
                 <Heading size="sm">{name}</Heading>
             </HStack>

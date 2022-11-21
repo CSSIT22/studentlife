@@ -1,18 +1,24 @@
 import { useBreakpointValue } from "@chakra-ui/react"
 import { AiOutlineHome, AiOutlineHeart } from "react-icons/ai"
-import { HiSpeakerphone } from "react-icons/hi"
-import { BiGroup } from "react-icons/bi"
+import { HiOutlineUserGroup, HiSpeakerphone } from "react-icons/hi"
 import { BsPatchQuestion } from "react-icons/bs"
 import NavBarDesktop from "./NavBarDesktop"
 import NavBarMobile from "./NavBarMobile"
 import { FC } from "react"
 import { secondaryNavProps } from "../app/AppBody"
+import API from "src/function/API"
+
+export const logout = () => {
+    API.get("/auth/logout").then(() => {
+        document.location.reload()
+    })
+}
 
 export const NavBarMenu = [
     { to: "/", Icon: AiOutlineHome, name: "Home" },
     { to: "/dating", Icon: AiOutlineHeart, name: "Dating" },
     { to: "/qa", Icon: BsPatchQuestion, name: "Q&A" },
-    { to: "/groups", Icon: BiGroup, name: "Communities" },
+    { to: "/groups", Icon: HiOutlineUserGroup, name: "Communities" },
 ]
 
 export const moreMenu = [
@@ -21,6 +27,9 @@ export const moreMenu = [
     { to: "/shop", Icon: HiSpeakerphone, name: "Shop" },
     { to: "/restaurant", Icon: HiSpeakerphone, name: "Restaurant" },
     { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
+    { to: "/link", Icon: HiSpeakerphone, name: "Short link" },
+    { to: "/todolist", Icon: HiSpeakerphone, name: "To-Do List" },
+    { to: "/dating/rating", Icon: HiSpeakerphone, name: "Rating" },
 ]
 
 const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
