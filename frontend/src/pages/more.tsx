@@ -22,9 +22,11 @@ const More = () => {
                 </Link>
             </VStack>
             <HStack mt={3} gap={3}>
-                <Box as={Link} to={"/auth/revokeTokens"} flex={3} p={3} py={5} bg="blue.400" color="white" shadow={"md"} rounded="lg">
-                    <Heading size="md">Login activity</Heading>
-                </Box>
+                <Link to="/auth/revokeTokens" style={{ flex: 3 }} >
+                    <Box flex={3} p={3} py={5} bg="blue.400" color="white" shadow={"md"} rounded="lg">
+                        <Heading size="md">Login activity</Heading>
+                    </Box>
+                </Link>
                 <Box onClick={logout} flex={1} p={3} py={5} bg="red.400" color="white" shadow={"md"} rounded="lg">
                     <Heading size="md">Logout</Heading>
                 </Box>

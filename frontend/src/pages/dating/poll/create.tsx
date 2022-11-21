@@ -21,7 +21,7 @@ import {
     Grid,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
 import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
@@ -38,6 +38,22 @@ declare global {
 }
 
 const CreateActivityPoll = () => {
+    const didMount = useDidMount()
+    useEffect(() => {
+        if (didMount) {
+            window.scrollTo(0, 0)
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     // This use for set state to all variable
     const [header, setHeaderInput] = useState("")
 
@@ -65,6 +81,7 @@ const CreateActivityPoll = () => {
     //Tost for error message when submit
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isSubmitted, setIsSubmitted] = useState(false)
 
     //Validate the Header
     const isTooShortHeader = header.length < 10
@@ -114,20 +131,20 @@ const CreateActivityPoll = () => {
         ) {
             console.log(
                 "Header: " +
-                    header +
-                    " Tag: " +
-                    selectedInterests +
-                    " Description: " +
-                    description +
-                    " Location: " +
-                    location +
-                    " Date & Time: " +
-                    // { d: handleDateTime() } +
-                    handleDateTime() +
-                    " Now: " +
-                    new Date() +
-                    " people: " +
-                    sliderValue
+                header +
+                " Tag: " +
+                selectedInterests +
+                " Description: " +
+                description +
+                " Location: " +
+                location +
+                " Date & Time: " +
+                // { d: handleDateTime() } +
+                handleDateTime() +
+                " Now: " +
+                new Date() +
+                " people: " +
+                sliderValue
             )
             toast({
                 title: "Poll created.",
@@ -273,6 +290,9 @@ const CreateActivityPoll = () => {
                                                 hasSelectedInterest={true}
                                                 type="topic"
                                                 isLoading={false}
+                                                setInterests={setInterests}
+                                                setIsSubmiited={setIsSubmitted}
+                                                isSubmitted={isSubmitted}
                                             />
                                         </GridItem>
                                     </ModalFooter>

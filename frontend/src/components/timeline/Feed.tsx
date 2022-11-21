@@ -28,7 +28,6 @@ const Feed = () => {
     return (
         <VStack>
             <CreatingPost photoUrl="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"></CreatingPost>
-            <FriendSuggestion photoUrl="" year={0} department={""} faculty={""}></FriendSuggestion>
             <Post
                 id="1"
                 name="Mr.Cat 1"
@@ -41,6 +40,7 @@ const Feed = () => {
                 avatar="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
                 media="https://img.freepik.com/premium-vector/boy-waving-hand-greeting-cute-people-illustration_107355-500.jpg?w=1380"
             />
+            <FriendSuggestion photoUrl="" year={0} department={""} faculty={""}></FriendSuggestion>
             <Post
                 id="2"
                 name="Mr.Cat 2"

@@ -3,7 +3,7 @@ import React from "react"
 
 const SuggestedFriend = ({ photoUrl, year, department, faculty }: { photoUrl: string; year: number; department: string; faculty: string }) => {
     return (
-        <Card align="center" minW="2xs" maxW="2xs">
+        <Card align="center" minW="2xs" maxW="2xs" backgroundColor={"white"}>
             <CardHeader>
                 <Grid justifyContent="center">
                     <Avatar size="xl" src={photoUrl} />
