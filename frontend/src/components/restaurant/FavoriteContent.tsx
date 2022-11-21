@@ -95,7 +95,7 @@ const FavoriteContent: FC<{
                 </Box>
             </Show>
             <Show above="sm">
-                <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
+                <Box width={"100%"} p={5} shadow="md"  backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
                     <Popover placement="bottom">
                         {({ onClose }:any) => (
                             <>
