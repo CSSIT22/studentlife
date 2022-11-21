@@ -17,9 +17,11 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react"
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import API from "src/function/API"
+import page from "src/pages/test/[id]/page"
 
 const FavoriteContent: FC<{
     id: number
@@ -30,20 +32,30 @@ const FavoriteContent: FC<{
     website: string
     link: string
     img: string
-}> = ({ id,resName, phone, open, close, website,link, img }) => {
-    // const DeleteFv = () => {
-    //     Restaurant[id].status = false
-    //     console.log(Restaurant[id].status)
+    load: Function
+}> = ({ id, resName, phone, open, close, website, link, img, load }) => {
+    // const [status, setstatus] = useState(true);
+    // useEffect(() => {
+    //     API.get("/restaurant/favorite?userid=" + "101") 
+    //         .then((item) => setstatus(item.data))          
+    // }, [status])
+
+    const deleteRes = () => {
+        API.post("restaurant/Favorite", { id: id })
+    }
+
+    // const load = () => {
+    //     setstatus(!status)
     // }
-    
+
 
     return (
         <>
             <Show below="sm">
-            <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"} >
+                <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"} >
                     <Popover placement="auto">
-                        {({onClose}:any) => (
-                            <> 
+                        {({ onClose }: any) => (
+                            <>
                                 <PopoverTrigger>
                                     <Flex justifyContent={"end"} height={3}>
                                         <AiOutlineClose />
@@ -56,7 +68,7 @@ const FavoriteContent: FC<{
                                     <PopoverBody border='0'> you want to unfavorite this restaurant?</PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center" border='0'>
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={onClose}  mr={2}>
+                                            <Button colorScheme="green" onClick={onClose} mr={2}>
                                                 Yes
                                             </Button>
 
@@ -67,37 +79,37 @@ const FavoriteContent: FC<{
                                     </PopoverFooter>
                                 </PopoverContent>
                             </>
-                        )} 
+                        )}
                     </Popover>
 
                     <Flex alignItems={"center"}>
-                    <Box width={"30%"} ml={"1rem"}>
+                        <Box width={"30%"} ml={"1rem"}>
                             <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
                         {/* </Show> */}
-                       
+
                         <Box width={"60%"} color={"black"}>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
-                                </Text>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
-                                </Text>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Phone:</span> {phone}
-                                </Text>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
-                                </Text>
-                            </Box>
-                       
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
+                            </Text>
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                            </Text>
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Phone:</span> {phone}
+                            </Text>
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
+                            </Text>
+                        </Box>
+
                     </Flex>
                 </Box>
             </Show>
             <Show above="sm">
-                <Box width={"100%"} p={5} shadow="md"  backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
+                <Box width={"100%"} p={5} shadow="md" backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
                     <Popover placement="bottom">
-                        {({ onClose }:any) => (
+                        {({ onClose }: any) => (
                             <>
                                 <PopoverTrigger>
                                     <Flex justifyContent={"end"} height={3}>
@@ -105,13 +117,19 @@ const FavoriteContent: FC<{
                                     </Flex>
                                 </PopoverTrigger>
                                 <PopoverContent borderWidth={"2px"} borderColor='black'>
-                                    <PopoverArrow bg={'red'}/>
+                                    <PopoverArrow bg={'red'} />
                                     <PopoverCloseButton />
                                     <PopoverHeader textAlign={"center"} border='0' color={"#E53E3E"} fontWeight={"bold"}>ARE YOU SURE</PopoverHeader>
-                                    <PopoverBody textAlign={"center"} fontWeight={"bold"} > you want to unfavorite <br/>this restaurant?</PopoverBody>
+                                    <PopoverBody textAlign={"center"} fontWeight={"bold"} > you want to unfavorite <br />this restaurant?</PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center" border='0'>
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green"  mr={2}>
+                                            <Button colorScheme="green" mr={2} onClick={() => {
+                                                onClose()
+                                                deleteRes()
+                                               load()
+                                                // window.location.reload()
+                                                //    setstatus(status)
+                                            }}>
                                                 Yes
                                             </Button>
 

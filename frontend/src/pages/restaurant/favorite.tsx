@@ -1,5 +1,5 @@
 import { Heading, Box, Grid, GridItem, Button } from "@chakra-ui/react"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
@@ -11,12 +11,16 @@ function favorite() {
     // const showfv = Restaurant.filter((e1) => e1.status === true)
     const params = useParams()
     const [property, setproperty] = React.useState<any>([]);
+    const [status, setstatus] = useState(true);
 
     useEffect(() => {
         API.get("/restaurant/favorite?userid=" + "101") 
             .then((item) => setproperty(item.data))          
-    }, [])
+    }, [status])
 
+    const load = () => {
+        setstatus(!status)
+    }
 
     return (
         <AppBody
@@ -44,6 +48,8 @@ function favorite() {
                                 website={e1.website}
                                 link={`/restaurant/detail/${e1.id}`}
                                 img={e1.img[0]}
+                                load={load}
+                                
                             />
                         </GridItem>
                     )

@@ -9,7 +9,9 @@ import { review } from "./review"
 import showHistory from "./routes/showHistory"
 import { Restaurant } from "@apiType/restaurant"
 import { verifyUser } from "../backendService/middleware/verifyUser"
+import deleteFavorite from "./routes/deleteFavorite"
 const restaurantRoutes = express()
+restaurantRoutes.use(express.json())
 
 export let restaurant: Restaurant[] = [
     {
@@ -213,6 +215,7 @@ export const setRestaurant = (newData: Restaurant[]) => {
 export const getReview = () => review
 
 restaurantRoutes.get("/search", searchRestaurant)
+restaurantRoutes.post("/favorite", deleteFavorite)
 restaurantRoutes.get("/favorite", showFavorite)
 restaurantRoutes.get("/history", showHistory)
 restaurantRoutes.get("/:id", verifyUser ,showRestaurant)
