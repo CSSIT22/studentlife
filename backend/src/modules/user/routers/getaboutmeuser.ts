@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 
-const getAboutme = async (req: Request, res: Response) => {
+const getaboutmeuser = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user?.userId
@@ -14,4 +14,4 @@ const getAboutme = async (req: Request, res: Response) => {
     }
 }
 
-export default getAboutme
+export default getaboutmeuser
