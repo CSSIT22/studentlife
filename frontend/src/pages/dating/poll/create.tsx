@@ -21,7 +21,7 @@ import {
     Grid,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
 import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
@@ -38,6 +38,22 @@ declare global {
 }
 
 const CreateActivityPoll = () => {
+    const didMount = useDidMount()
+    useEffect(() => {
+        if (didMount) {
+            window.scrollTo(0, 0)
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     // This use for set state to all variable
     const [header, setHeaderInput] = useState("")
 
