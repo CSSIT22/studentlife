@@ -15,6 +15,7 @@ const getaboutmeuser = async (req: Request, res: Response) => {
                 year: tail.year,
             },
             create: {
+                address: tail.address,
                 phone: tail.phone,
                 birth: tail.birth,
                 sex: tail.sex,
