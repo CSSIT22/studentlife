@@ -1,250 +1,93 @@
-import { Heading, Text, Box, Button, Center, useBreakpointValue, Stack } from "@chakra-ui/react"
-import DatingAppBody from "../../components/dating/DatingAppBody"
-// Import Swiper React components
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react"
+import { Box, Button, Center, Container, Text, useBreakpointValue } from '@chakra-ui/react'
+import DatingAppBody from 'src/components/dating/DatingAppBody'
+import DatingCreatePollButton from 'src/components/dating/DatingCreatePollButton'
+import { Navigation, Pagination } from 'swiper'
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 
-// Import Swiper styles
-import "swiper/css"
-import "swiper/css/navigation"
-import "swiper/css/pagination"
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { useEffect } from 'react'
 
-// import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper"
-import { Image } from "@chakra-ui/react"
+const FirstPageNextButton = (props: any) => {
+    const swiper = useSwiper();
+    return (<Button colorScheme="orange" w={{ base: "132px", md: "178px" }} h={{ base: "54px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" onClick={() => swiper.slideNext()}>{props.children}</Button>);
+}
 
-const Tutotial = () => {
+const Tutorial = () => {
+    
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
-    const swiper = useSwiper()
+
+    const dotColor = {
+        "--swiper-pagination-color": "black",
+    }
+
     return (
         <DatingAppBody>
-            {isMobile ? (
-                <Box>
-                    <Swiper
-                        cssMode={true}
-                        navigation={true}
-                        pagination={true}
-                        mousewheel={true}
-                        keyboard={true}
-                        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-                        className="mySwiper"
-                    >
-                        <SwiperSlide>
-                            <Stack spacing={3} color="black">
-                                <Center pt="3em">
-                                    <Text fontSize="3xl" as="b">
-                                        Hello!
-                                    </Text>
-                                </Center>
-                                <Center pt="2em">
-                                    <Text fontSize="3xl" as="b" color="#E65300">
-                                        Firstname Lastname
-                                    </Text>
-                                </Center>
-                                <Center pt="2em">
-                                    <Text fontSize="3xl" as="b">
-                                        Welcome to
-                                    </Text>
-                                </Center>
-                                <Center pt="2em">
-                                    <Text fontSize="3xl" as="b">
-                                        Dating & Finding Friend
-                                    </Text>
-                                </Center>
-                            </Stack>
-                            <Center pt="3em">
-                                {" "}
-                                {/*ต้องกดแล้วไปหน้าต่อไป;-;*/}
-                                <Stack spacing={4} direction="row" align="center">
-                                    <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
-                                        Next
-                                    </Button>
-                                </Stack>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Randomization</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Heart Checking</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>You Are Match With</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Activity Poll</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Tag of Interest</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Dating Option</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Tutorial</Heading>
-                            </Center>
-                            <Center pt="3em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                            <Center pt="3em">
-                                {" "}
-                                {/*ต้องกดแล้วต้องไปหน้าrandomization;-;*/}
-                                <Stack spacing={4} direction="row" align="center">
-                                    <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
-                                        Start Using Dating & Finding Friend
-                                    </Button>
-                                </Stack>
-                            </Center>
-                        </SwiperSlide>
-                    </Swiper>
-                </Box>
-            ) : (
-                <Box>
-                    <Swiper
-                        cssMode={true}
-                        navigation={true}
-                        pagination={true}
-                        mousewheel={true}
-                        keyboard={true}
-                        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-                        className="mySwiper"
-                    >
-                        <SwiperSlide>
-                            <Stack spacing={3} color="black">
-                                <Center pt="3em">
-                                    <Text fontSize="3xl" as="b">
-                                        Hello!
-                                    </Text>
-                                </Center>
-                                <Center pt="2em">
-                                    <Text fontSize="3xl" as="b" color="#E65300">
-                                        Firstname Lastname
-                                    </Text>
-                                </Center>
-                                <Center pt="2em">
-                                    <Text fontSize="3xl" as="b">
-                                        Welcome to
-                                    </Text>
-                                </Center>
-                                <Center pt="2em">
-                                    <Text fontSize="3xl" as="b">
-                                        Dating & Finding Friend
-                                    </Text>
-                                </Center>
-                            </Stack>
-                            <Center pt="3em">
-                                {" "}
-                                {/*ต้องกดแล้วไปหน้าต่อไป;-;*/}
-                                <Stack spacing={4} direction="row" align="center">
-                                    <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
-                                        Next
-                                    </Button>
-                                </Stack>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Randomization</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Heart Checking</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>You Are Match With</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Activity Poll</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Tag of Interest</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Dating Option</Heading>
-                            </Center>
-                            <Center pt="3em" pb="8em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center pt="2em">
-                                <Heading>Tutorial</Heading>
-                            </Center>
-                            <Center pt="3em" display="flex">
-                                <Image src="https://i.gifer.com/7urF.gif"></Image>
-                            </Center>
-                            <Center pt="3em">
-                                {" "}
-                                {/*ต้องกดแล้วต้องไปหน้าrandomization;-;*/}
-                                <Stack spacing={4} direction="row" align="center">
-                                    <Button colorScheme="orange" size="lg" onClick={() => swiper.slideNext()}>
-                                        Start Using Dating & Finding Friend
-                                    </Button>
-                                </Stack>
-                            </Center>
-                        </SwiperSlide>
-                    </Swiper>
-                </Box>
-            )}
-        </DatingAppBody>
+            <Box>
+                <Swiper id="tutorial" pagination={true} modules={[Pagination, Navigation]} className="mySwiper">
+                    <SwiperSlide>
+                        <Center>
+                            <Box>
+                                <Text textAlign="center" fontWeight="700"
+                                    fontSize={{ base: "30px", md: "36px" }}
+                                    lineHeight="133%" color="black" pt={{ base: "39.5px", md: "33px" }} >Hello!</Text>
+                                {
+                                    isMobile ?
+                                        (<Text textAlign="center" fontWeight="700"
+                                            fontSize="36px"
+                                            lineHeight="133%" color="orange.600" pt="33px" >Firstname Lastname</Text>) :
+                                        (<><Text textAlign="center" fontWeight="700"
+                                            fontSize="30px"
+                                            lineHeight="133%" color="orange.600" pt="39.5px">Firstname</Text>
+                                            <Text textAlign="center" fontWeight="700"
+                                                fontSize="30px"
+                                                lineHeight="133%" color="orange.600" >Lastname</Text></>)
+                                }
+                                {
+                                    isMobile ?
+                                        (<><Text textAlign="center" fontWeight="700"
+                                            fontSize="36px"
+                                            lineHeight="133%" color="black" pt="33px" >Welcome to</Text>
+                                            <Text textAlign="center" fontWeight="700"
+                                                fontSize="36px"
+                                                lineHeight="133%" color="black" >Dating & Finding Friend</Text></>) :
+                                        (<><Text textAlign="center" fontWeight="700"
+                                            fontSize="30px"
+                                            lineHeight="133%" color="black" pt="39.5px">Welcome to</Text>
+                                            <Text textAlign="center" fontWeight="700"
+                                                fontSize="30px"
+                                                lineHeight="133%" color="black" >Dating</Text>
+                                            <Text textAlign="center" fontWeight="700"
+                                                fontSize="30px"
+                                                lineHeight="133%" color="black" >&</Text>
+                                            <Text textAlign="center" fontWeight="700"
+                                                fontSize="30px"
+                                                lineHeight="133%" color="black" >Finding Friend</Text></>)
+                                }
+                                <Box display="flex" justifyContent="center" pt={{ base: "32px", md: "80px" }} pb={{ base: "178px", md: "80px" }}>
+                                    <FirstPageNextButton><Text fontWeight="700"
+                                        fontSize={{ base: "20px", md: "25px" }}
+                                        lineHeight="120%" color="white"></Text>Next</FirstPageNextButton>
+                                </Box>
+                            </Box>
+                        </Center>
+                    </SwiperSlide>
+
+
+                    <SwiperSlide>
+                        <Box display="flex" h={{ base: "708px", md: "70vh" }}>
+                            <Text>Slide 2</Text>
+                        </Box>
+                    </SwiperSlide>
+                </Swiper>
+            </Box>
+        </DatingAppBody >
     )
 }
 
-export default Tutotial
+export default Tutorial
