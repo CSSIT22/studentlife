@@ -82,7 +82,7 @@ const Searchbar: FC<{
     }
     return (
         <Flex px="4">
-            <InputGroup>
+            <InputGroup _hover={{transform: "scale(1.01)" }}  transitionDuration="200ms">
                 <InputLeftElement pl="2" pointerEvents="none" children={<TbSearch />} />
                 <Input
                     type="search"

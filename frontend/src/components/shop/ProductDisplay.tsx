@@ -14,7 +14,8 @@ const ProductDisplay: FC<{
     return (
         <LinkBox>
             <Link to={link ? link : "/shop/product/" + id} state={{ p_id: id }}>
-                <Box mt="6" background="white" width="11rem" height="16rem" borderRadius="lg" overflow="hidden" shadow="xl" border="1px solid">
+                <Box mt="6" background="white" width="11rem" height="16rem" borderRadius="lg" overflow="hidden" shadow="xl" border="1px solid"
+                    _hover={{transform: "scale(1.1)" }} transitionDuration="300ms">
                     <Flex direction="column">
                         <Box mt="3" mx="3" mb="2" borderRadius="lg" overflow="hidden" shadow="md">
                             <Image width="11rem" height="9rem" src={image} alt="Img" objectFit="cover" />

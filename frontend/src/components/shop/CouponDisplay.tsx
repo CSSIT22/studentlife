@@ -12,7 +12,7 @@ const CouponDisplay: FC<{
 }> = ({ couponCode, discountAmount, details, validUntil, minSpend }) => {
     const isMobile = useBreakpointValue({ base: true, sm: false })
     return (
-        <ContentBox bg="#fff" sh="xl" br="3xl">
+        <ContentBox bg="#fff" sh="xl" br="3xl" isAni={true}>
             <Grid
                 templateAreas={{
                     base: `"name name name"

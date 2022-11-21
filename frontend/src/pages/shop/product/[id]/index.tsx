@@ -106,7 +106,7 @@ const index = () => {
     )
 
     const reviewBox = (
-        <ContentBox>
+        <ContentBox >
             <Flex direction="column" gap={3} p={6}>
                 <Text fontWeight="500" color="black" fontSize="lg">
                     Reviews of {product.name}
@@ -158,6 +158,7 @@ const index = () => {
                 {reviewBox}
                 {contactBox}
             </Flex>
+            <Box p="8"></Box>
         </ShopAppBody>
     )
 
