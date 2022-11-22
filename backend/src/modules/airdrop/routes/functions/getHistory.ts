@@ -9,6 +9,11 @@ const getHistory = async (req: Request | any, res: Response | any) => {
             file: {
                 include: {
                     sender: true,
+                    comments: {
+                        include: {
+                            commentor: true,
+                        },
+                    },
                 },
             },
         },

@@ -27,7 +27,7 @@ const TransactionPointHistory = () => {
                     </Box>
                 ))}
             </Box>
-        </Box >
+        </Box>
     )
 }
 

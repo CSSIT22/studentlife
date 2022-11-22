@@ -1,20 +1,20 @@
-import { Box, VStack } from "@chakra-ui/react";
-import { Text } from '@chakra-ui/react'
+import { Box, VStack } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
 
 let d = new Date()
 d.toLocaleString
 
 type props = {
-    message: string;
-    timeSent: string;
-    from: string;
+    message: string
+    timeSent: string
+    from: string
 }
 
 export const TextBar = ({ message, timeSent, from }: props) => {
-    const isMe = from === "me";
-    const align = isMe ? "flex-end" : "flex-start";
-    const bottomRradius = isMe ? 0 : 32;
-    const bottomLradius = isMe ? 32 : 0;
+    const isMe = from === "me"
+    const align = isMe ? "flex-end" : "flex-start"
+    const bottomRradius = isMe ? 0 : 32
+    const bottomLradius = isMe ? 32 : 0
     return (
         <VStack marginTop={3} alignItems={align} alignSelf={align}>
             <Box
@@ -35,4 +35,4 @@ export const TextBar = ({ message, timeSent, from }: props) => {
         </VStack>
     )
 }
-export default TextBar;
+export default TextBar

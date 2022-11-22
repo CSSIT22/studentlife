@@ -8,7 +8,7 @@ import API from "src/function/API"
 import AppBody from "../../../components/share/app/AppBody"
 import Header from "../../../components/transaction/shoptransaction/Header"
 import OrderList from "../../../components/transaction/shoptransaction/OrderList"
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom"
 
 const shopTransaction = () => {
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
