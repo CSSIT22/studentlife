@@ -1,5 +1,6 @@
 const path = require("path")
 const axios = require("axios")
+import { Blob } from "buffer"
 const downloadFile = async (req: Request | any, res: Response | any) => {
     const { prisma } = res
     const user = await req.user?.userId
