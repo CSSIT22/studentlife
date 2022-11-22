@@ -28,7 +28,7 @@ const downloadFile = async (req: Request, res: Response) => {
     } catch (err) {
         console.log(err)
     }
-    res.type(file.type)
+    // res.type(file.type)
     // file.arrayBuffer().then((buf) => {
     //     res.send(Buffer.from(buf))
     // })
