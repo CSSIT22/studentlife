@@ -49,7 +49,11 @@ model User_Profile {
   userPinAnnouncement  Announcement_Pin[]
   userSeeAnnouncement  Announcement_Seen[]
   annApproved          Announcement_Approve[]
-  cUser                Chat_User?
+  userChat             User_To_Room[]
+  userChatTo           Chat_Individual[]                @relation("chatting")
+  userChatFrom         Chat_Individual[]                @relation("chatter")
+  userSendMessage      Message[]
+  userQuote            Chat_Quote[]
   userDating           Dating_Options?
   userQueue            Card_Queue[]                     @relation("User")
   frontUserQueue       Card_Queue[]                     @relation("Front User")
@@ -344,10 +348,10 @@ model User_Noti_Object {
 
 model Noti_Object {
   notiObjectId String             @id @default(cuid())
-  template Template
+  template     Template
   date         DateTime           @db.Timestamp(0)
   isRead       Boolean
-  module     Module
+  module       Module
   url          String
   users        User_Noti_Object[]
   values       Value[]
@@ -617,67 +621,68 @@ model Announcement_Approve {
 }
 
 //Chat Module
-model Chat_User {
-  userId       String         @id
-  username     String
-  cUserToUser  User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  user_To_Room User_To_Room[]
-  messages     Message[]
-  quotes       Chat_Quote[]
-}
-
 model Chat_Room {
-  roomId     String               @id @default(cuid())
-  roomName   String
-  chatColor  String               @db.Char(7)
-  created    DateTime             @default(now()) @db.Timestamp(0)
-  deleted    DateTime?            @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
-  roomType   Room_Type
-  roomGroup  Chat_Group?
-  poll       Activity_Poll?
-  haveUser   User_To_Room[]
-  messages   Message[]
-  quotes     Chat_Quote[]
-  wordReport Word_Report_Detail[]
+  roomId         String               @id @default(cuid())
+  roomName       String
+  chatColor      String               @db.Char(7)
+  created        DateTime             @default(now()) @db.Timestamp(0)
+  roomType       Room_Type
+  roomIndividual Chat_Individual?
+  roomGroup      Chat_Group?
+  poll           Activity_Poll?
+  haveUser       User_To_Room[]
+  messages       Message[]
+  quotes         Chat_Quote[]
+  wordReport     Word_Report_Detail[]
 }
 
 model User_To_Room {
-  user     Chat_User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId   String
-  room     Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  room     Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
   roomId   String
-  nickname String
+  joined   DateTime  @default(now()) @db.Timestamp(0)
+  lefted   DateTime  @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
 
   @@id([userId, roomId])
 }
 
+model Chat_Individual {
+  roomId        String       @unique
+  userId        String
+  anotherUserId String
+  room          Chat_Room    @relation(fields: [roomId], references: [roomId])
+  user          User_Profile @relation("chatter", fields: [userId], references: [userId])
+  chatWith      User_Profile @relation("chatting", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
+}
+
 model Chat_Group {
   roomId   String    @unique
-  joined   DateTime  @default(now()) @db.Timestamp(0)
-  lefted   DateTime  @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   groupImg String
   room     Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
 }
 
 model Message {
-  messageId     String       @id @default(cuid())
+  messageId     String        @id @default(cuid())
   roomId        String
   senderId      String?
   messageType   Message_Type
-  created       DateTime     @default(now()) @db.Timestamp(0)
-  isRead        Boolean      @default(false)
-  messageInRoom Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-  messageSender Chat_User?   @relation(fields: [senderId], references: [userId], onDelete: SetNull)
+  created       DateTime      @default(now()) @db.Timestamp(0)
+  isRead        Boolean       @default(false)
+  messageInRoom Chat_Room     @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  messageSender User_Profile? @relation(fields: [senderId], references: [userId], onDelete: SetNull)
 }
 
 model Chat_Quote {
-  quoteId  Int       @id @default(autoincrement())
+  quoteId  Int          @id @default(autoincrement())
   roomId   String
   userId   String
-  created  DateTime  @default(now()) @db.Timestamp(0)
+  created  DateTime     @default(now()) @db.Timestamp(0)
   text     String
-  quoteFor Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-  quoter   Chat_User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  quoteFor Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  quoter   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model Chat_Sticker {
