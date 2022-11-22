@@ -1,10 +1,10 @@
-import { Box, LinkBox, LinkOverlay, Spacer, VStack, Grid, GridItem, HStack, Divider } from "@chakra-ui/react"
+import { Box, LinkBox } from "@chakra-ui/react"
 import React, { FC } from "react"
-import { Badge, Button, Center, Flex, Heading, Image, Stack, Text, useColorModeValue } from "@chakra-ui/react"
+import { Flex, Heading, Image } from "@chakra-ui/react"
 import convertCurrency from "../../../components/shop/functions/usefulFunctions"
 import { Link } from "react-router-dom"
 
-const OrderedProductDisplay: FC<{
+const OrderConfirmProduct: FC<{
     id: number
     name: string
     price: number
@@ -49,4 +49,4 @@ const OrderedProductDisplay: FC<{
     )
 }
 
-export default OrderedProductDisplay
+export default OrderConfirmProduct
