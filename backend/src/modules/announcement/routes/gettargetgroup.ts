@@ -1,16 +1,6 @@
-<<<<<<< HEAD
-import { Request, Response } from "express";
-
-const getTargetGroup = (req: Request, res: Response) => {
-
-}
-
-export default getTargetGroup
-=======
 import { post } from "./../../../../../types/announcement/index"
 import { getPost } from "./../index"
 import { Request, Response } from "express"
-
 
 const getTargetGroup = async (req: Request, res: Response) => {
     // const postid = parseInt(req.params.id+"")
@@ -29,15 +19,14 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 },
             })
             console.log(majorUsers)
-        } 
-        else if (targetType == "Faculty") {
+        } else if (targetType == "Faculty") {
             const majors = await prisma.major.findMany({
-                where:{
+                where: {
                     facultyId: targetValue,
                 },
-                select:{
-                    majorId: true
-                }
+                select: {
+                    majorId: true,
+                },
             })
             console.log(majors)
             // let majorIds: string[] = []
@@ -45,67 +34,64 @@ const getTargetGroup = async (req: Request, res: Response) => {
             //     majorIds[i] = majors[i].majorId
             // }
             // console.log(majorIds)
-            let allUserIds =[]
+            let allUserIds = []
 
-            for(let i =0;i<majors.length;i++){
+            for (let i = 0; i < majors.length; i++) {
                 const majorusers = await prisma.user_Profile.findMany({
-                    where:{
-                        majorId: majors[i].majorId
+                    where: {
+                        majorId: majors[i].majorId,
                     },
-                    select:{
-                        userId: true
-                    }
+                    select: {
+                        userId: true,
+                    },
                 })
-                for(let i=0;i<majorusers.length;i++){
+                for (let i = 0; i < majorusers.length; i++) {
                     allUserIds.push(majorusers[i])
                 }
             }
             console.log(allUserIds)
-
-        } 
-        else if (targetType == "Year") {
+        } else if (targetType == "Year") {
             let year = new Date()
-            const thaiYear = (year.getFullYear() +543) % 100
+            const thaiYear = (year.getFullYear() + 543) % 100
             // console.log(thaiYear)
             const key = thaiYear - parseInt(targetValue) + 1
             // console.log(key)
             const allStudentId = await prisma.user_Profile.findMany({
-                select:{
-                    studentId: true
-                }
+                select: {
+                    studentId: true,
+                },
             })
             // console.log(allStudentId)
             // console.log(allStudentId[0].studentId.substring(0,2))
             const selectStudentId = []
-            for(let i=0;i<allStudentId.length;i++){
-                if(parseInt(allStudentId[i].studentId.substring(0,2))==key){
+            for (let i = 0; i < allStudentId.length; i++) {
+                if (parseInt(allStudentId[i].studentId.substring(0, 2)) == key) {
                     selectStudentId.push(allStudentId[i])
                 }
             }
             // console.log(selectStudentId.length)
-            let selectedUserIds =[]
-            for(let i =0;i<selectStudentId.length;i++){
+            let selectedUserIds = []
+            for (let i = 0; i < selectStudentId.length; i++) {
                 const userId = await prisma.user_Profile.findMany({
-                    where:{
-                        studentId: selectStudentId[i].studentId
+                    where: {
+                        studentId: selectStudentId[i].studentId,
                     },
-                    select:{
-                        userId: true
-                    }
+                    select: {
+                        userId: true,
+                    },
                 })
-                for(let i=0;i<userId.length;i++){
+                for (let i = 0; i < userId.length; i++) {
                     selectedUserIds.push(userId[i])
                 }
             }
             console.log(selectedUserIds)
-            // console.log(allUserIds.length)  
-        }
-        else if(targetType=="Everyone"){
+            // console.log(allUserIds.length)
+        } else if (targetType == "Everyone") {
             const everyUserId = await prisma.user_Profile.findMany({
-              select:{
-                userId: true
-              }   
-            }) 
+                select: {
+                    userId: true,
+                },
+            })
             console.log(everyUserId)
         }
     } catch (err: any) {
@@ -115,4 +101,3 @@ const getTargetGroup = async (req: Request, res: Response) => {
 }
 
 export default getTargetGroup
->>>>>>> staging
