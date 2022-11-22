@@ -50,3 +50,14 @@ export type Contact = {
   address: string;
   lineId: string;
 };
+
+export type UserCoupon = {
+  couponCode: string,
+  couponDesc: string,
+  discount: number,
+  validFrom: string,
+  validTill: string,
+  minimumSpend: number,
+  productId: number,
+  quota: number
+}
