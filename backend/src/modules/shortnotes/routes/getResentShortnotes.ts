@@ -5,12 +5,14 @@ const getResentShortnotes = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const user = req.user?.userId
-
         const rsn: any = await prisma.sn_Recent.findMany({
             where: {
                 userId: user,
             },
-            orderBy: { viewedAt: "asc" },
+            include: {
+                shortNote: true,
+            },
+            orderBy: { viewedAt: "desc" },
             take: 3,
         })
         //console.log(rsn)
