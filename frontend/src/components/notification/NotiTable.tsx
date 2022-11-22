@@ -1,14 +1,14 @@
-import { Box, Button, Center, CloseButton, filter, Flex, Show, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Center, CloseButton, filter, Flex, Show, Spacer, Stack, Text, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Modulelist from "./moduleList/Modulelist"
 import NotiList from "./main/NotiList"
 import { SettingsIcon } from "@chakra-ui/icons"
 import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
 import { Notiobject } from "@apiType/notification"
+import { settingApp } from "./main/mockupData/settingApp"
 
 const NotiTable = () => {
     //reload noti
@@ -35,7 +35,7 @@ const NotiTable = () => {
         setSelectedModule(module)
     }
 
-    //creat list of selected module
+    //create list of selected module
     const notiListModule: any[] = userNotiObject.filter((el) => el.module == selectedModule)
 
     function showNotiList(): any {
@@ -63,7 +63,7 @@ const NotiTable = () => {
                         </ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <NotiSetting />
+                            <NotiSetting id={settingApp.id} appSettingType={1} />
                         </ModalBody>
                         <ModalFooter>
                             <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>

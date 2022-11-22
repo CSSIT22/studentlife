@@ -4,6 +4,7 @@ import addUserNotiObject from "./routes/addUserNotiObject"
 import getUserNotiObject from "./routes/getUserNotiObject"
 import markallasRead from "./routes/markallasRead"
 import readNotiObject from "./routes/readNotiObject"
+import getSettingApp from "./routes/getSettingApp"
 
 //mockup data
 import { DESCRIPTION } from "./routes/mockupData/descTest"
@@ -73,6 +74,7 @@ export let objects = [
         link: "https://www.google.com/",
     },
 ]
+
 export function getObject() {
     return objects
 }
@@ -80,10 +82,29 @@ export function setObject(newobject: any) {
     objects = newobject
 }
 
+export type Setting = {
+    id: string
+    appSettingType: number
+    emailSettingType: number
+}
+
+export let setting: Setting[] = [
+    { id: USER[0].id, appSettingType: 1, emailSettingType: 3 },
+    { id: USER[1].id, appSettingType: 2, emailSettingType: 2 },
+    { id: USER[2].id, appSettingType: 3, emailSettingType: 1 },
+    //{ id: USER[3].id, appSettingType: 1, emailSettingType: 3 }
+]
+
+export const getSetting = () => setting
+export const setSetting = (newData: Setting[]) => {
+    setting = newData
+}
+
 const notificationRoutes = express()
 notificationRoutes.get("/getusernotiobject/:userId", getUserNotiObject)
 notificationRoutes.get("/addusernotiobject", addUserNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
 notificationRoutes.post("/markallasread/:module", markallasRead)
+notificationRoutes.get("/getSettingApp/:id", getSettingApp)
 
 export default notificationRoutes
