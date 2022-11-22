@@ -19,16 +19,32 @@ import {
     PopoverHeader,
     PopoverTrigger,
     Link,
+    background,
 } from "@chakra-ui/react"
 import React, { FC } from "react"
+import { useNavigate } from "react-router-dom"
 import DetailBox from "../../components/shopreview/DetailBox"
 import AmountLike from "./AmountLike"
 import AmountRate from "./AmountRate"
 import ShopName from "./ShopName"
 
-const Myreview: FC<{ image: String; name: String; ment: String; date: String }> = ({ image, name, ment, date }) => {
+const Myreview: FC<{ image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
+    image,
+    name,
+    ment,
+    date,
+    am_like,
+    ratting,
+}) => {
+    const [show, setShow] = React.useState(false)
+    const handleToggle = () => setShow(!show)
+
+    const navigate = useNavigate()
+    const navigateReview = () => {
+        navigate("/shopreview/review")
+    }
     return (
-        <Box p={3} minHeight={32} maxHeight={"200px"} background={"white"} shadow={"md"} rounded={"2xl"}>
+        <Box p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
             <Stack mb={3} direction={"row"} spacing={"24px"}>
                 <Avatar name="" src={`url('${image}')`} />
                 {/* ดีงข้อมูลมาจาก database */}
@@ -40,7 +56,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String }> 
                         {date}
                     </Text>
                 </Flex>
-                <Spacer width={"100%"} as="button"></Spacer>
+                <Spacer width={"100%"} as="button" onClick={navigateReview}></Spacer>
                 <Flex direction={"column"} justifyContent={"flex-start"}>
                     <Popover placement="bottom">
                         <PopoverTrigger>
@@ -70,15 +86,18 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String }> 
                     </Popover>
                 </Flex>
             </Stack>
-            <Link style={{ textDecoration: "none" }} href="/shopreview/review">
+            <Collapse startingHeight={20} in={show}>
                 <Flex direction={"row"} alignItems={"flex-start"}>
-                    <Text as={"b"} color={"black"} mb={3} size={"sm"}>
+                    <Text overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} as={"b"} color={"black"} size={"sm"}>
                         {ment}
                     </Text>
                 </Flex>
-            </Link>
+            </Collapse>
+            {/* <Button _hover={{ background: "gray.500", color: "white" }} mb={4} size="sm" onClick={handleToggle} mt="1rem">
+                Show {show ? "Less" : "More"}
+            </Button> */}
             {/* ดีงข้อมูลมาจาก database */}
-            <Flex direction={"row"} justifyContent={"flex-end"}>
+            <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
                 <Box>
                     <img
                         style={{ width: 20 }}
@@ -87,9 +106,9 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String }> 
                     {}
                 </Box>
                 <ShopName name="ข้าวมันไก่ป้าตุ๊ก" />
-                <AmountLike am_like={"100"} />
+                <AmountLike am_like={am_like} />
                 {/* ดีงข้อมูลมาจาก database */}
-                <AmountRate ratting={"5"} />
+                <AmountRate ratting={ratting} />
                 {/* ดีงข้อมูลมาจาก database */}
             </Flex>
         </Box>

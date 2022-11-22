@@ -90,7 +90,7 @@ const NotiTable = () => {
                 </Box>
             </Flex>
 
-            <Stack padding={4} paddingTop={2} height="50vh" overflow="auto">
+            <Stack padding={4} paddingTop={2} height={{ base: "72vh", md: "50vh" }} overflow="auto">
                 {showNotiList()}
             </Stack>
             <Center paddingTop={2}>

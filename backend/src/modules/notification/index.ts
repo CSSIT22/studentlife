@@ -9,6 +9,7 @@ import getSettingApp from "./routes/getSettingApp"
 //mockup data
 import { DESCRIPTION } from "./routes/mockupData/descTest"
 import { USER } from "./routes/mockupData/userProfile"
+
 export let objects = [
     {
         id: "0ygyli7",
@@ -102,7 +103,7 @@ export const setSetting = (newData: Setting[]) => {
 
 const notificationRoutes = express()
 notificationRoutes.get("/getusernotiobject/:userId", getUserNotiObject)
-notificationRoutes.get("/addusernotiobject", addUserNotiObject)
+// notificationRoutes.get("/addusernotiobject", addUserNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
 notificationRoutes.post("/markallasread/:module", markallasRead)
 notificationRoutes.get("/getSettingApp/:id", getSettingApp)

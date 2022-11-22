@@ -3,6 +3,7 @@ import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
 import { USER } from "../main/mockupData/userProfile"
+import API from "src/function/API"
 
 const NotiObjectViewAll: FC<{
     id: number
@@ -12,7 +13,8 @@ const NotiObjectViewAll: FC<{
     date: Date
     module: string
     link: string
-}> = ({ id, description, isRead, date, module, userId, link }) => {
+    onClick: Function
+}> = ({ id, description, isRead, date, module, userId, link, onClick }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -120,9 +122,22 @@ const NotiObjectViewAll: FC<{
             )
         }
     }
+    function read() {
+        API.post("/notification/readnotiobject/" + id)
+    }
 
     return (
-        <Box as="button" bg={"white"} _hover={{ bg: "#cdcdcd", transitionDuration: "0.2s" }} transitionDuration="0.2s" borderRadius="2xl" padding={2}>
+        <Box
+            as="button"
+            bg={"white"}
+            _hover={{ bg: "#cdcdcd", transitionDuration: "0.2s" }}
+            transitionDuration="0.2s"
+            borderRadius="2xl"
+            padding={2}
+            onClick={() => {
+                read(), onClick()
+            }}
+        >
             <a href={link}>
                 <Stack direction={"row"} spacing={12}>
                     <Box>
