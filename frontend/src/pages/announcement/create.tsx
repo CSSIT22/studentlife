@@ -111,7 +111,14 @@ const create = () => {
         //         addMoreLang: addMoreLang,
         //     },
         // ])
-        API.post<post>("/announcement/createpost" , {topic:title,detail:detail,targetType:targetType,targetValue:targetValue,expiredPost:expired,addmorelang:addMoreLang})
+        API.post<post>("/announcement/createpost", {
+            topic: title,
+            detail: detail,
+            targetType: targetType,
+            targetValue: targetValue,
+            expiredPost: expired,
+            addmorelang: addMoreLang,
+        })
     }
     console.log(allPost)
 
@@ -146,7 +153,7 @@ const create = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-    const [disable ,setdisable] = useState(true)
+    const [disable, setdisable] = useState(true)
     const onDisable = () => {
         setdisable(!disable)
     }
@@ -168,7 +175,7 @@ const create = () => {
                     addPost(topic, detail, targetType, targetValue, new Date(expired), addMoreLang)
                 }}
             >
-                <Flex alignItems={"center"} >
+                <Flex alignItems={"center"}>
                     <Show below="lg">
                         <Text as={"b"} fontSize="xl">
                             <Link to={"/announcement"}>
@@ -200,11 +207,11 @@ const create = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} bg="white"/>
+                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} bg="white" />
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} bg="white"/>
+                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} bg="white" />
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Target Group</FormLabel>

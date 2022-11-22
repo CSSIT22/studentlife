@@ -39,7 +39,7 @@ const Searchbar: FC<{
         stock: number
         deliveryFee: number
     }[]
-}> = ({ productsIn, searchQuery, setSearchQuery, setProducts}) => {
+}> = ({ productsIn, searchQuery, setSearchQuery, setProducts }) => {
     const [timer, setTimer] = useState<number | null>(null)
     const didMount = useDidMount()
     function useDidMount() {
@@ -56,17 +56,20 @@ const Searchbar: FC<{
     const [isLoading, { off }] = useBoolean(true)
     const getAllProducts = API.get("/shop/getAllProducts")
     useEffect(() => {
-        getAllProducts.then((res) => setProductList(res.data)).catch((err) => on()).finally(() => off())
+        getAllProducts
+            .then((res) => setProductList(res.data))
+            .catch((err) => on())
+            .finally(() => off())
         if (didMount) {
             setProducts(() => products.filter((arr: any) => arr.name.toLowerCase().includes(searchQuery.toLowerCase())))
         }
     }, [searchQuery])
-    if (isError){
+    if (isError) {
         return <Heading>There is an Error! Please Try Again Later</Heading>
-    } 
-    if (isLoading){
-        return<Heading>Loading...</Heading>
-    } 
+    }
+    if (isLoading) {
+        return <Heading>Loading...</Heading>
+    }
 
     // Check if user has press enter when currently in the search bar
     function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {

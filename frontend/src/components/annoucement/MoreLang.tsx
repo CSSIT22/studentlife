@@ -5,8 +5,8 @@ import { BsPlusCircleFill } from "react-icons/bs"
 const MoreLang: FC<{
     onClick: Function
     addLang: Function
-    onDisable:Function
-}> = ({ onClick, addLang, onDisable}) => {
+    onDisable: Function
+}> = ({ onClick, addLang, onDisable }) => {
     const [otherLang, setOtherLang] = React.useState(String)
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
@@ -36,11 +36,11 @@ const MoreLang: FC<{
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Title</FormLabel>
-                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={disable} bg="white"/>
+                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={disable} bg="white" />
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Detail</FormLabel>
-                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={disable} bg="white"/>
+                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={disable} bg="white" />
             </FormControl>
             <Text color={"red.300"} fontSize={"0.8rem"} my={"2"}>
                 Note: if you added, you can't change it anymore

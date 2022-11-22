@@ -1,7 +1,4 @@
-export const contactInfo = [
-    "Your Shop Address",
-    "Your Shop Phone Number",
-"Your Line ID"]
+export const contactInfo = ["Your Shop Address", "Your Shop Phone Number", "Your Line ID"]
 export const productInfo = [
     "Product Name",
     "Product Price",
@@ -13,5 +10,5 @@ export const productInfo = [
     "Brand Name",
     "Standard Delivery Fees (Uniform Delivery Fees for all locations) ",
     "Product Stock (Please update us if you run out of stock for any reason)",
-    "Any coupons you want to offer on your product. (Please contact us for more infromation on coupons)"
+    "Any coupons you want to offer on your product. (Please contact us for more infromation on coupons)",
 ]

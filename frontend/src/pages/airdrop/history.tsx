@@ -136,7 +136,9 @@ export default function Drophistory<FC>() {
                                         <Box as={MdImage} size={"3rem"} />
                                         <Hide below={"md"}>
                                             <Text>
-                                                {item.file.fileName.length > 12 ? item.file.fileName.substring(0, 12) + "..." : item.file.fileName.concat(" ") }
+                                                {item.file.fileName.length > 12
+                                                    ? item.file.fileName.substring(0, 12) + "..."
+                                                    : item.file.fileName.concat(" ")}
                                             </Text>
                                         </Hide>
                                         {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}
