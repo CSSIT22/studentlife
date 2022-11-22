@@ -11,7 +11,7 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
         },
     })
 
-    let file = new Blob([getFileFromService.data])
+    let file = new Blob(getFileFromService.data)
 
     const payload: any = {
         fileId: fileID,
