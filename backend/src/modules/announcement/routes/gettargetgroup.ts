@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+import { Request, Response } from "express";
+
+const getTargetGroup = (req: Request, res: Response) => {
+
+}
+
+export default getTargetGroup
+=======
 import { post } from "./../../../../../types/announcement/index"
 import { getPost } from "./../index"
 import { Request, Response } from "express"
@@ -106,3 +115,4 @@ const getTargetGroup = async (req: Request, res: Response) => {
 }
 
 export default getTargetGroup
+>>>>>>> staging
