@@ -101,9 +101,7 @@ export default function SimpleThreeColumns() {
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <VStack align="stretch" alignItems="center" ml={7}>
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
+                        <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
                             <Avatar
                                 pt={2}
                                 mt={{ md: "-70px", base: "0" }}
@@ -114,8 +112,8 @@ export default function SimpleThreeColumns() {
                                 shadow="xl"
                                 name="Christian Nwamba"
                                 src="https://bit.ly/code-beast"
-                            /></motion.div>
-                        {" "}
+                            />
+                        </motion.div>{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
@@ -137,7 +135,8 @@ export default function SimpleThreeColumns() {
                                 type: "spring",
                                 stiffness: 500,
                                 damping: 20,
-                            }}>
+                            }}
+                        >
                             <Box fontSize={{ lg: "5xl", base: "xl" }}>Vatcharamai Rodring</Box>
                         </motion.div>
                     </Stack>
@@ -187,7 +186,8 @@ export default function SimpleThreeColumns() {
                                         shadow={"lg"}
                                     >
                                         Follow
-                                    </Button></motion.div>
+                                    </Button>
+                                </motion.div>
                             ) : (
                                 <motion.div whileHover={{ scale: 0.9 }}>
                                     <Button
@@ -207,7 +207,8 @@ export default function SimpleThreeColumns() {
                                         value="inside"
                                     >
                                         Following
-                                    </Button></motion.div>
+                                    </Button>
+                                </motion.div>
                             )}
                         </HStack>
                         <motion.div whileHover={{ scale: 0.9 }}>
@@ -223,25 +224,28 @@ export default function SimpleThreeColumns() {
                                 shadow={"lg"}
                             >
                                 Message
-                            </Button></motion.div>{" "}
-                        <Menu><motion.div whileHover={{ scale: 0.9 }}>
-                            <MenuButton
-                                alignContent={"center"}
-                                as={IconButton}
-                                bgColor={{ base: "white", md: "orange.600" }}
-                                icon={<BsThreeDotsVertical />}
-                                color={{ base: "orange.600", md: "white" }}
-                                aria-label="Options"
-                                _hover={{ background: "orange.200" }}
-                                position="initial"
-                                variant="solid"
-                                shadow={"lg"}
-                                width={{ lg: "2rem", base: "" }}
-                                height={{ lg: "3rem", base: "2rem" }}
-                                fontSize={{ base: "", lg: "lg" }}
-                                bg="orange.600"
-                                value="inside"
-                            /></motion.div>
+                            </Button>
+                        </motion.div>{" "}
+                        <Menu>
+                            <motion.div whileHover={{ scale: 0.9 }}>
+                                <MenuButton
+                                    alignContent={"center"}
+                                    as={IconButton}
+                                    bgColor={{ base: "white", md: "orange.600" }}
+                                    icon={<BsThreeDotsVertical />}
+                                    color={{ base: "orange.600", md: "white" }}
+                                    aria-label="Options"
+                                    _hover={{ background: "orange.200" }}
+                                    position="initial"
+                                    variant="solid"
+                                    shadow={"lg"}
+                                    width={{ lg: "2rem", base: "" }}
+                                    height={{ lg: "3rem", base: "2rem" }}
+                                    fontSize={{ base: "", lg: "lg" }}
+                                    bg="orange.600"
+                                    value="inside"
+                                />
+                            </motion.div>
                             <MenuList>
                                 <MenuItem color="orange.700" icon={<BsFillFlagFill />} onClick={onReportModalOpen}>
                                     Report
@@ -417,7 +421,7 @@ export default function SimpleThreeColumns() {
                     </Stack>
                 </GridItem>
             </Grid>
-        </Box >
+        </Box>
 
         // Help me goddddd it almost finish but my eyes can handle much any more sorry for what i done this is the end of me nowww thank you everyone for support me and help me love you mom dad and my bro sry to be a
         // croward is sorry
@@ -615,8 +619,6 @@ export default function SimpleThreeColumns() {
         //                 </Menu>
         //             </ButtonGroup>
 
-
-
         // <ButtonGroup spacing={{ base: "1.5", sm: "3" }}>
         //                 <HStack position="initial">
         //                     {isFollow ? (
@@ -791,12 +793,6 @@ export default function SimpleThreeColumns() {
         //                     </MenuList>
         //                 </Menu>
         //             </ButtonGroup>
-
-
-
-
-
-
 
         // <GridItem pl="2" area={"footer"} rounded="xl">
         //             <ButtonGroup color="white" variant="outline" spacing="6">

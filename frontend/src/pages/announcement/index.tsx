@@ -6,7 +6,7 @@ import PostOnAnnouncementPage from "../../components/annoucement/PostOnAnnouncem
 import AppBody from "../../components/share/app/AppBody"
 import { Box, Flex, SimpleGrid, Spacer } from "@chakra-ui/react"
 import { postInfoTest } from "./postInfoTest"
-import {post} from '@apiType/announcement'
+import { post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const index = () => {
@@ -19,16 +19,16 @@ const index = () => {
     // const nonexpired = postInfoTest.filter((el) => {
     //     const current = new Date().toISOString
     // })
-    
+
     // console.log(postInfoTest[0].expiredOfPost);
-    const [toggle,settoggle] = useState(false)
+    const [toggle, settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
     const getDataPost = API.get("/announcement/getPostOnAnnouncement")
     useEffect(() => {
         getDataPost.then((res) => setAllPost(res.data))
-    },[toggle])
-    
-    const getpostidAndpinstatus = () =>{
+    }, [toggle])
+
+    const getpostidAndpinstatus = () => {
         settoggle(!toggle)
     }
 
@@ -50,7 +50,7 @@ const index = () => {
             </Flex>
             {allPost
                 .filter((p) => {
-                    return p.pinStatus == true 
+                    return p.pinStatus == true
                 })
                 .map((el) => {
                     return (
@@ -68,7 +68,7 @@ const index = () => {
                 })}
             {allPost
                 .filter((p) => {
-                    return p.pinStatus == false 
+                    return p.pinStatus == false
                 })
                 .map((el) => {
                     return (

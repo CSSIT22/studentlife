@@ -38,7 +38,7 @@ declare global {
 }
 
 function detail() {
-    const {onOpen} = useDisclosure()
+    const { onOpen } = useDisclosure()
     const params = useParams()
     const [numres, setnumres] = useState(parseInt(params.detailRes + ""))
     // const property = Restaurant.filter((e1) => {
@@ -52,10 +52,8 @@ function detail() {
     //     console.log(Restaurant[numres].status)
     // }
 
-
     useEffect(() => {
-        API.get("/restaurant/detail/" + params.detailRes).
-        then((item) => setproperty(item.data))
+        API.get("/restaurant/detail/" + params.detailRes).then((item) => setproperty(item.data))
     }, [params.detailRes])
 
     console.log(property)
@@ -165,7 +163,7 @@ function detail() {
                                         </Button>
                                         <Spacer />
                                         <Popover placement="top">
-                                            {({onClose}:any) => (
+                                            {({ onClose }: any) => (
                                                 <>
                                                     <PopoverTrigger>
                                                         <Button

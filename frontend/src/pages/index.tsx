@@ -1,4 +1,3 @@
-
 import { Box, Heading, VStack, Text } from "@chakra-ui/react"
 import AppBody from "../components/share/app/AppBody"
 import { AiFillAccountBook } from "react-icons/ai"
@@ -8,7 +7,6 @@ import Feed from "src/components/timeline/Feed"
 
 const Home = () => {
     return (
-
         <AppBody>
             {/* <VStack maxW="100vw" minH="100vh" alignItems={"center"} justifyContent="center">
 
@@ -25,10 +23,8 @@ const Home = () => {
 
             </VStack> */}
             <Feed></Feed>
-
         </AppBody>
     )
 }
 
 export default Home
-

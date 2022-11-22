@@ -1,14 +1,14 @@
-import { Access_Type } from '@prisma/client'
-import axios,{Axios} from 'axios'
-import fs from 'fs'
-const fd = require('form-data')
+import { Access_Type } from "@prisma/client"
+import axios, { Axios } from "axios"
+import fs from "fs"
+const fd = require("form-data")
 
 const drive = axios.create({
     baseURL: "https://drive.modlifes.me",
     headers: {
-        'Authorization': 'Bearer GjkhtiJ12!',
-        'Content-Type': ' multipart/form-data',
-    },  
+        Authorization: "Bearer GjkhtiJ12!",
+        "Content-Type": " multipart/form-data",
+    },
 })
 
 const uploadFile = async (req: Request | any | string, res: Response | any) => {
@@ -17,25 +17,25 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
 
     //save file to drive
     const formData = new fd()
-    const fileList = req.files;
-    fileList.map((file:any)=>{
-        formData.append('upload', file.buffer, file.originalname)
+    const fileList = req.files
+    fileList.map((file: any) => {
+        formData.append("upload", file.buffer, file.originalname)
     })
-    let resFileId:{
-        Id:string,
-        Name:string
-    }[] = [];
+    let resFileId: {
+        Id: string
+        Name: string
+    }[] = []
     const saveFile = await drive
-        .post("/",formData)
+        .post("/", formData)
         .then((res: any) => {
-            resFileId = res.data;
+            resFileId = res.data
         })
         .catch((err: any) => {
             console.log(err)
         })
     try {
         const payload: {
-            fileId: string,
+            fileId: string
             fileName: string
             fileSender: string
             sendType: string
@@ -44,7 +44,7 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
         }[] = []
         ;(req.files as Array<Express.Multer.File>).map((item: any) => {
             const newDate = new Date(req.body.expireDate)
-            const indexId = resFileId.findIndex((file:any)=>file.Name === item.originalname)
+            const indexId = resFileId.findIndex((file: any) => file.Name === item.originalname)
             payload.push({
                 fileId: resFileId[indexId].Id,
                 fileName: item.originalname,

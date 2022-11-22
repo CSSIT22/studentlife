@@ -59,41 +59,40 @@ export default function Drophistory<FC>() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isLoading, { off }] = useBoolean(true)
     const [selectedHistory, setSelectedHistory] = useState<{
-        historyType: string,
+        historyType: string
         file: {
-            fileSender: string,
-            fileName: string,
-            fileId: string,
+            fileSender: string
+            fileName: string
+            fileId: string
             sender: {
-                fName: string,
-                lName: string,
-            },
-            sendType: string,
-            fileExpired: string,
+                fName: string
+                lName: string
+            }
+            sendType: string
+            fileExpired: string
             comments: {
-                commentText: string,
+                commentText: string
                 commentor: {
-                    fName: string | undefined,
-                    lName: string | undefined,
-                },
-            }[],
+                    fName: string | undefined
+                    lName: string | undefined
+                }
+            }[]
         }
-    }>
-        ({
-            historyType: "",
-            file: {
-                fileSender: "",
-                fileName: "",
-                fileId: "",
-                sender: {
-                    fName: "",
-                    lName: "",
-                },
-                sendType: "",
-                fileExpired: "",
-                comments: [],
+    }>({
+        historyType: "",
+        file: {
+            fileSender: "",
+            fileName: "",
+            fileId: "",
+            sender: {
+                fName: "",
+                lName: "",
             },
-        })
+            sendType: "",
+            fileExpired: "",
+            comments: [],
+        },
+    })
     const [historyData, setHistoryData] = useState<any>(null)
     useEffect(() => {
         API.get("/airdrop/file/getHistory")
@@ -101,12 +100,12 @@ export default function Drophistory<FC>() {
                 console.log(res.data)
                 setHistoryData(res.data)
             })
-            .catch((err) => { })
+            .catch((err) => {})
             .finally(() => {
                 off()
             })
 
-        return () => { }
+        return () => {}
     }, [])
 
     const [commentText, setComment] = useState("")
@@ -118,7 +117,7 @@ export default function Drophistory<FC>() {
             fileId: selectedHistory.file.fileId,
             commentTxt: commentText,
         })
-            .then((res) => { })
+            .then((res) => {})
             .catch((err) => {
                 console.log(err)
                 toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
@@ -160,14 +159,14 @@ export default function Drophistory<FC>() {
                                 Date:{"   " + new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", { timeZone: "Asia/Bangkok" })}
                             </Text>{" "}
                         </HStack>
-                        {
-                            selectedHistory.file.comments.map((item: any) => {
-                                return (<>
+                        {selectedHistory.file.comments.map((item: any) => {
+                            return (
+                                <>
                                     <FileComment name={item.commentor.fName + " " + item.commentor.lName} comment={item.commentText} />
                                     <Divider />
-                                </>)
-                            })
-                        }
+                                </>
+                            )
+                        })}
                         <HStack>
                             <Input
                                 type={"text"}
@@ -219,7 +218,9 @@ export default function Drophistory<FC>() {
                                         <Box as={MdImage} size={"3rem"} />
                                         <Hide below={"md"}>
                                             <Text>
-                                                {item.file.fileName.length > 12 ? item.file.fileName.substring(0, 12) + "..." : item.file.fileName.concat(" ")}
+                                                {item.file.fileName.length > 12
+                                                    ? item.file.fileName.substring(0, 12) + "..."
+                                                    : item.file.fileName.concat(" ")}
                                             </Text>
                                         </Hide>
                                         {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}

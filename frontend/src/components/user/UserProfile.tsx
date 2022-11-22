@@ -52,8 +52,7 @@ import { BsThreeDotsVertical, BsFillFlagFill } from "react-icons/bs"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import { getPathContributingMatches } from "@remix-run/router/dist/utils"
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom"
 
 export default function SimpleThreeColumns() {
     const user = useContext(authContext)
@@ -61,7 +60,7 @@ export default function SimpleThreeColumns() {
 
     const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
     const btnRef = React.useRef(null)
-    let history = useNavigate();
+    let history = useNavigate()
     const [isFollow, setIsFollow] = useState(false)
     const [name, setName] = useState<any>()
     const [Phone, setPhone] = useState<any>()
@@ -71,7 +70,7 @@ export default function SimpleThreeColumns() {
     const [Years, setYears] = useState<any>()
     const [Address, setAddress] = useState<any>()
     useEffect(() => {
-        API.get("/user/profile/aboutme").then(res => {
+        API.get("/user/profile/aboutme").then((res) => {
             console.log(res.data)
         })
     }, [])
@@ -84,7 +83,7 @@ export default function SimpleThreeColumns() {
             Hobbies,
             Years,
         }).then(() => {
-            history('/read')
+            history("/read")
         })
     }
 
@@ -131,9 +130,7 @@ export default function SimpleThreeColumns() {
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <VStack align="stretch" alignItems="center" ml={7}>
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
+                        <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
                             <Avatar
                                 pt={2}
                                 mt={{ md: "-70px", base: "0" }}
@@ -144,8 +141,8 @@ export default function SimpleThreeColumns() {
                                 shadow="xl"
                                 name="Christian Nwamba"
                                 src="https://bit.ly/code-beast"
-                            /></motion.div>
-                        {" "}
+                            />
+                        </motion.div>{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : 9999
                         </Box>
@@ -168,8 +165,12 @@ export default function SimpleThreeColumns() {
                                 stiffness: 500,
                                 damping: 20,
                             }}
-                        > <Box fontSize={{ lg: "5xl", base: "xl" }}>{user?.fName} {user?.lName}</Box></motion.div>
-
+                        >
+                            {" "}
+                            <Box fontSize={{ lg: "5xl", base: "xl" }}>
+                                {user?.fName} {user?.lName}
+                            </Box>
+                        </motion.div>
                     </Stack>
 
                     <Stack direction={{ base: "column", lg: "row" }} alignItems="flex-start" spacing={-0.5} mb="5">
@@ -236,7 +237,12 @@ export default function SimpleThreeColumns() {
                                         </FormControl> */}
                                         <FormControl>
                                             <FormLabel>Birth Date</FormLabel>
-                                            <Input placeholder="Select Date and Time" size="md" type="date" onChange={(e) => setBirthDate(e.target.value)} />
+                                            <Input
+                                                placeholder="Select Date and Time"
+                                                size="md"
+                                                type="date"
+                                                onChange={(e) => setBirthDate(e.target.value)}
+                                            />
                                         </FormControl>
                                     </HStack>
 
@@ -278,7 +284,6 @@ export default function SimpleThreeColumns() {
                                         <FormLabel>Address</FormLabel>
                                         <Input placeholder="your address" onChange={(e) => setHobbies(e.target.value)} />
                                     </FormControl>
-
                                 </ModalBody>
 
                                 <ModalFooter>
@@ -289,8 +294,16 @@ export default function SimpleThreeColumns() {
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-                        <Button pl={5} bg="orange.600" _hover={{ background: "orange.200" }} width={{ lg: "9rem", base: "" }}
-                            height={{ lg: "3rem", base: "2rem" }} fontSize={{ base: "", lg: "lg" }} position="initial" shadow={"lg"}>
+                        <Button
+                            pl={5}
+                            bg="orange.600"
+                            _hover={{ background: "orange.200" }}
+                            width={{ lg: "9rem", base: "" }}
+                            height={{ lg: "3rem", base: "2rem" }}
+                            fontSize={{ base: "", lg: "lg" }}
+                            position="initial"
+                            shadow={"lg"}
+                        >
                             Create blog
                         </Button>{" "}
                     </ButtonGroup>
