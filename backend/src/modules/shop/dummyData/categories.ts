@@ -1,5 +1,5 @@
 import { Category } from "@apiType/shop"
-
+// 30 Categories
 let categories = [
     {
         id: 1,

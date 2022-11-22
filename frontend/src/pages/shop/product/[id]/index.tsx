@@ -21,6 +21,7 @@ const index = () => {
 
     const [product, setProduct] = useState<any>(null)
     const [reviews, setReviews] = useState<any>(null)
+    const [contact, setContact] = useState<any>(null)
 
     const [countReviews, setCountReviews] = useState(4)
     const [actionText, setActionText] = useState("Show All")
@@ -33,15 +34,22 @@ const index = () => {
     const [isErrorReview, { on: onR }] = useBoolean()
     const [isLoadingReview, { off: offR }] = useBoolean(true)
 
+    const [isErrorContact, { on: onC }] = useBoolean()
+    const [isLoadingContact, { off: offC }] = useBoolean(true)
+
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const getProductInfo = API.get("/shop/getProductInformation/" + param.id)
     const getAllReviews = API.get("/shop/getAllReviews/" + param.id)
-
+    let tempProd: any
     useEffect(() => {
-        getProductInfo.then((res) => setProduct(res.data)).catch((err) => on()).finally(() => off())
+        getProductInfo.then((res) => {setProduct(res.data); tempProd = res.data}).catch((err) => on()).finally(() => {
+            off()
+            API.get("/shop/getContactInfo/" + tempProd.contactId).then(res => setContact(res.data)).catch((err) => onC()).finally(() => offC())
+        })
         getAllReviews.then(res => setReviews(res.data)).catch(err => onR()).finally(() => offR())
     }, [])
+    
     if (isLoading) {
         return <>
             Loading
@@ -52,10 +60,6 @@ const index = () => {
             There is an Error
         </>)
     }
-    const contact =
-        contacts.find((c) => c.contactId === product.contactId) != undefined
-            ? contacts.filter((c) => c.contactId === product.contactId)[0]
-            : contacts[0]
 
     // Need to calculate overall rating
     let oRating: string | number = " No Rating Yet"
@@ -179,7 +183,7 @@ const index = () => {
     )
     const contactBox = (
         <ContentBox>
-            <Flex p="6" direction="column" gap="3">
+             {isLoadingContact ? "Loading ..." : <Flex p="6" direction="column" gap="3">  
                 <Text color="black" fontWeight="500" fontSize="lg">
                     Contact Details of {product.name}
                 </Text>
@@ -188,7 +192,8 @@ const index = () => {
                     {contact.lineId ? <Text>Line Id: {contact.lineId}</Text> : <Text></Text>}
                     {contact.address ? <Text>Address: {contact.address}</Text> : <Text></Text>}
                 </Flex>
-            </Flex>
+            </Flex>}
+            
         </ContentBox>
     )
     if (isErrorReview){
