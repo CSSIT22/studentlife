@@ -95,7 +95,7 @@ const Clist: FC<any> = () => {
     }
 
     const renderRoom = (e: any) => {
-        if (target === 1 && e.roomtype === "INDIVIDUAL") {
+        if (target === 1 && e.roomType === "INDIVIDUAL") {
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
@@ -108,7 +108,7 @@ const Clist: FC<any> = () => {
                         transitionDuration="300ms"
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
-                        
+
                     >
                         <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
@@ -164,7 +164,7 @@ const Clist: FC<any> = () => {
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
                 <Box overflowX={"auto"} maxH={"380px"}>
-                {renderSearch(search)}
+                    {renderSearch(search)}
                 </Box>
             </Flex>
         </Box>

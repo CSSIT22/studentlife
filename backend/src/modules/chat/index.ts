@@ -47,8 +47,11 @@ let Room: Room[] = [
 
 //routes
 
-chatRoutes.get("/", (req, res) => {
-    res.json(Room)
+chatRoutes.get("/", async (req, res) => {
+    const user = req.user?.userId
+    const prisma = res.prisma
+    const room = await await await prisma.chat_Room.findMany()
+    res.send(room)
 })
 
 chatRoutes.get("/:id", (req, res) => {

@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Hide, HStack, Input } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Hide, HStack, Input } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
@@ -122,9 +122,9 @@ const Room = () => {
                             <Box cursor={"pointer"} marginRight={4} >
                                 <BiSticker size={30} />
                             </Box>
-                            <Box cursor={"pointer"} marginRight={4} onClick={onSend}>
+                            <Button cursor={"pointer"} marginRight={4} onClick={onSend} disabled={(Text == "") ? true : false} variant={'unstyled'} >
                                 <FiSend size={30} />
-                            </Box>
+                            </Button>
                         </Flex>
                     </Flex>
                 </Box>
