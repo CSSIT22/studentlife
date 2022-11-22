@@ -22,4 +22,11 @@ export function generateProducts() {
     }
     return products
 }
+export function dateFormat(date: Date): string {
+    let dateF = "-" + (date.getMonth()+ 1) + "-" + date.getDate()
+    let hours = date.getHours() % 12
+    let amPm = date.getHours() > 12 ? "PM" : " AM"
+    let timeF = hours + ":" + date.getMinutes() + amPm
+    return dateF + " at " + timeF
+}
 export default convertCurrency

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import API from "src/function/API"
 
-import { Product } from "@apiType/shop"
+import { Product, Review } from "@apiType/shop"
 import { useParams } from "react-router-dom"
 import PageTitle from "src/components/shop/PageTitle"
 import ShopAppBody from "src/components/shop/ShopAppBody"
 import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast, Spacer, Center } from "@chakra-ui/react"
 import { contacts } from "src/components/shop/content/dummyData/contacts"
 import ContentBox from "src/components/shop/ContentBox"
-import convertCurrency from "src/components/shop/functions/usefulFunctions"
+import convertCurrency, { dateFormat } from "src/components/shop/functions/usefulFunctions"
 import ReviewItem from "src/components/shop/ReviewItem"
 import ThemedButton from "src/components/shop/ThemedButton"
 import { Autoplay, Keyboard, Pagination, Zoom, EffectFade } from "swiper"
@@ -18,16 +18,29 @@ import { BsStarFill } from "react-icons/bs"
 
 const index = () => {
     const param = useParams()
+
     const [product, setProduct] = useState<any>(null)
+    const [reviews, setReviews] = useState<any>(null)
+
     const [countReviews, setCountReviews] = useState(4)
     const [actionText, setActionText] = useState("Show All")
+
     const toast = useToast()
+
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
+
+    const [isErrorReview, { on: onR }] = useBoolean()
+    const [isLoadingReview, { off: offR }] = useBoolean(true)
+
     const { isOpen, onOpen, onClose } = useDisclosure()
+
     const getProductInfo = API.get("/shop/getProductInformation/" + param.id)
+    const getAllReviews = API.get("/shop/getAllReviews/" + param.id)
+
     useEffect(() => {
         getProductInfo.then((res) => setProduct(res.data)).catch((err) => on()).finally(() => off())
+        getAllReviews.then(res => setReviews(res.data)).catch(err => onR()).finally(() => offR())
     }, [])
     if (isLoading) {
         return <>
@@ -45,8 +58,11 @@ const index = () => {
             : contacts[0]
 
     // Need to calculate overall rating
-    const oRating = 4
-
+    let oRating: string | number = " No Rating Yet"
+    try{
+        oRating = calculateAvgReview(reviews[0])
+    } catch(e) {}
+    
     const productBox = (
         <Flex gap={2}>
             <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={2}>
@@ -137,7 +153,7 @@ const index = () => {
                 <Text fontWeight="500" color="black" fontSize="lg">
                     Reviews of {product.name}
                 </Text>
-                {generateReviews(countReviews)}
+                {isLoadingReview ? <>Loading ... </> : generateReviews(countReviews, reviews)}
                 <Flex justify="space-between" mt="7" wrap="wrap" gap="5">
                     <Button variant="link" onClick={onOpen}>
                         Write Your Own Review
@@ -175,6 +191,20 @@ const index = () => {
             </Flex>
         </ContentBox>
     )
+    if (isErrorReview){
+        return (
+            <ShopAppBody>
+                <PageTitle title="Product Details" />
+                <Flex direction="column" gap={6}>
+                    {productBox}
+                    {contentBox}
+                    {reviewBox}
+                    {contactBox}
+                </Flex>
+                <Box p="8"></Box>
+            </ShopAppBody>
+        )
+    }
     return (
         <ShopAppBody>
             <PageTitle title="Product Details" />
@@ -257,27 +287,46 @@ function slidesGenerator(product: any) {
     }
     return slides
 }
-function generateReviews(count: number) {
-    const reviews = []
-    if (count == -1) count = 50
-    for (let i = 0; i < count; i++) {
-        reviews.push(
+function generateReviews(count: number, reviews: any) {
+    try {
+        const returnReviews = []
+    let reviewO = reviews[0]
+    let userO = reviews[1]
+
+    for (let i = 0; i < reviewO.length; i++) {
+        let user = userO.filter((user: any) => user.userId === reviewO[i].userId)[0]
+        returnReviews.push(
             <ReviewItem
-                userName="Jack Phill"
-                userPhoto="https://i2-prod.getsurrey.co.uk/incoming/article14551754.ece/ALTERNATES/s1200d/Jack-Phillips-a-well-known-Titanic-hero-from-Godalming.jpg"
-                reviewTitle={"Wow Great"}
-                reviewBody={"I bought this phone and this has great features, I highly recommend buying this phone".repeat(5)}
-                rating={5}
-                image="https://auspost.com.au/shop/static/WFS/AusPost-Shop-Site/-/AusPost-Shop-auspost-B2CWebShop/en_AU/feat-cat/category-tiles/MP_UnlockedPhones_3.jpg"
-                reviewDate="09 Sep 2020"
-            ></ReviewItem>
-        )
+                userName={user.name}
+                userPhoto={user.image}
+                reviewTitle={reviewO[i].reviewName}
+                reviewBody={reviewO[i].reviewDesc}
+                rating={reviewO[i].reviewRating}
+                image={reviewO[i].reviewImage}
+                reviewDate= {reviewO[i].reviewAt}
+            ></ReviewItem>)
     }
     return (
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
-            {reviews}
+            {count == -1 ? returnReviews : returnReviews.slice(0,count)}
         </SimpleGrid>
     )
+    } catch (error) {
+        return (
+            <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+                No Reviews Found
+            </SimpleGrid>
+        )
+    }
+    
 }
-
+function calculateAvgReview(reviews:any) {
+        let oRating = 0
+        for (let i = 0; i < reviews.length; i++) {
+            oRating += reviews[i].reviewRating
+        }
+        return (oRating / reviews.length).toFixed(2)
+}
 export default index
+
+

@@ -19,3 +19,26 @@ export type Category = {
     name: string,
     image: string
 }
+
+export type Review = {
+    id: number,
+    userId: string,
+    productId: number,
+    reviewName: string,
+    reviewDesc: string,
+    reviewRating: number,
+    reviewAt: string,
+    reviewImage: string
+}
+
+export type ReiewData = {
+    id: number,
+    userName: string,
+    userImage: string,
+    productId: number,
+    reviewName: string,
+    reviewDesc: string,
+    reviewRating: number,
+    reviewAt: string,
+    reviewImage: string
+}
