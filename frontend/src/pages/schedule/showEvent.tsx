@@ -5,6 +5,12 @@ import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, Mod
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, useDisclosure, Text, Flex, Select, Switch, Input, Textarea } from "@chakra-ui/react"
 import { Grid, GridItem } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
+import {
+    Editable,
+    EditableInput,
+    EditableTextarea,
+    EditablePreview,
+  } from '@chakra-ui/react'
 
 const showEvent = () => {
     const modal2 = useDisclosure()
@@ -13,6 +19,7 @@ const showEvent = () => {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
+    
   return (
     <AppBody>
         <IconButton aria-label="previous" icon={<ChevronLeftIcon />} onClick={() => navigate("/schedule/timetable/")} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
