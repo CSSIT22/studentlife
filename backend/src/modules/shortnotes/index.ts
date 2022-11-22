@@ -21,8 +21,11 @@ shortnotesRoutes.use(express.json())
 shortnotesRoutes.get("/getShortnotes", async (req, res) => {
     const prisma = res.prisma
     const sn = await prisma.sn_Head.findMany()
+
+    const user = req.user?.userId
     //console.log(sn)
     res.send(sn)
+    console.log(user)
 })
 
 shortnotesRoutes.get("/getResentShortnotes", getResentShortnotes)
