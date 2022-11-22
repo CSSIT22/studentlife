@@ -22,7 +22,7 @@ const snList: FC<{
                 </GridItem>
                 <GridItem colSpan={2}>
                     <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
-                        <Text>{new Date(date).toLocaleDateString("en-us", { timeZone: "Asia/Bangkok" })}</Text>
+                        <Text>{new Date(date).toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={1} textAlign={"right"}>

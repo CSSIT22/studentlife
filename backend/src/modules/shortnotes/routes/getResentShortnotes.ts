@@ -9,27 +9,15 @@ const getResentShortnotes = async (req: Request, res: Response) => {
             where: {
                 userId: user,
             },
-            include: {
+            select: {
+                viewedAt: true,
                 shortNote: true,
             },
             orderBy: { viewedAt: "desc" },
             take: 3,
         })
         //console.log(rsn)
-
-        const idList = rsn.map((item: any) => {
-            return item.snId
-        })
-        //console.log(idList)
-
-        const newRsn: any = await prisma.sn_Head.findMany({
-            where: {
-                snId: { in: idList },
-            },
-        })
-
-        //console.log(newRsn)
-        res.send(newRsn)
+        res.send(rsn)
     } catch (err) {
         res.status(400).send("some error")
     }

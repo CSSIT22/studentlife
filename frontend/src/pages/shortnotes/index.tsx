@@ -80,7 +80,7 @@ const index = () => {
                                 pathname: "./" + "s/" + rsn.snId,
                             })
                         }}>
-                            <Rsn key={key} topic={rsn.snName}></Rsn>
+                            <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt}></Rsn>
 
                         </Box>
                     ))}
