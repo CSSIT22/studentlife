@@ -207,7 +207,6 @@ export default function Index<FC>() {
         files.map((item: any) => {
             fd.append("upload", item.file)
         })
-
         try {
             const res = await API.post("/airdrop/file/upload", fd, {
                 headers: {
@@ -216,10 +215,11 @@ export default function Index<FC>() {
             })
                 .then((res) => {
                     console.log(res)
-                })
-                .catch((err) => {
                     setConfirmDrop(false)
                     on()
+                })
+                .catch((err) => {
+                    console.log(err)
                 })
             console.log(res)
         } catch {
