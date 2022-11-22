@@ -4,12 +4,12 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
     const { prisma } = res
     const user = await req.user?.userId
     const fileID = req.params.fileid
-    const getFileFromService  = await axios.get(`https://drive.modlifes.me/${fileID}`,{
-        headers:{
-            'Authorization': 'Bearer GjkhtiJ12!',
-        }
+    const getFileFromService = await axios.get(`https://drive.modlifes.me/${fileID}`, {
+        headers: {
+            Authorization: "Bearer GjkhtiJ12!",
+        },
     })
-    
+
     let file = new Blob([getFileFromService.data])
 
     const payload: any = {

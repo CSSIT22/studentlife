@@ -449,55 +449,55 @@ export default function Index<FC>() {
                                                                         {textSearch == ""
                                                                             ? selectedType == "Community"
                                                                                 ? userList?.group.map((data, key) => {
-                                                                                    return (
-                                                                                        <option value={data} key={key}>
-                                                                                            {data}
-                                                                                        </option>
-                                                                                    )
-                                                                                })
+                                                                                      return (
+                                                                                          <option value={data} key={key}>
+                                                                                              {data}
+                                                                                          </option>
+                                                                                      )
+                                                                                  })
                                                                                 : selectedType == "Department"
-                                                                                    ? userList?.department.map((data, key) => {
-                                                                                        return (
-                                                                                            <option value={data} key={key}>
-                                                                                                {data}
-                                                                                            </option>
-                                                                                        )
-                                                                                    })
-                                                                                    : selectedType == "Specific"
-                                                                                        ? userList?.specific.map((data, key) => {
-                                                                                            return (
-                                                                                                <option value={data} key={key}>
-                                                                                                    {data}
-                                                                                                </option>
-                                                                                            )
-                                                                                        })
-                                                                                        : null
+                                                                                ? userList?.department.map((data, key) => {
+                                                                                      return (
+                                                                                          <option value={data} key={key}>
+                                                                                              {data}
+                                                                                          </option>
+                                                                                      )
+                                                                                  })
+                                                                                : selectedType == "Specific"
+                                                                                ? userList?.specific.map((data, key) => {
+                                                                                      return (
+                                                                                          <option value={data} key={key}>
+                                                                                              {data}
+                                                                                          </option>
+                                                                                      )
+                                                                                  })
+                                                                                : null
                                                                             : // text search not null
                                                                             selectedType == "Community"
-                                                                                ? filterReceiver?.community.map((data, key) => {
-                                                                                    return (
-                                                                                        <option value={data} key={key}>
-                                                                                            {data}
-                                                                                        </option>
-                                                                                    )
-                                                                                })
-                                                                                : selectedType == "Department"
-                                                                                    ? filterReceiver?.department.map((data, key) => {
-                                                                                        return (
-                                                                                            <option value={data} key={key}>
-                                                                                                {data}
-                                                                                            </option>
-                                                                                        )
-                                                                                    })
-                                                                                    : selectedType == "Specific"
-                                                                                        ? filterReceiver?.specific.map((data, key) => {
-                                                                                            return (
-                                                                                                <option value={data} key={key}>
-                                                                                                    {data}
-                                                                                                </option>
-                                                                                            )
-                                                                                        })
-                                                                                        : null}
+                                                                            ? filterReceiver?.community.map((data, key) => {
+                                                                                  return (
+                                                                                      <option value={data} key={key}>
+                                                                                          {data}
+                                                                                      </option>
+                                                                                  )
+                                                                              })
+                                                                            : selectedType == "Department"
+                                                                            ? filterReceiver?.department.map((data, key) => {
+                                                                                  return (
+                                                                                      <option value={data} key={key}>
+                                                                                          {data}
+                                                                                      </option>
+                                                                                  )
+                                                                              })
+                                                                            : selectedType == "Specific"
+                                                                            ? filterReceiver?.specific.map((data, key) => {
+                                                                                  return (
+                                                                                      <option value={data} key={key}>
+                                                                                          {data}
+                                                                                      </option>
+                                                                                  )
+                                                                              })
+                                                                            : null}
                                                                     </Select>
                                                                     <SimpleGrid columns={[1, 2, 3]}>
                                                                         {receiver.map((name: any) => {
