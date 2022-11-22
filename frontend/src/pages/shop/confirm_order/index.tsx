@@ -1,22 +1,15 @@
-import React, { FC } from 'react'
-import { Button, Flex, Heading, Image, Stack, Text, useColorModeValue, Box, GridItem, Checkbox, Input, Grid } from "@chakra-ui/react"
+import React from 'react'
+import { Button, Flex, Text, GridItem, Checkbox, Grid } from "@chakra-ui/react"
 import ShopAppBody from '../../../components/shop/ShopAppBody';
 import TitleBox from '../../../components/shop/TItleBox'
 import PageTitle from '../../../components/shop/PageTitle'
 import convertCurrency from "../../../components/shop/functions/usefulFunctions"
-import OrderedProductDisplay from '../../../components/shop/orders/OrderedProductDisplay';
+import OrderConfirmProduct from '../../../components/shop/orders/OrderConfirmProduct';
 import { DeleteIcon } from "@chakra-ui/icons"
 import { Link } from 'react-router-dom'
 import ContentBox from "../../../components/shop/ContentBox"
 import ThemedButton from "../../../components/shop/ThemedButton"
-const ConfirmOrder: FC<{
-    id: number
-    name: string
-    price: number
-    quantity: number
-    image: string
-    link: string
-}> = ({ id, name, price, quantity, image, link }) => {
+const ConfirmOrder = () => {
     const selectBox = (
         <ContentBox bg="#fff">
             <Flex justify="space-between" wrap="wrap">
@@ -64,7 +57,7 @@ const ConfirmOrder: FC<{
                 </Flex>
                 <Flex justify="center" >
                     <Link to="../shop/order_completed">
-                        <ThemedButton>PROCEED TO PAYMENT</ThemedButton>
+                        <ThemedButton>PAY NOW</ThemedButton>
                     </Link>
                 </Flex>
             </Flex>
@@ -79,9 +72,9 @@ const ConfirmOrder: FC<{
                 <GridItem colSpan={{ base: 2, md: 1 }}>
                     <Flex direction="column" gap={2}>
                         <TitleBox title="Order Includes" />
-                        <Box bg='#fff' boxShadow='lg' borderRadius='lg'>
+                        <Grid bg='#fff' boxShadow='lg' borderRadius='lg'>
                             {generateCartProducts()}
-                        </Box>
+                        </Grid>
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={{ base: 2, md: 1 }}>
@@ -98,15 +91,15 @@ export function generateCartProducts() {
     let products = []
     for (let i = 0; i < 3; i++) {
         products.push(
-            <GridItem bg="" borderBottom="1px">
-                <OrderedProductDisplay
+            <GridItem bg="" borderBottom="1px" pl='2'>
+                <OrderConfirmProduct
                     id={1}
                     name="Pen"
                     price={10000}
                     quantity={2}
                     image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
                     link="/shop/product/productDetail"
-                ></OrderedProductDisplay>
+                ></OrderConfirmProduct>
             </GridItem>
         )
     }
