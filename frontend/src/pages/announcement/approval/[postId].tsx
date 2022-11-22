@@ -4,7 +4,7 @@ import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import ModalForEvent from "../../../components/annoucement/ModalForEvent"
 import AppBody from "../../../components/share/app/AppBody"
-import {post} from '@apiType/announcement'
+import { post } from '@apiType/announcement'
 import { postInfoTest } from "../postInfoTest"
 import API from "src/function/API"
 
@@ -16,7 +16,7 @@ const approvalDetail = () => {
     // const post = postInfoTest.filter((el) => {
     //     return el.postId == parseInt(params + "")
     // }
-    
+
     const [post, setpost] = React.useState<post[]>([])
     const [targetType, setTargetType] = React.useState()
     const [targetValue, setTargetValue] = React.useState()
@@ -38,23 +38,23 @@ const approvalDetail = () => {
 
     useEffect(() => {
         getPost()
-     },[])
+    }, [])
 
     // useEffect(() => {
     //     getData.then((item) => setpost(item.data)).catch((err) => on())
     // }, [])
- 
- 
+
+
     // const targetType = post.map((el) => el.targetType)
     // const targetValue = post.map((el)=> el.targetValue)
     // console.log(targetType[0], targetValue[0])
 
     const changeStatus = (status: string) => {
-        if(status == "approve"){
-            API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:true})
-            API.post<post>("/announcement/gettargetgroup", {postId:parseInt(params.postId+""), targetType:targetType, targetValue:targetValue })
-        }else if(status == "disapprove"){
-            API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:false})
+        if (status == "approve") {
+            API.post<post>("/announcement/editstatusonapprove", { postId: parseInt(params.postId + ""), status: status, isapprove: true })
+            API.post<post>("/announcement/gettargetgroup", { postId: parseInt(params.postId + ""), targetType: targetType, targetValue: targetValue })
+        } else if (status == "disapprove") {
+            API.post<post>("/announcement/editstatusonapprove", { postId: parseInt(params.postId + ""), status: status, isapprove: false })
 
         }
     }
@@ -103,7 +103,7 @@ const approvalDetail = () => {
             <Box width="100%" p="5" mt="14">
                 <Flex justifyContent={"space-between"}>
                     <Link to={"/announcement/approval"}>
-                        <Button  bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("approve")}>
+                        <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("approve")}>
                             Approve
                         </Button>
                     </Link>

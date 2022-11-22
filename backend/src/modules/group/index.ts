@@ -9,7 +9,6 @@ import getCommunityPost from "./routes/community/post/getCommunityPost"
 import searchCommunity from "./routes/searchCommunity"
 import deleteFile from "./routes/community/file/deleteFile"
 
-
 const groupRoutes = express()
 groupRoutes.use(express.json())
 
@@ -141,13 +140,10 @@ groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.search("/searchCommunity", searchCommunity)
 groupRoutes.get("/editCommunity", editCommunity)
 
-
 groupRoutes.get("/getCommunityFile", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 
-
 groupRoutes.get("/getCommunityPost", getCommunityPost)
-
 
 groupRoutes.get("/getCommunityMember", getCommunityMember)
 
