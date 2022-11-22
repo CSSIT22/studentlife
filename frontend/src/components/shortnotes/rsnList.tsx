@@ -12,14 +12,12 @@ const rsnList: FC<{
                 {topic}
             </GridItem>
             <GridItem>
-                <Flex w={"100%"} h={"100%"} justifyContent={"end"} alignItems={"end"}>
+                <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"end"}>
                     <Text fontSize={"xs"}  >
                         Viewed at {new Date(viewAt).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
                     </Text>
                 </Flex>
-
             </GridItem>
-
         </Grid>
     )
 }

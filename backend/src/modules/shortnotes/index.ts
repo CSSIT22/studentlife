@@ -1,6 +1,7 @@
 import { prisma } from "@prisma/client"
 import express from "express"
 import getCourses from "./routes/getCourses"
+import getLibrary from "./routes/getLibrary"
 import getResentShortnotes from "./routes/getResentShortnotes"
 import postShortnote from "./routes/postShortnote"
 const shortnotesRoutes = express()
@@ -28,6 +29,8 @@ shortnotesRoutes.get("/getShortnotes", async (req, res) => {
 shortnotesRoutes.get("/getResentShortnotes", getResentShortnotes)
 
 shortnotesRoutes.get("/getCourses", getCourses)
+
+shortnotesRoutes.get("/getLibrary", getLibrary)
 
 shortnotesRoutes.post("/postShortnote", postShortnote)
 
