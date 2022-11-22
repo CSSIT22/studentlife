@@ -1,7 +1,8 @@
+import { Request, Response } from "express"
 const path = require("path")
 const axios = require("axios")
 import { Blob } from "buffer"
-const downloadFile = async (req: Request | any, res: Response | any) => {
+const downloadFile = async (req: Request, res: Response) => {
     const { prisma } = res
     const user = await req.user?.userId
     const fileID = req.params.fileid
@@ -11,7 +12,7 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
         },
     })
 
-    let file = new Blob(getFileFromService.data)
+    let file = new Blob([getFileFromService.data])
 
     const payload: any = {
         fileId: fileID,
@@ -28,8 +29,9 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
         console.log(err)
     }
     res.type(file.type)
-    file.arrayBuffer().then((buf) => {
-        res.send(Buffer.from(buf))
-    })
+    // file.arrayBuffer().then((buf) => {
+    //     res.send(Buffer.from(buf))
+    // })
+    res.download(getFileFromService.data)
 }
 export default downloadFile
