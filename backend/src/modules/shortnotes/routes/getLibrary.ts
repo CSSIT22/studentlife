@@ -15,7 +15,7 @@ const getLibrary = async (req: Request, res: Response) => {
                 },
             },
             where: {
-                userId: req.body.user,
+                userId: user,
             },
         })
         //console.log(li)

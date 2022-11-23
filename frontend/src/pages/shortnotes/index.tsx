@@ -14,7 +14,7 @@ const index = () => {
     useEffect(() => {
         API.get("/shortnotes/getShortnotes").then((item) => {
             setSn(item.data)
-            console.log(item.data)
+            //console.log(item.data)
         })
     }, [])
 
@@ -22,7 +22,7 @@ const index = () => {
     useEffect(() => {
         API.get("/shortnotes/getResentShortnotes").then((item) => {
             setRsn(item.data)
-            console.log(item.data)
+            //console.log(item.data)
         })
     }, [])
 
@@ -30,7 +30,7 @@ const index = () => {
     useEffect(() => {
         API.get("/shortnotes/getCourses").then((item) => {
             setCourse(item.data)
-            console.log(item.data)
+            //console.log(item.data)
         })
     }, [])
     const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()

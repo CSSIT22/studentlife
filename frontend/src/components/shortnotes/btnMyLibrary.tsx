@@ -16,65 +16,65 @@ import {
     DrawerContent,
     DrawerCloseButton,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { BiLibrary } from "react-icons/bi"
 import LiList from "./liList"
 import InLiList from "./inLiList"
 import { Link } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io"
+import API from "src/function/API"
 
 const btnMyLibrary = () => {
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
     const { isOpen: nliIsOpen, onOpen: nliOnOpen, onClose: nliOnClose } = useDisclosure()
     const { isOpen: inliIsOpen, onOpen: inliOnOpen, onClose: inliOnClose } = useDisclosure()
 
-    const [picked, setPicked] = useState("")
     const [nPicked, setNPicked] = useState("")
-    {
-        /*}
-    async function openNli() {
-        await nliOnOpen()
-        await mliOnClose()
-    }
-    async function closeNli() {
-        await nliOnClose()
-        await mliOnOpen()
-    }
-    async function openInLi() {
-        await inliOnOpen()
-        await mliOnClose()
-    }
-    async function closeInli() {
-        await inliOnClose()
-        await mliOnOpen()
-    }
-*/
+
+    const [li, setLii] = useState([])
+    useEffect(() => {
+        API.get("/shortnotes/getLibrary").then((item) => {
+            setLii(item.data)
+        })
+    }, [])
+
+    const [picked, setPicked] = useState()
+    const [selectedLi, setSelectedLi] = useState<any>([])
+    useEffect(() => {
+        inLibraryFilter()
+    }, [picked])
+
+    const inLibraryFilter = () => {
+        setSelectedLi(li.filter((items: any) => items.libId == picked))
+        console.log(selectedLi);
+
     }
 
-    const li = [
-        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "Network midterm", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
-        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "Year 1 term 2 ", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
-    ]
-    const inLi = [
-        {
-            topic: "How to make ER diagram in 10 minutes.",
-            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            course: "CSC218",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-        },
-        {
-            topic: "How to make ER diagram in 10 minutess.",
-            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            course: "CSC218",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-        },
-        {
-            topic: "How to make ER diagram in 10 minutesss.",
-            liId: "grehg343-gj54-4bad-9gre-fkg9fidhjd89",
-            course: "CSC218",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-        },
-    ]
+
+    // const li = [
+    //     { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "Network midterm", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
+    //     { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "Year 1 term 2 ", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
+    // ]
+    // const inLi = [
+    //     {
+    //         topic: "How to make ER diagram in 10 minutes.",
+    //         liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //         course: "CSC218",
+    //         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //     },
+    //     {
+    //         topic: "How to make ER diagram in 10 minutess.",
+    //         liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //         course: "CSC218",
+    //         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //     },
+    //     {
+    //         topic: "How to make ER diagram in 10 minutesss.",
+    //         liId: "grehg343-gj54-4bad-9gre-fkg9fidhjd89",
+    //         course: "CSC218",
+    //         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    //     },
+    // ]
 
     return (
         <Box>
@@ -95,29 +95,18 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            {li.map((li, key) => (
+                            {li.map((lii: any, key) => (
                                 <Box
                                     as="button"
                                     onClick={() => {
-                                        setNPicked(li.name) //collect selected li.name
-                                        setPicked(li.id) //collect selected li.id
+                                        setNPicked(lii.libName) //collect selected li.name
+                                        setPicked(lii.libId) //collect selected li.id
                                         inliOnOpen()
-                                        console.log(picked)
                                     }}
                                 >
-                                    <LiList name={li.name}></LiList>
+                                    <LiList name={lii.libName}></LiList>
                                 </Box>
                             ))}
-                            {/* <Box as="button" onClick={inliOnOpen}>
-                                <LiList name={"midterm y2/1"}></LiList>
-                            </Box>
-                            <LiList name={"Network"}></LiList>
-                            <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList>
-                            <LiList name={"midterm y2/1"}></LiList>
-                            <LiList name={"Network"}></LiList>
-                            <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList> */}
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
@@ -163,19 +152,10 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <VStack spacing={4}>
-                            {inLi.map((inLi, key) => (
-                                <InLiList name={inLi.topic} course={inLi.course} />
+                            {selectedLi.map((filter: any) => (
+                                <InLiList name={filter.libId} course={filter.libName} />
                             ))}
-                            {/* <Box w={"100%"}>
-                                <Link to={"./shortnoteDetail"}>
-                                    <InLiList name={"Shortnote 001"} course={"CSC213"} />
-                                </Link>
-                            </Box>
-                            <InLiList name={"Shortnote 002"} course={"CSC214"} />
-                            <InLiList name={"Shortnote 003"} course={"CSC215"} />
-                            <InLiList name={"Shortnote 001"} course={"CSC213"} />
-                            <InLiList name={"Shortnote 002"} course={"CSC214"} />
-                            <InLiList name={"Shortnote 003"} course={"CSC215"} /> */}
+
                         </VStack>
                     </DrawerBody>
 
