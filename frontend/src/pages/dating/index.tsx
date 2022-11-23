@@ -1,7 +1,7 @@
 import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text } from "@chakra-ui/react"
 import { CARD_QUEUE } from "src/components/dating/shared/card_queue"
 import DatingAppBody from "src/components/dating/DatingAppBody"
-import React, { useState, useMemo, useRef, FC, RefObject } from "react"
+import React, { useState, useMemo, useRef, FC, RefObject, useEffect } from "react"
 import { AnimationControls, useAnimation } from "framer-motion"
 import DatingRandomTag from "src/components/dating/DatingRandomTag"
 import DatingRandomCrossButton from "src/components/dating/DatingRandomCrossButton"
@@ -10,8 +10,9 @@ import DatingRandomDetails from "src/components/dating/DatingRandomDetails"
 import DatingRandomBase from "src/components/dating/DatingRandomBase"
 import TinderCard from "react-tinder-card"
 import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import ProfileImg from "../../components/dating/pic/profile.png"
+import API from "src/function/API"
 
 const RandomCardInside: FC<{
     childRefs: RefObject<any>[]
@@ -274,6 +275,40 @@ const DatingRandomCard: FC<{
 }
 
 const DatingRandomization = () => {
+
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (didMount) {
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                API.get("/dating/verifyEnroll/getDatingOptions")
+                    .then((datingOptions) => {
+                        if (!datingEnroll.data.hasCompleteSetting) {
+                            navigate("/dating/interests")
+                            if (!datingOptions.data.userId) {
+                                // navigate("/dating/option")
+                                if (!datingEnroll.data.hasCompleteTutorial) {
+                                    navigate("/dating/tutorial");
+                                }
+                            }
+                        }
+
+                    })
+
+            })
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     // used to determine the current index of the card
     const [currentIndex, setCurrentIndex] = useState(CARD_QUEUE.length - 1)
     // retrieved from database

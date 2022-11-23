@@ -4,11 +4,35 @@ import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioB
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingOptionRangeSlider from "../../components/dating/DatingOptionRangeSlider"
 import DatingOptionAccordion from "../../components/dating/DatingOptionAccordion"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 declare global {
     var age: number[], gender: string, faculty: string[], useAge: boolean
 }
 const DatingOption = () => {
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (didMount) {
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (!datingEnroll.data.hasCompleteTutorial) {
+                    navigate("/dating/tutorial");
+                }
+            })
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     //set default value from database by using condition from here
     const options = ["Male", "Female", "Everyone"] // Gender type
     const faculties = [

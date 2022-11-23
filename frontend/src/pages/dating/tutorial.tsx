@@ -46,6 +46,18 @@ const Tutorial = () => {
         }
     })
 
+    function checkOption() {
+        API.get("/dating/verifyEnroll/getDatingOptions")
+            .then((datingOptions) => {
+                if (!datingOptions.data.userId) {
+                    navigate("/dating/option")
+                }
+                else {
+                    navigate("/dating/")
+                }
+            })
+    }
+
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
         useEffect(() => {
@@ -62,8 +74,8 @@ const Tutorial = () => {
 
     function handleSubmit() {
         API.post("/dating/tutorial/setDatingEnroll")
-                    .then(() => navigate("/dating/"))
-                    .catch((err) => {toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }), setIsError(true)})
+            .then(() => checkOption())
+            .catch((err) => { toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }), setIsError(true) })
     }
 
     return (
@@ -354,7 +366,7 @@ const Tutorial = () => {
                                         <Center>
 
 
-                                            <Button onClick={() => {on(), handleSubmit()}} className="swiper-no-swiping" colorScheme="orange" w={{ base: "179px", md: "183px" }} h={{ base: "53px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" mt={{ base: "45px", md: "24px" }}>
+                                            <Button onClick={() => { on(), handleSubmit() }} className="swiper-no-swiping" colorScheme="orange" w={{ base: "179px", md: "183px" }} h={{ base: "53px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" mt={{ base: "45px", md: "24px" }}>
                                                 <Box>
                                                     <Text fontWeight="700"
                                                         fontSize="14px"
