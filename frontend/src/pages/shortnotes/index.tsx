@@ -77,7 +77,7 @@ const index = () => {
                     {rsn.map((rsn: any, key) => (
                         <Box as="button" onClick={() => {
                             navigate({
-                                pathname: "./" + "s/" + rsn.snId,
+                                pathname: "./" + "s/" + rsn.shortNote.snId,
                             })
                         }}>
                             <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt}></Rsn>
@@ -104,7 +104,7 @@ const index = () => {
                         <Text alignSelf={"start"}>Course</Text>
                         <Select focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
                             {course.map((course: any, key) => (
-                                <option value={course}>{course}</option>
+                                <option value={course.courseName}>{course.courseName}</option>
                             ))}
                         </Select>
                     </VStack>
