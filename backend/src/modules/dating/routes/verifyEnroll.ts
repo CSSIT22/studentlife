@@ -42,7 +42,6 @@ verifyEnrollRoutes.get("/getDatingOptions", verifyUser, async (req: Request, res
                     userId: true
                 }
             })
-            console.log(dating_OptionsDB)
             return res.send(dating_OptionsDB)
         }
     } catch (err) {
