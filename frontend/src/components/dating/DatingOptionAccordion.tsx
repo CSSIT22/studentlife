@@ -1,22 +1,31 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Stack } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { DatingOptionMultipleChoose } from "./DatingOptionMultipleChoose"
+import { AllFaculty } from "@apiType/dating"
 
 const DatingOptionAccordion: FC<{
-    faculties: string[]
-    selectedFac: string[]
-    setSelectedFac: React.Dispatch<React.SetStateAction<string[]>>
+    faculties: AllFaculty[]
+    selectedFac: AllFaculty[]
+    setSelectedFac: React.Dispatch<React.SetStateAction<AllFaculty[]>>
     getCheckboxProps: any
 }> = ({ faculties, selectedFac, setSelectedFac, getCheckboxProps }) => {
+
+    // let array: 
+    // function addFac() {
+    //     for (let i = 0; i < faculties.length, i++) {
+
+    //     }
+    // }
+
     function handleFac(fac: any) {
-        let arr: string[] = selectedFac
+        let arr: AllFaculty[] = selectedFac
         if (fac === "All Faculty") {
             if (arr.includes(fac)) {
                 setSelectedFac([])
             } else setSelectedFac(faculties)
             return
         }
-        console.log("This arr: " + arr)
+        // console.log("This arr: " + arr)
         if (!arr.includes(fac)) {
             arr = [...arr, fac]
             arr.sort()
