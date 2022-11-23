@@ -46,13 +46,7 @@ const DatingRandomFaculty: FC<{
                         </Text>
 
                         {/* Gender & Age */}
-                        <Text
-                            color="black"
-                            fontWeight="400"
-                            fontSize={{ base: "20px", md: "48px" }}
-                            lineHeight="120%"
-                            pl="18px"
-                        >
+                        <Text color="black" fontWeight="400" fontSize={{ base: "20px", md: "48px" }} lineHeight="120%" pl="18px">
                             {characters[currentIndex].Gender}, {characters[currentIndex].Age}
                         </Text>
                     </Box>

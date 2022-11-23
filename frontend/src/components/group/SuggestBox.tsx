@@ -14,8 +14,9 @@ const SuggestBox: FC<{
             _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }}
             borderRadius="md"
             backgroundColor="white"
-            boxShadow={'lg'}
-            mt={2}>
+            boxShadow={"lg"}
+            mt={2}
+        >
             <Box
                 sx={{
                     background: "tomato",
@@ -30,7 +31,6 @@ const SuggestBox: FC<{
             ></Box>
             <Box p={3} borderRadius="md">
                 <Flex direction={"column"} gap={2} justify="space-between">
-
                     <div>
                         <Box display="flex" alignItems="center" gap={1}>
                             {isPrivate ? <MdPublicOff /> : <MdPublic />}
@@ -42,7 +42,7 @@ const SuggestBox: FC<{
                             {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
                         </Text>
                     </div>
-                    <Button _hover={{ background: 'orange.200' }} background={'orange.500'} color='white' size="sm">
+                    <Button _hover={{ background: "orange.200" }} background={"orange.500"} color="white" size="sm">
                         Join Community
                     </Button>
                 </Flex>

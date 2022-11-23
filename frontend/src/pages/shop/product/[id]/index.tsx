@@ -5,7 +5,32 @@ import { Product } from "@apiType/shop"
 import { useParams } from "react-router-dom"
 import PageTitle from "src/components/shop/PageTitle"
 import ShopAppBody from "src/components/shop/ShopAppBody"
-import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast } from "@chakra-ui/react"
+import {
+    Image,
+    Text,
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Grid,
+    GridItem,
+    HStack,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    SimpleGrid,
+    Textarea,
+    useBoolean,
+    useDisclosure,
+    useToast,
+} from "@chakra-ui/react"
 import { contacts } from "src/components/shop/content/dummyData/contacts"
 import ContentBox from "src/components/shop/ContentBox"
 import convertCurrency from "src/components/shop/functions/usefulFunctions"
@@ -25,17 +50,16 @@ const index = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const getProductInfo = API.get("/shop/getProductInformation/" + param.id)
     useEffect(() => {
-        getProductInfo.then((res) => setProduct(res.data)).catch((err) => on()).finally(() => off())
+        getProductInfo
+            .then((res) => setProduct(res.data))
+            .catch((err) => on())
+            .finally(() => off())
     }, [])
     if (isLoading) {
-        return <>
-            Loading
-        </>
+        return <>Loading</>
     }
     if (isError) {
-        return (<>
-            There is an Error
-        </>)
+        return <>There is an Error</>
     }
     const contact =
         contacts.find((c) => c.contactId === product.contactId) != undefined
@@ -44,8 +68,6 @@ const index = () => {
 
     // Need to calculate overall rating
     const oRating = 4
-
-
 
     const productBox = (
         <ContentBox>
@@ -82,12 +104,19 @@ const index = () => {
                     <Text>Delivery Fees: {convertCurrency(product.deliveryFee)}</Text>
                 </GridItem>
                 <GridItem colSpan={4}>
-                    <ThemedButton width="full" onClick={() => toast({
-                        title: 'Product Added to Cart Successfully',
-                        status: 'success',
-                        isClosable: true,
-                        duration: 1500,
-                    })}>Add to Cart</ThemedButton>
+                    <ThemedButton
+                        width="full"
+                        onClick={() =>
+                            toast({
+                                title: "Product Added to Cart Successfully",
+                                status: "success",
+                                isClosable: true,
+                                duration: 1500,
+                            })
+                        }
+                    >
+                        Add to Cart
+                    </ThemedButton>
                 </GridItem>
             </Grid>
         </ContentBox>
@@ -219,11 +248,7 @@ function slidesGenerator(product: any) {
     for (let i = 0; i < 5; i++) {
         slides.push(
             <SwiperSlide>
-                <Image
-                    borderRadius="3xl"
-                    src={product.image}
-                    width={"auto"}
-                ></Image>
+                <Image borderRadius="3xl" src={product.image} width={"auto"}></Image>
             </SwiperSlide>
         )
     }

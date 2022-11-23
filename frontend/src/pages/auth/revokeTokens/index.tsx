@@ -175,7 +175,7 @@ const index = () => {
                             clickable: true,
                         }}
                         modules={[Navigation]}
-                    // className="mySwiper"
+                        // className="mySwiper"
                     >
                         {tokens.map((item, index) => {
                             return (

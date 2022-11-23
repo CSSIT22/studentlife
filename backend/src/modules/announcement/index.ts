@@ -1,5 +1,5 @@
 import { verifyUser } from "./../backendService/middleware/verifyUser"
-import { post} from "./../../../../types/announcement/index"
+import { post } from "./../../../../types/announcement/index"
 import express from "express"
 import { getHeapCodeStatistics } from "v8"
 import getDetail from "./routes/getdetail"
@@ -202,7 +202,7 @@ export const setPost = (newData: post[]) => {
     posts = newData
 }
 
-announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
+announcementRoutes.get("/getPostOnAnnouncement", (req, res) => {
     const minute = 1000 * 60
     const hour = minute * 60
     const day = hour * 24
@@ -211,7 +211,7 @@ announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
     let selectpost: post[] = []
     getPost().forEach((post) => {
         if (post.isApprove == true) {
-            if(post.status == "approve"){
+            if (post.status == "approve") {
                 const expired = new Date(post.expiredOfPost)
                 const expiredPost = Math.round(expired.getTime() / day)
                 const diff = expiredPost - currentD
@@ -219,7 +219,6 @@ announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
                     selectpost.push(post)
                 }
             }
-
         }
     })
     res.send(selectpost)
@@ -237,7 +236,7 @@ announcementRoutes.get("/getdetailedit/:id", getDetailEdit)
 
 announcementRoutes.post("/gettargetgroup", getTargetGroup)
 
-announcementRoutes.post("/editpinstatus",editPinStatus)
+announcementRoutes.post("/editpinstatus", editPinStatus)
 
 announcementRoutes.post("/editstatusonapprove", editstatusOnApproval)
 
@@ -247,9 +246,7 @@ announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
 
 announcementRoutes.post("/editdetailpost", editDetailPost)
 
-announcementRoutes.post("/createpost", createPost )
-
-
+announcementRoutes.post("/createpost", createPost)
 
 // announcementRoutes.get("/test", async (req,res) =>{
 //     const prisma = res.prisma
