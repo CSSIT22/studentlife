@@ -73,7 +73,7 @@ const index = () => {
                 <BtnMl />
             </HStack>
             <Box mt={4} mb={12}>
-                <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
+                <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
                     {rsn.map((rsn: any, key) => (
                         <Box as="button" onClick={() => {
                             navigate({

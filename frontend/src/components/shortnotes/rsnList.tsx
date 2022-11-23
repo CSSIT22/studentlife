@@ -6,7 +6,7 @@ const rsnList: FC<{
     viewAt: any
 }> = ({ topic, viewAt }) => {
     return (
-        <Grid templateRows={"repeat(3, 1fr)"} boxShadow={"md"} bg={"white"} rounded={8} px={2} py={2}>
+        <Grid templateRows={"repeat(3, 1fr)"} boxShadow={"md"} bg={"white"} rounded={8} px={2} py={2} _hover={{ bg: '#f5f5f5' }} transition='all 0.2s cubic-bezier(.08,.52,.52,1)'>
             <Spacer />
             <GridItem>
                 {topic}
