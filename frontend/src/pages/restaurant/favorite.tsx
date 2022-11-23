@@ -1,13 +1,21 @@
 import { Heading, Box, Grid, GridItem, Button } from "@chakra-ui/react"
-import React from "react"
+import React, { useEffect } from "react"
 import { Link, useParams } from "react-router-dom"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
-import { Restaurant } from "./data/restaurant"
+import API from "src/function/API"
+import { key } from "localforage"
 
 function favorite() {
-    const showfv = Restaurant.filter((e1) => e1.status === true)
+    // const showfv = Restaurant.filter((e1) => e1.status === true)
+    const params = useParams()
+    const [property, setproperty] = React.useState<any>([])
+
+    useEffect(() => {
+        API.get("/restaurant/favorite?userid=" + "101").then((item) => setproperty(item.data))
+    }, [])
+
     return (
         <AppBody
             secondarynav={[
@@ -18,11 +26,11 @@ function favorite() {
         >
             <Searchbar />
 
-            <Heading color={"#E65300"} mt={"20px"} textAlign="center">
+            <Heading color={"##000000"} mt={"20px"} textAlign="center">
                 Favorite
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
-                {showfv.map((e1) => {
+                {property.map((e1: any) => {
                     return (
                         <GridItem>
                             <FavoriteContent

@@ -16,21 +16,20 @@ const ShowImage: FC<{
                 loop={true}
                 pagination={{ clickable: true }}
             >
-                <SwiperSlide>
-                    <Center>
-                        <Image borderRadius="3xl" src={img[0]} width={"28rem"} height={"21rem"}></Image>
-                    </Center>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Center>
-                        <Image borderRadius="3xl" src={img[1]} width={"28rem"} height={"21rem"}></Image>
-                    </Center>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Center>
-                        <Image borderRadius="3xl" src={img[2]} width={"28rem"} height={"21rem"}></Image>
-                    </Center>
-                </SwiperSlide>
+                {img.map((m) => {
+                    return (
+                        <SwiperSlide>
+                            <Center>
+                                <Image
+                                    borderRadius="3xl"
+                                    src={m}
+                                    width={{ base: "17rem", sm: "24rem" }}
+                                    height={{ base: "23rem", sm: "19rem" }}
+                                ></Image>
+                            </Center>
+                        </SwiperSlide>
+                    )
+                })}
             </Swiper>
         </Box>
     )

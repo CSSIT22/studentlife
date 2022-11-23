@@ -7,11 +7,6 @@ import {
     Flex,
     Spacer,
     HStack,
-    SimpleGrid,
-    VStack,
-    Select,
-    ButtonGroup,
-    Divider,
     GridItem,
     Grid,
     Modal,
@@ -22,15 +17,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    Input,
-    Textarea,
-    useRadioGroup,
-    useRadio,
-    Center,
-    InputGroup,
-    InputRightElement,
     Stack,
-    Square,
     Drawer,
     DrawerBody,
     DrawerFooter,
@@ -38,22 +25,23 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    RadioGroup,
-    Radio,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
     IconButton,
-    color,
+    chakra,
+    useCheckboxGroup,
+    useCheckbox,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import search from "src/pages/restaurant/search"
+import { BsCheckLg } from "react-icons/bs"
 
 const liList: FC<{
     topic: String
@@ -79,6 +67,38 @@ const liList: FC<{
         { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
         { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
     ]
+    function CustomCheckbox(props: any) {
+        const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
+
+        return (
+            <chakra.label gridColumnGap={2} bg="white" h={100} shadow={"xl"} rounded={8} p={2} cursor="pointer" {...htmlProps}>
+                <input {...getInputProps()} hidden />
+
+                <Grid templateColumns="repeat(3, 1fr)" h={"100%"} w={"100%"}>
+                    <GridItem colSpan={2}>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"}>
+                            <Heading size={"md"}>{props.name}</Heading>
+                        </Flex>
+                    </GridItem>
+                    <GridItem>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"end"} alignItems={"center"} pr={30}>
+                            {/* {state.isChecked && <Box w={"100%"} h={"100%"} bg="orange.500" rounded={8} />} */}
+
+                            {state.isChecked && (
+                                // <Box bg={"white"} p={4} shadow={"md"}>
+                                <BsCheckLg fontSize={30} color={"#e65d10"} />
+
+                                // </Box>
+                            )}
+                        </Flex>
+                    </GridItem>
+                </Grid>
+            </chakra.label>
+        )
+    }
+    const { value, getCheckboxProps } = useCheckboxGroup({
+        //defaultValue: ["grehg343-gj54-4bad-9gre-fkg9fidhjd89"],
+    })
     return (
         <Box>
             <HStack>
@@ -108,7 +128,9 @@ const liList: FC<{
             </Box>
             <Box mb={4}>
                 <Heading size={"md"}>Link</Heading>
-                <Text>{link}</Text>
+                <Link to={"./fileId"}>
+                    <Text color={"blue.500"}>{link}</Text>
+                </Link>
             </Box>
             <HStack>
                 {/* <HStack>
@@ -163,14 +185,11 @@ const liList: FC<{
                     <DrawerHeader>
                         <HStack gap={4}>
                             <Heading size={"lg"}> My library</Heading>
-                            {/*<Link to={"./library/newLibrary"}>
-                                    <Button colorScheme="orange">New library</Button>
-                                </Link>*/}
                         </HStack>
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            {li.map((li, key) => (
+                            {/* {li.map((li, key) => (
                                 <Box
                                     as="button"
                                     onClick={() => {
@@ -181,19 +200,17 @@ const liList: FC<{
                                 >
                                     <LiList name={li.name}></LiList>
                                 </Box>
+                            ))} */}
+                            {li.map((li, key) => (
+                                <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)} />
                             ))}
-                            {/* <LiList name={"Network"}></LiList>
-                            <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList>
-                            <LiList name={"midterm y2/1"}></LiList>
-                            <LiList name={"Network"}></LiList>
-                            <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList>
-                            <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList> */}
                         </Stack>
                     </DrawerBody>
-                    <DrawerFooter></DrawerFooter>
+                    <DrawerFooter>
+                        <Button w={"100%"} colorScheme={"orange"}>
+                            Done
+                        </Button>
+                    </DrawerFooter>
                 </DrawerContent>
             </Drawer>
         </Box>

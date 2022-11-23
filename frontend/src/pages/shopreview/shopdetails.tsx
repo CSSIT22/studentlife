@@ -15,12 +15,18 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Textarea,
+    Input,
+    Image,
+    Container,
 } from "@chakra-ui/react"
 import AmountRate from "src/components/shopreview/AmountRate"
 import AmountReview from "src/components/shopreview/AmountReview"
 import LocationShop from "src/components/shopreview/LocationShop"
 import Myreview from "src/components/shopreview/Myreview"
 import Rate from "src/components/shopreview/Rate"
+import RatingStar from "src/components/shopreview/RatingStar"
+import ReviewDetail from "src/components/shopreview/ReviewDetail"
 import ShopDetailName from "src/components/shopreview/ShopDetailName"
 import AppBody from "../../components/share/app/AppBody"
 // import Rating from "../rating"
@@ -32,7 +38,7 @@ const shopdetails = () => {
             <ShopDetailName name={"ป้าตุ๊กข้าวมันไก่"} />
             <Box
                 flex={1}
-                bgImage={"url('https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSEmAUm74bI2EL8Sb34rOSLQkKjXQF.jpg')"}
+                bgImage={"https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSEmAUm74bI2EL8Sb34rOSLQkKjXQF.jpg"}
                 shadow={"lg"}
                 w={"100%"}
                 height={"sm"}
@@ -67,7 +73,7 @@ const shopdetails = () => {
             </Flex>
 
             <Box flex={1} shadow={"lg"} color="white" rounded={0}>
-                <AspectRatio ratio={16 / 9} w={"100%"} height={"sm"}>
+                <AspectRatio ratio={16 / 9} w={"100%"} height={"160px"}>
                     <iframe
                         src={
                             "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.1066061015226!2d100.49433491529686!3d13.651278603291741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a251bb6b0cf1%3A0xf656e94ff13324ad!2z4Lih4Lir4Liy4Lin4Li04LiX4Lii4Liy4Lil4Lix4Lii4LmA4LiX4LiE4LmC4LiZ4LmC4Lil4Lii4Li14Lie4Lij4Liw4LiI4Lit4Lih4LmA4LiB4Lil4LmJ4Liy4LiY4LiZ4Lia4Li44Lij4Li1!5e0!3m2!1sth!2sth!4v1634524662484!5m2!1sth!2sth"
@@ -80,12 +86,14 @@ const shopdetails = () => {
             <LocationShop location={" 69 m.12 Prachauthid, Bangkok 212510"} phoneNumber={"099-123-4567"} />
 
             <Rate />
+
             <Box onClick={onOpen} as="button" mt={3} width={"100%"}>
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
                     + Addyour
                 </Heading>
                 {/* pop ups  */}
             </Box>
+
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -93,75 +101,68 @@ const shopdetails = () => {
                         <Heading>Add Review</Heading>
                     </ModalHeader>
                     <ModalCloseButton />
-                    {/* <Rating /> */}
-                    {/* <Flex direction={"row"} justifyContent={"space-around"}>
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                    </Flex> */}
 
-                    <ModalBody>Hello</ModalBody>
+                    <ModalBody>
+                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+
+                        <Textarea
+                            colorScheme="white"
+                            focusBorderColor="black"
+                            placeholder="Add review"
+                            marginTop={"5"}
+                            minHeight={"100px"}
+                            maxHeight={"200px"}
+                        ></Textarea>
+                        <Input type={"file"} id="id" hidden multiple></Input>
+                        <Box
+                            onClick={() => {
+                                document.getElementById("id")?.click()
+                            }}
+                            as="button"
+                            paddingTop={"10px"}
+                        >
+                            <Image
+                                src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
+                                width={"40px"}
+                                borderRadius="full"
+                                marginLeft={"1"}
+                                marginTop={"-58px"}
+                                padding={"4px"}
+                            />
+                        </Box>
+                    </ModalBody>
 
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button variant="ghost">Secondary Action</Button>
+                        <Button bgColor={"green"} color="white">
+                            Submit
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-                <Myreview
+                <ReviewDetail
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
+                    name={"Micky"}
                     ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
+                    date={"2022/05/18"}
                 />
-                <Myreview
+                <ReviewDetail
                     image={
                         "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
                     }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
-                />
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Joeleely"}
-                    ment={"Love this so much!!!"}
-                    date={"18 พ.ย. 2022"}
+                    name={"Minny"}
+                    ment={"Yummy"}
+                    date={"2020/10/10"}
                 />
             </SimpleGrid>
+            <Container my={5} textAlign={"center"}>
+                That's all~
+            </Container>
         </AppBody>
     )
 }

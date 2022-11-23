@@ -3,43 +3,10 @@ import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import FileComment from "src/components/airdrop/FileComment"
 import FileList from "src/components/airdrop/FileList"
-import { HiUpload, HiDownload, HiUser } from "react-icons/hi"
-import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
-import {
-    Container,
-    Flex,
-    HStack,
-    Icon,
-    Text,
-    VStack,
-    Box,
-    Divider,
-    Hide,
-    IconButton,
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverHeader,
-    PopoverBody,
-    PopoverFooter,
-    PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
-    useDisclosure,
-    Button,
-    ButtonGroup,
-    ModalBody,
-    Modal,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
-    Heading,
-    ModalFooter,
-    Input,
-    Fade,
-    ScaleFade,
-} from "@chakra-ui/react"
+import { HiUpload, HiDownload } from "react-icons/hi"
+import { MdOutlineHistory } from "react-icons/md"
+import API from "src/function/API"
+import { Text, Box, Divider, useDisclosure, Fade, useBoolean, useToast, Spinner } from "@chakra-ui/react"
 import axios from "axios"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
@@ -52,19 +19,54 @@ export const fileListContext = createContext<any>({
     setFileList: () => {},
 })
 export default function Receivedrop<FC>() {
+    const toast = useToast()
+    const [isLoading, { off }] = useBoolean(true)
+    const [isError, { on }] = useBoolean(false)
     const { isOpen, onToggle } = useDisclosure()
     const [fileList, setFileList] = useState<any>([])
     //get file function
     const fetchAllFile = async () => {
-        const res = await axios.get("http://localhost:8000/airdrop/file/getallfile", {
+        const res = await API.get("/airdrop/file/getallfile", {
             withCredentials: true,
         })
-        setFileList(res.data)
+            .then((res) => {
+                if (fileList.length === 0) {
+                    setFileList(res.data)
+                } else {
+                    if (res.data.length !== fileList.length) {
+                        setFileList(res.data)
+                    }
+                }
+            })
+            .catch((err) => {
+                on()
+            })
+            .finally(() => {
+                off()
+            })
     }
-
+    // initial get file
     useEffect(() => {
         fetchAllFile()
         onToggle()
+    }, [])
+    useEffect(() => {
+        if (isError) {
+            toast({
+                title: "Error",
+                description: "Please Log In Before Using",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+    }, [isError])
+    // cronjob update file
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchAllFile()
+        }, 1000)
+        return () => clearInterval(interval)
     }, [])
     return (
         <AppBody secondarynav={linkMenu}>
@@ -75,13 +77,24 @@ export default function Receivedrop<FC>() {
                 {/* component for list will coming sooner */}
                 <Divider />
                 <fileListContext.Provider value={{ fileList, setFileList }}>
-                    {fileList?.map((item: any, key: any) => {
-                        return (
-                            <Fade in={isOpen} unmountOnExit key={key}>
-                                <FileList info={item} key={key} elementid={key} fadeToggle={onToggle} />
-                            </Fade>
-                        )
-                    })}
+                    {isLoading ? (
+                        <Fade in={isLoading} unmountOnExit={true}>
+                            <Box w={"100%"} h={"30vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                                <Spinner />
+                                <Text fontSize={"2xl"}> Loading...</Text>
+                            </Box>
+                        </Fade>
+                    ) : (
+                        <>
+                            {fileList?.map((item: any, key: any) => {
+                                return (
+                                    <Fade in={isOpen} unmountOnExit key={key}>
+                                        <FileList info={item} key={key} elementid={key} fadeToggle={onToggle} />
+                                    </Fade>
+                                )
+                            })}
+                        </>
+                    )}
                 </fileListContext.Provider>
             </PageBox>
         </AppBody>

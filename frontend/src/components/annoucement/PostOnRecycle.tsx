@@ -1,5 +1,6 @@
 import { Flex, Heading, Spacer, Box, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
+import { VscDebugRestart } from "react-icons/vsc"
 
 const PostOnRecycle: FC<{
     topic: string
@@ -17,8 +18,9 @@ const PostOnRecycle: FC<{
             width={"100%"}
             p="5"
             mt="5"
-            backgroundColor="#D9D9D9"
+            backgroundColor="white"
             rounded="lg"
+            shadow={"md"}
             onClick={() => {
                 onClick(id, status), onOpen()
             }}
@@ -30,12 +32,13 @@ const PostOnRecycle: FC<{
                     <Text fontSize={"xs"}>{sender}</Text>
                 </Box>
                 <Spacer />
-                <Box textAlign={"right"}>
-                    <Text fontSize={"xs"} as="b">
+                <Flex direction={"column"} alignItems="end">
+                    <VscDebugRestart fontSize={"2rem"} color="#E65D10" />
+                    {/* <Text fontSize={"xs"} as="b">
                         remaining
-                    </Text>
+                    </Text> */}
                     <Text fontSize={"xs"}>{expired}</Text>
-                </Box>
+                </Flex>
             </Flex>
         </Box>
     )

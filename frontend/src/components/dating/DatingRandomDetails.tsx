@@ -21,7 +21,7 @@ const DatingRandomFaculty: FC<{
     })
     return (
         <>
-            <Box pt={{ base: "468px", md: "30px" }}>
+            <Box pt={{ base: "15px", md: "30px" }}>
                 <motion.div
                     key={currentIndex}
                     initial={{ scale: 0 }}
@@ -46,13 +46,7 @@ const DatingRandomFaculty: FC<{
                         </Text>
 
                         {/* Gender & Age */}
-                        <Text
-                            color="black"
-                            fontWeight={{ base: "400", md: "700" }}
-                            fontSize={{ base: "20px", md: "48px" }}
-                            lineHeight="120%"
-                            pl="18px"
-                        >
+                        <Text color="black" fontWeight="400" fontSize={{ base: "20px", md: "48px" }} lineHeight="120%" pl="18px">
                             {characters[currentIndex].Gender}, {characters[currentIndex].Age}
                         </Text>
                     </Box>

@@ -26,6 +26,13 @@ import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
+import http from "http"
+import { Server as IOServer, Socket } from "socket.io"
+import { verify } from "jsonwebtoken"
+import { DefaultEventsMap } from "socket.io/dist/typed-events"
+import chatSocket from "./modules/chat/chatStocket"
+import notiSocket from "./modules/notification/notiSocket"
+import { set, deleteKey } from "./modules/backendService/socketstore/store"
 
 const PORT = 8000
 const app = express()
@@ -124,4 +131,40 @@ app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
 
-app.listen(PORT, () => console.log(`running on ${PORT} !`))
+const server = http.createServer(app)
+
+const io = new IOServer(server)
+
+io.use((socket, next) => {
+    try {
+        const token = socket.handshake.headers.authorization
+        console.log(token)
+        if (!token) {
+            throw new Error("not authorized")
+        }
+        const decoded = verify(token, process.env.COOKIE_SECRET || "") as { userId: string }
+
+        set(socket.id, decoded.userId)
+        return next()
+    } catch (err) {
+        console.log(err)
+        return next(new Error("not authorized"))
+    }
+})
+
+io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+    chatSocket(socket)
+
+    notiSocket(socket)
+
+    socket.on("disconnect", (reason) => {
+        deleteKey(socket.id)
+    })
+    // console.log(store)
+
+    console.log(socket.handshake.headers)
+    console.log("Hello")
+})
+
+server.listen(PORT, () => console.log(`running on ${PORT} !`))
+// app.listen(PORT, () => console.log(`running on ${PORT} !`))

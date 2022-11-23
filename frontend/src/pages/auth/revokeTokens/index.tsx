@@ -1,4 +1,4 @@
-import { Box, Text, Flex, Stack, HStack, Icon, VStack, Button } from "@chakra-ui/react"
+import { Box, Text, Flex, Stack, HStack, Icon, VStack, Button, useDisclosure, Show, Hide } from "@chakra-ui/react"
 import { Pagination, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import AppBody from "../../../components/share/app/AppBody"
@@ -7,12 +7,14 @@ import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
 import api from "../../../function/API"
-import { useContext, useEffect, useState } from "react"
+import { FC, ReactNode, useContext, useEffect, useState } from "react"
 import { authContext } from "src/context/AuthContext"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, extendTheme } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 
 const Card = (props: any) => {
     return (
-        <Box bg="white" p={4} width={"100%"} borderRadius="lg">
+        <Box bg="white" p={4} width={"100%"} borderRadius="lg" boxShadow="lg" border="1px" borderColor="gray.300">
             <Box>{props.icon}</Box>
             <Box>
                 <Text fontSize={"3xl"}>{props.title}</Text>
@@ -26,113 +28,193 @@ const Card = (props: any) => {
     )
 }
 
+const breakpoints = {
+    sm: "320px",
+    md: "768px",
+    lg: "960px",
+    xl: "1200px",
+    "2xl": "1536px",
+}
+
+const theme = extendTheme({ breakpoints })
+
 const index = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const user = useContext(authContext)
     const [tokens, setTokens] = useState<any[]>([])
+    let dateLogin = new Date()
+
     async function handleRevoke(token: string) {
-        const res = await api.post("/backendservice/revokeTokens", {
-            token: token,
-            userId: tokens[0].userId,
+        const res = await api.delete("/backendservice/revokeTokens", {
+            data: {
+                token: token,
+                userId: tokens[0].userId,
+            },
         })
-        setTokens([...tokens.filter((item) => item.token !== res.data.token)])
+        if (res.data.isLogoutCurrentDevice) {
+            await api.get("auth/logout")
+        } else setTokens([...tokens.filter((item) => item.token !== res.data.token)])
         console.log(res)
     }
+
     async function getTokensInfo() {
         const getTokens = await api.get("/backendservice/tokens")
         setTokens([...tokens, ...getTokens.data.tokens])
+        dateLogin = tokens.filter((item) => item.currentDevice)[0].detail.loginDate
     }
+
     useEffect(() => {
         getTokensInfo()
     }, [])
+
+    const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean }> = ({ modalHeader, token, isCurrentDevice }) => {
+        const navigate = useNavigate()
+        return (
+            <>
+                <Button onClick={onOpen} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
+                    Revoke
+                </Button>
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>{modalHeader}</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            {isCurrentDevice ? (
+                                <p>
+                                    This is your <b>current device</b>.
+                                </p>
+                            ) : (
+                                <p>This will logout you out from selected device.</p>
+                            )}
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button colorScheme={"red"} variant={"solid"} color={"white"} backgroundColor={"red.400"} mr={3} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    handleRevoke(token)
+                                    onClose()
+                                    if (isCurrentDevice) navigate("/auth")
+                                }}
+                                colorScheme={"green"}
+                                variant={"solid"}
+                                color={"white"}
+                                backgroundColor={"green.400"}
+                            >
+                                Confirm
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </>
+        )
+    }
 
     console.log(tokens)
 
     return (
         <AppBody>
-            <Box bg="tomato" w="100%" p={4} color="white">
-                <Flex justify={"end"}>
-                    <Stack>
-                        <Text as={"b"} fontSize="3xl">
-                            Welcome! {user?.fName} {user?.lName}
-                        </Text>
-                        <Text alignSelf={"end"} fontSize="xl">
-                            {new Date().toISOString().substring(0, 10)}
-                        </Text>
-                    </Stack>
-                </Flex>
-            </Box>
-            <Box bg="lightblue" w="100%" p={4} color="black">
+            <Hide below="sm">
+                <Box w="100%" p={4} color="black">
+                    <Flex justify={"end"}>
+                        <Stack>
+                            <Text as={"b"} fontSize="3xl">
+                                Welcome! {user?.fName} {user?.lName}
+                            </Text>
+                            <Text alignSelf={"end"} fontSize="xl">
+                                {dateLogin.toISOString().substring(0, 10)}
+                            </Text>
+                        </Stack>
+                    </Flex>
+                </Box>
+            </Hide>
+            {/* <Hide below="sm"> */}
+            <Box w="100%" p={4} color="black">
                 <Text as={"b"} fontSize="3xl">
                     Device Statistics
                 </Text>
-                <HStack p={4} justify={"space-between"}>
+                <Stack direction={["column", "row"]} p={4} justify={"space-between"}>
                     <Card title="1" detail="Online Devices" />
                     <Card title="1" detail="Offline Devices" />
                     <Card title={tokens.length} detail="Total Devices" />
-                </HStack>
+                </Stack>
             </Box>
-            <Box bg="lightgreen" p={4}>
-                <Text as={"b"} fontSize="3xl">
+            {/* </Hide> */}
+            <Box p={4}>
+                <Text as={"b"} fontSize="3xl" color="black">
                     Overview
                 </Text>
-                <Swiper
-                    slidesPerView={3}
-                    spaceBetween={20}
-                    // slidesPerGroup={1}
-                    loop={false}
-                    loopFillGroupWithBlank={true}
-                    pagination={{
-                        clickable: true,
-                    }}
-                    navigation={true}
-                    modules={[Pagination, Navigation]}
-                    className="mySwiper"
-                    width={750}
-                >
-                    {tokens.map((item, index) => {
-                        return (
-                            <SwiperSlide key={index}>
-                                <Box bg={"gray.400"} borderRadius={"lg"} h={"100%"}>
-                                    <Flex alignItems="center" justifyContent={"center"}>
-                                        <VStack alignItems="center" justifyContent={"center"} m={"6"}>
-                                            <Text color={"white"} fontSize={"2xl"}>
-                                                Device {index + 1}
-                                            </Text>
-                                            <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"lg"} maxH={"155"}>
-                                                {item.detail.deviceInfo === "desktop" && (
-                                                    <Flex alignItems={"center"} justifyContent={"center"}>
-                                                        <Icon as={MdDesktopWindows} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
-                                                    </Flex>
-                                                )}
-                                                {item.detail.deviceInfo === "tablet" && (
-                                                    <Flex alignItems={"center"} justifyContent={"center"}>
-                                                        <Icon as={MdTabletMac} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
-                                                    </Flex>
-                                                )}
-                                                {item.detail.deviceInfo === "mobile" && (
-                                                    <Flex alignItems={"center"} justifyContent={"center"}>
-                                                        <Icon as={MdPhoneIphone} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
-                                                    </Flex>
-                                                )}
-                                            </Box>
-                                            <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
-                                            <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
-                                            <Button
-                                                onClick={() => handleRevoke(item.token)}
-                                                bg={"gray.700"}
-                                                color={"white"}
-                                                w={"100%"}
-                                                _hover={{ color: "black", bg: "gray.500" }}
-                                            >
-                                                Revoke
-                                            </Button>
-                                        </VStack>
-                                    </Flex>
-                                </Box>
-                            </SwiperSlide>
-                        )
-                    })}
-                </Swiper>
+                <Box pt={8} px={[0, 0, 50, 100]}>
+                    <Swiper
+                        breakpoints={{
+                            1200: {
+                                slidesPerView: 3,
+                                spaceBetween: 20,
+                                navigation: true,
+                            },
+                            960: {
+                                slidesPerView: 3,
+                                spaceBetween: 20,
+                            },
+                            820: {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                            },
+                            390: {
+                                slidesPerView: 1,
+                            },
+                        }}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        modules={[Navigation]}
+                        // className="mySwiper"
+                    >
+                        {tokens.map((item, index) => {
+                            return (
+                                <SwiperSlide key={index}>
+                                    <Box bg={"gray.400"} borderRadius={"lg"} w={"100%"} h={"100%"} boxShadow="lg" border="1px" borderColor="gray.300">
+                                        <Flex alignItems="center" justifyContent={"center"}>
+                                            <VStack alignItems="center" justifyContent={"center"} m={"6"}>
+                                                <Text color={"white"} fontSize={"2xl"}>
+                                                    Device {index + 1}
+                                                </Text>
+                                                <Box bg={"white"} borderRadius={"full"} w={["100%", "100%", "100%", "100%"]} h={"100%"}>
+                                                    {item.detail.deviceInfo === "desktop" && (
+                                                        <Flex alignItems={"center"} justifyContent={"center"}>
+                                                            <Icon as={MdDesktopWindows} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
+                                                        </Flex>
+                                                    )}
+                                                    {item.detail.deviceInfo === "tablet" && (
+                                                        <Flex alignItems={"center"} justifyContent={"center"}>
+                                                            <Icon as={MdTabletMac} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
+                                                        </Flex>
+                                                    )}
+                                                    {item.detail.deviceInfo === "smartphone" && (
+                                                        <Flex alignItems={"center"} justifyContent={"center"}>
+                                                            <Icon as={MdPhoneIphone} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
+                                                        </Flex>
+                                                    )}
+                                                </Box>
+                                                <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
+                                                <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
+                                                {/* Insert CustomModal here */}
+                                                <CustomModal modalHeader="Are you sure?" token={item.token} isCurrentDevice={item.currentDevice} />
+                                            </VStack>
+                                        </Flex>
+                                    </Box>
+                                </SwiperSlide>
+                            )
+                        })}
+                    </Swiper>
+                </Box>
             </Box>
         </AppBody>
     )
