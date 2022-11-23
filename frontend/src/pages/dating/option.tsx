@@ -6,11 +6,34 @@ import DatingOptionRangeSlider from "../../components/dating/DatingOptionRangeSl
 import DatingOptionAccordion from "../../components/dating/DatingOptionAccordion"
 import { AllFaculty } from "@apiType/dating"
 import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 declare global {
     var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean
 }
 const DatingOption = () => {
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (didMount) {
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (!datingEnroll.data.hasCompleteTutorial) {
+                    navigate("/dating/tutorial");
+                }
+            })
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     //set default value from database by using condition from here
     useEffect(() => {
         // if (didMount) {
@@ -22,18 +45,10 @@ const DatingOption = () => {
     })
     // const [isError, { on }] = useBoolean()
     // const [isLoading, { off }] = useBoolean(true)
-    const didMount = useDidMount()
     const options = ["Male", "Female", "Everyone"] // Gender type
     const [faculties, setFaculties] = useState<AllFaculty[]>(globalThis.faculty) //For Faculties
 
-    function useDidMount() {
-        const [didMount, setDidMount] = useState(true)
-        useEffect(() => {
-            setDidMount(false)
-        }, [])
 
-        return didMount
-    }
 
     // const faculties = [
     //     "All Faculty",
