@@ -25,31 +25,30 @@ const DatingAppBody = (props: any) => {
     return (
         // We use AppBody from shared component.
         <AppBody
-            userSelect={props.userSelect}
             secondarynav={[
                 {
-                    name: "Discovery",
+                    name: "Randomization",
                     to: "/dating",
                     Icon: isMobile ? RandomizationWhiteImg : RandomizationBlackImg,
                 },
                 {
-                    name: "History",
+                    name: "Heart checking",
                     to: "/dating/likedyou",
                     Icon: isMobile ? HeartCheckingWhiteImg : HeartCheckingBlackImg,
                 },
                 {
-                    name: "Matches",
+                    name: "You are match with",
                     to: "/dating/match",
                     Icon: isMobile ? YouAreMatchWithWhiteImg : YouAreMatchWithBlackImg,
                 },
                 {
-                    name: "Activity polls",
+                    name: "Activity poll",
                     to: "/dating/poll",
                     Icon: isMobile ? ActivityPollWhiteImg : ActivityPollBlackImg,
                 },
                 {
-                    name: "Interests",
-                    to: "/dating/interests",
+                    name: "Tag of interest",
+                    to: "/dating/interest",
                     isRight: true,
                     disableText: true,
                     Icon: isMobile ? TagOfInterestWhiteImg : TagOfInterestBlackImg,
@@ -63,7 +62,7 @@ const DatingAppBody = (props: any) => {
                 },
                 {
                     name: "Tutorial",
-                    to: "/dating/tutorial",
+                    to: "/dating/tutorial/welcome",
                     isRight: true,
                     disableText: true,
                     Icon: isMobile ? DatingTutorialWhiteImg : DatingTutorialBlackImg,

@@ -3,7 +3,7 @@ import { ChakraTheme, extendTheme } from "@chakra-ui/react"
 const styles: ChakraTheme["styles"] = {
     global: (props) => ({
         "html, body": {
-            background: "orange.50",
+            background: "gray.50",
             color: "gray.600",
         },
         "::-webkit-scrollbar": {
