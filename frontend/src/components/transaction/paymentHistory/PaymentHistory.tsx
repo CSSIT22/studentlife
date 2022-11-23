@@ -2,7 +2,6 @@
 
 const PaymentHistory = () => {
     return (
-
         // <Box bg="#E67F45" w="680px" h="750px" maxW="700px" m="auto" mt="75px" borderWidth="1px" borderRadius="3xl">
         //     <Box bg="white" w="620px" h="635px" p="30px" mt="30px" ml="30px" borderWidth="1px" borderRadius="2xl">
         //         <Text fontSize="2xl" fontWeight="semibold" p="5px" mt="7px" ml="20px">

@@ -24,10 +24,12 @@ const storage = multer.diskStorage({
         cb(null, req.user?.userId + file.originalname + extname(file.originalname))
     },
 })
-const upload = multer({ storage: storage })
+// const upload = multer({ storage: storage })
+const upload = multer()
 
 const fileRoutes = express()
 fileRoutes.use(express.json())
+fileRoutes.use(express.urlencoded({ extended: true }))
 
 fileRoutes.get("/", async (req: Request, res: Response) => {
     res.send(" Welcome to airdrop file API")
@@ -35,8 +37,9 @@ fileRoutes.get("/", async (req: Request, res: Response) => {
 
 fileRoutes.get("/getallfile", verifyUser, getAllFile)
 fileRoutes.get("/comment", getHistory)
-fileRoutes.get("/download/:type/:filename", downloadFile)
-fileRoutes.post("/upload", verifyUser, upload.array("files"), uploadFile)
+fileRoutes.get("/download/:fileid", downloadFile)
+fileRoutes.post("/upload", upload.array("upload"), uploadFile)
+// fileRoutes.post("/upload", verifyUser, upload.array("files"), uploadFile)
 fileRoutes.post("/hidefile", hideFile)
 fileRoutes.post("/comment", commentFile)
 fileRoutes.get("/gethistory", getHistory)

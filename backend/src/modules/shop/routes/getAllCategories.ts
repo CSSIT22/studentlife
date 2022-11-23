@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import {Category} from "@apiType/shop"
+import { Category } from "@apiType/shop"
 import { getCategories } from "../dummyData/categories"
 const getAllCategories = (req: Request, res: Response) => {
     try {

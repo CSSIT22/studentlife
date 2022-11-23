@@ -20,7 +20,7 @@ import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
 import { Link, useParams } from "react-router-dom"
-import {addMoreLangType, post} from '@apiType/announcement'
+import { addMoreLangType, post } from "@apiType/announcement"
 import API from "src/function/API"
 import MoreLangForEdit from "src/components/annoucement/MoreLangForEdit"
 import AppBody from "src/components/share/app/AppBody"
@@ -41,7 +41,7 @@ const history = () => {
     const [targetType, setTargetType] = React.useState<string | undefined>()
     const [targetValue, setTargetValue] = React.useState<string>()
     const [expired, setExpired] = React.useState<string | undefined>()
-    const [toggle,settoggle] = useState(false)
+    const [toggle, settoggle] = useState(false)
     const [post, setpost] = React.useState<post[]>([])
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
@@ -49,38 +49,33 @@ const history = () => {
     const [add, setAdd] = React.useState(0)
     const [exmoreLang, setexMoreLang] = React.useState<addMoreLangType[]>([])
     const [count, setCount] = React.useState(0)
-    const [disable ,setdisable] = useState(true)
+    const [disable, setdisable] = useState(true)
 
     const tog = () => {
         settoggle(!toggle)
     }
 
-   
+    let d: Date
 
-    let d:Date;
-    
     const [tt, settt] = useState<addMoreLangType[]>([])
-    
+
     async function getPost() {
-        const getData = await API.get("/announcement/getdetailedit/"+params.postId)
+        const getData = await API.get("/announcement/getdetailedit/" + params.postId)
         setpost(getData.data)
         setTopic(getData.data.topic)
         setDetail(getData.data.detail)
         setTargetType(getData.data.targetType)
         setTargetValue(getData.data.targetValue)
         d = new Date(getData.data.expiredOfPost)
-        setExpired(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate())
+        setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
         setexMoreLang(getData.data.addMoreLang)
     }
-    console.log(post);
+    console.log(post)
     const moreLangLength = exmoreLang.length
-   
 
-    
     useEffect(() => {
         getPost()
-     },[toggle])
-
+    }, [toggle])
 
     const onOpen = () => {
         setIsOpen(true)
@@ -125,7 +120,7 @@ const history = () => {
             return ""
         }
     }
-    
+
     // console.log(addMoreLang);
     // const updatePost = () => {
     //     setAllPost(
@@ -144,29 +139,25 @@ const history = () => {
     // }
     // console.log(allPost)
 
-   
     const onAdd = () => {
         setAdd(add + 1)
     }
 
-
     const addLang = (lang: number, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { id:addMoreLang.length,lang_id: lang, topic: topic, detail: detail }])
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, lang_id: lang, topic: topic, detail: detail }])
     }
- 
- 
+
     const increaseCount = () => {
         setCount(count + 1)
         AddLang()
     }
-    const decreaseCount = (id:number) => {
+    const decreaseCount = (id: number) => {
         setCount(count - 1)
         decreaseLang()
         setAddMoreLang(addMoreLang.filter((el) => el.id != id))
     }
     // console.log(count)
-   
-   
+
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])
     }
@@ -175,15 +166,12 @@ const history = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-    console.log(moreLangLength);
-    console.log(addMoreLang.length);
+    console.log(moreLangLength)
+    console.log(addMoreLang.length)
     const onDisable = () => {
         setdisable(!disable)
     }
     // console.log(disable);
-    
-    
-
 
     const updateMoreLang = (add: Number) => {
         if (add == moreLangLength) {
@@ -198,7 +186,7 @@ const history = () => {
                         dt={el.detail}
                         key={el.id}
                         onAdd={onAdd}
-                        add={true}           
+                        add={true}
                     />
                 )
             })
@@ -221,7 +209,7 @@ const history = () => {
         }
     }
     const showMoreLang = (moreLangLength: Number, add: Number) => {
-        if (moreLangLength > 0 ) {
+        if (moreLangLength > 0) {
             return (
                 <>
                     <Text fontSize={"0.8rem"} color="red.300" mt="5">
@@ -238,7 +226,6 @@ const history = () => {
         }
     }
 
-   
     const disabledDates = () => {
         var today, dd, mm, yyyy
         today = new Date()
@@ -249,16 +236,15 @@ const history = () => {
     }
     const submit = () => {
         API.post<post>("/announcement/editdetailpost", {
-                postid:parseInt(params.postId+""),
-                topic: topic,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                postat: new Date(),
-                expiredpost:  expired,
-                addMoreLang: addMoreLang
+            postid: parseInt(params.postId + ""),
+            topic: topic,
+            detail: detail,
+            targetType: targetType,
+            targetValue: targetValue,
+            postat: new Date(),
+            expiredpost: expired,
+            addMoreLang: addMoreLang,
         })
-        
     }
     return (
         <AppBody
@@ -309,16 +295,22 @@ const history = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white"/>
+                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white" />
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white"/>
+                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white" />
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Target Group</FormLabel>
                         <Flex>
-                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} value={targetType} bg="white">
+                            <Select
+                                placeholder="Select Type"
+                                pr={"2"}
+                                onChange={(el) => setTargetType(el.target.value)}
+                                value={targetType}
+                                bg="white"
+                            >
                                 <option>Everyone</option>
                                 <option>Year</option>
                                 <option>Major</option>
@@ -329,16 +321,35 @@ const history = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Expired Date</FormLabel>
-                        <Input placeholder="Select expired date" size="md" type="date" min={disabledDates()} onChange={(e) => setExpired(e.target.value)} value={expired} bg="white" />
+                        <Input
+                            placeholder="Select expired date"
+                            size="md"
+                            type="date"
+                            min={disabledDates()}
+                            onChange={(e) => setExpired(e.target.value)}
+                            value={expired}
+                            bg="white"
+                        />
                     </FormControl>
                     <FormControl>
                         <>
                             {showMoreLang(moreLangLength, add)}
-                            {disable && moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable}/>
-                            })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle"    backgroundColor={"#DD6B20"}
-                                color="white" onClick={() => {increaseCount()}} cursor={"pointer"} mt="5">
+                            {disable &&
+                                moreLangField.map((el) => {
+                                    return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
+                                })}
+                            <Tag
+                                size={"lg"}
+                                key={"lg"}
+                                variant="subtle"
+                                backgroundColor={"#DD6B20"}
+                                color="white"
+                                onClick={() => {
+                                    increaseCount()
+                                }}
+                                cursor={"pointer"}
+                                mt="5"
+                            >
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>

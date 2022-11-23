@@ -6,8 +6,11 @@ const TitleBox: FC<{
     sh?: string
 }> = ({ title, sh }) => {
     return (
-        <Box bg="#fff" borderRadius="lg" shadow={sh? sh : "lg"} border="#Fafafa solid 1px">
-            <Text px="5" py="1.5"  fontWeight="bold" fontSize="lg"> {title} </Text>
+        <Box bg="#fff" borderRadius="lg" shadow={sh ? sh : "lg"} border="#Fafafa solid 1px">
+            <Text px="5" py="1.5" fontWeight="bold" fontSize="lg">
+                {" "}
+                {title}{" "}
+            </Text>
         </Box>
     )
 }

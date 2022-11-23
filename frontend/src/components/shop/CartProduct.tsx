@@ -42,7 +42,7 @@ const CartProduct: FC<{
                         </LinkOverlay>
                     </LinkBox>
                     {/* <Flex wrap="wrap" align="center" justify="space-around" my="5" > */}
-                    <Box  mr="auto" my="5">
+                    <Box mr="auto" my="5">
                         <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
                             {name}
                         </Box>
@@ -52,7 +52,7 @@ const CartProduct: FC<{
                             </Box>
                         </Box>
                         <Hide breakpoint="(min-width: 400px)">
-                            <Box  mr="auto">
+                            <Box mr="auto">
                                 <ButtonGroup size="sm" isAttached variant="outline" px={10}>
                                     <button disabled={inDeQuantity == 0 ? true : false} onClick={decrease}>
                                         <IconButton aria-label="Add to friends" icon={<MinusIcon />} />
@@ -66,7 +66,7 @@ const CartProduct: FC<{
                         </Hide>
                     </Box>
                     <Hide breakpoint="(max-width: 400px)">
-                        <Box  mr="auto" my="5" alignSelf="center">
+                        <Box mr="auto" my="5" alignSelf="center">
                             <ButtonGroup size="sm" isAttached variant="outline" px={10}>
                                 <button disabled={inDeQuantity == 0 ? true : false} onClick={decrease}>
                                     <IconButton aria-label="Add to friends" icon={<MinusIcon />} />

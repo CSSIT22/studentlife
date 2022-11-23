@@ -36,54 +36,47 @@ function showProperty() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [eventNames, setEventName] = React.useState("")
     const [eventButtons, setEventButton] = React.useState("")
-    const [Room, setRoom] = React.useState({ roomId: "", roomName: "", roomtype :"" });
+    const [Room, setRoom] = React.useState({ roomId: "", roomName: "", roomtype: "" })
 
     let param = useParams()
     const navigate = useNavigate()
 
     function NavigateProfile() {
         return navigate(`/user/${param.roomId}`)
-        
     }
 
     function renderRoomProp() {
-        if(Room.roomtype === "INDIVIDUAL"){
-            return(
-                eventsIndi.map((event) => (
-                    <Button
-                        onClick={() => handleSizeClick(event)}
-                        leftIcon={<event.eventIcon />}
-                        key={event.eventName}
-                        variant="ghost"
-                        size="lg"
-                        iconSpacing={"5"}
-                    >
-                        {`${event.eventName}`}
-                    </Button>
-                ))
-            )
-        }
-        else if(Room.roomtype === "GROUP"){
-            return(
-                eventsGroup.map((event) => (
-                    <Button
-                        onClick={() => handleSizeClick(event)}
-                        leftIcon={<event.eventIcon />}
-                        key={event.eventName}
-                        variant="ghost"
-                        size="lg"
-                        iconSpacing={"5"}
-                    >
-                        {`${event.eventName}`}
-                    </Button>
-                ))
-            )
+        if (Room.roomtype === "INDIVIDUAL") {
+            return eventsIndi.map((event) => (
+                <Button
+                    onClick={() => handleSizeClick(event)}
+                    leftIcon={<event.eventIcon />}
+                    key={event.eventName}
+                    variant="ghost"
+                    size="lg"
+                    iconSpacing={"5"}
+                >
+                    {`${event.eventName}`}
+                </Button>
+            ))
+        } else if (Room.roomtype === "GROUP") {
+            return eventsGroup.map((event) => (
+                <Button
+                    onClick={() => handleSizeClick(event)}
+                    leftIcon={<event.eventIcon />}
+                    key={event.eventName}
+                    variant="ghost"
+                    size="lg"
+                    iconSpacing={"5"}
+                >
+                    {`${event.eventName}`}
+                </Button>
+            ))
         }
     }
 
     useEffect(() => {
-        API.get(`chat/${param.roomId}`).then((e) => setRoom(e.data)
-        )
+        API.get(`chat/${param.roomId}`).then((e) => setRoom(e.data))
     }, [param])
 
     const handleSizeClick = (event: any) => {
@@ -116,8 +109,8 @@ function showProperty() {
         { eventIcon: FaDoorOpen, eventName: "Leave group", buttonValue: "Leave" },
     ]
 
-    console.log(Room);
-    
+    console.log(Room)
+
     return (
         <>
             <VStack spacing={6} alignItems={"flex-start"}>
@@ -154,7 +147,6 @@ const Property = () => {
     //function handle
     function Navigate() {
         return navigate(`/chat/${param.roomId}`)
-        
     }
 
     return (

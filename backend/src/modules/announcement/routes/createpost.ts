@@ -12,7 +12,7 @@ const createPost = (req: Request, res: Response) => {
         topic: topic,
         detail: detail,
         sender: "SAMO-SIT",
-        status:"waiting",
+        status: "waiting",
         pinStatus: false,
         isApprove: false,
         targetType: targetType,
@@ -22,8 +22,8 @@ const createPost = (req: Request, res: Response) => {
         expiredAfterDelete: new Date(),
         addMoreLang: addmorelang,
     }
-    let newData:post[] = [];
-    for(let i = 0;i < getPost().length;i++){
+    let newData: post[] = []
+    for (let i = 0; i < getPost().length; i++) {
         newData.push(getPost()[i])
     }
     newData.push(newPost)
@@ -32,8 +32,8 @@ const createPost = (req: Request, res: Response) => {
     setPost(newData)
     return res.send(newPost)
     // console.log(newData);
-    
+
     // setPost(newData)
 }
 
-export default createPost;
+export default createPost
