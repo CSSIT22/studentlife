@@ -1201,10 +1201,12 @@ model Sn_Library {
 }
 
 model Sn_In_Library {
-  libId Int        @id
+  libId Int
   snId  String
   lib   Sn_Library @relation(fields: [libId], references: [libId], onDelete: Cascade)
   sn    Sn_Head    @relation(fields: [snId], references: [snId], onDelete: Cascade)
+
+  @@id([libId, snId])
 }
 
 //Transaction Module
