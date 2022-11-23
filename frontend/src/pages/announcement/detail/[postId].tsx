@@ -145,7 +145,13 @@ const detail = () => {
             <Stack spacing={3} p="5">
                 <Grid templateColumns={{ base: "1fr 1fr", lg: "1fr 3fr" }} my={5}>
                     <GridItem>
-                        <Select placeholder="select language" bg="blue.600" color={"white"} onChange={(el) => setlang(parseInt(el.target.value + ""))}>
+                        <Select
+                            placeholder="select language"
+                            bg="blue.600"
+                            color={"white"}
+                            onChange={(el) => setlang(parseInt(el.target.value + ""))}
+                        >
+                            <option value={1000}>English</option>
                             {otherLang[0]?.map((el) => {
                                 return (
                                     <option value={el.lang_id} key={el.id} style={{ background: "#FFF", color: "#000" }}>

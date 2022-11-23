@@ -1,12 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response } from "express"
 
 const getRoom = async (req: Request, res: Response) => {
     try {
-     
-    }
-    catch {
+    } catch {
         res.status(400).send("Error can't find room")
     }
 }
-export default getRoom;
-
+export default getRoom

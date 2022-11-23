@@ -29,8 +29,7 @@ const Clist: FC<any> = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        API.get("/chat").then((e) => setuserRoom(e.data)
-        )
+        API.get("/chat").then((e) => setuserRoom(e.data))
     }, [])
     //function handle
     function Navigate(target: any) {
@@ -108,7 +107,6 @@ const Clist: FC<any> = () => {
                         transitionDuration="300ms"
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
-                        
                     >
                         <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
@@ -164,7 +162,7 @@ const Clist: FC<any> = () => {
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
                 <Box overflowX={"auto"} maxH={"380px"}>
-                {renderSearch(search)}
+                    {renderSearch(search)}
                 </Box>
             </Flex>
         </Box>

@@ -21,26 +21,24 @@ function review() {
     //     return e2.resId == numres
     // })
     // console.log(revi)
-    
 
     useEffect(() => {
         API.get("/restaurant/review/" + params.reviewRes).then((item) => setproperty(item.data))
     }, [params.reviewRes])
     console.log(property)
-    const cloneArr = Object.assign([], property) 
+    const cloneArr = Object.assign([], property)
     console.log(cloneArr)
     const resD = cloneArr.resD
     console.log(resD)
     const reviD = cloneArr.reviD
     console.log(reviD)
-    const convReviD = {...reviD}
+    const convReviD = { ...reviD }
     console.log(convReviD)
     const selectedRevi = convReviD[0]
     console.log(selectedRevi)
     // console.log(resD[0].filter((e1: { id: number }) => {
     //     return e1.id == numres
     // }))
-    
 
     // useEffect(() => {
     //     API.get("/restaurant/review/" + params.reviewRes).then((item) => setrevi(item.data))
@@ -71,7 +69,15 @@ function review() {
                             <ShowImage img={e1.img} />
                             <Box p="4">
                                 <Box display="flex" alignItems="baseline" px={{ base: 10, md: 290 }}>
-                                    <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase" display="flex" verticalAlign={"AiOutlineLike"}>
+                                    <Box
+                                        color=""
+                                        fontWeight="semibold"
+                                        letterSpacing="wide"
+                                        fontSize="xs"
+                                        textTransform="uppercase"
+                                        display="flex"
+                                        verticalAlign={"AiOutlineLike"}
+                                    >
                                         <Icon as={AiOutlineLike} fontSize="md" />
                                         {e1.amountOflike} liked
                                     </Box>
@@ -86,8 +92,9 @@ function review() {
                                             textTransform="uppercase"
                                             px={2}
                                             py={1}
-                                            display="flex" verticalAlign={"AiOutlineComment"}
-                                        >                                      
+                                            display="flex"
+                                            verticalAlign={"AiOutlineComment"}
+                                        >
                                             <Icon as={AiOutlineComment} fontSize="md" />
                                             REVIEW
                                         </Box>

@@ -24,6 +24,7 @@ import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "reac
 import FileComment from "./FileComment"
 import { fileListContext } from "src/pages/airdrop/receive"
 import { authContext } from "src/context/AuthContext"
+import axios from "axios"
 
 const FileList: FC<{
     elementid: number
@@ -201,10 +202,10 @@ const FileList: FC<{
 
     //handle function
     const handleDownload = async (type: string, name: string, sid: string, fid: string, event: any) => {
-        const downloadFile = await API.get(`/airdrop/file/download/${type}/${sid + name}`, {
+        const downloadFile = await API.get(`/airdrop/file/download/${fid}`, {
             responseType: "blob",
         })
-        console.log(downloadFile)
+
         const url = window.URL.createObjectURL(new Blob([downloadFile.data]))
         const link = document.createElement("a")
         link.href = url

@@ -1,6 +1,7 @@
-import React, { useState, FC, useEffect } from "react"
+import React, { useState, FC, useEffect, useContext } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
+import FileComment from "src/components/airdrop/FileComment"
 import { HiUpload, HiDownload } from "react-icons/hi"
 import API from "src/function/API"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
@@ -26,7 +27,9 @@ import {
     useBoolean,
     Fade,
     Spinner,
+    useToast,
 } from "@chakra-ui/react"
+import { authContext } from "src/context/AuthContext"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -55,16 +58,39 @@ const dummyData = [
 export default function Drophistory<FC>() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isLoading, { off }] = useBoolean(true)
-    const [selectedHistory, setSelectedHistory] = useState<any>({
+    const [selectedHistory, setSelectedHistory] = useState<{
+        historyType: string
+        file: {
+            fileSender: string
+            fileName: string
+            fileId: string
+            sender: {
+                fName: string
+                lName: string
+            }
+            sendType: string
+            fileExpired: string
+            comments: {
+                commentText: string
+                commentor: {
+                    fName: string | undefined
+                    lName: string | undefined
+                }
+            }[]
+        }
+    }>({
         historyType: "",
         file: {
             fileSender: "",
+            fileName: "",
+            fileId: "",
             sender: {
                 fName: "",
                 lName: "",
             },
             sendType: "",
             fileExpired: "",
+            comments: [],
         },
     })
     const [historyData, setHistoryData] = useState<any>(null)
@@ -82,6 +108,36 @@ export default function Drophistory<FC>() {
         return () => {}
     }, [])
 
+    const [commentText, setComment] = useState("")
+    const toast = useToast()
+    const user = useContext(authContext)
+
+    const handleComment = async () => {
+        const comment = await API.post("/airdrop/file/comment", {
+            fileId: selectedHistory.file.fileId,
+            commentTxt: commentText,
+        })
+            .then((res) => {})
+            .catch((err) => {
+                console.log(err)
+                toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
+            })
+            .finally(() => {
+                setComment("")
+                toast({ title: "Comment Success", status: "success", duration: 3000, isClosable: true })
+            })
+    }
+    const updateComment = async () => {
+        const modifiedModalData = selectedHistory
+        modifiedModalData.file.comments.push({
+            commentor: {
+                fName: user?.fName,
+                lName: user?.lName,
+            },
+            commentText: commentText,
+        })
+        setSelectedHistory(modifiedModalData)
+    }
     const renderFileHistory = () => {
         return (
             <>
@@ -102,6 +158,32 @@ export default function Drophistory<FC>() {
                             <Text>
                                 Date:{"   " + new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", { timeZone: "Asia/Bangkok" })}
                             </Text>{" "}
+                        </HStack>
+                        {selectedHistory.file.comments.map((item: any) => {
+                            return (
+                                <>
+                                    <FileComment name={item.commentor.fName + " " + item.commentor.lName} comment={item.commentText} />
+                                    <Divider />
+                                </>
+                            )
+                        })}
+                        <HStack>
+                            <Input
+                                type={"text"}
+                                id="commentin"
+                                value={commentText}
+                                onChange={(e) => {
+                                    setComment(e.target.value)
+                                }}
+                            />
+                            <Button
+                                onClick={() => {
+                                    handleComment()
+                                    updateComment()
+                                }}
+                            >
+                                Comment{" "}
+                            </Button>
                         </HStack>
 
                         <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
@@ -136,7 +218,9 @@ export default function Drophistory<FC>() {
                                         <Box as={MdImage} size={"3rem"} />
                                         <Hide below={"md"}>
                                             <Text>
-                                                {item.file.fileName.length > 12 ? item.file.fileName.substring(0, 12) + "..." : item.file.fileName.concat(" ") }
+                                                {item.file.fileName.length > 12
+                                                    ? item.file.fileName.substring(0, 12) + "..."
+                                                    : item.file.fileName.concat(" ")}
                                             </Text>
                                         </Hide>
                                         {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}

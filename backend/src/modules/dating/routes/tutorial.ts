@@ -51,8 +51,7 @@ tutorialRoutes.post("/setDatingEnroll", verifyUser, async (req: Request, res: Re
                 const dating_EnrollDB = await prisma.dating_Enroll.create({ data: payload })
                 console.log(dating_EnrollDB)
                 return res.send("Success!")
-            }
-            else {
+            } else {
                 return res.send("Success!")
             }
         } else {
@@ -62,5 +61,4 @@ tutorialRoutes.post("/setDatingEnroll", verifyUser, async (req: Request, res: Re
         return res.status(400).send("Cannot create hasCompleteTutorial")
     }
 })
-
 export default tutorialRoutes

@@ -14,7 +14,7 @@ import {
     VStack,
     Flex,
     Text,
-    Container
+    Container,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -30,25 +30,22 @@ function LikeorNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = React.useState(1)
     const params = useParams()
-    const [property, setproperty] = React.useState<Restaurant[]>([]);
+    const [property, setproperty] = React.useState<Restaurant[]>([])
 
     const [res, setres] = React.useState(parseInt(params.id + ""))
 
     const likedRestaurant = () => {
-        API.post("restaurant/" + params.id, {id: params.id })
-        
+        API.post("restaurant/" + params.id, { id: params.id })
     }
 
     useEffect(() => {
-        API.get("/restaurant/" + params.id)
-            .then((item) => setproperty(item.data))
-            // .catch((err) => on())
-            // .finally(off)
-            
+        API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
+        // .catch((err) => on())
+        // .finally(off)
     }, [params.id])
     // console.log(property);
     // console.log(params.id);
-    
+
     const Nope = () => {
         if (res < 9) {
             setres(res + 1)
@@ -79,7 +76,7 @@ function LikeorNope() {
                 <Searchbar />
             </Box>
             <Box px={2} h={"100%"} pb={6} pt={2}>
-                {property.map((e1:any) => {
+                {property.map((e1: any) => {
                     return (
                         <>
                             <Box py={5} h="20px" mb={"40px"}>
@@ -91,7 +88,7 @@ function LikeorNope() {
                         </>
                     )
                 })}
-            
+
                 <Container>
                     <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                         <Box>
