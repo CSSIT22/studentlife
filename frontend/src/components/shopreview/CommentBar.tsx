@@ -1,7 +1,6 @@
 import { Box, Button, Center, Flex, Stack, Textarea, useBreakpointValue } from "@chakra-ui/react"
 import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react"
 const CommentBar = () => {
-    const isMobile = useBreakpointValue({ base: false, md: true }, { ssr: false })
     return (
         <Center>
             <Box

@@ -57,7 +57,7 @@ const review = () => {
                     date={"Nov 19 22"}
                 />
             </Box>
-            <Container my={5} textAlign={"center"}>
+            <Container mt={5} mb={20} textAlign={"center"}>
                 That's all~
             </Container>
             <CommentBar />

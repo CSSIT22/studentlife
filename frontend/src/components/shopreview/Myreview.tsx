@@ -27,12 +27,23 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
     useToast,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Textarea,
 } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { useNavigate } from "react-router-dom"
 import DetailBox from "../../components/shopreview/DetailBox"
 import AmountLike from "./AmountLike"
 import AmountRate from "./AmountRate"
+import EditReview from "./EditReview"
+import RatingStar from "./RatingStar"
 import ShopName from "./ShopName"
 
 const Myreview: FC<{ image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
@@ -56,7 +67,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
     const toast = useToast()
 
     return (
-        <Box p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
+        <Box _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
             <Stack mb={3} direction={"row"} spacing={"24px"}>
                 <Avatar name="" src={`url('${image}')`} />
                 {/* ดีงข้อมูลมาจาก database */}
@@ -81,15 +92,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                         <PopoverContent width={"100px"}>
                             {/* <PopoverCloseButton /> */}
                             <PopoverHeader textAlign={"center"}>
-                                <Box width={"100%"} as="button">
-                                    <Flex direction={"row"} justifyContent={"center"} alignItems={"center"}>
-
-                                        <EditIcon mr={2} />
-                                        Edit
-
-                                    </Flex>
-
-                                </Box>
+                                <EditReview />
 
                             </PopoverHeader>
                             <PopoverBody textAlign={"center"}>
@@ -110,7 +113,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                                         <AlertDialogOverlay>
                                             <AlertDialogContent>
                                                 <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                                                    Delete Customer
+                                                    Delete Review
                                                 </AlertDialogHeader>
 
                                                 <AlertDialogBody>

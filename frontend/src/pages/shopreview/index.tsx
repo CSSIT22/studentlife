@@ -164,7 +164,7 @@ const shopreview = () => {
                     fontSize={"lg"}
                     backgroundColor={target === 1 ? "#FF7E20" : ""}
                     color={target === 1 ? "white" : ""}
-                    _hover={{ background: "#FF7E20" }}
+                    _hover={{ background: "#FF7E20", cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }}
                     transitionDuration="300ms"
                     onClick={() => setTarget(1)}
                     mr={4}
@@ -178,7 +178,7 @@ const shopreview = () => {
                     fontSize={"lg"}
                     backgroundColor={target === 2 ? "#FF7E20" : ""}
                     color={target === 2 ? "white" : ""}
-                    _hover={{ background: "#FF7E20" }}
+                    _hover={{ background: "#FF7E20", cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }}
                     transitionDuration="300ms"
                     onClick={() => setTarget(2)}
                     width={"200px"}
