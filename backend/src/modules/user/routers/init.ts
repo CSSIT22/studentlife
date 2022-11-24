@@ -15,7 +15,7 @@ const init = async (req: Request, res: Response<InitUserResponse | string>) => {
             lName,
             levels,
             studentId,
-            roles: [...roles.map((item: any) => item.role)],
+            roles: [...roles.map((item) => item.role)],
         })
     } catch (err) {
         return res.status(500).send("User not found")

@@ -20,12 +20,11 @@ import SelectZone from "./SelectZone"
 
 const Zone: FC<{
     name: String
-    handleSetZones: Function
-}> = ({ name, handleSetZones }) => {
+}> = ({ name }) => {
     return (
         <Popover>
             <PopoverTrigger>
-                <Button shadow={"lg"} mr={2} ml={2} width={"100px"} colorScheme="gray" rounded={"3xl"}>
+                <Button mr={2} ml={2} width={"100px"} colorScheme="gray" rounded={"3xl"}>
                     {name}
                 </Button>
             </PopoverTrigger>
@@ -37,19 +36,34 @@ const Zone: FC<{
                         <Heading color={"black"}>Select Zone</Heading>
                         <br></br>
                         <Flex mb={3} direction={"row"} justifyContent={"space-around"}>
-                            <SelectZone handleSetZones={handleSetZones} name={"หอหญิง"} />
-                            <SelectZone handleSetZones={handleSetZones} name={"หอชาย"} />
-                            <SelectZone handleSetZones={handleSetZones} name={"KFC"} />
+                            <SelectZone name={"หอหญิง"} />
+                            <SelectZone name={"หอชาย"} />
+                            <SelectZone name={"KFC"} />
                         </Flex>
-                        <Flex mb={3} direction={"row"} justifyContent={"center"}>
-                            <SelectZone handleSetZones={handleSetZones} name={"หน้ามอ"} />
-                            <SelectZone handleSetZones={handleSetZones} name={"หลังมอ"} />
+                        <Flex mb={3} direction={"row"} justifyContent={"space-around"}>
+                            <SelectZone name={"หน้ามอ"} />
+                            <SelectZone name={"หลังมอ"} />
                         </Flex>
                         <br></br>
                     </PopoverBody>
                 </PopoverContent>
             </Portal>
         </Popover>
+    )
+}
+
+function ColorChange() {
+    const [active, setActive] = useState(false)
+    const handleClick = () => {
+        setActive(!active)
+    }
+
+    return (
+        <div className="center">
+            <button onClick={handleClick} style={{ backgroundColor: active ? "black" : "white" }}>
+                SignUp
+            </button>
+        </div>
     )
 }
 

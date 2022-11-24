@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router-dom"
+import { createBrowserRouter, RouteObject } from "react-router-dom"
 import NotFound from "./pages/NotFound"
 
 const ROUTES: Record<string, any> = import.meta.globEager("/src/pages/**/[a-z[]*.tsx")

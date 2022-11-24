@@ -6,13 +6,14 @@ import { Link } from "react-router-dom"
 
 const PostOnApproval: FC<{
     topic: string
-    sender: string
-    status: string
-    id: number
-}> = ({ topic, sender, status, id }) => {
+    sender: string,
+    status:string,
+    id:number,
+    onClick:Function
+}> = ({ topic, sender,status,id,onClick }) => {
     return (
-        <Link to={`/announcement/approval/${id}`}>
-            <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="white" rounded="lg" cursor="pointer" shadow={"md"}>
+        // <Link to={`/announcement/approval/approvalDetail`}>
+            <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" onClick={() => onClick(status,id)}>
                 <Flex alignItems={"center"}>
                     <Box>
                         <Heading size={"sm"}>{topic}</Heading>
@@ -20,7 +21,7 @@ const PostOnApproval: FC<{
                     </Box>
                 </Flex>
             </Box>
-        </Link>
+        // </Link>
     )
 }
 

@@ -7,7 +7,7 @@ import AppBody from "../share/app/AppBody"
 const PostDetail: FC<{
     allPost: Array<any>
     selectPost: number
-}> = ({ allPost, selectPost }) => {
+}> = ({ allPost,selectPost }) => {
     const post = allPost.filter((el) => el.id == selectPost)
     return (
         <AppBody>

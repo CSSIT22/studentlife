@@ -1,0 +1,68 @@
+import { DESCRIPTION } from "./descTest"
+import { USER } from "./userProfile"
+
+export const OBJECTS = [
+    {
+        id: "0ygyli7",
+        user: USER[0].id,
+        description: DESCRIPTION[0].template,
+        isRead: true,
+        date: new Date("2022-10-17 09:30:00"),
+        module: "Chat",
+        link: "https://www.google.com/",
+    },
+    {
+        id: "1asdfgeasd",
+        user: USER[1].id,
+        description: "descriptionnnnnnn",
+        isRead: false,
+        date: new Date("2022-11-14 09:38:00"),
+        module: "Shop",
+        link: "https://www.google.com/",
+    },
+    {
+        id: "29348hf3",
+        user: USER[2].id,
+        description: DESCRIPTION[1].template,
+        isRead: false,
+        date: new Date("2022-11-01 09:38:00"),
+        module: "Shop",
+        link: "https://www.google.com/",
+    },
+    {
+        id: "39uujd3w",
+        user: USER[0].id,
+        description: DESCRIPTION[2].template,
+        isRead: false,
+        date: new Date("2022-03-12 09:38:00"),
+        module: "Chat",
+        link: "https://www.google.com/",
+    },
+    {
+        id: "78uhuiold4",
+        user: USER[0].id,
+        description: DESCRIPTION[1].template,
+        isRead: false,
+        date: new Date("2020-05-23 09:38:00"),
+        module: "Chat",
+        link: "https://www.google.com/",
+    },
+    {
+        id: "5890iijiu",
+        user: USER[0].id,
+        description: DESCRIPTION[1].template,
+        isRead: false,
+        date: new Date("2018-01-10 09:38:00"),
+        module: "Chat",
+        link: "https://www.google.com/",
+    },
+    {
+        id: "60o98uiohj",
+        user: USER[0].id,
+        description: DESCRIPTION[1].template,
+        isRead: false,
+        date: new Date("2017-02-18 09:38:00"),
+        module: "Chat",
+        link: "https://www.google.com/",
+    },
+]

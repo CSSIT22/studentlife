@@ -1,32 +1,17 @@
-import { Box, Checkbox, Text, useToast } from "@chakra-ui/react"
-import { Dispatch, FC } from "react"
+import { Box, Checkbox } from "@chakra-ui/react"
+import { Dispatch, FC, SetStateAction } from "react"
 
 const DatingInterestTag: FC<{
-    interestId: number
+    interestId: string
     interestName: string
     onOpen: () => void
-    selectedInterests: Number[]
-    numOfSelectedInterest: number
+    selectedInterests: String | String[]
+    numOfInterest: number
+    setNumOfInterest: Dispatch<SetStateAction<number>>
     setSelectedInterest: Dispatch<any>
-    tagIsClicked: boolean
-    setTagIsClicked: React.Dispatch<React.SetStateAction<boolean>>
-    type: string
-    buttonLocation: string
-}> = ({
-    interestId,
-    interestName,
-    onOpen,
-    selectedInterests,
-    numOfSelectedInterest,
-    setSelectedInterest,
-    tagIsClicked,
-    setTagIsClicked,
-    type,
-    buttonLocation,
-}) => {
-    const toast = useToast()
+}> = ({ interestId, interestName, onOpen, selectedInterests, numOfInterest, setNumOfInterest, setSelectedInterest }) => {
     // Check if interestId is in the selectedInterest state or not
-    function idExists(interestId: number) {
+    function idExists(interestId: string) {
         for (let i = 0; i < selectedInterests.length; i++) {
             if (selectedInterests[i] == interestId) {
                 return true
@@ -34,30 +19,24 @@ const DatingInterestTag: FC<{
         }
         return false
     }
+    // Check if numOfInterest state is equal to 5 or not
+    function checkNum() {
+        if (numOfInterest === 5) {
+            return true
+        }
+        return false
+    }
     // Update numOfInterest and selectedInterests when you select/deselect the tags of interest
     function handleTag(interest: React.ChangeEvent<HTMLInputElement>) {
-        if (!tagIsClicked) {
-            setTagIsClicked(true)
-        }
         if (interest.target.checked) {
-            if (numOfSelectedInterest < 5) {
-                if (numOfSelectedInterest == 4) {
-                    let titleText = "You have selected 5 " + type + "."
-                    let descriptionText = 'Submit your preference by clicking "Done" at the ' + buttonLocation
-                    toast({
-                        title: titleText,
-                        status: "info",
-                        duration: 5000,
-                        isClosable: true,
-                        position: "top",
-                        description: descriptionText,
-                    })
-                }
-                setSelectedInterest(selectedInterests.concat(parseInt(interest.target.value)))
+            setNumOfInterest(numOfInterest + 1)
+            if (numOfInterest < 5) {
+                setSelectedInterest(selectedInterests.concat(interest.target.value))
             }
         } else {
-            if (numOfSelectedInterest <= 5) {
-                setSelectedInterest((selectedInterests as number[]).filter((arr) => arr != parseInt(interest.target.value)))
+            setNumOfInterest(numOfInterest - 1)
+            if (numOfInterest <= 5) {
+                setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
             }
         }
     }
@@ -65,69 +44,58 @@ const DatingInterestTag: FC<{
     // Else, it will run the checkNum() function.
     return idExists(interestId) ? (
         <Checkbox
+            borderWidth="2px"
             p="1"
             pr="5"
             pl="2"
-            h="36.4px"
-            mr="11px"
-            mb="23px"
-            colorScheme="orange"
-            color="white"
-            backgroundColor="orange.500"
+            borderColor="orange.500"
+            color="orange.800"
             borderRadius="full"
-            id={interestId.toString()}
+            id={interestId}
+            m="1"
             name="interest"
             onChange={handleTag}
             value={interestId}
-            iconColor="white"
-            defaultChecked
+            iconColor="orange.500"
         >
-            <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
-                {interestName}
-            </Text>
+            {interestName}
         </Checkbox>
     ) : // If true, it will return the light gray tags that cannot be checked.
     // Else, it will return the gray tags that is currently unchecked.
-    numOfSelectedInterest === 5 ? (
-        <Box onClick={onOpen} display="inline" mr="11px">
+    checkNum() == true ? (
+        <Box onClick={onOpen} display="inline">
             <Checkbox
+                borderWidth="2px"
                 p="1"
                 pr="5"
                 pl="2"
-                color="black"
-                h="36.4px"
-                mb="23px"
-                backgroundColor="gray.200"
+                borderColor="gray.300"
+                color="gray.500"
                 borderRadius="full"
-                id={interestId.toString()}
+                id={interestId}
+                m="1"
                 name="interest"
                 value={interestId}
                 readOnly={true}
             >
-                <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
-                    {interestName}
-                </Text>
+                {interestName}
             </Checkbox>
         </Box>
     ) : (
         <Checkbox
+            borderWidth="2px"
             p="1"
             pr="5"
             pl="2"
-            color="black"
-            h="36.4px"
-            backgroundColor="gray.200"
+            borderColor="gray"
             borderRadius="full"
-            id={interestId.toString()}
-            mr="11px"
-            mb="23px"
+            id={interestId}
+            m="1"
             name="interest"
             onChange={handleTag}
             value={interestId}
         >
-            <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
-                {interestName}
-            </Text>
+            {interestName}
         </Checkbox>
     )
 }

@@ -12,19 +12,19 @@ const PageBox: FC<{
                 borderRadius={"50px"}
                 minHeight={"auto"}
                 py={"5%"}
-                {...(props.pageName != "drop"
-                    ? {
-                          px: 10,
-                          h: "60vh",
-                          flexDirection: "column",
-                          w: ["100%"],
-                      }
-                    : {
-                          px: 0,
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          w: ["100%", "90%", "80%", "70%"],
-                      })}
+                {
+                    ...props.pageName != "drop" ? {
+                        px: 10,
+                        h: "60vh",
+                        flexDirection: "column",
+                        w: ["100%"],
+                    } : {
+                        px: 0,
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        w:["100%", "90%", "80%", "70%"]
+                    }
+                }
                 m={"auto"}
                 mt={["25%", "15%", "5%"]}
                 shadow={"md"}

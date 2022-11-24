@@ -6,11 +6,11 @@ const addUserNotiObject = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const userNotiObject = await prisma.user_Noti_Object.create({
             data: {
-                // userId:"", //FK
-                // notiObjectId:"", //FK
+                userId: "", //FK
+                notiObjectId: "", //FK
 
-                userId: "roLeb4f2ZTvMXyYm7-DIm", //FK
-                notiObjectId: "U6Gtq1uC9jz-1kShVUlep", //FK
+                // userId: "roLeb4f2ZTvMXyYm7-DIm", //FK
+                // notiObjectId: "U6Gtq1uC9jz-1kShVUlep", //FK
             },
         })
         return res.send(userNotiObject)

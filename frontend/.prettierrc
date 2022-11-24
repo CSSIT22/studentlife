@@ -3,6 +3,5 @@
     "tabWidth": 4,
     "semi": false,
     "bracketSpacing": true,
-    "printWidth": 150,
-    "endOfLine": "crlf"
+    "printWidth": 150
 }
