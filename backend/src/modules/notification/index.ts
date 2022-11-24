@@ -1,12 +1,18 @@
 import { Notiobject } from "@apiType/notification"
 import express from "express"
-import addUserNotiObject from "./routes/addUserNotiObject"
 import getUserNotiObject from "./routes/getUserNotiObject"
 import markallasRead from "./routes/markallasRead"
 import readNotiObject from "./routes/readNotiObject"
+import getNotiUser from "./routes/getNotiUser"
+
 //mockup data
 import { DESCRIPTION } from "./routes/mockupData/descTest"
 import { USER } from "./routes/mockupData/userProfile"
+import addNotiObject from "./routes/addNotiObject"
+import getValue from "./routes/getValue"
+import addNotiUser from "./routes/addNotiUser"
+import addValue from "./routes/addValue"
+import addUserNotiObject from "./routes/addUserNotiObject"
 
 export let objects = [
     {
@@ -81,8 +87,16 @@ export function setObject(newobject: any) {
 }
 
 const notificationRoutes = express()
-notificationRoutes.get("/getusernotiobject/:userId", getUserNotiObject)
-// notificationRoutes.get("/addusernotiobject", addUserNotiObject)
+
+notificationRoutes.get("/getusernotiobject", getUserNotiObject)
+notificationRoutes.get("/getNotiUser", getNotiUser)
+notificationRoutes.get("getvalue", getValue)
+
+notificationRoutes.post("/addnotiobject", addNotiObject)
+notificationRoutes.post("/addnotiuser", addNotiUser)
+notificationRoutes.post("/addvalue", addValue)
+notificationRoutes.post("/addusernotiobject", addUserNotiObject)
+
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
 notificationRoutes.post("/markallasread/:module", markallasRead)
 

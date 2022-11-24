@@ -18,8 +18,8 @@ const NotiTable = () => {
     }
 
     //getNotiobject
-    const param = useParams()
-    const getUserNotiObject = API.get("/notification/getusernotiobject/" + param.id)
+
+    const getUserNotiObject = API.get("/notification/getusernotiobject")
     const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
     useEffect(() => {
         getUserNotiObject.then((res) => {
