@@ -13,6 +13,7 @@ optionRoutes.get("/", (_, res) => {
 optionRoutes.get("/getFaculty", verifyUser, async (req: Request, res: Response) => {
     try {
         const allFacultyDB = await prisma.faculty.findMany()
+        // console.log(allFacultyDB)
         return res.send(allFacultyDB)
     } catch (err) {
         return res.status(404).send("Faculty no found")

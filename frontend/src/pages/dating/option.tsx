@@ -22,6 +22,10 @@ const DatingOption = () => {
                     navigate("/dating/tutorial");
                 }
             })
+            API.get("/dating/option/getFaculty").then((allFaculty) => {
+                setFaculties(allFaculty.data)
+            })
+                .catch((err) => console.log("It's WRONG! " + err));
         }
     })
 
@@ -35,19 +39,12 @@ const DatingOption = () => {
     }
 
     //set default value from database by using condition from here
-    useEffect(() => {
-        // if (didMount) {
-        API.get("/dating/option/getFaculty").then((allFaculty) => {
-            setFaculties(allFaculty.data.facultyName)
-        }).catch((err) => console.log("It's WRONG! " + err))
-        // .finally(off)
-        // }
-    })
+
     // const [isError, { on }] = useBoolean()
     // const [isLoading, { off }] = useBoolean(true)
     const options = ["Male", "Female", "Everyone"] // Gender type
-    const [faculties, setFaculties] = useState<AllFaculty[]>(globalThis.faculty) //For Faculties
-
+    const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
+    // globalThis.faculty
 
 
     // const faculties = [
@@ -87,7 +84,7 @@ const DatingOption = () => {
     const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
     const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
     const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
-    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>(globalThis.faculty) //For Faculties
+    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
 
     useEffect(() => {
         setSelectedFac(faculties)

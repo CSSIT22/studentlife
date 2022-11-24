@@ -1,25 +1,36 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Stack } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { DatingOptionMultipleChoose } from "./DatingOptionMultipleChoose"
 import { AllFaculty } from "@apiType/dating"
+import { a } from "@react-spring/web"
+import API from "src/function/API"
+
+declare global {
+    var facs: string[]
+}
 
 const DatingOptionAccordion: FC<{
     faculties: AllFaculty[]
-    selectedFac: AllFaculty[]
+    selectedFac: any[]
     setSelectedFac: React.Dispatch<React.SetStateAction<AllFaculty[]>>
     getCheckboxProps: any
 }> = ({ faculties, selectedFac, setSelectedFac, getCheckboxProps }) => {
 
-    // let array: 
-    // function addFac() {
-    //     for (let i = 0; i < faculties.length, i++) {
+    // setSelectedFac(["All Faculty"])
 
-    //     }
-    // }
+    globalThis.facs = addFac([])
+    function addFac(facultyA: string[]) {
+        facultyA.push("All Faculty")
+        for (const element of faculties) {
+            facultyA.push(element.facultyName)
+        }
+        // console.log("Fac is " + facultyA)
+        return facultyA
+    }
 
     function handleFac(fac: any) {
-        let arr: AllFaculty[] = selectedFac
-        if (fac === "All Faculty") {
+        let arr: any[] = selectedFac
+        if (fac.toString() === "All Faculty") {
             if (arr.includes(fac)) {
                 setSelectedFac([])
             } else setSelectedFac(faculties)
@@ -39,17 +50,17 @@ const DatingOptionAccordion: FC<{
 
             //console.log("This remove? :" + arr.splice(arr.indexOf(fac), arr.indexOf(fac) + 1))
         }
-        let arrWithoutAllfact = faculties.filter((item) => item !== faculties[0])
+        let arrWithoutAllfact = faculties.filter((item: any) => item.toString() !== faculties[0].toString())
         let isAll = true
-        arrWithoutAllfact.forEach((item) => {
-            if (!arr.includes(item)) {
+        arrWithoutAllfact.forEach((item: any) => {
+            if (!arr.includes(item.toString())) {
                 isAll = false
             }
         })
         if (isAll) {
             setSelectedFac([faculties[0], ...arr])
         } else {
-            setSelectedFac(arr.filter((item) => item !== faculties[0]))
+            setSelectedFac(arr.filter((item: any) => item.toString() !== faculties[0].toString()))
         }
         // console.log("This :" + arr)
     }
@@ -76,15 +87,45 @@ const DatingOptionAccordion: FC<{
                 <AccordionPanel pb={4}>
                     <Stack>
                         {/* <Text>You have select from: {selectedFac.sort().join(" , ")}</Text> */}
-                        {faculties.map((faculty) => (
+                        {/* {faculties.map((faculty) => ( */}
+                        {/* <DatingOptionMultipleChoose
+                            key={Math.random()}
+                            {...getCheckboxProps({ value: "All Faculty" })}
+                            // {{...getCheckboxProps({ value: faculty.facultyName })}
+                            handelClick={(e: any) => {
+                                handleFac(e)
+                            }}
+                            isChecked={true}
+                        /> */}
+
+                        {globalThis.facs.map((faculty) => (
                             <DatingOptionMultipleChoose
+                                key={Math.random()}
                                 {...getCheckboxProps({ value: faculty })}
                                 handelClick={(e: any) => {
                                     handleFac(e)
                                 }}
+                                // isChecked={(e: any) => { selectedFac.includes(e.target.value.facultyName) }}
                                 isChecked={selectedFac.includes(faculty)}
+                            // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
                             />
                         ))}
+
+                        {/* {faculties.map((faculty) => ( */}
+                        {/* {faculties.map((faculty) => (
+                            <DatingOptionMultipleChoose
+                                key={Math.random()}
+                                {...getCheckboxProps({ value: faculty.facultyName })}
+                                // {{...getCheckboxProps({ value: faculty.facultyName })}
+                                handelClick={(e: any) => {
+                                    handleFac(e)
+                                }}
+                                isChecked={selectedFac.includes(faculty)}
+                            // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
+                            // isChecked={selectedFac.includes(faculty)}
+                            // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
+                            />
+                        ))} */}
                     </Stack>
                 </AccordionPanel>
             </AccordionItem>
