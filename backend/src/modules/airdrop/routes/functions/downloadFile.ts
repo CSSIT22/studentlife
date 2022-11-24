@@ -1,18 +1,11 @@
+import { arrayBuffer } from 'stream/consumers';
 const path = require("path")
 const axios = require("axios")
-import { Blob } from "buffer"
+import { Buffer, Blob } from "buffer"
 const downloadFile = async (req: Request | any, res: Response | any) => {
     const { prisma } = res
     const user = await req.user?.userId
     const fileID = req.params.fileid
-    const getFileFromService = await axios.get(`https://drive.modlifes.me/${fileID}`, {
-        headers: {
-            Authorization: "Bearer GjkhtiJ12!",
-        },
-    })
-
-    let file = new Blob([getFileFromService.data])
-
     const payload: any = {
         fileId: fileID,
         userId: user,
@@ -27,9 +20,17 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
     } catch (err) {
         console.log(err)
     }
-    res.type(file.type)
-    file.arrayBuffer().then((buf) => {
-        res.send(Buffer.from(buf))
+    //forward file to front
+    const getFileFromService = await axios.get(`https://drive.modlifes.me/${fileID}`, {
+        headers: {
+            Authorization: "Bearer GjkhtiJ12!",
+        },
+        responseType: 'arraybuffer',
+    }).then((fileRes:any) => {
+        const file = fileRes.data
+        res.header("Content-Type", fileRes.headers["content-type"])
+        res.send(file)
     })
+
 }
 export default downloadFile

@@ -75,6 +75,7 @@ app.use(
     cors({
         origin: [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])],
         credentials: true,
+        allowedHeaders:["Content-Type"],
     })
 )
 
