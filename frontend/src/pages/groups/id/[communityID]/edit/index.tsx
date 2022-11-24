@@ -32,27 +32,15 @@ import { BiBorderRadius } from "react-icons/bi"
 import AppBody from "src/components/share/app/AppBody"
 import { userData } from "src/pages/groups/data"
 
-const createCommunity = () => {
-    const toast = useToast()
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const [isTagBarOpen, setIsTagBarOpen] = useState(false)
-    const { height, width } = useWindowDimensions()
-    const [preview, setPreview] = useState(true)//true = desktop, false = mobile
-    const [searchValue, setSearchValue] = useState("") //for store search value
+const create = () => {
+    const [GroupName, setGroupName] = useState("")
+    const textChange = (event: any) => setGroupName(event.target.value)
 
-    let isDesktop = (width || 0) > 768
-    //form values
-    const [communityName, setCommunityName] = useState("")
-    const [communityDesc, setCommunityDesc] = useState("")
-    const [communityPrivacy, setCommunityPrivacy] = useState(true)//true = public, false = private
-    const [communityCoverPhoto, setCommunityCoverPhoto] = useState("https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg")
+    const [Describe, setDescrip] = useState("")
+    const DesChange = (event: any) => setDescrip(event.target.value)
 
-    //tags 
-    const [tags, setTags] = useState(userData.Tag)
-    // const [isAdded, setIsAdded] = useState(false)
-    // const [showTag, setShowTag] = useState(false)
-    const [selectedTag, setSelectedTag] = useState<any>([]);
-    const [updatedTag, setUpdatedTag] = useState<any>([]);
+    const [Privacy, setPrivacy] = useState(false)
+    const PriChange = (event: any) => setPrivacy(!event.target.value)
 
     const PrivacyOnChange = (e: any) => (e.target.value == "true" ? setPrivacy(true) : setPrivacy(false))
 
@@ -74,49 +62,10 @@ const createCommunity = () => {
     const handleTagChoose = () => {
         setTagBtn(!tagBtn)
     }
-    //form styles
-    const desktopStyle = {
-        input: {
-            bg: 'white',
-            color: '#848383',
-            shadow: "lg",
-            borderRadius: "md",
-            fontWeight: 500,
-            fontSize: 'sm',
-            mb: 1,
-        },
-        title: {
-            color: "#FFFFFF",
-            fontWeight: "bold",
-            fontSize: 'sm',
-            mb: 2,
-        },
-        button1: {
-            bg: "white",
-            color: "#848383",
-            shadow: 'lg',
-            borderRadius: "md",
-            _hover: {
-                bg: "gray.100",
-            },
-        }
+
+    const handleTagCancel = () => {
+        setTagBtn(false)
     }
-    const mobileStyle = {
-        //formInput
-        input: {
-            bg: "white",
-            color: "#848383",
-            shadow: "md",
-            borderRadius: "xl",
-            fontWeight: 500,
-            mb: 2,
-        },
-        // formLabel
-        title: {
-            color: "gray.600",
-            fontSize: "xl",
-            fontWeight: "bold",
-            mb: 4,
 
     //Tag
     const [isDrawerOpen, setDrawerOpen] = useState(false)
@@ -136,47 +85,11 @@ const createCommunity = () => {
         setChooseTag(chooseTag.filter((item: any) => item != obj))
         setTag([...tag, obj])
     }
-    //Send data to backend
-    const submit = () => {
-        // const communityID = Date.now()//Create unique ID
-
-        // console.log(communityID)
-        // console.log(communityName)
-        // console.log(communityDes)
-        // console.log(communityPrivacy)
-        // console.log(communityCoverPhoto)
-        console.log(updatedTag)
-        API.post("/group/createtest", {
-            // communityID: Date.now(),
-            communityName: communityName,
-            communityDesc: communityDesc,
-            communityPrivacy: communityPrivacy,
-            communityCoverPhoto: communityCoverPhoto,
-            communityTags: updatedTag,
-        }).then((res) => {
-            // console.log(res.status)
-            // console.log(res.data)
-            toast({
-                title: "Success",
-                description: "Community edited successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: 'top',
-            })
-        }).catch((err) => {
-            console.log(err)
-            toast({
-                title: "Error",
-                description: "Community edited failed",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-                position: 'top',
-            })
-        })
-        onClose()
+    const onSubmit = () => {
+        setTagArray(chooseTag)
+        setDrawerOpen(false)
     }
+
     return (
         <AppBody>
             <HStack gap={changePreview ? "50px" : "100px"} mb={4}>
@@ -213,7 +126,7 @@ const createCommunity = () => {
                         <Text fontSize={"2xl"} fontWeight={700}>
                             Edit Community
                         </Text>
-                    </Flex>
+                    </HStack>
 
                     <Text fontSize={"md"} fontWeight={500}>
                         <Text mb={{ md: 0, sm: 4 }}>Name</Text>
@@ -339,76 +252,12 @@ const createCommunity = () => {
                                 )}
                             </HStack>
                         </Box>
-                    </Collapse>
 
-
-                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Privacy</FormLabel>
-                    <Accordion allowToggle>
-                        <AccordionItem
-                            borderRadius={{ base: 'xl', md: 'md' }}
-                            sx={{
-                                borderTopWidth: '',
-                                borderColor: '',
-                                overflowAnchor: '',
-                                bg: "white",
-                                color: "#848383",
-                                shadow: "md",
-                                fontWeight: 500,
-                                mb: 2,
-                            }}>
-                            <AccordionButton>
-                                <Box
-                                    fontSize={{ base: 'md', md: 'sm' }}
-                                    fontWeight={500}
-                                    flex='1'
-                                    textAlign='left'>
-                                    Choose Privacy
-                                </Box>
-                                <AccordionIcon />
-                            </AccordionButton>
-                            <AccordionPanel pb={4}>
-                                <RadioGroup defaultValue='public'>
-                                    <VStack align="flex-start">
-                                        <Radio
-                                            value='public'
-                                            onChange={() => setCommunityPrivacy(true)}>
-                                            <Text fontSize={{ base: 'md', md: 'sm' }}>Public</Text>
-                                        </Radio>
-                                        <Radio
-                                            value='private'
-                                            onChange={() => setCommunityPrivacy(false)}>
-                                            <Text fontSize={{ base: 'md', md: 'sm' }}>Private</Text>                                      </Radio>
-                                    </VStack>
-                                </RadioGroup>
-                            </AccordionPanel>
-                        </AccordionItem>
-                    </Accordion>
-
-
-                    <Box display='none' borderRadius={'md'}>
-                        <HStack borderRadius={'md'} boxShadow='md' padding={1} mb={{ md: 1, sm: 4 }} background={'white'} border='1px' borderColor='gray.200'>
-                            <Box color={'black'} mr={-1}>
-                                <IconButton
-                                    aria-label='Search database'
-                                    disabled={true}
-                                    _hover={{ cursor: 'default', background: 'default' }}
-                                    background={'white'}
-                                    icon={<SearchIcon />}
-                                />
-                            </Box>
-                            <Box width={'100%'} backgroundColor={'white'} color={'black'}  >
-                                <Input
-                                    width={"100%"}
-                                    variant={"filled"}
-                                    type={"search"}
-                                    value={searchValue}
-                                    onChange={(e: any) => setSearchValue(e.target.value)}
-                                    placeholder="Seacrh for friends"
-                                    focusBorderColor="gray.200"
-                                ></Input>
-                            </Box>
+                        {/* Privacy */}
+                        <HStack mb={{ md: 0, sm: 4 }}>
+                            <Text mr={-1}>Privacy</Text>
+                            <MdPublic color="White" />
                         </HStack>
-                    </Box>
 
                         <FormControl mb={{ md: 2, sm: 4 }}>
                             <Select onChange={PrivacyOnChange} placeholder="Public" background={"white"} color="black">
@@ -478,8 +327,6 @@ const createCommunity = () => {
                         </Modal>
                     </Text>
                 </Box>
-                <Box
-                    width='full'
 
                 {/* Desktop Preview */}
                 <Box
@@ -518,11 +365,10 @@ const createCommunity = () => {
                                 disableInvite={true}
                             />
                         </Box>
-                    </Flex>
+                    </Box>
                 </Box>
             </HStack>
         </AppBody>
     )
 }
-
-export default createCommunity
+export default create

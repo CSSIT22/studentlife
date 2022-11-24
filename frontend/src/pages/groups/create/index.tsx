@@ -399,7 +399,7 @@ const createCommunity = () => {
                     {/* </form> */}
 
                     {/* Modal for confirmation */}
-                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                         <ModalContent>
                             <ModalHeader> Are you sure you want to create the community?</ModalHeader>
