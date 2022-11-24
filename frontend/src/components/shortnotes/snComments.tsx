@@ -15,7 +15,7 @@ const snComments = () => {
     }, [])
     return (
         <Box>
-            <Box mb={4} boxShadow={"base"} rounded={8} p={4}>
+            <Box mb={4} rounded={8}>
                 <Box>
                     <Heading size={"md"} mb={1}>
                         Comments
