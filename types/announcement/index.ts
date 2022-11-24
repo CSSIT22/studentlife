@@ -1,15 +1,15 @@
 export type addMoreLangType = {
     id:number
-    lang_id:number,
-    topic:string,
-    detail:string
+    languageId:number,
+    annTopic:string,
+    annDetail:string
 }
 export type post = {
     postId:number,
     userId:string
-    lang_id:number,
-    topic:string,
-    detail:string,
+    languageId:number,
+    annTopic:string,
+    annDetail:string,
     sender:string,
     status:string,
     pinStatus:boolean,
