@@ -27,25 +27,21 @@ function review() {
         API.get("/restaurant/review/" + params.reviewRes).then((item) => setproperty(item.data))
     }, [params.reviewRes])
     console.log(property)
+
     const cloneArr = Object.assign([], property) 
     console.log(cloneArr)
+
     const resD = cloneArr.resD
     console.log(resD)
-    const reviD = cloneArr.reviD
-    console.log(reviD)
-    const convReviD = {...reviD}
-    console.log(convReviD)
-    const selectedRevi = convReviD[0]
-    console.log(selectedRevi)
-    // console.log(resD[0].filter((e1: { id: number }) => {
-    //     return e1.id == numres
-    // }))
-    
 
-    // useEffect(() => {
-    //     API.get("/restaurant/review/" + params.reviewRes).then((item) => setrevi(item.data))
-    // }, [params.reviewRes])
-    // console.log(revi)
+    const reviD = cloneArr.reviD //to .reviD
+    console.log(reviD)
+
+    const convReviD = {...reviD} // array -> object
+    console.log(convReviD)
+
+    const selectedRevi = convReviD[0] // object[0] -> array
+    console.log(selectedRevi)
 
     return (
         <AppBody
