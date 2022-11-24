@@ -24,36 +24,40 @@ const showEvent = () => {
     <AppBody>
         <IconButton aria-label="previous" icon={<ChevronLeftIcon />} onClick={() => navigate("/schedule/timetable/")} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
         <br />
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="5xl"> 
+            <Box boxShadow="md" p="6" rounded="md" bg="white" mt={"6"}>
+                <Text textAlign={["center"]} fontSize="5xl" color={"#000000"}> 
                 Assignment
                 </Text> 
             </Box>
             <br />
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="md"> 
+            <Box boxShadow="md" p="6" rounded="md" bg="white" w={"980px"} h={"152px"}>
+                <Text textAlign={["left"]} color="#858585"> Description </Text>
+                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
                 Do Tower of Hanoi p.405 - 409
                 </Text> 
             </Box><br />
             <SimpleGrid columns={[1, 3]} spacing="30px">
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="2xl"> 
+            <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
+            <Text textAlign={["left"]} color="#858585"> Time </Text>
+                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
                 06:00-06:30 AM
                 </Text> 
             </Box>
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="2xl"> 
+            <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
+            <Text textAlign={["left"]} color="#858585"> Type </Text>
+                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
                 Assignment
                 </Text> 
             </Box>
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="2xl"> 
+            <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
+            <Text textAlign={["left"]} color="#858585"> Location </Text>
+                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
                 MS Team
                 </Text> 
             </Box>
             </SimpleGrid>
             <br />
-<Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
+<Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white" ml={"825"} bgColor="#E1AB20">
                 Edit
             </Button>
             <Modal id="editEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="xl">
@@ -111,7 +115,7 @@ const showEvent = () => {
 
                         <FormControl display="flex" alignItems="center">
                             <Switch id="notification" size="lg" mt={4} />
-                            <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4}>
+                            <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={"4"}>
                                 Notification
                             </FormLabel>
                         </FormControl>
@@ -125,7 +129,7 @@ const showEvent = () => {
                 </ModalContent>
             </Modal>
             {/* this part is for delete modal */}
-            <Button id="deleteEvent" onClick={modal3.onOpen} bg="red" colorScheme="white">
+            <Button id="deleteEvent" onClick={modal3.onOpen} bgColor="#D92445" colorScheme="white" ml={"25"}>
                 Delete
             </Button>
 

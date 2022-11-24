@@ -8,13 +8,9 @@ import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakr
 import { Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text } from "@chakra-ui/react"
 import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
 import { IconButton, useDisclosure, Button, ButtonGroup, Divider } from "@chakra-ui/react"
-//import { Select, Text } from "@chakra-ui/react"
-//import { ChevronRightIcon } from "@chakra-ui/icons"
-//import { AddIcon } from "@chakra-ui/icons"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 // import { DESCRIPTION } from "src/components/notification/main/data/descTest"
-
 
 
 const theme = extendTheme({
@@ -90,16 +86,33 @@ const timetable = () => {
     return (
         <AppBody>
             <SimpleGrid columns={[1, 6]} spacing="30px">
-                <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
+                <IconButton aria-label="previous"
+                    icon={<ChevronLeftIcon />}
+                    ml={"8"}
+                    shadow={"md"}
+                    bgColor="white"
+                    w="60px" h="62px"
+                    borderRightRadius="55"
+                    borderLeftRadius="55"
+                    display={{ base: "none", md: "block" }} />
 
-                <Button id="dateButton" boxShadow="md" p="6" rounded="md" bg="white" onClick={calendarModal.onOpen}>
-                    {dateSelect.getDate()}
+                <Button id="dateButton" boxShadow="md" p="6" rounded="md"
+                    bg="white"
+
+                    onClick={calendarModal.onOpen}
+                    display={{ base: "none", md: "block" }}>
+                    <Text textAlign={["center"]}>{dateSelect.getDate()}</Text>
                     {/* Date  */}
                     {/* <calendar 
                    date ={date}
                    setDate={setDate}/> */}
                 </Button>
-                <Modal id="calendarButton" initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={calendarModal.isOpen} onClose={calendarModal.onClose}>
+                <Modal id="calendarButton" 
+                initialFocusRef={initialRef} 
+                finalFocusRef={finalRef} 
+                isOpen={calendarModal.isOpen} 
+                onClose={calendarModal.onClose}
+                >
                     <ModalOverlay />
                     <ModalContent>
                         <ModalCloseButton />
@@ -117,10 +130,12 @@ const timetable = () => {
                         </ModalBody>
                     </ModalContent>
                 </Modal>
-                <Button boxShadow="md" p="6" rounded="md" bg="white" onClick={calendarModal.onOpen}>
+                <Button boxShadow="md" p="6" rounded="md" bg="white"
+                    onClick={calendarModal.onOpen} display={{ base: "none", md: "block" }}>
                     {monthNames[dateSelect.getMonth()]}
                 </Button>
-                <Button boxShadow="md" p="6" rounded="md" bg="white" onClick={calendarModal.onOpen}>
+                <Button boxShadow="md" p="6" rounded="md" bg="white"
+                    onClick={calendarModal.onOpen} display={{ base: "none", md: "block" }}>
                     {dateSelect.getFullYear()}
                 </Button>
                 {/* <Button id="calendarButton" boxShadow="md" p="6" rounded="md" bg="white" isOpen={calendarModal.isOpen} onClose={calendarModal.onClose}>
@@ -129,12 +144,21 @@ const timetable = () => {
                 {/* <Button boxShadow="md" p="6" rounded="md" bg="white">
                     Year
                 </Button> */}
-                <IconButton aria-label="next" icon={<ChevronRightIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
+                <IconButton aria-label="next"
+                    ml={"8"}
+                    icon={<ChevronRightIcon />}
+                    bgColor="white"
+                    shadow={"md"}
+                    w="60px" h="62px"
+                    borderRightRadius="55"
+                    borderLeftRadius="55"
+                    display={{ base: "none", md: "block" }} />
 
                 <IconButton
                     onClick={modal1.onOpen}
-                    w="60px"
-                    h="62px"
+
+                    w={{ base: "38px", md: "60px" }}
+                    h={{ base: "40px", md: "62px" }}
                     bg="#6CF5B4"
                     //colorScheme="green"
                     aria-label="Add event"
@@ -142,6 +166,7 @@ const timetable = () => {
                     icon={<AddIcon color="#828282" />}
                     borderRightRadius="55"
                     borderLeftRadius="55"
+
                 />
                 <Modal id="addButton" initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={modal1.isOpen} onClose={modal1.onClose} size="xl">
                     <ModalOverlay />
@@ -188,11 +213,11 @@ const timetable = () => {
                                     <FormLabel color="black">
                                         <Text fontSize="24px">Start Time</Text>
                                     </FormLabel>
-                                    <Input placeholder="Select time" size="xs" 
-                                    id="time" 
-                                    type="time" 
-                                    value={time + " "} 
-                                    onChange={handleInputTimeChange} />
+                                    <Input placeholder="Select time" size="xs"
+                                        id="time"
+                                        type="time"
+                                        value={time + " "}
+                                        onChange={handleInputTimeChange} />
                                 </FormControl>
 
                                 <FormControl mt={4}>
@@ -253,7 +278,8 @@ const timetable = () => {
             </SimpleGrid>
             <br />
 
-            <Box boxShadow="md" p="6" rounded="md" bg="white">
+            <Box boxShadow="md" p="6" rounded="md" bg="white"
+                display={{ base: "none", md: "block" }}>
                 <Grid templateColumns="repeat(8, 1fr)" gap={2}>
                     <h4> </h4>
                     <h4>
@@ -270,7 +296,6 @@ const timetable = () => {
                 </Grid>
             </Box>
             <br />
-
 
             <Box boxShadow="md" p="4" rounded="md" bg="white">
                 <Text>01:00</Text>
@@ -373,3 +398,4 @@ const timetable = () => {
 }
 
 export default timetable
+
