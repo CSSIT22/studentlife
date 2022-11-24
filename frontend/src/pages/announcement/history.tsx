@@ -138,7 +138,7 @@ const history = () => {
                 .map((el) => {
                     return (
                         <PostOnHistory
-                            topic={el.topic}
+                            topic={el.annTopic}
                             sender={el.sender}
                             status={el.status}
                             onClick={onClick}

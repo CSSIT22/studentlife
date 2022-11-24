@@ -121,7 +121,7 @@ const recyclebin = () => {
                     const r = showRemaining(el.expiredAfterDelete + "")
                     return (
                         <PostOnRecycle
-                            topic={el.topic}
+                            topic={el.annTopic}
                             sender={el.sender}
                             expired={r}
                             onClick={recoverClick}

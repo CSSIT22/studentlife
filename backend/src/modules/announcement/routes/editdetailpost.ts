@@ -14,8 +14,8 @@ const editDetailPost = (req: Request, res: Response) => {
     let editpost: post | null = null
     const newData = getPost().map((post) => {
         if (post.postId == postId) {
-            post.topic = topic
-            post.detail = detail
+            post.annTopic = topic
+            post.annDetail = detail
             post.targetType = targetType
             post.targetValue = targetValue
             post.postAt = postAt

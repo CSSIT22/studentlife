@@ -55,7 +55,7 @@ const index = () => {
                 .map((el) => {
                     return (
                         <PostOnAnnouncementPage
-                            topic={el.topic}
+                            topic={el.annTopic}
                             sender={el.sender}
                             status={el.pinStatus}
                             allPost={allPost}
@@ -73,7 +73,7 @@ const index = () => {
                 .map((el) => {
                     return (
                         <PostOnAnnouncementPage
-                            topic={el.topic}
+                            topic={el.annTopic}
                             sender={el.sender}
                             status={el.pinStatus}
                             allPost={allPost}

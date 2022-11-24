@@ -144,7 +144,7 @@ const history = () => {
     }
 
     const addLang = (lang: number, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, lang_id: lang, topic: topic, detail: detail }])
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, languageId: lang, annTopic: topic, annDetail: detail }])
     }
 
     const increaseCount = () => {
@@ -181,9 +181,9 @@ const history = () => {
                         id={el.id}
                         onDecrease={decreaseCount}
                         addLang={addLang}
-                        selectLang={el.lang_id}
-                        title={el.topic}
-                        dt={el.detail}
+                        selectLang={el.languageId}
+                        title={el.annTopic}
+                        dt={el.annDetail}
                         key={el.id}
                         onAdd={onAdd}
                         add={true}
@@ -197,9 +197,9 @@ const history = () => {
                         onDecrease={decreaseCount}
                         id={el.id}
                         addLang={addLang}
-                        selectLang={el.lang_id}
-                        title={el.topic}
-                        dt={el.detail}
+                        selectLang={el.languageId}
+                        title={el.annTopic}
+                        dt={el.annDetail}
                         key={el.id}
                         onAdd={onAdd}
                         add={false}

@@ -47,7 +47,7 @@ const detail = () => {
     const otherLang = post.map((el) => el.addMoreLang)
     // console.log(otherLang);
     const selectLang = (lang: number) => {
-        const selected = otherLang[0]?.filter((el) => el.lang_id == lang)
+        const selected = otherLang[0]?.filter((el) => el.languageId == lang)
         // console.log(selected);
 
         if (lang != 1000) {
@@ -55,7 +55,7 @@ const detail = () => {
                 <>
                     <Heading as="h2" size="xl">
                         {selected?.map((el) => {
-                            return el.topic
+                            return el.annTopic
                         })}
                     </Heading>
                     <Box>
@@ -78,7 +78,7 @@ const detail = () => {
                     <Box>
                         <Text fontSize="sm" align="justify">
                             {selected?.map((el) => {
-                                return el.detail
+                                return el.annDetail
                             })}
                         </Text>
                     </Box>
@@ -89,7 +89,7 @@ const detail = () => {
                 <>
                     <Heading as="h2" size="xl">
                         {post.map((el) => {
-                            return el.topic
+                            return el.annTopic
                         })}
                     </Heading>
                     <Box>
@@ -112,7 +112,7 @@ const detail = () => {
                     <Box>
                         <Text fontSize="sm" align="justify">
                             {post.map((el) => {
-                                return el.detail
+                                return el.annDetail
                             })}
                         </Text>
                     </Box>
@@ -154,8 +154,8 @@ const detail = () => {
                             <option value={1000}>English</option>
                             {otherLang[0]?.map((el) => {
                                 return (
-                                    <option value={el.lang_id} key={el.id} style={{ background: "#FFF", color: "#000" }}>
-                                        {selectLangName(el.lang_id)}
+                                    <option value={el.languageId} key={el.id} style={{ background: "#FFF", color: "#000" }}>
+                                        {selectLangName(el.languageId)}
                                     </option>
                                 )
                             })}

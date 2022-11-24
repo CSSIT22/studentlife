@@ -89,7 +89,9 @@ const create = () => {
         return yyyy + "-" + mm + "-" + dd
     }
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
-    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    // const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    console.log(addMoreLang);
+    
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
         // setAllPost([
         //     ...allPost,
@@ -111,20 +113,25 @@ const create = () => {
         //         addMoreLang: addMoreLang,
         //     },
         // ])
-        API.post<post>("/announcement/createpost", {
-            topic: title,
-            detail: detail,
-            targetType: targetType,
-            targetValue: targetValue,
-            expiredPost: expired,
-            addmorelang: addMoreLang,
-        })
+       
+        
+       
+            API.post<post>("/announcement/createpost", {
+                topic: title,
+                detail: detail,
+                targetType: targetType,
+                targetValue: targetValue,
+                expiredPost: expired,
+                addmorelang: addMoreLang,
+            })
+        
+        
     }
-    console.log(allPost)
+    // console.log(allPost)
 
     // console.log(expired);
     const addLang = (lang: number, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, lang_id: lang, topic: topic, detail: detail }])
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, languageId: lang, annTopic: topic, annDetail: detail }])
     }
     // console.log(addMoreLang)
 
@@ -194,8 +201,8 @@ const create = () => {
                             topic={modalCreate.topic}
                             detail={modalCreate.detail}
                             status={modalCreate.event}
-                            allPost={allPost}
-                            setAllPost={setAllPost}
+                            allPost={""}
+                            setAllPost={""}
                             onClick={onClose}
                         />
                     </Box>
