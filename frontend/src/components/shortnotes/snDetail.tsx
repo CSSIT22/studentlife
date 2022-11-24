@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import {
     Box,
     Heading,
@@ -42,6 +42,7 @@ import LiList from "./liList"
 import { Link, useNavigate } from "react-router-dom"
 import search from "src/pages/restaurant/search"
 import { BsCheckLg } from "react-icons/bs"
+import API from "src/function/API"
 
 const liList: FC<{
     topic: String
@@ -50,6 +51,12 @@ const liList: FC<{
     link: String
     owner: String
 }> = ({ topic, course, desc, link, owner }) => {
+    const [li, setLi] = useState([])
+    useEffect(() => {
+        API.get("/shortnotes/getLibrary").then((item) => {
+            setLi(item.data)
+        })
+    }, [])
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -63,10 +70,10 @@ const liList: FC<{
     }
     const [liPicked, setLiPicked] = useState<String[]>([])
 
-    const li = [
-        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
-        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
-    ]
+    // const li = [
+    //     { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
+    //     { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
+    // ]
     function CustomCheckbox(props: any) {
         const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
 
@@ -201,8 +208,8 @@ const liList: FC<{
                                     <LiList name={li.name}></LiList>
                                 </Box>
                             ))} */}
-                            {li.map((li, key) => (
-                                <CustomCheckbox {...getCheckboxProps({ value: li.id, name: li.name })} onClick={console.log(value)} />
+                            {li.map((li: any, key) => (
+                                <CustomCheckbox {...getCheckboxProps({ value: li.libId, name: li.libName })} /> //onClick={console.log(value)}
                             ))}
                         </Stack>
                     </DrawerBody>
