@@ -38,6 +38,7 @@ const index = () => {
                     desc={shortnote.snDesc}
                     link={shortnote.snLink}
                     owner={shortnote.owner.fName + " " + shortnote.owner.lName}
+                    date={shortnote.created}
                 />
             </Box>
             <Box bg={"white"} boxShadow={"xl"} rounded={8}>

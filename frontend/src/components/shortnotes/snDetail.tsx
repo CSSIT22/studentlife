@@ -50,7 +50,8 @@ const liList: FC<{
     desc: String
     link: String
     owner: String
-}> = ({ topic, course, desc, link, owner }) => {
+    date: string | any
+}> = ({ topic, course, desc, link, owner, date }) => {
     const [li, setLi] = useState([])
     useEffect(() => {
         API.get("/shortnotes/getLibrary").then((item) => {
@@ -170,7 +171,7 @@ const liList: FC<{
                     </Box>
                 </HStack> */}
                 <Spacer />
-                <Text fontSize={"xs"}>Posted by {owner}</Text>
+                <Text fontSize={"xs"}>Posted by {owner} at {new Date(date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
             </HStack>
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
