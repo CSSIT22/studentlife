@@ -10,6 +10,7 @@ import ThemedButton from "src/components/shop/ThemedButton"
 
 // Cart
 const Cart = () => {
+    
     const selectBox = (
         <ContentBox bg="#fff">
             <Flex justify="space-between" wrap="wrap">
@@ -74,15 +75,19 @@ const Cart = () => {
     return (
         <ShopAppBody>
             <PageTitle title="Cart" />
+
             <Grid templateColumns="3fr 2fr" gap={5}>
                 <GridItem colSpan={{ base: 2, md: 1 }}>
-                    <Flex direction="column" gap={2}>
+                    <Flex direction="column" gap={5}>
                         {selectBox}
                         {generateCartProducts()}
                     </Flex>
                 </GridItem>
-                <GridItem colSpan={{ base: 2, md: 1 }}>{orderSummary}</GridItem>
+                <GridItem colSpan={{ base: 2, md: 1 }}>
+                    {orderSummary}
+                </GridItem>
             </Grid>
+
         </ShopAppBody>
     )
 }
@@ -98,6 +103,8 @@ function generateCartProducts() {
                 image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
                 link="/shop/product/productDetail"
                 stock={15}
+                productId= {1}
+                cartId= {1}
             />
         )
     }

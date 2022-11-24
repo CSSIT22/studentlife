@@ -1,86 +1,46 @@
 import { MinusIcon, AddIcon } from "@chakra-ui/icons"
-import { useBreakpointValue, Flex, LinkBox, LinkOverlay, Hide, ButtonGroup, IconButton, Button, Box, Image } from "@chakra-ui/react"
+import { Text, useBreakpointValue, Flex, LinkBox, LinkOverlay, Hide, ButtonGroup, IconButton, Button, Box, Image, Select, Spacer, Checkbox } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
+import ContentBox from "./ContentBox"
 import convertCurrency from "./functions/usefulFunctions"
+import QtyButton from "./QtyButton"
 
 const CartProduct: FC<{
+    productId: number
+    cartId: number
     name: string
     price: number
     quantity: number
     image: string
     link: string
     stock: number
-}> = ({ name, price, quantity, image, link, stock }) => {
-    const [inDeQuantity, setInDeQuantity] = useState(quantity)
-
-    const increase = () => {
-        setInDeQuantity((prevNum) => prevNum + 1)
+}> = ({ name, price, quantity, image, link, stock, productId, cartId }) => {
+    const displayTextStyle = {
+        fontWeight: "semibold",
+        fontSize: "lg",
+        as: "h4",
+        lineHeight: "tight"
     }
-    const decrease = () => {
-        setInDeQuantity((prevNum) => prevNum - 1)
-    }
-    const isMobile = useBreakpointValue({ base: false, md: false })
     return (
-        <Flex justifyContent="center" bg="#FFFFFF" borderRadius="lg" boxShadow="lg" mt={5}>
-            <input type="checkbox"></input>
-            <Box ml={2}>
-                <Flex justify={"space-evenly"} direction={"row"} wrap={"wrap"}>
-                    <LinkBox>
-                        <LinkOverlay href={link}>
-                            <Box>
-                                <Image
-                                    width={{ base: 100, xl: 135 }}
-                                    height={{ base: 100, xl: 118 }}
-                                    my="3"
-                                    src={image}
-                                    alt="product picture"
-                                    placeholder="blur"
-                                    borderRadius="5%"
-                                    objectFit="cover"
-                                />
-                            </Box>
-                        </LinkOverlay>
-                    </LinkBox>
-                    {/* <Flex wrap="wrap" align="center" justify="space-around" my="5" > */}
-                    <Box  mr="auto" my="5">
-                        <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
-                            {name}
-                        </Box>
-                        <Box>
-                            <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
-                                Price: {convertCurrency(price)}
-                            </Box>
-                        </Box>
-                        <Hide breakpoint="(min-width: 400px)">
-                            <Box  mr="auto">
-                                <ButtonGroup size="sm" isAttached variant="outline" px={10}>
-                                    <button disabled={inDeQuantity == 0 ? true : false} onClick={decrease}>
-                                        <IconButton aria-label="Add to friends" icon={<MinusIcon />} />
-                                    </button>
-                                    <Button>{inDeQuantity}</Button>
-                                    <button disabled={inDeQuantity == stock ? true : false} onClick={increase}>
-                                        <IconButton aria-label="Add to friends" icon={<AddIcon />} />
-                                    </button>
-                                </ButtonGroup>
-                            </Box>
-                        </Hide>
+        <ContentBox>
+            <Flex p="5" align="center" gap={5}>
+                <Checkbox size="lg"></Checkbox>
+                <Flex wrap="wrap" gap={5} justify="space-around" width="full" align="center">
+                    {/* // Image */}
+                    <Box borderRadius="lg" overflow="hidden" shadow="sm">
+                        <Image width="8rem" height="7.2rem" src={image} alt="Img" objectFit="cover" />
                     </Box>
-                    <Hide breakpoint="(max-width: 400px)">
-                        <Box  mr="auto" my="5" alignSelf="center">
-                            <ButtonGroup size="sm" isAttached variant="outline" px={10}>
-                                <button disabled={inDeQuantity == 0 ? true : false} onClick={decrease}>
-                                    <IconButton aria-label="Add to friends" icon={<MinusIcon />} />
-                                </button>
-                                <Button>{inDeQuantity}</Button>
-                                <button disabled={inDeQuantity == stock ? true : false} onClick={increase}>
-                                    <IconButton aria-label="Add to friends" icon={<AddIcon />} />
-                                </button>
-                            </ButtonGroup>
-                        </Box>
-                    </Hide>
+                    {/* // Text */}
+                    <Flex direction="column" justify="center">
+                        <Text sx={displayTextStyle}>{name}</Text>
+                        <Text sx={displayTextStyle}>Price: {convertCurrency(price)}</Text>
+                    </Flex>
+                    <Flex direction="column" justify="center" align="center">
+                        <QtyButton productId={productId} cartId={cartId} quantity={quantity} stock={stock}></QtyButton>
+                    </Flex>
                 </Flex>
-            </Box>
-        </Flex>
+            </Flex>
+        </ContentBox>
     )
 }
 
