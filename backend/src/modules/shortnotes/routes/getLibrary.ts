@@ -10,7 +10,13 @@ const getLibrary = async (req: Request, res: Response) => {
                 libName: true,
                 shortNotes: {
                     select: {
-                        sn: true,
+                        sn: {
+                            select: {
+                                snId: true,
+                                snName: true,
+                                courseId: true,
+                            },
+                        },
                     },
                 },
             },
@@ -19,7 +25,7 @@ const getLibrary = async (req: Request, res: Response) => {
             },
         })
         //console.log(li)
-        console.log(li)
+        //console.log(li)
 
         res.send(li)
     } catch (err) {

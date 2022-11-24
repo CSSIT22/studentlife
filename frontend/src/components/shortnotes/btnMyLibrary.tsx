@@ -20,7 +20,7 @@ import React, { useEffect, useState } from "react"
 import { BiLibrary } from "react-icons/bi"
 import LiList from "./liList"
 import InLiList from "./inLiList"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io"
 import API from "src/function/API"
 
@@ -31,50 +31,34 @@ const btnMyLibrary = () => {
 
     const [nPicked, setNPicked] = useState("")
 
-    const [li, setLii] = useState([])
+    const [li, setLi] = useState([])
     useEffect(() => {
         API.get("/shortnotes/getLibrary").then((item) => {
-            setLii(item.data)
+            setLi(item.data)
         })
     }, [])
 
-    const [picked, setPicked] = useState()
+    const [liPicked, setliPicked] = useState()
     const [selectedLi, setSelectedLi] = useState<any>([])
+    const [snByLi, setSnByLi] = useState([])
     useEffect(() => {
         inLibraryFilter()
-    }, [picked])
-
+    }, [liPicked])
     const inLibraryFilter = () => {
-        setSelectedLi(li.filter((items: any) => items.libId == picked))
-        console.log(selectedLi);
+        setSelectedLi(li.filter((items: any) => items.libId == liPicked))
 
+        console.log(liPicked);
+
+        console.log(snByLi);
     }
+    useEffect(() => {
+        selectedLi.map((sn: any) => (
+            setSnByLi(sn.shortNotes)
+        ), [selectedLi])
+    })
 
+    const navigate = useNavigate()
 
-    // const li = [
-    //     { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "Network midterm", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
-    //     { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "Year 1 term 2 ", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
-    // ]
-    // const inLi = [
-    //     {
-    //         topic: "How to make ER diagram in 10 minutes.",
-    //         liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //         course: "CSC218",
-    //         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //     },
-    //     {
-    //         topic: "How to make ER diagram in 10 minutess.",
-    //         liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //         course: "CSC218",
-    //         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //     },
-    //     {
-    //         topic: "How to make ER diagram in 10 minutesss.",
-    //         liId: "grehg343-gj54-4bad-9gre-fkg9fidhjd89",
-    //         course: "CSC218",
-    //         owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-    //     },
-    // ]
 
     return (
         <Box>
@@ -95,16 +79,16 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            {li.map((lii: any, key) => (
+                            {li.map((li: any, key) => (
                                 <Box
                                     as="button"
                                     onClick={() => {
-                                        setNPicked(lii.libName) //collect selected li.name
-                                        setPicked(lii.libId) //collect selected li.id
+                                        setNPicked(li.libName) //collect selected li.name
+                                        setliPicked(li.libId) //collect selected li.id
                                         inliOnOpen()
                                     }}
                                 >
-                                    <LiList name={lii.libName}></LiList>
+                                    <LiList key={key} name={li.libName}></LiList>
                                 </Box>
                             ))}
                         </Stack>
@@ -152,13 +136,20 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <VStack spacing={4}>
-                            {selectedLi.map((filter: any) => (
-                                <InLiList name={filter.libId} course={filter.libName} />
+
+
+                            {snByLi.map((sn: any, key) => (
+                                <Box as="button" w={"100%"} onClick={() => {
+                                    navigate({
+                                        pathname: "./" + "s/" + sn.sn.snId,
+                                    })
+                                }}>
+                                    <InLiList key={key} name={sn.sn.snName} course={sn.sn.courseId} />
+                                </Box>
                             ))}
 
                         </VStack>
                     </DrawerBody>
-
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>
             </Drawer>
