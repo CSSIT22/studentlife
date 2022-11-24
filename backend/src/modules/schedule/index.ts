@@ -1,28 +1,42 @@
+import { prisma } from "@prisma/client"
 import express from "express"
+import getevent from "./routes/getevent"
 import editevent from "./routes/editevent"
+import postevent from "./routes/postevent"
 
-export type Event = {
+export type Eventtype = {
     name: string
     id: string
 }
 
-export let events: Event[] = [
+export let eventType: Eventtype[] = [
     { id: "1", name: "Course" },
     { id: "2", name: "Assignment" },
     { id: "3", name: "Activity" },
 ]
 
-export const getEvent = () => events
+//event: id, name, startdate, enddate, starttime, endtime, eventtype_id, description_id
+//timetable: calendar_id, event_id, selecteddate
+//eventtype: course, assignment, activity
+//course: course, title, lecturer
+//assignment: courseid, name
+//activity: name
 
-export const setEvent = (newData: Event[]) => {
-    events = newData
-}
+// export const getEvent = () => eventType
+
+// export const setEvent = (newData: Eventtype[]) => {
+//     eventType = newData
+// }
 
 const scheduleRoutes = express()
 
 scheduleRoutes.use(express.json())
 
-scheduleRoutes.get("/editevent/id", editevent)
+scheduleRoutes.get("/getevent", getevent)
+
+scheduleRoutes.get("/postevent", postevent)
+
+scheduleRoutes.get("/editevent", editevent)
 
 // scheduleRoutes.get("/addnewevent/:id", (req, res) => {
 //     const id = req.params.id
