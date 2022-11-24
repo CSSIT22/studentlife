@@ -34,7 +34,6 @@ const TagOfInterest = () => {
                     // if (!datingOptions.data.userId) {
                     //     navigate("/dating/option")
                     // }
-                    // else 
 
                 })
             })
@@ -127,7 +126,6 @@ const TagOfInterest = () => {
                                             isLoading={isLoading}
                                             setInterests={setInterests}
                                             setIsSubmiited={setIsSubmitted}
-                                            isSubmitted={isSubmitted}
                                             hasCompleteSetting={hasCompleteSetting}
                                         />
                                     ) : (

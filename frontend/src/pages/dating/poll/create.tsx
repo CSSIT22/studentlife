@@ -311,7 +311,6 @@ const CreateActivityPoll = () => {
                                                 isLoading={false}
                                                 setInterests={setInterests}
                                                 setIsSubmiited={setIsSubmitted}
-                                                isSubmitted={isSubmitted}
                                                 hasCompleteSetting={true}
                                             />
                                         </GridItem>

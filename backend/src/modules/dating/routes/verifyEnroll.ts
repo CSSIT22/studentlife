@@ -20,7 +20,6 @@ verifyEnrollRoutes.get("/getDatingEnroll", verifyUser, async (req: Request, res:
                     userId: userId,
                 },
             })
-            console.log(dating_EnrollDB)
             return res.send(dating_EnrollDB)
         }
     } catch (err) {
