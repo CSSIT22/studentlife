@@ -538,7 +538,7 @@ model Announcement {
   isApprove   Boolean               @default(false)
   annCreator  User_Profile          @relation(fields: [userId], references: [userId])
   annLanguage Post_To_Language[]
-  annFilter   Announcement_Filter[]
+  annFilter   Announcement_Filter @relation(fields: [filterId], references: [filterId])
   annPost     Announcement_Post?
   annPin      Announcement_Pin[]
   annSee      Announcement_Seen[]
@@ -550,7 +550,7 @@ model Announcement_Filter {
   filterId     Int          @id @default(autoincrement())
   filterType   String
   value        String
-  announcement Announcement @relation(fields: [filterId], references: [filterId])
+  announcement Announcement?
 }
 
 model Announcement_Language {
