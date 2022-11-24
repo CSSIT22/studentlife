@@ -141,7 +141,7 @@ const btnMyLibrary = () => {
                             {snByLi.map((sn: any, key) => (
                                 <Box as="button" w={"100%"} onClick={() => {
                                     navigate({
-                                        pathname: "./" + "s/" + sn.sn.snId,
+                                        pathname: "./" + sn.sn.snId,
                                     })
                                 }}>
                                     <InLiList key={key} name={sn.sn.snName} course={sn.sn.courseId} />

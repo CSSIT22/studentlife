@@ -77,7 +77,7 @@ const index = () => {
                     {rsn.map((rsn: any, key) => (
                         <Box as="button" onClick={() => {
                             navigate({
-                                pathname: "./" + "s/" + rsn.shortNote.snId,
+                                pathname: "./" + rsn.shortNote.snId,
                             })
                         }}>
                             <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt}></Rsn>
@@ -120,7 +120,7 @@ const index = () => {
                                 onClick={() => {
                                     setSnPicked(sn.id)
                                     navigate({
-                                        pathname: "./" + "s/" + sn.snId,
+                                        pathname: "./" + sn.snId,
                                     })
                                     console.log(snPicked)
                                 }}
@@ -138,7 +138,7 @@ const index = () => {
                                 onClick={() => {
                                     setSnPicked(sn.id)
                                     navigate({
-                                        pathname: "./" + "s/" + sn.snId,
+                                        pathname: "./" + sn.snId,
                                     })
                                     console.log(snPicked)
                                 }}
