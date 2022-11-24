@@ -42,36 +42,53 @@ function showProperty() {
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/user/${param.roomId}`)
+        return navigate(`/user`)
+        
     }
 
+    function NavigateCreateCommu(){
+        return navigate('/groups/create')
+    }
+    
+    useEffect(() => {
+        API.get(`chat/${param.roomId}`).then((e) => setRoom(e.data)
+        )
+    }, [param])
+
     function renderRoomProp() {
-        if (Room.roomtype === "INDIVIDUAL") {
-            return eventsIndi.map((event) => (
-                <Button
-                    onClick={() => handleSizeClick(event)}
-                    leftIcon={<event.eventIcon />}
-                    key={event.eventName}
-                    variant="ghost"
-                    size="lg"
-                    iconSpacing={"5"}
-                >
-                    {`${event.eventName}`}
-                </Button>
-            ))
-        } else if (Room.roomtype === "GROUP") {
-            return eventsGroup.map((event) => (
-                <Button
-                    onClick={() => handleSizeClick(event)}
-                    leftIcon={<event.eventIcon />}
-                    key={event.eventName}
-                    variant="ghost"
-                    size="lg"
-                    iconSpacing={"5"}
-                >
-                    {`${event.eventName}`}
-                </Button>
-            ))
+        if(Room.roomtype === "INDIVIDUAL"){
+            return(
+                eventsIndi.map((event) => (
+                    <Button
+                        onClick={() => handleSizeClick(event)}
+                        leftIcon={<event.eventIcon />}
+                        key={event.eventName}
+                        variant="ghost"
+                        size="lg"
+                        iconSpacing={"5"}
+                        _hover={{ background: "transparent", transform: "scale(1.1)" }}
+                    >
+                        {`${event.eventName}`}
+                    </Button>
+                ))
+            )
+        }
+        else if(Room.roomtype === "GROUP"){
+            return(
+                eventsGroup.map((event) => (
+                    <Button
+                        onClick={() => handleSizeClick(event)}
+                        leftIcon={<event.eventIcon />}
+                        key={event.eventName}
+                        variant="unstyled"
+                        size="lg"
+                        iconSpacing={"5"}
+                        _hover={{ background: "transparent", transform: "scale(1.1)" }}
+                    >
+                        {`${event.eventName}`}
+                    </Button>
+                ))
+            )
         }
     }
 
@@ -91,9 +108,8 @@ function showProperty() {
     }
     const eventsIndi = [
         { eventIcon: CgProfile, eventName: "View profile" },
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name", buttonValue: "Done" },
         { eventIcon: RiUserSettingsLine, eventName: "Set nickname", buttonValue: "Done" },
-        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Add" },
+        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Done" },
         { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
         { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
     ]
@@ -102,22 +118,22 @@ function showProperty() {
         { eventIcon: FaUserPlus, eventName: "Invite people", buttonValue: "Invite" },
         { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name", buttonValue: "Done" },
         { eventIcon: AiFillPicture, eventName: "Set room profile", buttonValue: "Done" },
-        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Add" },
+        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Done" },
         { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
         { eventIcon: FaHome, eventName: "Create community", buttonValue: "Create" },
         { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
         { eventIcon: FaDoorOpen, eventName: "Leave group", buttonValue: "Leave" },
     ]
 
-    console.log(Room)
-
+    // console.log(Room);
+    
     return (
         <>
             <VStack spacing={6} alignItems={"flex-start"}>
                 {renderRoomProp()}
             </VStack>
 
-            <Modal isOpen={isOpen} onClose={onClose} size={"lg"} isCentered>
+            <Modal isOpen={isOpen} onClose={onClose} size={{base:"xs" , md:"lg"}} isCentered>
                 <ModalOverlay backdropFilter="blur(5px)" />
                 <ModalContent>
                     <ModalHeader>
@@ -157,7 +173,7 @@ const Property = () => {
                 </Hide>
                 <VStack spacing={10} display={"flex"} justifyContent={"center"}>
                     <HStack spacing={5}>
-                        <Button aria-label="Back to chat room" size="md" leftIcon={<ArrowBackIcon />} onClick={Navigate}></Button>
+                        <Button aria-label="Back to chat room" size="md" variant='solid' onClick={Navigate}><ArrowBackIcon /></Button>
                         <Heading size="lg">Chat properties</Heading>
                     </HStack>
                     <VStack pl={14} spacing={8} align="flex-start" fontSize="20">

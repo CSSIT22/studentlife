@@ -20,6 +20,7 @@ import {
     Editable,
     EditablePreview,
     EditableInput,
+    InputRightElement,
 } from "@chakra-ui/react"
 import AppBody from "../../../components/share/app/AppBody"
 import React, { useState } from "react"
@@ -27,6 +28,7 @@ import { AiFillBug, AiFillPicture, AiOutlineMinus, AiOutlinePlus } from "react-i
 import { FaCircle } from "react-icons/fa"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
+import Member from "src/pages/groups/id/[communityID]/member"
 
 const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
@@ -45,6 +47,8 @@ function propertyEvent(props: any) {
         API.post("/chat")
     }
 
+    type member = { memberPic:String , memberName:String , id: String}
+
     const members: any = [
         { memberPic: "https://picsum.photos/200/300", memberName: "Neng", id: "1" },
         { memberPic: "https://picsum.photos/200/300", memberName: "Gift", id: "2" },
@@ -55,8 +59,13 @@ function propertyEvent(props: any) {
     ]
 
     const [selectedMember, setSelectedMember] = useState<any>([])
-
-    const renderMember = (member: any) => {
+    const [searchMember, setSearchMember] = React.useState("")
+    
+    const renderMember = (member: any ) => {
+        // if(selectedMember.length != 0){
+        //     member.filter((e: any) => e.id == selectedMember.includes(e.id))
+        //     console.log(selectedMember);
+        // }
         return (
             <Flex justifyContent={"space-between"} alignItems={"center"} key={member.id}>
                 <Flex alignItems={"center"}>
@@ -64,16 +73,23 @@ function propertyEvent(props: any) {
                     <Heading size={"md"}>{member.memberName}</Heading>
                 </Flex>
                 <Spacer />
-                <Box
-                    padding={4}
-                    onClick={() => {
-                        selectedMemberHandler(member)
-                    }}
-                >
+                <Box padding={4} onClick={() => { selectedMemberHandler(member) }}>
                     <AiOutlinePlus size={20} />
                 </Box>
             </Flex>
         )
+    }
+
+    const renderSearchMember = (searchMember: any) => {
+        if (searchMember === "") {
+            return (
+                members.map((e: any) => renderMember(e))
+            )
+        }
+        else {
+            const result = members.filter((e: any) => e.memberName.includes(searchMember))
+            return result.map((e: any) => renderMember(e))
+        }
     }
 
     function selectedMemberHandler(member: any) {
@@ -82,15 +98,41 @@ function propertyEvent(props: any) {
     }
 
     const renderSelectedMember = () => {
-        return selectedMember.map((e: any) => (
-            <Box key={e.id} pb={4}>
-                <Avatar name={e.memberName} src={e.memberPic} />
-                {/* <AiOutlineMinus onClick={() => setSelectedMember(selectedMember.filter((e:any)=> e.id !== selectedMember.id))}/> */}
-            </Box>
-        ))
+        // Coding if select that member, they won't render up
+        return (
+            selectedMember.map((e: any) => (
+                <Box key={e.id} pb={4}>
+                    <Flex direction={'column'} alignItems={'center'}>
+                        <Avatar name={e.memberName} src={e.memberPic} />
+                        <Box>{e.memberName}</Box>
+                    </Flex>
+                    {/* <AiOutlineMinus onClick={() => setSelectedMember(selectedMember.filter((e:any)=> e.id !== selectedMember.id))}/> */}
+                </Box>
+            ))
+        )
     }
 
-    const memberSearch = (search: String) => {}
+    const quote = ["I wish I was your mirror, so that I could look at you every morning.",
+                    "When I need a pick me up, I just think of your laugh and it makes me smile.",
+                    "You know you're pretty… pretty amazing.",
+                    "I'm lucky because I have plans for today, for tomorrow, for the week, and for my whole life—to make you happy."]
+
+    const [quoteList, setQuote ] = useState(quote)
+    const [quoteText, setQuoteText] = useState("")
+    const [quoteWarning,setQuoteWarning] = useState("")
+
+    const addQuote = () => {
+        if(quoteText.length !== 0){
+            setQuote([...quoteList , quoteText])
+            setQuoteText("")
+            setQuoteWarning("")
+        }
+        else if(quoteText.length == 0){
+            setQuoteWarning("Your input is empty! Please add the quote.")
+        }
+    }
+
+    const memberSearch = (search: String) => { }
 
     if (props === "Set room name") {
         return (
@@ -130,14 +172,19 @@ function propertyEvent(props: any) {
                     <Text>Quote you added</Text>
                     <Flex bg={"gray.200"} w={"96"} p={4} overflowY={"auto"} maxH={"60"}>
                         <UnorderedList>
-                            <ListItem>Quote1</ListItem>
-                            <ListItem>Quote2</ListItem>
-                            <ListItem>Quote3</ListItem>
-                            <ListItem>Quote4</ListItem>
+                            {quoteList.map((e:any) =>(
+                                <ListItem>{e}</ListItem>
+                            ))}
                         </UnorderedList>
                     </Flex>
-                    <Text>Quote you want to add</Text>
-                    <Input placeholder="Quote" />
+                    <Text pt={4}>Quote you want to add</Text>
+                    <InputGroup>
+                        <Input placeholder="Quote" value={quoteText} onChange={(e) => setQuoteText(e.target.value)}/>
+                        <InputRightElement>
+                            <Box onClick={()=> addQuote()} color="orange.200" cursor={'pointer'}><AiOutlinePlus size={20} /></Box>
+                        </InputRightElement>
+                    </InputGroup>
+                    <Box color="red" fontSize={12}>{quoteWarning}</Box>
                 </VStack>
             </Flex>
         )
@@ -208,14 +255,15 @@ function propertyEvent(props: any) {
                 <Flex w={"96"} direction={"column"} gap={4}>
                     <InputGroup>
                         <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
-                        <Input placeholder="Search name or user id" borderColor={"black"} />
+                        <Input placeholder="Search name or user id" borderColor={"black"} onChange={(e) => setSearchMember(e.target.value)} />
                     </InputGroup>
                     <Flex gap={4} overflowX={"auto"}>
                         {renderSelectedMember()}
                     </Flex>
                     <Box overflowY={"auto"} maxH={"60"}>
                         <Flex direction={"column"} gap={4}>
-                            {members.map((e: any) => renderMember(e))}
+                            {renderSearchMember(searchMember)}
+                            {/* {members.map((e: any) => renderMember(e))} */}
                         </Flex>
                     </Box>
                 </Flex>
