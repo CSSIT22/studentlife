@@ -40,10 +40,9 @@ const Room = () => {
     const [isMute, setIsMute] = useState(false)
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
-    const [Room, setRoom] = useState({ roomId: "", roomName: "", image: "" });
+    const [Room, setRoom] = useState({ roomId: "", roomName: "", image: "" })
     useEffect(() => {
-        API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data)
-        )
+        API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
     }, [param])
 
     //function
@@ -56,21 +55,29 @@ const Room = () => {
         setText("")
     }
 
-
-
     return (
         <AppBody>
             <HStack>
                 <Hide below="md">
                     <Clist />
                 </Hide>
-                <Box flex={1} bg="#FFF2E6"
+                <Box
+                    flex={1}
+                    bg="#FFF2E6"
                     marginLeft={{ base: 0, md: 5 }}
                     width={{ base: "100%", md: "300px" }}
 
-                // maxH={'5000px'}
+                    // maxH={'5000px'}
                 >
-                    <Flex alignItems={"center"} bg="#E68E5C" justifyContent={"space-between"} width={{ base: "100%", md: "auto" }} roundedTopLeft={"lg"} roundedTopRight={"lg"} py={2}>
+                    <Flex
+                        alignItems={"center"}
+                        bg="#E68E5C"
+                        justifyContent={"space-between"}
+                        width={{ base: "100%", md: "auto" }}
+                        roundedTopLeft={"lg"}
+                        roundedTopRight={"lg"}
+                        py={2}
+                    >
                         <Flex alignItems={"center"}>
                             <Avatar marginLeft={4} name={Room.roomName} src={Room.image} />
                             <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
@@ -89,17 +96,9 @@ const Room = () => {
                         </Flex>
                     </Flex>
 
-                    <Box overflowY={'auto'} flex={1} bg="#FFF2E6"
-                        width={{ base: "100%", md: "auto" }}
-                        height={"430px"}
-                    >
+                    <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} height={"430px"}>
                         {msg.map(({ text, from, timeSent }, roomID) => (
-                            <TextBar
-                                key={roomID}
-                                message={text}
-                                timeSent={timeSent}
-                                from={from}
-                            />
+                            <TextBar key={roomID} message={text} timeSent={timeSent} from={from} />
                         ))}
                     </Box>
 
@@ -119,7 +118,7 @@ const Room = () => {
                             value={Text}
                         />
                         <Flex>
-                            <Box cursor={"pointer"} marginRight={4} >
+                            <Box cursor={"pointer"} marginRight={4}>
                                 <BiSticker size={30} />
                             </Box>
                             <Button cursor={"pointer"} marginRight={4} onClick={onSend} disabled={(Text == "") ? true : false} variant={'unstyled'} >

@@ -1,17 +1,5 @@
 import React from "react"
-import {
-    Box,
-    Button,
-
-    ChakraProvider,
-    Container,
-    Flex,
-    Heading,
-    Stack,
-    StackDivider,
-    Text,
-    VStack,
-} from "@chakra-ui/react"
+import { Box, Button, ChakraProvider, Container, Flex, Heading, Stack, StackDivider, Text, VStack } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import Header from "src/components/transaction/paymentHistory/Header"
 // import PaymentHistory from "src/components/transaction/paymentHistory/PaymentHistory"
@@ -43,4 +31,3 @@ const historyTransaction = () => {
 }
 
 export default historyTransaction
-

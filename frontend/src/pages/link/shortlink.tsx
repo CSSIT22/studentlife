@@ -3,7 +3,6 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 
-
 const shortlink = () => {
     const navigate = useNavigate()
     const customize = () => {
@@ -39,13 +38,11 @@ const shortlink = () => {
                     <VStack spacing={4} align="stretch" marginTop={"10%"}>
                         <Box h="70px">
                             <Box width={"100%"}>
-                               
-                                    <Center>
-                                        <Button bg={"orange.200"} w={"50%"} height={"60px"} onClick={customize}>
-                                            <Text as={"b"}>SHORTLINK CUSTOMIZE</Text>
-                                        </Button>
-                                    </Center>
-                                
+                                <Center>
+                                    <Button bg={"orange.200"} w={"50%"} height={"60px"} onClick={customize}>
+                                        <Text as={"b"}>SHORTLINK CUSTOMIZE</Text>
+                                    </Button>
+                                </Center>
                             </Box>
                         </Box>
                         <Box h="70px">

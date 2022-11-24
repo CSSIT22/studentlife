@@ -61,7 +61,8 @@ function AboutMe() {
                             Address
                         </Text>
                         <Text mb="5" color="black" fontSize="lg" fontWeight="700">
-                            Street:  723/106-107 Charansanitwong 53 Rd. City:   Bang Phat State/province/area:    Bangkok Phone number  66 0-2434-7113 Zip code  10700
+                            Street: 723/106-107 Charansanitwong 53 Rd. City: Bang Phat State/province/area: Bangkok Phone number 66 0-2434-7113 Zip
+                            code 10700
                         </Text>
                     </SimpleGrid>
                 </Box>

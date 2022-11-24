@@ -1,7 +1,4 @@
 export const QUESTIONS = [
-
-
-
     {
         qId: "aB23C21kc",
         qCreator: "",
@@ -94,55 +91,52 @@ export const QUESTIONS = [
     },
 
     {
-        "qId": "qid#21",
-        "qCreator": "1240",
-        "q_anonymousFlag": false,
-        "q_created": "yy-mm-ddThh:mm:ssZ",
-        "q_lastUpdated": "yy-mm-ddThh:mm:ssZ",
-        "qTitle": "",
-        "qDesc": "",
-        "voteCount": 25,
-        "selectedTags": [
-            { "tagId": 123, "tagKey": 13 }
-        ],
-        "q_fileName": ".jpg",
-        "q_fileLink": "https://storage.modlifes.me/",
-        "answers": [
-            { 
-                "answerId": 1234
-                , "ansCreator": "1425"
-                , "ans_anonymousFlag": false
-                , "ans_created": "yy-mm-ddThh:mm:ssZ"
-                , "ans_lastUpdated": "yy-mm-ddThh:mm:ssZ"
-                , "answerDesc": ""
-                , "ans_fileName": ".jpg"
-                , "ans_fileLink": "https://storage.modlifes.me/"
-                , "ans_comments": [
-                    { 
-                        "ans_commentId": 1269
-                        , "ansMentCommentor": "324"
-                        , "ans_ment_anonymousFlag": false
-                        , "ans_ment_created": "yy-mm-ddThh:mm:ssZ"
-                        , "ans_ment_lastUpdated": "yy-mm-ddThh:mm:ssZ"
-                        , "ans_comment": ""
-                        , "ans_ment_postitiveFlag": false
-                        , "ans_ment_negativeFlag": false
-                    }
-                ]
-            }
-        ],
-        "q_comments": [
+        qId: "qid#21",
+        qCreator: "1240",
+        q_anonymousFlag: false,
+        q_created: "yy-mm-ddThh:mm:ssZ",
+        q_lastUpdated: "yy-mm-ddThh:mm:ssZ",
+        qTitle: "",
+        qDesc: "",
+        voteCount: 25,
+        selectedTags: [{ tagId: 123, tagKey: 13 }],
+        q_fileName: ".jpg",
+        q_fileLink: "https://storage.modlifes.me/",
+        answers: [
             {
-                "q_commentId": 534,
-                "qMentCommentor": "4444",
-                "q_ment_anonymousFlag": false,
-                "q_ment_created": "yy-mm-ddThh:mm:ssZ",
-                "q_ment_lastUpdated": "yy-mm-ddThh:mm:ssZ",
-                "q_comment": "",
-                "q_ment_positiveFlag": false,
-                "q_ment_negativeFlag": false
-            }
-        ]
-    }
-
+                answerId: 1234,
+                ansCreator: "1425",
+                ans_anonymousFlag: false,
+                ans_created: "yy-mm-ddThh:mm:ssZ",
+                ans_lastUpdated: "yy-mm-ddThh:mm:ssZ",
+                answerDesc: "",
+                ans_fileName: ".jpg",
+                ans_fileLink: "https://storage.modlifes.me/",
+                ans_comments: [
+                    {
+                        ans_commentId: 1269,
+                        ansMentCommentor: "324",
+                        ans_ment_anonymousFlag: false,
+                        ans_ment_created: "yy-mm-ddThh:mm:ssZ",
+                        ans_ment_lastUpdated: "yy-mm-ddThh:mm:ssZ",
+                        ans_comment: "",
+                        ans_ment_postitiveFlag: false,
+                        ans_ment_negativeFlag: false,
+                    },
+                ],
+            },
+        ],
+        q_comments: [
+            {
+                q_commentId: 534,
+                qMentCommentor: "4444",
+                q_ment_anonymousFlag: false,
+                q_ment_created: "yy-mm-ddThh:mm:ssZ",
+                q_ment_lastUpdated: "yy-mm-ddThh:mm:ssZ",
+                q_comment: "",
+                q_ment_positiveFlag: false,
+                q_ment_negativeFlag: false,
+            },
+        ],
+    },
 ]

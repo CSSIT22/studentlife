@@ -29,8 +29,7 @@ const Clist: FC<any> = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        API.get("/chat").then((e) => setuserRoom(e.data)
-        )
+        API.get("/chat").then((e) => setuserRoom(e.data))
     }, [])
     //function handle
     function Navigate(target: any) {
@@ -95,7 +94,7 @@ const Clist: FC<any> = () => {
     }
 
     const renderRoom = (e: any) => {
-        if (target === 1 && e.roomType === "INDIVIDUAL") {
+        if (target === 1 && e.roomtype === "INDIVIDUAL") {
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
@@ -108,7 +107,6 @@ const Clist: FC<any> = () => {
                         transitionDuration="300ms"
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
-
                     >
                         <Avatar name={e.Roomname} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>

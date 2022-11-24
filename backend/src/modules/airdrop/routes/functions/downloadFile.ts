@@ -1,22 +1,21 @@
+import { Request, Response } from "express"
 const path = require("path")
-const downloadFile = async (req: Request | any, res: Response | any) => {
+const axios = require("axios")
+import { Blob } from "buffer"
+const downloadFile = async (req: Request, res: Response) => {
     const { prisma } = res
     const user = await req.user?.userId
-    const arrFilename = req.params.filename.split("")
-    const rfilename = arrFilename.slice(user?.length).join("") //remove cuid
-    const directoryPath = path.join(__dirname, "./../../files" + "/" + req.params.type.toLowerCase())
-    //find file id
-
-    const file = await prisma.file_Info.findFirstOrThrow({
-        where: {
-            fileName: rfilename,
-        },
-        select: {
-            fileId: true,
+    const fileID = req.params.fileid
+    const getFileFromService = await axios.get(`https://drive.modlifes.me/${fileID}`, {
+        headers: {
+            Authorization: "Bearer GjkhtiJ12!",
         },
     })
+
+    let file = new Blob([getFileFromService.data])
+
     const payload: any = {
-        fileId: file.fileId,
+        fileId: fileID,
         userId: user,
         historyType: "DOWNLOAD",
         createdAt: new Date(Date.now() + 60 * 60 * 1000),
@@ -29,6 +28,10 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
     } catch (err) {
         console.log(err)
     }
-    res.download(directoryPath + "/" + req.params.filename + "." + req.params.filename.split(".")[1])
+    // res.type(file.type)
+    // file.arrayBuffer().then((buf) => {
+    //     res.send(Buffer.from(buf))
+    // })
+    res.download(getFileFromService.data)
 }
 export default downloadFile
