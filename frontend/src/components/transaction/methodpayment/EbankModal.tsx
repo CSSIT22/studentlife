@@ -21,7 +21,7 @@ const EbankModal = () => {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <BankButton bank={"Bankok Bank"} link="#" />
+                        <BankButton bank={"Bangkok Bank"} link="#" />
                         <BankButton bank={"Kasikorn Bank"} link="#" />
                         <BankButton bank={"Krungthai Bank"} link="#" />
                         <BankButton bank={"Siam Commercial Bank"} link="#" />

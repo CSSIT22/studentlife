@@ -14,7 +14,7 @@ const selectmastercard = () => {
                         <MasterCardInfo name="Dan Abrahmov" card={123456789} />
                         <MasterCardInfo name="Dan Abrahmov" card={123456789} />{" "}
                         <Link href="addcard">
-                            <Button w={"100%"} bg={"#e67f45"} borderRadius="lg" p={"20px"} mb="10px">
+                            <Button w={"100%"} bg={"#e67f45"} borderRadius="lg" p={"20px"} mb="10px" shadow={"lg"}>
                                 <Text fontSize="md" fontWeight={"bold"} color="white">
                                     Add a new MasterCard
                                 </Text>

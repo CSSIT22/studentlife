@@ -97,21 +97,6 @@ const shopTransaction = () => {
                             </Text>
                         </Button>
                     </Flex>
-                    {/* 
-                    <Collapse in={isOpen} animateOpacity>
-                        <Box w={"100%"} p="40px" color="white" mt="4" bg="#fff2e5" rounded="md" shadow="md">
-                            <Text fontSize="lg" color="black">
-                            {method ? 'MasterCard' : 'ffff'}
-                            </Text>
-                        </Box>
-                    </Collapse> */}
-                    {/* <Collapse in={isOpen} animateOpacity>
-                        <Box w={"100%"} p="40px" color="white" mt="4" bg="#fff2e5" rounded="md" shadow="md">
-                            <Text fontSize="lg" color="black">
-                                Card
-                            </Text>
-                        </Box>
-                    </Collapse> */}
                 </Hide>
             </Container>
 
