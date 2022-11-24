@@ -37,6 +37,13 @@ import { set, deleteKey } from "./modules/backendService/socketstore/store"
 const PORT = 8000
 const app = express()
 
+const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])]
+
+const appCors = cors({
+    origin: appOrigin,
+    credentials: true,
+})
+
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
 }
@@ -71,12 +78,7 @@ redisClient.connect().catch((err) => console.log(err))
 // config passport for microsoft strategy
 passport.use(microsoft(prisma))
 
-app.use(
-    cors({
-        origin: [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])],
-        credentials: true,
-    })
-)
+app.use(appCors)
 
 app.use(
     session({
@@ -133,7 +135,12 @@ app.use("/user", userRoutes)
 
 const server = http.createServer(app)
 
-const io = new IOServer(server)
+const io = new IOServer(server, {
+    cors: {
+        credentials: true,
+        origin: appOrigin,
+    },
+})
 
 io.use((socket, next) => {
     try {
