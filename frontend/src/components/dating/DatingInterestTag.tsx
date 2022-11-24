@@ -2,10 +2,10 @@ import { Box, Checkbox, Text, useToast } from "@chakra-ui/react"
 import { Dispatch, FC } from "react"
 
 const DatingInterestTag: FC<{
-    interestId: string
+    interestId: number
     interestName: string
     onOpen: () => void
-    selectedInterests: String | String[]
+    selectedInterests: Number[]
     numOfSelectedInterest: number
     setSelectedInterest: Dispatch<any>
     tagIsClicked: boolean
@@ -26,7 +26,7 @@ const DatingInterestTag: FC<{
 }) => {
     const toast = useToast()
     // Check if interestId is in the selectedInterest state or not
-    function idExists(interestId: string) {
+    function idExists(interestId: number) {
         for (let i = 0; i < selectedInterests.length; i++) {
             if (selectedInterests[i] == interestId) {
                 return true
@@ -46,17 +46,18 @@ const DatingInterestTag: FC<{
                     let descriptionText = 'Submit your preference by clicking "Done" at the ' + buttonLocation
                     toast({
                         title: titleText,
-                        status: "success",
+                        status: "info",
+                        duration: 5000,
                         isClosable: true,
                         position: "top",
                         description: descriptionText,
                     })
                 }
-                setSelectedInterest(selectedInterests.concat(interest.target.value))
+                setSelectedInterest(selectedInterests.concat(parseInt(interest.target.value)))
             }
         } else {
             if (numOfSelectedInterest <= 5) {
-                setSelectedInterest((selectedInterests as string[]).filter((arr) => arr != interest.target.value))
+                setSelectedInterest((selectedInterests as number[]).filter((arr) => arr != parseInt(interest.target.value)))
             }
         }
     }
@@ -70,18 +71,18 @@ const DatingInterestTag: FC<{
             h="36.4px"
             mr="11px"
             mb="23px"
-            colorScheme="black"
+            colorScheme="orange"
             color="white"
-            backgroundColor="gray.400"
+            backgroundColor="orange.500"
             borderRadius="full"
-            id={interestId}
+            id={interestId.toString()}
             name="interest"
             onChange={handleTag}
             value={interestId}
             iconColor="white"
             defaultChecked
         >
-            <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+            <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
                 {interestName}
             </Text>
         </Checkbox>
@@ -93,17 +94,17 @@ const DatingInterestTag: FC<{
                 p="1"
                 pr="5"
                 pl="2"
-                color="white"
+                color="black"
                 h="36.4px"
                 mb="23px"
-                backgroundColor="orange.400"
+                backgroundColor="gray.200"
                 borderRadius="full"
-                id={interestId}
+                id={interestId.toString()}
                 name="interest"
                 value={interestId}
                 readOnly={true}
             >
-                <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+                <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
                     {interestName}
                 </Text>
             </Checkbox>
@@ -113,18 +114,18 @@ const DatingInterestTag: FC<{
             p="1"
             pr="5"
             pl="2"
-            color="white"
+            color="black"
             h="36.4px"
-            backgroundColor="orange.400"
+            backgroundColor="gray.200"
             borderRadius="full"
-            id={interestId}
+            id={interestId.toString()}
             mr="11px"
             mb="23px"
             name="interest"
             onChange={handleTag}
             value={interestId}
         >
-            <Text fontWeight="400" fontSize="16px" lineHeight="150%">
+            <Text fontWeight="400" fontSize="16px" lineHeight="150%" mr="14px">
                 {interestName}
             </Text>
         </Checkbox>

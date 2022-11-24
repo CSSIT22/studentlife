@@ -7,9 +7,10 @@ import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
 import api from "../../../function/API"
-import { useContext, useEffect, useState } from "react"
+import { FC, ReactNode, useContext, useEffect, useState } from "react"
 import { authContext } from "src/context/AuthContext"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, extendTheme } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 
 const Card = (props: any) => {
     return (
@@ -35,12 +36,63 @@ const breakpoints = {
     "2xl": "1536px",
 }
 
+const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean, onClick: Function }> = ({ modalHeader, token, isCurrentDevice, onClick }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const navigate = useNavigate()
+    return (
+        <>
+            <Button onClick={() => {
+                console.log(token)
+                console.log(isCurrentDevice)
+                onOpen()
+            }} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
+                Revoke
+            </Button>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>{modalHeader}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {isCurrentDevice ? (
+                            <p>
+                                This is your <b>current device</b>.
+                            </p>
+                        ) : (
+                            <p>This will logout you out from selected device.</p>
+                        )}
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme={"red"} variant={"solid"} color={"white"} backgroundColor={"red.400"} mr={3} onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                onClick(token)
+                                onClose()
+                                if (isCurrentDevice) navigate("/auth")
+                            }}
+                            colorScheme={"green"}
+                            variant={"solid"}
+                            color={"white"}
+                            backgroundColor={"green.400"}
+                        >
+                            Confirm
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
+
 const theme = extendTheme({ breakpoints })
 
 const index = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
     const user = useContext(authContext)
     const [tokens, setTokens] = useState<any[]>([])
+    let dateLogin = new Date()
 
     async function handleRevoke(token: string) {
         const res = await api.delete("/backendservice/revokeTokens", {
@@ -49,13 +101,16 @@ const index = () => {
                 userId: tokens[0].userId,
             },
         })
-        setTokens([...tokens.filter((item) => item.token !== res.data.token)])
+        if (res.data.isLogoutCurrentDevice) {
+            await api.get("auth/logout")
+        } else setTokens([...tokens.filter((item) => item.token !== res.data.token)])
         console.log(res)
     }
 
     async function getTokensInfo() {
         const getTokens = await api.get("/backendservice/tokens")
         setTokens([...tokens, ...getTokens.data.tokens])
+        dateLogin = tokens.filter((item) => item.currentDevice)[0].detail.loginDate
     }
 
     useEffect(() => {
@@ -74,7 +129,7 @@ const index = () => {
                                 Welcome! {user?.fName} {user?.lName}
                             </Text>
                             <Text alignSelf={"end"} fontSize="xl">
-                                {new Date().toISOString().substring(0, 10)}
+                                {dateLogin.toISOString().substring(0, 10)}
                             </Text>
                         </Stack>
                     </Flex>
@@ -124,7 +179,7 @@ const index = () => {
                             clickable: true,
                         }}
                         modules={[Navigation]}
-                        // className="mySwiper"
+                    // className="mySwiper"
                     >
                         {tokens.map((item, index) => {
                             return (
@@ -146,7 +201,7 @@ const index = () => {
                                                             <Icon as={MdTabletMac} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
                                                         </Flex>
                                                     )}
-                                                    {item.detail.deviceInfo === "mobile" && (
+                                                    {item.detail.deviceInfo === "smartphone" && (
                                                         <Flex alignItems={"center"} justifyContent={"center"}>
                                                             <Icon as={MdPhoneIphone} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
                                                         </Flex>
@@ -154,54 +209,11 @@ const index = () => {
                                                 </Box>
                                                 <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
                                                 <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
-                                                <Button
-                                                    onClick={onOpen}
-                                                    bg={"gray.700"}
-                                                    color={"white"}
-                                                    w={"100%"}
-                                                    _hover={{ color: "black", bg: "gray.500" }}
-                                                >
-                                                    Revoke
-                                                </Button>
+                                                {/* Insert CustomModal here */}
+                                                <CustomModal onClick={handleRevoke} modalHeader="Are you sure?" token={item.token} isCurrentDevice={item.currentDevice} />
                                             </VStack>
                                         </Flex>
                                     </Box>
-
-                                    <Modal isOpen={isOpen} onClose={onClose}>
-                                        <ModalOverlay />
-                                        <ModalContent>
-                                            <ModalHeader>Are you sure?</ModalHeader>
-                                            <ModalCloseButton />
-                                            <ModalBody>
-                                                <p>This will logout from the device</p>
-                                            </ModalBody>
-
-                                            <ModalFooter>
-                                                <Button
-                                                    colorScheme={"red"}
-                                                    variant={"solid"}
-                                                    color={"white"}
-                                                    backgroundColor={"red.400"}
-                                                    mr={3}
-                                                    onClick={onClose}
-                                                >
-                                                    Cancel
-                                                </Button>
-                                                <Button
-                                                    onClick={() => {
-                                                        handleRevoke(item.token)
-                                                        onClose()
-                                                    }}
-                                                    colorScheme={"green"}
-                                                    variant={"solid"}
-                                                    color={"white"}
-                                                    backgroundColor={"green.400"}
-                                                >
-                                                    Confirm
-                                                </Button>
-                                            </ModalFooter>
-                                        </ModalContent>
-                                    </Modal>
                                 </SwiperSlide>
                             )
                         })}

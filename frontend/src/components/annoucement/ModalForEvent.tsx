@@ -1,6 +1,8 @@
+import { post } from "@apiType/announcement"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { Link } from "react-router-dom"
+import API from "src/function/API"
 
 const ModalForEvent: FC<{
     isOpen: boolean
@@ -11,38 +13,54 @@ const ModalForEvent: FC<{
     allPost: Array<any>
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
     selectPost?: number
-}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost }) => {
+    onClick:Function
+}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost,onClick }) => {
     // console.log(status + " " + selectPost)
     // console.log(allPost);
+    let expiredonrecycle:Date = new Date()
+    let date:number = new Date().getDate()
+    let month:number = new Date().getMonth()
+    let year:number = new Date().getFullYear()
+    // console.log  (year+"-"+month+"-"+date);
+    expiredonrecycle.setDate(date+3)
+    expiredonrecycle.setMonth(month)
+    expiredonrecycle.setFullYear(year)
+    // console.log(expiredonrecycle);
+    
+    
     const toggle = () => {
+        onClick()
         if (status == "approve") {
-            setAllPost(
-                allPost.map((el) => {
-                    if (el.postId == selectPost) {
-                        el.status = "delete"
-                        el.expiredAfterDelete = new Date()
-                    }
-                    return el
-                })
-            )
+            // setAllPost(
+            //     allPost.map((el) => {
+            //         if (el.postId == selectPost) {
+            //             el.status = "delete"
+            //             el.expiredAfterDelete = new Date()
+            //         }
+            //         return el
+            //     })
+            // )
+            API.post<post>("/announcement/editstatusonhistory", {postId:selectPost, status:"delete",expiredAfterDelete: expiredonrecycle})
         } else if (status == "disapprove") {
-            setAllPost(
-                allPost.map((el) => {
-                    if (el.postId == selectPost) {
-                        el.status = "deleted"
-                    }
-                    return el
-                })
-            )
+            // setAllPost(
+            //     allPost.map((el) => {
+            //         if (el.postId == selectPost) {
+            //             el.status = "deleted"
+            //         }
+            //         return el
+            //     })
+            // )
+            API.post<post>("/announcement/editstatusonhistory", {postId:selectPost, status:"deleted",expiredAfterDelete:expiredonrecycle})
         } else if (status == "delete") {
-            setAllPost(
-                allPost.map((el) => {
-                    if (el.postId == selectPost) {
-                        el.status = "approve"
-                    }
-                    return el
-                })
-            )
+            // setAllPost(
+            //     allPost.map((el) => {
+            //         if (el.postId == selectPost) {
+            //             el.status = "approve"
+            //         }
+            //         return el
+            //     })
+            // )
+            API.post<post>("/announcement/editstatusonrecycle",{postId:selectPost})
         }
     }
     // console.log(status);
@@ -106,6 +124,7 @@ const ModalForEvent: FC<{
                     <Button
                         onClick={() => {
                             onClose()
+                            onClick()
                         }}
                     >
                         Close

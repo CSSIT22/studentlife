@@ -26,7 +26,7 @@ import { FaHistory, FaUserAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import NavBarWithNoti from "./NavBarWithNoti"
 import SecondaryNav from "./SecondaryNav"
-import { moreMenu, NavBarMenu } from "./NavBar"
+import { logout, moreMenu, NavBarMenu } from "./NavBar"
 import { FC, useContext } from "react"
 import { secondaryNavProps } from "../app/AppBody"
 import ExtarSecondaryNav from "./ExtarSecondaryNav"
@@ -34,18 +34,12 @@ import logo from "./pic/logo.png"
 import { authContext } from "src/context/AuthContext"
 import NotiTable from "src/components/notification/NotiTable"
 import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
-export const logout = async () => {
-    try {
-        await API.get("/auth/logout")
-        location.reload()
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
+    const navigate = useNavigate()
     return (
         <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
@@ -101,9 +95,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                                 </MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
-                                                <MenuItem onClick={logout} icon={<BiLogOut />}>
-                                                    Logout
-                                                </MenuItem>
+                                                <MenuItem onClick={logout} icon={<BiLogOut />}>Logout</MenuItem>
                                             </MenuGroup>
                                         </MenuList>
                                     </>

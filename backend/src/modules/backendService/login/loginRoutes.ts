@@ -1,8 +1,11 @@
 import { Router } from "express"
 import passport from "passport"
 import { NextFunction, Request, Response } from "express"
+import UserAgent from "user-agents"
 import { verifyUser } from "../middleware/verifyUser"
 import UAParser from "ua-parser-js"
+import jwt from "jsonwebtoken"
+import DeviceDetector from "node-device-detector"
 
 const router = Router()
 
@@ -30,7 +33,14 @@ router.get(
         const { prisma } = res
         try {
             console.log(req.headers["user-agent"])
-            const device1 = new UAParser(req.headers["user-agent"])
+            const detector = new DeviceDetector({
+                clientIndexes: true,
+                deviceIndexes: true,
+                deviceAliasCode: true,
+            })
+            const userAgent = req.headers["user-agent"] || ""
+            const detectedResult = detector.detect(userAgent)
+            console.log(detectedResult)
             const user = await prisma.user_Back.create({
                 data: {
                     userId: req.user?.userId || "",
@@ -40,8 +50,8 @@ router.get(
                             detail: {
                                 create: {
                                     loginDate: new Date(),
-                                    deviceInfo: (device1.getOS().name || "") + (device1.getOS().version || "") || "Unknow",
-                                    ip: device1.getBrowser().name || "",
+                                    deviceInfo: detectedResult.device.type || "Unknown",
+                                    ip: req.ip,
                                     tokenExpired: req.session.cookie.expires || Date.now().toString(),
                                 },
                             },
@@ -51,7 +61,7 @@ router.get(
             })
             res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
-            res.status(500).send("These is an error in login")
+            res.status(500).send("These is an error in login ")
             console.log(error)
         }
     }
@@ -62,6 +72,16 @@ router.get("/showtoken", (req, res) => {
 router.get("/logout", async (req, res) => {
     const userid = req.user?.userId || ""
     const sessid = req.sessionID
+
+    const detector = new DeviceDetector({
+        clientIndexes: true,
+        deviceIndexes: true,
+        deviceAliasCode: true,
+    })
+    const userAgent = req.headers["user-agent"] || ""
+    const detectedResult = detector.detect(userAgent)
+    console.log(detectedResult)
+
     req.logOut({}, async (err) => {
         if (err) {
             return res.status(400).send("Error")
@@ -76,8 +96,8 @@ router.get("/logout", async (req, res) => {
                     token: sessid,
                     detail: {
                         create: {
-                            deviceInfo: (device1.getOS().name || "") + (device1.getOS().version || "") || "Unknow",
-                            ip: device1.getBrowser().name || "",
+                            deviceInfo: detectedResult.device.type || "Unknown",
+                            ip: req.ip,
                             logoutDate: new Date(),
                         },
                     },
@@ -99,6 +119,11 @@ router.get("/logout", async (req, res) => {
             console.log(error)
         }
     })
+})
+
+router.get("/sockettoken", verifyUser, (req: Request, res: Response) => {
+    const token = jwt.sign({ userId: req.user?.userId }, process.env.COOKIE_SECRET || "")
+    res.send(token)
 })
 
 export { router as loginRoutes }

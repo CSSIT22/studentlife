@@ -7,8 +7,8 @@ import { HiDownload, HiUpload, HiUser } from "react-icons/hi"
 import { MdOutlineHistory } from "react-icons/md"
 import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
 import Lottie from "lottie-react"
-import axios from "axios"
 import uploadAnimation from "../../components/airdrop/animation/upload.json"
+import API from "src/function/API"
 import {
     Tag,
     Flex,
@@ -27,7 +27,6 @@ import {
     ModalBody,
     ModalCloseButton,
     Select,
-    Checkbox,
     Switch,
     NumberInput,
     NumberInputField,
@@ -35,9 +34,9 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     SimpleGrid,
-    Stack,
-    ScaleFade,
     Fade,
+    useBoolean,
+    useToast,
 } from "@chakra-ui/react"
 
 const linkMenu = [
@@ -45,30 +44,31 @@ const linkMenu = [
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
-const dummyData = [
-    {
-        name: "MR.ABC DEF",
-        description: "HELLOOOOOOOOOOOOOOOOOOOOOO",
-    },
-]
+
 const dummyData22 = ["MR.ABC DEF", "MR.GHI JKL", "MR.MNO PQR", "MR.STU VWX", "MR.YZ GG", "MR.PPP PPP"]
 export default function Index<FC>() {
+    const toast = useToast()
+    const [isError, { on }] = useBoolean(false)
+    const [isLoading, { off }] = useBoolean(true)
     //useContext getuser
     const user = useContext(authContext)
     //ref
     const ref1 = useRef(null)
     const ref2 = useRef(null)
     //userListState
+    const [commuList, setCommuList] = useState<any>([])
+    const [specificList, setSpecificList] = useState<any>([])
+    const [departmentList, setDepartmentList] = useState<any>([])
     const [userList, setUserList] = useState<{
         everyone: string[]
         department: string[]
         group: string[]
         specific: string[]
     }>({
-        everyone: dummyData22,
+        everyone: [],
         department: [],
-        group: dummyData22,
-        specific: dummyData22,
+        group: [],
+        specific: [],
     })
     //state for img preview
     const [imageSrc, setImageSrc] = useState(undefined)
@@ -98,7 +98,38 @@ export default function Index<FC>() {
         m: 0,
         s: 0,
     })
+    //user for searching
+    const [textSearch, setTextSearch] = useState("")
+    const [filterReceiver, setReceiverFilter] = useState<{
+        department: string[]
+        community: string[]
+        specific: string[]
+    }>({
+        department: [],
+        community: [],
+        specific: [],
+    })
+
     //fucntion'
+    const filterReceive = () => {
+        if (selectedType == "Department") {
+            setReceiverFilter({
+                ...filterReceiver,
+                department: userList.department.filter((item) => item.toLowerCase().includes(textSearch.toLowerCase())),
+            })
+        } else if (selectedType == "Community") {
+            setReceiverFilter({
+                ...filterReceiver,
+                community: userList.group.filter((item) => item.toLowerCase().includes(textSearch.toLowerCase())),
+            })
+        } else if (selectedType == "Specific") {
+            setReceiverFilter({
+                ...filterReceiver,
+                specific: userList.specific.filter((item) => item.toLowerCase().includes(textSearch.toLowerCase())),
+            })
+        }
+    }
+
     const handleDelete = (prop: any) => {
         setFiles(files.filter((item) => item !== prop))
     }
@@ -178,12 +209,18 @@ export default function Index<FC>() {
         })
 
         try {
-            const res = await axios.post("http://localhost:8000/airdrop/file/upload", fd, {
+            const res = await API.post("/airdrop/file/upload", fd, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-                withCredentials: true,
             })
+                .then((res) => {
+                    console.log(res)
+                })
+                .catch((err) => {
+                    setConfirmDrop(false)
+                    on()
+                })
             console.log(res)
         } catch {
             console.log("error")
@@ -199,27 +236,74 @@ export default function Index<FC>() {
         }
     }, [isOpen])
     useEffect(() => {
+        if (isError) {
+            toast({
+                title: "Error",
+                description: "Please Log In Before Using",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+    }, [isError])
+    useEffect(() => {
+        filterReceive()
+    }, [textSearch])
+
+    useEffect(() => {
         fetchGroup()
-        fetchDepartment()
         fetchSpecific()
+        fetchDepartment()
         toggleFade()
     }, [])
-    // fetchSpecific
-    // fetchCommunity
+    useEffect(() => {
+        setUserList({
+            everyone: ["everyone"],
+            department: departmentList,
+            group: commuList,
+            specific: specificList,
+        })
+    }, [departmentList])
+    useEffect(() => {
+        console.log(userList)
+    }, [userList])
     // fetch Data
     const fetchGroup = async () => {
-        // const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment")
-        // setUserList({...userList,group:res.data})
+        const res = await API.get("/airdrop/user/getcommunity").then((res) => {
+            const groupList = res.data.map((item: any) => {
+                return item.communityName
+            })
+            setCommuList(groupList)
+        })
     }
     const fetchSpecific = async () => {
-        // const res = await axios.get("http://localhost:8000/airdrop/user/getspecific")
-        // setUserList({...userList,specific:res.data})
+        const res = await API.get("/airdrop/user/getspecific")
+            .then((res) => {
+                const specificList = res.data.map((item: any) => {
+                    return item.fName + " " + item.lName
+                })
+                setSpecificList(specificList)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                off()
+            })
     }
     const fetchDepartment = async () => {
-        const res = await axios.get("http://localhost:8000/airdrop/user/getdepartment", {
+        const res = await API.get("/airdrop/user/getdepartment", {
             withCredentials: true,
         })
-        setUserList({ ...userList, department: res.data })
+            .then((res) => {
+                const majorList = res.data.map((item: any) => {
+                    return item.majorName
+                })
+                setDepartmentList(majorList)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
     return (
         <AppBody secondarynav={linkMenu}>
@@ -343,6 +427,10 @@ export default function Index<FC>() {
                                                                         _focus={{
                                                                             borderColor: "gray.400",
                                                                         }}
+                                                                        value={textSearch}
+                                                                        onChange={(e) => {
+                                                                            setTextSearch(e.target.value)
+                                                                        }}
                                                                     />
                                                                     <Select
                                                                         multiple
@@ -358,8 +446,35 @@ export default function Index<FC>() {
                                                                         textAlign={"center"}
                                                                     >
                                                                         {/* //map user data into this */}
-                                                                        {selectedType == "Community"
-                                                                            ? userList?.group.map((data, key) => {
+                                                                        {textSearch == ""
+                                                                            ? selectedType == "Community"
+                                                                                ? userList?.group.map((data, key) => {
+                                                                                      return (
+                                                                                          <option value={data} key={key}>
+                                                                                              {data}
+                                                                                          </option>
+                                                                                      )
+                                                                                  })
+                                                                                : selectedType == "Department"
+                                                                                ? userList?.department.map((data, key) => {
+                                                                                      return (
+                                                                                          <option value={data} key={key}>
+                                                                                              {data}
+                                                                                          </option>
+                                                                                      )
+                                                                                  })
+                                                                                : selectedType == "Specific"
+                                                                                ? userList?.specific.map((data, key) => {
+                                                                                      return (
+                                                                                          <option value={data} key={key}>
+                                                                                              {data}
+                                                                                          </option>
+                                                                                      )
+                                                                                  })
+                                                                                : null
+                                                                            : // text search not null
+                                                                            selectedType == "Community"
+                                                                            ? filterReceiver?.community.map((data, key) => {
                                                                                   return (
                                                                                       <option value={data} key={key}>
                                                                                           {data}
@@ -367,7 +482,7 @@ export default function Index<FC>() {
                                                                                   )
                                                                               })
                                                                             : selectedType == "Department"
-                                                                            ? userList?.department.map((data, key) => {
+                                                                            ? filterReceiver?.department.map((data, key) => {
                                                                                   return (
                                                                                       <option value={data} key={key}>
                                                                                           {data}
@@ -375,7 +490,7 @@ export default function Index<FC>() {
                                                                                   )
                                                                               })
                                                                             : selectedType == "Specific"
-                                                                            ? userList?.specific.map((data, key) => {
+                                                                            ? filterReceiver?.specific.map((data, key) => {
                                                                                   return (
                                                                                       <option value={data} key={key}>
                                                                                           {data}
@@ -528,7 +643,11 @@ export default function Index<FC>() {
                                                             textAlign={"center"}
                                                             onClick={() => {
                                                                 handleDrop()
-                                                                setConfirmDrop(true)
+                                                                if (isError == false) {
+                                                                    setConfirmDrop(true)
+                                                                } else {
+                                                                    setConfirmDrop(false)
+                                                                }
                                                             }}
                                                         >
                                                             Confirm

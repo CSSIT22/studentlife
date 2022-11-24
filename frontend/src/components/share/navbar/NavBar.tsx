@@ -6,6 +6,13 @@ import NavBarDesktop from "./NavBarDesktop"
 import NavBarMobile from "./NavBarMobile"
 import { FC } from "react"
 import { secondaryNavProps } from "../app/AppBody"
+import API from "src/function/API"
+
+export const logout = () => {
+    API.get("/auth/logout").then(() => {
+        document.location.reload()
+    })
+}
 
 export const NavBarMenu = [
     { to: "/", Icon: AiOutlineHome, name: "Home" },
@@ -16,11 +23,17 @@ export const NavBarMenu = [
 
 export const moreMenu = [
     { to: "/announcement", Icon: HiSpeakerphone, name: "Announcement" },
+    { to: "/shortnotes", Icon: HiSpeakerphone, name: "Short notes" },
+    { to: "/Blog", Icon: HiSpeakerphone, name: "Blog" },
     { to: "/airdrop", Icon: HiSpeakerphone, name: "Airdrop" },
     { to: "/shop", Icon: HiSpeakerphone, name: "Shop" },
     { to: "/restaurant", Icon: HiSpeakerphone, name: "Restaurant" },
+    { to: "/qa", Icon: HiSpeakerphone, name: "Question and answer" },
     { to: "/shopreview", Icon: HiSpeakerphone, name: "ShopReview" },
+    { to: "/link", Icon: HiSpeakerphone, name: "Short link" },
+    { to: "/todolist", Icon: HiSpeakerphone, name: "To-Do List" },
     { to: "/dating/rating", Icon: HiSpeakerphone, name: "Rating" },
+
 ]
 
 const NavBar: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {

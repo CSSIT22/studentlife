@@ -1,5 +1,70 @@
 import express from "express"
+import editevent from "./routes/editevent"
+
+export type Event = {
+    name: string
+    id: string
+}
+
+export let events: Event[] = [
+    { id: "1", name: "Course" },
+    { id: "2", name: "Assignment" },
+    { id: "3", name: "Activity" },
+]
+
+export const getEvent = () => events
+
+export const setEvent = (newData: Event[]) => {
+    events = newData
+}
 
 const scheduleRoutes = express()
+
+scheduleRoutes.use(express.json())
+
+scheduleRoutes.get("/editevent/id", editevent)
+
+// scheduleRoutes.get("/addnewevent/:id", (req, res) => {
+//     const id = req.params.id
+//     res.send("Hello " + id)
+// })
+
+// scheduleRoutes.get("/searchevent/:id", (req, res) => {
+//     const id = req.params.id
+//     let selectedevent: Event | null = null
+//     events.forEach((event) => {
+//         if (event.id == id) {
+//             selectedevent = event
+//         }
+//     })
+//     if (selectedevent != null) {
+//         return res.send(selectedevent)
+//     }
+//     return res.status(404).send("Event not found")
+//     res.send("Search event " + id)
+// })
+
+// scheduleRoutes.get("/getevent", (req, res) => {
+//     res.send(events)
+// })
+
+// scheduleRoutes.post("/editevent", (req, res) => {
+//     const id = req.body.id
+//     const name = req.body.name
+//     let editedEvent: Event | null = null
+//     // const description = req.body.description
+//     // const starttime = req.body.starttime
+//     // const endtime = req.body.endtime
+//     const newdata = events.map((event) => {
+//         if (event.id == id) {
+//             editedEvent = { id: id, name: name }
+//             return { id: id, name: name }
+//         }
+//         return event
+//     })
+//     // console.log(newdata)
+//     events = newdata
+//     res.send("Edit event" + editedEvent)
+// })
 
 export default scheduleRoutes

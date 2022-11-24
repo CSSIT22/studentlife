@@ -8,7 +8,7 @@ const AmountLike: FC<{ am_like: String }> = ({ am_like }) => {
         setLike((prevLike) => !prevLike)
     }
     return (
-        <Box onClick={handleClick} as="button" p={1} mr={1} width={"60px"} height={"25px"} px={2} rounded={"2xl"} background={"#CA44BD"}>
+        <Box onClick={handleClick} as="button" p={1} mr={1} width={"60px"} height={"25px"} px={2} rounded={"2xl"} background={"#E68E5C"}>
             <Flex mb={1} direction={"row"} justifyContent={"center"} alignItems={"center"}>
                 <img
                     style={{ maxWidth: 18 }}
