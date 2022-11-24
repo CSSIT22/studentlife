@@ -1,8 +1,10 @@
 import { prisma } from "@prisma/client"
 import express from "express"
+import getComments from "./routes/getComments"
 import getCourses from "./routes/getCourses"
 import getLibrary from "./routes/getLibrary"
 import getResentShortnotes from "./routes/getResentShortnotes"
+import getShortnoteDetail from "./routes/getShortnoteDetail"
 import postShortnote from "./routes/postShortnote"
 const shortnotesRoutes = express()
 
@@ -14,8 +16,6 @@ type s = {
     createAt: string
     isPublic: boolean
 }
-
-export let course = ["CSC110", "CSC210", "CSC220", "CSC213", "CSC218", "MTH110"]
 
 shortnotesRoutes.use(express.json())
 
@@ -31,6 +31,10 @@ shortnotesRoutes.get("/getResentShortnotes", getResentShortnotes)
 shortnotesRoutes.get("/getCourses", getCourses)
 
 shortnotesRoutes.get("/getLibrary", getLibrary)
+
+shortnotesRoutes.get("/getShortnoteDetail/:id", getShortnoteDetail)
+
+shortnotesRoutes.get("/getComments/:id", getComments)
 
 shortnotesRoutes.post("/postShortnote", postShortnote)
 
