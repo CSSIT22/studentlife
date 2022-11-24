@@ -20,6 +20,13 @@ import {
     PopoverTrigger,
     Link,
     background,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useToast,
 } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { useNavigate } from "react-router-dom"
@@ -43,6 +50,11 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
     const navigateReview = () => {
         navigate("/shopreview/review")
     }
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const cancelRef = React.useRef<HTMLButtonElement>(null);
+    const inputField = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+    const toast = useToast()
+
     return (
         <Box p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
             <Stack mb={3} direction={"row"} spacing={"24px"}>
@@ -60,32 +72,79 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                 <Flex direction={"column"} justifyContent={"flex-start"}>
                     <Popover placement="bottom">
                         <PopoverTrigger>
+                            {/* on this way  */}
                             <Box as="button">
                                 <Image width={15} src="https://cdn1.iconfinder.com/data/icons/web-and-user-interface-21/512/30-512.png"></Image>
                             </Box>
+
                         </PopoverTrigger>
                         <PopoverContent width={"100px"}>
                             {/* <PopoverCloseButton /> */}
                             <PopoverHeader textAlign={"center"}>
                                 <Box width={"100%"} as="button">
                                     <Flex direction={"row"} justifyContent={"center"} alignItems={"center"}>
+
                                         <EditIcon mr={2} />
                                         Edit
+
                                     </Flex>
+
                                 </Box>
+
                             </PopoverHeader>
                             <PopoverBody textAlign={"center"}>
                                 <Box color={"red"} width={"100%"} as="button">
                                     <Flex direction={"row"} justifyContent={"center"} alignItems={"center"}>
-                                        <DeleteIcon mr={2} />
-                                        Delete
+
+                                        <Box onClick={onOpen}>
+
+                                            <DeleteIcon mr={2} />
+                                            Delete
+                                        </Box>
                                     </Flex>
+                                    <AlertDialog
+                                        isOpen={isOpen}
+                                        leastDestructiveRef={cancelRef}
+                                        onClose={onClose}
+                                    >
+                                        <AlertDialogOverlay>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                                                    Delete Customer
+                                                </AlertDialogHeader>
+
+                                                <AlertDialogBody>
+                                                    Are you sure? You can't undo this action afterwards.
+                                                </AlertDialogBody>
+
+                                                <AlertDialogFooter>
+                                                    <Button ref={cancelRef} onClick={onClose}>
+                                                        Cancel
+                                                    </Button>
+                                                    <Button colorScheme='red' onClick={() =>
+                                                        toast({
+                                                            title: 'Already deleted',
+                                                            description: "Delete this review from your review",
+                                                            status: 'success',
+                                                            duration: 9000,
+                                                            isClosable: true,
+                                                        })
+                                                    } ml={3}>
+                                                        Delete
+                                                    </Button>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialogOverlay>
+                                    </AlertDialog>
                                 </Box>
                             </PopoverBody>
                         </PopoverContent>
                     </Popover>
                 </Flex>
+
             </Stack>
+
+
             <Collapse startingHeight={20} in={show}>
                 <Flex direction={"row"} alignItems={"flex-start"}>
                     <Text overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} as={"b"} color={"black"} size={"sm"}>
@@ -93,6 +152,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                     </Text>
                 </Flex>
             </Collapse>
+
             {/* <Button _hover={{ background: "gray.500", color: "white" }} mb={4} size="sm" onClick={handleToggle} mt="1rem">
                 Show {show ? "Less" : "More"}
             </Button> */}
@@ -103,7 +163,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                         style={{ width: 20 }}
                         src="https://toppng.com/public/uploads/thumbnail/white-location-icon-png-location-logo-png-white-11562856661b4wsud8br0.png"
                     ></img>
-                    {}
+                    { }
                 </Box>
                 <ShopName name="ข้าวมันไก่ป้าตุ๊ก" />
                 <AmountLike am_like={am_like} />

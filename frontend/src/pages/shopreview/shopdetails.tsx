@@ -73,7 +73,7 @@ const shopdetails = () => {
             </Flex>
 
             <Box flex={1} shadow={"lg"} color="white" rounded={0}>
-                <AspectRatio ratio={16 / 9} w={"100%"} height={"160px"}>
+                <AspectRatio ratio={16 / 1} w={"100%"} height={"160px"}>
                     <iframe
                         src={
                             "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.1066061015226!2d100.49433491529686!3d13.651278603291741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a251bb6b0cf1%3A0xf656e94ff13324ad!2z4Lih4Lir4Liy4Lin4Li04LiX4Lii4Liy4Lil4Lix4Lii4LmA4LiX4LiE4LmC4LiZ4LmC4Lil4Lii4Li14Lie4Lij4Liw4LiI4Lit4Lih4LmA4LiB4Lil4LmJ4Liy4LiY4LiZ4Lia4Li44Lij4Li1!5e0!3m2!1sth!2sth!4v1634524662484!5m2!1sth!2sth"
