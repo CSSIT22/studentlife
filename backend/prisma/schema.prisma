@@ -532,13 +532,13 @@ model Task_History {
 model Announcement {
   postId      String                @id @default(cuid())
   userId      String
-  filterId    Int
+  filterId    Int                   @unique
   annCreated  DateTime              @default(now()) @db.Timestamp(0)
   annExpired  DateTime              @db.Date
   isApprove   Boolean               @default(false)
   annCreator  User_Profile          @relation(fields: [userId], references: [userId])
   annLanguage Post_To_Language[]
-  annFilter Announcement_Filter @relation(fields: [filterId], references: [filterId])
+  annFilter   Announcement_Filter[]
   annPost     Announcement_Post?
   annPin      Announcement_Pin[]
   annSee      Announcement_Seen[]
@@ -547,10 +547,10 @@ model Announcement {
 }
 
 model Announcement_Filter {
-  filterId   Int    @id @default(autoincrement())
-  filterType String
-  value      String
-  announcement Announcement[]
+  filterId     Int          @id @default(autoincrement())
+  filterType   String
+  value        String
+  announcement Announcement @relation(fields: [filterId], references: [filterId])
 }
 
 model Announcement_Language {
@@ -639,12 +639,12 @@ model Chat_Room {
 }
 
 model User_To_Room {
-  user     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  userId   String
-  room     Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-  roomId   String
-  joined   DateTime  @default(now()) @db.Timestamp(0)
-  lefted   DateTime  @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
+  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId String
+  room   Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  roomId String
+  joined DateTime     @default(now()) @db.Timestamp(0)
+  lefted DateTime     @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
 
   @@id([userId, roomId])
 }
