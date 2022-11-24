@@ -29,3 +29,7 @@ export type UserCardDetail = {
     }
   }
 }
+export type AllFaculty = {
+  facultyId: string;
+  facultyName: string;
+};
