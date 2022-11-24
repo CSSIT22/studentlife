@@ -1,19 +1,19 @@
 const User = [
     {
         id: 1,
-        Name: " Ratchanon Traitiprat"
+        Name: " Ratchanon Traitiprat",
     },
     {
         id: 2,
-        Name: " "
+        Name: " ",
     },
     {
         id: 3,
-        Name: " Ratchanon Traitiprat"
+        Name: " Ratchanon Traitiprat",
     },
     {
         id: 4,
-        Name: " Ratchanon Traitiprat"
-    }
+        Name: " Ratchanon Traitiprat",
+    },
 ]
 export default User

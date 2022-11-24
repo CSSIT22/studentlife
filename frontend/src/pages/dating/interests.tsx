@@ -96,17 +96,21 @@ const TagOfInterest = () => {
                                 {/* DatingInterestDynamicButton component: Skip & Done button */}
 
                                 <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }}>
-                                    {!isError ? <DatingInterestDynamicButton
-                                        numOfSelectedInterest={selectedInterests.length}
-                                        selectedInterests={selectedInterests}
-                                        tagIsClicked={tagIsClicked}
-                                        hasSelectedInterest={hasSelectedInterest}
-                                        type="interest"
-                                        isLoading={isLoading}
-                                        setInterests={setInterests}
-                                        setIsSubmiited={setIsSubmitted}
-                                        isSubmitted={isSubmitted}
-                                    /> : <></>}
+                                    {!isError ? (
+                                        <DatingInterestDynamicButton
+                                            numOfSelectedInterest={selectedInterests.length}
+                                            selectedInterests={selectedInterests}
+                                            tagIsClicked={tagIsClicked}
+                                            hasSelectedInterest={hasSelectedInterest}
+                                            type="interest"
+                                            isLoading={isLoading}
+                                            setInterests={setInterests}
+                                            setIsSubmiited={setIsSubmitted}
+                                            isSubmitted={isSubmitted}
+                                        />
+                                    ) : (
+                                        <></>
+                                    )}
                                 </GridItem>
                             </Grid>
                             {/* DatingInterestSearch component: Search Bar */}
@@ -131,7 +135,9 @@ const TagOfInterest = () => {
                             LOADING...
                         </Heading>
                     </Box>
-                ) : <></>}
+                ) : (
+                    <></>
+                )}
                 {isSubmitted ? (
                     <Box position="absolute" top={{ base: "300", md: "8" }}>
                         <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
@@ -139,7 +145,9 @@ const TagOfInterest = () => {
                             SUBMITTING...
                         </Heading>
                     </Box>
-                ) : <></>}
+                ) : (
+                    <></>
+                )}
                 {isError && allInterests.length == 0 ? (
                     <Box pt={{ base: "270px", md: "320px" }}>
                         <DatingWentWrong />
@@ -147,7 +155,7 @@ const TagOfInterest = () => {
                 ) : (
                     <></>
                 )}
-                <Box pt={{base: "230px" ,md: "255px"}}>
+                <Box pt={{ base: "230px", md: "255px" }}>
                     {interests.map(({ interestId, interestName }) => (
                         // DatingInterestTag component: Used for generating interactive tag
                         <DatingInterestTag
@@ -165,7 +173,6 @@ const TagOfInterest = () => {
                         />
                     ))}
                 </Box>
-
             </Box>
 
             {/* DatingInterestModal: Modal that will appear when you select more than 5 tags of interest */}

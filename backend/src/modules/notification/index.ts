@@ -82,7 +82,7 @@ export function setObject(newobject: any) {
 
 const notificationRoutes = express()
 notificationRoutes.get("/getusernotiobject/:userId", getUserNotiObject)
-notificationRoutes.get("/addusernotiobject", addUserNotiObject)
+// notificationRoutes.get("/addusernotiobject", addUserNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
 notificationRoutes.post("/markallasread/:module", markallasRead)
 
