@@ -1,14 +1,97 @@
-import { Avatar, Box, Button, Heading, HStack, Input, useDisclosure, VStack, Text, Flex, Center } from "@chakra-ui/react"
+import {
+    Avatar,
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Input,
+    VStack,
+    Text,
+    Flex,
+    Center,
+    Divider,
+    border,
+    InputGroup,
+    InputLeftElement,
+    Spacer,
+    ListItem,
+    UnorderedList,
+    Image,
+    Editable,
+    EditablePreview,
+    EditableInput,
+} from "@chakra-ui/react"
 import AppBody from "../../../components/share/app/AppBody"
-import React from "react"
-import { AiFillBug, AiFillPicture, AiOutlinePlus } from "react-icons/ai"
+import React, { useState } from "react"
+import { AiFillBug, AiFillPicture, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { FaCircle } from "react-icons/fa"
+import { SearchIcon } from "@chakra-ui/icons"
+import API from "src/function/API"
 
 const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
 }
 
 function propertyEvent(props: any) {
+    const [roomColor, setRoomColor] = React.useState("")
+    const colors = ["black", "blue", "gray", "red", "green", "purple", "pink", "orange", "teal", "yellow"]
+
+    function colorRoom(e: any) {
+        return setRoomColor(e.target.value)
+    }
+
+    const [roomName, setRoomName] = useState("")
+    const submitRoomName = () => {
+        API.post("/chat")
+    }
+
+    const members: any = [
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng", id: "1" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Gift", id: "2" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Oil", id: "3" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Tine", id: "4" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Parn", id: "5" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Dolly", id: "6" },
+    ]
+
+    const [selectedMember, setSelectedMember] = useState<any>([])
+
+    const renderMember = (member: any) => {
+        return (
+            <Flex justifyContent={"space-between"} alignItems={"center"} key={member.id}>
+                <Flex alignItems={"center"}>
+                    <Avatar name={member.memberName} src={member.memberPic} marginRight={4} />
+                    <Heading size={"md"}>{member.memberName}</Heading>
+                </Flex>
+                <Spacer />
+                <Box
+                    padding={4}
+                    onClick={() => {
+                        selectedMemberHandler(member)
+                    }}
+                >
+                    <AiOutlinePlus size={20} />
+                </Box>
+            </Flex>
+        )
+    }
+
+    function selectedMemberHandler(member: any) {
+        setSelectedMember([...selectedMember, member])
+        // console.log(selectedMember)
+    }
+
+    const renderSelectedMember = () => {
+        return selectedMember.map((e: any) => (
+            <Box key={e.id} pb={4}>
+                <Avatar name={e.memberName} src={e.memberPic} />
+                {/* <AiOutlineMinus onClick={() => setSelectedMember(selectedMember.filter((e:any)=> e.id !== selectedMember.id))}/> */}
+            </Box>
+        ))
+    }
+
+    const memberSearch = (search: String) => {}
+
     if (props === "Set room name") {
         return (
             <Box p={"6"}>
@@ -20,18 +103,22 @@ function propertyEvent(props: any) {
         return (
             <VStack m={4} spacing={6}>
                 <HStack spacing={4}>
-                    <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
-                    <VStack spacing={1}>
+                    <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
+                    <Flex direction={"column"}>
                         <Heading size={"md"}>Neng</Heading>
-                        <Text>rename</Text>
-                    </VStack>
+                        <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
+                            rename
+                        </Button>
+                    </Flex>
                 </HStack>
                 <HStack spacing={4}>
                     <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                    <VStack spacing={1}>
+                    <Flex direction={"column"}>
                         <Heading size={"md"}>Dan</Heading>
-                        <Text>rename</Text>
-                    </VStack>
+                        <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
+                            rename
+                        </Button>
+                    </Flex>
                 </HStack>
             </VStack>
         )
@@ -41,17 +128,14 @@ function propertyEvent(props: any) {
             <Flex justifyContent={"center"}>
                 <VStack>
                     <Text>Quote you added</Text>
-                    <Box bg={"gray.200"} w={"96"} p={4}>
-                        Quote 1
-                        <br />
-                        Quote 2
-                        <br />
-                        Quote 3
-                        <br />
-                        Quote 4
-                        <br />
-                        Quote 5
-                    </Box>
+                    <Flex bg={"gray.200"} w={"96"} p={4} overflowY={"auto"} maxH={"60"}>
+                        <UnorderedList>
+                            <ListItem>Quote1</ListItem>
+                            <ListItem>Quote2</ListItem>
+                            <ListItem>Quote3</ListItem>
+                            <ListItem>Quote4</ListItem>
+                        </UnorderedList>
+                    </Flex>
                     <Text>Quote you want to add</Text>
                     <Input placeholder="Quote" />
                 </VStack>
@@ -60,27 +144,22 @@ function propertyEvent(props: any) {
     }
     if (props === "Change room color") {
         return (
-            <Flex justifyContent={"center"} pt={4}>
-                <VStack spacing={8}>
+            <Flex justifyContent={"center"}>
+                <VStack spacing={6}>
                     <VStack>
-                        <HStack spacing={4}>
-                            <FaCircle color="black" size={"40px"} />
-                            <FaCircle color="blue" size={"40px"} />
-                            <FaCircle color="gray" size={"40px"} />
-                            <FaCircle color="red" size={"40px"} />
-                            <FaCircle color="green" size={"40px"} />
-                        </HStack>
-                        <HStack spacing={4}>
-                            <FaCircle color="purple" size={"40px"} />
-                            <FaCircle color="pink" size={"40px"} />
-                            <FaCircle color="peach" size={"40px"} />
-                            <FaCircle color="teal" size={"40px"} />
-                            <FaCircle color="yellow" size={"40px"} />
-                        </HStack>
+                        <Flex alignItems={"center"} justifyContent={"space-between"} wrap={"wrap"} width={"80"}>
+                            {colors.map((color) => (
+                                <Box>
+                                    <Button width={"16"} height={"16"} variant="ghost" onClick={() => setRoomColor(color)}>
+                                        <FaCircle color={color} size={"40px"} />
+                                    </Button>
+                                </Box>
+                            ))}
+                        </Flex>
                     </VStack>
                     <VStack>
-                        <Text>color code</Text>
-                        <Input placeholder="#000000" />
+                        <Text as="b">color code</Text>
+                        <Input placeholder="#000000" bgColor={roomColor} onChange={(e) => colorRoom(e)} />
                     </VStack>
                 </VStack>
             </Flex>
@@ -101,14 +180,24 @@ function propertyEvent(props: any) {
     }
     if (props === "Member") {
         return (
-            <VStack m={4} spacing={6}>
+            <VStack spacing={6}>
                 <HStack spacing={4}>
-                    <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
-                    <Heading size={"md"}>Neng</Heading>
+                    <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
+                    <Heading size={"md"}>
+                        <Editable defaultValue="Neng">
+                            <EditablePreview />
+                            <EditableInput />
+                        </Editable>
+                    </Heading>
                 </HStack>
                 <HStack spacing={4}>
                     <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                    <Heading size={"md"}>Dan</Heading>
+                    <Heading size={"md"}>
+                        <Editable defaultValue="Neng">
+                            <EditablePreview />
+                            <EditableInput />
+                        </Editable>
+                    </Heading>
                 </HStack>
             </VStack>
         )
@@ -116,21 +205,20 @@ function propertyEvent(props: any) {
     if (props === "Invite people") {
         return (
             <Flex justifyContent={"center"}>
-                <Box bg={"gray.200"} w={"96"} p={4}>
-                    <Input placeholder="Search name or user id" borderColor={"black"} />
-                    <VStack p={4} justifyContent={"flex-start"}>
-                        <HStack spacing={4}>
-                            <Avatar name="Nong neng" src="https://s.thistine.com/dog" />
-                            <Heading size={"md"}>Neng</Heading>
-                            <AiOutlinePlus />
-                        </HStack>
-                        <HStack spacing={4}>
-                            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                            <Heading size={"md"}>Dan</Heading>
-                            <AiOutlinePlus />
-                        </HStack>
-                    </VStack>
-                </Box>
+                <Flex w={"96"} direction={"column"} gap={4}>
+                    <InputGroup>
+                        <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
+                        <Input placeholder="Search name or user id" borderColor={"black"} />
+                    </InputGroup>
+                    <Flex gap={4} overflowX={"auto"}>
+                        {renderSelectedMember()}
+                    </Flex>
+                    <Box overflowY={"auto"} maxH={"60"}>
+                        <Flex direction={"column"} gap={4}>
+                            {members.map((e: any) => renderMember(e))}
+                        </Flex>
+                    </Box>
+                </Flex>
             </Flex>
         )
     }
@@ -138,7 +226,12 @@ function propertyEvent(props: any) {
         return (
             <Flex justifyContent={"center"}>
                 <VStack spacing={4}>
-                    <AiFillPicture />
+                    <Image
+                        borderRadius="full"
+                        boxSize="150px"
+                        src="https://www.macmillandictionary.com/us/external/slideshow/full/Grey_full.png"
+                        alt="Room profile"
+                    />
                     <Button>Choose from my library</Button>
                 </VStack>
             </Flex>

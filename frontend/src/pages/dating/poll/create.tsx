@@ -2,11 +2,9 @@ import {
     Box,
     Center,
     FormControl,
-    FormErrorMessage,
     FormHelperText,
     FormLabel,
     Heading,
-    Input,
     Stack,
     Button,
     useToast,
@@ -18,43 +16,56 @@ import {
     ModalCloseButton,
     ModalBody,
     ModalFooter,
-    Textarea,
-    Select,
     Flex,
     GridItem,
     Grid,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
 import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
 import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
+import DatingCreateHeader from "src/components/dating/DatingCreateHeader"
+import DatingCreateDescription from "src/components/dating/DatingCreateDescription"
+import DatingCreateLocation from "src/components/dating/DatingCreateLocation"
+import DatingCreateDate from "src/components/dating/DatingCreateDate"
+import DatingCreateTime from "./../../../components/dating/DatingCreateTime"
 
 declare global {
-    var isPassDate: boolean, isPassTime: boolean, isLongDate: boolean, people: number[], tag: number[], topic: string[]
+    var isDateWrong: boolean, isTimeWrong: boolean, people: number[], tag: number[], topic: string[]
 }
 
 const CreateActivityPoll = () => {
+    const didMount = useDidMount()
+    useEffect(() => {
+        if (didMount) {
+            window.scrollTo(0, 0)
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     // This use for set state to all variable
     const [header, setHeaderInput] = useState("")
-    const handleInputHeaderChange = (e: any) => setHeaderInput(e.target.value)
 
     const [description, setDescriptionInput] = useState("")
-    const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
 
     const [location, setLocationInput] = useState("")
-    const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
-
-    const [locationD, setLocationInputD] = useState("")
-    const handleInputLocationChangeD = (e: any) => setLocationInputD(e.target.value)
 
     const [date, setDateInput] = useState("")
-    const handleInputDateChange = (e: any) => setDateInput(e.target.value)
+    const [validDate, setValidDate] = useState(false)
 
     const [time, setTimeInput] = useState("")
-    const handleInputTimeChange = (e: any) => setTimeInput(e.target.value)
+    const [validTime, setValidTime] = useState(false)
 
     const [sliderValue, setSliderValue] = useState<number[]>(globalThis.people) //For age min,max
     globalThis.people = [2, 5] //need db + condition
@@ -63,68 +74,27 @@ const CreateActivityPoll = () => {
     // to be used with some functions & Some of them are used in this file.
     const [interests, setInterests] = useState(INTERESTS)
     const [searchQuery, setSearchQuery] = useState("")
-    const [selectedInterests, setSelectedInterest] = useState<String[] | String>([])
+    const [selectedInterests, setSelectedInterest] = useState<number[]>([])
+    const [selectedInterestsNew, setSelectedInterestNew] = useState<number[]>([])
     const [tagIsClicked, setTagIsClicked] = useState(false)
 
     //Tost for error message when submit
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isSubmitted, setIsSubmitted] = useState(false)
 
     //Validate the Header
-    const isTooLongHeader = header.length >= 100
     const isTooShortHeader = header.length < 10
-    let isValidHeader = isTooLongHeader && isTooShortHeader // Use for check all Header validate
     //Validate the Description
     const isTooLongDescription = description.length >= 250
     //Validate the location
-    const isTooLongLocation = location.length >= 100
     const isTooShortLocation = location.length < 5
-    let isValidLocation = isTooLongLocation && isTooShortLocation // Use for check all Location validate
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoDate = date.length < 8
-    let isValidDate = !isNoDate && !globalThis.isPassDate // Use for check all Date validate
-
-    //Validate the date (I don't know why it worked, but it worked lol)
+    //Validate the time (I don't know why it worked, but it worked lol)
     const isNoTime = time.length < 3
-    let isValidTime = !isNoTime && !globalThis.isPassTime // Use for check all Date validate
+
     let isNoTopic = handleTopic().length < 1
-
-    //Restaurant name
-    const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
-
-    function isInThePast(d: any) {
-        const today = new Date()
-        //today.setHours(0, 0, 0, 0)
-        const previous = new Date(today.getTime())
-        previous.setDate(today.getDate() - 1)
-        today.toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })
-        const date = new Date(d)
-        //date.setHours(0, 0, 0, 0)
-        date.toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })
-        // IDK Why it worked
-        // It should be (date > previous && date !== previous) === true
-        globalThis.isPassDate = (date < previous && date !== previous) === true // Set value for validation
-        //console.log(today + " & " + date)
-        return (date < previous && date !== previous) === true
-    }
-
-    function isInTimePast(d: any) {
-        const today = new Date()
-        const chosenDate = new Date(date)
-        //Check if user pick the same date as today or not
-        if (
-            chosenDate.getDate() === today.getDate() &&
-            chosenDate.getMonth() === today.getMonth() &&
-            chosenDate.getFullYear() === today.getFullYear()
-        ) {
-            //If user pick the same date check if the time have pass
-            if (today.getHours() >= parseInt(d.substring(0, 2)) && today.getMinutes() >= parseInt(d.substring(3, 5))) {
-                globalThis.isPassTime = true
-                return true
-            }
-        }
-        return false
-    }
 
     function handleTopic() {
         globalThis.topic = []
@@ -149,8 +119,16 @@ const CreateActivityPoll = () => {
 
     function handleSubmit() {
         // Validate all value before submit to database
-        if (!isTooLongHeader && !isTooShortHeader && !isTooLongDescription && isValidDate && !isNoTime && !isInTimePast(time)) {
-            // console.log({ d: handleDateTime() })
+        if (
+            // Validate
+            !isTooShortHeader &&
+            !isTooLongDescription &&
+            !isTooShortLocation &&
+            !isNoDate &&
+            !validDate &&
+            !isNoTime &&
+            !validTime
+        ) {
             console.log(
                 "Header: " +
                     header +
@@ -160,12 +138,11 @@ const CreateActivityPoll = () => {
                     description +
                     " Location: " +
                     location +
-                    " Date: " +
-                    date +
-                    " Time: " +
-                    time +
                     " Date & Time: " +
-                    { d: handleDateTime() } +
+                    // { d: handleDateTime() } +
+                    handleDateTime() +
+                    " Now: " +
+                    new Date() +
                     " people: " +
                     sliderValue
             )
@@ -192,40 +169,12 @@ const CreateActivityPoll = () => {
 
     return (
         <DatingAppBody>
-            <Box mt="50px" p="50px" bg="white" borderRadius={"20px"} color={"black"}>
+            <Box m="10px" mt={{ base: "40px", md: "30px" }} p="50px" bg="white" mb="60px" borderRadius={"20px"} color={"black"}>
                 <Heading pb={"20px"}>Create a poll</Heading>
                 <Stack>
-                    <Center>
-                        {/* Header input & error control */}
-                        <FormControl isInvalid={!isValidHeader} isRequired>
-                            <FormLabel>Poll header</FormLabel>
-                            <Input
-                                borderRadius={"6px"}
-                                id="header"
-                                type="text"
-                                value={header}
-                                onChange={handleInputHeaderChange}
-                                backgroundColor="white"
-                                placeholder="Your poll header"
-                                size="sm"
-                                borderColor="black"
-                                maxLength={100}
-                                errorBorderColor="red"
-                                isRequired
-                                shadow="lg"
-                            />
-                            {!isTooShortHeader ? (
-                                <FormHelperText></FormHelperText>
-                            ) : (
-                                <FormErrorMessage color="red">The minimum header length is 10 characters. Type something.</FormErrorMessage>
-                            )}
-                            {!isTooLongHeader ? (
-                                <FormHelperText></FormHelperText>
-                            ) : (
-                                <FormErrorMessage color="red">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
-                            )}
-                        </FormControl>
-                    </Center>
+                    {/* Header input & error control */}
+                    <DatingCreateHeader getHeader={setHeaderInput} />
+
                     <Center>
                         {/* Topic (tag of interest) input */}
                         <FormControl>
@@ -250,7 +199,7 @@ const CreateActivityPoll = () => {
                             <Modal
                                 onClose={() => {
                                     onClose()
-                                    //, (globalThis.topic = []), setSelectedInterest([])
+                                    setSelectedInterest(selectedInterestsNew)
                                 }}
                                 isOpen={isOpen}
                                 size="lg"
@@ -298,7 +247,7 @@ const CreateActivityPoll = () => {
                                                 searchQuery={searchQuery}
                                                 setSearchQuery={setSearchQuery}
                                                 setInterests={setInterests}
-                                                INTERESTS={INTERESTS}
+                                                allInterests={INTERESTS}
                                             />
                                         </Box>
                                     </ModalHeader>
@@ -325,11 +274,25 @@ const CreateActivityPoll = () => {
                                         ))}
                                     </ModalBody>
                                     <ModalFooter>
-                                        <GridItem pl="2" area={"button"} mt={{ base: "6px", md: "10px" }} onClick={onClose}>
+                                        <GridItem
+                                            pl="2"
+                                            area={"button"}
+                                            mt={{ base: "6px", md: "10px" }}
+                                            onClick={() => {
+                                                onClose()
+                                                setSelectedInterestNew(selectedInterests)
+                                            }}
+                                        >
                                             <DatingInterestDynamicButton
                                                 numOfSelectedInterest={selectedInterests.length}
                                                 selectedInterests={selectedInterests}
                                                 tagIsClicked={tagIsClicked}
+                                                hasSelectedInterest={true}
+                                                type="topic"
+                                                isLoading={false}
+                                                setInterests={setInterests}
+                                                setIsSubmiited={setIsSubmitted}
+                                                isSubmitted={isSubmitted}
                                             />
                                         </GridItem>
                                     </ModalFooter>
@@ -339,148 +302,28 @@ const CreateActivityPoll = () => {
                                 <></>
                             ) : (
                                 <FormHelperText color="gray">
-                                    You have selected {handleTopic()} as {selectedInterests.length > 1 ? " the topics." : "the topic."}
+                                    You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."}
                                 </FormHelperText>
                             )}
                         </FormControl>
                     </Center>
-                    <Center>
-                        {/* Description input & error control */}
-                        <FormControl isInvalid={isTooLongDescription} pt="8px">
-                            <FormLabel color={"white"}>Poll description</FormLabel>
-                            <Textarea
-                                borderRadius={"6px"}
-                                id="description"
-                                value={description}
-                                onChange={handleInputDescriptionChange}
-                                backgroundColor="white"
-                                placeholder="Description"
-                                size="sm"
-                                maxLength={250}
-                                errorBorderColor="red"
-                                isRequired
-                                shadow="lg"
-                                borderColor="black"
-                            />
-                            {!isTooLongDescription ? (
-                                <FormHelperText></FormHelperText>
-                            ) : (
-                                <FormErrorMessage color="red">
-                                    The maximum description length is 250 characters. You cannot type more.
-                                </FormErrorMessage>
-                            )}
-                        </FormControl>
-                    </Center>
+                    {/* Description input & error control */}
 
-                    <FormControl isInvalid={!isValidLocation} isRequired>
-                        {/* Location input & error control */}
-                        <FormLabel>Location</FormLabel>
-                        <Flex>
-                            <Input
-                                borderRadius={"6px"}
-                                id="location"
-                                type="text"
-                                value={location}
-                                onChange={(e) => {
-                                    setLocationInputD("")
-                                    handleInputLocationChange(e)
-                                }}
-                                backgroundColor="white"
-                                placeholder="Location"
-                                size="sm"
-                                borderColor="black"
-                                maxLength={100}
-                                errorBorderColor="red"
-                                isRequired
-                                shadow="lg"
-                            />
-                            {/* IMPORTANT!!! */}
-                            {/* If that user haven't use the restaurant function we should block this feature*/}
-                            <Select
-                                borderRadius={"6px"}
-                                placeholder="Pick from your favorites."
-                                size="sm"
-                                bgColor="white"
-                                pl="20px"
-                                borderColor="black"
-                                errorBorderColor="red"
-                                value={locationD}
-                                shadow="lg"
-                                onChange={(e: any) => {
-                                    handleInputLocationChange(e)
-                                }}
-                            >
-                                {res.map((value) => {
-                                    return <option key={value}>{value}</option>
-                                })}
-                            </Select>
-                        </Flex>
-                        {!isTooShortLocation ? (
-                            <FormHelperText color="gray">You have selected {location} as a location.</FormHelperText>
-                        ) : (
-                            <FormErrorMessage color="red">The minimum header length is 5 characters. Type something.</FormErrorMessage>
-                        )}
-                        {!isTooLongLocation ? (
-                            <FormHelperText></FormHelperText>
-                        ) : (
-                            <FormErrorMessage color="red">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
-                        )}
-                    </FormControl>
+                    <DatingCreateDescription getDescription={setDescriptionInput} />
+                    {/* Location input & error control */}
+                    {/* <FormControl isInvalid={!isValidLocation} isRequired>
+
+                    {/* IMPORTANT!!! */}
+                    {/* If that user haven't use the restaurant function we should block this feature*/}
+
+                    <DatingCreateLocation getLocation={setLocationInput} />
                     {/* Date input & error control */}
-                    <FormControl isInvalid={!isValidDate} isRequired>
-                        <FormLabel>Date</FormLabel>
-                        <Input
-                            borderRadius={"6px"}
-                            id="date"
-                            type="date"
-                            value={date}
-                            onChange={handleInputDateChange}
-                            backgroundColor="white"
-                            size="sm"
-                            borderColor="black"
-                            errorBorderColor="red"
-                            isRequired
-                            shadow="lg"
-                        />
-                        {/* Somehow this two are switching IDK why*/}
-                        {/* It should be isNoDate then isInThePast(date) */}
-                        {/* {!isLongYear(date) ? (
-                            <FormHelperText></FormHelperText>
-                        ) : (
-                            <FormErrorMessage color="red">You scheduled an activity way too soon.</FormErrorMessage>
-                        )} */}
-                        {isInThePast(date) ? (
-                            <FormHelperText></FormHelperText>
-                        ) : (
-                            <FormErrorMessage color="red">You must provide a date.</FormErrorMessage>
-                        )}
 
-                        {isNoDate ? <FormHelperText></FormHelperText> : <FormErrorMessage color="red">The date has passed.</FormErrorMessage>}
-                    </FormControl>
+                    <DatingCreateDate getDate={setDateInput} getValidDate={setValidDate} />
                     {/* Time input & error control */}
-                    <FormControl isInvalid={!isValidTime} isRequired>
-                        <FormLabel>Time</FormLabel>
-                        <Input
-                            borderRadius={"6px"}
-                            id="time"
-                            type="time"
-                            value={time}
-                            onChange={handleInputTimeChange}
-                            backgroundColor="white"
-                            size="sm"
-                            borderColor="black"
-                            errorBorderColor="red"
-                            isRequired
-                            shadow="lg"
-                        />
-                        {!isNoTime ? <FormHelperText></FormHelperText> : <FormErrorMessage color="red">You must provide a time.</FormErrorMessage>}
-                        {!isInTimePast(time) ? (
-                            <FormHelperText></FormHelperText>
-                        ) : (
-                            <FormErrorMessage color="red">The time has passed.</FormErrorMessage>
-                        )}
-                    </FormControl>
-                    <FormControl isInvalid={!isValidTime} isRequired>
+
+                    <DatingCreateTime getTime={setTimeInput} getValidTime={setValidTime} selectDate={date} />
+                    <FormControl isRequired>
                         <FormLabel>Number of people</FormLabel>
                         <DatingPollCreateRangeSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
                     </FormControl>

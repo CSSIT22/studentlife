@@ -27,11 +27,23 @@ import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
 import http from "http"
-import { Server as IOServer } from "socket.io"
+import { Server as IOServer, Socket } from "socket.io"
 import { verify } from "jsonwebtoken"
+import { DefaultEventsMap } from "socket.io/dist/typed-events"
+import chatSocket from "./modules/chat/chatStocket"
+import notiSocket from "./modules/notification/notiSocket"
+import { set, deleteKey } from "./modules/backendService/socketstore/store"
 
 const PORT = 8000
 const app = express()
+
+const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])]
+
+const appCors = cors({
+    origin: appOrigin,
+    credentials: true,
+    allowedHeaders:["Content-Type"]
+})
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -67,12 +79,7 @@ redisClient.connect().catch((err) => console.log(err))
 // config passport for microsoft strategy
 passport.use(microsoft(prisma))
 
-app.use(
-    cors({
-        origin: [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])],
-        credentials: true,
-    })
-)
+app.use(appCors)
 
 app.use(
     session({
@@ -129,31 +136,39 @@ app.use("/user", userRoutes)
 
 const server = http.createServer(app)
 
-const io = new IOServer(server)
-
-let store = new Map<string, string>()
+const io = new IOServer(server, {
+    cors: {
+        credentials: true,
+        origin: appOrigin,
+    },
+})
 
 io.use((socket, next) => {
     try {
         const token = socket.handshake.headers.authorization
+        console.log(token)
         if (!token) {
             throw new Error("not authorized")
         }
         const decoded = verify(token, process.env.COOKIE_SECRET || "") as { userId: string }
 
-        store.set(socket.id, decoded.userId)
+        set(socket.id, decoded.userId)
         return next()
     } catch (err) {
+        console.log(err)
         return next(new Error("not authorized"))
     }
 })
 
-io.on("connection", (socket) => {
-    socket.on("message", (data) => {
-        socket.emit("receive-message", data)
-    })
+io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+    chatSocket(socket)
 
-    console.log(store)
+    notiSocket(socket)
+
+    socket.on("disconnect", (reason) => {
+        deleteKey(socket.id)
+    })
+    // console.log(store)
 
     console.log(socket.handshake.headers)
     console.log("Hello")

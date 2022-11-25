@@ -8,8 +8,8 @@ const DatingYourActivityButton: FC<{ backgroundColor: string }> = ({ backgroundC
             <Box
                 display="flex"
                 cursor="pointer"
-                w={{ base: "100px", md: "300px" }}
-                h={{ base: "78px", md: "74px" }}
+                w={{ base: "100px", sm: "130px", md: "200px", lg: "300px", xl: "290px" }}
+                h={{ base: "78px", md: "74px", xl: "74px", lg: "74px" }}
                 backgroundColor={backgroundColor}
                 borderRadius="5px"
                 justifyContent="center"

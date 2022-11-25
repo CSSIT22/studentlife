@@ -2,7 +2,8 @@ import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack,
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
-import { USER } from "../main/data/userProfile"
+import { USER } from "../main/mockupData/userProfile"
+import API from "src/function/API"
 
 const NotiObjectViewAll: FC<{
     id: number
@@ -12,7 +13,8 @@ const NotiObjectViewAll: FC<{
     date: Date
     module: string
     link: string
-}> = ({ id, description, isRead, date, module, userId, link }) => {
+    onClick: Function
+}> = ({ id, description, isRead, date, module, userId, link, onClick }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -96,7 +98,7 @@ const NotiObjectViewAll: FC<{
     function showDescription() {
         return (
             <Stack direction={"row"}>
-                <div dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
+                <Text dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
             </Stack>
         )
     }
@@ -120,6 +122,9 @@ const NotiObjectViewAll: FC<{
             )
         }
     }
+    function read() {
+        API.post("/notification/readnotiobject/" + id)
+    }
 
     return (
         <Box
@@ -129,7 +134,9 @@ const NotiObjectViewAll: FC<{
             transitionDuration="0.2s"
             borderRadius="2xl"
             padding={2}
-            key={id}
+            onClick={() => {
+                read(), onClick()
+            }}
         >
             <a href={link}>
                 <Stack direction={"row"} spacing={12}>
@@ -140,7 +147,7 @@ const NotiObjectViewAll: FC<{
                             </Center>
                             <Center>{showUser()}</Center>
                             <Stack direction={"row"} spacing={300} padding={5}>
-                                <Text fontSize={"sm"}>{showDescription()}</Text>
+                                {showDescription()}
                             </Stack>
                         </Stack>
                     </Box>

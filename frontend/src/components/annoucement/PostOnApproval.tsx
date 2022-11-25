@@ -12,7 +12,7 @@ const PostOnApproval: FC<{
 }> = ({ topic, sender, status, id }) => {
     return (
         <Link to={`/announcement/approval/${id}`}>
-            <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#D9D9D9" rounded="lg" cursor="pointer">
+            <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="white" rounded="lg" cursor="pointer" shadow={"md"}>
                 <Flex alignItems={"center"}>
                     <Box>
                         <Heading size={"sm"}>{topic}</Heading>
