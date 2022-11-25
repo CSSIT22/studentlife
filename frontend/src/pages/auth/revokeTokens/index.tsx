@@ -36,10 +36,60 @@ const breakpoints = {
     "2xl": "1536px",
 }
 
+const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean, onClick: Function }> = ({ modalHeader, token, isCurrentDevice, onClick }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const navigate = useNavigate()
+    return (
+        <>
+            <Button onClick={() => {
+                console.log(token)
+                console.log(isCurrentDevice)
+                onOpen()
+            }} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
+                Revoke
+            </Button>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>{modalHeader}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {isCurrentDevice ? (
+                            <p>
+                                This is your <b>current device</b>.
+                            </p>
+                        ) : (
+                            <p>This will logout you out from selected device.</p>
+                        )}
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme={"red"} variant={"solid"} color={"white"} backgroundColor={"red.400"} mr={3} onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                onClick(token)
+                                onClose()
+                                if (isCurrentDevice) navigate("/auth")
+                            }}
+                            colorScheme={"green"}
+                            variant={"solid"}
+                            color={"white"}
+                            backgroundColor={"green.400"}
+                        >
+                            Confirm
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
+
 const theme = extendTheme({ breakpoints })
 
 const index = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
     const user = useContext(authContext)
     const [tokens, setTokens] = useState<any[]>([])
     let dateLogin = new Date()
@@ -66,52 +116,6 @@ const index = () => {
     useEffect(() => {
         getTokensInfo()
     }, [])
-
-    const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean }> = ({ modalHeader, token, isCurrentDevice }) => {
-        const navigate = useNavigate()
-        return (
-            <>
-                <Button onClick={onOpen} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
-                    Revoke
-                </Button>
-                <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>{modalHeader}</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            {isCurrentDevice ? (
-                                <p>
-                                    This is your <b>current device</b>.
-                                </p>
-                            ) : (
-                                <p>This will logout you out from selected device.</p>
-                            )}
-                        </ModalBody>
-
-                        <ModalFooter>
-                            <Button colorScheme={"red"} variant={"solid"} color={"white"} backgroundColor={"red.400"} mr={3} onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    handleRevoke(token)
-                                    onClose()
-                                    if (isCurrentDevice) navigate("/auth")
-                                }}
-                                colorScheme={"green"}
-                                variant={"solid"}
-                                color={"white"}
-                                backgroundColor={"green.400"}
-                            >
-                                Confirm
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </>
-        )
-    }
 
     console.log(tokens)
 
@@ -194,19 +198,19 @@ const index = () => {
                                                     )}
                                                     {item.detail.deviceInfo === "tablet" && (
                                                         <Flex alignItems={"center"} justifyContent={"center"}>
-                                                            <Icon as={MdTabletMac} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
+                                                            <Icon as={MdTabletMac} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
                                                         </Flex>
                                                     )}
                                                     {item.detail.deviceInfo === "smartphone" && (
                                                         <Flex alignItems={"center"} justifyContent={"center"}>
-                                                            <Icon as={MdPhoneIphone} w="50%" h="155" justifySelf={"center"} alignSelf={"center"} />
+                                                            <Icon as={MdPhoneIphone} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
                                                         </Flex>
                                                     )}
                                                 </Box>
                                                 <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
                                                 <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
                                                 {/* Insert CustomModal here */}
-                                                <CustomModal modalHeader="Are you sure?" token={item.token} isCurrentDevice={item.currentDevice} />
+                                                <CustomModal onClick={handleRevoke} modalHeader="Are you sure?" token={item.token} isCurrentDevice={item.currentDevice} />
                                             </VStack>
                                         </Flex>
                                     </Box>
