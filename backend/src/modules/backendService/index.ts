@@ -68,7 +68,7 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
 })
 
 backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
-    const prisma = res.prisma
+    const { prisma, redis } = res
 
     const detector = new DeviceDetector({
         clientIndexes: true,
@@ -116,6 +116,8 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
                 },
             },
         })
+
+        redis.DEL(`sess:${token}`)
 
         console.log(logoutResult)
 
