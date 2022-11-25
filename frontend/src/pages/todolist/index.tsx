@@ -36,14 +36,16 @@ import {
 } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import { PhoneIcon, AddIcon, ArrowRightIcon, ChevronDownIcon } from "@chakra-ui/icons"
+import { useBreakpointValue } from "@chakra-ui/react"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
+
 
 const index = () => {
     return (
         <ToDoListAppBody>
-            <Flex minWidth="max-content" alignItems="center" gap="2">
+            <Flex minWidth="max-content" alignItems="center" gap="2" flexDirection={["column", "row"]}>
                 <Box p="2">
-                    <Heading size="3xl">To Do List</Heading>
+                    <Heading size="2xl">To Do List</Heading>
                 </Box>
                 <Spacer />
                 <Menu>
@@ -66,7 +68,7 @@ const index = () => {
                     <Flex alignItems={"center"}>
                         <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
                         <Box>
-                            <Text fontSize={"3xl"}>CSC210 : Work 1</Text>
+                            <Text fontSize={"2xl"}>CSC210 : Work 1</Text>
                         </Box>
                         <Spacer />
                         <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
@@ -80,7 +82,7 @@ const index = () => {
                 <Flex alignItems={"center"}>
                     <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
                     <Box>
-                        <Text as="b" fontSize={"3xl"}>
+                        <Text as="b" fontSize={"2xl"}>
                             CSC210 : Work 2
                         </Text>
                     </Box>
@@ -93,7 +95,7 @@ const index = () => {
                 <Flex alignItems={"center"}>
                     <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
                     <Box>
-                        <Text fontSize={"3xl"}>CSC220</Text>
+                        <Text fontSize={"2xl"}>CSC220</Text>
                     </Box>
                     <Spacer />
                     <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
@@ -106,7 +108,7 @@ const index = () => {
                 <Flex alignItems={"center"}>
                     <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
                     <Box>
-                        <Text as="b" fontSize={"3xl"}>
+                        <Text as="b" fontSize={"2xl"}>
                             CSC213
                         </Text>
                     </Box>
@@ -119,7 +121,7 @@ const index = () => {
                 <Flex alignItems={"center"}>
                     <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
                     <Box>
-                        <Text fontSize={"3xl"}>LNG220</Text>
+                        <Text fontSize={"2xl"}>LNG220</Text>
                     </Box>
                     <Spacer />
                     <Box textAlign={"right"} as="b" pr={"1rem"} color="red">
@@ -134,7 +136,7 @@ const index = () => {
                 </Text>
                 <Progress marginTop={2} value={20} size="lg" colorScheme="orange" />
             </Box>
-        </ToDoListAppBody>
+        </ToDoListAppBody >
     )
 }
 

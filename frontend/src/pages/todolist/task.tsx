@@ -58,14 +58,14 @@ const task = () => {
 
     return (
         <ToDoListAppBody>
-            <Heading as="h2" size="3xl" noOfLines={1}>
+            <Heading as="h2" size="xl" noOfLines={1} >
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                     <Button bgColor="orange.200" onClick={onBackOpen}>
                         <Link href="/todolist/task">
                             <ArrowBackIcon />
                         </Link>
                     </Button>
-                    <Button bgColor="orange.200" onClick={onEditOpen}>
+                    <Button bgColor="orange.200" onClick={onEditOpen} >
                         <Link href="/todolist/edittask">
                             <EditIcon />
                         </Link>

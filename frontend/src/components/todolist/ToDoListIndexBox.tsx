@@ -1,8 +1,13 @@
 import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react"
 import { PhoneIcon, AddIcon, ArrowRightIcon } from "@chakra-ui/icons"
+import { useBreakpointValue } from "@chakra-ui/react"
 import React from "react"
 
 const ToDoListIndexBox = () => {
+    const isMobile = useBreakpointValue({
+        base: false,
+        md: true,
+    })
     return (
         <Heading as="h1" size="3xl" noOfLines={1}>
             To Do List
