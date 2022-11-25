@@ -50,6 +50,15 @@ interestsRoutes.post("/setUserInterests", verifyUser, async (req: Request, res: 
             data: payload,
         })
 
+        await prisma.dating_Enroll.update({
+            where: {
+                userId: userId,
+            },
+            data: {
+                hasCompleteSetting: true,
+            },
+        })
+
         return res.send("Success!")
     } catch {
         return res.status(400).send("Cannot set interests")

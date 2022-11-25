@@ -10,16 +10,33 @@ import API from "src/function/API"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
 import Lottie from "lottie-react"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
+import { useNavigate } from "react-router-dom"
 
 const TagOfInterest = () => {
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
     const [interests, setInterests] = useState<AllInterests[]>([])
     const [selectedInterests, setSelectedInterest] = useState<number[]>([])
     const [hasSelectedInterest, setHasSelectedInterest] = useState(false)
+    const [hasCompleteSetting, setHasCompleteSetting] = useState(false)
     const didMount = useDidMount()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (didMount) {
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (datingEnroll.data.hasCompleteSetting) {
+                    setHasCompleteSetting(true)
+                }
+                if (!datingEnroll.data.hasCompleteTutorial) {
+                    navigate("/dating/tutorial")
+                }
+                API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
+                    // if (!datingOptions.data.userId) {
+                    //     navigate("/dating/option")
+                    // }
+                })
+            })
+
             API.get("/dating/interests/getUserInterests")
                 .then((selectedInterests) => {
                     const interests: number[] = selectedInterests.data.flatMap((e: any) => e.interestId)
@@ -106,7 +123,7 @@ const TagOfInterest = () => {
                                             isLoading={isLoading}
                                             setInterests={setInterests}
                                             setIsSubmiited={setIsSubmitted}
-                                            isSubmitted={isSubmitted}
+                                            hasCompleteSetting={hasCompleteSetting}
                                         />
                                     ) : (
                                         <></>
