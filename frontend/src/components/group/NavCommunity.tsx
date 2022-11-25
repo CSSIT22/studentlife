@@ -123,7 +123,7 @@ const CommunityList: FC<{
                                     Invite
                                 </Button>
 
-                                {(width || 0) > 768 ? (
+                                {(width || 0) > 100 ? (
                                     <Modal closeOnOverlayClick={true} isOpen={isModalOpen} onClose={modalOnClick} isCentered>
                                         <ModalOverlay />
                                         <ModalContent>
