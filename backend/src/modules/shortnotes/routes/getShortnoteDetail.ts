@@ -25,6 +25,7 @@ const getShortnoteDetail = async (req: Request, res: Response) => {
                         },
                     },
                 },
+                userAccess: true,
             },
         })
         res.send(snd)
