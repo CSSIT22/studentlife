@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useState } from "react"
 import {
     Box,
     Heading,
@@ -43,6 +43,7 @@ import { Link, useNavigate } from "react-router-dom"
 import search from "src/pages/restaurant/search"
 import { BsCheckLg } from "react-icons/bs"
 import API from "src/function/API"
+import { authContext } from "src/context/AuthContext"
 
 const liList: FC<{
     topic: String
@@ -52,8 +53,10 @@ const liList: FC<{
     owner: String
     date: string | any
 }> = ({ topic, course, desc, link, owner, date }) => {
+    const user = useContext(authContext)
+
     const [li, setLi] = useState([])
-    
+
     useEffect(() => {
         API.get("/shortnotes/getLibrary").then((item) => {
             setLi(item.data)
@@ -115,12 +118,13 @@ const liList: FC<{
                         <MenuItem icon={<BiLibrary />} onClick={mliOnOpen}>
                             Add to library
                         </MenuItem>
-                        <MenuItem icon={<AiOutlineUpload />} onClick={goToUpload}>
+                        {owner == user?.fName + " " + user?.lName ? <><MenuItem icon={<AiOutlineUpload />} onClick={goToUpload}>
                             Upload file
                         </MenuItem>
-                        <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
-                            Delete
-                        </MenuItem>
+                            <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
+                                Delete
+                            </MenuItem></> : null}
+
                     </MenuList>
                 </Menu>
             </HStack>
