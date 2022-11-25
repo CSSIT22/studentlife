@@ -15,6 +15,8 @@ const index = () => {
     const [shortnote, setShortnote] = useState<any>([])
     const [access, setAccess] = useState<any>([])
     const [load, setLoad] = useBoolean(true)
+    const [allow, setAllow] = useBoolean(false)
+    let userAccess: any = []
 
     useEffect(() => {
         API.get("shortnotes/getShortnoteDetail/" + param.id).then((item) => {
@@ -29,6 +31,9 @@ const index = () => {
         }
     }, [shortnote])
 
+    {
+        console.log(access);
+    }
 
     if (load) {
         return (
