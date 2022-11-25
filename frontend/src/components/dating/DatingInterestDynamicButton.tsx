@@ -13,7 +13,6 @@ const DatingInterestDynamicButton: FC<{
     isLoading: boolean
     setInterests: Dispatch<SetStateAction<AllInterests[]>>
     setIsSubmiited: React.Dispatch<React.SetStateAction<boolean>>
-    isSubmitted: boolean
     hasCompleteSetting: boolean
 }> = ({
     numOfSelectedInterest,
@@ -24,7 +23,6 @@ const DatingInterestDynamicButton: FC<{
     isLoading,
     setInterests,
     setIsSubmiited,
-    isSubmitted,
     hasCompleteSetting
 }) => {
         const navigate = useNavigate()
@@ -58,7 +56,7 @@ const DatingInterestDynamicButton: FC<{
 
         // If you have not choose any interest tag, the skip button will show up.
         // Else, the done button will show up.
-        return !(isLoading || isSubmitted) ? (
+        return !isLoading ? (
             <Button
                 colorScheme="orange"
                 width={{ base: "79px", md: "200px" }}
@@ -77,7 +75,7 @@ const DatingInterestDynamicButton: FC<{
                     </Box>
                 )}
             </Button>
-        ) : isLoading ? (
+        ) : (
             <Box
                 backgroundColor="orange.800"
                 width={{ base: "79px", md: "200px" }}
@@ -93,23 +91,6 @@ const DatingInterestDynamicButton: FC<{
                 color="white"
             >
                 Loading...
-            </Box>
-        ) : (
-            <Box
-                backgroundColor="orange.800"
-                width={{ base: "100px", md: "200px" }}
-                height={{ base: "33px", md: "70px" }}
-                borderRadius="5px"
-                float="right"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                fontWeight="700"
-                fontSize={{ base: "14px", md: "22px" }}
-                line-height="120%"
-                color="white"
-            >
-                Submitting...
             </Box>
         )
     }
