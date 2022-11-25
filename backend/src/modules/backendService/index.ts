@@ -4,11 +4,36 @@ import { nanoid } from "nanoid"
 import { verifyUser } from "./middleware/verifyUser"
 import UAParser from "ua-parser-js"
 import DeviceDetector from "node-device-detector"
+import { banned } from "./middleware/banned"
+import { reportRequest } from "@apiType/backendService"
 
 const backendserviceRoutes = express()
 
 backendserviceRoutes.use(express.json())
 
+backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
+    const { prisma } = res
+    try {
+        const bannedUser = await res.prisma.ban_Status.upsert({
+            where: {
+                userId: req.body.bannedUserId || "",
+                reason: req.body.reason,
+            },
+            update: {
+                name: "Viola the Magnificent",
+            },
+            create: {
+                userId: req.body.bannedUserId || "",
+                banTo: req.body.banTo,
+                reason: req.body.reason,
+                instance: 0,
+                banId: req.body.banId || "",
+            },
+        })
+    } catch (error) {
+        return res.status(400).json({ message: error })
+    }
+})
 backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
     try {
