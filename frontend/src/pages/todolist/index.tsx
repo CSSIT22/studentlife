@@ -49,7 +49,7 @@ const index = () => {
       withCredentials: true,
     })
 
-    console.log(res);
+    setTaskList(res.data);
   }
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const index = () => {
       </Flex>
 
       {
-        [].map((el) => (
+        taskList.map((el) => (
           <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#ECECEC" rounded="lg">
             <Flex alignItems={"center"}>
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
