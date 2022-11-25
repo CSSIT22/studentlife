@@ -59,6 +59,7 @@ router.get(
                     },
                 },
             })
+            console.log("Login success: ", req.session.id)
             res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
             res.status(500).send("These is an error in login ")
