@@ -121,7 +121,7 @@ export default function Receivedrop<FC>() {
                             )}
                             {/* //pagination with chakra ui */}
                             <Flex justifyContent={"center"} flexDirection={"row"} alignItems={"center"} gap={"3"} mt={"4"} position={"revert"}>
-                                {pageAmount > 0 ? (
+                                {pageAmount > 1 ? (
                                     <>
                                         {
                                             //map button from pageAmount number
