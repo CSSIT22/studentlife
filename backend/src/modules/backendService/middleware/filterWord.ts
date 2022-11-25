@@ -26,6 +26,7 @@ export const filterWord = async (req: Request, res: Response, next: NextFunction
         }
         return next()
     } catch (err: any) {
+        console.log(err)
         res.status(500).json({ message: "error from filterWord" })
     }
 }
