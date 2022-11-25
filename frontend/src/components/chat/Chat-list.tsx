@@ -94,7 +94,7 @@ const Clist: FC<any> = () => {
     }
 
     const renderRoom = (e: any) => {
-        if (target === 1 && e.roomtype === "INDIVIDUAL") {
+        if (target === 1 && e.roomType === "INDIVIDUAL") {
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
@@ -108,7 +108,7 @@ const Clist: FC<any> = () => {
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.Roomname} src={e.image} />
+                        <Avatar name={e.roomName} src={e.image} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
@@ -120,7 +120,7 @@ const Clist: FC<any> = () => {
                 </Flex>
             )
         }
-        if (target === 2 && e.roomtype === "GROUP") {
+        if (target === 2 && e.roomType === "GROUP") {
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
