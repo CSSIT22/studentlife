@@ -10,20 +10,20 @@ const Orders = () => {
             <PageTitle title="Orders" />
             <Flex direction="column" gap = {5}>
             {/* Recent */}
-            <TitleBox title="Recent"></TitleBox> 
-            {generateOrders()}
+            <TitleBox title="Recent" ></TitleBox> 
+            {generateOrders(3)}
             {/* Past */}
             <TitleBox title="Past"></TitleBox>
-            {generateOrders()}
+            {generateOrders(2)}
             </Flex>
         </ShopAppBody>
     )
 }
 
-function generateOrders() {
+function generateOrders(count: number) {
     let orders = []
-    for (let i = 0; i < 5; i++) {
-        orders.push(<OrderItems orderNo= {5}/>)
+    for (let i = 0; i < count; i++) {
+        orders.push(<OrderItems orderNo= {i+1}/>)
     }
     return orders
 }

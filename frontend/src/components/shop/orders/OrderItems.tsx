@@ -1,4 +1,4 @@
-import { Flex, Text, Box, Grid, SimpleGrid } from "@chakra-ui/react"
+import { Flex, Text, Box, Grid, SimpleGrid, useBoolean } from "@chakra-ui/react"
 import { FC } from "react"
 import Details from "./Detials"
 import { dateFormat } from "../functions/usefulFunctions"
@@ -8,15 +8,16 @@ import OrderedProductDisplay from "./OrderedProductDisplay"
 const OrderItems: FC<{
     orderNo: number
 }> = ({ orderNo }) => {
+    const [isCollapse, { on, off }] = useBoolean(true)
     // TODO: Get Order Info from backend
     let orderStatus = "Out For Delivery"
     let orderDateTime = dateFormat(new Date(2021, 10, 10, 10, 10, 10))
-    let subtotal=10000,
-                deliveryFee=30,
-                couponDiscount=20,
-                address="No.1111, Blahxxxxxxx  Blah Quarter, Bangkok Thailand",
-                paymentMethod="Master Card"
-    
+    let subtotal = 10000,
+        deliveryFee = 30,
+        couponDiscount = 20,
+        address = "No.1111, Blahxxxxxxx  Blah Quarter, Bangkok Thailand",
+        paymentMethod = "Master Card"
+
     // Style Text
     const detailText = {
         fontSize: "md",
@@ -25,7 +26,7 @@ const OrderItems: FC<{
 
     // Components
     const orderSummary = (
-        <Flex m="4" wrap="wrap" justify="space-between" gap={5}>
+        <Flex p="4" wrap="wrap" justify="space-between" gap={5} onClick={isCollapse ? off : on}>
             <Text sx={detailText}>{"#" + orderNo}</Text>
             <Text sx={detailText}>{orderDateTime}</Text>
             <Text sx={detailText}>{orderStatus}</Text>
@@ -33,30 +34,34 @@ const OrderItems: FC<{
     )
     const divide = <Box h="min" w="full" bg="black" p="0.3"></Box>
     const productsComp = (
-            <SimpleGrid columns={{ base: 1, md: 2 }} p={{base:3, sm: 7}} gap = {4}>
-                {generateProducts()}
-            </SimpleGrid>
+        <SimpleGrid columns={{ base: 1, md: 2 }} p={{ base: 3, sm: 7 }} gap={4}>
+            {generateProducts()}
+        </SimpleGrid>
     )
     return (
-        <ContentBox bg="#FFFFFF" >
+        <ContentBox bg="#FFFFFF">
             {orderSummary}
+            {isCollapse ? <>
+            </> : <>
             {divide}
-            {productsComp}
-            {divide}
-            <Details
-                subtotal={subtotal}
-                deliveryFee={deliveryFee}
-                couponDiscount={couponDiscount}
-                address={address}
-                paymentMethod={paymentMethod}
-            />
+                {productsComp}
+                {divide}
+                <Details
+                    subtotal={subtotal}
+                    deliveryFee={deliveryFee}
+                    couponDiscount={couponDiscount}
+                    address={address}
+                    paymentMethod={paymentMethod}
+                />
+            </>}
+
         </ContentBox>
     )
 }
 
 function generateProducts() {
     let products = []
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 1; i++) {
         products.push(
             <OrderedProductDisplay
                 productId={1}
