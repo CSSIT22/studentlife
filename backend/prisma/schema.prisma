@@ -40,6 +40,7 @@ model User_Profile {
   notis                Noti_User?
   userTimetable        Timetable[]
   tasks                Task[]
+  taskfolders          Task_Folder[]
   groups               User_To_Group[]
   taskTracking         Task_Track?
   taskChecking         Task_Check[]
@@ -49,7 +50,11 @@ model User_Profile {
   userPinAnnouncement  Announcement_Pin[]
   userSeeAnnouncement  Announcement_Seen[]
   annApproved          Announcement_Approve[]
-  cUser                Chat_User?
+  userChat             User_To_Room[]
+  userChatTo           Chat_Individual[]                @relation("chatting")
+  userChatFrom         Chat_Individual[]                @relation("chatter")
+  userSendMessage      Message[]
+  userQuote            Chat_Quote[]
   userDating           Dating_Options?
   userQueue            Card_Queue[]                     @relation("User")
   frontUserQueue       Card_Queue[]                     @relation("Front User")
@@ -344,10 +349,10 @@ model User_Noti_Object {
 
 model Noti_Object {
   notiObjectId String             @id @default(cuid())
-  template Template
+  template     Template
   date         DateTime           @db.Timestamp(0)
   isRead       Boolean
-  module     Module
+  module       Module
   url          String
   users        User_Noti_Object[]
   values       Value[]
@@ -477,9 +482,11 @@ model Task {
 }
 
 model Task_Folder {
-  folderId   String @id @default(cuid())
-  folderName String
-  tasks      Task[]
+  folderId    String       @id @default(cuid())
+  userId      String
+  folderName  String
+  folderOwnBy User_Profile @relation(fields: [userId], references: [userId])
+  tasks       Task[]
 }
 
 model Task_Group {
@@ -528,12 +535,13 @@ model Task_History {
 model Announcement {
   postId      String                @id @default(cuid())
   userId      String
-  filterId    Int
+  filterId    Int                   @unique
   annCreated  DateTime              @default(now()) @db.Timestamp(0)
   annExpired  DateTime              @db.Date
   isApprove   Boolean               @default(false)
   annCreator  User_Profile          @relation(fields: [userId], references: [userId])
   annLanguage Post_To_Language[]
+  annFilter   Announcement_Filter   @relation(fields: [filterId], references: [filterId])
   annPost     Announcement_Post?
   annPin      Announcement_Pin[]
   annSee      Announcement_Seen[]
@@ -542,9 +550,10 @@ model Announcement {
 }
 
 model Announcement_Filter {
-  filterId   Int    @id @default(autoincrement())
-  filterType String
-  value      String
+  filterId     Int           @id @default(autoincrement())
+  filterType   String
+  value        String
+  announcement Announcement?
 }
 
 model Announcement_Language {
@@ -617,67 +626,68 @@ model Announcement_Approve {
 }
 
 //Chat Module
-model Chat_User {
-  userId       String         @id
-  username     String
-  cUserToUser  User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  user_To_Room User_To_Room[]
-  messages     Message[]
-  quotes       Chat_Quote[]
-}
-
 model Chat_Room {
-  roomId     String               @id @default(cuid())
-  roomName   String
-  chatColor  String               @db.Char(7)
-  created    DateTime             @default(now()) @db.Timestamp(0)
-  deleted    DateTime?            @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
-  roomType   Room_Type
-  roomGroup  Chat_Group?
-  poll       Activity_Poll?
-  haveUser   User_To_Room[]
-  messages   Message[]
-  quotes     Chat_Quote[]
-  wordReport Word_Report_Detail[]
+  roomId         String               @id @default(cuid())
+  roomName       String
+  chatColor      String               @db.Char(7)
+  created        DateTime             @default(now()) @db.Timestamp(0)
+  roomType       Room_Type
+  roomIndividual Chat_Individual?
+  roomGroup      Chat_Group?
+  poll           Activity_Poll?
+  haveUser       User_To_Room[]
+  messages       Message[]
+  quotes         Chat_Quote[]
+  wordReport     Word_Report_Detail[]
 }
 
 model User_To_Room {
-  user     Chat_User @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  userId   String
-  room     Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-  roomId   String
-  nickname String
+  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId String
+  room   Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  roomId String
+  joined DateTime     @default(now()) @db.Timestamp(0)
+  lefted DateTime     @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
 
   @@id([userId, roomId])
 }
 
+model Chat_Individual {
+  roomId        String       @unique
+  userId        String
+  anotherUserId String
+  room          Chat_Room    @relation(fields: [roomId], references: [roomId])
+  user          User_Profile @relation("chatter", fields: [userId], references: [userId])
+  chatWith      User_Profile @relation("chatting", fields: [anotherUserId], references: [userId])
+
+  @@id([userId, anotherUserId])
+}
+
 model Chat_Group {
   roomId   String    @unique
-  joined   DateTime  @default(now()) @db.Timestamp(0)
-  lefted   DateTime  @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   groupImg String
   room     Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
 }
 
 model Message {
-  messageId     String       @id @default(cuid())
+  messageId     String        @id @default(cuid())
   roomId        String
   senderId      String?
   messageType   Message_Type
-  created       DateTime     @default(now()) @db.Timestamp(0)
-  isRead        Boolean      @default(false)
-  messageInRoom Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-  messageSender Chat_User?   @relation(fields: [senderId], references: [userId], onDelete: SetNull)
+  created       DateTime      @default(now()) @db.Timestamp(0)
+  isRead        Boolean       @default(false)
+  messageInRoom Chat_Room     @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  messageSender User_Profile? @relation(fields: [senderId], references: [userId], onDelete: SetNull)
 }
 
 model Chat_Quote {
-  quoteId  Int       @id @default(autoincrement())
+  quoteId  Int          @id @default(autoincrement())
   roomId   String
   userId   String
-  created  DateTime  @default(now()) @db.Timestamp(0)
+  created  DateTime     @default(now()) @db.Timestamp(0)
   text     String
-  quoteFor Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-  quoter   Chat_User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  quoteFor Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  quoter   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model Chat_Sticker {
@@ -921,6 +931,7 @@ model File_Info {
   comments    File_Comment[]
   folders     File_In_Folder[]
   history     File_History[]
+  snFile Sn_File[]
 }
 
 model User_Show_File {
@@ -1130,6 +1141,16 @@ model Sn_Head {
   userRecent Sn_Recent[]
   userAccess Sn_Access[]
   inTheseLib Sn_In_Library[]
+  snFile Sn_File[]
+}
+
+model Sn_File {
+  snId String
+  fileId String
+  sn Sn_Head @relation(fields: [snId], references: [snId])
+  file File_Info @relation(fields: [fileId], references: [fileId])
+
+  @@id([snId, fileId])
 }
 
 model Sn_Votedetail {
@@ -1196,10 +1217,12 @@ model Sn_Library {
 }
 
 model Sn_In_Library {
-  libId Int        @id
+  libId Int
   snId  String
   lib   Sn_Library @relation(fields: [libId], references: [libId], onDelete: Cascade)
   sn    Sn_Head    @relation(fields: [snId], references: [snId], onDelete: Cascade)
+
+  @@id([libId, snId])
 }
 
 //Transaction Module
