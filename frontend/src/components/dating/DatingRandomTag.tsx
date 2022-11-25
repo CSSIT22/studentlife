@@ -1,12 +1,15 @@
 import { Tag, Text } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 import { FC } from "react"
-import { INTERESTS } from "../dating/shared/interests"
+import { AllInterests } from "@apiType/dating"
 
 const DatingRandomTag: FC<{
-    id: number
-}> = ({ id }) => {
-    const interests = INTERESTS
+    id: {
+        interestId: number;
+    }
+    index: number
+    allInterests: AllInterests[]
+}> = ({ id, index, allInterests }) => {
 
     return (
         <motion.div
@@ -14,7 +17,7 @@ const DatingRandomTag: FC<{
             animate={{ scale: 1 }}
             style={{ display: "inline-block" }}
             whileTap={{ scale: 1.2 }}
-            key={id}
+            key={index}
             transition={{
                 type: "spring",
                 stiffness: 360,
@@ -32,7 +35,7 @@ const DatingRandomTag: FC<{
             >
                 <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
                     {/* Convert interest id to interest name */}
-                    {interests.find((interest) => interest.interestId === id)?.interestName}
+                    {allInterests.find((interest) => interest.interestId === id.interestId)?.interestName}
                 </Text>
             </Tag>
         </motion.div>
