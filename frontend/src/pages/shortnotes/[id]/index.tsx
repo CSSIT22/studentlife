@@ -20,21 +20,35 @@ const index = () => {
 
     useEffect(() => {
         API.get("shortnotes/getShortnoteDetail/" + param.id).then((item) => {
-            setShortnote(item.data)
+            if (item.data.isPublic) {
+                setAllow.on()
+                setShortnote(item.data)
+            } else {
+                setAccess(item.data.userAccess)
+                const acc = item.data.userAccess
+                const x: any = []
+                acc.map((ac: any) => (
+                    x.push(ac.userId)
+                ))
+                setAccess(x)
+
+                if (x.includes(user?.userId)) {
+                    setAllow.on()
+                }
+                setShortnote(item.data)
+            }
+
+            // console.log(user?.userId)
+            // console.log(x)
+            // console.log(x.includes(user?.userId));
+            // console.log(allow);
+            // console.log(item.data.isPublic);
+
+
+
         }).finally(setLoad.off)
 
     }, [])
-
-    useEffect(() => {
-        {
-            setAccess(shortnote.userAccess)
-        }
-    }, [shortnote])
-
-    {
-        console.log(access);
-    }
-
     if (load) {
         return (
             <AppBody><Heading>Loading...</Heading></AppBody>
@@ -42,7 +56,7 @@ const index = () => {
     }
     return (
         <AppBody>
-            <Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+            {allow ? <Box><Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
                 <SnDetail
                     topic={shortnote.snName}
                     course={shortnote.courseId}
@@ -52,9 +66,17 @@ const index = () => {
                     date={shortnote.created}
                 />
             </Box>
-            <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6}>
-                <SnComments />
+                <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6}>
+                    <SnComments />
+                </Box>
             </Box>
+                :
+                <Box>
+                    <Flex bg={"white"} rounded={8} boxShadow={"xl"} w={"100%"} h={"100%"}>
+                        <Heading alignSelf={"center"} textAlign={"center"}>Sorry, you don't have a permission to access this shortnote.</Heading>
+                    </Flex>
+                </Box>
+            }
         </AppBody>
     )
 }
