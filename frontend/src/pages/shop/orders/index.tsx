@@ -2,28 +2,28 @@ import ShopAppBody from "../../../components/shop/ShopAppBody"
 import TitleBox from "../../../components/shop/TItleBox"
 import OrderItems from "src/components/shop/orders/OrderItems"
 import PageTitle from "src/components/shop/PageTitle"
+import { dateFormat } from "src/components/shop/functions/usefulFunctions"
+import { Flex } from "@chakra-ui/react"
 const Orders = () => {
     return (
         <ShopAppBody>
             <PageTitle title="Orders" />
-            <TitleBox title="Recent"></TitleBox>
+            <Flex direction="column" gap = {5}>
+            {/* Recent */}
+            <TitleBox title="Recent"></TitleBox> 
             {generateOrders()}
-
             {/* Past */}
             <TitleBox title="Past"></TitleBox>
             {generateOrders()}
+            </Flex>
         </ShopAppBody>
     )
 }
 
 function generateOrders() {
-    let orders = [],
-        today = new Date(),
-        time = today.getHours() > 12 ? today.getHours() - 12 + ":" + today.getMinutes() + " AM" : today.getHours() + ":" + today.getMinutes() + + " PM" ,
-        dateTime = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + " at " + time
-
+    let orders = []
     for (let i = 0; i < 5; i++) {
-        orders.push(<OrderItems orderNo="fsdedc442095" orderDateTime={dateTime} orderStatus="Out for delivery" />)
+        orders.push(<OrderItems orderNo= {5}/>)
     }
     return orders
 }

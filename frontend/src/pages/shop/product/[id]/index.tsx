@@ -15,6 +15,7 @@ import { Autoplay, Keyboard, Pagination, Zoom, EffectFade } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import Pill from "src/components/shop/Pill"
 import { BsStarFill } from "react-icons/bs"
+import LoadingDisplay from "src/components/shop/LoadingDisplay"
 
 const index = () => {
     const param = useParams()
@@ -51,9 +52,7 @@ const index = () => {
     }, [])
     
     if (isLoading) {
-        return <>
-            Loading
-        </>
+        return <LoadingDisplay />
     }
     if (isError) {
         return (<>
@@ -121,8 +120,6 @@ const index = () => {
             </Grid>
         </Flex>
     )
-
-  
     const contentBox = (
         <ContentBox>
             <Flex direction="column" p="6">
@@ -150,7 +147,6 @@ const index = () => {
             </Flex>
         </ContentBox>
     )
-
     const reviewBox = (
         <ContentBox >
             <Flex direction="column" gap={3} p={6}>
@@ -196,6 +192,7 @@ const index = () => {
             
         </ContentBox>
     )
+
     if (isErrorReview){
         return (
             <ShopAppBody>
@@ -210,6 +207,7 @@ const index = () => {
             </ShopAppBody>
         )
     }
+    
     return (
         <ShopAppBody>
             <PageTitle title="Product Details" />
