@@ -17,18 +17,21 @@ backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, 
     try {
         const bannedUser = await res.prisma.ban_Status.upsert({
             where: {
-                userId: req.body.bannedUserId || "",
-                reason: req.body.reason,
+                userId_reason: {
+                    userId: req.body.bannedUserId,
+                    reason: req.body.reason,
+                },
             },
             update: {
-                name: "Viola the Magnificent",
+                instance: {
+                    increment: 1,
+                },
             },
             create: {
                 userId: req.body.bannedUserId || "",
                 banTo: req.body.banTo,
                 reason: req.body.reason,
                 instance: 0,
-                banId: req.body.banId || "",
             },
         })
     } catch (error) {

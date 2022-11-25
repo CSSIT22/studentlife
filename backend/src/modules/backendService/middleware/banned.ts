@@ -5,15 +5,15 @@ export const banned = async (req: Request, res: Response) => {
         const bannedUser = await res.prisma.ban_Status.findFirst({
             where: {
                 userId: req.user?.userId || "",
-                banTo: Date(),
-                reason: "",
-                instance: 0,
-                banFrom: req.user?.userId || "",
-                banId: req.user?.userId || "",
+                instance: {
+                    gte: 10,
+                },
             },
         })
-        if (req.user?.userId == bannedUser?.userId) {
-            req.logOut
+        if (bannedUser?.banTo || new Date() > new Date()) {
+            req.logout((err) => {
+                return err
+            })
         }
     } catch (err) {
         return res.status(400).send("Fail to Banned.")
