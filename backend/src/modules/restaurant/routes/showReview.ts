@@ -3,18 +3,19 @@ import { getRestaurant, getReview, restaurant } from ".."
 import { Restaurant, Review } from "@apiType/restaurant"
 import { review } from "../review"
 const showReview =  async(req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
+    const id = req.params.id
     try {
         const prisma = res.prisma
         const restaurant = await prisma.restaurant.findMany({
-            where: { resId: id+""},
+            where: { resId: id},
             include:{
                 images: true,
                 reviews: true,
-            }      
+                
+            },     
         })
         
-        res.send(restaurant) 
+        res.send([restaurant]) 
     } catch (err) {
         
     }

@@ -13,6 +13,7 @@ import deleteFavorite from "./routes/deleteFavorite"
 import addFavorite from "./routes/addFavorite"
 import addRestaurant from "./routes/addRestaurant"
 import { Request, Response } from "express"
+import updateRestaurant from "./routes/updateRestaurant"
 
 const restaurantRoutes = express()
 restaurantRoutes.use(express.json())
@@ -226,6 +227,7 @@ restaurantRoutes.get("/detail/:id", showDetail)
 restaurantRoutes.post("/detail/:id", addFavorite)
 restaurantRoutes.get("/review/:id", showReview)
 restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
+restaurantRoutes.put("/update", updateRestaurant)
 // restaurantRoutes.delete("/delete", async (req: Request, res: Response)=> {
 //     const prisma = res.prisma
 //     const deleteRes = await prisma.restaurant.delete({

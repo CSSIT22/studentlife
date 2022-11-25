@@ -2,20 +2,19 @@ import { Request, Response } from "express"
 import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
 import { prisma } from "@prisma/client"
-const showDetail = async (req: Request, res: Response) => {
+const updateRestaurant = async (req: Request, res: Response) => {
     const id = req.params.id
     try {
         const prisma = res.prisma
-        const restaurant = await prisma.restaurant.findUnique({
-            where: {resId: id},
-                include: {  detail: true,
-                            images: true,
-                            closeAt: true,
-                            openAt: true,
-                        },
+        const update = await prisma.restaurant_Image.update({
+            where: {imageId: 3},
+            data:{
+                image: "https://images.otstatic.com/prod1/42062542/3/huge.jpg"
+            }
+                
         })
         
-    res.send([restaurant])
+    res.send(update)
     } catch (err) {
         
     }
@@ -27,4 +26,4 @@ const showDetail = async (req: Request, res: Response) => {
     // })
     // res.send([selectedRes])
 }
-export default showDetail
+export default updateRestaurant

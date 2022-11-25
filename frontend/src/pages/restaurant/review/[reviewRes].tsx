@@ -21,27 +21,27 @@ function review() {
     //     return e2.resId == numres
     // })
     // console.log(revi)
-    
+
 
     useEffect(() => {
         API.get("/restaurant/review/" + params.reviewRes).then((item) => setproperty(item.data))
     }, [params.reviewRes])
     console.log(property)
 
-    const cloneArr = Object.assign([], property) 
-    console.log(cloneArr)
+    // const cloneArr = Object.assign([], property) 
+    // console.log(cloneArr)
 
-    const resD = cloneArr.resD
-    console.log(resD)
+    // const resD = cloneArr.resD
+    // console.log(resD)
 
-    const reviD = cloneArr.reviD //to .reviD
-    console.log(reviD)
+    // const reviD = cloneArr.reviD //to .reviD
+    // console.log(reviD)
 
-    const convReviD = {...reviD} // array -> object
-    console.log(convReviD)
+    // const convReviD = {...reviD} // array -> object
+    // console.log(convReviD)
 
-    const selectedRevi = convReviD[0] // object[0] -> array
-    console.log(selectedRevi)
+    // const selectedRevi = convReviD[0] // object[0] -> array
+    // console.log(selectedRevi)
 
     return (
         <AppBody
@@ -53,7 +53,7 @@ function review() {
         >
             <Searchbar />
             <Center mt={4}>
-                {resD?.map((e1: any) => {
+                {property.map((e1: any) => {
                     return (
                         <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
                             <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
@@ -69,7 +69,7 @@ function review() {
                                 <Box display="flex" alignItems="baseline" px={{ base: 10, md: 290 }}>
                                     <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase" display="flex" verticalAlign={"AiOutlineLike"}>
                                         <Icon as={AiOutlineLike} fontSize="md" />
-                                        {e1.amountOflike} liked
+                                        {e1.likes} liked
                                     </Box>
                                     <Spacer />
                                     <Link to={`/restaurant/detail/${numres}`}>
@@ -83,19 +83,13 @@ function review() {
                                             px={2}
                                             py={1}
                                             display="flex" verticalAlign={"AiOutlineComment"}
-                                        >                                      
+                                        >
                                             <Icon as={AiOutlineComment} fontSize="md" />
                                             REVIEW
                                         </Box>
                                     </Link>
                                 </Box>
-                                {selectedRevi.map((e2: any) => {
-                                    return (
-                                        <>
-                                            <ReviewContent name={e2.name} picture={e2.picture} rate={e2.rate} review={e2.review} />
-                                        </>
-                                    )
-                                })}
+                                <ReviewContent name={e1.user.name} picture={e1.user.picture} rate={e1.review.rating} review={e1.review.text} />
                             </Box>
                         </Box>
                     )
