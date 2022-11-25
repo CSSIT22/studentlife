@@ -6,6 +6,7 @@ import UAParser from "ua-parser-js"
 import DeviceDetector from "node-device-detector"
 import { banned } from "./middleware/banned"
 import { reportRequest } from "@apiType/backendService"
+import { filterWord } from "./middleware/filterWord"
 
 const backendserviceRoutes = express()
 
@@ -34,6 +35,10 @@ backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, 
         return res.status(400).json({ message: error })
     }
 })
+backendserviceRoutes.get("/test", filterWord, (req, res) => {
+    res.send("you passed the filter word")
+})
+
 backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
     try {
