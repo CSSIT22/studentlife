@@ -4,14 +4,13 @@ import { Request, Response } from "express"
 const postLibrary = async (req: Request<any>, res: Response<any>) => {
     try {
         const prisma = res.prisma
-        const user = req.user?.userId
-
-        const payload: any = {
-            //write request body here
-        }
+        const user: any = req.user?.userId
 
         const li = await prisma.sn_Library.create({
-            data: payload,
+            data: {
+                libName: req.body.libName,
+                userId: user
+            },
         })
         res.send(li)
     } catch (err) {
