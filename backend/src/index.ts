@@ -163,10 +163,12 @@ io.use((socket, next) => {
     }
 })
 
-io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
-    chatSocket(socket)
+export type customeSocketPrams = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>, prisma: PrismaClient) => any
 
-    notiSocket(socket)
+io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+    chatSocket(socket, prisma)
+
+    notiSocket(socket, prisma)
 
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)

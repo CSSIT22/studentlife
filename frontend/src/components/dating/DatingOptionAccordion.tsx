@@ -15,7 +15,6 @@ const DatingOptionAccordion: FC<{
     setSelectedFac: React.Dispatch<React.SetStateAction<AllFaculty[]>>
     getCheckboxProps: any
 }> = ({ faculties, selectedFac, setSelectedFac, getCheckboxProps }) => {
-
     // setSelectedFac(["All Faculty"])
 
     globalThis.facs = addFac([])
@@ -107,7 +106,7 @@ const DatingOptionAccordion: FC<{
                                 }}
                                 // isChecked={(e: any) => { selectedFac.includes(e.target.value.facultyName) }}
                                 isChecked={selectedFac.includes(faculty)}
-                            // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
+                                // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
                             />
                         ))}
 
