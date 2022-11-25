@@ -42,6 +42,7 @@ const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "
 const appCors = cors({
     origin: appOrigin,
     credentials: true,
+    allowedHeaders:["Content-Type"]
 })
 
 if (process.env.NODE_ENV !== "production") {
