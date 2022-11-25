@@ -26,18 +26,20 @@ export const filterWord = async (req: Request, res: Response, next: NextFunction
         }
         return next()
     } catch (err: any) {
-        res.status(500).json({ message: err })
+        res.status(500).json({ message: "error from filterWord" })
     }
 }
 
 const getWords = (rawString: string[]): string[] => {
     let words: string[] = []
     rawString.forEach((item) => {
-        let temp1: string[] = item
-            .toLowerCase()
-            .split(/[^a-zก-๏]/)
-            .filter((word) => word.length > 1)
-        words.push(...temp1)
+        if (item) {
+            let temp1: string[] = item
+                .toLowerCase()
+                .split(/[^a-zก-๏]/)
+                .filter((word) => word.length > 1)
+            words.push(...temp1)
+        }
     })
     return words
 }
