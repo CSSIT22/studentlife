@@ -1,4 +1,4 @@
-import { Center, Container, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, Select, useBoolean } from "@chakra-ui/react"
+import { Center, Container, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, Select, Spinner, useBoolean } from "@chakra-ui/react"
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import { MdPadding } from "react-icons/md"
 import { TbSearch } from "react-icons/tb"
@@ -65,7 +65,7 @@ const Searchbar: FC<{
         return <Heading>There is an Error! Please Try Again Later</Heading>
     } 
     if (isLoading){
-        return<Heading>Loading...</Heading>
+        return<Spinner />
     } 
 
     // Check if user has press enter when currently in the search bar

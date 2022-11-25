@@ -10,11 +10,10 @@ const OrderConfirmProduct: FC<{
     price: number
     quantity: number
     image: string
-    link: string
-}> = ({ id, name, price, quantity, image, link }) => {
+}> = ({ id, name, price, quantity, image}) => {
     return (
         <LinkBox>
-            <Link to={link ? link : "/shop/product/productDetail"} state={{ p_id: id }}>
+            <Link to={"/shop/product/" + id }>
                 <Flex justify={"space-evenly"} direction={"row"} wrap={"wrap"}>
                     <Image
                         width={{ base: 100, xl: 135 }}

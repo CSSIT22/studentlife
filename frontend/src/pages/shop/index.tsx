@@ -5,7 +5,8 @@ import ProductList from "../../components/shop/ProductList"
 import Searchbar from "../../components/shop/SearchBar"
 import ShopAppBody from "../../components/shop/ShopAppBody"
 import {Product} from "@apiType/shop"
-import { Heading, useBoolean } from "@chakra-ui/react"
+import { Flex, Heading, Spinner, useBoolean } from "@chakra-ui/react"
+import LoadingDisplay from "src/components/shop/LoadingDisplay"
 const Shop = () => { 
     const [productList, setProductList] = useState<any>(null)
     const [isError, { on }] = useBoolean()
@@ -21,9 +22,7 @@ const Shop = () => {
         </ShopAppBody>
     } 
     if (isLoading){
-        return <ShopAppBody>
-            <Heading>Loading...</Heading>
-        </ShopAppBody>
+        return <LoadingDisplay />
     } 
 
    

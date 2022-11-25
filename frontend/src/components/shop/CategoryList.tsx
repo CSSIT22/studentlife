@@ -1,5 +1,5 @@
 import { Category } from "@apiType/shop"
-import { Flex, Heading, useBoolean } from "@chakra-ui/react"
+import { Flex, Heading, Spinner, useBoolean } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import API from "src/function/API"
 import { CategoryItem } from "./CategoryItem"
@@ -18,7 +18,7 @@ const CategoryList = () => {
         
     } 
     if (isLoading){
-        return <Heading>Loading...</Heading>
+        return <Spinner / >
         
     } 
     return (
