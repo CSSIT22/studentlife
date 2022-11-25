@@ -1,5 +1,5 @@
 import express from "express"
-import createCommunity from "./routes/community/createCommunity"
+import createCommunity from "./routes/createCommunity"
 import deleteCommunity from "./routes/community/deleteCommunity"
 import editCommunity from "./routes/community/editCommunity"
 import getCommunity from "./routes/getCommunity"
@@ -8,6 +8,9 @@ import getCommunityMember from "./routes/community/member/getCommunityMember"
 import getCommunityPost from "./routes/community/post/getCommunityPost"
 import searchCommunity from "./routes/searchCommunity"
 import deleteFile from "./routes/community/file/deleteFile"
+import communityTest from "./routes/communityTest"
+import pendingRequest from "./routes/community/pendingRequest"
+
 
 const groupRoutes = express()
 groupRoutes.use(express.json())
@@ -146,5 +149,7 @@ groupRoutes.delete("/deleteFile", deleteFile)
 groupRoutes.get("/getCommunityPost", getCommunityPost)
 
 groupRoutes.get("/getCommunityMember", getCommunityMember)
+groupRoutes.get("/communityTest",communityTest)
+groupRoutes.post("/pendingRequest",pendingRequest)
 
 export default groupRoutes
