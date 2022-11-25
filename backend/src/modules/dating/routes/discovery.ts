@@ -77,7 +77,6 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             console.log(userProfileDB)
             return res.send(userProfileDB)
         }
-        return res.status(404).send("User profiles not found")
     } catch (err) {
         return res.status(404).send("User profiles not found")
     }
