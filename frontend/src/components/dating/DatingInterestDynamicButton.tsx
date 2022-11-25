@@ -13,7 +13,7 @@ const DatingInterestDynamicButton: FC<{
     isLoading: boolean
     setInterests: Dispatch<SetStateAction<AllInterests[]>>
     setIsSubmiited: React.Dispatch<React.SetStateAction<boolean>>
-    isSubmitted: boolean
+    hasCompleteSetting: boolean
 }> = ({
     numOfSelectedInterest,
     selectedInterests,
@@ -23,97 +23,76 @@ const DatingInterestDynamicButton: FC<{
     isLoading,
     setInterests,
     setIsSubmiited,
-    isSubmitted,
+    hasCompleteSetting
 }) => {
-    const navigate = useNavigate()
-    const toast = useToast()
-    // When you click "Done" button, this function will be triggered.
+        const navigate = useNavigate()
+        const toast = useToast()
+        // When you click "Done" button, this function will be triggered.
 
-    function handleClick() {
-        if (type == "interest") {
-            setInterests([])
-            setIsSubmiited(true)
-            handleSubmit()
-        }
-    }
-    function handleSubmit() {
-        if (hasSelectedInterest) {
-            if (selectedInterests.length != 0) {
-                API.put<UserInterests>("/dating/interests/updateUserInterests", { interestId: selectedInterests })
-                    .then(() => navigate("/dating/"))
-                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
-            } else {
-                API.delete<UserInterests>("/dating/interests/deleteUserInterests")
-                    .then(() => navigate("/dating/"))
-                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+        function handleClick() {
+            if (type == "interest") {
+                setInterests([])
+                setIsSubmiited(true)
+                handleSubmit()
             }
-        } else {
-            if (selectedInterests.length != 0) {
+        }
+        function handleSubmit() {
+            if (hasSelectedInterest || hasCompleteSetting) {
+                if (selectedInterests.length != 0) {
+                    API.put<UserInterests>("/dating/interests/updateUserInterests", { interestId: selectedInterests })
+                        .then(() => navigate("/dating/"))
+                        .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                } else {
+                    API.delete<UserInterests>("/dating/interests/deleteUserInterests")
+                        .then(() => navigate("/dating/"))
+                        .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                }
+            } else {
                 API.post<UserInterests>("/dating/interests/setUserInterests", { interestId: selectedInterests })
                     .then(() => navigate("/dating/"))
                     .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
-            } else {
-                navigate("/dating/")
             }
         }
-    }
 
-    // If you have not choose any interest tag, the skip button will show up.
-    // Else, the done button will show up.
-    return !(isLoading || isSubmitted) ? (
-        <Button
-            colorScheme="orange"
-            width={{ base: "79px", md: "200px" }}
-            height={{ base: "33px", md: "70px" }}
-            borderRadius="5px"
-            float="right"
-            onClick={() => handleClick()}
-        >
-            {tagIsClicked || numOfSelectedInterest != 0 ? (
-                <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
-                    Done
-                </Box>
-            ) : (
-                <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
-                    Skip
-                </Box>
-            )}
-        </Button>
-    ) : isLoading ? (
-        <Box
-            backgroundColor="orange.800"
-            width={{ base: "79px", md: "200px" }}
-            height={{ base: "33px", md: "70px" }}
-            borderRadius="5px"
-            float="right"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            fontWeight="700"
-            fontSize={{ base: "14px", md: "22px" }}
-            line-height="120%"
-            color="white"
-        >
-            Loading...
-        </Box>
-    ) : (
-        <Box
-            backgroundColor="orange.800"
-            width={{ base: "100px", md: "200px" }}
-            height={{ base: "33px", md: "70px" }}
-            borderRadius="5px"
-            float="right"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            fontWeight="700"
-            fontSize={{ base: "14px", md: "22px" }}
-            line-height="120%"
-            color="white"
-        >
-            Submitting...
-        </Box>
-    )
-}
+        // If you have not choose any interest tag, the skip button will show up.
+        // Else, the done button will show up.
+        return !isLoading ? (
+            <Button
+                colorScheme="orange"
+                width={{ base: "79px", md: "200px" }}
+                height={{ base: "33px", md: "70px" }}
+                borderRadius="5px"
+                float="right"
+                onClick={() => handleClick()}
+            >
+                {(tagIsClicked || numOfSelectedInterest != 0 || hasCompleteSetting) ? (
+                    <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
+                        Done
+                    </Box>
+                ) : (
+                    <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
+                        Skip
+                    </Box>
+                )}
+            </Button>
+        ) : (
+            <Box
+                backgroundColor="orange.800"
+                width={{ base: "79px", md: "200px" }}
+                height={{ base: "33px", md: "70px" }}
+                borderRadius="5px"
+                float="right"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                fontWeight="700"
+                fontSize={{ base: "14px", md: "22px" }}
+                line-height="120%"
+                color="white"
+            >
+                Loading...
+            </Box>
+        )
+    }
 
 export default DatingInterestDynamicButton

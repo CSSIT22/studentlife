@@ -9,9 +9,15 @@ optionRoutes.get("/", (_, res) => {
     return res.send("Dating Module Option page API")
 })
 
-// Get all faculty
+// Get all faculty From user profile
 optionRoutes.get("/getFaculty", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+    try {
+        const allFacultyDB = await prisma.faculty.findMany()
+        // console.log(allFacultyDB)
+        return res.send(allFacultyDB)
+    } catch (err) {
+        return res.status(404).send("Faculty no found")
+    }
 })
 
 // Get the previous option

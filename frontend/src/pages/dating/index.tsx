@@ -1,7 +1,7 @@
-import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text, useBoolean } from "@chakra-ui/react"
 import { CARD_QUEUE } from "src/components/dating/shared/card_queue"
 import DatingAppBody from "src/components/dating/DatingAppBody"
-import React, { useState, useMemo, useRef, FC, RefObject } from "react"
+import React, { useState, useMemo, useRef, FC, RefObject, useEffect } from "react"
 import { AnimationControls, useAnimation } from "framer-motion"
 import DatingRandomTag from "src/components/dating/DatingRandomTag"
 import DatingRandomCrossButton from "src/components/dating/DatingRandomCrossButton"
@@ -10,13 +10,15 @@ import DatingRandomDetails from "src/components/dating/DatingRandomDetails"
 import DatingRandomBase from "src/components/dating/DatingRandomBase"
 import TinderCard from "react-tinder-card"
 import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import ProfileImg from "../../components/dating/pic/profile.png"
+import API from "src/function/API"
+import { AllInterests, UserCardDetail } from "@apiType/dating"
 
 const RandomCardInside: FC<{
     childRefs: RefObject<any>[]
     index: number
-    character: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }
+    character: UserCardDetail
     likeText: AnimationControls
     nopeText: AnimationControls
     pointerEvents: ResponsiveValue<any>
@@ -26,10 +28,12 @@ const RandomCardInside: FC<{
             ref={childRefs[index]}
             id={index.toString()}
             borderRadius="10px"
-            backgroundImage={character.url}
+            backgroundColor="gray"
+            backgroundImage={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character?.userId}
             w={{ base: "326px", md: "379px" }}
             h={{ base: "402px", md: "464px" }}
             backgroundSize="cover"
+            backgroundPosition="center"
             className="card"
             position="absolute"
             top="30px"
@@ -147,23 +151,14 @@ const RandomCardInside: FC<{
 }
 
 const DatingRandomCard: FC<{
-    character: { UserId: string; Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; url: string; interestId: number[] }
+    character: UserCardDetail
     index: number
     currentIndex: number
     controlCross: AnimationControls
     controlHeart: AnimationControls
     childRefs: React.RefObject<any>[]
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>
-    characters: {
-        UserId: string
-        Fname: string
-        Lname: string
-        Gender: string
-        Age: string
-        Faculty: string
-        url: string
-        interestId: number[]
-    }[]
+    characters: UserCardDetail[]
 }> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters }) => {
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
@@ -238,9 +233,9 @@ const DatingRandomCard: FC<{
         <TinderCard
             ref={childRefs[index]}
             className="swipe"
-            key={character.UserId}
-            onSwipe={(dir: string) => swiped(dir, character.Fname + " " + character.Lname, index)}
-            onCardLeftScreen={() => outOfFrame(character.Fname, index)}
+            key={character.userId}
+            onSwipe={(dir: string) => swiped(dir, character.fName + " " + character.lName, index)}
+            onCardLeftScreen={() => outOfFrame(character.fName, index)}
             preventSwipe={["down", "up"]}
             swipeRequirementType="position"
             swipeThreshold={75}
@@ -274,10 +269,63 @@ const DatingRandomCard: FC<{
 }
 
 const DatingRandomization = () => {
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+    const [characters, setCharacters] = useState<UserCardDetail[]>([])
+    const [allInterests, setAllInterests] = useState<AllInterests[]>([])
+    const [numOfChar, setNumOfChar] = useState(characters.length)
+    const [isLoading, { off }] = useBoolean(true)
+    let count = 1
+    useEffect(() => {
+        if (didMount && count == 1) {
+            count = count - 1
+            API.get("/dating/discovery/getCards").then((user) => {
+                let data = user.data
+                var currentIndex = data.length, temporaryValue, randomIndex;
+                while (0 !== currentIndex) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+                    temporaryValue = data[currentIndex];
+                    data[currentIndex] = data[randomIndex];
+                    data[randomIndex] = temporaryValue;
+                }
+                setCharacters(data)
+                setNumOfChar(data.length)
+                API.get("/dating/discovery/getAllInterest").then((interest) => {
+                    setAllInterests(interest.data)
+                })
+                setCurrentIndex(data.length - 1)
+                API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                    API.get("/dating/verifyEnroll/getDatingOptions")
+                        .then((datingOptions) => {
+                            if (!datingEnroll.data.hasCompleteSetting) {
+                                navigate("/dating/interests")
+                                if (!datingOptions.data.userId) {
+                                    // navigate("/dating/option")
+                                    if (!datingEnroll.data.hasCompleteTutorial) {
+                                        navigate("/dating/tutorial");
+                                    }
+                                }
+                            }
+                        })
+                })
+            console.log("test")
+            }).catch((err) => console.log(err)).finally(off)
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     // used to determine the current index of the card
-    const [currentIndex, setCurrentIndex] = useState(CARD_QUEUE.length - 1)
-    // retrieved from database
-    const characters = CARD_QUEUE
+    const [currentIndex, setCurrentIndex] = useState(numOfChar - 1)
+
 
     // animation for the buttons
     const controlCross = useAnimation()
@@ -286,7 +334,7 @@ const DatingRandomization = () => {
     // used for the tinder card
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
-            Array(CARD_QUEUE.length)
+            Array(20)
                 .fill(0)
                 .map(() => React.createRef()),
         []
@@ -297,7 +345,7 @@ const DatingRandomization = () => {
 
     // used for swiping with buttons
     const swipe = async (dir: string) => {
-        if (canSwipe && currentIndex < CARD_QUEUE.length) {
+        if (canSwipe && currentIndex < numOfChar) {
             await childRefs[currentIndex].current.swipe(dir)
         }
     }
@@ -305,7 +353,7 @@ const DatingRandomization = () => {
     return (
         // userSelect = none => prevent users from accidentally select texts
         <DatingAppBody userSelect="none">
-            <SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
+            {isLoading && didMount ? <></> : <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
                 <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
                     <DatingRandomBase />
@@ -336,9 +384,9 @@ const DatingRandomization = () => {
                                 whiteSpace={{ base: "nowrap", md: "initial" }}
                                 style={{ WebkitOverflowScrolling: "touch" }}
                             >
-                                {characters[currentIndex].interestId.map((id) => (
+                                {characters[currentIndex].interests.map((interestId, index) => (
                                     // Show user's tags of interest
-                                    <DatingRandomTag id={id} />
+                                    <DatingRandomTag id={interestId} index={index} allInterests={allInterests} />
                                 ))}
                             </Box>
                         </Box>
@@ -348,12 +396,13 @@ const DatingRandomization = () => {
                     <></>
                 )}
             </SimpleGrid>
-            <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
-                {/* Cross button */}
-                <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
-                {/* Heart button */}
-                <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
-            </Box>
+                <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
+                    {/* Cross button */}
+                    <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
+                    {/* Heart button */}
+                    <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
+                </Box></>}
+
         </DatingAppBody>
     )
 }
