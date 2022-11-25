@@ -210,15 +210,6 @@ readDBRoutes.get("/chat_Group", async (req: Request, res: Response) => {
     }
 })
 
-readDBRoutes.get("/chat_User", async (req: Request, res: Response) => {
-    try {
-        const chat_UserDB = await prisma.chat_User.findMany()
-        res.send(chat_UserDB)
-    } catch (err) {
-        res.status(404).send("Chat User not found")
-    }
-})
-
 // Schedule's module
 readDBRoutes.get("/timetable", async (req: Request, res: Response) => {
     try {

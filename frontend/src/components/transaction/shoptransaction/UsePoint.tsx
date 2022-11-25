@@ -42,7 +42,6 @@ const UsePoint: FC<{
                                 <NumberInput bg={"white"} color="black" borderRadius="10px" defaultValue={0} min={0}>
                                     <NumberInputField placeholder="0" />
                                 </NumberInput>
-                                
                             </FormControl>
                         </Stack>
                     </Flex>

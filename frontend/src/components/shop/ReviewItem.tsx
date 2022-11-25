@@ -23,7 +23,7 @@ const ReviewItem: FC<{
     return (
         <Box onClick={onOpen} borderRadius="3xl" shadow="xl" p="7" bg="#E69C73" cursor={"pointer"}>
             <Modal isOpen={isOpen} onClose={onClose} isCentered size={"xl"}>
-                <ModalOverlay bg='blackAlpha.500' backdropFilter="auto"  backdropBlur="2px" />
+                <ModalOverlay bg="blackAlpha.500" backdropFilter="auto" backdropBlur="2px" />
                 <ModalContent>
                     <ModalHeader>Review Details</ModalHeader>
                     <ModalCloseButton />

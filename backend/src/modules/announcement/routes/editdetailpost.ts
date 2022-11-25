@@ -1,8 +1,8 @@
-import { post } from "@apiType/announcement";
-import { Request, Response } from "express";
-import { getPost, setPost } from "..";
+import { post } from "@apiType/announcement"
+import { Request, Response } from "express"
+import { getPost, setPost } from ".."
 
-const editDetailPost = (req:Request,res:Response) => {
+const editDetailPost = (req: Request, res: Response) => {
     const postId = req.body.postid
     const topic = req.body.topic
     const detail = req.body.detail
@@ -13,7 +13,7 @@ const editDetailPost = (req:Request,res:Response) => {
     const addmorelang = req.body.addMoreLang
     let editpost: post | null = null
     const newData = getPost().map((post) => {
-        if(post.postId == postId){
+        if (post.postId == postId) {
             post.topic = topic
             post.detail = detail
             post.targetType = targetType

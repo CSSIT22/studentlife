@@ -1,7 +1,7 @@
 import React from "react"
 import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
-import Calendar from 'react-calendar';
+import Calendar from "react-calendar"
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
@@ -13,8 +13,6 @@ import { IconButton, useDisclosure, Button, ButtonGroup, Divider } from "@chakra
 //import { AddIcon } from "@chakra-ui/icons"
 import { useState } from "react"
 // import { DESCRIPTION } from "src/components/notification/main/data/descTest"
-
-
 
 const theme = extendTheme({
     radii: {
@@ -69,18 +67,18 @@ const timetable = () => {
     const handleInputTimeChange = (e: any) => setTimeInput(e.target.value)
     const [dateSelect, setDateInput] = useState(new Date())
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    const dateButton = document.getElementById('my-element')
+    const dateButton = document.getElementById("my-element")
 
-function handleTime(){
-    const starttime = new Date(time)
-    return starttime
-}
+    function handleTime() {
+        const starttime = new Date(time)
+        return starttime
+    }
     function handleSubmit() {
-        console.log("Name: " + name + " Description: " + description + " Location: " + location + " Time: " + handleTime() )
+        console.log("Name: " + name + " Description: " + description + " Location: " + location + " Time: " + handleTime())
     }
     function selectDate() {
         dateSelect
-        console.log("Date: " + dateSelect )
+        console.log("Date: " + dateSelect)
     }
 
     return (
@@ -88,14 +86,20 @@ function handleTime(){
             <SimpleGrid columns={[1, 6]} spacing="30px">
                 <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
 
-                <Button id="dateButton" boxShadow="md" p="6" rounded="md" bg="white"onClick={calendarModal.onOpen}>
-                {dateSelect.getDate()}
-                   {/* Date  */}
-                   {/* <calendar 
+                <Button id="dateButton" boxShadow="md" p="6" rounded="md" bg="white" onClick={calendarModal.onOpen}>
+                    {dateSelect.getDate()}
+                    {/* Date  */}
+                    {/* <calendar 
                    date ={date}
                    setDate={setDate}/> */}
                 </Button>
-                <Modal id="calendarButton" initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={calendarModal.isOpen} onClose={calendarModal.onClose}>
+                <Modal
+                    id="calendarButton"
+                    initialFocusRef={initialRef}
+                    finalFocusRef={finalRef}
+                    isOpen={calendarModal.isOpen}
+                    onClose={calendarModal.onClose}
+                >
                     <ModalOverlay />
                     <ModalContent>
                         <ModalCloseButton />
@@ -103,11 +107,11 @@ function handleTime(){
                             <Flex>
                                 <FormControl mt={5}>
                                     <Calendar
-                                    defaultActiveStartDate={dateSelect}
-                                    onChange={ (dateNow: any) => {
-                                        setDateInput(dateNow)
-                                    }}
-                                     />
+                                        defaultActiveStartDate={dateSelect}
+                                        onChange={(dateNow: any) => {
+                                            setDateInput(dateNow)
+                                        }}
+                                    />
                                 </FormControl>
                             </Flex>
                         </ModalBody>
@@ -126,7 +130,7 @@ function handleTime(){
                     Year
                 </Button> */}
                 <IconButton aria-label="next" icon={<ChevronRightIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
-                
+
                 <IconButton
                     onClick={modal1.onOpen}
                     w="60px"
@@ -170,7 +174,6 @@ function handleTime(){
                                 </FormLabel>
                                 <Textarea
                                     id="description"
-                                    
                                     value={description}
                                     onChange={handleInputDescriptionChange}
                                     placeholder="Description"
@@ -184,7 +187,7 @@ function handleTime(){
                                     <FormLabel color="black">
                                         <Text fontSize="24px">Start Time</Text>
                                     </FormLabel>
-                                    <Input placeholder="Select time" size="xs" id="time" type="time" value={time} onChange={handleInputTimeChange}/>
+                                    <Input placeholder="Select time" size="xs" id="time" type="time" value={time} onChange={handleInputTimeChange} />
                                 </FormControl>
 
                                 <FormControl mt={4}>
@@ -204,7 +207,7 @@ function handleTime(){
                                         <option>Activity</option>
                                     </Select>
                                 </FormControl>
-                            </Flex> 
+                            </Flex>
                             <FormControl mt={4}>
                                 <FormLabel color="black">Location</FormLabel>
                                 <Input
@@ -230,13 +233,7 @@ function handleTime(){
                         </ModalBody>
 
                         <ModalFooter>
-                            <Button 
-                            colorScheme="blue" 
-                            width="239px" 
-                            height="40px" 
-                            bg="#E65300" 
-                            type="submit" 
-                            onClick={() => handleSubmit()}>
+                            <Button colorScheme="blue" width="239px" height="40px" bg="#E65300" type="submit" onClick={() => handleSubmit()}>
                                 Add
                             </Button>
                         </ModalFooter>
@@ -262,12 +259,11 @@ function handleTime(){
             </Box>
             <br />
 
-
             <Box boxShadow="md" p="4" rounded="md" bg="white">
                 <Text>01:00</Text>
                 {/* <Box zIndex="4"  position="fixed" bgColor="#FFA740"><Text color='black' width="88px" height="295px">Assignment</Text>  </Box>
                  */}
-                 
+
                 <br />
                 <Divider orientation="horizontal" />
                 <Text>02:00</Text>
@@ -285,19 +281,22 @@ function handleTime(){
                 <Divider />
                 <Text>06:00</Text>
                 <Box boxShadow="md" p="6" rounded="md" bg="white">
-                        <Grid templateColumns="repeat(8, 1fr)" gap={2}>
-                            <h4></h4>
-                            <h4></h4>
-                            <h4></h4>
-                            <h4></h4>
-                            <h4></h4>
-                            <h4>
-                            <Box bg='#7EFF69' w='100%' p="3" color='black' onClick={detailModal.onOpen} cursor='pointer'> Assignment </Box>
-                            </h4>
-                            <h4></h4>
-                            <h4></h4>
-                        </Grid>
-                    </Box>
+                    <Grid templateColumns="repeat(8, 1fr)" gap={2}>
+                        <h4></h4>
+                        <h4></h4>
+                        <h4></h4>
+                        <h4></h4>
+                        <h4></h4>
+                        <h4>
+                            <Box bg="#7EFF69" w="100%" p="3" color="black" onClick={detailModal.onOpen} cursor="pointer">
+                                {" "}
+                                Assignment{" "}
+                            </Box>
+                        </h4>
+                        <h4></h4>
+                        <h4></h4>
+                    </Grid>
+                </Box>
                 <br />
                 <Divider />
                 <Text>07:00</Text>
@@ -355,16 +354,22 @@ function handleTime(){
                 <br />
                 <Divider />
                 {/* <Grid templateColumns="repeat(8, 1fr)" gap={2}> */}
-                    <h4></h4>
-                
-                <Box zIndex="2" position="fixed" bgColor="#FFA740"><Text color='black' width="88px" height="295px">Course</Text>  </Box>
-                <Box zIndex="2" position="fixed" bgColor="#FFA740"><Text color='black' width="88px" height="295px">what</Text>  </Box>
+                <h4></h4>
+
+                <Box zIndex="2" position="fixed" bgColor="#FFA740">
+                    <Text color="black" width="88px" height="295px">
+                        Course
+                    </Text>{" "}
+                </Box>
+                <Box zIndex="2" position="fixed" bgColor="#FFA740">
+                    <Text color="black" width="88px" height="295px">
+                        what
+                    </Text>{" "}
+                </Box>
                 {/* </Grid> */}
-               
 
                 {/* this part is for edit evet modal     */}
             </Box>
-            
 
             <Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
                 Edit
@@ -462,7 +467,6 @@ function handleTime(){
                     </ModalBody>
 
                     <ModalFooter>
-
                         <Button variant="ghost" bg="#38A169">
                             <Text color="white">Yes</Text>
                         </Button>
@@ -471,7 +475,7 @@ function handleTime(){
                         </Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal> 
+            </Modal>
         </AppBody>
     )
 }

@@ -11,7 +11,7 @@ const savelink = () => {
     }
     return (
         <AppBody>
-            <Container borderWidth="1px" padding="10" borderRadius="xl" background={"white"} gap={2} bgColor={"#D9D9D9"} >
+            <Container borderWidth="1px" padding="10" borderRadius="xl" background={"white"} gap={2} bgColor={"#D9D9D9"}>
                 <Box
                     width={"200px"}
                     height={"40px"}

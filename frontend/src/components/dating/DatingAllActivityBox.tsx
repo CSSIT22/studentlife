@@ -1,9 +1,10 @@
-import { Box, Button, Center, Flex, Heading, Image, Spacer, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Heading, Image, Spacer, Tag, Text } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { POLL } from "./shared/poll"
 import { Link } from "react-router-dom"
 import { POLL_APPLICANT } from "./shared/poll_applicant"
 import { useToast } from "@chakra-ui/react"
+import { INTERESTS } from "./shared/interests"
 
 declare global {
     var date: string, time: string
@@ -12,6 +13,7 @@ declare global {
 // Component of all activity page
 const DatingAllActivityBox = () => {
     const [poll, setPoll] = useState(POLL)
+    const [interests, setInterests] = useState(INTERESTS)
     const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
 
     function appiled(pId: string) {
@@ -105,12 +107,50 @@ const DatingAllActivityBox = () => {
                                 </Text>
                             </Center>
                         </Flex>
-                        <Heading fontSize="20px" pt="10px" pb="10px">
+                        <Heading fontSize="20px" pt="10px">
                             {values.pollName}
                         </Heading>
-                        <Text fontSize="16px" pb="20px">
+                        {values.pollInterest.length < 1 ? (
+                            <Text pb="20px"></Text>
+                        ) : (
+                            <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
+                                <Box
+                                    height="70px"
+                                    //pt="5px"
+                                    overflowX={{ base: "auto", md: "visible" }}
+                                    whiteSpace={{ base: "nowrap", md: "initial" }}
+                                    style={{ WebkitOverflowScrolling: "touch" }}
+                                >
+                                    {values.pollInterest.map((i) => (
+                                        <Tag
+                                            backgroundColor="orange.400"
+                                            color="white"
+                                            mr="1"
+                                            mb="1"
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                            borderRadius="5px"
+                                            h={{ md: "28px" }}
+                                        >
+                                            <Text
+                                                mt="5px"
+                                                mb="5px"
+                                                ml="15px"
+                                                mr="15px"
+                                                fontWeight="400"
+                                                fontSize={{ base: "12px", md: "16px" }}
+                                                lineHeight="150%"
+                                            >
+                                                {i}
+                                            </Text>
+                                        </Tag>
+                                    ))}
+                                </Box>
+                            </Box>
+                        )}
+                        <Text fontSize="16px">
                             {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
                         </Text>
+
                         <Text fontSize="16px">Location: {values.pollPlace}</Text>
 
                         <Text fontSize="16px">Date: {globalThis.date}</Text>

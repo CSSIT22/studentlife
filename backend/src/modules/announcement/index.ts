@@ -1,5 +1,5 @@
 import { verifyUser } from "./../backendService/middleware/verifyUser"
-import { post} from "./../../../../types/announcement/index"
+import { post } from "./../../../../types/announcement/index"
 import express from "express"
 import { getHeapCodeStatistics } from "v8"
 import getDetail from "./routes/getdetail"
@@ -12,6 +12,8 @@ import editstatusOnRecyclebin from "./routes/editstatusonrecycle"
 import editstatusOnHistory from "./routes/editstausonhistory"
 import editDetailPost from "./routes/editdetailpost"
 import getDetailEdit from "./routes/getdetailedit"
+import getTargetGroup from "./routes/gettargetgroup"
+import createPost from "./routes/createpost"
 
 const announcementRoutes = express()
 
@@ -168,7 +170,24 @@ export let posts: post[] = [
         pinStatus: false,
         isApprove: false,
         targetType: "Year",
-        targetValue: "1",
+        targetValue: "2",
+        postAt: new Date(),
+        expiredOfPost: new Date("2022-11-24"),
+        expiredAfterDelete: new Date(),
+        addMoreLang: [],
+    },
+    {
+        postId: 9,
+        userId: "wFbN9qrwUbCgrEtfpIEVf",
+        lang_id: 1000,
+        topic: "Hello World9",
+        detail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        sender: "SAMO-SIT",
+        status: "waiting",
+        pinStatus: false,
+        isApprove: false,
+        targetType: "Everyone",
+        targetValue: "",
         postAt: new Date(),
         expiredOfPost: new Date("2022-11-24"),
         expiredAfterDelete: new Date(),
@@ -183,7 +202,7 @@ export const setPost = (newData: post[]) => {
     posts = newData
 }
 
-announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
+announcementRoutes.get("/getPostOnAnnouncement", (req, res) => {
     const minute = 1000 * 60
     const hour = minute * 60
     const day = hour * 24
@@ -192,7 +211,7 @@ announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
     let selectpost: post[] = []
     getPost().forEach((post) => {
         if (post.isApprove == true) {
-            if(post.status == "approve"){
+            if (post.status == "approve") {
                 const expired = new Date(post.expiredOfPost)
                 const expiredPost = Math.round(expired.getTime() / day)
                 const diff = expiredPost - currentD
@@ -200,7 +219,6 @@ announcementRoutes.get("/getPostOnAnnouncement",  (req, res) => {
                     selectpost.push(post)
                 }
             }
-
         }
     })
     res.send(selectpost)
@@ -216,7 +234,9 @@ announcementRoutes.get("/getdeletepost", getDeletePost)
 
 announcementRoutes.get("/getdetailedit/:id", getDetailEdit)
 
-announcementRoutes.post("/editpinstatus",editPinStatus)
+announcementRoutes.post("/gettargetgroup", getTargetGroup)
+
+announcementRoutes.post("/editpinstatus", editPinStatus)
 
 announcementRoutes.post("/editstatusonapprove", editstatusOnApproval)
 
@@ -226,7 +246,7 @@ announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
 
 announcementRoutes.post("/editdetailpost", editDetailPost)
 
-
+announcementRoutes.post("/createpost", createPost)
 
 // announcementRoutes.get("/test", async (req,res) =>{
 //     const prisma = res.prisma

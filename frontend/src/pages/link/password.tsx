@@ -5,28 +5,34 @@ import { LockIcon } from "@chakra-ui/icons"
 import { useNavigate } from "react-router-dom"
 
 const breakpoints = {
-    sm: '320px',
-    md: '768px',
-    lg: '960px',
-    xl: '1200px',
-    '2xl': '1536px',
+    sm: "320px",
+    md: "768px",
+    lg: "960px",
+    xl: "1200px",
+    "2xl": "1536px",
 }
 
 // const [show, setShow] = useState(false)
 // const handleClick = () => setShow(!show)
 const password = () => {
     const navigate = useNavigate()
-        const complete = () => {
-            navigate("/link/complete")
-        }
-        const shortlink = () => {
-            navigate("/link/shortlink")
-        }
+    const complete = () => {
+        navigate("/link/complete")
+    }
+    const shortlink = () => {
+        navigate("/link/shortlink")
+    }
     return (
         <AppBody>
             <Center>
                 {" "}
-                <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box
+                    width={{ base: "100%", sm: "70%", md: "70%", lg: "70%", xl: "70%" }}
+                    height={"500px"}
+                    background={"#D9D9D9"}
+                    borderRadius="20px"
+                    marginTop={"10%"}
+                >
                     <Box>
                         <Heading
                             width={"300px"}
@@ -45,16 +51,27 @@ const password = () => {
 
                     <VStack spacing={4} align="stretch" marginTop={"10%"}>
                         <Box h="70px">
-                            <Center >
-
-                                <Input type={'password'} placeholder='Create Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} />
-
-
+                            <Center>
+                                <Input
+                                    type={"password"}
+                                    placeholder="Create Password:"
+                                    w={"75%"}
+                                    height={"60px"}
+                                    border={"4px"}
+                                    borderColor={"black"}
+                                />
                             </Center>
                         </Box>
                         <Box h="70px">
-                            <Center >
-                                <Input type={'password'} placeholder='Confirm Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} />
+                            <Center>
+                                <Input
+                                    type={"password"}
+                                    placeholder="Confirm Password:"
+                                    w={"75%"}
+                                    height={"60px"}
+                                    border={"4px"}
+                                    borderColor={"black"}
+                                />
                             </Center>
                         </Box>
                         <Box h="70px">
@@ -69,7 +86,7 @@ const password = () => {
                             <Box h="70px">
                                 <Link>
                                     <Center>
-                                        <Button bg={"orange.200"} w={"75%"} height={"60px"}  onClick={shortlink}>
+                                        <Button bg={"orange.200"} w={"75%"} height={"60px"} onClick={shortlink}>
                                             <Text as={"b"}>Back</Text>
                                         </Button>
                                     </Center>
