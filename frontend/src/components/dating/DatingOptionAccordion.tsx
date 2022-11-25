@@ -2,8 +2,6 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { FC, useEffect, useState } from "react"
 import { DatingOptionMultipleChoose } from "./DatingOptionMultipleChoose"
 import { AllFaculty } from "@apiType/dating"
-import { a } from "@react-spring/web"
-import API from "src/function/API"
 
 declare global {
     var facs: string[]

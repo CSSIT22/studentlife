@@ -4,14 +4,16 @@ import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioB
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingOptionRangeSlider from "../../components/dating/DatingOptionRangeSlider"
 import DatingOptionAccordion from "../../components/dating/DatingOptionAccordion"
-import { AllFaculty } from "@apiType/dating"
+import { AllFaculty, UserOption } from "@apiType/dating"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
+import React from "react"
 
 declare global {
     var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean
 }
 const DatingOption = () => {
+    const [isDisabled, setIsDisabled] = React.useState<boolean>(false)
     const didMount = useDidMount()
     const navigate = useNavigate()
 
@@ -25,7 +27,7 @@ const DatingOption = () => {
             API.get("/dating/option/getFaculty").then((allFaculty) => {
                 setFaculties(allFaculty.data)
             })
-                .catch((err) => console.log("It's WRONG! " + err));
+                .catch((err) => console.log(err));
         }
     })
 
@@ -114,6 +116,11 @@ const DatingOption = () => {
             " | Selected Faculty: " +
             globalThis.faculty
         )
+
+        API.post<UserOption>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
+            .then(() => navigate("/dating/"))
+            .catch((err) => toast({ status: "error", position: "top", title: "Error", description: (err) }))
+
         toast({
             title: "Options are selected.",
             description: "You have successfully submitted your options.",
@@ -190,7 +197,8 @@ const DatingOption = () => {
                         form="new-note"
                         borderRadius="15px"
                         colorScheme="orange"
-                        onClick={() => handleSubmit()}
+                        isDisabled={isDisabled}
+                        onClick={() => { handleSubmit(), setIsDisabled(!isDisabled) }}
                         m="80px"
                         p="30px"
                         pr="50px"
@@ -200,7 +208,7 @@ const DatingOption = () => {
                     </Button>
                 </Center>
             </Stack>
-        </DatingAppBody>
+        </DatingAppBody >
     )
 }
 
