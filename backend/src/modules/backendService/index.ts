@@ -4,10 +4,15 @@ import { nanoid } from "nanoid"
 import { verifyUser } from "./middleware/verifyUser"
 import UAParser from "ua-parser-js"
 import DeviceDetector from "node-device-detector"
+import { filterWord } from "./middleware/filterWord"
 
 const backendserviceRoutes = express()
 
 backendserviceRoutes.use(express.json())
+
+backendserviceRoutes.get("/test", filterWord, (req, res) => {
+    res.send("you passed the filter word")
+})
 
 backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
