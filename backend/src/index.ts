@@ -34,6 +34,7 @@ import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
 import mongoose, { mongo } from "mongoose"
+import trainingSocket from "./modules/training/trainingSocket"
 
 const PORT = 8000
 const app = express()
@@ -169,6 +170,8 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     chatSocket(socket, prisma)
 
     notiSocket(socket, prisma)
+
+    trainingSocket(socket, prisma)
 
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)
