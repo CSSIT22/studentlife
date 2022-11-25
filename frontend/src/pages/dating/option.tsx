@@ -119,7 +119,7 @@ const DatingOption = () => {
 
         API.post<UserOption>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
             .then(() => navigate("/dating/"))
-            .catch((err) => toast({ status: "error", position: "top", title: "Error", description: (err) }))
+            .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
 
         toast({
             title: "Options are selected.",
