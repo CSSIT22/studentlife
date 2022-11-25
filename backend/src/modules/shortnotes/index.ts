@@ -6,6 +6,9 @@ import getLibrary from "./routes/getLibrary"
 import getResentShortnotes from "./routes/getResentShortnotes"
 import getShortnoteDetail from "./routes/getShortnoteDetail"
 import postShortnote from "./routes/postShortnote"
+import postLibrary from "./routes/postLibrary"
+import postComment from "./routes/postComment"
+
 const shortnotesRoutes = express()
 
 type s = {
@@ -38,4 +41,7 @@ shortnotesRoutes.get("/getComments/:id", getComments)
 
 shortnotesRoutes.post("/postShortnote", postShortnote)
 
+shortnotesRoutes.post("/postLibrary", postLibrary)
+
+shortnotesRoutes.post("/postComment", postComment)
 export default shortnotesRoutes
