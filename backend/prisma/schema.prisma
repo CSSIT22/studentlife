@@ -40,6 +40,7 @@ model User_Profile {
   notis                Noti_User?
   userTimetable        Timetable[]
   tasks                Task[]
+  taskfolders          Task_Folder[]
   groups               User_To_Group[]
   taskTracking         Task_Track?
   taskChecking         Task_Check[]
@@ -481,9 +482,11 @@ model Task {
 }
 
 model Task_Folder {
-  folderId   String @id @default(cuid())
-  folderName String
-  tasks      Task[]
+  folderId    String       @id @default(cuid())
+  userId      String
+  folderName  String
+  folderOwnBy User_Profile @relation(fields: [userId], references: [userId])
+  tasks       Task[]
 }
 
 model Task_Group {
@@ -538,7 +541,7 @@ model Announcement {
   isApprove   Boolean               @default(false)
   annCreator  User_Profile          @relation(fields: [userId], references: [userId])
   annLanguage Post_To_Language[]
-  annFilter   Announcement_Filter @relation(fields: [filterId], references: [filterId])
+  annFilter   Announcement_Filter   @relation(fields: [filterId], references: [filterId])
   annPost     Announcement_Post?
   annPin      Announcement_Pin[]
   annSee      Announcement_Seen[]
@@ -547,7 +550,7 @@ model Announcement {
 }
 
 model Announcement_Filter {
-  filterId     Int          @id @default(autoincrement())
+  filterId     Int           @id @default(autoincrement())
   filterType   String
   value        String
   announcement Announcement?

@@ -1,8 +1,8 @@
 import { Message_Type } from "@prisma/client"
 
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
-mongoose.connect("")
+// mongoose.connect("mongodb://staging-mongo:s-studentlife-1212312121@modlifes.me:27016/chat")
 
 const Message = new mongoose.Schema({
   roomId: String,
@@ -13,9 +13,8 @@ const Message = new mongoose.Schema({
     type: Date,
     default: () => Date.now()
   },
-  isRead:{
-    type: Boolean,
-    default: false
+  isRead: {
+    type: Array
   }
 })
 
