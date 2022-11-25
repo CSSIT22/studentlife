@@ -53,6 +53,7 @@ const liList: FC<{
     date: string | any
 }> = ({ topic, course, desc, link, owner, date }) => {
     const [li, setLi] = useState([])
+    
     useEffect(() => {
         API.get("/shortnotes/getLibrary").then((item) => {
             setLi(item.data)
@@ -71,10 +72,6 @@ const liList: FC<{
     }
     const [liPicked, setLiPicked] = useState<String[]>([])
 
-    // const li = [
-    //     { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "csc120 week 2", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
-    //     { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "csc210 week 6", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
-    // ]
     function CustomCheckbox(props: any) {
         const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
 
