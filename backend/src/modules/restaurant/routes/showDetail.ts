@@ -3,19 +3,19 @@ import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
 import { prisma } from "@prisma/client"
 const showDetail = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
+    const id = req.params.id
     try {
         const prisma = res.prisma
         const restaurant = await prisma.restaurant.findUnique({
-            where: { resId: id+""},
-                // include: {  restaurant_Detail   : true,
-                //             restaurant_Open     : true,
-                //             restaurant_Close    : true,
-                //             restaurant_Image    : true,
-                //         }
+            where: {resId: id},
+                include: {  detail: true,
+                            images: true,
+                            closeAt: true,
+                            openAt: true,
+                        },
         })
         
-        res.send( restaurant) 
+        res.send(restaurant) 
     } catch (err) {
         
     }

@@ -11,6 +11,9 @@ import { Restaurant } from "@apiType/restaurant"
 import { verifyUser } from "../backendService/middleware/verifyUser"
 import deleteFavorite from "./routes/deleteFavorite"
 import addFavorite from "./routes/addFavorite"
+import addRestaurant from "./routes/addRestaurant"
+import { Request, Response } from "express"
+
 const restaurantRoutes = express()
 restaurantRoutes.use(express.json())
 
@@ -207,8 +210,6 @@ export let restaurant: Restaurant[] = [
     },
 ]
 
-
-
 export const getRestaurant = () => restaurant
 export const setRestaurant = (newData: Restaurant[]) => {
     restaurant = newData
@@ -219,11 +220,20 @@ restaurantRoutes.get("/search", searchRestaurant)
 restaurantRoutes.post("/favorite", deleteFavorite)
 restaurantRoutes.get("/favorite", showFavorite)
 restaurantRoutes.get("/history", showHistory)
-restaurantRoutes.get("/:id", verifyUser ,showRestaurant)
+restaurantRoutes.get("/:id", verifyUser, showRestaurant)
 restaurantRoutes.post("/:id", likedRestaurant)
 restaurantRoutes.get("/detail/:id", showDetail)
 restaurantRoutes.post("/detail/:id", addFavorite)
 restaurantRoutes.get("/review/:id", showReview)
-
+restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
+// restaurantRoutes.delete("/delete", async (req: Request, res: Response)=> {
+//     const prisma = res.prisma
+//     const deleteRes = await prisma.restaurant.delete({
+//         where: {
+//          resId:"0000"
+//         },
+//       })
+//       res.send(deleteRes)
+// })
 
 export default restaurantRoutes
