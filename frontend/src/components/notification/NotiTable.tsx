@@ -17,6 +17,7 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
+    useToast,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Modulelist from "./moduleList/Modulelist"
@@ -64,6 +65,23 @@ const NotiTable = () => {
             return <NotiList selectedList={notiListModule} onClick={load}></NotiList>
         }
     }
+    function alert() {
+        const toast = useToast()
+        return (
+          <Button
+            onClick={() =>
+              toast({
+                title: 'New Notification.',
+                description: "iuytfrftgyhuojipkl[;",
+                duration: 3000,
+                isClosable: true,
+              })
+            }
+          >
+            Show Noti
+          </Button>
+        )
+      }
 
     //setting
     function ShowSetting() {
@@ -99,6 +117,10 @@ const NotiTable = () => {
             <Flex padding={3} paddingBottom={0}>
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
+                </Box>
+                <Spacer />
+                <Box>
+                    {alert()}
                 </Box>
                 <Spacer />
                 <Box>
