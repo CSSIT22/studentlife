@@ -1,27 +1,38 @@
 import { Box, Button, Flex, GridItem, Heading, Textarea, useBoolean, VStack } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
 import CmList from 'src/components/shortnotes/cmList'
 import SnDetail from 'src/components/shortnotes/snDetail'
 import SnComments from 'src/components/shortnotes/snComments'
 import API from 'src/function/API'
+import { authContext } from 'src/context/AuthContext'
 
 const index = () => {
-
+    const user = useContext(authContext)
+    //{ console.log(user?.userId) }
     const param = useParams()
     const [shortnote, setShortnote] = useState<any>([])
+    const [access, setAccess] = useState<any>([])
     const [load, setLoad] = useBoolean(true)
 
     useEffect(() => {
         API.get("shortnotes/getShortnoteDetail/" + param.id).then((item) => {
             setShortnote(item.data)
         }).finally(setLoad.off)
-    }, [])                                                                                     // ถ้าเลือกไลบรารี่แล้วกดออกมันจะไม่รีเซ็ต
+
+    }, [])
+
+    useEffect(() => {
+        {
+            setAccess(shortnote.userAccess)
+        }
+    }, [shortnote])
+
 
     if (load) {
         return (
-            <AppBody></AppBody>
+            <AppBody><Heading>Loading...</Heading></AppBody>
         )
     }
     return (
