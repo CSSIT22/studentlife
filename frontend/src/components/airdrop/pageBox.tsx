@@ -11,18 +11,18 @@ const PageBox: FC<{
                 backgroundColor={"white"}
                 borderRadius={"50px"}
                 minHeight={"auto"}
-                py={"5%"}
+                py={["20%","5%"]}
                 {...(props.pageName != "drop"
                     ? {
                           px: 10,
-                          h: "60vh",
+                          h: ["60vh"],
                           flexDirection: "column",
                           w: ["100%"],
                       }
                     : {
                           px: 0,
                           flexDirection: "row",
-                          justifyContent: "center",
+                          justifyContent:"center",
                           w: ["100%", "90%", "80%", "70%"],
                       })}
                 m={"auto"}
