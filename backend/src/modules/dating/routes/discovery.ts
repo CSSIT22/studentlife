@@ -25,47 +25,59 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
     // Put Pawin's code here
     try {
         const reqUserId = req.user?.userId
-        const userProfileDB = await prisma.user_Profile.findMany({
+        const cardQueueUserId = await prisma.card_Queue.findFirst({
             where: {
-                details: {
-                    NOT: {
-                        userId: reqUserId,
-                    },
-                },
-                datingSetting: {
-                    hasCompleteTutorial: true,
-                },
+                userId: reqUserId,
             },
-            select: {
-                userId: true,
-                fName: true,
-                lName: true,
-                image: true,
-                details: {
-                    select: {
-                        birth: true,
-                        sex: true,
+        })
+
+        console.log(cardQueueUserId)
+        if (cardQueueUserId?.frontUserId && cardQueueUserId?.backUserId) {
+            return res.send("Success!")
+        } else {
+            const userProfileDB = await prisma.user_Profile.findMany({
+                take: 20,
+                where: {
+                    details: {
+                        NOT: {
+                            userId: reqUserId,
+                        },
+                    },
+                    datingSetting: {
+                        hasCompleteTutorial: true,
                     },
                 },
-                studentMajor: {
-                    select: {
-                        majorFaculty: {
-                            select: {
-                                facultyName: true,
+                select: {
+                    userId: true,
+                    fName: true,
+                    lName: true,
+                    image: true,
+                    details: {
+                        select: {
+                            birth: true,
+                            sex: true,
+                        },
+                    },
+                    studentMajor: {
+                        select: {
+                            majorFaculty: {
+                                select: {
+                                    facultyName: true,
+                                },
                             },
                         },
                     },
-                },
-                interests: {
-                    select: {
-                        interestId: true,
+                    interests: {
+                        select: {
+                            interestId: true,
+                        },
                     },
                 },
-            },
-        })
-        console.log(userProfileDB)
-
-        return res.send(userProfileDB)
+            })
+            console.log(userProfileDB)
+            return res.send(userProfileDB)
+        }
+        return res.status(404).send("User profiles not found")
     } catch (err) {
         return res.status(404).send("User profiles not found")
     }

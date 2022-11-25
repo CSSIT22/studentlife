@@ -33,6 +33,7 @@ const RandomCardInside: FC<{
             w={{ base: "326px", md: "379px" }}
             h={{ base: "402px", md: "464px" }}
             backgroundSize="cover"
+            backgroundPosition="center"
             className="card"
             position="absolute"
             top="30px"
