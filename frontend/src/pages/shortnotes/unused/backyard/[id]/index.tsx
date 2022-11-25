@@ -17,49 +17,58 @@ const pg = () => {
     const [access, setAccess] = useState<any>([])
     const [load, setLoad] = useBoolean(true)
     const [allow, setAllow] = useBoolean(false)
-    let userAccess: any = []
 
     useEffect(() => {
         API.get("shortnotes/getShortnoteDetail/" + param.id).then((item) => {
-            setShortnote(item.data)
-            setAccess(shortnote.userAccess)
-            const acc = item.data.userAccess
-            const x: any = []
-            acc.map((ac: any) => (
-                x.push(ac.userId)
-            ))
-            setAccess(x)
-
-            if (x.includes(user?.userId)) {
+            if (item.data.isPublic) {
                 setAllow.on()
+                setShortnote(item.data)
+            } else {
+                setAccess(item.data.userAccess)
+                const acc = item.data.userAccess
+                const x: any = []
+                acc.map((ac: any) => (
+                    x.push(ac.userId)
+                ))
+                setAccess(x)
+
+                if (x.includes(user?.userId)) {
+                    setAllow.on()
+                }
+                setShortnote(item.data)
             }
-            console.log(user?.userId)
-            console.log(x)
-            console.log(x.includes(user?.userId));
-            console.log(allow);
+
+            // console.log(user?.userId)
+            // console.log(x)
+            // console.log(x.includes(user?.userId));
+            // console.log(allow);
+            // console.log(item.data.isPublic);
 
 
-            // x.forEach((x: any) => {
-            //     console.log(x == user?.userId);
-            //     if (x == user) {
-            //         setAllow.on
-            //     }
-            // })
-            // console.log(user?.userId);
-
-            // console.log(allow)
 
         }).finally(setLoad.off)
 
     }, [])
-
-    // useEffect(() => {
-    //     setAccess(shortnote.userAccess)
-    // }, [shortnote])
-
+    if (load) {
+        return (
+            <AppBody><Heading>Loading...</Heading></AppBody>
+        )
+    }
     return (
         <AppBody>
-            {allow ? "Yes" : "No"}
+            {allow ? <Box><Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+                <SnDetail
+                    topic={shortnote.snName}
+                    course={shortnote.courseId}
+                    desc={shortnote.snDesc}
+                    link={shortnote.snLink}
+                    owner={shortnote.owner.fName + " " + shortnote.owner.lName}
+                    date={shortnote.created}
+                />
+            </Box>
+                <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6}>
+                    <SnComments />
+                </Box></Box> : "No"}
         </AppBody>
     )
 }
