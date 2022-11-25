@@ -7,26 +7,13 @@ import convertCurrency from "../../../components/shop/functions/usefulFunctions"
 import CartProduct from "src/components/shop/CartProduct"
 import ContentBox from "src/components/shop/ContentBox"
 import ThemedButton from "src/components/shop/ThemedButton"
+import TitleBox from "src/components/shop/TItleBox"
 
 // Cart
 const Cart = () => {
     
     const selectBox = (
-        <ContentBox bg="#fff">
-            <Flex justify="space-between" wrap="wrap">
-                <Checkbox size="lg" px="15" py="2" colorScheme="orange">
-                    <Text fontSize="md" fontWeight="700" color="#747474">
-                        Select All
-                    </Text>
-                </Checkbox>
-                <Button variant="ghost" fontWeight="light">
-                    <DeleteIcon />{" "}
-                    <Text fontSize="md" fontWeight="700" color="#747474" pl={2}>
-                        Delete
-                    </Text>
-                </Button>
-            </Flex>
-        </ContentBox>
+        <TitleBox title="Products in Cart"></TitleBox>
     )
     const orderSummary = (
         <ContentBox bg="#fff">

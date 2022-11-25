@@ -1,4 +1,4 @@
-import { MinusIcon, AddIcon } from "@chakra-ui/icons"
+import { MinusIcon, AddIcon, DeleteIcon } from "@chakra-ui/icons"
 import { Text, useBreakpointValue, Flex, LinkBox, LinkOverlay, Hide, ButtonGroup, IconButton, Button, Box, Image, Select, Spacer, Checkbox } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import ContentBox from "./ContentBox"
@@ -24,7 +24,6 @@ const CartProduct: FC<{
     return (
         <ContentBox>
             <Flex p="5" align="center" gap={5}>
-                <Checkbox size="lg"></Checkbox>
                 <Flex wrap="wrap" gap={5} justify="space-around" width="full" align="center">
                     {/* // Image */}
                     <Box borderRadius="lg" overflow="hidden" shadow="sm">
@@ -39,6 +38,7 @@ const CartProduct: FC<{
                         <QtyButton productId={productId} cartId={cartId} quantity={quantity} stock={stock}></QtyButton>
                     </Flex>
                 </Flex>
+                <IconButton icon={<DeleteIcon />} aria-label={"Delete"} colorScheme="red" _hover={{transform: "scale(1.1)" }}  _active ={{transform: "scale(1.0)" }} transitionDuration="300ms"></IconButton>
             </Flex>
         </ContentBox>
     )
