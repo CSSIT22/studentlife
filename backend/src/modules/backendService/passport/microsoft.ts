@@ -23,7 +23,7 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
 
         // getting image of user from microsoft
         try {
-            profile_pic = await axios.get(`https://graph.microsoft.com/v1.0/me/photos/48x48/$value`, {
+            profile_pic = await axios.get(`https://graph.microsoft.com/v1.0/me/photos/432x432/$value`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "image/jpg",
