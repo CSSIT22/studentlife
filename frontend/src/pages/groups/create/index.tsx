@@ -39,7 +39,6 @@ import {
     Collapse,
     IconButton,
     HStack,
-    textDecoration,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import AppBody from "src/components/share/app/AppBody"
@@ -50,7 +49,7 @@ import { Link } from "react-router-dom"
 import { userData } from "../data"
 import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
 import NavCommunity from "src/components/group/NavCommunity"
-import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
+import { SearchIcon } from "@chakra-ui/icons"
 import FriendInviteList from "src/components/group/FriendInviteList"
 
 const createCommunity = () => {
@@ -128,7 +127,7 @@ const createCommunity = () => {
             color: "gray.600",
             fontSize: "xl",
             fontWeight: "bold",
-            mb: 1,
+            mb: 4,
         },
         button1: {
             bg: "orange.400",
@@ -163,7 +162,7 @@ const createCommunity = () => {
                 // console.log(res.data)
                 toast({
                     title: "Success",
-                    description: "Community Created Successfully",
+                    description: "Community created successfully",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
@@ -174,7 +173,7 @@ const createCommunity = () => {
                 console.log(err)
                 toast({
                     title: "Error",
-                    description: "Community Creation Failed",
+                    description: "Community creation failed",
                     status: "error",
                     duration: 5000,
                     isClosable: true,
@@ -197,19 +196,10 @@ const createCommunity = () => {
                     background={{ base: "none", md: "#E67F45" }}
                     width="full"
                 >
-                    <HStack fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
-                        <Box _hover={{ textDecoration: 'underline' }}>
-                            <Link to={"/groups"}>Community</Link>
-                        </Box>
-                        <ChevronRightIcon />
-                        <Text>Create Community</Text>
-                    </HStack>
                     <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={4}>
-                        <Box display={{ base: 'block', md: 'none' }} ml='-6' mb={'1'}>
-                            <Link to={"/groups"} >
-                                <ChevronLeftIcon />
-                            </Link>
-                        </Box>
+                        <Link to={"/groups"}>
+                            <IoIosArrowBack />
+                        </Link>
                         Create Community
                     </Heading>
                     <FormControl isRequired={communityName === ""} isInvalid={communityName === ""}>
@@ -409,19 +399,16 @@ const createCommunity = () => {
                     {/* </form> */}
 
                     {/* Modal for confirmation */}
-                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                         <ModalContent>
-                            <ModalHeader> Create your community!</ModalHeader>
+                            <ModalHeader> Are you sure you want to create the community?</ModalHeader>
                             <ModalCloseButton />
-                            <ModalBody mt={'-2'}>
-                                Are you sure you want to create the community?
-                            </ModalBody>
                             <ModalFooter>
-                                <Button onClick={submit} colorScheme="blue" mr={3} boxShadow='md'>
+                                <Button onClick={submit} colorScheme="blue" mr={3}>
                                     Sure
                                 </Button>
-                                <Button variant="cancel" onClick={onClose} boxShadow='md'>Cancel</Button>
+                                <Button variant="cancel">Cancel</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Modal>
@@ -528,8 +515,8 @@ const createCommunity = () => {
                         </Box>
                     </Flex>
                 </Box>
-            </Flex >
-        </AppBody >
+            </Flex>
+        </AppBody>
     )
 }
 
