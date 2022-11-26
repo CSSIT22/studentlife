@@ -12,12 +12,15 @@ const setRole = async (req: Request, res: Response) => {
         await prisma.community_User.update({
             where: {
                 userId_communityId: {
-                    userId: req.body.userId,
+                    userId: req.body.user,
                     communityId: req.body.communityId,
                 },
             },
             data: roleSet,
         })
+
+        res.status(200).send("Set role success")
+
     } catch (err){
         console.log(err)
         res.status(404)

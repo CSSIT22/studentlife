@@ -17,6 +17,7 @@ import joinCommunity from "./routes/community/joinCommunity"
 import leaveCommunity from "./routes/community/leaveCommunity"
 import banMember from "./routes/community/member/banMember"
 import setRole from "./routes/community/member/setRole"
+import unBanMember from "./routes/community/member/unBanMember"
 
 
 const groupRoutes = express()
@@ -169,6 +170,7 @@ groupRoutes.get("/getCommunityMember", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember",deleteCommunityMember)
 groupRoutes.post("/banMember",banMember)
 groupRoutes.post("/setRole",setRole)
+groupRoutes.delete("/unBanMember",unBanMember)
 
 
 
