@@ -1,8 +1,7 @@
 import { Socket } from "socket.io"
 import { DefaultEventsMap } from "socket.io/dist/typed-events"
-import { customeSocketPrams } from "src"
 
-const notiSocket: customeSocketPrams = (socket, prisma) => {
+const notiSocket = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
     socket.on("message", (data) => {
         socket.broadcast.emit("receive-message", data)
     })

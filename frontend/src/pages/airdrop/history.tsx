@@ -100,12 +100,12 @@ export default function Drophistory<FC>() {
                 console.log(res.data)
                 setHistoryData(res.data)
             })
-            .catch((err) => {})
+            .catch((err) => { })
             .finally(() => {
                 off()
             })
 
-        return () => {}
+        return () => { }
     }, [])
 
     const [commentText, setComment] = useState("")
@@ -131,7 +131,7 @@ export default function Drophistory<FC>() {
             fileId: selectedHistory.file.fileId,
             commentTxt: commentText,
         })
-            .then((res) => {})
+            .then((res) => { })
             .catch((err) => {
                 console.log(err)
                 toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
@@ -187,6 +187,8 @@ export default function Drophistory<FC>() {
                         <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
                             (Tap outside to close)
                         </Text>
+
+
                     </ModalBody>
                     <ModalFooter></ModalFooter>
                 </ModalContent>
@@ -254,15 +256,10 @@ export default function Drophistory<FC>() {
                             }}
                             isCentered
                         >
+
                             <ModalOverlay />
                             <ModalContent textAlign={"center"}>
-                                <ModalHeader>
-                                    {modalPage == 0
-                                        ? selectedHistory.historyType == "DOWNLOAD"
-                                            ? "Download Information"
-                                            : "Upload Information"
-                                        : "File Comment"}
-                                </ModalHeader>
+                                <ModalHeader>{modalPage == 0 ? (selectedHistory.historyType == "DOWNLOAD" ? "Download Information" : "Upload Information") : "File Comment"}</ModalHeader>
                                 <ModalBody>
                                     {modalPage == 0 ? (
                                         <>
@@ -271,20 +268,14 @@ export default function Drophistory<FC>() {
                                             </HStack>
 
                                             <HStack>
-                                                <Text>
-                                                    Sender:{"   " + selectedHistory.file.sender.fName + " " + selectedHistory.file.sender.lName}
-                                                </Text>{" "}
+                                                <Text>Sender:{"   " + selectedHistory.file.sender.fName + " " + selectedHistory.file.sender.lName}</Text>{" "}
                                             </HStack>
                                             <HStack>
                                                 <Text>Type:{"   " + selectedHistory.file.sendType}</Text>{" "}
                                             </HStack>
                                             <HStack>
                                                 <Text>
-                                                    Date:
-                                                    {"   " +
-                                                        new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", {
-                                                            timeZone: "Asia/Bangkok",
-                                                        })}
+                                                    Date:{"   " + new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", { timeZone: "Asia/Bangkok" })}
                                                 </Text>{" "}
                                             </HStack>
                                             <Text
@@ -339,6 +330,7 @@ export default function Drophistory<FC>() {
                                             </Text>
                                         </>
                                     )}
+
                                 </ModalBody>
                                 <ModalFooter></ModalFooter>
                             </ModalContent>

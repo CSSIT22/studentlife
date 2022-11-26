@@ -36,27 +36,16 @@ const breakpoints = {
     "2xl": "1536px",
 }
 
-const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean; onClick: Function }> = ({
-    modalHeader,
-    token,
-    isCurrentDevice,
-    onClick,
-}) => {
+const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean, onClick: Function }> = ({ modalHeader, token, isCurrentDevice, onClick }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
     return (
         <>
-            <Button
-                onClick={() => {
-                    console.log(token)
-                    console.log(isCurrentDevice)
-                    onOpen()
-                }}
-                bg={"gray.700"}
-                color={"white"}
-                w={"100%"}
-                _hover={{ color: "black", bg: "gray.500" }}
-            >
+            <Button onClick={() => {
+                console.log(token)
+                console.log(isCurrentDevice)
+                onOpen()
+            }} bg={"gray.700"} color={"white"} w={"100%"} _hover={{ color: "black", bg: "gray.500" }}>
                 Revoke
             </Button>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -221,12 +210,7 @@ const index = () => {
                                                 <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
                                                 <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
                                                 {/* Insert CustomModal here */}
-                                                <CustomModal
-                                                    onClick={handleRevoke}
-                                                    modalHeader="Are you sure?"
-                                                    token={item.token}
-                                                    isCurrentDevice={item.currentDevice}
-                                                />
+                                                <CustomModal onClick={handleRevoke} modalHeader="Are you sure?" token={item.token} isCurrentDevice={item.currentDevice} />
                                             </VStack>
                                         </Flex>
                                     </Box>

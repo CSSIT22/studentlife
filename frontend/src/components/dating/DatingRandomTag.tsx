@@ -5,11 +5,12 @@ import { AllInterests } from "@apiType/dating"
 
 const DatingRandomTag: FC<{
     id: {
-        interestId: number
+        interestId: number;
     }
     index: number
     allInterests: AllInterests[]
 }> = ({ id, index, allInterests }) => {
+
     return (
         <motion.div
             initial={{ scale: 0 }}

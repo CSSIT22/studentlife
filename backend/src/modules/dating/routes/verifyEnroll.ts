@@ -38,8 +38,8 @@ verifyEnrollRoutes.get("/getDatingOptions", verifyUser, async (req: Request, res
                     userId: userId,
                 },
                 select: {
-                    userId: true,
-                },
+                    userId: true
+                }
             })
             return res.send(dating_OptionsDB)
         }

@@ -28,12 +28,13 @@ const TagOfInterest = () => {
                     setHasCompleteSetting(true)
                 }
                 if (!datingEnroll.data.hasCompleteTutorial) {
-                    navigate("/dating/tutorial")
+                    navigate("/dating/tutorial");
                 }
                 API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
                     // if (!datingOptions.data.userId) {
                     //     navigate("/dating/option")
                     // }
+
                 })
             })
 
@@ -52,6 +53,8 @@ const TagOfInterest = () => {
                 })
                 .catch((err) => on())
                 .finally(off)
+
+
         }
     })
 
