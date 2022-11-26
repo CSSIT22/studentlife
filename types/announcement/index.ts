@@ -29,6 +29,12 @@ export type languageInfo = {
     langName:string
 }
 
+export type tgType = {
+    Faculty:string[],
+    Major:string[],
+    Year:string[]
+}
+
 export type announcement = {
     postId:string,
     userId:string | "",

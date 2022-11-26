@@ -28,7 +28,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
-import { addMoreLangType, post } from "@apiType/announcement"
+import { addMoreLangType, post, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 
 const create = () => {
@@ -54,7 +54,7 @@ const create = () => {
     const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
 
-    const [tv, settv ] = useState<{}[]>([])
+    const [tv, settv ] = useState<tgType[]>([])
     const value = API.get("/announcement/gettypetarget")
     useEffect(() => {
          value.then((res) => settv(res.data))
