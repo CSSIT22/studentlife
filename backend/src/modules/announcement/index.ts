@@ -14,6 +14,9 @@ import editDetailPost from "./routes/editdetailpost"
 import getDetailEdit from "./routes/getdetailedit"
 import getTargetGroup from "./routes/gettargetgroup"
 import createPost from "./routes/createpost"
+import getTypeTarget from "./routes/gettypetarget"
+import getLang from "./routes/getotherlang"
+import getOtherLang from "./routes/getotherlang"
 
 const announcementRoutes = express()
 
@@ -247,6 +250,10 @@ announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
 announcementRoutes.post("/editdetailpost", editDetailPost)
 
 announcementRoutes.post("/createpost", createPost)
+
+announcementRoutes.get("/gettypetarget", getTypeTarget)
+
+announcementRoutes.get("/getotherlang", getOtherLang)
 
 announcementRoutes.get("/test", async (req,res) =>{
     const prisma = res.prisma
