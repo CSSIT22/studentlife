@@ -20,7 +20,7 @@ import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
 import { Link, useParams } from "react-router-dom"
-import { addMoreLangType, post } from "@apiType/announcement"
+import { addMoreLangType, post, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 import MoreLangForEdit from "src/components/annoucement/MoreLangForEdit"
 import AppBody from "src/components/share/app/AppBody"
@@ -59,7 +59,7 @@ const history = () => {
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [tt, settt] = useState<addMoreLangType[]>([])
-    const [tv, settv ] = useState<{}[]>([])
+    const [tv, settv ] = useState<tgType[]>([])
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)

@@ -1,3 +1,4 @@
+import { announcement_language } from "@apiType/announcement"
 import { FormControl, FormLabel, Select, Input, Textarea, Box, Text, Tag, TagCloseButton, TagLabel, Button } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
@@ -17,7 +18,7 @@ const MoreLangForEdit: FC<{
     const [topic, setTopic] = React.useState(title)
     const [detail, setDetail] = React.useState(dt)
     const [disable, setDisable] = React.useState(false)
-    const [lang,setlang] = useState([])
+    const [lang,setlang] = useState<announcement_language[]>([])
     const newData = API.get("/announcement/getotherlang")
     useEffect(() => {
         newData.then(res => setlang(res.data))
