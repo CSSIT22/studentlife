@@ -28,8 +28,15 @@ const communityTest = async (req: Request, res: Response) => {
             any: tag2id.map((item) => a.push({ tagid: item.tagId, communityId: body.communityId })),
         }
 
-        res.status(201).send(tag2id)
+        const newTag = await prisma.community_Tag.findMany({
+            where:{
+                tagId: { notIn: a.map((item: any) => item.tagId) },
+            }
+        })
+
+        res.status(201).send(a)
     } catch (err) {
+        console.log(err)
         res.status(403)
     }
 }

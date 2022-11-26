@@ -9,13 +9,14 @@ const leaveCommuntiy = async (req: Request, res: Response) => {
             where: {
                 userId_communityId: {
                     userId: req.body.userId,
-                    communityId: req.body.communityId,
+                    communityId: req.body.communityId,//req.params.communityId
                 },
             },
         })
 
         res.status(200).send("Leave Success")
     } catch (err) {
+        console.log(err)
         res.status(403)
     }
 }

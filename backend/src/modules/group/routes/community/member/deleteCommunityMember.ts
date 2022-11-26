@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 
-const deleteMember = async (req: Request, res: Response) => {
+const deleteCommunityMember = async (req: Request, res: Response) => {
     const prisma = res.prisma
 
     try {
@@ -15,8 +15,9 @@ const deleteMember = async (req: Request, res: Response) => {
 
         res.status(200).send("Delete Success")
     } catch (err) {
+        console.log(err)
         res.status(404)
     }
 }
 
-export default deleteMember
+export default deleteCommunityMember

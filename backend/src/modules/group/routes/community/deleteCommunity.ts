@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 
 const deleteCommunity = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const target = req.body.communityId
+    const target = req.body.communityId//req.params.communityId
 
     try {
         await prisma.community.delete({
@@ -20,6 +20,7 @@ const deleteCommunity = async (req: Request, res: Response) => {
 
         res.status(200).send("Delete Success")
     } catch (err) {
+        console.log(err)
         res.status(404)
     }
 }

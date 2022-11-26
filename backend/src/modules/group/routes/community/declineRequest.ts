@@ -16,6 +16,7 @@ const declineRequest = async (req: Request, res: Response) => {
 
         res.status(200).send("Request has been decline")
     } catch (err) {
+        console.log(err)
         res.status(403)
     }
 }

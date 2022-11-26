@@ -19,6 +19,7 @@ const joinCommunity = async (req: Request, res: Response) => {
 
         res.status(201).send("Joining Success")
     } catch (err) {
+        console.log(err)
         res.status(400)
     }
 }

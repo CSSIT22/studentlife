@@ -16,6 +16,7 @@ const getCommunityMember = async (req: Request, res: Response) => {
 
         res.status(200).json(communityMember)
     } catch (err) {
+        console.log(err)
         res.status(404)
     }
 }

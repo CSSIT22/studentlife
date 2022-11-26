@@ -5,8 +5,6 @@ const setRole = async (req: Request, res: Response) => {
     const body = req.body
 
     const roleSet: any = {
-        userId: body.userId,
-        communityId: body.communityId,
         roleId: body.roleId,
     }
 
@@ -20,7 +18,8 @@ const setRole = async (req: Request, res: Response) => {
             },
             data: roleSet,
         })
-    } catch {
+    } catch (err){
+        console.log(err)
         res.status(404)
     }
 }

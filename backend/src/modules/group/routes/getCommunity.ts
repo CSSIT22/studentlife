@@ -29,14 +29,6 @@ const getCommunity = async (req: Request, res: Response) => {
 
 
         const commuinityJoin = await prisma.community.findMany({
-            select: {
-                communityId: true,
-                communityName: true,
-                communityOwnerId: true,
-                communityDesc: true,
-                communityPrivacy: true,
-                communityPhoto: true,
-            },
             where: {
                 communityId: { in: communityUser.map((item: any) => item.communityId) },
             },
@@ -44,14 +36,6 @@ const getCommunity = async (req: Request, res: Response) => {
 
 
         const communityManage = await prisma.community.findMany({
-            select: {
-                communityId: true,
-                communityName: true,
-                communityOwnerId: true,
-                communityDesc: true,
-                communityPrivacy: true,
-                communityPhoto: true,
-            },
             where: {
                 communityOwnerId: userid,
             },
@@ -59,14 +43,6 @@ const getCommunity = async (req: Request, res: Response) => {
 
 
         const communityInvite = await prisma.community.findMany({
-            select: {
-                communityId: true,
-                communityName: true,
-                communityOwnerId: true,
-                communityDesc: true,
-                communityPrivacy: true,
-                communityPhoto: true,
-            },
             where: {
                 communityId: { in: communityUser.map((item: any) => item.communityId) },
             },
