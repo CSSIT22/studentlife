@@ -10,12 +10,20 @@ import { useNavigate } from "react-router-dom"
 import React from "react"
 
 declare global {
-    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean
+    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean, firstTime: boolean
 }
 const DatingOption = () => {
     const [isDisabled, setIsDisabled] = React.useState<boolean>(false)
     const didMount = useDidMount()
     const navigate = useNavigate()
+
+    globalThis.useAge = true //need db + condition
+    globalThis.age = [19, 25] //need db + condition
+    globalThis.gender = "Everyone" //need db + condition
+    const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
+    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
+    const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
+    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
 
     useEffect(() => {
         if (didMount) {
@@ -24,8 +32,25 @@ const DatingOption = () => {
                     navigate("/dating/tutorial");
                 }
             })
+            API.get("/dating/option/getOption").then((userSelectedOption) => {
+                const selectedOption = userSelectedOption.data
+                if (userSelectedOption.data.length < 1) {
+                    globalThis.firstTime = true
+                    return;
+                }
+                else {
+                    globalThis.firstTime = false
+                    setUseAgeValue(selectedOption.useAge)
+                    setSliderValue([selectedOption.ageMin, selectedOption.ageMax])
+                    setSelected(selectedOption.genderPref)
+                    globalThis.useAge = selectedOption.useAge
+                    globalThis.age = [selectedOption.ageMin, selectedOption.ageMax]
+                    globalThis.gender = selectedOption.genderPref
+                }
+            })
             API.get("/dating/option/getFaculty").then((allFaculty) => {
                 setFaculties(allFaculty.data)
+                // setSelectedFac()
             })
                 .catch((err) => console.log(err));
         }
@@ -68,7 +93,9 @@ const DatingOption = () => {
     //For RadioBox
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "Gender",
-        defaultValue: globalThis.gender,
+        defaultValue: "Everyone",
+        // defaultValue: globalThis.gender,
+        value: selected,
         //onChange: console.log,
     })
     const group = getRootProps()
@@ -79,14 +106,11 @@ const DatingOption = () => {
         defaultValue: ["All Faculty"],
     })
 
-    globalThis.useAge = true //need db + condition
-    globalThis.age = [19, 25] //need db + condition
-    globalThis.gender = "Everyone" //need db + condition
+    // globalThis.useAge = true //need db + condition
+    // globalThis.age = [19, 25] //need db + condition
+    // globalThis.gender = "Everyone" //need db + condition
     // globalThis.faculty = ["All Faculty"] //need db + condition
-    const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
-    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
-    const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
-    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
+
 
     useEffect(() => {
         setSelectedFac(faculties)
@@ -116,10 +140,16 @@ const DatingOption = () => {
             " | Selected Faculty: " +
             globalThis.faculty
         )
-
-        API.post<UserOption>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
-            .then(() => navigate("/dating/"))
-            .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+        if (globalThis.firstTime) {
+            API.post<UserOption>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
+                .then(() => navigate("/dating/"))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+        }
+        else {
+            API.put<UserOption>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
+                .then(() => navigate("/dating/"))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("WRONG! " + err) }))
+        }
 
         toast({
             title: "Options are selected.",
