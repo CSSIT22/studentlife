@@ -1,9 +1,21 @@
 import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
+import { Agent } from "http"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 
 const discoveryRoutes = express()
 const prisma = new PrismaClient()
+
+function getAge(dateString: Date) {
+    var today = new Date()
+    var birthDate = new Date(dateString)
+    var age = today.getFullYear() - birthDate.getFullYear()
+    var m = today.getMonth() - birthDate.getMonth()
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--
+    }
+    return age
+}
 
 discoveryRoutes.get("/", (_, res) => {
     return res.send("Dating Module Discovery page API")
@@ -39,10 +51,16 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
         const userBlockedDB = await prisma.user_Blocked.findMany({
             where: {
-                userId: reqUserId
+                userId: reqUserId,
             },
         })
-        
+
+        const datingOptionsDB = await prisma.dating_Options.findFirst({
+            where: {
+                userId: reqUserId,
+            },
+        })
+
         heartHistoryDB.map((id) => {
             filterId.push(id.anotherUserId)
         })
@@ -51,17 +69,19 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             filterId.push(id.anotherUserId)
         })
 
+        const obtainedUser: any = []
+
         if (cardQueueUserId?.frontUserId && cardQueueUserId?.backUserId) {
             return res.send("Success!")
         } else {
             const userProfileDB = await prisma.user_Profile.findMany({
-                take: 20,
                 where: {
                     NOT: {
                         userId: {
                             in: filterId,
                         },
                     },
+
                     details: {
                         NOT: {
                             userId: reqUserId,
@@ -98,7 +118,19 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     },
                 },
             })
-            return res.send(userProfileDB)
+            console.log(datingOptionsDB)
+
+            userProfileDB.map((user) => {
+                if (user.details && datingOptionsDB?.useAge && datingOptionsDB?.ageMin && datingOptionsDB?.ageMax) {
+                    if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax && obtainedUser.length != 20) {
+                        obtainedUser.push(user)
+                    }
+                }
+                else if(datingOptionsDB?.useAge == false && obtainedUser.length != 20) {
+                    obtainedUser.push(user)
+                }
+            })
+            return res.send(obtainedUser)
         }
     } catch (err) {
         return res.status(404).send("User profiles not found")
@@ -131,8 +163,7 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                         isSkipped: isSkipped,
                     },
                 })
-            }
-            catch (error) {
+            } catch (error) {
                 return res.send("Duplicates")
             }
         }
