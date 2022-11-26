@@ -228,6 +228,7 @@ restaurantRoutes.post("/detail/:id", addFavorite)
 restaurantRoutes.get("/review/:id", showReview)
 restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
 restaurantRoutes.put("/update", updateRestaurant)
+
 // restaurantRoutes.delete("/delete", async (req: Request, res: Response)=> {
 //     const prisma = res.prisma
 //     const deleteRes = await prisma.restaurant.delete({
