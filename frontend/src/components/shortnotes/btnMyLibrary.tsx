@@ -125,7 +125,10 @@ const btnMyLibrary = () => {
                                     <Text>Name</Text>
                                     <Input focusBorderColor="orange.500" variant="outline" placeholder="" value={name} onChange={(e) => setName(e.target.value)} />
                                 </Box>
-                                <Button colorScheme="orange" w={"100%"} onClick={submit}>
+                                <Button colorScheme="orange" w={"100%"} onClick={() => {
+                                    submit()
+                                    nliOnClose()
+                                }}>
                                     Create
                                 </Button>
                             </VStack>
