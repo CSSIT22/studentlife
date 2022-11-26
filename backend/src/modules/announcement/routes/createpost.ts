@@ -36,12 +36,12 @@ const createPost = async (req: Request, res: Response) => {
         }
        
         // console.log(req.body);
-
-        const ll = addmorelang.map((el:any) => (
-            {languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail}
-        ))
+        let ll = []
         ll.push({languageId:1000,annTopic:topic,annDetail:detail})
-        // console.log(ll);
+        addmorelang.map((el:any) => (
+            ll.push({languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail})
+        ))
+        console.log(ll);
         
         const newPost = await prisma.announcement.create({
             data: {
