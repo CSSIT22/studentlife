@@ -6,36 +6,29 @@ const createPost = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const id = req.user?.userId
     const { topic, detail, targetType, targetValue, expiredPost, addmorelang } = req.body
-    const fId = Date.now();
     try {
-        const newFilter = await prisma.announcement_Filter.create({
-            data: {
-                filterId:fId,
+        const newFilter = await prisma.announcement_Filter.findFirst({
+            where:{
                 filterType:targetType,
                 value:targetValue
+            },
+            select:{
+                filterId:true
             }
         })
-        // let lang;
-        // for(let i =0;i<addmorelang.length;i++){
-        //     const lang = addmorelang[i].map((el:any) => ({
-        //         languageId:el.lang_id, annTopic:el.topic,annDetail:el.detail
-        //     }))
-        // }
-        //  = addmorelang.map((el:any) => (
-        //     {languageId:el.lang_id,annTopic:el.topic,annDetail:el.detail}
-        // ))
-       
+        // console.log(req.body);
+
         const ll = addmorelang.map((el:any) => (
             {languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail}
         ))
         ll.push({languageId:1000,annTopic:topic,annDetail:detail})
-        console.log(ll);
+        // console.log(ll);
         
         const newPost = await prisma.announcement.create({
             data: {
                 annExpired:expiredPost,
                 userId: req.user?.userId || "",
-                filterId:fId,
+                filterId:newFilter?.filterId || 0,
                 annLanguage:{
                     createMany:{data:ll}
                 },
@@ -49,7 +42,7 @@ const createPost = async (req: Request, res: Response) => {
                 },
             }
         })
-
+        res.send(newPost)
         res.status(200)
     }catch(err) {
         res.status(400).send(err)

@@ -258,13 +258,16 @@ announcementRoutes.get("/getotherlang", getOtherLang)
 announcementRoutes.get("/test", async (req,res) =>{
     const prisma = res.prisma
     try {
-        const aa = await prisma.announcement.create({
-            data: {
-                filterId:3,
-                annExpired: new Date(),
-                userId:"w5XS9xnYoChZzXup0Jn2K"
+        const newFilter = await prisma.announcement_Filter.findFirst({
+            where:{
+                filterType:"Major",
+                value:"Computer Science"
+            },
+            select:{
+                filterId:true
             }
         })
+        // console.log(typeof(newFilter?.filterId));
         // const res = await prisma.user_Profile.findUnique({
         //     where: {
         //         userId: req.user?.userId || ""
