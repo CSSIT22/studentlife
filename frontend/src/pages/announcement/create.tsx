@@ -51,7 +51,7 @@ const create = () => {
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
     const [targetType, setTargetType] = React.useState(String)
-    const [targetValue, setTargetValue] = React.useState(String)
+    const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
 
     const [tv, settv ] = useState<{}[]>([])
