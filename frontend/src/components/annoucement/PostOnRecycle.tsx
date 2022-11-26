@@ -7,7 +7,7 @@ const PostOnRecycle: FC<{
     sender: string
     expired: string
     onClick: Function
-    id: number
+    id: string
     status: string
     onOpen: Function
 }> = ({ topic, sender, expired, onClick, id, status, onOpen }) => {
