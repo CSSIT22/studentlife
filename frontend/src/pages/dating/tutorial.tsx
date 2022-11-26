@@ -81,11 +81,13 @@ const Tutorial = () => {
     return (
         <DatingAppBody>
             <Box>
-                {isSubmitted || isLoading ? <Box position="absolute" top={{ base: "180", md: "-100" }}>
+                {isSubmitted || isLoading ? <Box display="block" mt={{ md: "-200px" }}>
                     <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
-                    <Heading textAlign={"center"} color="black" size={{ base: "xl", md: "2xl" }} mt={{ base: "-120px", md: "-335px" }}>
-                        LOADING...
-                    </Heading>
+                    <Box display="flex" justifyContent="center">
+                        <Text color="black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%" mt={{ base: "-130px", md: "-330px" }} >
+                            LOADING...
+                        </Text>
+                    </Box>
                 </Box> :
                     <Swiper id="tutorial" pagination={true} modules={[Pagination]} className="mySwiper">
                         <SwiperSlide>

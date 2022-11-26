@@ -1,5 +1,4 @@
-import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text, useBoolean } from "@chakra-ui/react"
-import { CARD_QUEUE } from "src/components/dating/shared/card_queue"
+import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text, useBoolean, useToast } from "@chakra-ui/react"
 import DatingAppBody from "src/components/dating/DatingAppBody"
 import React, { useState, useMemo, useRef, FC, RefObject, useEffect } from "react"
 import { AnimationControls, useAnimation } from "framer-motion"
@@ -14,6 +13,8 @@ import { Link, useNavigate } from "react-router-dom"
 import ProfileImg from "../../components/dating/pic/profile.png"
 import API from "src/function/API"
 import { AllInterests, UserCardDetail } from "@apiType/dating"
+import NoProfileImg from "../../components/dating/pic/noprofile.png"
+import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
 
 const RandomCardInside: FC<{
     childRefs: RefObject<any>[]
@@ -23,13 +24,22 @@ const RandomCardInside: FC<{
     nopeText: AnimationControls
     pointerEvents: ResponsiveValue<any>
 }> = ({ childRefs, index, character, likeText, nopeText, pointerEvents }) => {
+
+    let backgroundImage;
+    if (character.image) {
+        backgroundImage = (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character?.userId
+    }
+    else {
+        backgroundImage = NoProfileImg
+    }
+
     return (
         <Box
             ref={childRefs[index]}
             id={index.toString()}
             borderRadius="10px"
             backgroundColor="gray"
-            backgroundImage={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character?.userId}
+            backgroundImage={backgroundImage}
             w={{ base: "326px", md: "379px" }}
             h={{ base: "402px", md: "464px" }}
             backgroundSize="cover"
@@ -159,23 +169,35 @@ const DatingRandomCard: FC<{
     childRefs: React.RefObject<any>[]
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>
     characters: UserCardDetail[]
-}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters }) => {
+    setHasSwipe: React.Dispatch<React.SetStateAction<boolean>>
+    setIsRunOut: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters, setHasSwipe, setIsRunOut }) => {
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
     const likeText = useAnimation()
     const nopeText = useAnimation()
+    const navigate = useNavigate()
+    const toast = useToast()
     // Swipe the card
-    const swiped = (direction: string, nameToDelete: string, index: number) => {
-        console.log("Swiping " + nameToDelete + " to the " + direction)
+    const swiped = (direction: string, idToDelete: string, index: number) => {
+        console.log("Swiping " + idToDelete + " to the " + direction)
         handleClick(currentIndex)
+        setHasSwipe(true)
         if (direction === "left") {
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
             // Run the cross button animation
             nopeText.start("click")
             controlCross.start("hidden")
         } else if (direction === "right") {
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
             // Run the heart button animation
             likeText.start("click")
             controlHeart.start("hidden")
+        }
+        if (index == 0) {
+            setIsRunOut(true)
         }
         updateCurrentIndex(index - 1)
     }
@@ -187,7 +209,7 @@ const DatingRandomCard: FC<{
         frontCard.style.display = "none"
         // Reload the page when running out of card
         if (idx == 0) {
-            window.location.reload()
+            navigate(0)
         }
     }
 
@@ -234,7 +256,7 @@ const DatingRandomCard: FC<{
             ref={childRefs[index]}
             className="swipe"
             key={character.userId}
-            onSwipe={(dir: string) => swiped(dir, character.fName + " " + character.lName, index)}
+            onSwipe={(dir: string) => swiped(dir, character.userId, index)}
             onCardLeftScreen={() => outOfFrame(character.fName, index)}
             preventSwipe={["down", "up"]}
             swipeRequirementType="position"
@@ -273,8 +295,10 @@ const DatingRandomization = () => {
     const navigate = useNavigate()
     const [characters, setCharacters] = useState<UserCardDetail[]>([])
     const [allInterests, setAllInterests] = useState<AllInterests[]>([])
-    const [numOfChar, setNumOfChar] = useState(characters.length)
+    const [numOfChar, setNumOfChar] = useState(-1)
     const [isLoading, { off }] = useBoolean(true)
+    const [hasSwipe, setHasSwipe] = useState(false)
+    const [isRunOut, setIsRunOut] = useState(false)
     let count = 1
     useEffect(() => {
         if (didMount && count == 1) {
@@ -309,7 +333,7 @@ const DatingRandomization = () => {
                             }
                         })
                 })
-            console.log("test")
+                console.log("test")
             }).catch((err) => console.log(err)).finally(off)
         }
     })
@@ -356,7 +380,7 @@ const DatingRandomization = () => {
             {isLoading && didMount ? <></> : <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
                 <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
-                    <DatingRandomBase />
+                    <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} />
                     {characters.map((character, index) => (
                         <DatingRandomCard
                             character={character}
@@ -367,6 +391,8 @@ const DatingRandomization = () => {
                             childRefs={childRefs}
                             setCurrentIndex={setCurrentIndex}
                             characters={characters}
+                            setHasSwipe={setHasSwipe}
+                            setIsRunOut={setIsRunOut}
                         />
                     ))}
                 </Box>
@@ -392,8 +418,7 @@ const DatingRandomization = () => {
                         </Box>
                     </Box>
                 ) : (
-                    // Need to have this tag to prevent IDE error
-                    <></>
+                    <DatingRandomOutOfCard numOfChar={numOfChar} />
                 )}
             </SimpleGrid>
                 <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>

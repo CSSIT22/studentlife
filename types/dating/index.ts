@@ -32,6 +32,7 @@ export type UserCardDetail = {
 export type AllFaculty = {
   facultyId: string;
   facultyName: string;
+<<<<<<< HEAD
 };
 
 export type UserOption = {
@@ -40,3 +41,6 @@ export type UserOption = {
   genderPref: string;
   useAge: boolean;
 };
+=======
+};
+>>>>>>> 6285b7027d862b7fe8f23db177e3569235f9cd20
