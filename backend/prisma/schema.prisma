@@ -931,7 +931,7 @@ model File_Info {
   comments    File_Comment[]
   folders     File_In_Folder[]
   history     File_History[]
-  snFile Sn_File[]
+  snFile      Sn_File[]
 }
 
 model User_Show_File {
@@ -1142,14 +1142,14 @@ model Sn_Head {
   userRecent Sn_Recent[]
   userAccess Sn_Access[]
   inTheseLib Sn_In_Library[]
-  snFile Sn_File[]
+  snFile     Sn_File[]
 }
 
 model Sn_File {
-  snId String
+  snId   String
   fileId String
-  sn Sn_Head @relation(fields: [snId], references: [snId])
-  file File_Info @relation(fields: [fileId], references: [fileId])
+  sn     Sn_Head   @relation(fields: [snId], references: [snId])
+  file   File_Info @relation(fields: [fileId], references: [fileId])
 
   @@id([snId, fileId])
 }
@@ -1472,6 +1472,7 @@ model Restaurant_Detail {
   vicinity  String
   latitude  Float      @db.Real
   longitude Float      @db.Real
+  zone      String
   detailOf  Restaurant @relation(fields: [resId], references: [resId], onDelete: Cascade)
 }
 
@@ -1535,6 +1536,7 @@ model SReview_Shop {
   close          String
   phoneNo        String
   address        String
+  zone           String
   latitude       Float                 @db.Real
   longitude      Float                 @db.Real
   aveRating      Decimal               @db.Decimal(3, 2)
