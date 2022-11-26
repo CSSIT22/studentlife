@@ -13,17 +13,6 @@ import API from "src/function/API"
 
 type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
-// const mockRoom: room = [
-//     { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://s.thistine.com/dog" },
-//     { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://s.thistine.com/dog" },
-//     { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://s.thistine.com/dog" },
-//     { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://s.thistine.com/dog" },
-//     { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://s.thistine.com/rodo" },
-//     { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://s.thistine.com/dog" },
-//     { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://s.thistine.com/dog" },
-//     { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://s.thistine.com/dog" },
-//     { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://s.thistine.com/dog" },
-// ]
 
 const mockMessage = [
     { text: "Hi,how are you doing?", from: "others", timeSent: "20:10" },
@@ -40,7 +29,7 @@ const Room = () => {
     const [isMute, setIsMute] = useState(false)
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
-    const [Room, setRoom] = useState({ roomId: "", roomName: "", image: "" })
+    const [Room, setRoom] = useState({ roomId:"", roomName: "", image: "" })
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
     }, [param])
