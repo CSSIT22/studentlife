@@ -32,6 +32,8 @@ import DatingCreateDescription from "src/components/dating/DatingCreateDescripti
 import DatingCreateLocation from "src/components/dating/DatingCreateLocation"
 import DatingCreateDate from "src/components/dating/DatingCreateDate"
 import DatingCreateTime from "./../../../components/dating/DatingCreateTime"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 declare global {
     var isDateWrong: boolean, isTimeWrong: boolean, people: number[], tag: number[], topic: string[]
@@ -39,9 +41,23 @@ declare global {
 
 const CreateActivityPoll = () => {
     const didMount = useDidMount()
+    const navigate = useNavigate()
     useEffect(() => {
         if (didMount) {
             window.scrollTo(0, 0)
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
+                    if (!datingEnroll.data.hasCompleteSetting) {
+                        navigate("/dating/interests")
+                        if (!datingOptions.data.userId) {
+                            // navigate("/dating/option")
+                            if (!datingEnroll.data.hasCompleteTutorial) {
+                                navigate("/dating/tutorial")
+                            }
+                        }
+                    }
+                })
+            })
         }
     })
 
@@ -292,7 +308,7 @@ const CreateActivityPoll = () => {
                                                 isLoading={false}
                                                 setInterests={setInterests}
                                                 setIsSubmiited={setIsSubmitted}
-                                                isSubmitted={isSubmitted}
+                                                hasCompleteSetting={true}
                                             />
                                         </GridItem>
                                     </ModalFooter>
