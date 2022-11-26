@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 
 const getCommunity = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const userid = req.user?.userId
+    const userId = req.body.user//req.user?.userId
 
     try {
         const communityUser = await prisma.community_User.findMany({
@@ -10,10 +10,10 @@ const getCommunity = async (req: Request, res: Response) => {
                 communityId: true,
                 status: true,
             },
-            // where: {
-            //     userId: userid,
-            //     status: true
-            // },
+            where: {
+                userId: userId,
+                status: true
+            },
         })
 
         const communityUserInvite = await prisma.community_User.findMany({
@@ -21,10 +21,10 @@ const getCommunity = async (req: Request, res: Response) => {
                 communityId: true,
                 status: true,
             },
-            // where: {
-            //     userId: userid,
-            //     status: false
-            // },
+            where: {
+                userId: userId,
+                status: false
+            },
         })
 
 
@@ -37,30 +37,30 @@ const getCommunity = async (req: Request, res: Response) => {
 
         const communityManage = await prisma.community.findMany({
             where: {
-                communityOwnerId: userid,
+                communityOwnerId: userId,
             },
         })
 
 
         const communityInvite = await prisma.community.findMany({
             where: {
-                communityId: { in: communityUser.map((item: any) => item.communityId) },
+                communityId: { in: communityUserInvite.map((item: any) => item.communityId) },
             },
         })
 
 
-        const join = commuinityJoin.length
-        const manage = communityManage.length
-        const invite = communityInvite.length
+        const countJoin = commuinityJoin.length
+        const countManage = communityManage.length
+        const countInvite = communityInvite.length
 
 
         const commuinities: any[] = [
             
-            {commuinityJoin,join},
+            {commuinityJoin,countJoin},
 
-            {communityManage,manage},
+            {communityManage,countManage},
 
-            {communityInvite,invite}
+            {communityInvite,countInvite}
             
         ]
 
