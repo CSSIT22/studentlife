@@ -8,7 +8,7 @@ const PostOnHistory: FC<{
     sender: string
     status: string
     onClick: Function
-    id: number
+    id: string
     onOpen: Function
 }> = ({ topic, sender, status, onClick, id, onOpen }) => {
     const state = (stat: string) => {
