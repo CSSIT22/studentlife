@@ -16,13 +16,14 @@ import {
     DrawerContent,
     DrawerCloseButton,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { BiLibrary } from "react-icons/bi"
 import LiList from "./liList"
 import InLiList from "./inLiList"
 import { Link, useNavigate } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io"
 import API from "src/function/API"
+import { authContext } from "src/context/AuthContext"
 
 const btnMyLibrary = () => {
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
@@ -60,6 +61,15 @@ const btnMyLibrary = () => {
     const navigate = useNavigate()
 
 
+    //const user = useContext(authContext)
+    const [name, setName] = useState("")
+
+    const submit = () => {
+        API.post("/shortnotes/postLibrary", {
+            libName: name
+        }).then((res) => console.log(res)
+        )
+    }
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -113,9 +123,9 @@ const btnMyLibrary = () => {
 
                                 <Box w={"100%"}>
                                     <Text>Name</Text>
-                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" />
+                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" value={name} onChange={(e) => setName(e.target.value)} />
                                 </Box>
-                                <Button colorScheme="orange" w={"100%"}>
+                                <Button colorScheme="orange" w={"100%"} onClick={submit}>
                                     Create
                                 </Button>
                             </VStack>
