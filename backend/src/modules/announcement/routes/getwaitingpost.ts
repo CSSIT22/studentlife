@@ -33,10 +33,10 @@ try{
             }
         },
     })
-    console.log(waitingpost)
-    console.log(waitingpost.length)
-    console.log(waitingpost[0].annLanguage)
-    console.log(waitingpost[0].annCreator)
+    // console.log(waitingpost)
+    // console.log(waitingpost.length)
+    // console.log(waitingpost[0].annLanguage)
+    // console.log(waitingpost[0].annCreator)
     res.send(waitingpost)
 
 
