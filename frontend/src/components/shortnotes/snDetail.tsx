@@ -186,7 +186,14 @@ const liList: FC<{
                     <ModalCloseButton />
                     <ModalBody>Are you sure to delete this shortnote?</ModalBody>
                     <ModalFooter>
-                        <Button onClick={deleteShortnote} colorScheme={"red"}>
+                        <Button onClick={() => {
+                            deleteShortnote()
+                            onClose()
+                            navigate({
+                                pathname: "../shortnotes",
+                            })
+                            window.location.reload()
+                        }} colorScheme={"red"}>
                             Delete
                         </Button>
                     </ModalFooter>
