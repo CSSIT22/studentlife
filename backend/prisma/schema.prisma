@@ -866,7 +866,7 @@ model Community_User {
 model Community_Role {
   roleId   String          @id @default(cuid())
   roleName CRole_Type      @default(MEMBER)
-  roleOf   Community_User?
+  roleOf   Community_User[]
 }
 
 enum CRole_Type {
