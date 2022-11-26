@@ -342,6 +342,7 @@ model User_Noti_Object {
   notiObjectId String
   user         Noti_User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId       String
+  isRead       Boolean     @default(false)
 
   @@id([notiObjectId, userId])
 }
@@ -350,7 +351,6 @@ model Noti_Object {
   notiObjectId String             @id @default(cuid())
   template     Template
   date         DateTime           @db.Timestamp(0)
-  isRead       Boolean
   module       Module
   url          String
   users        User_Noti_Object[]
@@ -864,8 +864,8 @@ model Community_User {
 }
 
 model Community_Role {
-  roleId   String          @id @default(cuid())
-  roleName CRole_Type      @default(MEMBER)
+  roleId   String           @id @default(cuid())
+  roleName CRole_Type       @default(MEMBER)
   roleOf   Community_User[]
 }
 
