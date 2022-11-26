@@ -19,6 +19,7 @@ const Clist: FC<any> = () => {
     useEffect(() => {
         API.get("/chat").then((e) => setuserRoom(e.data))
     }, [])
+
     //function handle
     function Navigate(target: any) {
         return navigate(`/chat/${target}`)
@@ -30,6 +31,14 @@ const Clist: FC<any> = () => {
     function DeleteRoom(e: any) {
         const result = userRoom.filter((el: any) => el.roomId !== e.roomId)
         setuserRoom(result)
+    }
+    function handleImg(e : any){
+        if(e === null){
+            return ""
+        }
+        else{
+            return buffer_to_img(e.data)
+        }
     }
 
     //component FC
@@ -80,7 +89,7 @@ const Clist: FC<any> = () => {
             </Flex>
         )
     }
-
+    
     const renderRoom = (e: any) => {
         if (target === 1 && e.roomType === "INDIVIDUAL") {
             return (
@@ -96,7 +105,7 @@ const Clist: FC<any> = () => {
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.roomName} src={buffer_to_img(e.roomIndividual.chatWith.image.data)} />
+                        <Avatar name={e.roomName} src={handleImg(e.roomIndividual.chatWith.image)} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
@@ -122,7 +131,7 @@ const Clist: FC<any> = () => {
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.Roomname} src={e.image} />
+                        <Avatar name={e.roomName} src={e.roomGroup.groupImg} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">

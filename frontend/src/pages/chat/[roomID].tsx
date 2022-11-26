@@ -25,6 +25,26 @@ const mockMessage = [
     { text: "wait..? what?", from: "me", timeSent: "20:27" },
     { text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
 ]
+type RoomType = {
+    room: {
+        roomIndividual: {
+            chatWith: {
+                image: {
+                    type:string
+                    data : string
+                } | null
+            }
+        } | null
+        roomName: string
+        roomId: string
+        chatColor: string
+        roomType: string
+        roomGroup: {
+            groupImg: string
+        } | null
+    },
+    userId: string
+}
 
 const Room = () => {
     let param = useParams()
@@ -32,7 +52,7 @@ const Room = () => {
     const [isMute, setIsMute] = useState(false)
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
-    const [Room, setRoom] = useState({ roomId: "", roomName: "", image: { data: "" },userId :"" })
+    const [Room, setRoom] = useState<RoomType>()
 
     //fetch API
     useEffect(() => {
@@ -46,8 +66,33 @@ const Room = () => {
 
     function onSend() {
         setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
-        socketIO.emit("send-msg", { userId: Room.userId, roomId: Room.roomId, message: Text })
+        socketIO.emit("send-msg", { userId: Room?.userId, roomId: Room?.room.roomId, message: Text })
         setText("")
+    }
+    function renderTitle() {
+        if (Room?.room.roomType === "INDIVIDUAL") {
+            const img = Room.room.roomIndividual?.chatWith.image
+            return (
+                <Flex alignItems={"center"}>
+                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : buffer_to_img(img?.data)}/>
+                    <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
+                        {Room?.room.roomName}
+                    </Box>
+                </Flex>
+            )
+        }
+        else{
+            const img = Room?.room.roomGroup?.groupImg
+            return (
+                <Flex alignItems={"center"}>
+                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : img}/>
+                    <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
+                        {Room?.room.roomName}
+                    </Box>
+                </Flex>
+            )
+        }
+        
     }
     return (
         <AppBody>
@@ -75,10 +120,7 @@ const Room = () => {
                         py={2}
                     >
                         <Flex alignItems={"center"}>
-                            <Avatar marginLeft={4} name={Room.roomName} src={buffer_to_img(Room.image.data)} />
-                            <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
-                                {Room.roomName}
-                            </Box>
+                          {renderTitle()}
                         </Flex>
                         <Flex marginRight={4}>
                             <Box marginX={5}>

@@ -1,30 +1,33 @@
-import { Request, Response } from "express"
+import e, { Request, Response } from "express"
 
 const getRoom = async (req: Request, res: Response) => {
     try {
         const user = req.user?.userId
         const prisma = res.prisma
-        const user_room = await prisma.user_To_Room.findMany({
-            select: {
+        const Room_list = await prisma.user_To_Room.findMany({
+            select:{
                 room :{
                     select:{
                         roomIndividual:{
                             select:{
                                 chatWith:{
                                     select:{
-                                        image:true,
+                                        image:true
                                     }
                                 }
                             }
-                        },roomName:true,roomType:true,roomId:true
+                        },roomId:true,chatColor:true,roomType:true,roomName:true,roomGroup:{
+                            select:{
+                                groupImg:true
+                            }
+                        }
                     }
                 }
-            },
-            where: {
-                userId: user,
+            },where:{
+                userId:user
             }
         })
-        res.send([...user_room.map((e)=>e.room)])
+        res.send(Room_list.map((e)=>e.room))
     } catch {
         res.status(400).send("Error can't find room")
     }
