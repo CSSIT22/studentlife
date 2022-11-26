@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Flex, Hide, HStack, Input } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
@@ -11,8 +11,9 @@ import { BiSticker } from "react-icons/bi"
 import TextBar from "../../components/chat/textConversation"
 import API from "src/function/API"
 import { buffer_to_img } from "src/components/chat/function/64_to_img"
+import { socketContext } from "src/context/SocketContext"
 
-// type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
+type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
 
 const mockMessage = [
@@ -27,10 +28,13 @@ const mockMessage = [
 
 const Room = () => {
     let param = useParams()
+    const { socketIO } = useContext(socketContext)
     const [isMute, setIsMute] = useState(false)
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
-    const [Room, setRoom] = useState({ roomId:"", roomName: "", image: {data :""} })
+    const [Room, setRoom] = useState({ roomId: "", roomName: "", image: { data: "" },userId :"" })
+
+    //fetch API
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
     }, [param])
@@ -42,6 +46,7 @@ const Room = () => {
 
     function onSend() {
         setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
+        socketIO.emit("send-msg", { userId: Room.userId, roomId: Room.roomId, message: Text })
         setText("")
     }
     return (
@@ -50,13 +55,15 @@ const Room = () => {
                 <Hide below="md">
                     <Clist />
                 </Hide>
-                <Box
+                <Flex
                     flex={1}
                     bg="#FFF2E6"
                     marginLeft={{ base: 0, md: 5 }}
                     width={{ base: "100%", md: "300px" }}
-
-                    // maxH={'5000px'}
+                    justifyContent={"space-between"}
+                    height={"78vh"}
+                    flexDirection={"column"}
+                // maxH={'5000px'}
                 >
                     <Flex
                         alignItems={"center"}
@@ -85,7 +92,7 @@ const Room = () => {
                         </Flex>
                     </Flex>
 
-                    <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} height={"430px"}>
+                    <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} maxH={"65vh"}>
                         {msg.map(({ text, from, timeSent }, roomID) => (
                             <TextBar key={roomID} message={text} timeSent={timeSent} from={from} />
                         ))}
@@ -115,7 +122,7 @@ const Room = () => {
                             </Button>
                         </Flex>
                     </Flex>
-                </Box>
+                </Flex>
             </HStack>
         </AppBody>
     )

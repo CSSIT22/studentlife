@@ -7,7 +7,8 @@ const room_prop = async(req : Request,res : Response)=>{
     const prisma = res.prisma
     const room_prop = await prisma.user_To_Room.findFirstOrThrow({
         select:{
-            room:true
+            room:true,
+            userId:true
             
         },where:{
             userId : user,
@@ -23,12 +24,12 @@ const room_prop = async(req : Request,res : Response)=>{
     })
     const resiveImg = await prisma.user_Profile.findFirstOrThrow({
         select:{
-            image:true
+            image:true,
         },where:{
             userId :resiever.anotherUserId
         }
     })
-    res.send({...room_prop.room,...resiveImg})
+    res.send({...room_prop,...resiveImg})
     }
     catch(err){
         res.status(400).send("ther is not this room in this user")

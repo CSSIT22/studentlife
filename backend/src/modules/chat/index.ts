@@ -3,6 +3,7 @@ import express from "express"
 // import editproperty from "./router/editproperty"
 import getRoom from "./router/getRoom"
 import room_prop from "./router/getRoomProp"
+import spotify from "./router/spotifySearch"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -12,6 +13,8 @@ chatRoutes.use(express.json())
 //routes
 
 chatRoutes.get("/", getRoom)
+
+chatRoutes.get("/spotifySearch",spotify)
 
 chatRoutes.get("/:id", room_prop)
 
