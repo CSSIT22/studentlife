@@ -34,12 +34,12 @@ const ModalForEvent: FC<{
             //     allPost.map((el) => {
             //         if (el.postId == selectPost) {
             //             el.status = "delete"
-            //             el.expiredAfterDelete = new Date()
+            //             el.deleteAt = new Date()
             //         }
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "delete", expiredAfterDelete: expiredonrecycle })
+            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Delete", deleteAt: new Date() })
         } else if (status == "Disapprove") {
             // setAllPost(
             //     allPost.map((el) => {
@@ -49,7 +49,7 @@ const ModalForEvent: FC<{
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "deleted", expiredAfterDelete: expiredonrecycle })
+            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date()})
         } else if (status == "Delete") {
             // setAllPost(
             //     allPost.map((el) => {

@@ -147,7 +147,7 @@ const history = () => {
                 <HeaderPage head="History" />
             </Flex>
             {allPost
-                .filter((fl) => fl.annPost.status == "Waiting for Approve" || fl.annPost.status == "Approve" || fl.annPost.status == "Disapprove")
+                .filter((fl) => fl.annPost?.status == "Waiting for Approve" || fl.annPost?.status == "Approve" || fl.annPost?.status == "Disapprove")
                 .map((el) => {
                     return (
                         <PostOnHistory
