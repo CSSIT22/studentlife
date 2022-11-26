@@ -38,6 +38,7 @@ model User_Profile {
   pHided               Hide_Post[]
   cHided               Hide_Comment[]
   notis                Noti_User?
+  sendNoti             Noti_Object[]
   userTimetable        Timetable[]
   tasks                Task[]
   taskfolders          Task_Folder[]
@@ -349,10 +350,12 @@ model User_Noti_Object {
 
 model Noti_Object {
   notiObjectId String             @id @default(cuid())
+  userId       String
   template     Template
   date         DateTime           @db.Timestamp(0)
   module       Module
   url          String
+  sender       User_Profile       @relation(fields: [userId], references: [userId])
   users        User_Noti_Object[]
   values       Value[]
 }
