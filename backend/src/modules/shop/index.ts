@@ -7,12 +7,14 @@ import getAllReviews from "./routes/getAllReviews"
 import gestTestPrisma from "./routes/gestTestPrisma"
 import getContactInfo from "./routes/getContactInfo"
 import getAllCoupons from "./routes/getAllCoupons"
+import getProductImages from "./routes/getProductImages"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
 // Product Routes
 shopRoutes.get("/getAllProducts", getAllProducts)
 shopRoutes.get("/getProductInformation/:id", getProductInformation)
+shopRoutes.get("/getProductImages/:id", getProductImages)
 // Category Routes
 shopRoutes.get("/getAllCategories", getAllCategories)
 shopRoutes.get("/getAllProductsInCategory/:id", getAllProductsInCategory)

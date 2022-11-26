@@ -1,72 +1,38 @@
 import React, { FC, useState } from "react"
-import { Flex } from "@chakra-ui/react"
+import { Flex, useBoolean } from "@chakra-ui/react"
 import ProductDisplay from "./ProductDisplay"
+import { Shop_Product, Shop_Product_Images } from "@apiType/shop"
+import { setDataAPI } from "./functions/usefulFunctions"
 
 // Get data from database
 const ProductList: FC<{
-    products: {
-        productId: number
-        name: string
-        image: string
-        brand: string
-        price: number
-        categoryId: number
-        contactId: number
-        description: string
-        color: string
-        size: string
-        stock: number
-        deliveryFee: number
-    }[]
+    products: Shop_Product[] | null
     repeat?: boolean
-}> = ({ products, repeat }) => {
-    if (repeat == undefined) {
-        repeat = true
-    }
-    
+}> = ({ products }) => {
     return (
         <Flex justify="center" pt="3" wrap="wrap" gap="1rem">
-            {generateProducts(products, repeat)}
+            {generateProducts(products)}
         </Flex>
     )
 }
+function generateProducts(products: Shop_Product[] | null) {
+    if (products != null) {
+        let dummyData = []
+        const dummy = products.map((product) => {
+            return (
+                <ProductDisplay
+                    id={product.productId}
+                    name={product.productName}
+                    brandName={product.brandName}
+                    price={product.productPrice}
+                ></ProductDisplay>
+            )
+        })
+        dummyData.push(dummy)
+
+        return dummyData
+    }
+}
 
 export default ProductList
-function generateProducts(
-    products: {
-        productId: number
-        name: string
-        image: string
-        brand: string
-        price: number
-        categoryId: number
-        contactId: number
-        description: string
-        color: string
-        size: string
-        stock: number
-        deliveryFee: number
-    }[],
-    repeat: boolean
-) {
-    let dummyData = []
-    const dummy = products.map((product) => {
-        return (
-            <ProductDisplay
-                id = {product.productId}
-                name={product.name}
-                image={product.image}
-                brandName={product.brand}
-                price={product.price}
-            ></ProductDisplay>
-        )
-    })
-    if (repeat) {
-        for (let i = 0; i < 25; i++) {
-            dummyData.push(dummy)
-        }
-    } else {
-        dummyData.push(dummy)
-    }
-    return dummyData
-}
+
