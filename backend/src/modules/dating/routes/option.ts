@@ -47,21 +47,22 @@ optionRoutes.get("/getOption", verifyUser, async (req: Request, res: Response) =
 optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) => {
     try {
         const userId: string | undefined = req.user?.userId
+        const selectFac: string[] = req.body.facultyPref
         const ageMin: number = req.body.ageMin
         const ageMax: number = req.body.ageMax
         const genderPref: string = req.body.genderPref
         const useAge: boolean = req.body.useAge
         const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge }
-        // const facultyPrefs: any = []
-        // console.log("Pref: " + genderPref + useAge + userId)
-        // req.body.facultyPref.map((faculty: string) => {
+        const facultyPrefs: any = []
+        console.log("Pref: " + selectFac)
+        // selectFac.map((faculty: string) => {
         //     facultyPrefs.push({ userId: userId, facultyPref: faculty })
         // })
         // console.log("Plz work " + req.body.facultyPref)
         // await prisma.faculty_Pref.createMany({
         //     data: facultyPrefs,
         // })
-        // console.log(setPref)
+        console.log(setPref)
         await prisma.dating_Options.create({
             data: setPref,
         })
@@ -76,12 +77,21 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
 optionRoutes.put("/updateOption", verifyUser, async (req: Request, res: Response) => {
     try {
         const userId = req.user?.userId
+        const selectFac: string[] = req.body.facultyPref
         const ageMin: number = req.body.ageMin
         const ageMax: number = req.body.ageMax
         const genderPref: string = req.body.genderPref
         const useAge: boolean = req.body.useAge
         const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge }
-        console.log(setPref)
+        const facultyPrefs: any = []
+        console.log("Pref: " + selectFac)
+        // selectFac.map((faculty: string) => {
+        //     facultyPrefs.push({ userId: userId, facultyPref: faculty })
+        // })
+        // console.log("Plz work " + req.body.facultyPref)
+        // await prisma.faculty_Pref.updateMany({
+        //     data: facultyPrefs,
+        // })
         await prisma.dating_Options.update({
             where: {
                 userId: userId,

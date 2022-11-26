@@ -69,7 +69,7 @@ const DatingOption = () => {
 
     // const [isError, { on }] = useBoolean()
     // const [isLoading, { off }] = useBoolean(true)
-    const options = ["Male", "Female", "Everyone"] // Gender type
+    const options = ["Male", "Female", "LGBTQ+", "Everyone"] // Gender type
     const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
     // globalThis.faculty
 
