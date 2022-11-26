@@ -20,10 +20,10 @@ const DatingRandomReload: FC<{ numOfChar: number; hasSwipe: boolean; isRunOut: b
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                backgroundColor="orange.200"
+                backgroundColor="orange.400"
             >
                 {numOfChar != 0 && !hasSwipe ? <Lottie animationData={DatingDiscoveryLoading} loop={true} /> :
-                    (numOfChar != 0 ? <></> : <><Box><Lottie animationData={DatingOutOfCard} loop={true} /><Box display="flex" justifyContent="center"><Button boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" colorScheme="orange" onClick={() => navigate("/dating/option/")}><Image width={{ base: "15px", md: "25px" }} src={DatingOptionsWhiteImg} /><Text fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">&nbsp;&nbsp;Option</Text></Button></Box></Box></>)}
+                    (numOfChar != 0 ? <></> : <><Box><Lottie animationData={DatingOutOfCard} loop={true} /><Box display="flex" justifyContent="center"><Button boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" colorScheme="blackAlpha" onClick={() => navigate("/dating/option/")}><Image width={{ base: "15px", md: "25px" }} src={DatingOptionsWhiteImg} /><Text fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">&nbsp;&nbsp;Option</Text></Button></Box></Box></>)}
                 {isRunOut ? <Lottie animationData={DatingDiscoveryLoading} loop={true} /> : <></>}
             </Box>
         </Center>
