@@ -7,9 +7,9 @@ import { Link } from "react-router-dom"
 const PostOnApproval: FC<{
     topic: string
     sender: string
-    status: string
+    // status: string
     id: number
-}> = ({ topic, sender, status, id }) => {
+}> = ({ topic, sender, id }) => {
     return (
         <Link to={`/announcement/approval/${id}`}>
             <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="white" rounded="lg" cursor="pointer" shadow={"md"}>

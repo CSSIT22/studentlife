@@ -17,6 +17,12 @@ try{
         select:{
             postId: true,
             userId: true,
+            annCreator: {
+                select:{
+                    fName: true,
+                    lName: true,
+                }
+            },
             annLanguage: {
                 where:{
                     languageId: 1000
@@ -27,9 +33,10 @@ try{
             }
         },
     })
-    // console.log(waitingpost)
-    // console.log(waitingpost.length)
-    // console.log(waitingpost[0].annLanguage)
+    console.log(waitingpost)
+    console.log(waitingpost.length)
+    console.log(waitingpost[0].annLanguage)
+    console.log(waitingpost[0].annCreator)
     res.send(waitingpost)
 
 
