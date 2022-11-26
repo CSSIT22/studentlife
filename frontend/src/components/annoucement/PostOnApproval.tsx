@@ -8,7 +8,7 @@ const PostOnApproval: FC<{
     topic: string
     sender: string
     // status: string
-    id: number
+    id: string
 }> = ({ topic, sender, id }) => {
     return (
         <Link to={`/announcement/approval/${id}`}>

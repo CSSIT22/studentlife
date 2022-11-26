@@ -6,11 +6,11 @@ import { Link } from "react-router-dom"
 import PostOnApproval from "../../../components/annoucement/PostOnApproval"
 import HeaderPage from "../../../components/annoucement/HeaderPage"
 import { postInfoTest } from "../postInfoTest"
-import { post } from "@apiType/announcement"
+import { announcement, post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const index = () => {
-    const [allPost, setAllPost] = React.useState([])
+    const [allPost, setAllPost] = React.useState<announcement[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/getwaitingpost")
