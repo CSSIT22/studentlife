@@ -92,7 +92,7 @@ export type post_on_page = {
 export type announcement_delete = {
     postId:string,
     deleteAt:Date,
-    post:announcement | ""
+    post:announcement 
 }
   
 export type announcement_pin = {
