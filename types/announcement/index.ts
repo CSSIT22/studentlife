@@ -1,3 +1,4 @@
+
 export type addMoreLangType = {
     id:number
     languageId:number,
@@ -25,4 +26,82 @@ export type post = {
 export type languageInfo = {
     lang_id:number,
     langName:string
+}
+
+export type announcement = {
+    postId:string,
+    userId:string | "",
+    filterId:number,
+    annCreate:Date | "",
+    annExpired:Date,
+    isApprove:boolean,
+    annLanguage:post_to_language[] | "",
+    annFilter:announcement_filter  | "",
+    annPost:announcement_post | "",
+    annPin:announcement_pin[] | "",
+    annSee:announcement_seen[] | "",
+    annApprove:announcement_approve | "",
+    annDel:announcement_delete | ""
+}
+
+export type announcement_filter = {
+    filterId:number,
+    filterType:string,
+    value:string
+    announcement:announcement | ""
+}
+
+export type announcement_language = {
+    languageId:number,
+    language:string
+    announcementPost:post_to_language[] | ""
+}
+
+export type post_to_language = {
+    postId:string,
+    languageId:number,
+    annTopic:string,
+    annDetail:string
+    post:announcement | "",
+    language:announcement_language | ""
+}
+
+export type announcement_post = {
+    postId:string,
+    status:string
+    announcement:announcement | "",
+    postTo:post_on_page[] | ""
+}
+
+export type post_on_page = {
+    postId:string,
+    userId:string
+    post:announcement_post | ""
+}
+
+export type announcement_delete = {
+    postId:string,
+    deleteAt:Date,
+    post:announcement | ""
+}
+  
+export type announcement_pin = {
+    postId:string,
+    userId:string,
+    status:boolean,
+    post:announcement | ""
+}
+
+export type announcement_seen = {
+    postId:string,
+    userId:string,
+    seenAt:Date,
+    post:announcement | ""
+}
+  
+export type announcement_approve = {
+    userId:string,
+    postId:string,
+    approveTime:Date,
+    postApprove:announcement[] | ""
 }
