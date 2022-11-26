@@ -12,7 +12,8 @@ const userRoutes = express()
 userRoutes.get("/", verifyUser, init)
 
 userRoutes.get("/profile/exp", getExp)
-userRoutes.get("/profile/aboutme/:id", getaboutmeuser)
+
+userRoutes.get("/profile/aboutme", verifyUser, getaboutmeuser)
 
 userRoutes.get("/profile/:id", getProfile)
 
