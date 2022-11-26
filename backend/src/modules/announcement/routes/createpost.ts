@@ -7,15 +7,34 @@ const createPost = async (req: Request, res: Response) => {
     const id = req.user?.userId
     const { topic, detail, targetType, targetValue, expiredPost, addmorelang } = req.body
     try {
-        const newFilter = await prisma.announcement_Filter.findFirst({
-            where:{
-                filterType:targetType,
-                value:targetValue
-            },
-            select:{
-                filterId:true
-            }
-        })
+        let filterNo:number;
+        if(targetType == "Everyone"){
+            const newFilter = await prisma.announcement_Filter.findFirstOrThrow({
+                where:{
+                    filterType:targetType,
+                },
+                select:{
+                    filterId:true
+                }
+            })
+            filterNo = newFilter.filterId;
+            console.log(filterNo);
+            
+            
+        }else {
+            const newFilter = await prisma.announcement_Filter.findFirstOrThrow({
+                where:{
+                    filterType:targetType,
+                    value:targetValue 
+                },
+                select:{
+                    filterId:true
+                }
+            })
+            filterNo = newFilter.filterId;
+            console.log(filterNo);
+        }
+       
         // console.log(req.body);
 
         const ll = addmorelang.map((el:any) => (
@@ -28,23 +47,19 @@ const createPost = async (req: Request, res: Response) => {
             data: {
                 annExpired:expiredPost,
                 userId: req.user?.userId || "",
-                filterId:newFilter?.filterId || 0,
+                filterId: filterNo,
                 annLanguage:{
                     createMany:{data:ll}
                 },
                 annPost:{
                     create:{}
                 },
-                annPin:{
-                    create:{
-                        userId: req.user?.userId || ""
-                    }
-                },
             }
         })
         res.send(newPost)
         res.status(200)
     }catch(err) {
+        console.log(err);
         res.status(400).send(err)
     }
     // const newPost = {
