@@ -54,7 +54,7 @@ const PostOnHistory: FC<{
                     {state(status)}
                 </Box>
                 <Box>
-                    <Heading size={"sm"}>{topic}</Heading>
+                    <Heading size={"sm"}>{topic.substring(0,20)}</Heading>
                     <Text fontSize={"xs"}>{sender}</Text>
                 </Box>
                 <Spacer />
