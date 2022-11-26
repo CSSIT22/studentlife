@@ -8,6 +8,8 @@ import { MdOutlineHistory } from "react-icons/md"
 import API from "src/function/API"
 import { Text, Box, Divider, useDisclosure, Fade, useBoolean, useToast, Spinner, Flex, Button } from "@chakra-ui/react"
 import axios from "axios"
+import Lottie from "lottie-react"
+import receive from "../../components/airdrop/animation/receive.json"
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -24,10 +26,14 @@ export default function Receivedrop<FC>() {
     const [isError, { on }] = useBoolean(false)
     const { isOpen, onToggle } = useDisclosure()
     const [fileList, setFileList] = useState<any>([])
-    const [filePagination, setFilePagination] = useState<any>([])
-    const [filePage, setFilePage] = useState(0)
-    const [pageAmount, setPageAmount] = useState<number>(0)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [filePerPage] = useState(6)
     // item per page = 6
+    //filelist slice in page
+
+    const lastIndex = currentPage * filePerPage
+    const firstIndex = lastIndex - filePerPage
+    const currentFileList = [...fileList].slice(firstIndex, lastIndex)
     //get file function
     const fetchAllFile = async () => {
         const res = await API.get("/airdrop/file/getallfile", {
@@ -36,11 +42,6 @@ export default function Receivedrop<FC>() {
             .then((res) => {
                 if (fileList.length === 0 || res.data.length !== fileList.length) {
                     setFileList(res.data)
-                    setPageAmount(Math.ceil(res.data.length / 6))
-                    if (filePagination != null) {
-                        //inital pagination data
-                        setFilePagination(res.data.slice(0, 6))
-                    }
                 }
             })
             .catch((err) => {
@@ -73,18 +74,24 @@ export default function Receivedrop<FC>() {
         }, 1000)
         return () => clearInterval(interval)
     })
-    //
-    //fileLIst in pagination change when page change
-    useEffect(() => {
-        console.log(filePage)
-        setFilePagination([...fileList.slice(filePage * (filePage + 1), filePage * 6 - 1)])
-        console.log(filePagination)
-    }, [filePage])
+
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="receive">
-                <Box mb={5}>
-                    <Text fontSize={"3xl"}>Receive Files</Text>
+                <Box mb={5} ml={5}>
+                    <Text fontSize={"3xl"} display={"flex"} alignItems={"center"}>
+                        Receive Files
+                            <Lottie
+                                animationData={receive}
+                                loop={false}
+                                style={{
+                                    width: "10%",
+                                    height: "10%",
+                                    display: "inline-flex",
+                                    marginLeft: "1rem",
+                                }}
+                            ></Lottie>
+                    </Text>
                 </Box>
                 {/* component for list will coming sooner */}
                 <Divider />
@@ -97,74 +104,47 @@ export default function Receivedrop<FC>() {
                             </Box>
                         </Fade>
                     ) : (
-                        <>
-                            {pageAmount > 0 ? (
-                                <>
-                                    {filePagination?.map((item: any, key: any) => {
-                                        return (
-                                            <Fade in={isOpen} unmountOnExit key={key}>
-                                                <FileList info={item} key={key} elementid={key} fadeToggle={onToggle} />
-                                            </Fade>
-                                        )
-                                    })}
-                                </>
-                            ) : (
-                                <>
-                                    {fileList?.map((item: any, key: any) => {
-                                        return (
-                                            <Fade in={isOpen} unmountOnExit key={key}>
-                                                <FileList info={item} key={key} elementid={key} fadeToggle={onToggle} />
-                                            </Fade>
-                                        )
-                                    })}
-                                </>
-                            )}
-                            {/* //pagination with chakra ui */}
-                            <Flex justifyContent={"center"} flexDirection={"row"} alignItems={"center"} gap={"3"} mt={"4"} position={"revert"}>
-                                {pageAmount > 1 ? (
-                                    <>
-                                        {
-                                            //map button from pageAmount number
-                                            [...Array(pageAmount)].map((_: any, key: any) => {
-                                                return (
-                                                    <Button
-                                                        key={key}
-                                                        onClick={() => {
-                                                            if (key != 1) {
-                                                                setFilePage(0)
-                                                            } else {
-                                                                setFilePage(key + 1)
-                                                            }
-                                                        }}
-                                                        rounded={"3xl"}
-                                                        size={"md"}
-                                                        _hover={{
-                                                            transform: "scale(1.1)",
-                                                            color: "white",
-                                                            bg: "orange.500",
-                                                            shadow: "xl",
-                                                        }}
-                                                        {...(key + 1 == filePage
-                                                            ? {
-                                                                  bg: "orange.500",
-                                                                  color: "white",
-                                                              }
-                                                            : null)}
-                                                    >
-                                                        {key + 1}
-                                                    </Button>
-                                                )
-                                            })
-                                        }
-                                    </>
-                                ) : (
-                                    <></>
-                                )}
-                            </Flex>
-                        </>
+                        <Box>
+                            {currentFileList?.map((item: any, key: any) => {
+                                return (
+                                    <Fade in={isOpen} unmountOnExit key={key}>
+                                        <FileList info={item} key={key} elementid={key} fadeToggle={onToggle} />
+                                    </Fade>
+                                )
+                            })}
+                        </Box>
                     )}
                 </fileListContext.Provider>
             </PageBox>
+            {/* //pagination*/}
+            <Flex justifyContent={"center"} flexDirection={"row"} alignItems={"center"} gap={"3"} mt={"4"}>
+                {Array(...new Array(Math.ceil(fileList.length / filePerPage)).fill("")).map((item, key) => {
+                    return (
+                        <Button
+                            key={key}
+                            onClick={() => {
+                                setCurrentPage(key + 1)
+                            }}
+                            bg={"whiteAlpha.800"}
+                            rounded={"3xl"}
+                            size={"md"}
+                            _hover={{
+                                transform: "scale(1.1)",
+                                color: "white",
+                                bg: "orange.500",
+                                shadow: "xl",
+                            }}
+                            {...(currentPage === key + 1 && {
+                                bg: "orange.500",
+                                color: "white",
+                            })}
+                            shadow={"md"}
+                        >
+                            {key + 1}
+                        </Button>
+                    )
+                })}
+            </Flex>
         </AppBody>
     )
 }

@@ -6,7 +6,6 @@ import { HiUpload, HiDownload } from "react-icons/hi"
 import API from "src/function/API"
 import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
 import {
-    Container,
     Flex,
     Box,
     Text,
@@ -23,38 +22,25 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
-    VStack,
     useBoolean,
     Fade,
     Spinner,
     useToast,
 } from "@chakra-ui/react"
 import { authContext } from "src/context/AuthContext"
+import Lottie from "lottie-react"
+import history from "../../components/airdrop/animation/history.json"
+
+
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
-const dummyData = [
-    {
-        name: "pic1.jpeg",
-        sender: "ABC DEF",
-        type: "Download",
-        date: "10/10/2021 10:41:00",
-    },
-    {
-        name: "pic2.jpeg",
-        sender: "KNL AWF",
-        type: "Upload",
-        date: "10/10/2021 10:43:00",
-    },
-    {
-        name: "pic3.jpeg",
-        sender: "GHI JKL",
-        type: "Download",
-        date: "10/10/2021 10:45:00",
-    },
-]
+
+
+
+
 export default function Drophistory<FC>() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isLoading, { off }] = useBoolean(true)
@@ -93,25 +79,39 @@ export default function Drophistory<FC>() {
             comments: [],
         },
     })
-    const [historyData, setHistoryData] = useState<any>(null)
+    const [historyData, setHistoryData] = useState<any>([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [historyPerPage] = useState(5)
+    // item per page = 6
+    //filelist slice in page
+    const lastIndex = currentPage * historyPerPage
+    const firstIndex = lastIndex - historyPerPage
+    let currentHistory = historyData?.slice(firstIndex, lastIndex)
     useEffect(() => {
-        API.get("/airdrop/file/getHistory")
+        fetchHistory()        
+        return () => {}
+    }, [])
+
+    useEffect(()=>{
+        currentHistory = historyData?.slice(firstIndex, lastIndex)   
+    },[historyData])
+
+    const [commentText, setComment] = useState("")
+    const toast = useToast()
+    const user = useContext(authContext)
+    const [modalPage, setModalPage] = useState(0)
+
+    const fetchHistory = async () => {
+        const history = await API.get("/airdrop/file/getHistory")
             .then((res) => {
-                console.log(res.data)
                 setHistoryData(res.data)
             })
             .catch((err) => {})
             .finally(() => {
                 off()
             })
+    }
 
-        return () => {}
-    }, [])
-
-    const [commentText, setComment] = useState("")
-    const toast = useToast()
-    const user = useContext(authContext)
-    const [modalPage, setModalPage] = useState(0)
     const RenderModalComments = () => {
         const componentArr: any = []
         selectedHistory.file.comments.map((item: any) => {
@@ -197,8 +197,20 @@ export default function Drophistory<FC>() {
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="history">
-                <Box mb={3}>
-                    <Text fontSize={"3xl"}>History</Text>
+                <Box mb={3} ml={5}>
+                <Text fontSize={"3xl"} display={"flex"} alignItems={"center"}>
+                        History
+                            <Lottie
+                                animationData={history}
+                                loop={false}
+                                style={{
+                                    width: "10%",
+                                    height: "10%",
+                                    display: "inline-flex",
+                                    marginLeft: "1rem",
+                                }}
+                            ></Lottie>
+                    </Text>
                 </Box>
                 {isLoading ? (
                     <Fade in={isLoading} unmountOnExit={true}>
@@ -210,10 +222,10 @@ export default function Drophistory<FC>() {
                 ) : (
                     <>
                         <Divider orientation="horizontal" />
-                        {historyData?.map((item: any, index: any) => {
+                        {currentHistory?.map((item: any, index: any) => {
                             return (
                                 <>
-                                    <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"}>
+                                    <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} key={index}>
                                         <Box as={MdImage} size={"3rem"} />
                                         <Hide below={"md"}>
                                             <Text>
@@ -346,6 +358,35 @@ export default function Drophistory<FC>() {
                     </>
                 )}
             </PageBox>
+            {/* //pagination*/}
+            <Flex justifyContent={"center"} flexDirection={"row"} alignItems={"center"} gap={"3"} mt={"4"}>
+                {Array(...new Array(Math.ceil(historyData.length/historyPerPage)).fill("")).map((item, key) => {
+                    return (
+                        <Button
+                            key={key}
+                            onClick={() => {
+                                setCurrentPage(key + 1)
+                            }}
+                            bg={"whiteAlpha.800"}
+                            rounded={"3xl"}
+                            size={"md"}
+                            _hover={{
+                                transform: "scale(1.1)",
+                                color: "white",
+                                bg: "orange.500",
+                                shadow: "xl",
+                            }}
+                            {...(currentPage === key + 1 && {
+                                bg: "orange.500",
+                                color: "white",
+                            })}
+                            shadow={"md"}
+                        >
+                            {key + 1}
+                        </Button>
+                    )
+                })}
+            </Flex>
         </AppBody>
     )
 }

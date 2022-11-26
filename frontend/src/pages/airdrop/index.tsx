@@ -8,6 +8,7 @@ import { MdOutlineHistory } from "react-icons/md"
 import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
 import Lottie from "lottie-react"
 import uploadAnimation from "../../components/airdrop/animation/upload.json"
+import bg from "../../components/airdrop/animation/bg.json"
 import API from "src/function/API"
 import {
     Tag,
@@ -37,6 +38,7 @@ import {
     Fade,
     useBoolean,
     useToast,
+    Show,
 } from "@chakra-ui/react"
 
 const linkMenu = [
@@ -50,10 +52,11 @@ export default function Index<FC>() {
     const toast = useToast()
     const [isError, { on }] = useBoolean(false)
     const [isLoading, { off }] = useBoolean(true)
+    const [dropHover, { on: onHover, off: offHover }] = useBoolean(false)
     //useContext getuser
     const user = useContext(authContext)
     //ref
-    const ref1 = useRef(null)
+    const lottieref = useRef<any>(null)
     const ref2 = useRef(null)
     //userListState
     const [commuList, setCommuList] = useState<any>([])
@@ -264,9 +267,6 @@ export default function Index<FC>() {
             specific: specificList,
         })
     }, [departmentList])
-    useEffect(() => {
-        console.log(userList)
-    }, [userList])
     // fetch Data
     const fetchGroup = async () => {
         const res = await API.get("/airdrop/user/getcommunity").then((res) => {
@@ -308,6 +308,28 @@ export default function Index<FC>() {
     return (
         <AppBody secondarynav={linkMenu}>
             <Fade in={isOpen2} unmountOnExit>
+                <Show above="xl">
+                    {dropHover ? (
+                        <Lottie
+                            ref={lottieref}
+                            animationData={bg}
+                            loop={false}
+                            style={{
+                                width: "60%",
+                                height: "60%",
+                                position: "absolute",
+                                left: 0,
+                                bottom: 0,
+                                marginLeft: "20%",
+                                marginBottom: "10%",
+                                zIndex: 0,
+                            }}
+                        >
+                            {" "}
+                        </Lottie>
+                    ) : null}
+                </Show>
+
                 <PageBox pageName="drop">
                     <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"80%"}>
                         {confirmDrop ? (
@@ -321,7 +343,7 @@ export default function Index<FC>() {
                             </Box>
                         ) : (
                             <>
-                                <VStack w={"full"} spacing={"5%"}>
+                                <VStack w={"full"} spacing={"5%"} onMouseEnter={onHover} onMouseLeave={offHover}>
                                     <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }}>
                                         {files.map((file: any, key) => (
                                             <FileItem
@@ -334,6 +356,7 @@ export default function Index<FC>() {
                                                 resultOnTooltip
                                                 onSee={handleSee}
                                                 id={key}
+                                                key={key}
                                             />
                                         ))}
                                         {files.length == 0 ? (

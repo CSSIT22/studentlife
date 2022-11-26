@@ -17,6 +17,9 @@ const getHistory = async (req: Request | any, res: Response | any) => {
                 },
             },
         },
+        orderBy: {
+            createdAt:"desc"
+        }
     })
     res.json(history)
 
