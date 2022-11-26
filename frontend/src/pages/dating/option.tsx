@@ -19,13 +19,14 @@ const DatingOption = () => {
         if (didMount) {
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 if (!datingEnroll.data.hasCompleteTutorial) {
-                    navigate("/dating/tutorial");
+                    navigate("/dating/tutorial")
                 }
             })
-            API.get("/dating/option/getFaculty").then((allFaculty) => {
-                setFaculties(allFaculty.data)
-            })
-                .catch((err) => console.log("It's WRONG! " + err));
+            API.get("/dating/option/getFaculty")
+                .then((allFaculty) => {
+                    setFaculties(allFaculty.data)
+                })
+                .catch((err) => console.log("It's WRONG! " + err))
         }
     })
 
@@ -45,7 +46,6 @@ const DatingOption = () => {
     const options = ["Male", "Female", "Everyone"] // Gender type
     const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
     // globalThis.faculty
-
 
     // const faculties = [
     //     "All Faculty",
@@ -104,15 +104,15 @@ const DatingOption = () => {
         //console.log(selectedFac)
         console.log(
             "Age min =" +
-            globalThis.age[0] +
-            " | Age max =" +
-            globalThis.age[1] +
-            " | Use age: " +
-            globalThis.useAge +
-            " | Gender : " +
-            globalThis.gender +
-            " | Selected Faculty: " +
-            globalThis.faculty
+                globalThis.age[0] +
+                " | Age max =" +
+                globalThis.age[1] +
+                " | Use age: " +
+                globalThis.useAge +
+                " | Gender : " +
+                globalThis.gender +
+                " | Selected Faculty: " +
+                globalThis.faculty
         )
         toast({
             title: "Options are selected.",

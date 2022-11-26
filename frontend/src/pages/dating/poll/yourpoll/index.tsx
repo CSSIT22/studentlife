@@ -15,20 +15,17 @@ const YourActivityPoll = () => {
     useEffect(() => {
         if (didMount) {
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
-                API.get("/dating/verifyEnroll/getDatingOptions")
-                    .then((datingOptions) => {
-                        if (!datingEnroll.data.hasCompleteSetting) {
-                            navigate("/dating/interests")
-                            if (!datingOptions.data.userId) {
-                                // navigate("/dating/option")
-                                if (!datingEnroll.data.hasCompleteTutorial) {
-                                    navigate("/dating/tutorial");
-                                }
+                API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
+                    if (!datingEnroll.data.hasCompleteSetting) {
+                        navigate("/dating/interests")
+                        if (!datingOptions.data.userId) {
+                            // navigate("/dating/option")
+                            if (!datingEnroll.data.hasCompleteTutorial) {
+                                navigate("/dating/tutorial")
                             }
                         }
-
-                    })
-
+                    }
+                })
             })
         }
     })
