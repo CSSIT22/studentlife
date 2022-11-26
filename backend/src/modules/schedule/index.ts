@@ -1,8 +1,22 @@
 import { prisma } from "@prisma/client"
 import express from "express"
-import getevent from "./routes/getevent"
-import editevent from "./routes/editevent"
-import postevent from "./routes/postevent"
+import createEvent from "./routes/createEvent"
+import editEvent from "./routes/editEvent"
+
+const scheduleRoutes = express()
+
+scheduleRoutes.use(express.json())
+
+export type Event = {
+    eventId: string
+    eventName: string
+    startTime: Date
+    endTime: Date
+    startDate: Date
+    endDate: Date
+    eventDesc: string
+    eventType: Eventtype[]
+}
 
 export type Eventtype = {
     name: string
@@ -15,28 +29,42 @@ export let eventType: Eventtype[] = [
     { id: "3", name: "Activity" },
 ]
 
+export let events: Event[] = [
+    {
+        // userId: "dswd484982sdx4waK",
+        eventId: "asdwadsdf",
+        eventName: "Meeting with PM",
+        eventDesc: "Go with PM to discuss blaaaaaaaaaaaaaaaaa",
+        startTime: new Date(),
+        endTime: new Date(),
+        startDate: new Date(),
+        endDate: new Date(),
+        eventType: [
+            { id: "1", name: "Course" },
+            { id: "2", name: "Assignment" },
+            { id: "3", name: "Activity" },
+        ],
+    },
+]
+
+export const getEvent = () => {
+    return events
+}
+
+export const setEvent = (newData: Event[]) => {
+    events = newData
+}
+
+scheduleRoutes.get("/createEvent", createEvent)
+
+scheduleRoutes.get("/editEvent", editEvent)
+
 //event: id, name, startdate, enddate, starttime, endtime, eventtype_id, description_id
 //timetable: calendar_id, event_id, selecteddate
 //eventtype: course, assignment, activity
 //course: course, title, lecturer
 //assignment: courseid, name
 //activity: name
-
-// export const getEvent = () => eventType
-
-// export const setEvent = (newData: Eventtype[]) => {
-//     eventType = newData
-// }
-
-const scheduleRoutes = express()
-
-scheduleRoutes.use(express.json())
-
-scheduleRoutes.get("/getevent", getevent)
-
-scheduleRoutes.get("/postevent", postevent)
-
-scheduleRoutes.get("/editevent", editevent)
 
 // scheduleRoutes.get("/addnewevent/:id", (req, res) => {
 //     const id = req.params.id

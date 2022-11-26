@@ -1,19 +1,28 @@
 import { Request, Response } from "express"
-import { Event, events, getEvent, setEvent } from ".."
+// import { Event } from "@apiType/schedule"
+import { Event, getEvent, setEvent } from ".."
 
-const editevent = (req: Request, res: Response) => {
-    const id = req.body.id
-    const name = req.body.name
+const editEvent = (req: Request, res: Response) => {
+    const eventId = req.body.eventId
+    const eventName = req.body.eventName
+    const startTime = req.body.startTime
+    const endTime = req.body.endTime
+    const eventDesc = req.body.eventDesc
+    const eventType = req.body.eventType
     let editedEvent: Event | null = null
-    const newdata = getEvent().map((event) => {
-        if (event.id == id) {
-            editedEvent = { id: id, name: name }
-            return { id: id, name: name }
+    const newData = getEvent().map((Event) => {
+        if (Event.eventId == eventId) {
+            Event.eventName = eventName
+            Event.startTime = startTime
+            Event.endTime = endTime
+            Event.eventDesc = eventDesc
+            Event.eventType = eventType
+            editedEvent = Event
         }
-        return event
+        return Event
     })
-    setEvent(newdata)
-    res.send("Edit event" + editedEvent)
+    setEvent(newData)
+    res.send(editedEvent)
 }
 
-export default editevent
+export default editEvent
