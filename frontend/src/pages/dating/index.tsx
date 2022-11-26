@@ -279,38 +279,42 @@ const DatingRandomization = () => {
     useEffect(() => {
         if (didMount && count == 1) {
             count = count - 1
-            API.get("/dating/discovery/getCards").then((user) => {
-                let data = user.data
-                var currentIndex = data.length, temporaryValue, randomIndex;
-                while (0 !== currentIndex) {
-                    randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex -= 1;
-                    temporaryValue = data[currentIndex];
-                    data[currentIndex] = data[randomIndex];
-                    data[randomIndex] = temporaryValue;
-                }
-                setCharacters(data)
-                setNumOfChar(data.length)
-                API.get("/dating/discovery/getAllInterest").then((interest) => {
-                    setAllInterests(interest.data)
-                })
-                setCurrentIndex(data.length - 1)
-                API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
-                    API.get("/dating/verifyEnroll/getDatingOptions")
-                        .then((datingOptions) => {
+            API.get("/dating/discovery/getCards")
+                .then((user) => {
+                    let data = user.data
+                    var currentIndex = data.length,
+                        temporaryValue,
+                        randomIndex
+                    while (0 !== currentIndex) {
+                        randomIndex = Math.floor(Math.random() * currentIndex)
+                        currentIndex -= 1
+                        temporaryValue = data[currentIndex]
+                        data[currentIndex] = data[randomIndex]
+                        data[randomIndex] = temporaryValue
+                    }
+                    setCharacters(data)
+                    setNumOfChar(data.length)
+                    API.get("/dating/discovery/getAllInterest").then((interest) => {
+                        setAllInterests(interest.data)
+                    })
+                    setCurrentIndex(data.length - 1)
+                    API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                        API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
                             if (!datingEnroll.data.hasCompleteSetting) {
                                 navigate("/dating/interests")
                                 if (!datingOptions.data.userId) {
                                     // navigate("/dating/option")
                                     if (!datingEnroll.data.hasCompleteTutorial) {
-                                        navigate("/dating/tutorial");
+                                        navigate("/dating/tutorial")
                                     }
                                 }
                             }
                         })
+                    })
+                    console.log("test")
                 })
-            console.log("test")
-            }).catch((err) => console.log(err)).finally(off)
+                .catch((err) => console.log(err))
+                .finally(off)
         }
     })
 
@@ -325,7 +329,6 @@ const DatingRandomization = () => {
 
     // used to determine the current index of the card
     const [currentIndex, setCurrentIndex] = useState(numOfChar - 1)
-
 
     // animation for the buttons
     const controlCross = useAnimation()
@@ -353,56 +356,61 @@ const DatingRandomization = () => {
     return (
         // userSelect = none => prevent users from accidentally select texts
         <DatingAppBody userSelect="none">
-            {isLoading && didMount ? <></> : <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
-                <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
-                    {/* base to show shadow, reloading icon when running out of card */}
-                    <DatingRandomBase />
-                    {characters.map((character, index) => (
-                        <DatingRandomCard
-                            character={character}
-                            index={index}
-                            currentIndex={currentIndex}
-                            controlCross={controlCross}
-                            controlHeart={controlHeart}
-                            childRefs={childRefs}
-                            setCurrentIndex={setCurrentIndex}
-                            characters={characters}
-                        />
-                    ))}
-                </Box>
-                {/* Must have this condition to prevent crash!!! */}
-                {characters[currentIndex] != null ? (
-                    <Box>
-                        {/* Name, age, gender, and faculty */}
-                        <DatingRandomDetails characters={characters} currentIndex={currentIndex} />
-                        {/* Must have 2 boxs to hide the scroll bar in mobile */}
-                        <Box pb="5" pl="18px" pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
-                            <Box
-                                height="70px"
-                                pt="5px"
-                                overflowX={{ base: "auto", md: "visible" }}
-                                whiteSpace={{ base: "nowrap", md: "initial" }}
-                                style={{ WebkitOverflowScrolling: "touch" }}
-                            >
-                                {characters[currentIndex].interests.map((interestId, index) => (
-                                    // Show user's tags of interest
-                                    <DatingRandomTag id={interestId} index={index} allInterests={allInterests} />
-                                ))}
-                            </Box>
+            {isLoading && didMount ? (
+                <></>
+            ) : (
+                <>
+                    <SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
+                        <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
+                            {/* base to show shadow, reloading icon when running out of card */}
+                            <DatingRandomBase />
+                            {characters.map((character, index) => (
+                                <DatingRandomCard
+                                    character={character}
+                                    index={index}
+                                    currentIndex={currentIndex}
+                                    controlCross={controlCross}
+                                    controlHeart={controlHeart}
+                                    childRefs={childRefs}
+                                    setCurrentIndex={setCurrentIndex}
+                                    characters={characters}
+                                />
+                            ))}
                         </Box>
+                        {/* Must have this condition to prevent crash!!! */}
+                        {characters[currentIndex] != null ? (
+                            <Box>
+                                {/* Name, age, gender, and faculty */}
+                                <DatingRandomDetails characters={characters} currentIndex={currentIndex} />
+                                {/* Must have 2 boxs to hide the scroll bar in mobile */}
+                                <Box pb="5" pl="18px" pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
+                                    <Box
+                                        height="70px"
+                                        pt="5px"
+                                        overflowX={{ base: "auto", md: "visible" }}
+                                        whiteSpace={{ base: "nowrap", md: "initial" }}
+                                        style={{ WebkitOverflowScrolling: "touch" }}
+                                    >
+                                        {characters[currentIndex].interests.map((interestId, index) => (
+                                            // Show user's tags of interest
+                                            <DatingRandomTag id={interestId} index={index} allInterests={allInterests} />
+                                        ))}
+                                    </Box>
+                                </Box>
+                            </Box>
+                        ) : (
+                            // Need to have this tag to prevent IDE error
+                            <></>
+                        )}
+                    </SimpleGrid>
+                    <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
+                        {/* Cross button */}
+                        <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
+                        {/* Heart button */}
+                        <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
                     </Box>
-                ) : (
-                    // Need to have this tag to prevent IDE error
-                    <></>
-                )}
-            </SimpleGrid>
-                <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
-                    {/* Cross button */}
-                    <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
-                    {/* Heart button */}
-                    <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
-                </Box></>}
-
+                </>
+            )}
         </DatingAppBody>
     )
 }
