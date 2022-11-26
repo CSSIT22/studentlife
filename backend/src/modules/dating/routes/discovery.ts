@@ -30,14 +30,25 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             },
         })
 
-        const giveHeartId: any = []
-        const giveHeartDB = await prisma.heart_History.findMany({
+        const filterId: any = []
+        const heartHistoryDB = await prisma.heart_History.findMany({
             where: {
                 userId: reqUserId,
             },
         })
-        giveHeartDB.map((id) => {
-            giveHeartId.push(id.anotherUserId)
+
+        const userBlockedDB = await prisma.user_Blocked.findMany({
+            where: {
+                userId: reqUserId
+            },
+        })
+        
+        heartHistoryDB.map((id) => {
+            filterId.push(id.anotherUserId)
+        })
+
+        userBlockedDB.map((id) => {
+            filterId.push(id.anotherUserId)
         })
 
         if (cardQueueUserId?.frontUserId && cardQueueUserId?.backUserId) {
@@ -48,7 +59,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                 where: {
                     NOT: {
                         userId: {
-                            in: giveHeartId,
+                            in: filterId,
                         },
                     },
                     details: {
