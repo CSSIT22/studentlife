@@ -1,3 +1,4 @@
+import { InitUserResponse } from "@apiType/user"
 
 export type addMoreLangType = {
     id:number
@@ -32,12 +33,13 @@ export type announcement = {
     postId:string,
     userId:string | "",
     filterId:number,
-    annCreate:Date | "",
+    annCreate:Date,
     annExpired:Date,
     isApprove:boolean,
-    annLanguage:post_to_language[] | "",
+    annCreator:InitUserResponse
+    annLanguage:post_to_language[],
     annFilter:announcement_filter  | "",
-    annPost:announcement_post | "",
+    annPost:announcement_post ,
     annPin:announcement_pin[] | "",
     annSee:announcement_seen[] | "",
     annApprove:announcement_approve | "",
@@ -64,6 +66,7 @@ export type post_to_language = {
     annDetail:string
     post:announcement | "",
     language:announcement_language | ""
+
 }
 
 export type announcement_post = {
@@ -76,7 +79,8 @@ export type announcement_post = {
 export type post_on_page = {
     postId:string,
     userId:string
-    post:announcement_post | ""
+    post:announcement_post | "",
+    user:InitUserResponse
 }
 
 export type announcement_delete = {
@@ -90,6 +94,7 @@ export type announcement_pin = {
     userId:string,
     status:boolean,
     post:announcement | ""
+    user:InitUserResponse
 }
 
 export type announcement_seen = {
@@ -97,6 +102,7 @@ export type announcement_seen = {
     userId:string,
     seenAt:Date,
     post:announcement | ""
+    user:InitUserResponse
 }
   
 export type announcement_approve = {
@@ -104,4 +110,5 @@ export type announcement_approve = {
     postId:string,
     approveTime:Date,
     postApprove:announcement[] | ""
+    approvedBy:InitUserResponse
 }
