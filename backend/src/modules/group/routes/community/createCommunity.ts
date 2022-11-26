@@ -15,36 +15,25 @@ const createCommunity = async (req: Request, res: Response) => {
         communityPhoto: body.communityCoverPhoto,
     }
 
-    const selectTags : any={
-        tagName:body.communityTag
+    const selectTags: any = {
+        tagName: body.communityTag,
     }
 
-    
-
-
     try {
-        
         const tag = await prisma.tag.findMany({
-            select:{
-                tagId:true
+            select: {
+                tagId: true,
             },
-            where:{
-                tagName:{in : selectTags.map((item:any) => item.tagName)}
-            }
+            where: {
+                tagName: { in: selectTags.map((item: any) => item.tagName) },
+            },
         })
-        
-        const tagGenerate:any = await{
-            
-        } 
 
+        const tagGenerate: any = await {}
 
         await prisma.community.create({
             data: createCommunity,
         })
-
-        
-
-        
 
         res.status(201).send("Created Success")
     } catch (err) {

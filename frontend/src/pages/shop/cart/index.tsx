@@ -29,7 +29,9 @@ const Cart = () => {
     const orderSummary = (
         <ContentBox bg="#fff">
             <Flex direction="column" gap={5} p="5">
-                <Text fontSize="md" fontWeight="700">Order Summary</Text>
+                <Text fontSize="md" fontWeight="700">
+                    Order Summary
+                </Text>
                 <Flex gap={2} justify="space-between">
                     <Text>Subtotal</Text>
                     <Text as="b">{convertCurrency(3210)}</Text>
@@ -47,7 +49,6 @@ const Cart = () => {
                         borderRadius="10px"
                         size={"md"}
                         background="white"
-                       
                     ></Input>
                     <ThemedButton maxW="24"> APPLY </ThemedButton>
                 </Flex>
@@ -55,14 +56,13 @@ const Cart = () => {
                     See Your Coupons
                 </Button>
                 <Flex gap={2} justify="space-between">
-                    <Text >Total</Text>
+                    <Text>Total</Text>
                     <Text as="b">{convertCurrency(3260)}</Text>
                 </Flex>
-                <Flex justify="center" >
+                <Flex justify="center">
                     <ThemedButton>CHECKOUT</ThemedButton>
                 </Flex>
             </Flex>
-
         </ContentBox>
     )
 

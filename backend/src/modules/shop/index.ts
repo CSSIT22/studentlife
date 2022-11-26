@@ -12,4 +12,3 @@ shopRoutes.get("/getProductInformation/:id", getProductInformation)
 shopRoutes.get("/getAllCategories", getAllCategories)
 shopRoutes.get("/getAllProductsInCategory/:id", getAllProductsInCategory)
 export default shopRoutes
-

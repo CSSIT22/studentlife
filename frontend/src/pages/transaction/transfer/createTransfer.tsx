@@ -6,14 +6,17 @@ import { useMediaQuery } from "@chakra-ui/react"
 import SenderForm from "../../../components/transaction/transfer/TransferSenderForm"
 import { ArrowBackIcon } from "@chakra-ui/icons"
 
-
 const createTransfer = () => {
     const [isSmallerThan768] = useMediaQuery("(min-width: 768px)")
-    
+
     return (
-        <AppBody>{isSmallerThan768?"":
-        <IconButton size="lg" variant="unstyled" colorScheme="orange" aria-label="back" icon={<ArrowBackIcon boxSize={"2em"} />} />}
-            
+        <AppBody>
+            {isSmallerThan768 ? (
+                ""
+            ) : (
+                <IconButton size="lg" variant="unstyled" colorScheme="orange" aria-label="back" icon={<ArrowBackIcon boxSize={"2em"} />} />
+            )}
+
             <Stack spacing={4}>
                 <Box bg="#E67F45" w="100%" p={4} color="white">
                     <div style={{ fontSize: isSmallerThan768 ? "35px" : "30px" }}>Transfer</div>

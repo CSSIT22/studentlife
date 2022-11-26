@@ -1,9 +1,21 @@
-import React from 'react'
-import AppBody from 'src/components/share/app/AppBody'
+import React from "react"
+import AppBody from "src/components/share/app/AppBody"
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box } from "@chakra-ui/react"
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, useDisclosure, Text, Flex, Select, Switch, Input, Textarea } from "@chakra-ui/react"
-import { Grid, GridItem } from '@chakra-ui/react'
+import {
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    useDisclosure,
+    Text,
+    Flex,
+    Select,
+    Switch,
+    Input,
+    Textarea,
+} from "@chakra-ui/react"
+import { Grid, GridItem } from "@chakra-ui/react"
 
 const showEvent = () => {
     const modal2 = useDisclosure()
@@ -11,26 +23,27 @@ const showEvent = () => {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-  return (
-    <AppBody>
-        <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
-        
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="5xl"> 
-                Meeting with PM
-                </Text> 
+    return (
+        <AppBody>
+            <IconButton aria-label="previous" icon={<ChevronLeftIcon />} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
+
+            <Box boxShadow="md" p="6" rounded="md" bg="white">
+                <Text textAlign={["center"]} fontSize="5xl">
+                    Meeting with PM
+                </Text>
             </Box>
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="5xl"> 
-                Meeting with PM
-                </Text> 
-            </Box><br />
-            <Box boxShadow="md" p="6" rounded="md" bg="white" >
-                <Text textAlign={["center"]} fontSize="5xl"> 
-                Meeting with PM
-                </Text> 
+            <Box boxShadow="md" p="6" rounded="md" bg="white">
+                <Text textAlign={["center"]} fontSize="5xl">
+                    Meeting with PM
+                </Text>
             </Box>
-<Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
+            <br />
+            <Box boxShadow="md" p="6" rounded="md" bg="white">
+                <Text textAlign={["center"]} fontSize="5xl">
+                    Meeting with PM
+                </Text>
+            </Box>
+            <Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white">
                 Edit
             </Button>
             <Modal id="editEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="xl">
@@ -125,7 +138,6 @@ const showEvent = () => {
                     </ModalBody>
 
                     <ModalFooter>
-
                         <Button variant="ghost" bg="#38A169">
                             <Text color="white">Yes</Text>
                         </Button>
@@ -134,9 +146,9 @@ const showEvent = () => {
                         </Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal> 
-    </AppBody>
-  )
+            </Modal>
+        </AppBody>
+    )
 }
 
 export default showEvent
