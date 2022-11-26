@@ -26,7 +26,7 @@ const DatingRandomOutOfCard: FC<{
                         </Box>
                         <Box>
                             <Text pl="18px" pt="10px" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%">
-                                Change your option or wait a bit to see more people...
+                                Change your option or wait a bit, then refresh the page to see more people...
                             </Text>
                         </Box>
                     </motion.div>
