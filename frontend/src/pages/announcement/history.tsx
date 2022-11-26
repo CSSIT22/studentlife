@@ -62,7 +62,7 @@ const history = () => {
     useEffect(() => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
-    // console.log(allPost[0]?.annPost.status);
+    console.log(allPost);
     
 
     const tog = () => {
@@ -152,7 +152,7 @@ const history = () => {
                     return (
                         <PostOnHistory
                             topic={el.annLanguage[0].annTopic}
-                            sender={"SAMO"}
+                            sender={el.annCreator.fName+" "+el.annCreator.lName}
                             status={el.annPost.status}
                             onClick={onClick}
                             onOpen={onOpen}

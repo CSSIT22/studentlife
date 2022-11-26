@@ -26,6 +26,12 @@ const getHistoryPost = async (req: Request, res: Response) => {
                 select:{
                     status:true
                 }
+             },
+             annCreator:{
+                select:{
+                    fName:true,
+                    lName:true
+                }
              }
            },
         })
