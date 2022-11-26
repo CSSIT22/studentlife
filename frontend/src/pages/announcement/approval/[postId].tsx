@@ -107,12 +107,12 @@ const approvalDetail = () => {
             <Box width="100%" p="5" mt="14">
                 <Flex justifyContent={"space-between"}>
                     <Link to={"/announcement/approval"}>
-                        <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("approve")}>
+                        <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("Approve")}>
                             Approve
                         </Button>
                     </Link>
                     <Link to={"/announcement/approval"}>
-                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("disapprove")}>
+                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("Disapprove")}>
                             Disapprove
                         </Button>
                     </Link>
