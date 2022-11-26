@@ -68,7 +68,7 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                             {props.year}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
-                            Address
+                            ADDRESS
                         </Text>
                         <Text mb="5" color="black" fontSize="lg" fontWeight="700">
                             {props.address}

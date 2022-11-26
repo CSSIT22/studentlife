@@ -4,11 +4,28 @@ import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
 import { Box, extendTheme, Flex, Grid, GridItem } from "@chakra-ui/react"
-import { StickyContainer, Sticky, StickyChildArgs } from "react-sticky"
-import { JSXElementConstructor, ReactElement, useState } from "react"
-import { Autoplay } from "swiper"
+import { useState } from "react"
+
+
+
+interface AboutMeForm {
+    phone: string
+    sex: string
+    hobbies: string
+    birthdate: string
+    year: string
+    address: string
+}
 
 function index() {
+    const [aboutmeForm, setAboutmeForm] = useState<AboutMeForm>({
+        phone: "089XXXXXXX",
+        sex: "Male",
+        hobbies: "run walk",
+        birthdate: "12/01/2020",
+        year: "2",
+        address: "Street: 723/106-107 Charansanitwong 53 Rd. City: Bang Phat State/province/area: Bangkok Phone number 66 0-2434-7113 Zip code 10700",
+    })
     const breakpoints = {
         sm: "320px",
         md: "768px",
@@ -17,8 +34,12 @@ function index() {
         "2xl": "1536px",
     }
 
-    const theme = extendTheme({ breakpoints })
+    const handleSubmit = (data: AboutMeForm) => {
+        setAboutmeForm(data)
+    }
 
+    // 3. Extend the theme
+    const theme = extendTheme({ breakpoints })
     return (
         <>
             <Box bg="orange.50">
@@ -29,11 +50,11 @@ function index() {
                     margin={"3"}
                     templateAreas={{
                         base: `"header"
-                "nav"
-                "nav2"`,
+                    "nav"
+                    "nav2"`,
                         md: `"header header"
-              "nav main"
-              "nav2 footer"`,
+                  "nav main"
+                  "nav2 footer"`,
                     }}
                     gridTemplateColumns={{ base: "100%", md: "35% 1fr" }}
                     gap="1"
@@ -46,7 +67,7 @@ function index() {
                     </GridItem>
                     <GridItem area={"nav"}>
                         <ExpSystem />
-                        <AboutMe />
+                        <AboutMe {...aboutmeForm} />
                     </GridItem>
                     <GridItem area={{ base: "nav2", md: "main" }}>
                         <BlogHistory />
