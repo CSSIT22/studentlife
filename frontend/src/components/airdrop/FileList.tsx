@@ -201,9 +201,9 @@ const FileList: FC<{
     }
 
     //handle function
-    async function downloadFunc(data: any,name:any,type:any) {
+    async function downloadFunc(data: any, name: any, type: any) {
         try {
-            let fileBlob = new Blob([new Uint8Array(data)],{type:type})
+            let fileBlob = new Blob([new Uint8Array(data)], { type: type })
             const urlCreator = window.URL || window.webkitURL
             const blobUrl = urlCreator.createObjectURL(fileBlob)
             const a = document.createElement("a")
@@ -217,10 +217,10 @@ const FileList: FC<{
         }
     }
     const handleDownload = async (type: string, name: string, sid: string, fid: string, event: any) => {
-        const downloadFile = await API.get(`/airdrop/file/download/${fid}`,{
-            responseType: 'arraybuffer',
+        const downloadFile = await API.get(`/airdrop/file/download/${fid}`, {
+            responseType: "arraybuffer",
         }).then((res) => {
-            downloadFunc(res.data,name,res.headers["content-type"])
+            downloadFunc(res.data, name, res.headers["content-type"])
         })
 
         const hideFile = await API.post("/airdrop/file/hidefile", {
@@ -263,7 +263,7 @@ const FileList: FC<{
 
     return (
         <>
-            <img id="test"/>
+            <img id="test" />
             <div id={elementid.toString()}>
                 <Flex
                     direction={"row"}
