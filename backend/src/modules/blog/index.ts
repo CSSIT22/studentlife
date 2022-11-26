@@ -2,8 +2,9 @@ import express from "express"
 
 const blogRoutes = express()
 
-blogRoutes.get("/getpost", (req, res) => {
-    res.send("Hello")
+
+blogRoutes.get("/post/:post_id", (req, res) => {
+    res.send("Testๆ")
 })
 
 blogRoutes.post("/postcreating", (req, res) => {
