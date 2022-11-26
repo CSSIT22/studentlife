@@ -14,9 +14,9 @@ const getResentShortnotes = async (req: Request, res: Response) => {
                 shortNote: true,
             },
             orderBy: { viewedAt: "desc" },
+            distinct: "snId",
             take: 3,
         })
-        //console.log(rsn)
         res.send(rsn)
     } catch (err) {
         res.status(400).send("some error")
