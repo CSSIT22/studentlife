@@ -47,15 +47,21 @@ const Tutorial = () => {
     })
 
     function checkOption() {
-        API.get("/dating/verifyEnroll/getDatingOptions")
-            .then((datingOptions) => {
-                if (!datingOptions.data.userId) {
-                    navigate("/dating/option")
-                }
-                else {
-                    navigate("/dating/")
-                }
-            })
+        API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+            API.get("/dating/verifyEnroll/getDatingOptions")
+                .then((datingOptions) => {
+                    if (!datingOptions.data.userId) {
+                        navigate("/dating/option")
+                    }
+                    else if (!datingEnroll.data.hasCompleteSetting) {
+                        navigate("/dating/interests")
+                    }
+                    else {
+                        navigate("/dating/")
+                    }
+                })
+        }
+        )
     }
 
     function useDidMount() {

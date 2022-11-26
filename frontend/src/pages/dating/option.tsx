@@ -24,11 +24,21 @@ const DatingOption = () => {
     const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
     const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
     const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
+    let count = 1
 
     useEffect(() => {
-        if (didMount) {
+        if (didMount && count != 0) {
+            count--
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 if (!datingEnroll.data.hasCompleteTutorial) {
+                    toast({
+                        title: "Welcome!",
+                        status: "info",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "top",
+                        description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
+                    })
                     navigate("/dating/tutorial");
                 }
             })

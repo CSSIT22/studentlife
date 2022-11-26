@@ -51,7 +51,7 @@ const DatingRandomFaculty: FC<{
 
                         {/* Gender & Age */}
                         <Text color="black" fontWeight="400" fontSize={{ base: "20px", md: "3xl" }} lineHeight="120%" pl="18px">
-                            <>{characters[currentIndex].details.sex}, {getAge(characters[currentIndex].details.birth)}</>
+                            <>{characters[currentIndex].details.sex.substring(0,1)}, {getAge(characters[currentIndex].details.birth)}</>
                         </Text>
                     </Box>
                 </motion.div>
