@@ -13,6 +13,6 @@ const getDetailEdit = (req: Request, res: Response) => {
     if (selectpost != null) {
         return res.send(selectpost)
     }
-    return res.status(404).send("Post not found")
+    return res.status(404).send("Post detail not found")
 }
 export default getDetailEdit

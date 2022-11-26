@@ -92,12 +92,12 @@ const getTypeTarget = async (req: Request, res: Response) => {
         resultYear.forEach((el) => (targetvalue[0].Year.push(el.year)))
 
         res.send(targetvalue)
-        console.log(targetvalue);
+        // console.log(targetvalue);
         
 
         
     } catch (err) {
-        res.status(500)
+        res.status(404).send("Target value not found")
     }
 }
 

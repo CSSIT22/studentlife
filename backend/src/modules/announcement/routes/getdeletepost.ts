@@ -17,7 +17,7 @@ const getDeletePost = (req: Request, res: Response) => {
         // console.log(selectedposts)
         return res.send(selectedposts)
     }
-    return res.status(404).send("Post not found")
+    return res.status(404).send("Post on recycle bin not found")
 }
 
 export default getDeletePost

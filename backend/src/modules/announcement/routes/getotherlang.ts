@@ -13,7 +13,7 @@ const getOtherLang = async (req:Request,res:Response) => {
         })
         res.send(lang)
     }catch (err){
-        res.status(400).send(err)
+        res.status(404).send("Other lang not found")
     }
 }
 
