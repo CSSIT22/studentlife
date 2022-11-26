@@ -535,7 +535,7 @@ model Task_History {
 model Announcement {
   postId      String                @id @default(cuid())
   userId      String
-  filterId    Int                   @unique
+  filterId    Int
   annCreated  DateTime              @default(now()) @db.Timestamp(0)
   annExpired  DateTime              @db.Date
   isApprove   Boolean               @default(false)
@@ -553,7 +553,7 @@ model Announcement_Filter {
   filterId     Int           @id @default(autoincrement())
   filterType   String
   value        String
-  announcement Announcement?
+  announcement Announcement[]
 }
 
 model Announcement_Language {
