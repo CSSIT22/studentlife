@@ -17,4 +17,6 @@ userRoutes.get("/profile/:id", getProfile)
 
 userRoutes.get("/profile/edit/:id", verifyUser, getaboutmeuser)
 
+// userRoutes.post("/profile/edit/:id", verifyUser, getaboutmeuser)
+
 export default userRoutes
