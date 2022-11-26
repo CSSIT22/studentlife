@@ -17,6 +17,7 @@ import createPost from "./routes/createpost"
 import getTypeTarget from "./routes/gettypetarget"
 import getLang from "./routes/getotherlang"
 import getOtherLang from "./routes/getotherlang"
+import { timeStamp } from "console"
 
 const announcementRoutes = express()
 
@@ -214,7 +215,7 @@ announcementRoutes.get("/getPostOnAnnouncement", (req, res) => {
     let selectpost: post[] = []
     getPost().forEach((post) => {
         if (post.isApprove == true) {
-            if (post.status == "approve") {
+            if (post.status == "Approve") {
                 const expired = new Date(post.expiredOfPost)
                 const expiredPost = Math.round(expired.getTime() / day)
                 const diff = expiredPost - currentD
@@ -257,16 +258,28 @@ announcementRoutes.get("/getotherlang", getOtherLang)
 
 announcementRoutes.get("/test", async (req,res) =>{
     const prisma = res.prisma
+    // const announcer = [{userId:"s9MVUEgDL1Oq8yrzaEL6z"}, {userId:"wFbN9qrwUbCgrEtfpIEVf"}]
     try {
-        const newFilter = await prisma.announcement_Filter.findFirst({
-            where:{
-                filterType:"Major",
-                value:"Computer Science"
-            },
-            select:{
-                filterId:true
-            }
-        })
+        // const role = await prisma.role.create({
+        //     data: {
+        //         users:{
+        //             createMany:{
+        //                 data: announcer
+        //             }
+        //         },
+        //         roleName:"ANNOUNCEMENT_APPROVER",
+        //         expired: new Date()
+        //     }
+        // })
+        // const newFilter = await prisma.announcement_Filter.findFirst({
+        //     where:{
+        //         filterType:"Major",
+        //         value:"Computer Science"
+        //     },
+        //     select:{
+        //         filterId:true
+        //     }
+        // })
         // console.log(typeof(newFilter?.filterId));
         // const res = await prisma.user_Profile.findUnique({
         //     where: {
@@ -283,11 +296,13 @@ announcementRoutes.get("/test", async (req,res) =>{
         // })
         // console.log(res)
         // console.log(faculty)
+        // res.send(role)
+        // console.log(role);
+        
     } catch (err: any) {
         console.log(err)
         res.status(500)
     }
-    res.send(req.user)
 })
 
 export default announcementRoutes
