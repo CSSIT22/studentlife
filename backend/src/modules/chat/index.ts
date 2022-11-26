@@ -1,6 +1,6 @@
 import { Room_Type } from "@prisma/client"
 import express from "express"
-import editproperty from "./router/editproperty"
+// import editproperty from "./router/editproperty"
 import getRoom from "./router/getRoom"
 import room_prop from "./router/getRoomProp"
 const chatRoutes = express.Router()
@@ -15,6 +15,6 @@ chatRoutes.get("/", getRoom)
 
 chatRoutes.get("/:id", room_prop)
 
-chatRoutes.post("/:id", editproperty)
+// chatRoutes.post("/:id", editproperty)
 
 export default chatRoutes

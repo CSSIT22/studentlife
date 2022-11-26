@@ -7,21 +7,9 @@ import { Input } from "@chakra-ui/react"
 import DrawerExample from "./drawer"
 import Nmodal from "./Nmodal"
 import API from "src/function/API"
+import { buffer_to_img } from "./function/64_to_img"
 
 // type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
-
-// const mockRoom: room = [
-//     { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://picsum.photos/200/300" },
-//     { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://picsum.photos/200/300" },
-// ]
-
 const Clist: FC<any> = () => {
     const [userRoom, setuserRoom] = useState<any>([])
     const [target, setTarget] = useState(1)
@@ -108,7 +96,7 @@ const Clist: FC<any> = () => {
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.roomName} src={e.image} />
+                        <Avatar name={e.roomName} src={buffer_to_img(e.roomIndividual.chatWith.image.data)} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">

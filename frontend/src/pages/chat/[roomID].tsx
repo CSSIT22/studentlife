@@ -10,8 +10,9 @@ import Plustoggle from "src/components/chat/Pbutton"
 import { BiSticker } from "react-icons/bi"
 import TextBar from "../../components/chat/textConversation"
 import API from "src/function/API"
+import { buffer_to_img } from "src/components/chat/function/64_to_img"
 
-type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
+// type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
 
 const mockMessage = [
@@ -29,7 +30,7 @@ const Room = () => {
     const [isMute, setIsMute] = useState(false)
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
-    const [Room, setRoom] = useState({ roomId:"", roomName: "", image: "" })
+    const [Room, setRoom] = useState({ roomId:"", roomName: "", image: {data :""} })
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
     }, [param])
@@ -43,7 +44,6 @@ const Room = () => {
         setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
         setText("")
     }
-
     return (
         <AppBody>
             <HStack>
@@ -68,7 +68,7 @@ const Room = () => {
                         py={2}
                     >
                         <Flex alignItems={"center"}>
-                            <Avatar marginLeft={4} name={Room.roomName} src={Room.image} />
+                            <Avatar marginLeft={4} name={Room.roomName} src={buffer_to_img(Room.image.data)} />
                             <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
                                 {Room.roomName}
                             </Box>
