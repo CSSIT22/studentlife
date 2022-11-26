@@ -13,8 +13,6 @@ userRoutes.get("/", verifyUser, init)
 
 userRoutes.get("/profile/exp", getExp)
 
-userRoutes.get("/profile/aboutme", verifyUser, getaboutmeuser)
-
 userRoutes.get("/profile/:id", getProfile)
 
 userRoutes.get("/profile/edit/:id", verifyUser, getaboutmeuser)
