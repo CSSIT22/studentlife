@@ -34,7 +34,7 @@ const createPost = async (req: Request, res: Response) => {
         const newPost = await prisma.announcement.create({
             data: {
                 annExpired:expiredPost,
-                userId:"w5XS9xnYoChZzXup0Jn2K",
+                userId: req.user?.userId || "",
                 filterId:fId,
                 annLanguage:{
                     createMany:{data:ll}
@@ -44,7 +44,7 @@ const createPost = async (req: Request, res: Response) => {
                 },
                 annPin:{
                     create:{
-                        userId:"w5XS9xnYoChZzXup0Jn2K"
+                        userId: req.user?.userId || ""
                     }
                 },
             }
