@@ -1381,7 +1381,6 @@ model Shop_Product {
   productStock Int
   brandName    String
   deliveryFees Decimal               @db.Decimal(9, 2)
-  views        BigInt
   images       Shop_Product_Images[]
   inCategory   Shop_Categories?      @relation(fields: [categoryId], references: [categoryId], onDelete: SetNull)
   contactTo    Shop_Contact          @relation(fields: [contactId], references: [contactId], onDelete: Cascade)
