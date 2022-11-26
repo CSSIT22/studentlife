@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, useBoolean } from "@chakra-ui/react"
 import { Link, useParams } from "react-router-dom"
 
-import { post } from "@apiType/announcement"
+import { announcement, post } from "@apiType/announcement"
 
 import API from "src/function/API"
 import { postInfoTest } from "./postInfoTest"
@@ -55,7 +55,7 @@ const history = () => {
 
     const params = useParams()
     const [toggle, settoggle] = useState(false)
-    const [allPost, setAllPost] = React.useState<{}[]>([])
+    const [allPost, setAllPost] = React.useState<announcement[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/gethistorypost/")
@@ -147,7 +147,7 @@ const history = () => {
                 <HeaderPage head="History" />
             </Flex>
             {allPost
-                .filter((fl) => fl.annPost.status == "Waiting for Approve" || fl.status == "Approve" || fl.status == "Disapprove")
+                .filter((fl) => fl.annPost.status == "Waiting for Approve" || fl.annPost.status == "Approve" || fl.annPost.status == "Disapprove")
                 .map((el) => {
                     return (
                         <PostOnHistory
