@@ -58,19 +58,24 @@ const history = () => {
     let d: Date
 
     const [tt, settt] = useState<addMoreLangType[]>([])
+    const [tv, settv ] = useState<{}[]>([])
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
         setpost(getData.data)
-        setTopic(getData.data.topic)
-        setDetail(getData.data.detail)
+        setTopic(getData.data.annTopic)
+        setDetail(getData.data.annDetail)
         setTargetType(getData.data.targetType)
         setTargetValue(getData.data.targetValue)
         d = new Date(getData.data.expiredOfPost)
         setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
         setexMoreLang(getData.data.addMoreLang)
+        const value = await API.get("/announcement/gettypetarget");
+        settv(value.data)
     }
-    console.log(post)
+    console.log(tv[0]);
+    
+    // console.log(post)
     const moreLangLength = exmoreLang.length
 
     useEffect(() => {
@@ -93,27 +98,25 @@ const history = () => {
         if (tgType == "Faculty") {
             return (
                 <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
-                    <option>Science</option>
-                    <option>Engineering</option>
-                    <option>Information Technology</option>
-                    <option>Economics</option>
+                    {tv[0]?.Faculty.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
                 </Select>
             )
         } else if (tgType == "Major") {
             return (
                 <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
-                    <option>Computer Science</option>=<option>Math</option>
-                    <option>Biology</option>
-                    <option>Chemistry</option>
+                      {tv[0]?.Major.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
                 </Select>
             )
         } else if (tgType == "Year") {
             return (
                 <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+                    {tv[0]?.Year.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
                 </Select>
             )
         } else {
@@ -166,8 +169,8 @@ const history = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-    console.log(moreLangLength)
-    console.log(addMoreLang.length)
+    // console.log(moreLangLength)
+    // console.log(addMoreLang.length)
     const onDisable = () => {
         setdisable(!disable)
     }

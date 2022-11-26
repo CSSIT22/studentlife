@@ -17,7 +17,7 @@ import {
     Box,
     Show,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
 import { Link, To } from "react-router-dom"
@@ -30,38 +30,9 @@ import { addMoreLangType, post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const create = () => {
-    const selectTargetValue = (targetType: string) => {
-        if (targetType == "Faculty") {
-            return (
-                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    <option>Science</option>
-                    <option>Engineering</option>
-                    <option>Information Technology</option>
-                    <option>Economics</option>
-                </Select>
-            )
-        } else if (targetType == "Major") {
-            return (
-                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    <option>Computer Science</option>
-                    <option>Math</option>
-                    <option>Biology</option>
-                    <option>Chemistry</option>
-                </Select>
-            )
-        } else if (targetType == "Year") {
-            return (
-                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </Select>
-            )
-        } else {
-            return ""
-        }
-    }
+   
+   
+
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
         setIsOpen(true)
@@ -80,6 +51,54 @@ const create = () => {
     const [targetType, setTargetType] = React.useState(String)
     const [targetValue, setTargetValue] = React.useState(String)
     const [expired, setExpired] = React.useState(Date)
+
+    const [tv, settv ] = useState<{}[]>([])
+    const value = API.get("/announcement/gettypetarget")
+    useEffect(() => {
+         value.then((res) => settv(res.data))
+        // console.log(value);
+    },[targetType])
+    // console.log(targetValue);
+    // const b = tv.map((el:string[]) => {return el.Faculty})
+    
+    
+    
+   
+   
+    
+    
+
+    const selectTargetValue = (targetType: string) => {
+        if (targetType == "Faculty") {
+            return (
+                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} bg="white">
+                    {tv[0]?.Faculty.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
+                </Select>
+            )
+        } else if (targetType == "Major") {
+            return (
+                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} bg="white">
+                     {tv[0]?.Major.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
+                </Select>
+            )
+        } else if (targetType == "Year") {
+            return (
+                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} bg="white">
+                     {tv[0]?.Year.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
+                </Select>
+            )
+        } else {
+            return ""
+        }
+    }
+    
+
     const disabledDates = () => {
         var today, dd, mm, yyyy
         today = new Date()
@@ -90,7 +109,7 @@ const create = () => {
     }
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
     // const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
-    console.log(addMoreLang);
+    // console.log(addMoreLang);
     
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
         // setAllPost([
@@ -113,9 +132,6 @@ const create = () => {
         //         addMoreLang: addMoreLang,
         //     },
         // ])
-       
-        
-       
             API.post<post>("/announcement/createpost", {
                 topic: title,
                 detail: detail,

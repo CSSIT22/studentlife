@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Select, Input, Textarea, Box, Text, Tag, TagCloseButton, TagLabel, Button } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
+import API from "src/function/API"
 
 const MoreLangForEdit: FC<{
     onDecrease: Function
@@ -16,6 +17,13 @@ const MoreLangForEdit: FC<{
     const [topic, setTopic] = React.useState(title)
     const [detail, setDetail] = React.useState(dt)
     const [disable, setDisable] = React.useState(false)
+    const [lang,setlang] = useState([])
+    const newData = API.get("/announcement/getotherlang")
+    useEffect(() => {
+        newData.then(res => setlang(res.data))
+    },[])
+    // console.log(lang);
+    const cutENG = lang.filter((el) => {return el.languageId != 1000})
 
     return (
         <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#000"} my="10">
@@ -41,9 +49,9 @@ const MoreLangForEdit: FC<{
                     value={otherLang}
                     bg="white"
                 >
-                    <option value={1001}>Thai</option>
-                    <option value={1002}>Korea</option>
-                    <option value={1003}>Japanese</option>
+                   {cutENG.map((el,index) => {
+                        return <option key={index} value={el.languageId}>{el.language}</option>
+                    })}
                 </Select>
             </FormControl>
             <FormControl isRequired>
