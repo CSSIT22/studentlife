@@ -10,13 +10,14 @@ import { useNavigate } from "react-router-dom"
 import React from "react"
 
 declare global {
-    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean, firstTime: boolean
+    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean, firstTime: boolean, hasSetInterest: string
 }
 const DatingOption = () => {
     const [isDisabled, setIsDisabled] = React.useState<boolean>(false)
     const didMount = useDidMount()
     const navigate = useNavigate()
 
+    globalThis.hasSetInterest = "/dating/"
     globalThis.useAge = true //need db + condition
     globalThis.age = [19, 25] //need db + condition
     globalThis.gender = "Everyone" //need db + condition
@@ -146,19 +147,15 @@ const DatingOption = () => {
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
         }
         else {
-            API.put<UserOption>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
-                .then(() => navigate("/dating/"))
-                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("WRONG! " + err) }))
-        }
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (!datingEnroll.data.hasCompleteSetting) {
+                    globalThis.hasSetInterest = "/dating/interests"
+                }
+            })
+        } API.put<UserOption>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
+            .then(() => navigate(globalThis.hasSetInterest))
+            .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
 
-        toast({
-            title: "Options are selected.",
-            description: "You have successfully submitted your options.",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-            position: "top",
-        })
     }
 
     return (
