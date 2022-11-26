@@ -1,13 +1,26 @@
+import { Notiobject } from "@apiType/notification";
 import { Box, Stack, Text } from "@chakra-ui/react"
+import { Any } from "@react-spring/types";
 import React, { FC } from "react"
 import NotiObject from "./NotiObject"
 
-const NotiList: FC<{ selectedList: any[]; onClick: Function }> = ({ selectedList, onClick }) => {
+const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> = ({ selectedList, onClick, module }) => {
+    // const objectlist: any[] = [];
+    // selectedList.forEach(
+    //     (el) => {
+    //         if (el.notiObject.module == module) {
+    //             objectlist.push(el.notiObject)
+    //         }
+
+    //     }
+    // )
+    // console.log(objectlist)
+
     //sort selectedList
     const sortedList = selectedList.sort((a, b) => {
-        return b.date - a.date
+        return new Date(b.notiObject.date).getTime() - new Date(a.notiObject.date).getTime()
     })
-
+    console.log(sortedList)
     //show date
     const listDay: any[] = []
     function showDate(date: Date) {
@@ -78,16 +91,16 @@ const NotiList: FC<{ selectedList: any[]; onClick: Function }> = ({ selectedList
         <Box>
             {sortedList?.map((el) => {
                 return (
-                    <Box key={el.id}>
-                        {showDate(new Date(el.date))}
+                    <Box key={el.notiObjectId}>
+                        {showDate(new Date(el.notiObject.date))}
                         <Stack spacing={3}>
                             <NotiObject
-                                id={el.id}
-                                userId={el.user}
-                                description={el.description}
-                                isRead={el.isRead}
-                                date={new Date(el.date)}
-                                link={el.link}
+                                id={el.notiObject.notiObjectId}
+                                template={el.notiObject.template}
+                                date={new Date(el.notiObject.date)}
+                                isRead={el.notiObject.isRead}
+                                module={el.notiObject.module}
+                                url={el.notiObject.url}
                                 onClick={onClick}
                             />
                         </Stack>

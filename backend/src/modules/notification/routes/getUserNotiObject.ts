@@ -8,11 +8,12 @@ const getUserNotiObject = async (req: Request, res: Response) => {
     try {
         const userNotiObject = await prisma.user_Noti_Object.findMany({
             where: { userId: req.user?.userId },
-            select: { notiObjectId: true },
+            include: { notiObject: true },
         })
         //console.log(req.user?.userId)
-        //return res.send(userNotiObject)
-        return res.send(getObject())
+        //console.log(userNotiObject)
+        return res.send(userNotiObject)
+        //return res.send(getObject())
     } catch (err) {
         return res.status(400).send("There is an error finding userNotiObject")
     }

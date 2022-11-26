@@ -46,8 +46,6 @@ const NotiTable = () => {
             setUserNotiObject(res.data)
         })
     }, [reLoad])
-    //console.log(userNotiObject)
-    //console.log(OBJECTS)
 
     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
@@ -56,32 +54,33 @@ const NotiTable = () => {
     }
 
     //create list of selected module
-    const notiListModule: any[] = userNotiObject.filter((el) => el.module == selectedModule)
+    const notiListModule: Notiobject[] = userNotiObject.filter((el) => el.module == selectedModule)
+
 
     function showNotiList(): any {
         if (selectedModule == "All") {
-            return <NotiList selectedList={userNotiObject} onClick={load}></NotiList>
+            return <NotiList module={"ALL"} selectedList={userNotiObject} onClick={load}></NotiList>
         } else {
-            return <NotiList selectedList={notiListModule} onClick={load}></NotiList>
+            return <NotiList module={selectedModule} selectedList={userNotiObject} onClick={load}></NotiList>
         }
     }
     function alert() {
         const toast = useToast()
         return (
-          <Button
-            onClick={() =>
-              toast({
-                title: 'New Notification.',
-                description: "iuytfrftgyhuojipkl[;",
-                duration: 3000,
-                isClosable: true,
-              })
-            }
-          >
-            Show Noti
-          </Button>
+            <Button
+                onClick={() =>
+                    toast({
+                        title: 'New Notification.',
+                        description: "iuytfrftgyhuojipkl[;",
+                        duration: 3000,
+                        isClosable: true,
+                    })
+                }
+            >
+                Show Noti
+            </Button>
         )
-      }
+    }
 
     //setting
     function ShowSetting() {

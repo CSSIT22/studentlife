@@ -4,7 +4,7 @@ const getValue = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const value = await prisma.value.findMany({
             where: { notiObjectId: req.body.notiObjectId },
-            //select value?
+            // select:{value:true}
         })
         return res.send(value)
     } catch (err) {

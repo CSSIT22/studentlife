@@ -9,8 +9,8 @@ const addUserNotiObject = async (req: Request, res: Response) => {
                 userId: "", //FK
                 notiObjectId: "", //FK
 
-                // userId: "roLeb4f2ZTvMXyYm7-DIm", //FK
-                // notiObjectId: "U6Gtq1uC9jz-1kShVUlep", //FK
+                //userId: "roLeb4f2ZTvMXyYm7-DIm", //FK
+                //notiObjectId: "pqx9kmYcZSXZD98FE0WjT", //FK
             },
         })
         return res.send(userNotiObject)

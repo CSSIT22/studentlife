@@ -106,6 +106,7 @@ export const setSetting = (newData: Setting[]) => {
 }
 
 const notificationRoutes = express()
+notificationRoutes.use(express.json())
 
 notificationRoutes.get("/getusernotiobject", getUserNotiObject)
 notificationRoutes.get("/getNotiUser", getNotiUser)
