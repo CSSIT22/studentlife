@@ -55,13 +55,16 @@ const history = () => {
 
     const params = useParams()
     const [toggle, settoggle] = useState(false)
-    const [allPost, setAllPost] = React.useState<post[]>([])
+    const [allPost, setAllPost] = React.useState<{}[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/gethistorypost/")
     useEffect(() => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
+    // console.log(allPost[0]?.annPost.status);
+    
+
     const tog = () => {
         settoggle(!toggle)
     }
@@ -73,10 +76,10 @@ const history = () => {
         )
     if (isError)
         return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
-    console.log(allPost)
+    // console.log(allPost)
 
     const deleteOrEdit = (status: string) => {
-        if (status == "approve") {
+        if (status == "Approve") {
             return (
                 <>
                     <ModalForEvent
@@ -93,7 +96,7 @@ const history = () => {
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
             )
-        } else if (status == "disapprove") {
+        } else if (status == "Disapprove") {
             return (
                 <>
                     <ModalForEvent
@@ -110,7 +113,7 @@ const history = () => {
                     {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
             )
-        } else if (status == "waiting") {
+        } else if (status == "Waiting for Approve") {
             return (
                 <>
                     <ModalForEvent
@@ -144,13 +147,13 @@ const history = () => {
                 <HeaderPage head="History" />
             </Flex>
             {allPost
-                .filter((fl) => fl.status == "waiting" || fl.status == "approve" || fl.status == "disapprove")
+                .filter((fl) => fl.annPost.status == "Waiting for Approve" || fl.status == "Approve" || fl.status == "Disapprove")
                 .map((el) => {
                     return (
                         <PostOnHistory
-                            topic={el.annTopic}
-                            sender={el.sender}
-                            status={el.status}
+                            topic={el.annLanguage[0].annTopic}
+                            sender={"SAMO"}
+                            status={el.annPost.status}
                             onClick={onClick}
                             onOpen={onOpen}
                             id={el.postId}
