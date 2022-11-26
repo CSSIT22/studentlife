@@ -163,7 +163,7 @@ const DatingOption = () => {
                 }
             })
             API.put<UserOption>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
-                //.then(() => navigate(globalThis.hasSetInterest))
+                .then(() => navigate(globalThis.hasSetInterest))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
         }
     }
