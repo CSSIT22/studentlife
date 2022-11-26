@@ -9,6 +9,7 @@ import postShortnote from "./routes/postShortnote"
 import postLibrary from "./routes/postLibrary"
 import postComment from "./routes/postComment"
 import postResentShortnote from "./routes/postResentShortnote"
+import deleteShortnote from "./routes/deleteShortnote"
 
 const shortnotesRoutes = express()
 
@@ -47,5 +48,7 @@ shortnotesRoutes.post("/postLibrary", postLibrary)
 shortnotesRoutes.post("/postComment", postComment)
 
 shortnotesRoutes.post("/postResentShortnote", postResentShortnote)
+
+shortnotesRoutes.delete("/deleteShortnote/:id", deleteShortnote)
 
 export default shortnotesRoutes

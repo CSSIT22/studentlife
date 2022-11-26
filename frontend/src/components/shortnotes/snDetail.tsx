@@ -39,7 +39,7 @@ import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import search from "src/pages/restaurant/search"
 import { BsCheckLg } from "react-icons/bs"
 import API from "src/function/API"
@@ -74,6 +74,11 @@ const liList: FC<{
         })
     }
     const [liPicked, setLiPicked] = useState<String[]>([])
+
+    const param = useParams()
+    const deleteShortnote = () => {
+        API.delete("/shortnotes/deleteShortnote/" + param.id)
+    }
 
     function CustomCheckbox(props: any) {
         const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
@@ -181,7 +186,7 @@ const liList: FC<{
                     <ModalCloseButton />
                     <ModalBody>Are you sure to delete this shortnote?</ModalBody>
                     <ModalFooter>
-                        <Button onClick={onClose} colorScheme={"red"}>
+                        <Button onClick={deleteShortnote} colorScheme={"red"}>
                             Delete
                         </Button>
                     </ModalFooter>
