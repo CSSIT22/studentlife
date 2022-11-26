@@ -11,7 +11,6 @@ export type Notiobject = {
   notiObjectId: string;
   template: string;
   date: Date;
-  isRead: boolean;
   module: string;
   url: string;
 };

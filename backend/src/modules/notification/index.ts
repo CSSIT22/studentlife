@@ -10,9 +10,6 @@ import { DESCRIPTION } from "./routes/mockupData/descTest"
 import { USER } from "./routes/mockupData/userProfile"
 import addNotiObject from "./routes/addNotiObject"
 import getValue from "./routes/getValue"
-import addNotiUser from "./routes/addNotiUser"
-import addValue from "./routes/addValue"
-import addUserNotiObject from "./routes/addUserNotiObject"
 
 export let objects = [
     {
@@ -113,10 +110,6 @@ notificationRoutes.get("/getNotiUser", getNotiUser)
 notificationRoutes.get("getvalue", getValue)
 
 notificationRoutes.post("/addnotiobject", addNotiObject)
-notificationRoutes.post("/addnotiuser", addNotiUser)
-notificationRoutes.post("/addvalue", addValue)
-notificationRoutes.post("/addusernotiobject", addUserNotiObject)
-
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
 notificationRoutes.post("/markallasread/:module", markallasRead)
 
