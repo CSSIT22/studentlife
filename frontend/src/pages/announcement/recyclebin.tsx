@@ -132,7 +132,7 @@ const recyclebin = () => {
                     const diffH = hEpd - currentH
                     return (diffD > 0 || diffH > 0)
                 })
-                .map((el) => {
+                .map((el) => {        
                     const r = showRemaining(expiredonrecycle)
                     return (
                         <PostOnRecycle
@@ -140,7 +140,7 @@ const recyclebin = () => {
                             sender={el.post.annCreator.fName+" "+el.post.annCreator.lName}
                             expired={r}
                             onClick={recoverClick}
-                            id={el.postId}
+                            id={el.post.postId}
                             status={"Delete"}
                             key={el.postId}
                             onOpen={onOpen}

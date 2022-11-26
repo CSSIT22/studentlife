@@ -12,6 +12,8 @@ const PostOnRecycle: FC<{
     onOpen: Function
 }> = ({ topic, sender, expired, onClick, id, status, onOpen }) => {
     const current = new Date()
+    // console.log(id);
+    
     return (
         <Box
             height={"5rem"}
