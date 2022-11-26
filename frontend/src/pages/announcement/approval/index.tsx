@@ -10,7 +10,7 @@ import { post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const index = () => {
-    const [allPost, setAllPost] = React.useState<post[]>([])
+    const [allPost, setAllPost] = React.useState([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/getwaitingpost")
@@ -40,9 +40,9 @@ if (isError)
                 <HeaderPage head="Approval" />
             </Flex>
             {allPost
-                .filter((fl) => fl.status == "waiting")
+                // .filter((fl) => fl.status == "waiting")
                 .map((el) => {
-                    return <PostOnApproval topic={el.annTopic} sender={el.sender} status={el.status} id={el.postId} key={el.postId} />
+                    return <PostOnApproval topic={el.annLanguage[0].annTopic} sender={el.annCreator.fName+" "+el.annCreator.lName} id={el.postId} key={el.postId} />
                 })}
         </AppBody>
     )
