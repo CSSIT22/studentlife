@@ -14,6 +14,7 @@ import ProfileImg from "../../components/dating/pic/profile.png"
 import API from "src/function/API"
 import { AllInterests, UserCardDetail } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
+import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
 
 const RandomCardInside: FC<{
     childRefs: RefObject<any>[]
@@ -168,7 +169,9 @@ const DatingRandomCard: FC<{
     childRefs: React.RefObject<any>[]
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>
     characters: UserCardDetail[]
-}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters }) => {
+    setHasSwipe: React.Dispatch<React.SetStateAction<boolean>>
+    setIsRunOut: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters, setHasSwipe, setIsRunOut }) => {
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
     const likeText = useAnimation()
@@ -179,6 +182,7 @@ const DatingRandomCard: FC<{
     const swiped = (direction: string, idToDelete: string, index: number) => {
         console.log("Swiping " + idToDelete + " to the " + direction)
         handleClick(currentIndex)
+        setHasSwipe(true)
         if (direction === "left") {
             API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
@@ -187,10 +191,13 @@ const DatingRandomCard: FC<{
             controlCross.start("hidden")
         } else if (direction === "right") {
             API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
-            .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
             // Run the heart button animation
             likeText.start("click")
             controlHeart.start("hidden")
+        }
+        if (index == 0) {
+            setIsRunOut(true)
         }
         updateCurrentIndex(index - 1)
     }
@@ -202,7 +209,7 @@ const DatingRandomCard: FC<{
         frontCard.style.display = "none"
         // Reload the page when running out of card
         if (idx == 0) {
-            window.location.reload()
+            navigate(0)
         }
     }
 
@@ -288,8 +295,10 @@ const DatingRandomization = () => {
     const navigate = useNavigate()
     const [characters, setCharacters] = useState<UserCardDetail[]>([])
     const [allInterests, setAllInterests] = useState<AllInterests[]>([])
-    const [numOfChar, setNumOfChar] = useState(characters.length)
+    const [numOfChar, setNumOfChar] = useState(-1)
     const [isLoading, { off }] = useBoolean(true)
+    const [hasSwipe, setHasSwipe] = useState(false)
+    const [isRunOut, setIsRunOut] = useState(false)
     let count = 1
     useEffect(() => {
         if (didMount && count == 1) {
@@ -371,7 +380,7 @@ const DatingRandomization = () => {
             {isLoading && didMount ? <></> : <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
                 <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
-                    <DatingRandomBase />
+                    <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} />
                     {characters.map((character, index) => (
                         <DatingRandomCard
                             character={character}
@@ -382,6 +391,8 @@ const DatingRandomization = () => {
                             childRefs={childRefs}
                             setCurrentIndex={setCurrentIndex}
                             characters={characters}
+                            setHasSwipe={setHasSwipe}
+                            setIsRunOut={setIsRunOut}
                         />
                     ))}
                 </Box>
@@ -407,8 +418,7 @@ const DatingRandomization = () => {
                         </Box>
                     </Box>
                 ) : (
-                    // Need to have this tag to prevent IDE error
-                    <></>
+                    <DatingRandomOutOfCard numOfChar={numOfChar} />
                 )}
             </SimpleGrid>
                 <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
