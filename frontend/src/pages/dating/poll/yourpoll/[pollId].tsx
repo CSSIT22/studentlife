@@ -17,12 +17,13 @@ import {
     useBreakpointValue,
     useDisclosure,
 } from "@chakra-ui/react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import DatingYourPollCancel from "src/components/dating/DatingYourPollCancel"
 import DatingYourPollClose from "src/components/dating/DatingYourPollClose"
 import DatingYourPollCloseAndAcceptAll from "src/components/dating/DatingYourPollCloseAndAcceptAll"
 import DatingYourPollSeeMore from "src/components/dating/DatingYourPollSeeMore"
+import API from "src/function/API"
 import DatingAppBody from "../../../../components/dating/DatingAppBody"
 import ChatImg from "../../../../components/dating/pic/chat.png"
 import CheckImg from "../../../../components/dating/pic/check.png"
@@ -30,9 +31,35 @@ import { POLL } from "../../../../components/dating/shared/poll"
 // import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
 
 const YourPoll = () => {
+    const didMount = useDidMount()
+    const navigate = useNavigate()
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+        if (didMount) {
+            window.scrollTo(0, 0)
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
+                    if (!datingEnroll.data.hasCompleteSetting) {
+                        navigate("/dating/interests")
+                        if (!datingOptions.data.userId) {
+                            // navigate("/dating/option")
+                            if (!datingEnroll.data.hasCompleteTutorial) {
+                                navigate("/dating/tutorial")
+                            }
+                        }
+                    }
+                })
+            })
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
 
     const { pollId } = useParams()
     const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]

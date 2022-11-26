@@ -1,4 +1,4 @@
-import { Box, Button, Center, Circle, Flex, Heading, Image, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
@@ -78,7 +78,44 @@ const DatingYourActivityBox = () => {
                         <Heading fontSize="20px" pt="10px" pb="10px">
                             {values.pollName}
                         </Heading>
-                        <Text fontSize="16px" pb="20px">
+                        {values.pollInterest.length < 1 ? (
+                            <Text pb="20px"></Text>
+                        ) : (
+                            <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
+                                <Box
+                                    height="70px"
+                                    //pt="5px"
+                                    overflowX={{ base: "auto", md: "visible" }}
+                                    whiteSpace={{ base: "nowrap", md: "initial" }}
+                                    style={{ WebkitOverflowScrolling: "touch" }}
+                                >
+                                    {values.pollInterest.map((i) => (
+                                        <Tag
+                                            backgroundColor="orange.400"
+                                            color="white"
+                                            mr="1"
+                                            mb="1"
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                            borderRadius="5px"
+                                            h={{ md: "28px" }}
+                                        >
+                                            <Text
+                                                mt="5px"
+                                                mb="5px"
+                                                ml="15px"
+                                                mr="15px"
+                                                fontWeight="400"
+                                                fontSize={{ base: "12px", md: "16px" }}
+                                                lineHeight="150%"
+                                            >
+                                                {i}
+                                            </Text>
+                                        </Tag>
+                                    ))}
+                                </Box>
+                            </Box>
+                        )}
+                        <Text fontSize="16px">
                             {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
                         </Text>
                         <Text fontSize="16px">Location: {values.pollPlace}</Text>
@@ -110,7 +147,7 @@ const DatingYourActivityBox = () => {
                             </Link>
                             <Box zIndex="2">
                                 <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
-                                    <Circle backgroundColor="red" size="25px" ml="-24px" mr="20px" mt="7px">
+                                    <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px">
                                         <Text fontSize="12px" color="white" as="b">
                                             {/* Number of people that haven't accept need to replace 2 with data from db*/}
                                             {notApprovePeople > 99 ? "99+" : notApprovePeople}

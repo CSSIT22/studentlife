@@ -1,5 +1,6 @@
 import { Box, Container, HStack, SimpleGrid, useBreakpointValue } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import DatingCheckDesktopDetails from "src/components/dating/DatingCheckDesktopDetails"
 import DatingCheckImage from "src/components/dating/DatingCheckImage"
 import DatingCheckMobileDetails from "src/components/dating/DatingCheckMobileDetails"
@@ -7,6 +8,7 @@ import DatingLikedYouButton from "src/components/dating/DatingLikedYouButton"
 import DatingLikedYouCrossButton from "src/components/dating/DatingLikedYouCrossButton"
 import DatingLikedYouHeartButton from "src/components/dating/DatingLikedYouHeartButton"
 import DatingYouLikedButton from "src/components/dating/DatingYouLikedButton"
+import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import { HEART_HISTORY } from "../../components/dating/shared/heart_history"
 
@@ -23,6 +25,36 @@ interface state {
     }[]
 }
 const LikedYou = () => {
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (didMount) {
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
+                    if (!datingEnroll.data.hasCompleteSetting) {
+                        navigate("/dating/interests")
+                        if (!datingOptions.data.userId) {
+                            // navigate("/dating/option")
+                            if (!datingEnroll.data.hasCompleteTutorial) {
+                                navigate("/dating/tutorial")
+                            }
+                        }
+                    }
+                })
+            })
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
@@ -31,13 +63,13 @@ const LikedYou = () => {
 
     const [giveToUser, setGiveToUser] = useState<
         | {
-              UserId: string
-              isSkipped: boolean
-          }[]
+            UserId: string
+            isSkipped: boolean
+        }[]
         | {
-              UserId: string
-              isSkipped: boolean
-          }[]
+            UserId: string
+            isSkipped: boolean
+        }[]
     >([])
 
     function handleClick(type: string, UserId: string) {

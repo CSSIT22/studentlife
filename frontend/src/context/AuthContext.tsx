@@ -34,11 +34,11 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
     if (!user && !(location.pathname === "/auth")) {
         return <Navigate to="/auth" />
     }
-    return <authContext.Provider value={user as any} {...props}>
-        <SocketContextProvider>
-            {props.children}
-        </SocketContextProvider>
-    </authContext.Provider>
+    return (
+        <authContext.Provider value={user as any} {...props}>
+            <SocketContextProvider>{props.children}</SocketContextProvider>
+        </authContext.Provider>
+    )
 }
 
 export default AuthContextProvider
