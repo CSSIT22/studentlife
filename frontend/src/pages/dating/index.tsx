@@ -1,5 +1,4 @@
-import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text, useBoolean } from "@chakra-ui/react"
-import { CARD_QUEUE } from "src/components/dating/shared/card_queue"
+import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text, useBoolean, useToast } from "@chakra-ui/react"
 import DatingAppBody from "src/components/dating/DatingAppBody"
 import React, { useState, useMemo, useRef, FC, RefObject, useEffect } from "react"
 import { AnimationControls, useAnimation } from "framer-motion"
@@ -14,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom"
 import ProfileImg from "../../components/dating/pic/profile.png"
 import API from "src/function/API"
 import { AllInterests, UserCardDetail } from "@apiType/dating"
+import NoProfileImg from "../../components/dating/pic/noprofile.png"
 
 const RandomCardInside: FC<{
     childRefs: RefObject<any>[]
@@ -23,13 +23,22 @@ const RandomCardInside: FC<{
     nopeText: AnimationControls
     pointerEvents: ResponsiveValue<any>
 }> = ({ childRefs, index, character, likeText, nopeText, pointerEvents }) => {
+
+    let backgroundImage;
+    if (character.image) {
+        backgroundImage = (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character?.userId
+    }
+    else {
+        backgroundImage = NoProfileImg
+    }
+
     return (
         <Box
             ref={childRefs[index]}
             id={index.toString()}
             borderRadius="10px"
             backgroundColor="gray"
-            backgroundImage={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character?.userId}
+            backgroundImage={backgroundImage}
             w={{ base: "326px", md: "379px" }}
             h={{ base: "402px", md: "464px" }}
             backgroundSize="cover"
@@ -164,15 +173,21 @@ const DatingRandomCard: FC<{
     const currentIndexRef = useRef(currentIndex)
     const likeText = useAnimation()
     const nopeText = useAnimation()
+    const navigate = useNavigate()
+    const toast = useToast()
     // Swipe the card
-    const swiped = (direction: string, nameToDelete: string, index: number) => {
-        console.log("Swiping " + nameToDelete + " to the " + direction)
+    const swiped = (direction: string, idToDelete: string, index: number) => {
+        console.log("Swiping " + idToDelete + " to the " + direction)
         handleClick(currentIndex)
         if (direction === "left") {
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
             // Run the cross button animation
             nopeText.start("click")
             controlCross.start("hidden")
         } else if (direction === "right") {
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
+            .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
             // Run the heart button animation
             likeText.start("click")
             controlHeart.start("hidden")
@@ -234,7 +249,7 @@ const DatingRandomCard: FC<{
             ref={childRefs[index]}
             className="swipe"
             key={character.userId}
-            onSwipe={(dir: string) => swiped(dir, character.fName + " " + character.lName, index)}
+            onSwipe={(dir: string) => swiped(dir, character.userId, index)}
             onCardLeftScreen={() => outOfFrame(character.fName, index)}
             preventSwipe={["down", "up"]}
             swipeRequirementType="position"
@@ -309,7 +324,7 @@ const DatingRandomization = () => {
                             }
                         })
                 })
-            console.log("test")
+                console.log("test")
             }).catch((err) => console.log(err)).finally(off)
         }
     })

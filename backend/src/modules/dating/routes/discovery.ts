@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client"
-import { defaultMaxListeners } from "events"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 
@@ -31,13 +30,27 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             },
         })
 
-        console.log(cardQueueUserId)
+        const giveHeartId: any = []
+        const giveHeartDB = await prisma.heart_History.findMany({
+            where: {
+                userId: reqUserId,
+            },
+        })
+        giveHeartDB.map((id) => {
+            giveHeartId.push(id.anotherUserId)
+        })
+
         if (cardQueueUserId?.frontUserId && cardQueueUserId?.backUserId) {
             return res.send("Success!")
         } else {
             const userProfileDB = await prisma.user_Profile.findMany({
                 take: 20,
                 where: {
+                    NOT: {
+                        userId: {
+                            in: giveHeartId,
+                        },
+                    },
                     details: {
                         NOT: {
                             userId: reqUserId,
@@ -74,7 +87,6 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     },
                 },
             })
-            console.log(userProfileDB)
             return res.send(userProfileDB)
         }
     } catch (err) {
@@ -84,6 +96,38 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
 // Set heart history
 discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const userId = req.user?.userId
+        const anotherUserId = req.body.anotherUserId
+        const isSkipped = req.body.isSkipped
+
+        const giveHeartId: any = []
+        const giveHeartDB = await prisma.heart_History.findMany({
+            where: {
+                userId: userId,
+            },
+        })
+        giveHeartDB.map((id) => {
+            giveHeartId.push(id.anotherUserId)
+        })
+
+        if (userId && !giveHeartId.includes(anotherUserId)) {
+            try {
+                await prisma.heart_History.create({
+                    data: {
+                        userId: userId,
+                        anotherUserId: anotherUserId,
+                        isSkipped: isSkipped,
+                    },
+                })
+            }
+            catch (error) {
+                return res.send("Duplicates")
+            }
+        }
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send(err)
+    }
 })
 export default discoveryRoutes
