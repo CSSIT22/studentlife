@@ -56,7 +56,8 @@ const history = () => {
     }
 
     let d: Date
-
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const [tt, settt] = useState<addMoreLangType[]>([])
     const [tv, settv ] = useState<{}[]>([])
 

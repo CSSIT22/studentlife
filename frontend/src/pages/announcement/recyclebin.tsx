@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react"
+import { Flex, Heading, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
@@ -46,13 +46,23 @@ const recyclebin = () => {
     // ]
     const [toggle, settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/getdeletepost")
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data))
+        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
     const click = () => {
         settoggle(!toggle)
     }
+    if (isLoading)
+        return (
+            <AppBody>
+                <Heading>Loading</Heading>
+            </AppBody>
+        )
+    if (isError)
+        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
 
     // console.log(allPost)
 

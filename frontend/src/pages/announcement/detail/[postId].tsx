@@ -15,28 +15,22 @@ export let langInfos: languageInfo[] = [
 ]
 
 const detail = () => {
-    const [isError, { on }] = useBoolean()
+
     const params = useParams()
     // console.log(params.postId)
     // const post = postInfoTest.filter((el) => {
     //     return el.postId == parseInt(params.postId + "")
     // })
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const [post, setpost] = useState<post[]>([])
     const getData = API.get("/announcement/getdetail/" + params.postId)
     useEffect(() => {
-        getData.then((item) => setpost(item.data)).catch((err) => on())
+        getData.then((item) => setpost(item.data)).catch((err) => on()).finally(off)
     }, [])
-    // console.log(p);
     if (isError)
-        return (
-            <AppBody>
-                <Heading color={"red"}>There is an Error</Heading>
-            </AppBody>
-        )
-    // const otlang = p.map((el) => el.addMoreLang)
-    // console.log(otlang[0]);
-    // const slt = otlang[0]?.filter((el) => el.lang_id == 1001);
-    // console.log(slt);
+        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
+
 
     const selectLangName = (lang_id: number) => {
         const lang = langInfos.filter((el) => el.lang_id == lang_id)

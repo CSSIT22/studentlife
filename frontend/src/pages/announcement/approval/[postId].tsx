@@ -40,12 +40,11 @@ const approvalDetail = () => {
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
-        setpost(getData.data)
         setTargetType(getData.data.targetType)
         setTargetValue(getData.data.targetValue)
-        setTopic(getData.data.topic)
+        setTopic(getData.data.annTopic)
         setSender(getData.data.sender)
-        setDetail(getData.data.detail)
+        setDetail(getData.data.annDetail)
     }
 
     useEffect(() => {

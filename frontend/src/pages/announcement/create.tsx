@@ -16,6 +16,8 @@ import {
     Textarea,
     Box,
     Show,
+    Heading,
+    useBoolean,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
@@ -57,12 +59,11 @@ const create = () => {
     useEffect(() => {
          value.then((res) => settv(res.data))
         // console.log(value);
-    },[targetType])
+    },[])
     // console.log(targetValue);
     // const b = tv.map((el:string[]) => {return el.Faculty})
     
-    
-    
+
    
    
     

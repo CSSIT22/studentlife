@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react"
+import { Box, Flex, Heading, useBoolean } from "@chakra-ui/react"
 import { Link, useParams } from "react-router-dom"
 
 import { post } from "@apiType/announcement"
@@ -56,13 +56,23 @@ const history = () => {
     const params = useParams()
     const [toggle, settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/gethistorypost/")
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data))
+        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
     const tog = () => {
         settoggle(!toggle)
     }
+    if (isLoading)
+        return (
+            <AppBody>
+                <Heading>Loading</Heading>
+            </AppBody>
+        )
+    if (isError)
+        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
     console.log(allPost)
 
     const deleteOrEdit = (status: string) => {
