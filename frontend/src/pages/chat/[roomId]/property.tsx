@@ -44,11 +44,6 @@ function showProperty() {
 
     function NavigateProfile() {
         return navigate(`/user/${param.roomId}`)
-
-    }
-
-    function NavigateCreateCommu() {
-        return navigate('/groups/create')
     }
 
     useEffect(() => {
