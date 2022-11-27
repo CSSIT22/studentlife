@@ -33,6 +33,5 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
             res.header("Content-Type", fileRes.headers["content-type"])
             res.send(file)
         })
-        
 }
 export default downloadFile
