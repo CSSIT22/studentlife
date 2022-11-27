@@ -8,7 +8,7 @@ const snList: FC<{
     lock: any
 }> = ({ topic, course, date, lock }) => {
     return (
-        <Box boxShadow={"md"} bg={"white"} rounded={8} p={5} w="100%" _hover={{ bg: '#f5f5f5' }} transition='all 0.2s cubic-bezier(.08,.52,.52,1)'>
+        <Box boxShadow={"md"} bg={"white"} rounded={8} p={5} w="100%" _hover={{ bg: '#f4f4f4' }} transition='all 0.2s cubic-bezier(.08,.52,.52,1)'>
             <Grid templateColumns="repeat(9, 1fr)">
                 <GridItem colSpan={4}>
                     <Flex alignItems={"center"} justifyContent={"start"} h={"100%"}>
