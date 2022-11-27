@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { VStack, Flex, Heading, Box, Text, Progress, Stack } from "@chakra-ui/react"
 
+
+
 function ExpSystem() {
     return (
         <div>
