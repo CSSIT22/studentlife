@@ -21,7 +21,7 @@ import {
     Grid,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
 import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
@@ -32,12 +32,44 @@ import DatingCreateDescription from "src/components/dating/DatingCreateDescripti
 import DatingCreateLocation from "src/components/dating/DatingCreateLocation"
 import DatingCreateDate from "src/components/dating/DatingCreateDate"
 import DatingCreateTime from "./../../../components/dating/DatingCreateTime"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 declare global {
     var isDateWrong: boolean, isTimeWrong: boolean, people: number[], tag: number[], topic: string[]
 }
 
 const CreateActivityPoll = () => {
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (didMount) {
+            window.scrollTo(0, 0)
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                API.get("/dating/verifyEnroll/getDatingOptions").then((datingOptions) => {
+                    if (!datingEnroll.data.hasCompleteSetting) {
+                        navigate("/dating/interests")
+                        if (!datingOptions.data.userId) {
+                            // navigate("/dating/option")
+                            if (!datingEnroll.data.hasCompleteTutorial) {
+                                navigate("/dating/tutorial")
+                            }
+                        }
+                    }
+                })
+            })
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     // This use for set state to all variable
     const [header, setHeaderInput] = useState("")
 
@@ -65,6 +97,7 @@ const CreateActivityPoll = () => {
     //Tost for error message when submit
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isSubmitted, setIsSubmitted] = useState(false)
 
     //Validate the Header
     const isTooShortHeader = header.length < 10
@@ -273,6 +306,9 @@ const CreateActivityPoll = () => {
                                                 hasSelectedInterest={true}
                                                 type="topic"
                                                 isLoading={false}
+                                                setInterests={setInterests}
+                                                setIsSubmiited={setIsSubmitted}
+                                                hasCompleteSetting={true}
                                             />
                                         </GridItem>
                                     </ModalFooter>

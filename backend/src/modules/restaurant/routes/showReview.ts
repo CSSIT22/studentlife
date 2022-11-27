@@ -21,9 +21,6 @@ const showReview = (req: Request, res: Response) => {
     // const Sresult = selectedRes, selectedRevi
     // res.send([selectedRes])
     // res.send([selectedRes, selectedRevi])
-    res.send({resD: [selectedRes], reviD:[selectedRevi]})
-    
-    
-
+    res.send({ resD: [selectedRes], reviD: [selectedRevi] })
 }
 export default showReview

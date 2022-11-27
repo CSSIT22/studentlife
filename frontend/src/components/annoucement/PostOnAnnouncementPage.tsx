@@ -11,9 +11,9 @@ const PostOnAnnouncementPage: FC<{
     status: boolean
     allPost: Array<any>
     id: number
-    onClick:Function
+    onClick: Function
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
-}> = ({ topic, sender, status, allPost, setAllPost, id ,onClick}) => {
+}> = ({ topic, sender, status, allPost, setAllPost, id, onClick }) => {
     const state = (stat: boolean) => {
         if (stat) {
             return <BsPinAngleFill fontSize={"2rem"} onClick={() => toggle()} color="#E65300" />
@@ -31,7 +31,7 @@ const PostOnAnnouncementPage: FC<{
         //     })
         // )
         onClick()
-        API.post<post>("/announcement/editpinstatus",{postId:id,pinStatus:!status})
+        API.post<post>("/announcement/editpinstatus", { postId: id, pinStatus: !status })
     }
 
     return (

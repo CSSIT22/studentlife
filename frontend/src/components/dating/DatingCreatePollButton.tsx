@@ -16,4 +16,3 @@ const DatingCreatePollButton = () => {
 }
 
 export default DatingCreatePollButton
-

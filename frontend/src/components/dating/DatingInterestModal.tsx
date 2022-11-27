@@ -34,32 +34,14 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text
-                            color="black"
-                            textAlign="center"
-                            fontWeight="700"
-                            fontSize={{ base: "16px", md: "20px" }}
-                            lineHeight="120%"
-                        >
+                        <Text color="black" textAlign="center" fontWeight="700" fontSize={{ base: "16px", md: "20px" }} lineHeight="120%">
                             You can only select up to 5 interests!
                         </Text>
-                        <Text
-                            color="black"
-                            textAlign="center"
-                            fontWeight="700"
-                            fontSize={{ base: "16px", md: "20px" }}
-                            lineHeight="120%"
-                        >
+                        <Text color="black" textAlign="center" fontWeight="700" fontSize={{ base: "16px", md: "20px" }} lineHeight="120%">
                             <br />
                             To add more, deselect some of your
                         </Text>
-                        <Text
-                            color="black"
-                            textAlign="center"
-                            fontWeight="700"
-                            fontSize={{ base: "16px", md: "20px" }}
-                            lineHeight="120%"
-                        >
+                        <Text color="black" textAlign="center" fontWeight="700" fontSize={{ base: "16px", md: "20px" }} lineHeight="120%">
                             chosen interests
                         </Text>
                     </ModalBody>
