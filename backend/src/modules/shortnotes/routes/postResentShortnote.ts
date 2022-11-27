@@ -11,8 +11,14 @@ const postResentShortnote = async (req: Request<any>, res: Response<any>) => {
             userId: user,
         }
 
-        const rsn = await prisma.sn_Recent.create({
-            data: payload,
+        const rsn = await prisma.sn_Recent.upsert({
+            where: {
+                snId_userId: payload,
+            },
+            create: payload,
+            update: {
+                viewedAt: new Date(),
+            },
         })
         res.send(rsn)
     } catch (err) {
