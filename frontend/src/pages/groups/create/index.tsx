@@ -51,6 +51,7 @@ import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
 import NavCommunity from "src/components/group/NavCommunity"
 import { SearchIcon } from "@chakra-ui/icons"
 import FriendInviteList from "src/components/group/FriendInviteList"
+import { desktopStyle, mobileStyle } from "src/components/group/styles/styles"
 
 const createCommunity = () => {
     const toast = useToast()
@@ -85,60 +86,7 @@ const createCommunity = () => {
             setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
         }
     }
-    //form styles
-    const desktopStyle = {
-        input: {
-            bg: "white",
-            color: "#848383",
-            shadow: "lg",
-            borderRadius: "md",
-            fontWeight: 500,
-            fontSize: "sm",
-            mb: 1,
-        },
-        title: {
-            color: "#FFFFFF",
-            fontWeight: "bold",
-            fontSize: "sm",
-            mb: 2,
-        },
-        button1: {
-            bg: "white",
-            color: "#848383",
-            shadow: "lg",
-            borderRadius: "md",
-            _hover: {
-                bg: "gray.100",
-            },
-        },
-    }
-    const mobileStyle = {
-        //formInput
-        input: {
-            bg: "white",
-            color: "#848383",
-            shadow: "md",
-            borderRadius: "xl",
-            fontWeight: 500,
-            mb: 2,
-        },
-        // formLabel
-        title: {
-            color: "gray.600",
-            fontSize: "xl",
-            fontWeight: "bold",
-            mb: 4,
-        },
-        button1: {
-            bg: "orange.400",
-            color: "white",
-            shadow: "md",
-            borderRadius: "xl",
-            _hover: {
-                bg: "orange.600",
-            },
-        },
-    }
+
     //Send data to backend
     const submit = () => {
         // const communityID = Date.now()//Create unique ID
@@ -149,7 +97,7 @@ const createCommunity = () => {
         // console.log(communityPrivacy)
         // console.log(communityCoverPhoto)
         console.log(updatedTag)
-        API.post("/group/createtest", {
+        API.post("/group/createcommunity", {
             // communityID: Date.now(),
             communityName: communityName,
             communityDesc: communityDesc,
@@ -302,6 +250,7 @@ const createCommunity = () => {
                         </AccordionItem>
                     </Accordion>
 
+
                     {/* Cant get friend from another module */}
                     <FormLabel display="none" sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
                         Invite friends to join this community
@@ -385,6 +334,19 @@ const createCommunity = () => {
                             color="black"
                         />
                     </FormControl>
+
+                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
+                        Upload cover photo
+                    </FormLabel>
+                    <Input
+                        // value={communityCoverPhoto}
+                        // onChange={(e) => setCommunityCoverPhoto(e.target.value)}
+                        mb='2'
+                        pt='1'
+                        bg='white'
+                        type='file'
+                        accept='.png, .jpg, .jpeg' />
+
                     <Button
                         width="full"
                         mt={{ md: 4 }}
