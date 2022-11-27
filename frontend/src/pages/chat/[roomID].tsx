@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Hide, HStack, Input } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Hide, HStack, Input, Textarea } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
@@ -12,6 +12,7 @@ import TextBar from "../../components/chat/textConversation"
 import API from "src/function/API"
 import { buffer_to_img } from "src/components/chat/function/64_to_img"
 import { socketContext } from "src/context/SocketContext"
+import { useRef } from "react"
 
 type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
@@ -53,11 +54,15 @@ const Room = () => {
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
     const [Room, setRoom] = useState<RoomType>()
-
+    const scroll = useRef<null|HTMLDivElement>(null);
     //fetch API
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
     }, [param])
+
+    useEffect(() => {
+        scroll.current?.scrollIntoView();
+    },[msg])
 
     //function
     function onType(e: any) {
@@ -94,6 +99,17 @@ const Room = () => {
         }
         
     }
+
+    //keyCode is deprecated
+    // const text = document.querySelector('input');
+    // text?.addEventListener('keyup', (e) => {
+    //     if(e.keyCode === 13){
+    //         {msg.map(({ text, from, timeSent }, roomID) => (
+    //             <TextBar key={roomID} message={text} timeSent={timeSent} from={from} />
+    //         ))}
+    //     }
+    // })
+    
     return (
         <AppBody>
             <HStack>
@@ -138,6 +154,7 @@ const Room = () => {
                         {msg.map(({ text, from, timeSent }, roomID) => (
                             <TextBar key={roomID} message={text} timeSent={timeSent} from={from} />
                         ))}
+                        <div ref={scroll}></div>
                     </Box>
 
                     <Flex h={"55px"} bg="#E68E5C" justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
@@ -155,7 +172,7 @@ const Room = () => {
                             onChange={(e) => onType(e)}
                             value={Text}
                         />
-                        <Flex>
+                        <Flex alignItems={"center"}>
                             <Box cursor={"pointer"} marginRight={4}>
                                 <BiSticker size={30} />
                             </Box>
