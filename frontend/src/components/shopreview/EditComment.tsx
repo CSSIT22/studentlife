@@ -1,9 +1,9 @@
 import { EditIcon } from '@chakra-ui/icons'
-import { Flex, Box, useDisclosure, Button, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, Image } from '@chakra-ui/react'
+import { useDisclosure, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, Heading, ModalCloseButton, ModalBody, Textarea, Input, ModalFooter, Button, Box, Image } from '@chakra-ui/react'
 import React from 'react'
 import RatingStar from './RatingStar'
 
-const EditReview = () => {
+const EditComment = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
@@ -17,38 +17,19 @@ const EditReview = () => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader mt={3}>
-                        <Heading>Edit Your Review</Heading>
+                        <Heading>Edit Your Comment</Heading>
                     </ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
-
                         <Textarea
                             colorScheme="white"
                             focusBorderColor="black"
-                            placeholder="Add Review"
+                            placeholder="Add Comment"
                             marginTop={"5"}
                             minHeight={"100px"}
                             maxHeight={"200px"}
                         ></Textarea>
-                        <Input type={"file"} id="id" hidden multiple></Input>
-                        <Box
-                            onClick={() => {
-                                document.getElementById("id")?.click()
-                            }}
-                            as="button"
-                            paddingTop={"10px"}
-                        >
-                            <Image
-                                src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
-                                width={"40px"}
-                                borderRadius="full"
-                                marginLeft={"1"}
-                                marginTop={"-58px"}
-                                padding={"4px"}
-                            />
-                        </Box>
                     </ModalBody>
 
                     <ModalFooter>
@@ -56,7 +37,7 @@ const EditReview = () => {
                             Close
                         </Button>
                         <Button colorScheme={"green"} color="white">
-                            Submit
+                            Save
                         </Button>
                     </ModalFooter>
                 </ModalContent>
@@ -65,4 +46,4 @@ const EditReview = () => {
     )
 }
 
-export default EditReview
+export default EditComment

@@ -7,6 +7,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { useNavigate } from "react-router-dom"
 import { authContext } from "src/context/AuthContext"
 import API from "src/function/API"
+import Comments from "src/components/shopreview/Comments"
 
 const myreview = () => {
     const [myReviews, setMyReview] = useState<any>([])
@@ -16,7 +17,13 @@ const myreview = () => {
             setMyReview(res.data)
         })
     }, [])
-   
+    const [myComments, setMyComment] = useState<any>([])
+    const getMyComment = API.get("/shopreview/getcomment")
+    useEffect(() => {
+        getMyComment.then((res) => {
+            setMyComment(res.data)
+        })
+    }, [])
 
     const user = useContext(authContext)
     const navigate = useNavigate()
@@ -62,9 +69,20 @@ const myreview = () => {
                     am_like={"8"}
                     ratting={"5"}
                 />
+                <Container mt={5} textAlign={"center"}>
+                    That's all for your review~
+                </Container>
+                <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
+                {myComments.map((item: any) => {
+                    if (item.userId === user?.userId) {
+                        return (
+                            <Comments image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={item.commentAt} />
+                        )
+                    }
+                })}
             </SimpleGrid>
             <Container my={5} textAlign={"center"}>
-                That's all~
+                That's all for your comment~
             </Container>
         </AppBody>
     )

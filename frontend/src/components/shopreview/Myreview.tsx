@@ -37,7 +37,7 @@ import {
     ModalOverlay,
     Textarea,
 } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DetailBox from "../../components/shopreview/DetailBox"
 import AmountLike from "./AmountLike"
@@ -66,8 +66,15 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
     const inputField = React.useRef() as React.MutableRefObject<HTMLInputElement>;
     const toast = useToast()
 
+    const [isHovering, setIsHovering] = useState(false);
+    const handleMouseOver = () => {
+        setIsHovering(true);
+    };
+    const handleMouseOut = () => {
+        setIsHovering(false);
+    };
     return (
-        <Box _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
+        <Box onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
             <Stack mb={3} direction={"row"} spacing={"24px"}>
                 <Avatar name="" src={`url('${image}')`} />
                 {/* ดีงข้อมูลมาจาก database */}
@@ -81,7 +88,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                 </Flex>
                 <Spacer width={"100%"} as="button" onClick={navigateReview}></Spacer>
                 <Flex direction={"column"} justifyContent={"flex-start"}>
-                    <Popover placement="bottom">
+                    {isHovering && <Popover placement="bottom">
                         <PopoverTrigger>
                             {/* on this way  */}
                             <Box as="button">
@@ -142,7 +149,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                                 </Box>
                             </PopoverBody>
                         </PopoverContent>
-                    </Popover>
+                    </Popover>}
                 </Flex>
 
             </Stack>
