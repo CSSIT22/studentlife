@@ -157,7 +157,7 @@ const btnMyLibrary = () => {
                                         pathname: "./" + sn.sn.snId,
                                     })
                                 }}>
-                                    <InLiList key={key} name={sn.sn.snName} course={sn.sn.courseId} />
+                                    <InLiList key={key} name={sn.sn.snName} course={sn.sn.course.courseName} />
                                 </Box>
                             ))}
 

@@ -15,6 +15,7 @@ const getLibrary = async (req: Request, res: Response) => {
                                 snId: true,
                                 snName: true,
                                 courseId: true,
+                                course: true,
                             },
                         },
                     },
