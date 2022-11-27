@@ -7,13 +7,12 @@ import API from "src/function/API"
 const MoreLangForEdit: FC<{
     onDecrease: Function
     addLang: Function
-    id: number
     selectLang: number
     title: string
     dt: string
     onAdd: Function
     add: boolean
-}> = ({ onDecrease, addLang, selectLang, title, dt, onAdd, add, id }) => {
+}> = ({ onDecrease, addLang, selectLang, title, dt, onAdd, add}) => {
     const [otherLang, setOtherLang] = React.useState<number>(selectLang)
     const [topic, setTopic] = React.useState(title)
     const [detail, setDetail] = React.useState(dt)
@@ -25,6 +24,8 @@ const MoreLangForEdit: FC<{
     },[])
     // console.log(lang);
     const cutENG = lang.filter((el) => {return el.languageId != 1000})
+    // console.log(selectLang);
+    
 
     return (
         <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#000"} my="10">
@@ -46,7 +47,7 @@ const MoreLangForEdit: FC<{
                 <Select
                     placeholder="Select language"
                     onChange={(e) => setOtherLang(parseInt(e.target.value + ""))}
-                    disabled={add}
+                    disabled={disable}
                     value={otherLang}
                     bg="white"
                 >
@@ -57,11 +58,11 @@ const MoreLangForEdit: FC<{
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Title</FormLabel>
-                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={add} value={topic} bg="white" />
+                <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} disabled={disable} value={topic} bg="white" />
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Detail</FormLabel>
-                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={add} value={detail} bg="white" />
+                <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} disabled={disable} value={detail} bg="white" />
             </FormControl>
             <Text color={"red.300"} fontSize={"0.8rem"} my={"2"}>
                 Note: if you added, you can't change it anymore
