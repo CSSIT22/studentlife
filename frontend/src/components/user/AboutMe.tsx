@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Flex, Spacer, Text, SimpleGrid, useMediaQuery, extendTheme } from "@chakra-ui/react"
+import { Box, Flex, Spacer, Text, SimpleGrid, useMediaQuery, extendTheme, Grid, Stack } from "@chakra-ui/react"
 
 
 interface AboutMeProps {
@@ -15,7 +15,7 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
     const breakpoints = {
         sm: "320px",
         md: "768px",
-        lg: "960px",
+        lg: "1000px",
         xl: "1200px",
         "2xl": "1536px",
     }
@@ -56,24 +56,26 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                             {props.hobbies}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
-                            BRITHDATE
+                            BIRTHDATE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
                             {props.birthdate}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
-                            YEAES
+                            YEARS
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
                             {props.year}
                         </Text>
+                    </SimpleGrid>
+                    <Stack direction={{ base: "column", lg: "row" }} spacing={10} p={5}>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             ADDRESS
                         </Text>
                         <Text mb="5" color="black" fontSize="lg" fontWeight="700">
                             {props.address}
-                        </Text>
-                    </SimpleGrid>
+                        </Text></Stack>
+
                 </Box>
             </Flex>
         </div>

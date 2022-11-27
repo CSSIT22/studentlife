@@ -49,7 +49,8 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { onClick } = props
 
-    const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
+    const { isOpen: isFollowingListOpen, onOpen: onFollowingListopen, onClose: onFollowingListClose } = useDisclosure()
+    const { isOpen: isFollowerListOpen, onOpen: onFollowerListopen, onClose: onFollowerListClose } = useDisclosure()
     const btnRef = React.useRef(null)
     let history = useNavigate()
     const [isFollow, setIsFollow] = useState(false)
@@ -197,20 +198,21 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "10", lg: "6" }}>
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
-                        <Button
-                            pl={5}
-                            width={{ lg: "7rem", base: "" }}
-                            height={{ lg: "3rem", base: "2rem" }}
-                            fontSize={{ base: "", lg: "lg" }}
-                            bg="orange.600"
-                            _hover={{ background: "orange.200" }}
-                            position="initial"
-                            value="inside"
-                            shadow={"lg"}
-                            onClick={onOpen}
-                        >
-                            Edit
-                        </Button>
+                        <motion.div whileHover={{ scale: 0.9 }}>
+                            <Button
+                                pl={5}
+                                width={{ lg: "7rem", base: "" }}
+                                height={{ lg: "3rem", base: "2rem" }}
+                                fontSize={{ base: "", lg: "lg" }}
+                                bg="orange.600"
+                                _hover={{ background: "orange.200" }}
+                                position="initial"
+                                value="inside"
+                                shadow={"lg"}
+                                onClick={onOpen}
+                            >
+                                Edit
+                            </Button></motion.div>
                         <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
@@ -271,37 +273,42 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                     </FormControl>
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button onClick={postData} type='submit' colorScheme="orange" mr={3}>
-                                        Save
-                                    </Button>
-                                    <Button onClick={onClose}>Cancel</Button>
+                                    <motion.div whileHover={{ scale: 0.9 }}>
+                                        <Button onClick={postData} type='submit' color="white" bg="orange.600"
+                                            _hover={{ background: "orange.200" }} mr={3}>
+                                            Save
+                                        </Button>
+                                    </motion.div>
+                                    <motion.div whileHover={{ scale: 0.9 }}>
+                                        <Button onClick={onClose} _hover={{ background: "gray.300" }}>Cancel</Button></motion.div>
+
                                 </ModalFooter>
                             </ModalContent>
-                        </Modal>
-                        <Button
-                            pl={5}
-                            bg="orange.600"
-                            _hover={{ background: "orange.200" }}
-                            width={{ lg: "9rem", base: "" }}
-                            height={{ lg: "3rem", base: "2rem" }}
-                            fontSize={{ base: "", lg: "lg" }}
-                            position="initial"
-                            shadow={"lg"}
-                        >
-                            Create blog
-                        </Button>{" "}
+                        </Modal><motion.div whileHover={{ scale: 0.9 }}>
+                            <Button
+                                pl={5}
+                                bg="orange.600"
+                                _hover={{ background: "orange.200" }}
+                                width={{ lg: "9rem", base: "" }}
+                                height={{ lg: "3rem", base: "2rem" }}
+                                fontSize={{ base: "", lg: "lg" }}
+                                position="initial"
+                                shadow={"lg"}
+                            >
+                                Create blog
+                            </Button></motion.div>{" "}
                     </ButtonGroup>
                 </GridItem>
                 <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "3rem" }} mr={5}>
                     <Stack direction="row" mx={{ base: "50", lg: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
                             <Box fontSize={{ base: "lg", lg: "2xl" }}>0</Box>
-                            <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
+                            <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFollowerListopen}>
                                 <Box fontSize={{ base: "lg", lg: "2xl" }} color="orange.700">
                                     Follower
                                 </Box>
 
-                                <Modal onClose={onFriendListClose} finalFocusRef={btnRef} isOpen={isFriendListOpen}>
+                                <Modal onClose={onFollowerListClose} finalFocusRef={btnRef} isOpen={isFollowerListOpen}>
                                     <ModalOverlay />
                                     <ModalContent>
                                         <ModalHeader>Follower</ModalHeader>
@@ -310,7 +317,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                             <FriendList />
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Button onClick={onFriendListClose} display={{ base: "none", md: "block" }}>
+                                            <Button onClick={onFollowerListClose} display={{ base: "none", md: "block" }}>
                                                 Close
                                             </Button>
                                         </ModalFooter>
@@ -321,12 +328,12 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-3.5", lg: "" }}>
                             <Box fontSize={{ base: "lg", lg: "2xl" }}>0</Box>
 
-                            <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFriendListopen}>
+                            <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFollowingListopen}>
                                 <Box fontSize={{ base: "lg", lg: "2xl" }} color="orange.700" mt="0.5rem">
                                     Following
                                 </Box>
 
-                                <Modal onClose={onFriendListClose} finalFocusRef={btnRef} isOpen={isFriendListOpen}>
+                                <Modal onClose={onFollowingListClose} finalFocusRef={btnRef} isOpen={isFollowingListOpen}>
                                     <ModalOverlay />
                                     <ModalContent>
                                         <ModalHeader>Following</ModalHeader>
@@ -335,7 +342,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                             <FriendList />
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Button onClick={onFriendListClose} display={{ base: "none", md: "block" }}>
+                                            <Button onClick={onFollowingListClose} display={{ base: "none", md: "block" }}>
                                                 Close
                                             </Button>
                                         </ModalFooter>

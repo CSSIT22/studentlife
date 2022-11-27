@@ -119,7 +119,7 @@ export default function SimpleThreeColumns() {
                                 damping: 20,
                             }}
                         >
-                            <Box fontSize={{ lg: "5xl", base: "xl" }}>Vatcharamai Rodring</Box>
+                            <Box fontSize={{ lg: "5xl", base: "xl" }}>KRIT PANNOI</Box>
                         </motion.div>
                     </Stack>
 
