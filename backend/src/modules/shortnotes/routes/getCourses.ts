@@ -9,6 +9,9 @@ const getCourses = async (req: Request, res: Response) => {
             courseId: true,
             courseName: true,
         },
+        orderBy: {
+            courseName: "asc",
+        },
     })
     res.send(course)
     //console.log(course)
