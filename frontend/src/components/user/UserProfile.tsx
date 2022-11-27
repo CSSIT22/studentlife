@@ -53,7 +53,6 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const btnRef = React.useRef(null)
     let history = useNavigate()
     const [isFollow, setIsFollow] = useState(false)
-    const [name, setName] = useState<any>()
     const [Phone, setPhone] = useState<any>()
     const [BirthDate, setBirthDate] = useState<any>()
     const [Sex, setSex] = useState<any>()
@@ -61,7 +60,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const [Years, setYears] = useState<any>()
     const [Address, setAddress] = useState<any>()
     useEffect(() => {
-        API.get("/user/profile/aboutme").then((res) => {
+        API.get("/profile/edit/:id").then((res) => {
             console.log(res.data)
         })
     }, [])
