@@ -41,13 +41,13 @@ const addRestaurant = async (req: Request, res: Response) => {
                 openAt: {
                     createMany: {
                         data: [
-                            { open: "21.00", day: 0 },
-                            { open: "21.00", day: 1 },
-                            { open: "21.00", day: 2 },
-                            { open: "21.00", day: 3 },
-                            { open: "21.00", day: 4 },
-                            { open: "21.00", day: 5 },
-                            { open: "21.00", day: 6 },
+                            { open: "06.00", day: 0 },
+                            { open: "06.00", day: 1 },
+                            { open: "06.00", day: 2 },
+                            { open: "06.00", day: 3 },
+                            { open: "06.00", day: 4 },
+                            { open: "06.00", day: 5 },
+                            { open: "06.00", day: 6 },
                         ],
                     },
                 },

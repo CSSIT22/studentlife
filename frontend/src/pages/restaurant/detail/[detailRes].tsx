@@ -42,14 +42,6 @@ function detail() {
 
     const [property, setproperty] = React.useState<any>([])
 
-    const addFavorite = () => {
-        API.post("/restaurant/detail/" + params.detailRes)
-    }
-
-    // async function getDetail() {
-    //     const getData = await API.get("/restaurant/detail/" + params.detailRes)
-
-    // }
 
 
     useEffect(() => {
@@ -59,7 +51,7 @@ function detail() {
 
     console.log(property)
 
-    // const cloneArr = Object.(property)
+
 
     const [isFavorite, setIsFavorite] = useState(false)
     useEffect(() => {
@@ -68,6 +60,10 @@ function detail() {
     const setFavoriteStatus = () => {
         console.log(isFavorite)
     }
+    const addFavorite = () => {
+        API.post("/restaurant/detail/" + params.detailRes)
+    }
+
     return (
         <AppBody
             secondarynav={[
@@ -79,7 +75,7 @@ function detail() {
             <Searchbar />
             <Center w={"full"} mt={4}>
                 {property.map((e1: any) => {
-                    console.log(new Date(e1.openAt.open).getHours())
+
                     return (
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
@@ -122,7 +118,7 @@ function detail() {
                                     <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }} fontWeight="600">
                                         <Box w={"full"} textAlign={"center"}>
                                             <Text color="" fontSize="md">
-                                                OPEN - CLOSE : {e1.openAt.opem} - {e1.closeAt.close} <br />
+                                                OPEN - CLOSE : {e1.openAt[0].open} - {e1.closeAt[0].close} <br />
                                                 <Show above="md">
                                                     <br />
                                                 </Show>
@@ -140,9 +136,9 @@ function detail() {
                                                 <br />
                                                 <Icon as={AiOutlinePhone} w={4} h={4} /> : <a href="tel:+{e1.detail.phone}">{e1.detail.phoneNo}</a>
                                                 <br /> <Icon as={AiOutlineGlobal} w={4} h={4} /> :
-                                                <Link to={`/${e1.detail.website}`}>
+                                                <a href={e1.detail.website}>
                                                     <Text as="u">Click here</Text>
-                                                </Link>
+                                                </a>
                                             </Text>
                                         </Box>
                                     </GridItem>

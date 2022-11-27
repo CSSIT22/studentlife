@@ -10,7 +10,7 @@ import API from "src/function/API"
 
 function review() {
     const params = useParams()
-    const numres = parseInt(params.reviewRes + "")
+    const numres = params.reviewRes
     // const property = Restaurant.filter((e1) => {
     //     return e1.id == numres
     // })

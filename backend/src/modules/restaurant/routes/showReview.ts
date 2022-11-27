@@ -10,9 +10,12 @@ const showReview =  async(req: Request, res: Response) => {
             where: { resId: id},
             include:{
                 images: true,
-                reviews: true,
-                
-            },     
+                reviews:{
+                    include:{
+                        reviewBy: true
+                    }
+                },
+            },   
         })
         
         res.send([restaurant]) 

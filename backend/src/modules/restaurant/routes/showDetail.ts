@@ -3,15 +3,27 @@ import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
 const showDetail = async (req: Request, res: Response) => {
     const id = req.params.id
+    var d = new Date();
+    var dayNo = d.getDay()
+    console.log(d.getDay());
     try {
         const prisma = res.prisma
         const restaurant = await prisma.restaurant.findUnique({
-            where: {resId: id},
-                include: {  detail: true,
-                            images: true,
-                            closeAt: true,
-                            openAt: true,
-                        },
+            where: { resId: id },
+            include: {
+                detail: true,
+                images: true,
+                closeAt: {
+                    where: {
+                        day: dayNo,
+                    },
+                },
+                openAt: {
+                    where: {
+                        day: dayNo,
+                    },
+                },
+            },
         })
         
     res.send([restaurant])
