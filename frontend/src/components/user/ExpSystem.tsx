@@ -1,6 +1,29 @@
 import { useState, useEffect } from "react"
 import { VStack, Flex, Heading, Box, Text, Progress, Stack } from "@chakra-ui/react"
+import API from "src/function/API"
+import { useNavigate, useParams } from "react-router-dom"
 
+let history = useNavigate()
+const [level, setLevel] = useState<any>()
+const [CurrentExp, setCurrentExp] = useState<any>()
+const [Sex, setSex] = useState<any>()
+
+useEffect(() => {
+    API.get(`/profile/exp`).then((res) => {
+        console.log(res.data)
+    })
+}, [])
+
+const postExp = () => {
+    API.put(`/profile/exp`, {
+        level,
+        CurrentExp,
+
+
+    }).then(() => {
+        history("/read")
+    })
+}
 
 
 function ExpSystem() {
@@ -11,7 +34,7 @@ function ExpSystem() {
                     <Text color="black" fontWeight="500">
                         LV.
                     </Text>
-                    <Text color="black" fontWeight="500">
+                    <Text color="black" fontWeight="500"  >
                         10
                     </Text>
                 </Stack>

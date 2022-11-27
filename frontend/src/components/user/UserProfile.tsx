@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react"
-import { ReactElement } from "react"
 import { motion } from "framer-motion"
 import FriendList from "../user/FriendList"
 import {
@@ -16,19 +15,17 @@ import {
     FormLabel,
     Input,
     Select,
-    extendTheme,
     HStack,
     Link,
-    NumberInputStepper,
     NumberInputField,
     NumberInput,
-    NumberIncrementStepper,
+
 } from "@chakra-ui/react"
 
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 interface AboutMeProps {
     phone: string
@@ -53,6 +50,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const { isOpen: isFollowerListOpen, onOpen: onFollowerListopen, onClose: onFollowerListClose } = useDisclosure()
     const btnRef = React.useRef(null)
     let history = useNavigate()
+    const param = useParams();
     const [isFollow, setIsFollow] = useState(false)
     const [Phone, setPhone] = useState<any>()
     const [BirthDate, setBirthDate] = useState<any>()
@@ -61,7 +59,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const [Years, setYears] = useState<any>()
     const [Address, setAddress] = useState<any>()
     useEffect(() => {
-        API.get("/profile/edit/:id").then((res) => {
+        API.get(`/profile/edit/${param.userID}`).then((res) => {
             console.log(res.data)
         })
     }, [])
@@ -75,7 +73,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             year: Years,
             address: Address,
         })
-        API.post(``, {
+        API.post(`profile/edit/${param.userID}`, {
             Phone,
             BirthDate,
             Sex,
@@ -87,9 +85,6 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
         })
     }
 
-    function handleClick() {
-        setIsFollow(!isFollow)
-    }
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -102,7 +97,6 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
         "2xl": "1536px",
     }
     // 3. Extend the theme
-    const theme = extendTheme({ breakpoints })
 
     return (
         <Box maxW="100%" borderRadius="none" rounded="2xl" overflow="hidden" p={5} pt={{ md: "45px", base: "0" }} ml={{ base: "3", md: "0" }}>
@@ -239,6 +233,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                     <FormControl mt={4}>
                                         <FormLabel>Sex</FormLabel>
                                         <Select value={Sex} onChange={(e) => setSex(e.target.value)}>
+                                            <option> </option>
                                             <option>Male</option>
                                             <option>Female</option>
                                             <option>LGBTQ+</option>
@@ -252,7 +247,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
 
                                     <FormControl mt={4}>
                                         <FormLabel>Years</FormLabel>
-                                        <NumberInput value={Years} onChange={(e) => {
+                                        <NumberInput value={Years} onChange={() => {
                                             const currentYear = parseInt((new Date().getFullYear() + 543).toString().substring(2))
                                             const userYear = parseInt((user?.studentId || "0").substring(0, 2))
                                             const uniYear = currentYear - userYear
