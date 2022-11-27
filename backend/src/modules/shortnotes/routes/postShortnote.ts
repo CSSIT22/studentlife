@@ -26,7 +26,7 @@ const postShortnote = async (req: Request<any>, res: Response<any>) => {
             isPublic: req.body.isPublic,
             snName: req.body.snName,
             snDesc: req.body.snDesc,
-            snLink: "drive.modelifes.me/test",
+            snLink: "drive.modlifes.me/test",
         }
 
         const sn = await prisma.sn_Head.create({
