@@ -43,9 +43,8 @@ function LikeorNope() {
         // .catch((err) => on())
         // .finally(off)
     }, [params.id])
-    // console.log(property);
-    // console.log(params.id);
-
+     console.log(property);
+     
     const Nope = () => {
         if (res < 9) {
             setres(res + 1)
@@ -76,7 +75,7 @@ function LikeorNope() {
                 <Searchbar />
             </Box>
             <Box px={2} h={"100%"} pb={6} pt={2}>
-                {property.map((e1: any) => {
+                {property?.map((e1: any) => {
                     return (
                         <>
                             <Box py={5} h="20px" mb={"40px"}>

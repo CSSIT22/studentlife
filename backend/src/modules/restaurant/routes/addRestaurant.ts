@@ -3,52 +3,52 @@ import { Request, Response } from "express"
 const addRestaurant = async (req: Request, res: Response) => {
     const id = req.params.id
     console.log("test")
-    // try {
+    try {
         console.log("test")
         const prisma = res.prisma
         const rest = await prisma.restaurant.create({
             data: {
                 resId: id,
-                resName: "KFC",
-                lastupdated: new Date("2000-01-01 20:00:00"),
-                likes: 4412,
+                resName: "Bear House",
+                lastupdated: new Date("2022-04-06 10:00:00"),
+                likes: 95,
                 isSeen: false,
                 detail: {
                     create: {
                         
                         phoneNo: "0948421111",
-                        website: "https://www.facebook.com/KFC",
+                        website: "https://www.starbucks.co.th",
                         location:
-                            "https://www.google.co.th/maps/place/Kitchen+Chef's/@13.6507195,100.2337793,11z/data=!4m10!1m2!2m1!1sKitchen+Chef's!3m6!1s0x30e2a354aad8ebf5:0x479bb05defc2e495!8m2!3d13.6507195!4d100.4974512!15sCg5LaXRjaGVuIENoZWYnc1oQIg5raXRjaGVuIGNoZWYnc5IBCnJlc3RhdXJhbnTgAQA!16s%2Fg%2F11qqqp5q9n",
-                        vicinity: "behind KMUTT",
-                        latitude: 13.651093941884131,
-                        longitude:  100.48866428780377,
-                        
+                            "https://www.google.co.th/maps/place/Kitchen+Chef's/@13.6507247,100.4952625,17z/data=!3m1!4b1!4m5!3m4!1s0x30e2a354aad8ebf5:0x479bb05defc2e495!8m2!3d13.6507195!4d100.4974512",
+                        vicinity: "opposite KMUTT",
+                        latitude: 13.652144605858041, 
+                        longitude: 100.4886319313759,
+                        zone: "หลังมอ"
                     },
                 },
                 closeAt: {
                     createMany: {
                         data: [
-                            { close: new Date("20:00:00"), day: 1 },
-                            { close: new Date("20:00:00"), day: 2 },
-                            { close: new Date("20:00:00"), day: 3 },
-                            { close: new Date("20:00:00"), day: 4 },
-                            { close: new Date("20:00:00"), day: 5 },
-                            { close: new Date("20:00:00"), day: 6 },
-                            { close: new Date("20:00:00"), day: 7 },
+                            { close: "21.00", day: 1 },
+                            { close: "21.00", day: 2 },
+                            { close: "21.00", day: 3 },
+                            { close: "21.00", day: 4 },
+                            { close: "21.00", day: 5 },
+                            { close: "21.00", day: 6 },
+                            { close: "21.00", day: 7 },
                         ],
                     },
                 },
                 openAt: {
                     createMany: {
                         data: [
-                            { open: new Date("10:00:00"), day: 1 },
-                            { open: new Date("10:00:00"), day: 2 },
-                            { open: new Date("10:00:00"), day: 3 },
-                            { open: new Date("10:00:00"), day: 4 },
-                            { open: new Date("10:00:00"), day: 5 },
-                            { open: new Date("10:00:00"), day: 6 },
-                            { open: new Date("10:00:00"), day: 7 },
+                            { open: "06.00", day: 1 },
+                            { open: "06.00", day: 2 },
+                            { open: "06.00", day: 3 },
+                            { open: "06.00", day: 4 },
+                            { open: "06.00", day: 5 },
+                            { open: "06.00", day: 6 },
+                            { open: "06.00", day: 7 },
                         ],
                     },
                 },
@@ -56,13 +56,17 @@ const addRestaurant = async (req: Request, res: Response) => {
                     createMany: {
                         data: [
                             {
-                                image: "https://www.google.co.th/maps/place/Kitchen+Chef's/@13.6507552,100.4974913,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipPW92joMhNmlEsozG8bcio8cqlyqMpGpRt9Ls50!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipPW92joMhNmlEsozG8bcio8cqlyqMpGpRt9Ls50%3Dw86-h114-k-no!7i3024!8i4032!4m10!1m2!2m1!1sKitchen+Chef's!3m6!1s0x30e2a354aad8ebf5:0x479bb05defc2e495!8m2!3d13.6507195!4d100.4974512!15sCg5LaXRjaGVuIENoZWYnc1oQIg5raXRjaGVuIGNoZWYnc5IBCnJlc3RhdXJhbnTgAQA!16s%2Fg%2F11qqqp5q9n#",
+                                image:  "https://www.emporium.co.th/wp-content/uploads/2017/10/e9f427fe626ffb761c16dbdf3e5475c1-1024x683.jpg",
+                               
+                             
                             },
                             {
-                                image: "https://www.google.co.th/maps/place/Kitchen+Chef's/@13.6507552,100.4974913,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipO8EMIh2xuIhTMuxSHwrVtuXvY5i7A-gVMFd_yv!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipO8EMIh2xuIhTMuxSHwrVtuXvY5i7A-gVMFd_yv%3Dw203-h152-k-no!7i4032!8i3024!4m10!1m2!2m1!1sKitchen+Chef's!3m6!1s0x30e2a354aad8ebf5:0x479bb05defc2e495!8m2!3d13.6507195!4d100.4974512!15sCg5LaXRjaGVuIENoZWYnc1oQIg5raXRjaGVuIGNoZWYnc5IBCnJlc3RhdXJhbnTgAQA!16s%2Fg%2F11qqqp5q9n#",
+                                image:      "https://mustsharenews.com/wp-content/uploads/2022/09/starbucks-singapore-data-breach.jpg",
+                                
+                                
                             },
                             {
-                                image: "https://www.google.co.th/maps/place/Kitchen+Chef's/@13.6507552,100.4974913,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipO8EMIh2xuIhTMuxSHwrVtuXvY5i7A-gVMFd_yv!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipO8EMIh2xuIhTMuxSHwrVtuXvY5i7A-gVMFd_yv%3Dw203-h152-k-no!7i4032!8i3024!4m10!1m2!2m1!1sKitchen+Chef's!3m6!1s0x30e2a354aad8ebf5:0x479bb05defc2e495!8m2!3d13.6507195!4d100.4974512!15sCg5LaXRjaGVuIENoZWYnc1oQIg5raXRjaGVuIGNoZWYnc5IBCnJlc3RhdXJhbnTgAQA!16s%2Fg%2F11qqqp5q9n#",
+                                image:"https://www.amarinplaza.com/storage/upload/store/gallery/klN9x7ZpVSKl6Wjkmae5qtKOp3uYKeiktnlfiO3l.jpeg",
                             },
                         ],
                     },
@@ -70,9 +74,9 @@ const addRestaurant = async (req: Request, res: Response) => {
             },
         })
         res.send(rest)
-    // } catch (err) {
-    //     console.log("Error")
-    // }
+    } catch (err) {
+        console.log("Error")
+    }
 }
 
 export default addRestaurant
