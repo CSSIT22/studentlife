@@ -6,13 +6,16 @@ import API from "src/function/API"
 import Historycontent from "../../components/restaurant/historycontent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
+import { Restaurant2 } from "@apiType/restaurant"
 
 const history = () => {
-    const [property, setproperty] = React.useState<any>([])
+    const [property, setproperty] = React.useState<Restaurant2[]>([])
     const params = useParams()
     useEffect(() => {
         API.get("/restaurant/history/").then((item) => setproperty(item.data))
     }, [])
+    //console.log(property);
+    
     return (
         <AppBody
             secondarynav={[
@@ -30,7 +33,7 @@ const history = () => {
                 {property.map((e1: any) => {
                     return (
                         <GridItem>
-                            <Historycontent resName={e1.resName} date={e1.date} status={e1.status} img={e1.img[0]} />
+                            <Historycontent resName={e1.resName} date={e1.Date} status={e1.status} img={e1.images} />
                         </GridItem>
                     )
                 })}

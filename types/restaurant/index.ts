@@ -80,6 +80,7 @@ export type Favorite = {
 export type Seen = {
   userId: string
   resId: string
+  seenAt: Date
 }
 
 
