@@ -89,7 +89,7 @@ function review() {
                                         </Box>
                                     </Link>
                                 </Box>
-                                <ReviewContent name={e1.user.name} picture={e1.user.picture} rate={e1.review.rating} review={e1.review.text} />
+                                <ReviewContent name='{e1.reviews.reviewBy.fName +" "+ e1.reviews.reviewBy.lName}' picture={e1.reviews.reviewsBy.image} rate={e1.reviews.rating} review={e1.reviews.text} />
                             </Box>
                         </Box>
                     )

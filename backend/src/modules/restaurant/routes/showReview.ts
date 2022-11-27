@@ -18,7 +18,7 @@ const showReview =  async(req: Request, res: Response) => {
             },   
         })
         
-        res.send([restaurant]) 
+        res.send(restaurant) 
     } catch (err) {
         
     }
