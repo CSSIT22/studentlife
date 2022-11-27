@@ -18,7 +18,7 @@ const createPost = async (req: Request, res: Response) => {
                 }
             })
             filterNo = newFilter.filterId;
-            console.log(filterNo);
+            // console.log(filterNo);
             
             
         }else {
@@ -32,7 +32,7 @@ const createPost = async (req: Request, res: Response) => {
                 }
             })
             filterNo = newFilter.filterId;
-            console.log(filterNo);
+            // console.log(filterNo);
         }
        
         // console.log(req.body);
@@ -41,7 +41,7 @@ const createPost = async (req: Request, res: Response) => {
         addmorelang.map((el:any) => (
             ll.push({languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail})
         ))
-        console.log(ll);
+        // console.log(ll);
         
         const newPost = await prisma.announcement.create({
             data: {

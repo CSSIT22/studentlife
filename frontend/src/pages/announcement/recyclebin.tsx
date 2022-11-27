@@ -52,6 +52,7 @@ const recyclebin = () => {
     useEffect(() => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
+    console.log(toggle);
     const click = () => {
         settoggle(!toggle)
     }

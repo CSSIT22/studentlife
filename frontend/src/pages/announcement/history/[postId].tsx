@@ -103,7 +103,7 @@ const history = () => {
         const value = await API.get("/announcement/gettypetarget");
         settv(value.data)
     }
-    // console.log(addMoreLang);
+    console.log(addMoreLang);
     // setexMoreLang(exmoreLang) 
 
     console.log(exmoreLang)

@@ -62,7 +62,9 @@ const history = () => {
     useEffect(() => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
-    console.log(allPost);
+    console.log(toggle);
+    
+    // console.log(allPost);
     
 
     const tog = () => {
