@@ -6,17 +6,16 @@ const postInLibrary = async (req: Request<any>, res: Response<any>) => {
         const prisma = res.prisma
         const user = req.user?.userId
 
-        req.body.libId.forEach(async (sn: any) => {
-            const payload: any = {
-                libId: Number(sn),
-                snId: req.body.snId,
-            }
+        const payload: any = {
+            libId: Number(req.body.libId),
+            snId: req.body.snId,
+        }
 
-            const inli = await prisma.sn_In_Library.create({
-                data: payload,
-            })
-            console.log(inli)
+        const inli = await prisma.sn_In_Library.create({
+            data: payload,
         })
+        console.log(inli)
+        res.json(inli)
     } catch (err) {
         console.log(err)
         return res.send(err)

@@ -33,6 +33,7 @@ import {
     chakra,
     useCheckboxGroup,
     useCheckbox,
+    useToast,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
@@ -44,6 +45,7 @@ import search from "src/pages/restaurant/search"
 import { BsCheckLg } from "react-icons/bs"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
+import InLiList from "./inLiList"
 
 const liList: FC<{
     topic: String
@@ -77,53 +79,18 @@ const liList: FC<{
         })
     }
 
-
-    const [liPicked, setLiPicked] = useState<String[]>([])
-
-
     const deleteShortnote = () => {
         API.delete("/shortnotes/deleteShortnote/" + param.id)
     }
 
-    function CustomCheckbox(props: any) {
-        const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } = useCheckbox(props)
-
-        return (
-            <chakra.label gridColumnGap={2} bg="white" h={100} shadow={"xl"} rounded={8} p={2} cursor="pointer" {...htmlProps}>
-                <input {...getInputProps()} hidden />
-
-                <Grid templateColumns="repeat(3, 1fr)" h={"100%"} w={"100%"}>
-                    <GridItem colSpan={2}>
-                        <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"}>
-                            <Heading size={"md"}>{props.name}</Heading>
-                        </Flex>
-                    </GridItem>
-                    <GridItem>
-                        <Flex w={"100%"} h={"100%"} justifyContent={"end"} alignItems={"center"} pr={30}>
-                            {/* {state.isChecked && <Box w={"100%"} h={"100%"} bg="orange.500" rounded={8} />} */}
-
-                            {state.isChecked && (
-                                // <Box bg={"white"} p={4} shadow={"md"}>
-                                <BsCheckLg fontSize={30} color={"#e65d10"} />
-
-                                // </Box>
-                            )}
-                        </Flex>
-                    </GridItem>
-                </Grid>
-            </chakra.label>
-        )
-    }
-    const { value, getCheckboxProps } = useCheckboxGroup({
-        //defaultValue: ["grehg343-gj54-4bad-9gre-fkg9fidhjd89"],
-    })
+    const [selectedLi, setSelectedLi] = useState<any>()
     const addToLibrary = () => {
         API.post("/shortnotes/postInLibrary", {
             snId: param.id,
-            libId: value
+            libId: selectedLi
         })
-        window.location.reload()
     }
+    const toast = useToast()
     return (
         <Box>
             <HStack>
@@ -235,14 +202,26 @@ const liList: FC<{
                                 </Box>
                             ))} */}
                             {li.map((li: any, key) => (
-                                <CustomCheckbox key={key} {...getCheckboxProps({ value: li.libId, name: li.libName })} />
+                                <Box onClick={() => {
+                                    setSelectedLi(li.libId)
+                                    addToLibrary()
+                                    toast({
+                                        title: 'Shortnote added',
+                                        description: "The shortnote added to your selected library already.",
+                                        status: 'success',
+                                        duration: 4000,
+                                        isClosable: true,
+                                    })
+                                }}>
+                                    <LiList name={li.libName}></LiList>
+                                </Box>
                             ))}
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter>
-                        <Button w={"100%"} colorScheme={"orange"} onClick={addToLibrary}>
+                        {/* <Button w={"100%"} colorScheme={"orange"} onClick={addToLibrary}>
                             Done
-                        </Button>
+                        </Button> */}
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
