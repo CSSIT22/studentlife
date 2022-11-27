@@ -41,7 +41,7 @@ const editDetailPost = async (req: Request, res: Response) => {
                 languageId: true,
             },
         })
-
+        // update ENG
         const updateL = await prisma.post_To_Language.update({
             where: {
                 postId_languageId: {
@@ -54,16 +54,19 @@ const editDetailPost = async (req: Request, res: Response) => {
                 annDetail: detail,
             },
         })
+
         // console.log(existLang);
         const morelangExist = existLang.filter((el) => el.languageId != 1000)
         const morelangNew = allLang.filter((el) => el.languageId != 1000)
         // console.log(morelangExist)
         // console.log(morelangNew)
+
+        //for old lang
         let checkLang: { languageId: number; found: boolean }[] = []
         morelangExist.forEach((el) => {
             checkLang.push({ languageId: el.languageId, found: false })
         })
-        // console.log(checkLang);
+        // for old lang
         morelangExist.forEach((t1) => {
             morelangNew.forEach((t2) => {
                 if (t1.languageId == t2.languageId) {
@@ -75,59 +78,54 @@ const editDetailPost = async (req: Request, res: Response) => {
                 }
             })
         })
-        console.log(checkLang)
-        if (morelangExist.length == morelangNew.length) {
-            // console.log(checkLang);
-            morelangNew.forEach(async (el) => {
-                let found = false
-                // old Thai Korea
-                // new Thai Japan
 
-                for (let i = 0; i < morelangExist.length; i++) {
-                    if (morelangExist[i].languageId == el.languageId) {
-                        found = true
-                        break
-                    }
-                }
-                if (found) {
-                    const update = await prisma.post_To_Language.update({
-                        where: {
-                            postId_languageId: {
-                                languageId: el.languageId,
-                                postId: postId,
-                            },
-                        },
-                        data: {
-                            annTopic: el.annTopic,
-                            annDetail: el.annDetail,
-                        },
-                    })
-                } else {
-                    const newLang = await prisma.post_To_Language.create({
-                        data: {
-                            languageId: el.languageId,
-                            annTopic: el.annTopic,
-                            annDetail: el.annDetail,
-                            postId: morelangExist[0].postId,
-                        },
-                    })
-                    checkLang.forEach(async (e) => {
-                        if (e.found == false) {
-                            const dd = await prisma.post_To_Language.delete({
-                                where: {
-                                    postId_languageId: {
-                                        languageId: e.languageId,
-                                        postId: morelangExist[0].postId,
-                                    },
-                                },
-                            })
+        //for new lang
+        let checknewlang: { languageId: number; found: boolean; topic: string; detail: string }[] = []
+        morelangNew.forEach((el) => {
+            checknewlang.push({ languageId: el.languageId, found: false, topic: el.annTopic, detail: el.annDetail })
+        })
+        // for new lang
+        morelangNew.forEach((t1) => {
+            morelangExist.forEach((t2) => {
+                if (t1.languageId == t2.languageId) {
+                    checknewlang.map((e) => {
+                        if (t1.languageId == e.languageId) {
+                            e.found = true
                         }
                     })
                 }
             })
-        } else if(morelangNew.length > morelangExist.length){
-            
-        }
+        })
+
+        // console.log(checkLang)
+        // console.log(checknewlang)
+
+        // update other lang
+        checknewlang.forEach(async (el) => {
+            if (el.found == false) {
+                const add = await prisma.post_To_Language.create({
+                    data: {
+                        languageId: el.languageId,
+                        annTopic: el.topic,
+                        annDetail: el.detail,
+                        postId: postId,
+                    },
+                })
+            }
+        })
+        checkLang.forEach(async (el) => {
+            if (el.found == false) {
+                const dd = await prisma.post_To_Language.delete({
+                    where: {
+                        postId_languageId: {
+                            languageId: el.languageId,
+                            postId: postId,
+                        },
+                    },
+                })
+            }
+        })
+        res.status(200)
     } catch (err) {
         res.status(400)
     }
