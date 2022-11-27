@@ -15,6 +15,7 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
+    useToast,
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import { BiLibrary } from "react-icons/bi"
@@ -70,6 +71,7 @@ const btnMyLibrary = () => {
         }).then((res) => console.log(res)
         )
     }
+    const toast = useToast()
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -128,6 +130,13 @@ const btnMyLibrary = () => {
                                 <Button colorScheme="orange" w={"100%"} onClick={() => {
                                     submit()
                                     nliOnClose()
+                                    toast({
+                                        title: 'Library created.',
+                                        description: "ํYou've created a new library.",
+                                        status: 'success',
+                                        duration: 9000,
+                                        isClosable: true,
+                                    })
                                 }}>
                                     Create
                                 </Button>
