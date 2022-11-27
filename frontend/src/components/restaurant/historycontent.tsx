@@ -1,3 +1,4 @@
+import { Image1 } from "@apiType/restaurant"
 import {
     Box,
     Button,
@@ -23,15 +24,17 @@ const Historycontent: FC<{
     resName: string
     date: string
     status: boolean
-    img: string
+    img: Array<Image1>
 }> = ({ resName, date, status, img }) => {
+    console.log(img);
+    
     return (
         <>
             <Show below="sm">
                 <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
                     <Flex>
                         <Box width={"30%"} ml={"1rem"}>
-                            <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
+                            <Image boxSize="5rem" src={img+""} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
                         <Box width={"60%"} height={"6rem"} color={"black"}>
                             <Flex direction={"column"} justifyContent={"center"} height={"80%"}>
@@ -59,7 +62,7 @@ const Historycontent: FC<{
                         <Image
                             boxSize={"12.5rem"}
                             // height={{ lg: "9.5rem" }}
-                            src={img}
+                            src={img+""}
                             alt="Dan Abramov"
                             borderRadius={"10px"}
                         />
