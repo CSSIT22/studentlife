@@ -72,7 +72,12 @@ export type post_to_language = {
     annDetail:string
     post:announcement,
     language:announcement_language 
+}
 
+export type post_to_language2 = {
+    languageId:number,
+    annTopic:string,
+    annDetail:string
 }
 
 export type announcement_post = {
