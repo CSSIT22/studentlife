@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
 import Calendar from 'react-calendar';
@@ -11,6 +11,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader,
     useDisclosure, Button, ButtonGroup, Divider} from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import API from "src/function/API";
 // import { DESCRIPTION } from "src/components/notification/main/data/descTest"
 
 
@@ -98,7 +99,13 @@ const timetable = () => {
         dateSelect
         console.log("Date: " + dateSelect)
     }
-
+    //this part send backend to frontend 
+    // const getData = API.get("/scheduleRoutes/createEvent")
+    // useEffect(()=>{
+    //     getData.then(res=>{
+    //         console.log(res.data)
+    //     })
+    // })
     return (
         <AppBody>
             <SimpleGrid columns={[1, 6]} spacing="30px">
