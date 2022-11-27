@@ -64,7 +64,7 @@ function review() {
                                     {e1.resName}
                                 </Heading>
                             </Box>
-                            <ShowImage img={e1.img} />
+                            <ShowImage img={e1.images} />
                             <Box p="4">
                                 <Box display="flex" alignItems="baseline" px={{ base: 10, md: 290 }}>
                                     <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase" display="flex" verticalAlign={"AiOutlineLike"}>

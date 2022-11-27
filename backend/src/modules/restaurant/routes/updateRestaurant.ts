@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
-import { prisma } from "@prisma/client"
 const updateRestaurant = async (req: Request, res: Response) => {
     const id = req.params.id
     try {
