@@ -4,6 +4,7 @@ import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import { UserOption } from "@apiType/dating"
 import createCommunity from "./../../group/routes/createCommunity"
+import calExp from "../../user/expsystem/calExp"
 
 const optionRoutes = express()
 const prisma = new PrismaClient()
@@ -80,6 +81,7 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
         await prisma.faculty_Pref.createMany({
             data: facultyPrefs,
         })
+        calExp(prisma, req.user?.userId || "", "DatingOption")
 
         return res.send("Success")
     } catch {
