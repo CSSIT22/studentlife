@@ -76,9 +76,9 @@ const index = () => {
                 </Box>
             </Box>
                 :
-                <Box>
+                <Box mt={300}>
                     <Flex bg={"white"} rounded={8} boxShadow={"xl"} w={"100%"} h={"100%"}>
-                        <Heading alignSelf={"center"} textAlign={"center"}>Sorry, you don't have a permission to access this shortnote.</Heading>
+                        <Heading alignSelf={"center"} textAlign={"center"}>Sorry, you don't have the permission to access this shortnote.</Heading>
                     </Flex>
                 </Box>
             }
