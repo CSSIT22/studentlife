@@ -25,16 +25,8 @@ const getaboutmeuser = async (req: Request, res: Response) => {
                 phone: tail.phone,
                 sex: tail.sex,
                 year: tail.year,
-                // student: {
-                //     create: {},
-                // },
             },
         })
-
-        // const detail = await prisma.detail.findFirstOrThrow({
-        //     where: { userId },
-        //     select: { phone: true, birth: true, sex: true, hobby: true, year: true },
-        // })
         res.json(upsertUser)
     } catch (err) {
         res.status(400).send("Error find Aboutme")
