@@ -1,13 +1,14 @@
 import express from "express"
-import getAllProducts from "./routes/getAllProducts"
-import getProductInformation from "./routes/getProductInformation"
-import getAllCategories from "./routes/getAllCategories"
-import getAllProductsInCategory from "./routes/getAllProductsInCategory"
-import getAllReviews from "./routes/getAllReviews"
-import gestTestPrisma from "./routes/gestTestPrisma"
-import getContactInfo from "./routes/getContactInfo"
-import getAllCoupons from "./routes/getAllCoupons"
-import getProductImages from "./routes/getProductImages"
+import getAllProducts from "./routes/get/getAllProducts"
+import getProductInformation from "./routes/get/getProductInformation"
+import getAllCategories from "./routes/get/getAllCategories"
+import getAllProductsInCategory from "./routes/get/getAllProductsInCategory"
+import getAllReviews from "./routes/get/getAllReviews"
+import gestTestPrisma from "./routes/get/gestTestPrisma"
+import getContactInfo from "./routes/get/getContactInfo"
+import getAllCoupons from "./routes/get/getAllCoupons"
+import getProductImages from "./routes/get/getProductImages"
+import postCartProduct from "./routes/post/postCartProduct"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -25,8 +26,13 @@ shopRoutes.get("/getContactInfo/:id", getContactInfo)
 // Coupon Routes --> Not Complete
 shopRoutes.get("/getAllCoupons", getAllCoupons)
 
+// Post Routes
+// Cart routes
+shopRoutes.post("/postCartProduct", postCartProduct)
 
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
+
+
 export default shopRoutes
 

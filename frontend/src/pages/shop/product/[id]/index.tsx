@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import API from "src/function/API"
 
-import { Product, Review, Shop_Contact, Shop_Product, Shop_Product_Images } from "@apiType/shop"
+import { Shop_Contact, Shop_Product, Shop_Product_Images, Shop_Product_Review } from "@apiType/shop"
 import { useParams } from "react-router-dom"
 import PageTitle from "src/components/shop/PageTitle"
 import ShopAppBody from "src/components/shop/ShopAppBody"
 import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast, Spacer, Center } from "@chakra-ui/react"
-import { contacts } from "src/components/shop/content/dummyData/contacts"
 import ContentBox from "src/components/shop/ContentBox"
 import convertCurrency, { dateFormat, setDataAPI } from "src/components/shop/functions/usefulFunctions"
 import ReviewItem from "src/components/shop/ReviewItem"
@@ -21,7 +20,7 @@ const index = () => {
     const param = useParams()
 
     const [product, setProduct] = useState<Shop_Product | null>(null)
-    const [reviews, setReviews] = useState<any>(null)
+    const [reviews, setReviews] = useState<Shop_Product_Review[] | null>(null)
     const [contact, setContact] = useState<Shop_Contact | null>(null)
     const [productImages, setProductImages] = useState<Shop_Product_Images[] | null>(null)
 
@@ -37,9 +36,39 @@ const index = () => {
     const [isLoadingReview, { off: offR }] = useBoolean(true)
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isPostError, setPostError] = useState(false)
 
     const getProductInfo = API.get("/shop/getProductInformation/" + param.id)
     const getAllReviews = API.get("/shop/getAllReviews/" + param.id)
+
+    const postCartProduct = () => {
+        setPostError(false)
+        if (param.id !== undefined) {
+            API.post("/shop/postCartProduct", {
+                productId: parseInt(param.id)
+            })
+                .then((res) => console.log(res))
+                .catch((err) => {
+                    setPostError(true)
+                    console.log(err);
+                })
+            if (isPostError == false) {
+                toast({
+                    title: 'Product Added to Cart Successfully',
+                    status: 'success',
+                    isClosable: true,
+                    duration: 1500,
+                })
+            } else{
+                toast({
+                    title: 'Product Already in Cart or some other error occurred',
+                    status: 'error',
+                    isClosable: true,
+                    duration: 1500,
+                })
+            }
+        }
+    }
     let tempProd: Shop_Product
     useEffect(() => {
         getProductInfo.then((res) => { setProduct(res.data); tempProd = res.data }).catch((err) => on()).finally(() => {
@@ -62,7 +91,9 @@ const index = () => {
     // Need to calculate overall rating
     let oRating: string | number = " No Rating Yet"
     try {
-        oRating = calculateAvgReview(reviews[0])
+        if (reviews != null) {
+            oRating = calculateAvgReview(reviews[0])
+        }
     } catch (e) { }
 
     const productBox = (
@@ -108,12 +139,7 @@ const index = () => {
                             <Text as="b" fontSize={"lg"}>RATING: </Text><Text ml="3" fontSize={"lg"}>{oRating}</Text>
                         </Flex>
                         <Spacer />
-                        <ThemedButton width="full" onClick={() => toast({
-                            title: 'Product Added to Cart Successfully',
-                            status: 'success',
-                            isClosable: true,
-                            duration: 1500,
-                        })}>Add to Cart</ThemedButton>
+                        <ThemedButton width="full" onClick={postCartProduct}>Add to Cart</ThemedButton>
                     </Flex>
                 </ContentBox>
             </Grid>
@@ -308,31 +334,36 @@ function slidesGenerator(images: Shop_Product_Images[] | null) {
 
 
 }
-function generateReviews(count: number, reviews: any) {
+function generateReviews(count: number, reviews: Shop_Product_Review[] | null) {
     try {
-        const returnReviews = []
-        let reviewO = reviews[0]
-        let userO = reviews[1]
+        if (reviews != null) {
+            const returnReviews = []
 
-        for (let i = 0; i < reviewO.length; i++) {
-            let user = userO.filter((user: any) => user.userId === reviewO[i].userId)[0]
-            returnReviews.push(
-                <ReviewItem
-                    userName={user.name}
-                    userPhoto={user.image}
-                    reviewTitle={reviewO[i].reviewName}
-                    reviewBody={reviewO[i].reviewDesc}
-                    rating={reviewO[i].reviewRating}
-                    image={reviewO[i].reviewImage}
-                    reviewDate={reviewO[i].reviewAt}
-                ></ReviewItem>)
+            for (let i = 0; i < reviews.length; i++) {
+                returnReviews.push(
+                    <ReviewItem
+                        userName={reviews[i].user.fName + " " + reviews[i].user.lName}
+                        userId={reviews[i].user.userId}
+                        reviewTitle={reviews[i].reviewName}
+                        reviewBody={reviews[i].reviewDesc}
+                        rating={reviews[i].reviewRating}
+                        image={reviews[i].image}
+                        reviewDate={reviews[i].reviewAt.toString()}
+                    ></ReviewItem>)
+            }
+            return (
+                <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+                    {count == -1 ? returnReviews : returnReviews.slice(0, count)}
+                </SimpleGrid>
+            )
         }
         return (
             <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
-                {count == -1 ? returnReviews : returnReviews.slice(0, count)}
+                No Reviews Found
             </SimpleGrid>
         )
     } catch (error) {
+        console.log(error)
         return (
             <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
                 No Reviews Found

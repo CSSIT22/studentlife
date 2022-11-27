@@ -6,13 +6,13 @@ import Pill from "./Pill"
 
 const ReviewItem: FC<{
     userName: string
-    userPhoto: string
+    userId: any
     reviewTitle: string
     reviewBody: string
     image?: string
     rating: number
     reviewDate: string
-}> = ({ userName, userPhoto, reviewTitle, reviewBody, image, rating, reviewDate }) => {
+}> = ({ userName, userId, reviewTitle, reviewBody, image, rating, reviewDate }) => {
     function stars(count: number) {
         let starList = []
         for (let i = 0; i < count; i++) {
@@ -24,7 +24,7 @@ const ReviewItem: FC<{
     const userReviewInformation = (isStar?: boolean) => {
         return (
             <Flex pt="0" gap=" 24px" align="center" wrap= "wrap">
-                <Avatar name="" src={userPhoto}></Avatar>
+                <Avatar name="" src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + userId}></Avatar>
                 <Flex direction={"column"}>
                     <Text as={"b"} color="black" textAlign={"start"} size={"sm"}>
                         {userName.toUpperCase()}

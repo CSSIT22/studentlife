@@ -1,12 +1,12 @@
-import { Shop_Product, Shop_Product_Images } from "@apiType/shop"
 import { Request, Response } from "express"
-import { getProducts } from "../dummyData/products"
+import { Shop_Product } from "@apiType/shop"
 
-const getAllProducts = async (req: Request, res: Response) => {
-    const prisma = res.prisma
+
+const getAllProductsInCategory = async (req: Request, res: Response) => {
     try {
-        const result: Shop_Product[] = await prisma.shop_Product.findMany(
-           {
+        const prisma = res.prisma
+        const catId = req.params.id
+        let products: Shop_Product[] | null = await prisma.shop_Product.findMany({
             select: {
                 productId: true,
                 categoryId: true,
@@ -19,13 +19,12 @@ const getAllProducts = async (req: Request, res: Response) => {
                 productStock: true,
                 brandName: true,
                 deliveryFees: true
-            }
-           }
-        )
-        return res.send(result)
+            },
+            where: {categoryId: parseInt(catId)}
+        })
+        res.send(products)
     } catch (error) {
-        return res.status(404).send("Error! Could not get the Products" + error)
+        return res.status(404).send("An Error has occurred | " + error)
     }
 }
-
-export default getAllProducts
+export default getAllProductsInCategory

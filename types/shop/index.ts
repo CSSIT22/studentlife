@@ -181,4 +181,9 @@ export type Shop_Product_Review = {
   reviewRating: number
   reviewAt: Date
   image: string
+  user: {
+    userId: string;
+    fName: string;
+    lName: string;
+  }
 }
