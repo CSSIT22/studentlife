@@ -1,3 +1,4 @@
+
 import { verifyUser } from "./../backendService/middleware/verifyUser"
 import { post } from "./../../../../types/announcement/index"
 import express from "express"
@@ -206,26 +207,99 @@ export const setPost = (newData: post[]) => {
     posts = newData
 }
 
-announcementRoutes.get("/getPostOnAnnouncement", (req, res) => {
+announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
     const minute = 1000 * 60
     const hour = minute * 60
     const day = hour * 24
     const date = new Date()
     const currentD = Math.round(date.getTime() / day)
-    let selectpost: post[] = []
-    getPost().forEach((post) => {
-        if (post.isApprove == true) {
-            if (post.status == "Approve") {
-                const expired = new Date(post.expiredOfPost)
-                const expiredPost = Math.round(expired.getTime() / day)
-                const diff = expiredPost - currentD
-                if (diff > 0) {
-                    selectpost.push(post)
-                }
+    const prisma = res.prisma
+
+    try{
+        const getpostid = await prisma.announcement_Pin.findMany({
+            where:{
+                userId: req.user?.userId || ""
+            },
+            select:{
+                postId: true
             }
+        })
+        let allpost = []
+        for (let i = 0; i < getpostid.length; i++) {
+            const getpostdetail = await prisma.announcement.findMany({
+                where:{
+                    postId: getpostid[i].postId,
+                    isApprove: true,
+                    annPost:{
+                        status: "Approve"
+                    }
+                },
+                select:{
+                    postId: true,
+                    userId: true,
+                    annFilter: {
+                        select: {
+                            filterType: true,
+                            value: true,
+                        },
+                    },
+                    annLanguage: {
+                        orderBy:{
+                            languageId : 'asc'
+                        },
+                        select: {
+                            postId: true,
+                            languageId: true,
+                            annTopic: true,
+                            annDetail: true,
+                        },
+                    },
+                    annCreator: {
+                        select: {
+                            fName: true,
+                            lName: true,
+                        },
+                    },
+                    annExpired: true,
+                    annPin:{
+                        where:{
+                            userId: req.user?.userId
+                        },
+                        select:{
+                            status: true
+                        }
+                    }
+                }
+
+            })
+            for(let i=0;i<getpostdetail.length;i++){
+                allpost.push(getpostdetail[i])
+            }
+            
         }
-    })
-    res.send(selectpost)
+        console.log(allpost)
+        console.log(allpost[0].annPin[0].status)
+        res.send(allpost)
+        
+    }
+    catch(err:any){
+        res.send(err)
+        res.status(400).send("Error find to post")
+    }
+    // let selectpost: post[] = []
+    // getPost().forEach((post) => {
+    //     if (post.isApprove == true) {
+    //         if (post.status == "Approve") {
+    //             const expired = new Date(post.expiredOfPost)
+    //             const expiredPost = Math.round(expired.getTime() / day)
+    //             const diff = expiredPost - currentD
+    //             if (diff > 0) {
+    //                 selectpost.push(post)
+    //             }
+    //         }
+    //     }
+    // })
+    // res.send(selectpost)
 })
 
 announcementRoutes.get("/getdetail/:id", getDetail)
