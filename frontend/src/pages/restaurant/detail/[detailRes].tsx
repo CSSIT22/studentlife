@@ -140,7 +140,7 @@ function detail() {
                                                 <br />
                                                 <Icon as={AiOutlinePhone} w={4} h={4} /> : <a href="tel:+{e1.detail.phone}">{e1.detail.phoneNo}</a>
                                                 <br /> <Icon as={AiOutlineGlobal} w={4} h={4} /> :
-                                                <Link to={e1.detail.website}>
+                                                <Link to={`/${e1.detail.website}`}>
                                                     <Text as="u">Click here</Text>
                                                 </Link>
                                             </Text>

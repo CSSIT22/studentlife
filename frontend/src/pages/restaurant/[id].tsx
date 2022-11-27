@@ -15,12 +15,13 @@ import {
     Flex,
     Text,
     Container,
+    Icon,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import ShowImage from "../../components/restaurant/ShowImage"
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { Restaurant2 } from "@apiType/restaurant"
 declare global {
@@ -31,6 +32,7 @@ function LikeorNope() {
     const [count, setcount] = React.useState(1)
     const params = useParams()
     const [property, setproperty] = React.useState<Restaurant2[]>([])
+    const navigate = useNavigate()
 
     const [res, setres] = React.useState(parseInt(params.id + ""))
 
@@ -43,7 +45,7 @@ function LikeorNope() {
         API.put("restaurant/" + params.id) 
         // .catch((err) => on())
         // .finally(off)
-    }, [])
+    }, [params.id])
     //  console.log(property);
      
     const Nope = () => {
@@ -92,18 +94,22 @@ function LikeorNope() {
                 <Container>
                     <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                         <Box>
-                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={likedRestaurant}>
-                                <Link to={`/restaurant/detail/${globalThis.respage}`}>
-                                    <AiOutlineLike size={"xl"} />
-                                </Link>
+                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={() => {
+                                likedRestaurant
+                                navigate(`/restaurant/detail/${"000" +globalThis.respage}`)
+                            }}>
+                                <Icon as={AiOutlineLike} w={12} h={12}/>
                             </Button>
                         </Box>
 
                         <Box>
-                            <Button onClick={Nope} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
-                                <Link to={`/restaurant/${globalThis.respage == 9 ? 0 : globalThis.respage + 1}`}>
-                                    <AiOutlineDislike size={"xl"} />
-                                </Link>
+                            <Button onClick={() => {
+                                Nope()
+                                navigate(`/restaurant/${"000" + (globalThis.respage == 9 ? 0 : globalThis.respage + 1)}`)
+                                }} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
+                             
+                                   <Icon as={AiOutlineDislike} w={12} h={12}/>
+                            
                             </Button>
 
                             <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false}>

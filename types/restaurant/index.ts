@@ -1,5 +1,5 @@
 export type Restaurant = {
-  userid: number
+  userid: number;
   id: number;
   resName: string;
   amountOflike: number;
@@ -15,57 +15,76 @@ export type Restaurant = {
 };
 
 export type Restaurant2 = {
-  resId: string;
-  resName: string;
-  lastupdated: Date;
-  likes: number;
+  resId: string
+  resName: string
+  lastupdated: Date
+  likes: number
   isSeen: boolean
   detail: Detail[]
   images: Image1[]
   opanAt: Open[]
   closeAt: Close[]
+  userLike: Like[]
+  userFav: Favorite[]
+  userSeen: Seen[]
+
 };
 
 export type Detail = {
-  resId: string,
-  phoneNO: string,
-  website: string,
-  location: string,
-  vicinity: string,
-  latitude: number,
-  longitude:number,
+  resId: string
+  phoneNO: string
+  website: string
+  location: string
+  vicinity: string
+  latitude: number
+  longitude:number
   zone: string
   detailOf: Restaurant
 }
 
 export type Image1 = {
-  imageId: number,
-  resId: string,
-  image: string,
+  imageId: number
+  resId: string
+  image: string
   imageOf: Restaurant
 }
 
 export type Open = {
-  openId: number;
-  resId: string,
-  open: string,
-  day: number,
+  openId: number
+  resId: string
+  open: string
+  day: number
   openOf: Restaurant;
 }
 
 export type Close = {
-  closeId: number;
-  resId: string,
-  close: string,
-  day: number,
-  openOf: Restaurant;
+  closeId: number
+  resId: string
+  close: string
+  day: number
+  openOf: Restaurant
+}
+
+export type Like = {
+  userId: string
+  resId: string
+}
+
+export type Favorite = {
+  userId: string
+  resId: string
+}
+
+export type Seen = {
+  userId: string
+  resId: string
 }
 
 
 export type Review = {
-  resId: number;
-  name: string;
-  picture: string;
-  rate: string;
-  review: string;
+  resId: number
+  name: string
+  picture: string
+  rate: string
+  review: string
 };

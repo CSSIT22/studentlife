@@ -9,46 +9,45 @@ const addRestaurant = async (req: Request, res: Response) => {
         const rest = await prisma.restaurant.create({
             data: {
                 resId: id,
-                resName: "Ping House",
+                resName: "Tenjo",
                 lastupdated: new Date("2022-04-06 10:00:00"),
-                likes: 442,
+                likes:  95,
                 isSeen: false,
                 detail: {
                     create: {
-                        
                         phoneNo: "0948421111",
                         website: "https://www.google.co.th",
                         location:
-                            "https://www.google.co.th/maps/place/Kitchen+Chef's/@13.6507247,100.4952625,17z/data=!3m1!4b1!4m5!3m4!1s0x30e2a354aad8ebf5:0x479bb05defc2e495!8m2!3d13.6507195!4d100.4974512",
+                            "https://www.facebook.com/bearhousethailand/",
                         vicinity: "opposite KMUTT",
-                        latitude: 13.652144605858041, 
-                        longitude: 100.4886319313759,
-                        zone: "หลังมอ"
+                        latitude: 13.652453925756781,
+                        longitude: 100.48673783051156,
+                        zone: "หลังมอ",
                     },
                 },
                 closeAt: {
                     createMany: {
                         data: [
-                            { close: "21.00", day: 1 },
-                            { close: "21.00", day: 2 },
-                            { close: "21.00", day: 3 },
-                            { close: "21.00", day: 4 },
-                            { close: "21.00", day: 5 },
-                            { close: "21.00", day: 6 },
-                            { close: "21.00", day: 7 },
+                            { close: "10.00", day: 0 },
+                            { close: "10.00", day: 1 },
+                            { close: "10.00", day: 2 },
+                            { close: "10.00", day: 3 },
+                            { close: "10.00", day: 4 },
+                            { close: "10.00", day: 5 },
+                            { close: "10.00", day: 6 },
                         ],
                     },
                 },
                 openAt: {
                     createMany: {
                         data: [
-                            { open: "06.00", day: 1 },
-                            { open: "06.00", day: 2 },
-                            { open: "06.00", day: 3 },
-                            { open: "06.00", day: 4 },
-                            { open: "06.00", day: 5 },
-                            { open: "06.00", day: 6 },
-                            { open: "06.00", day: 7 },
+                            { open: "21.00", day: 0 },
+                            { open: "21.00", day: 1 },
+                            { open: "21.00", day: 2 },
+                            { open: "21.00", day: 3 },
+                            { open: "21.00", day: 4 },
+                            { open: "21.00", day: 5 },
+                            { open: "21.00", day: 6 },
                         ],
                     },
                 },
@@ -56,17 +55,17 @@ const addRestaurant = async (req: Request, res: Response) => {
                     createMany: {
                         data: [
                             {
-                                image:  "https://www.emporium.co.th/wp-content/uploads/2017/10/e9f427fe626ffb761c16dbdf3e5475c1-1024x683.jpg",
+                                image:  "https://res.klook.com/image/upload/activities/rtihxwt41d76gj2tincn.jpg",
+                            
                                
-                             
                             },
                             {
-                                image:      "https://mustsharenews.com/wp-content/uploads/2022/09/starbucks-singapore-data-breach.jpg",
-                                
-                                
+                                image:   "https://partyspacedesign.com/wp-content/uploads/2020/03/PSD20Bearhouse_05.jpg",
+
                             },
                             {
-                                image:"https://www.amarinplaza.com/storage/upload/store/gallery/klN9x7ZpVSKl6Wjkmae5qtKOp3uYKeiktnlfiO3l.jpeg",
+                                image:   "https://www.bkkmenu.com/files/2019/06/IMG_0441.jpg",
+                                
                             },
                         ],
                     },

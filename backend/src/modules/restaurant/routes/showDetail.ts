@@ -16,6 +16,7 @@ const showDetail = async (req: Request, res: Response) => {
         
     res.send([restaurant])
     } catch (err) {
+        console.log("Error");
         
     }
     // let selectedRes: Restaurant | null = null
