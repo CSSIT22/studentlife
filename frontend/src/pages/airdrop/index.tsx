@@ -9,6 +9,7 @@ import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
 import Lottie from "lottie-react"
 import uploadAnimation from "../../components/airdrop/animation/upload.json"
 import bg from "../../components/airdrop/animation/bg.json"
+import socket from "src/function/socket"
 import API from "src/function/API"
 import {
     Tag,
@@ -167,6 +168,8 @@ export default function Index<FC>() {
                 })
             }
         }
+        // const socketIO = socket()
+        // socketIO.emit("upload")
     }
     //Function for handle file drop
     const handleDrop = async () => {
@@ -209,6 +212,10 @@ export default function Index<FC>() {
         files.map((item: any) => {
             fd.append("upload", item.file)
         })
+        
+        const socketIO = socket()
+        socketIO.emit("upload")
+
         try {
             const res = await API.post("/airdrop/file/upload", fd, {
                 headers: {
@@ -217,14 +224,13 @@ export default function Index<FC>() {
             })
                 .then((res) => {
                     console.log(res)
-                    setConfirmDrop(false)
+                    setConfirmDrop(true)
                     on()
                 })
                 .catch((err) => {
                     toast({ title: "Error", description: "Something went wrong", status: "error", duration: 3000, isClosable: true })
                     console.log(err)
                 })
-            console.log(res)
         } catch {
             console.log("error")
         }

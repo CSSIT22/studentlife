@@ -5,11 +5,15 @@ import FileComment from "src/components/airdrop/FileComment"
 import FileList from "src/components/airdrop/FileList"
 import { HiUpload, HiDownload } from "react-icons/hi"
 import { MdOutlineHistory } from "react-icons/md"
+import socket from "src/function/socket"
 import API from "src/function/API"
 import { Text, Box, Divider, useDisclosure, Fade, useBoolean, useToast, Spinner, Flex, Button } from "@chakra-ui/react"
 import axios from "axios"
 import Lottie from "lottie-react"
 import receive from "../../components/airdrop/animation/receive.json"
+
+
+
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -22,6 +26,7 @@ export const fileListContext = createContext<any>({
 })
 export default function Receivedrop<FC>() {
     const toast = useToast()
+    const [socketIO] = useState(socket())
     const [isLoading, { off }] = useBoolean(true)
     const [isError, { on }] = useBoolean(false)
     const { isOpen, onToggle } = useDisclosure()
@@ -67,12 +72,11 @@ export default function Receivedrop<FC>() {
             })
         }
     }, [isError])
-    // cronjob update file
+    // socket update file
     useEffect(() => {
-        const interval = setInterval(() => {
+        socketIO.on("newupload", () => {
             fetchAllFile()
-        }, 1000)
-        return () => clearInterval(interval)
+        })
     })
 
     return (

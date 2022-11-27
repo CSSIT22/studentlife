@@ -1,6 +1,5 @@
 import { Access_Type } from "@prisma/client"
-import axios, { Axios } from "axios"
-import fs from "fs"
+import axios from "axios"
 const fd = require("form-data")
 
 const drive = axios.create({
@@ -10,7 +9,6 @@ const drive = axios.create({
         "Content-Type": " multipart/form-data",
     },
 })
-
 const uploadFile = async (req: Request | any | string, res: Response | any) => {
     const sender = await req.user?.userId
     const { prisma } = res
@@ -260,9 +258,11 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     data: payload,
                 })
             }
+            res.status(200).json({ message: "Upload success" })
         }
     } catch (err) {
         console.log(err)
+        res.status(500).json({ message: "Upload failed" })
     }
 }
 export default uploadFile
