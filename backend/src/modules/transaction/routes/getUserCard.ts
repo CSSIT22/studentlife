@@ -1,19 +1,20 @@
-import { Request, Response } from "express"
-import { getCard, UserCC } from ".."
+// import { Request, Response } from "express"
 
-const getUserCard = (req: Request, res: Response) => {
-    const Id = req.params.Id
-    let selectedUser: UserCC | null = null
-    getCard().forEach((card: any) => {
-        if (card.userId == Id) {
-            selectedUser = card
-        }
-    })
-    if (selectedUser != null) {
-        return res.send(selectedUser)
-    }
+// import { reqCCuser } from "@apiType/transaction/transaction"
 
-    return res.status(400).send("Credit Card Token not found")
-}
+// const getUserCard = (req: Request, res: Response) => {
+//     const Id = req.params.Id
+//     let selectedUser: reqCCuser | null = null
+//     getCard().forEach((card: any) => {
+//         if (card.userId == Id) {
+//             selectedUser = card
+//         }
+//     })
+//     if (selectedUser != null) {
+//         return res.send(selectedUser)
+//     }
 
-export default getUserCard
+//     return res.status(400).send("Credit Card Token not found")
+// }
+
+// export default getUserCard

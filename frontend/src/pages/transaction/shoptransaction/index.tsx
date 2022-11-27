@@ -15,8 +15,8 @@ const shopTransaction = () => {
     const param = useParams()
     const [order, setOrder] = useState("")
     const submit = () => {
-        API.post("/transaction/createTransaction", {
-            orderId: param.orderid,
+        API.post("/transaction/payment", {
+
         })
     }
 
