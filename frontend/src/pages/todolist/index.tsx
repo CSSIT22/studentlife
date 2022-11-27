@@ -40,7 +40,6 @@ import { useBreakpointValue } from "@chakra-ui/react"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import axios from "axios"
 
-
 const index = () => {
   const [taskList, setTaskList] = useState([])
 
@@ -80,7 +79,7 @@ const index = () => {
       </Flex>
 
       {
-        taskList.map((el) => (
+        taskList.map((el: any) => (
           <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#ECECEC" rounded="lg">
             <Flex alignItems={"center"}>
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
