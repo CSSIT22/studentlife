@@ -173,26 +173,27 @@ const DatingRandomCard: FC<{
     characters: UserCardDetail[]
     setHasSwipe: React.Dispatch<React.SetStateAction<boolean>>
     setIsRunOut: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters, setHasSwipe, setIsRunOut }) => {
+    setIsError: React.Dispatch<React.SetStateAction<boolean>>
+    isError: boolean
+}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters, setHasSwipe, setIsRunOut, setIsError, isError }) => {
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
     const likeText = useAnimation()
     const nopeText = useAnimation()
     const navigate = useNavigate()
-    const toast = useToast()
 
     const swiped = (direction: string, idToDelete: string, index: number) => {
         handleClick(currentIndex)
         setHasSwipe(true)
         if (direction === "left") {
             API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
-                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                .catch((err) => setIsError(true))
             // Run the cross button animation
             nopeText.start("click")
             controlCross.start("hidden")
         } else if (direction === "right") {
             API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
-                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                .catch((err) => setIsError(true))
             // Run the heart button animation
             likeText.start("click")
             controlHeart.start("hidden")
@@ -209,7 +210,7 @@ const DatingRandomCard: FC<{
         let frontCard = document.getElementById(idx.toString()) as HTMLInputElement
         frontCard.style.display = "none"
         // Reload the page when running out of card
-        if (idx == 0) {
+        if (idx == 0 && !isError) {
             navigate(0)
         }
     }
@@ -301,6 +302,7 @@ const DatingRandomization = () => {
     const [isLoading, { off }] = useBoolean(true)
     const [hasSwipe, setHasSwipe] = useState(false)
     const [isRunOut, setIsRunOut] = useState(false)
+    const [isError, setIsError] = useState(false)
     const toast = useToast()
     let count = 1
     useEffect(() => {
@@ -354,7 +356,7 @@ const DatingRandomization = () => {
 
                         })
                 })
-            }).catch((err) => console.log(err)).finally(off)
+            }).catch((err) => setIsError(true)).finally(off)
         }
     })
 
@@ -389,7 +391,7 @@ const DatingRandomization = () => {
 
     // used for swiping with buttons
     const swipe = async (dir: string) => {
-        if (canSwipe && currentIndex < numOfChar) {
+        if (canSwipe && currentIndex < numOfChar && !isError) {
             await childRefs[currentIndex].current.swipe(dir)
         }
     }
@@ -400,47 +402,50 @@ const DatingRandomization = () => {
             <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
                 <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
-                    <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} />
-                    {characters.map((character, index) => (
-                        <DatingRandomCard
-                            key={index}
-                            character={character}
-                            index={index}
-                            currentIndex={currentIndex}
-                            controlCross={controlCross}
-                            controlHeart={controlHeart}
-                            childRefs={childRefs}
-                            setCurrentIndex={setCurrentIndex}
-                            characters={characters}
-                            setHasSwipe={setHasSwipe}
-                            setIsRunOut={setIsRunOut}
-                        />
-                    ))}
+                    <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} isError={isError}/>
+                    {!isError ?
+                        characters.map((character, index) => (
+                            <DatingRandomCard
+                                key={index}
+                                character={character}
+                                index={index}
+                                currentIndex={currentIndex}
+                                controlCross={controlCross}
+                                controlHeart={controlHeart}
+                                childRefs={childRefs}
+                                setCurrentIndex={setCurrentIndex}
+                                characters={characters}
+                                setHasSwipe={setHasSwipe}
+                                setIsRunOut={setIsRunOut}
+                                setIsError={setIsError}
+                                isError={isError}
+                            />
+                        )) : <></>}
                 </Box>
-                {!(isLoading && !didMount) ? (
+                {!isLoading && !isError &&
                     characters[currentIndex] != null ? (
-                        <Box>
-                            {/* Name, age, gender, and faculty */}
-                            <DatingRandomDetails characters={characters} currentIndex={currentIndex} />
-                            {/* Must have 2 boxs to hide the scroll bar in mobile */}
-                            <Box pb="5" pl="18px" pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
-                                <Box
-                                    height="70px"
-                                    pt="5px"
-                                    overflowX={{ base: "auto", md: "visible" }}
-                                    whiteSpace={{ base: "nowrap", md: "initial" }}
-                                    style={{ WebkitOverflowScrolling: "touch" }}
-                                >
-                                    {characters[currentIndex].interests.map((interestId, index) => (
-                                        // Show user's tags of interest
-                                        <DatingRandomTag key={index} id={interestId} index={index} allInterests={allInterests} />
-                                    ))}
-                                </Box>
+                    <Box>
+                        {/* Name, age, gender, and faculty */}
+                        <DatingRandomDetails characters={characters} currentIndex={currentIndex} />
+                        {/* Must have 2 boxs to hide the scroll bar in mobile */}
+                        <Box pb="5" pl="18px" pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
+                            <Box
+                                height="70px"
+                                pt="5px"
+                                overflowX={{ base: "auto", md: "visible" }}
+                                whiteSpace={{ base: "nowrap", md: "initial" }}
+                                style={{ WebkitOverflowScrolling: "touch" }}
+                            >
+                                {characters[currentIndex].interests.map((interestId, index) => (
+                                    // Show user's tags of interest
+                                    <DatingRandomTag key={index} id={interestId} index={index} allInterests={allInterests} />
+                                ))}
                             </Box>
                         </Box>
-                    ) : (
-                        <DatingRandomOutOfCard numOfChar={numOfChar} />
-                    )) : <></>}
+                    </Box>
+                ) : (
+                    <DatingRandomOutOfCard numOfChar={numOfChar} isError={isError} currentIndex={currentIndex} isLoading={isLoading}/>
+                )}
             </SimpleGrid>
                 <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }} id="DatingButton">
                     {/* Cross button */}

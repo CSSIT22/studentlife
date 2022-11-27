@@ -14,6 +14,7 @@ const DatingInterestDynamicButton: FC<{
     setInterests: Dispatch<SetStateAction<AllInterests[]>>
     setIsSubmiited: React.Dispatch<React.SetStateAction<boolean>>
     hasCompleteSetting: boolean
+    on: () => void
 }> = ({
     numOfSelectedInterest,
     selectedInterests,
@@ -23,7 +24,8 @@ const DatingInterestDynamicButton: FC<{
     isLoading,
     setInterests,
     setIsSubmiited,
-    hasCompleteSetting
+    hasCompleteSetting,
+    on
 }) => {
         const navigate = useNavigate()
         const toast = useToast()
@@ -41,16 +43,16 @@ const DatingInterestDynamicButton: FC<{
                 if (selectedInterests.length != 0) {
                     API.put<UserInterests>("/dating/interests/updateUserInterests", { interestId: selectedInterests })
                         .then(() => navigate("/dating/"))
-                        .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                        .catch((err) => on())
                 } else {
                     API.delete<UserInterests>("/dating/interests/deleteUserInterests")
                         .then(() => navigate("/dating/"))
-                        .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                        .catch((err) => on())
                 }
             } else {
                 API.post<UserInterests>("/dating/interests/setUserInterests", { interestId: selectedInterests })
                     .then(() => navigate("/dating/"))
-                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }))
+                    .catch((err) => on())
             }
         }
 

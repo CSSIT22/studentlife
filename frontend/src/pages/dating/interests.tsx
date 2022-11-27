@@ -147,6 +147,7 @@ const TagOfInterest = () => {
                                                 setInterests={setInterests}
                                                 setIsSubmiited={setIsSubmitted}
                                                 hasCompleteSetting={hasCompleteSetting}
+                                                on={on}
                                             />
                                         ) : (
                                             <></>
@@ -168,7 +169,7 @@ const TagOfInterest = () => {
                 </Box> : <></>}
             <Box>
                 {/* CheckboxGroup : List of tags of interest */}
-                {isLoading || isSubmitted ? (
+                {(isLoading || isSubmitted) && !isError ? (
                     <Box display="block" mt={{ base: "100px", md: "-200px" }}>
                         <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
                     </Box>
@@ -176,7 +177,7 @@ const TagOfInterest = () => {
                     <></>
                 )}
 
-                {isError && allInterests.length == 0 ? (
+                {isError && (allInterests.length == 0 || isSubmitted) ? (
                     <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
                         <DatingWentWrong />
                     </Box>

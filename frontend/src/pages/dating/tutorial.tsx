@@ -8,6 +8,7 @@ import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 import { useEffect, useState } from 'react'
 import API from 'src/function/API'
 import { useNavigate } from 'react-router-dom'
+import DatingWentWrong from 'src/components/dating/DatingWentWrong'
 
 const FirstPageNextButton = (props: any) => {
     const swiper = useSwiper();
@@ -81,16 +82,16 @@ const Tutorial = () => {
     function handleSubmit() {
         API.post("/dating/tutorial/setDatingEnroll")
             .then(() => checkOption())
-            .catch((err) => { toast({ status: "error", position: "top", title: "Error", description: "Please login before submitting!" }), setIsError(true) })
+            .catch((err) => setIsError(true) )
     }
 
     return (
         <DatingAppBody>
             <Box>
-                {isSubmitted || isLoading ? <Box display="block" mt={{ base: "100px", md: "-200px" }}>
+                {(isSubmitted || isLoading) && !isError ? <Box display="block" mt={{ base: "100px", md: "-200px" }}>
                     <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
                 </Box> :
-                    <Swiper id="tutorial" pagination={true} modules={[Pagination]} className="mySwiper">
+                    !isError ? <Swiper id="tutorial" pagination={true} modules={[Pagination]} className="mySwiper">
                         <SwiperSlide>
                             <Center>
                                 <Box>
@@ -383,7 +384,9 @@ const Tutorial = () => {
                             </>
                         </SwiperSlide>
 
-                    </Swiper>
+                    </Swiper> : <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
+                        <DatingWentWrong />
+                    </Box>
                 }
             </Box >
         </DatingAppBody >
