@@ -3,9 +3,10 @@ import { Request, Response } from "express"
 
 const getSettingApp = (req: Request, res: Response) => {
     const id = req.params.id
+    const usid = req.user?.userId
     let selectedUser: Setting | null = null
     getSetting().forEach((user) =>{
-        if(user.id == id){
+        if(user.id == usid){
             selectedUser = user
         }
     })
