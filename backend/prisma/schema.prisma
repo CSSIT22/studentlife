@@ -860,7 +860,7 @@ model Community_User {
   community   Community      @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
   role        Community_Role @relation(fields: [roleId], references: [roleId], onDelete: SetDefault)
-  roleId      String         @unique
+  roleId      String
   joined      DateTime       @db.Timestamp(0)
   status      Boolean        @default(false)
 
