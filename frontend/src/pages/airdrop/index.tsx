@@ -47,7 +47,6 @@ const linkMenu = [
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
 
-const dummyData22 = ["MR.ABC DEF", "MR.GHI JKL", "MR.MNO PQR", "MR.STU VWX", "MR.YZ GG", "MR.PPP PPP"]
 export default function Index<FC>() {
     const toast = useToast()
     const [isError, { on }] = useBoolean(false)
@@ -222,6 +221,7 @@ export default function Index<FC>() {
                     on()
                 })
                 .catch((err) => {
+                    toast({ title: "Error", description: "Something went wrong", status: "error", duration: 3000, isClosable: true })
                     console.log(err)
                 })
             console.log(res)
