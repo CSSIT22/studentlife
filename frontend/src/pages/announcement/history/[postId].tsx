@@ -27,6 +27,7 @@ import AppBody from "src/components/share/app/AppBody"
 import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import MoreLang from "src/components/annoucement/MoreLang"
 import { postInfoTest } from "../postInfoTest"
+import MoreLangAdded from "src/components/annoucement/MoreLangAdded"
 
 const history = () => {
     // const [isError, {on}] = useBoolean()
@@ -61,7 +62,7 @@ const history = () => {
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [tt, settt] = useState<addMoreLangType[]>([])
-    const [tv, settv ] = useState<tgType[]>([])
+    const [tv, settv] = useState<tgType[]>([])
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
@@ -72,41 +73,41 @@ const history = () => {
         setTargetValue(getData.data[0].annFilter.value)
         d = new Date(getData.data[0].annExpired)
         // get date มาแค่ 1 หลัก แต่ date require 2 หลัก
-       if(d.getMonth() < 10){
-            const nm = "0"+(d.getMonth()+1) 
-            if(d.getDate() < 10){
-                const nd = "0"+(d.getDate()) 
-                setExpired(d.getFullYear()+"-"+nm+"-"+nd)
-            }else {
-                setExpired(d.getFullYear()+"-"+nm+"-"+d.getDate())
+        if (d.getMonth() < 10) {
+            const nm = "0" + (d.getMonth() + 1)
+            if (d.getDate() < 10) {
+                const nd = "0" + (d.getDate())
+                setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+            } else {
+                setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
             }
-            
-        }else if(d.getDate() < 10){
-            const nd = "0"+d.getDate()     
-            if(d.getMonth() < 10){
-                const nm = "0"+(d.getMonth()+1) 
-                setExpired(d.getFullYear()+"-"+nm+"-"+nd)
-            }else{
-                setExpired(d.getFullYear()+"-"+(d.getMonth() + 1)+"-"+nd)
+
+        } else if (d.getDate() < 10) {3
+            const nd = "0" + d.getDate()
+            if (d.getMonth() < 10) {
+                const nm = "0" + (d.getMonth() + 1)
+                setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+            } else {
+                setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + nd)
             }
-        } else {   
+        } else {
             setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
         }
 
         // setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
         // setAddMoreLang(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000))
 
-        setexMoreLang(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000))
+        setexMoreLang(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
 
-        setmorelanglength(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000).length)
+        setmorelanglength(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
         const value = await API.get("/announcement/gettypetarget");
         settv(value.data)
     }
     // console.log(addMoreLang);
     // setexMoreLang(exmoreLang) 
-    
+
     console.log(exmoreLang)
-   
+
 
     useEffect(() => {
         getPost()
@@ -124,13 +125,13 @@ const history = () => {
         status: "edit",
     }
 
-    
+
 
     const selectTargetValue = (tgType: string | undefined) => {
         if (tgType == "Faculty") {
             return (
                 <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
-                    {tv[0]?.Faculty.map((el,index) => {
+                    {tv[0]?.Faculty.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -138,7 +139,7 @@ const history = () => {
         } else if (tgType == "Major") {
             return (
                 <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
-                      {tv[0]?.Major.map((el,index) => {
+                    {tv[0]?.Major.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -146,7 +147,7 @@ const history = () => {
         } else if (tgType == "Year") {
             return (
                 <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
-                    {tv[0]?.Year.map((el,index) => {
+                    {tv[0]?.Year.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -156,24 +157,6 @@ const history = () => {
         }
     }
 
-    // console.log(addMoreLang);
-    // const updatePost = () => {
-    //     setAllPost(
-    //         allPost.map((el) => {
-    //             if (el.postId == parseInt(params.postId + "")) {
-    //                 el.topic = topic
-    //                 el.detail = detail
-    //                 el.targetType = targetType
-    //                 el.targetValue = targetValue
-    //                 el.expiredOfPost = new Date(expired)
-    //                 el.addMoreLang = addMoreLang
-    //             }
-    //             return el
-    //         })
-    //     )
-    // }
-    // console.log(allPost)
-    
     const onAdd = () => {
         setAdd(add + 1)
     }
@@ -186,12 +169,19 @@ const history = () => {
         setCount(count + 1)
         AddLang()
     }
+
+    // console.log(morelanglength);
+    
     const decreaseCount = (id: number) => {
         setCount(count - 1)
-        decreaseLang()
         setAddMoreLang(addMoreLang.filter((el) => el.languageId != id))
-        setmorelanglength(morelanglength-1)
-        setexMoreLang(exmoreLang.filter((el) => el.languageId != id))
+        setMoreLangField(moreLangField.filter((el) => el.count != count-1))
+        // setexMoreLang(exmoreLang.filter((el) => el.languageId != id))
+    }
+    const decreaseForEdit = (langid:number) => {
+        console.log(langid);
+        setmorelanglength(morelanglength - 1)
+        setexMoreLang(exmoreLang.filter((el) => el.languageId != langid))
     }
     // console.log(count)
 
@@ -200,51 +190,84 @@ const history = () => {
     }
     // console.log(moreLangField);
 
-    const decreaseLang = () => {
-        setAddMoreLang(moreLangField.pop())
-    }
+
     // console.log(moreLangLength)
-    // console.log(addMoreLang.length)
+    console.log(addMoreLang)
     const onDisable = () => {
         setdisable(!disable)
     }
-    // console.log(morelanglength);
+    // console.log(moreLangField);
+    // console.log(count);
+    
 
     const updateMoreLang = (add: Number) => {
-        if (add == morelanglength) {
-            return addMoreLang.map((el) => {
+        if(add == morelanglength){
+            return addMoreLang.map((el,index) => {
+                return (
+                    <MoreLangAdded
+                    title={el.annTopic}
+                    dt={el.annDetail}
+                    selectLang={el.languageId}
+                    key={index}
+                    addLang={addLang}
+                    onAdd={onAdd}
+                    add={true}
+                    />
+                )
+            })
+        }else {
+            // เรียงตาม order ?
+           return exmoreLang?.map((el,index) => {
                 return (
                     <MoreLangForEdit
-                        id={el.id}
-                        onDecrease={decreaseCount}
+                        onDecrease={decreaseForEdit}
                         addLang={addLang}
                         selectLang={el.languageId}
                         title={el.annTopic}
                         dt={el.annDetail}
-                        key={el.id}
+                        key={index}
                         onAdd={onAdd}
-                        add={true}
                     />
                 )
             })
-        } else if(exmoreLang.length != 0){
-            return exmoreLang?.map((el) => {
-                return (
-                    <MoreLangForEdit
-                        onDecrease={decreaseCount}
-                        id={el.id}
-                        addLang={addLang}
-                        selectLang={el.languageId}
-                        title={el.annTopic}
-                        dt={el.annDetail}
-                        key={el.id}
-                        onAdd={onAdd}
-                        add={false}
-                    />
-                )
-            })
-        }
+        } 
     }
+       
+    // if (add == morelanglength) {
+    //     return addMoreLang.map((el) => {
+    //         return (
+    //             <MoreLangForEdit
+    //                 id={el.id}
+    //                 onDecrease={decreaseCount}
+    //                 addLang={addLang}
+    //                 selectLang={el.languageId}
+    //                 title={el.annTopic}
+    //                 dt={el.annDetail}
+    //                 key={el.id}
+    //                 onAdd={onAdd}
+    //                 add={true}
+    //             />
+    //         )
+    //     })
+    // } else if(exmoreLang.length != 0){
+    //     return exmoreLang?.map((el) => {
+    //         return (
+    //             <MoreLangForEdit
+    //                 onDecrease={decreaseCount}
+    //                 id={el.id}
+    //                 addLang={addLang}
+    //                 selectLang={el.languageId}
+    //                 title={el.annTopic}
+    //                 dt={el.annDetail}
+    //                 key={el.id}
+    //                 onAdd={onAdd}
+    //                 add={false}
+    //             />
+    //         )
+    //     })
+    // }
+    // }
+
     const showMoreLang = (moreLangLength: Number, add: Number) => {
         if (moreLangLength > 0) {
             return (
@@ -271,7 +294,7 @@ const history = () => {
         yyyy = today.getFullYear()
         return yyyy + "-" + mm + "-" + dd
     }
-    
+
     const submit = () => {
         API.post<post>("/announcement/editdetailpost", {
             postid: params.postId,
@@ -284,8 +307,8 @@ const history = () => {
             addMoreLang: addMoreLang,
         })
     }
-    console.log(expired);
-    
+    // console.log(expired);
+
     return (
         <AppBody
             secondarynav={[
@@ -375,7 +398,7 @@ const history = () => {
                         <>
                             {showMoreLang(morelanglength, add)}
                             {disable &&
-                                moreLangField.map((el) => {
+                                moreLangField?.map((el) => {
                                     return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
                                 })}
                             <Tag

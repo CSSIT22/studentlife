@@ -1,5 +1,5 @@
 import { announcement_language } from "@apiType/announcement"
-import { FormControl, FormLabel, Select, Input, Textarea, Box, Text, Tag, TagCloseButton, TagLabel, Button } from "@chakra-ui/react"
+import { FormControl, FormLabel, Select, Input, Textarea, Box, Text, Tag, TagCloseButton, TagLabel, Button, CloseButton } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import API from "src/function/API"
@@ -11,8 +11,7 @@ const MoreLangForEdit: FC<{
     title: string
     dt: string
     onAdd: Function
-    add: boolean
-}> = ({ onDecrease, addLang, selectLang, title, dt, onAdd, add}) => {
+}> = ({ onDecrease, addLang, selectLang, title, dt, onAdd}) => {
     const [otherLang, setOtherLang] = React.useState<number>(selectLang)
     const [topic, setTopic] = React.useState(title)
     const [detail, setDetail] = React.useState(dt)
@@ -35,12 +34,11 @@ const MoreLangForEdit: FC<{
                 key={"lg"}
                 borderRadius="full"
                 variant="solid"
-                colorScheme="blackAlpha"
+                backgroundColor={"blue.600"}
                 mb="2rem"
-                onClick={() => onDecrease(selectLang)}
             >
                 <TagLabel>Other Languages</TagLabel>
-                <TagCloseButton />
+                <CloseButton disabled={disable} onClick={() => onDecrease(selectLang)}/>
             </Tag>
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
