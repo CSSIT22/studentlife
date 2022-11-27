@@ -61,6 +61,12 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             },
         })
 
+        const facultyPrefDB = await prisma.faculty_Pref.findMany({
+            where: {
+                userId: reqUserId,
+            },
+        })
+
         heartHistoryDB.map((id) => {
             filterId.push(id.anotherUserId)
         })
@@ -71,7 +77,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
         const ageObtainedUser: any = []
 
-        if (cardQueueUserId?.frontUserId && cardQueueUserId?.backUserId) {
+        if (cardQueueUserId?.frontUserId || cardQueueUserId?.backUserId) {
             return res.send("Success!")
         } else {
             const userProfileDB = await prisma.user_Profile.findMany({
@@ -88,7 +94,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                         },
                     },
                     datingSetting: {
-                        hasCompleteTutorial: true,
+                        hasCompleteSetting: true,
                     },
                 },
                 select: {
@@ -104,11 +110,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     },
                     studentMajor: {
                         select: {
-                            majorFaculty: {
-                                select: {
-                                    facultyName: true,
-                                },
-                            },
+                            majorFaculty: true,
                         },
                     },
                     interests: {
@@ -118,7 +120,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     },
                 },
             })
-            console.log(datingOptionsDB)
+            console.log(userProfileDB)
 
             userProfileDB.map((user) => {
                 if (user.details && datingOptionsDB?.useAge && datingOptionsDB?.ageMin && datingOptionsDB?.ageMax) {
@@ -130,21 +132,42 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                 }
             })
 
-            const genderObtainedUser : any = []
+            const genderObtainedUser: any = []
 
             ageObtainedUser.map((user: any) => {
-                if (datingOptionsDB?.genderPref == "Everyone" && genderObtainedUser.length != 20) {
+                if (datingOptionsDB?.genderPref == "Everyone") {
                     genderObtainedUser.push(user)
-                } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male" && genderObtainedUser.length != 20) {
+                } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male") {
                     genderObtainedUser.push(user)
-                } else if (datingOptionsDB?.genderPref == "Female" && user.details.sex == "Female" && genderObtainedUser.length != 20) {
+                } else if (datingOptionsDB?.genderPref == "Female" && user.details.sex == "Female") {
                     genderObtainedUser.push(user)
-                } else if (datingOptionsDB?.genderPref == "LGBTQ+" && user.details.sex == "LGBTQ+" && genderObtainedUser.length != 20) {
+                } else if (datingOptionsDB?.genderPref == "LGBTQ+" && user.details.sex == "LGBTQ+") {
                     genderObtainedUser.push(user)
                 }
             })
 
-            return res.send(genderObtainedUser)
+            let facultyObtainedUser: any = []
+            genderObtainedUser.map((user: any) => {
+                facultyPrefDB.map((faculty: any) => {
+                    if (faculty.facultyPref == user.studentMajor.majorFaculty.facultyId && !facultyObtainedUser.includes(user)) {
+                        facultyObtainedUser.push(user)
+                    }
+                })
+            })
+
+            var currentIndex = facultyObtainedUser.length,
+                temporaryValue,
+                randomIndex
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex)
+                currentIndex -= 1
+                temporaryValue = facultyObtainedUser[currentIndex]
+                facultyObtainedUser[currentIndex] = facultyObtainedUser[randomIndex]
+                facultyObtainedUser[randomIndex] = temporaryValue
+            }
+
+            facultyObtainedUser = facultyObtainedUser.slice(0, 50)
+            return res.send(facultyObtainedUser)
         }
     } catch (err) {
         return res.status(404).send("User profiles not found")
