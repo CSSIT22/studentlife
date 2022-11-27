@@ -37,50 +37,50 @@ const NotiTable = () => {
         setreLoad(!reLoad)
     }
 
-    //getNotiobject
-
-    const getUserNotiObject = API.get("/notification/getusernotiobject")
-    const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    useEffect(() => {
-        getUserNotiObject.then((res) => {
-            setUserNotiObject(res.data)
-        })
-    }, [reLoad])
 
     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
     function showSelectedModule(module: string) {
         setSelectedModule(module)
+        setreLoad(!reLoad)
     }
 
-    //create list of selected module
-    const notiListModule: Notiobject[] = userNotiObject.filter((el) => el.module == selectedModule)
+    //getUserNotiObject by Module
+
+    const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
+    console.log(getUserNotiObjectModule);
+
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+    useEffect(() => {
+        getUserNotiObjectModule.then((res) => {
+            setUserNotiObjectModule(res.data)
+        })
+    }, [reLoad])
+    //console.log(userNotiObjectModule);
+
+
 
 
     function showNotiList(): any {
-        if (selectedModule == "All") {
-            return <NotiList module={"ALL"} selectedList={userNotiObject} onClick={load}></NotiList>
-        } else {
-            return <NotiList module={selectedModule} selectedList={userNotiObject} onClick={load}></NotiList>
-        }
+        return <NotiList module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiList>
     }
-    function alert() {
-        const toast = useToast()
-        return (
-            <Button
-                onClick={() =>
-                    toast({
-                        title: 'New Notification.',
-                        description: "iuytfrftgyhuojipkl[;",
-                        duration: 3000,
-                        isClosable: true,
-                    })
-                }
-            >
-                Show Noti
-            </Button>
-        )
-    }
+    // function alert() {
+    //     const toast = useToast()
+    //     return (
+    //         <Button
+    //             onClick={() =>
+    //                 toast({
+    //                     title: 'New Notification.',
+    //                     description: "iuytfrftgyhuojipkl[;",
+    //                     duration: 3000,
+    //                     isClosable: true,
+    //                 })
+    //             }
+    //         >
+    //             Show Noti
+    //         </Button>
+    //     )
+    // }
 
     //setting
     function ShowSetting() {
@@ -119,7 +119,7 @@ const NotiTable = () => {
                 </Box>
                 <Spacer />
                 <Box>
-                    {alert()}
+                    {/* {alert()} */}
                 </Box>
                 <Spacer />
                 <Box>

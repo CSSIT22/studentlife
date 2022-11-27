@@ -12,7 +12,8 @@ const addNotiObject = async (req: Request, res: Response) => {
                 template: body.template,
                 date: new Date(),
                 module: body.module,
-                url: body.url,
+                url: body.url || "",
+                userId: body.sender || "",
             },
         })
         //console.log(1111)
@@ -62,7 +63,7 @@ const addNotiObject = async (req: Request, res: Response) => {
     } catch (err) {
         //console.log(err)
 
-        //console.log(body + " err" + err)
+        console.log(body + " err" + err)
         return res.status(400).send(err)
     }
 }

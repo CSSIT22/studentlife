@@ -1,4 +1,4 @@
-import { prisma } from "@prisma/client"
+import { Module, prisma } from "@prisma/client"
 import { Express, Request, Response } from "express"
 import { trusted } from "mongoose"
 import { getObject } from ".."

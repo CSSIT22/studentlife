@@ -20,7 +20,7 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
     const sortedList = selectedList.sort((a, b) => {
         return new Date(b.notiObject.date).getTime() - new Date(a.notiObject.date).getTime()
     })
-    console.log(sortedList)
+    //console.log(sortedList)
     //show date
     const listDay: any[] = []
     function showDate(date: Date) {
@@ -98,10 +98,11 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
                                 id={el.notiObject.notiObjectId}
                                 template={el.notiObject.template}
                                 date={new Date(el.notiObject.date)}
-                                isRead={el.notiObject.isRead}
+                                isRead={el.isRead}
                                 module={el.notiObject.module}
                                 url={el.notiObject.url}
                                 onClick={onClick}
+                                sender={el.notiObject.userId}
                             />
                         </Stack>
                     </Box>

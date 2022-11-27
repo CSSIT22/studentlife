@@ -7,15 +7,14 @@ import { USER } from "./mockupData/userProfile"
 
 const NotiObject: FC<{
     id: string
-    //userId: string
     template: string
-    //description: string
     date: Date
     isRead: boolean
     module: string
     url: string
     onClick: Function
-}> = ({ id, template, isRead, date, module, url, onClick }) => {
+    sender: string
+}> = ({ id, template, isRead, date, module, url, onClick, sender }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.6em" bg="gray" />

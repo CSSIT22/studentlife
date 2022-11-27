@@ -13,4 +13,5 @@ export type Notiobject = {
   date: Date;
   module: string;
   url: string;
+  sender: string | null;
 };

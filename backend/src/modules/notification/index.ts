@@ -10,6 +10,7 @@ import { DESCRIPTION } from "./routes/mockupData/descTest"
 import { USER } from "./routes/mockupData/userProfile"
 import addNotiObject from "./routes/addNotiObject"
 import getValue from "./routes/getValue"
+import getUserNotiObjectbyModule from "./routes/getUserNotiObjectbyModule"
 
 export let objects = [
     {
@@ -108,6 +109,7 @@ notificationRoutes.use(express.json())
 notificationRoutes.get("/getusernotiobject", getUserNotiObject)
 notificationRoutes.get("/getNotiUser", getNotiUser)
 notificationRoutes.get("getvalue", getValue)
+notificationRoutes.get("/getusernotiobjectbymodule/:module", getUserNotiObjectbyModule)
 
 notificationRoutes.post("/addnotiobject", addNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
