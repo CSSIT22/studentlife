@@ -1,8 +1,7 @@
-
 import { Box, Flex } from "@chakra-ui/react"
 import { Link, useParams } from "react-router-dom"
 
-import {post} from '@apiType/announcement'
+import { post } from "@apiType/announcement"
 
 import API from "src/function/API"
 import { postInfoTest } from "./postInfoTest"
@@ -55,12 +54,12 @@ const history = () => {
     // ]
 
     const params = useParams()
-    const [toggle,settoggle] = useState(false)
+    const [toggle, settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
     const getData = API.get("/announcement/gethistorypost/")
     useEffect(() => {
         getData.then((res) => setAllPost(res.data))
-    },[toggle])
+    }, [toggle])
     const tog = () => {
         settoggle(!toggle)
     }

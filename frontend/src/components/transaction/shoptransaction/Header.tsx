@@ -7,8 +7,8 @@ const header: FC<{
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
     return (
         <div>
-            <Box bg="#E67f45" w={"100%"} shadow={"lg"}  h={isSmallerThan768 ? "120px":""}>
-                <Center py={isSmallerThan768 ? "40px":"60px"}>
+            <Box bg="#E67f45" w={"100%"} shadow={"lg"} h={isSmallerThan768 ? "120px" : ""}>
+                <Center py={isSmallerThan768 ? "40px" : "60px"}>
                     <Text fontSize="3xl" fontWeight={"bold"} color="white">
                         {name}
                     </Text>

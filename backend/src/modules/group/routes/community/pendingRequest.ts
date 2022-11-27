@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 
-
 const pendingRequest = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const body = req.body
@@ -10,7 +9,7 @@ const pendingRequest = async (req: Request, res: Response) => {
         userId: userid,
         //roleId: body.roleId,  || default is user
         communityId: req.body.communityId,
-        status: false
+        status: false,
     }
 
     try {

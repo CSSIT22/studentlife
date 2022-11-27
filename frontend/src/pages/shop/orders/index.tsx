@@ -19,7 +19,8 @@ const Orders = () => {
 function generateOrders() {
     let orders = [],
         today = new Date(),
-        time = today.getHours() > 12 ? today.getHours() - 12 + ":" + today.getMinutes() + " AM" : today.getHours() + ":" + today.getMinutes() + + " PM" ,
+        time =
+            today.getHours() > 12 ? today.getHours() - 12 + ":" + today.getMinutes() + " AM" : today.getHours() + ":" + today.getMinutes() + +" PM",
         dateTime = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + " at " + time
 
     for (let i = 0; i < 5; i++) {

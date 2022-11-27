@@ -23,8 +23,8 @@ import {
     PopoverTrigger,
     useDisclosure,
     AvatarBadge,
-    AvatarGroup, 
-    Wrap, 
+    AvatarGroup,
+    Wrap,
 } from "@chakra-ui/react"
 import QAnsAppBody from "src/components/qa/QAnsAppBody"
 import QAnsSearchBar from "src/components/qa/QAnsSearchBar"
@@ -33,7 +33,6 @@ import QAnsBoxPost from "src/components/qa/QAnsBoxPost"
 import QAnsTag from "src/components/qa/QAnsTag"
 
 const index = () => {
-
     const { isOpen, onOpen, onClose } = useDisclosure()
     let TState = { allTags: DEFAULT_TAGS }
     const [numOfTag, setNumOfTag] = useState(0)
@@ -44,58 +43,56 @@ const index = () => {
 
     return (
         <QAnsAppBody>
-        <Flex padding={"0.5em"} height={20} alignItems={"baseline"}>
-            <Box w="15%">
-                <Heading as="h1" size="2xl" noOfLines={1}>
-                    Q & A
-                </Heading>
-            </Box>
+            <Flex padding={"0.5em"} height={20} alignItems={"baseline"}>
+                <Box w="15%">
+                    <Heading as="h1" size="2xl" noOfLines={1}>
+                        Q & A
+                    </Heading>
+                </Box>
 
                 <Spacer />
 
-            <Popover>
-            <PopoverTrigger>
-            <Box w="60%">   
-                <QAnsSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} setTags={setTags} DEFAULT_TAGS={DEFAULT_TAGS} />
-            </Box>
-            </PopoverTrigger>
-            <PopoverContent>
-                <PopoverBody>
-               
-                <CheckboxGroup colorScheme="white">
-                    {TState.allTags.map(({ tagId, tagName }) => (
-                        <QAnsTag
-                            key={tagId}
-                            tagId={`${tagId}`}
-                            tagName={tagName}
-                            onOpen={onOpen}
-                            selectedTags={selectedTags}
-                            numOfTag={numOfTag}
-                            setNumOfTag={setNumOfTag}
-                            setSelectedTag={setSelectedTag}
-                        />
-                    ))}
-                </CheckboxGroup>
-                
-                </PopoverBody>
-            </PopoverContent>
-            </Popover>
+                <Popover>
+                    <PopoverTrigger>
+                        <Box w="60%">
+                            <QAnsSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} setTags={setTags} DEFAULT_TAGS={DEFAULT_TAGS} />
+                        </Box>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <PopoverBody>
+                            <CheckboxGroup colorScheme="white">
+                                {TState.allTags.map(({ tagId, tagName }) => (
+                                    <QAnsTag
+                                        key={tagId}
+                                        tagId={`${tagId}`}
+                                        tagName={tagName}
+                                        onOpen={onOpen}
+                                        selectedTags={selectedTags}
+                                        numOfTag={numOfTag}
+                                        setNumOfTag={setNumOfTag}
+                                        setSelectedTag={setSelectedTag}
+                                    />
+                                ))}
+                            </CheckboxGroup>
+                        </PopoverBody>
+                    </PopoverContent>
+                </Popover>
 
                 <Spacer />
 
-            <Box w="10%">
-                <QAnsAnonyButton />
-            </Box>
-        </Flex>
+                <Box w="10%">
+                    <QAnsAnonyButton />
+                </Box>
+            </Flex>
 
-        <Grid h="1em" templateColumns="5% 50% 31% 5%" gap={"3%"}>
-            <HStack>
-                <Button colorScheme="orange" size="md">
-                    ⇐
-                </Button>
-            </HStack>
+            <Grid h="1em" templateColumns="5% 50% 31% 5%" gap={"3%"}>
+                <HStack>
+                    <Button colorScheme="orange" size="md">
+                        ⇐
+                    </Button>
+                </HStack>
 
-            <VStack>
+                <VStack>
                     <QAnsBoxPost>
                         <Avatar src="https://cdn.discordapp.com/attachments/1042794237999194153/1042808112274489444/userProfile_1.jpg"></Avatar>
                         <Container>
@@ -122,13 +119,13 @@ const index = () => {
                     </Button>
                 </VStack>
 
-            <HStack>
-                <Button colorScheme="orange" size="md">
-                    ⇒
-                </Button>
-            </HStack>
-        </Grid>
-    </QAnsAppBody>
+                <HStack>
+                    <Button colorScheme="orange" size="md">
+                        ⇒
+                    </Button>
+                </HStack>
+            </Grid>
+        </QAnsAppBody>
     )
 }
 

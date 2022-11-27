@@ -9,7 +9,6 @@ const Modulelist: FC<{ onClick: Function; selectedModule: string }> = ({ onClick
                 {selectedModule}
             </MenuButton>
             <MenuList background={"#E69C73"}>
-
                 <Box w="100%" height="30vh" overflow="auto" background={"#E69C73"}>
                     <Stack direction={"column"} padding={4}>
                         {MODULES.map((el) => {

@@ -40,51 +40,54 @@ function propertyEvent(props: any) {
         return setRoomColor(e.target.value)
     }
 
-    const [roomName,setRoomName] = useState("")
+    const [roomName, setRoomName] = useState("")
     const submitRoomName = () => {
         API.post("/chat")
     }
 
     const members: any = [
-        { memberPic: "https://picsum.photos/200/300", memberName: "Neng", id: "1"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Gift", id: "2"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Oil", id: "3"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Tine", id: "4"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Parn", id: "5"},
-        { memberPic: "https://picsum.photos/200/300", memberName: "Dolly", id: "6"},
+        { memberPic: "https://picsum.photos/200/300", memberName: "Neng", id: "1" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Gift", id: "2" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Oil", id: "3" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Tine", id: "4" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Parn", id: "5" },
+        { memberPic: "https://picsum.photos/200/300", memberName: "Dolly", id: "6" },
     ]
 
     const [selectedMember, setSelectedMember] = useState<any>([])
 
     const renderMember = (member: any) => {
-            return (
-                <Flex justifyContent={"space-between"} alignItems={"center"} key={member.id}>
-                    <Flex alignItems={"center"}>
-                        <Avatar name={member.memberName} src={member.memberPic} marginRight={4} />
-                        <Heading size={"md"}>{member.memberName}</Heading>
-                    </Flex>
-                    <Spacer />
-                    <Box padding={4} onClick={() => {selectedMemberHandler(member)}}>
-                        <AiOutlinePlus size={20} />
-                    </Box>
+        return (
+            <Flex justifyContent={"space-between"} alignItems={"center"} key={member.id}>
+                <Flex alignItems={"center"}>
+                    <Avatar name={member.memberName} src={member.memberPic} marginRight={4} />
+                    <Heading size={"md"}>{member.memberName}</Heading>
                 </Flex>
-            )
+                <Spacer />
+                <Box
+                    padding={4}
+                    onClick={() => {
+                        selectedMemberHandler(member)
+                    }}
+                >
+                    <AiOutlinePlus size={20} />
+                </Box>
+            </Flex>
+        )
     }
 
     function selectedMemberHandler(member: any) {
-        setSelectedMember([...selectedMember,member])
+        setSelectedMember([...selectedMember, member])
         // console.log(selectedMember)
     }
 
     const renderSelectedMember = () => {
-        return(
-            selectedMember.map((e:any) => (
-                <Box key={e.id} pb={4}>
-                    <Avatar name={e.memberName} src={e.memberPic} />
-                    {/* <AiOutlineMinus onClick={() => setSelectedMember(selectedMember.filter((e:any)=> e.id !== selectedMember.id))}/> */}
-                </Box>
-            ))
-        )
+        return selectedMember.map((e: any) => (
+            <Box key={e.id} pb={4}>
+                <Avatar name={e.memberName} src={e.memberPic} />
+                {/* <AiOutlineMinus onClick={() => setSelectedMember(selectedMember.filter((e:any)=> e.id !== selectedMember.id))}/> */}
+            </Box>
+        ))
     }
 
     const memberSearch = (search: String) => {}
@@ -101,7 +104,7 @@ function propertyEvent(props: any) {
             <VStack m={4} spacing={6}>
                 <HStack spacing={4}>
                     <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
-                    <Flex direction={'column'}>
+                    <Flex direction={"column"}>
                         <Heading size={"md"}>Neng</Heading>
                         <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
                             rename
@@ -110,7 +113,7 @@ function propertyEvent(props: any) {
                 </HStack>
                 <HStack spacing={4}>
                     <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                    <Flex direction={'column'}>
+                    <Flex direction={"column"}>
                         <Heading size={"md"}>Dan</Heading>
                         <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
                             rename
@@ -125,7 +128,7 @@ function propertyEvent(props: any) {
             <Flex justifyContent={"center"}>
                 <VStack>
                     <Text>Quote you added</Text>
-                    <Flex bg={"gray.200"} w={"96"} p={4} overflowY={'auto'} maxH={'60'}>
+                    <Flex bg={"gray.200"} w={"96"} p={4} overflowY={"auto"} maxH={"60"}>
                         <UnorderedList>
                             <ListItem>Quote1</ListItem>
                             <ListItem>Quote2</ListItem>
@@ -207,7 +210,7 @@ function propertyEvent(props: any) {
                         <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
                         <Input placeholder="Search name or user id" borderColor={"black"} />
                     </InputGroup>
-                    <Flex gap={4} overflowX={'auto'}>
+                    <Flex gap={4} overflowX={"auto"}>
                         {renderSelectedMember()}
                     </Flex>
                     <Box overflowY={"auto"} maxH={"60"}>
@@ -223,7 +226,7 @@ function propertyEvent(props: any) {
         return (
             <Flex justifyContent={"center"}>
                 <VStack spacing={4}>
-                <Image
+                    <Image
                         borderRadius="full"
                         boxSize="150px"
                         src="https://www.macmillandictionary.com/us/external/slideshow/full/Grey_full.png"

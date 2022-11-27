@@ -204,8 +204,6 @@ export let restaurant: Restaurant[] = [
     },
 ]
 
-
-
 export const getRestaurant = () => restaurant
 export const setRestaurant = (newData: Restaurant[]) => {
     restaurant = newData
@@ -215,10 +213,9 @@ export const getReview = () => review
 restaurantRoutes.get("/search", searchRestaurant)
 restaurantRoutes.get("/favorite", showFavorite)
 restaurantRoutes.get("/history", showHistory)
-restaurantRoutes.get("/:id", verifyUser ,showRestaurant)
+restaurantRoutes.get("/:id", verifyUser, showRestaurant)
 restaurantRoutes.post("/:id", likedRestaurant)
 restaurantRoutes.get("/detail/:id", showDetail)
 restaurantRoutes.get("/review/:id", showReview)
-
 
 export default restaurantRoutes
