@@ -45,6 +45,8 @@ import {
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { MdPostAdd } from "react-icons/md"
+import { useNavigate } from "react-router-dom"
+import API from "src/function/API"
 
 const btnNewShortnote = () => {
     const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
@@ -60,6 +62,7 @@ const btnNewShortnote = () => {
     const [flag, setFlag] = useBoolean()
     const setPrivate = () => {
         setRadio("Private")
+        setIsPublic.off()
         setFlag.on()
     }
     async function setPublic() {
@@ -67,11 +70,26 @@ const btnNewShortnote = () => {
         setRadio("Public")
     }
 
-    const [pName, setName] = useState("")
+    const [pName, setpName] = useState("")
     const [people, setPeoples] = useState<string[]>([])
 
-    const course = ["CSC210", "CSC213", "CSC218", "CSC220", "CSC110", "MTH110"]
-
+    const [course, setCourse] = useState("")
+    const [name, setName] = useState("")
+    const [desc, setDesc] = useState("")
+    const [ispublic, setIsPublic] = useBoolean(true)
+    const navigate = useNavigate()
+    const create = () => {
+        API.post("/shortnotes/postShortnote", {
+            courseId: course,
+            isPublic: ispublic,
+            snName: name,
+            snDesc: desc,
+        }).then((res) => {
+            console.log(res)
+            navigate("./" + res.data.snId)
+        }
+        )
+    }
     return (
         <Box>
             <Button colorScheme={"orange"} onClick={nsOnOpen}>
@@ -88,11 +106,8 @@ const btnNewShortnote = () => {
                             <GridItem colSpan={1}>
                                 <Flex justifyContent={"center"}>
                                     <Box w={"60%"}>
-                                        <Select focusBorderColor="orange.500" variant="filled" placeholder="Course" size={"sm"} rounded={4}>
-                                            {course.map((course, key) => (
-                                                <option value={course}>{course}</option>
-                                            ))}
-                                        </Select>
+                                        <Text>Course</Text>
+                                        <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={course} onChange={(e) => setCourse(e.target.value)} />
                                     </Box>
                                 </Flex>
                             </GridItem>
@@ -100,13 +115,13 @@ const btnNewShortnote = () => {
                             <GridItem colSpan={3}>
                                 <Box>
                                     <Text>Name</Text>
-                                    <Input variant="outline" placeholder="" focusBorderColor="orange.500" />
+                                    <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={name} onChange={(e) => setName(e.target.value)} />
                                 </Box>
                             </GridItem>
                             <GridItem colSpan={3}>
                                 <Box>
                                     <Text>Description</Text>
-                                    <Textarea placeholder="" h={200} focusBorderColor="orange.500" />
+                                    <Textarea placeholder="" h={200} focusBorderColor="orange.500" value={desc} onChange={(e) => setDesc(e.target.value)} />
                                 </Box>
                             </GridItem>
                             <Spacer />
@@ -142,7 +157,7 @@ const btnNewShortnote = () => {
                                                     placeholder="studentID, comma seperated"
                                                     focusBorderColor="orange.500"
                                                     value={pName}
-                                                    onChange={(e) => setName(e.target.value)}
+                                                    onChange={(e) => setpName(e.target.value)}
                                                 ></Input>
                                             </GridItem>
                                             <GridItem colSpan={1}>
@@ -153,7 +168,7 @@ const btnNewShortnote = () => {
                                                     onClick={() => {
                                                         let newPeople = [pName, ...people] //add to begin
                                                         setPeoples(newPeople)
-                                                        setName("")
+                                                        setpName("")
                                                     }}
                                                 >
                                                     Add
@@ -173,7 +188,7 @@ const btnNewShortnote = () => {
                         </Collapse>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="orange" w={"100%"}>
+                        <Button colorScheme="orange" w={"100%"} onClick={create}>
                             Create
                         </Button>
                     </ModalFooter>
