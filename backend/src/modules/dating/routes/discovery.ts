@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { Agent } from "http"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
+import calExp from "../../user/expsystem/calExp"
 
 const discoveryRoutes = express()
 const prisma = new PrismaClient()
@@ -120,7 +121,6 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     },
                 },
             })
-            console.log(userProfileDB)
 
             userProfileDB.map((user) => {
                 if (user.details && datingOptionsDB?.useAge && datingOptionsDB?.ageMin && datingOptionsDB?.ageMax) {
@@ -200,6 +200,12 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                         isSkipped: isSkipped,
                     },
                 })
+                if(isSkipped == true) {
+                    calExp(prisma, req.user?.userId || "", "DatingDiscoveryLeft")
+                }
+                else if(isSkipped == false) {
+                    calExp(prisma, req.user?.userId || "", "DatingDiscoveryRight")
+                }
             } catch (error) {
                 return res.send("Duplicates")
             }

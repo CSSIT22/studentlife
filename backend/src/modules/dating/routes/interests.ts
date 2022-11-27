@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
+import calExp from "../../user/expsystem/calExp"
 
 const interestsRoutes = express()
 const prisma = new PrismaClient()
@@ -58,7 +59,7 @@ interestsRoutes.post("/setUserInterests", verifyUser, async (req: Request, res: 
                 hasCompleteSetting: true,
             },
         })
-
+        calExp(prisma, req.user?.userId || "", "DatingInterest")
         return res.send("Success!")
     } catch {
         return res.status(400).send("Cannot set interests")

@@ -177,7 +177,7 @@ const TagOfInterest = () => {
                 )}
 
                 {isError && allInterests.length == 0 ? (
-                    <Box pt={{ base: "270px", md: "320px" }}>
+                    <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
                         <DatingWentWrong />
                     </Box>
                 ) : (
