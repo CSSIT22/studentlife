@@ -122,7 +122,6 @@ const DatingOption = () => {
     // globalThis.gender = "Everyone" //need db + condition
     // globalThis.faculty = ["All Faculty"] //need db + condition
 
-
     useEffect(() => {
         setSelectedFac(faculties)
     }, [])
@@ -130,6 +129,26 @@ const DatingOption = () => {
     function handleGender(gender: string) {
         //Passing data
         setSelected(gender)
+    }
+
+    function sendFac(SF: any[]) {
+        let arr: string[] = []
+        if (SF.length < 1) {
+            for (let index = 0; index < selectedFac.length; index++) {
+                for (let index2 = 0; index2 < faculties.length; index2++) {
+                    if (SF[index] === faculties[index2].facultyName) {
+                        arr.push(faculties[index2].facultyId)
+                    }
+                }
+            }
+        }
+        else {
+            for (let index = 0; index < faculties.length; index++) {
+                arr.push(faculties[index].facultyId)
+            }
+
+        }
+        return arr
     }
 
     function handleSubmit() {
@@ -151,10 +170,14 @@ const DatingOption = () => {
             " | Selected Faculty: " +
             globalThis.faculty
         )
+        console.log("Test str " + sendFac(selectedFac))
         if (globalThis.firstTime) {
-            API.post<UserOption>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
+            API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(selectedFac) })
                 .then(() => navigate("/dating/interests"))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+            // API.post<AllFaculty>("/dating/option/setOptionF", { facultyPref: sendFac(selectedFac) })
+            //     .then(() => navigate("/dating/interests"))
+            //     .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
         }
         else {
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
@@ -162,8 +185,9 @@ const DatingOption = () => {
                     globalThis.hasSetInterest = "/dating/interests"
                 }
             })
-            API.put<UserOption>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: globalThis.faculty })
-                .then(() => navigate(globalThis.hasSetInterest))
+            // DON'T FORGET TO OPEN IT + DISABLE BUTTON
+            API.put<UserOption | AllFaculty>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(selectedFac) })
+                // .then(() => navigate(globalThis.hasSetInterest))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
         }
     }
@@ -222,6 +246,7 @@ const DatingOption = () => {
                                 faculties={faculties}
                                 selectedFac={selectedFac}
                                 setSelectedFac={setSelectedFac}
+                                // setSelectedFac={setSelectedFac2}
                                 getCheckboxProps={getCheckboxProps}
                             />
                         </Box>
@@ -235,7 +260,11 @@ const DatingOption = () => {
                         borderRadius="15px"
                         colorScheme="orange"
                         isDisabled={isDisabled}
-                        onClick={() => { handleSubmit(), setIsDisabled(!isDisabled) }}
+                        // DON'T FORGET TO OPEN IT
+                        onClick={() => {
+                            handleSubmit()
+                            //, setIsDisabled(!isDisabled) 
+                        }}
                         m="80px"
                         p="30px"
                         pr="50px"
