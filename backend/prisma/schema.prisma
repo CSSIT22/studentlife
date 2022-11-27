@@ -86,6 +86,7 @@ model User_Profile {
   recentSn             Sn_Recent[]
   accessSn             Sn_Access[]
   transactions         Transaction[]
+  creditCards          Credit_Card[]
   coupons              User_Coupon[]
   carts                Shop_Cart[]
   reviewProduct        Shop_Product_Review[]
@@ -1230,14 +1231,13 @@ model Sn_In_Library {
 
 //Transaction Module
 model Transaction {
-  transId     String              @id @default(cuid())
-  userId      String
-  payMethodId Int
-  totalPrice  Decimal             @db.Decimal(9, 2)
-  payer       User_Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  detail      Transaction_Detail?
-  moneyChat   Chat_Transaction?
-  moneyShop   Shop_Order?
+  transId    String              @id @default(cuid())
+  userId     String
+  totalPrice Decimal             @db.Decimal(9, 2)
+  payer      User_Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  detail     Transaction_Detail?
+  moneyChat  Chat_Transaction?
+  moneyShop  Shop_Order?
 }
 
 model Transaction_Detail {
@@ -1258,49 +1258,33 @@ model Transaction_Error {
   error   Transaction_Detail?
 }
 
-model Transaction_Paymethod {
-  payMethodId Int          @id
-  crId        String       @unique @default("0")
-  ebId        String       @unique @default("0")
-  qrId        String       @unique @default("0")
-  ccMethod    Credit_Card?
-  ebMethod    E_Banking?
-  qrMethod    QR?
-}
-
 model Credit_Card {
-  crId        String                @id @default(cuid())
+  crId        String       @id @default(cuid())
   ccId        String
   holderName  String
   country     String
   bank        String
   cvc         String
-  last4       String                @db.Char(4)
-  cardExpired DateTime              @db.Date
-  payMethod   Transaction_Paymethod @relation(fields: [crId], references: [crId], onDelete: Cascade)
-}
-
-model E_Banking {
-  ebId       String                @id @default(cuid())
-  bkId       String
-  holderName String
-  holderType String
-  bank       String
-  country    String
-  currency   String
-  payMethod  Transaction_Paymethod @relation(fields: [ebId], references: [ebId], onDelete: Cascade)
+  last4       String       @db.Char(4)
+  cardExpired DateTime     @db.Date
+  userId      String
+  cardOwner   User_Profile @relation(fields: [userId], references: [userId])
 }
 
 model QR {
-  qrId       String                @id @default(cuid())
+  qrId       String   @id @default(cuid())
   qrSourceId String
   qr         String
-  expired    DateTime              @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
-  payMethod  Transaction_Paymethod @relation(fields: [qrId], references: [qrId], onDelete: Cascade)
+  expired    DateTime @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
 }
 
 enum Payment_Type {
   SHOP
+}
+
+enum Transaction_Paymethod {
+  CREDIT_CARD
+  QR
 }
 
 //Shop Module
