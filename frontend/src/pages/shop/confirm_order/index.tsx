@@ -1,37 +1,41 @@
-import React from 'react'
-import { Button, Flex, Text, GridItem, Checkbox, Grid } from "@chakra-ui/react"
+import React, { useEffect, useState } from 'react'
+import { Button, Flex, Text, GridItem, Checkbox, Grid, useBoolean } from "@chakra-ui/react"
 import ShopAppBody from '../../../components/shop/ShopAppBody';
 import TitleBox from '../../../components/shop/TItleBox'
 import PageTitle from '../../../components/shop/PageTitle'
 import convertCurrency from "../../../components/shop/functions/usefulFunctions"
 import OrderConfirmProduct from '../../../components/shop/orders/OrderConfirmProduct';
 import { DeleteIcon } from "@chakra-ui/icons"
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import ContentBox from "../../../components/shop/ContentBox"
 import ThemedButton from "../../../components/shop/ThemedButton"
+import { Shop_Cart } from '@apiType/shop';
+import API from 'src/function/API';
 const ConfirmOrder = () => {
-    const selectBox = (
-        <ContentBox bg="#fff">
-            <Flex justify="space-between" wrap="wrap">
-                <Checkbox size="lg" px="15" py="2" colorScheme="orange">
-                    <Text fontSize="md" fontWeight="700" color="#747474">
-                        Select All
-                    </Text>
-                </Checkbox>
-                <Button variant="ghost" fontWeight="light">
-                    <DeleteIcon />{" "}
-                    <Text fontSize="md" fontWeight="700" color="#747474" pl={2}>
-                        Delete
-                    </Text>
-                </Button>
-            </Flex>
-        </ContentBox>
-    )
+    const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const location = useLocation()
+    const add = location.state.add
+    const getData = API.get("/shop/getAllProductsInCart")
+    useEffect(() => {
+        getData.then((res) => {setCartProducts(res.data)}).catch((err) => on()).finally(() => off())
+    }, [cartProducts])
+    let st = 0, dt = 0
+    cartProducts?.forEach(cartProduct => {
+        st += cartProduct.product.productPrice
+        dt += cartProduct.product.deliveryFees
+    })
+    const summeryData = {
+        subtotal: st,
+        deliveryTotal: dt,
+        total: st + dt
+    }
     const shippingAddress = (
         <ContentBox bg='#fff'>
             <Flex direction='column' gap={5} p="5">
                 <Text fontSize="md" fontWeight="700">Shipping Address</Text>
-                <Text>xxxx xxxx xxxxx x xxxxx xxxxxx xxxxx xxxxxxx xxxxx xxxx xxxxxx xxxxxxx xx xxxxxxxxxxxxxxxxx xxxxxxxx</Text>
+                <Text>{add}</Text>
             </Flex>
         </ContentBox>
     )
@@ -41,11 +45,11 @@ const ConfirmOrder = () => {
                 <Text fontSize="md" fontWeight="700">Order Summary</Text>
                 <Flex gap={2} justify="space-between">
                     <Text>Subtotal</Text>
-                    <Text as="b">{convertCurrency(3210)}</Text>
+                    <Text as="b">{convertCurrency(summeryData.subtotal)}</Text>
                 </Flex>
                 <Flex gap={2} justify="space-between">
-                    <Text>DeliveryFees</Text>
-                    <Text as="b">{convertCurrency(50)}</Text>
+                    <Text>TotalDelivery</Text>
+                    <Text as="b">{convertCurrency(summeryData.deliveryTotal)}</Text>
                 </Flex>
                 <Flex gap={2} justify="space-between">
                     <Text>Coupon Discount</Text>
@@ -53,7 +57,7 @@ const ConfirmOrder = () => {
                 </Flex>
                 <Flex gap={2} justify="space-between">
                     <Text>Total</Text>
-                    <Text as="b">{convertCurrency(3240)}</Text>
+                    <Text as="b">{convertCurrency(summeryData.total)}</Text>
                 </Flex>
                 <Flex justify="center" >
                     <Link to="../shop/order_completed">
