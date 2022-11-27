@@ -148,9 +148,9 @@ const detail = () => {
                             onChange={(el) => setlang(parseInt(el.target.value + ""))}
                         >
                             {/* <option value={1000}>English</option> */}
-                            {otherLang[0]?.map((el) => {
+                            {otherLang[0]?.map((el,index) => {
                                 return (
-                                    <option value={el.languageId} key={el.postId} style={{ background: "#FFF", color: "#000" }}>
+                                    <option value={el.languageId} key={index} style={{ background: "#FFF", color: "#000" }}>
                                         {selectLangName(el.languageId)}
                                     </option>
                                 )
