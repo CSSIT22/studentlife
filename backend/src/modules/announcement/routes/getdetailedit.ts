@@ -43,7 +43,7 @@ const getDetailEdit = async (req: Request, res: Response) => {
             },
         })
         res.send(getdetail)
-        console.log(getdetail)
+        // console.log(getdetail)
         // console.log(getdetail[0].annCreator)
         // console.log(getdetail[0].annLanguage)
 
