@@ -186,6 +186,7 @@ export type Shop_Order_Product = {
 export type Shop_Cart = {
   productId: number
   quantity: number
+  product: Shop_Product_With_Images
 }
 
 /**

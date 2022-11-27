@@ -13,6 +13,11 @@ const ReviewItem: FC<{
     rating: number
     reviewDate: string
 }> = ({ userName, userId, reviewTitle, reviewBody, image, rating, reviewDate }) => {
+    let dateShow = new Date(reviewDate).toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
     function stars(count: number) {
         let starList = []
         for (let i = 0; i < count; i++) {
@@ -30,7 +35,7 @@ const ReviewItem: FC<{
                         {userName.toUpperCase()}
                     </Text>
                     <Text color="gray" size={"sm"} fontWeight="500">
-                        {reviewDate}
+                        {dateShow}
                     </Text>
                 </Flex>
                 {isStar == true ? starDisplay : <></>}

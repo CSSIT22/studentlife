@@ -1,4 +1,4 @@
-import { useBreakpointValue, Flex, Grid, GridItem, Box, Text, Checkbox, Button, Input, LinkBox, useBoolean } from "@chakra-ui/react"
+import { useBreakpointValue, Flex, Grid, GridItem, Box, Text, Checkbox, Button, Input, LinkBox, useBoolean, Spinner } from "@chakra-ui/react"
 import { DeleteIcon } from "@chakra-ui/icons"
 import { Link } from "react-router-dom"
 import PageTitle from "../../../components/shop/PageTitle"
@@ -8,26 +8,40 @@ import CartProduct from "src/components/shop/CartProduct"
 import ContentBox from "src/components/shop/ContentBox"
 import ThemedButton from "src/components/shop/ThemedButton"
 import TitleBox from "src/components/shop/TItleBox"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Shop_Cart } from "@apiType/shop"
 import API from "src/function/API"
 
 // Cart
 const Cart = () => {
     const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
-    setDataAPI("/shop/getAllProductsInCart", setCartProducts)
-    console.log(cartProducts)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const getData = API.get("/shop/getAllProductsInCart")
+    useEffect(() => {
+        getData.then((res) => {setCartProducts(res.data)}).catch((err) => on()).finally(() => off())
+    }, [cartProducts])
+    let st = 0, dt = 0
+    cartProducts?.forEach(cartProduct => {
+        st += cartProduct.product.productPrice
+        dt += cartProduct.product.deliveryFees
+    })
+    const summeryData = {
+        subtotal: st,
+        deliveryTotal: dt,
+        total: st + dt
+    }
     const orderSummary = (
         <ContentBox bg="#fff">
             <Flex direction="column" gap={5} p="5">
                 <Text fontSize="md" fontWeight="700">Order Summary</Text>
                 <Flex gap={2} justify="space-between">
                     <Text>Subtotal</Text>
-                    <Text as="b">{convertCurrency(3210)}</Text>
+                    <Text as="b">{convertCurrency(summeryData.subtotal)}</Text>
                 </Flex>
                 <Flex gap={2} justify="space-between">
-                    <Text>DeliveryFees</Text>
-                    <Text as="b">{convertCurrency(50)}</Text>
+                    <Text>TotalDelivery</Text>
+                    <Text as="b">{convertCurrency(summeryData.deliveryTotal)}</Text>
                 </Flex>
                 <Flex gap={2} justify="space-between">
                     <Input
@@ -47,7 +61,7 @@ const Cart = () => {
                 </Button>
                 <Flex gap={2} justify="space-between">
                     <Text >Total</Text>
-                    <Text as="b">{convertCurrency(3260)}</Text>
+                    <Text as="b">{convertCurrency(summeryData.total)}</Text>
                 </Flex>
                 <Flex justify="center" >
                     <LinkBox>
@@ -68,7 +82,7 @@ const Cart = () => {
                 <GridItem colSpan={{ base: 2, md: 1 }}>
                     <Flex direction="column" gap={5}>
                         <TitleBox title="Products in Cart"></TitleBox>
-                        {generateCartProducts(cartProducts)}
+                        {isError? <>There Was an Error</> : isLoading? <Spinner /> : generateCartProducts(cartProducts)}
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={{ base: 2, md: 1 }}>
@@ -89,7 +103,11 @@ function generateCartProducts(cartProducts: Shop_Cart[] | null){
                 cart.push(
                     <CartProduct
                         productId={cartProducts[i].productId}
-                        quantity={cartProducts[i].quantity}                     
+                        quantity={cartProducts[i].quantity}
+                        images={cartProducts[i].product.images} 
+                        productName={cartProducts[i].product.productName} 
+                        productPrice={cartProducts[i].product.productPrice} 
+                        productStock={cartProducts[i].product.productStock}                        
                         />
                 )
             }

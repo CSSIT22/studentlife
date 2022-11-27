@@ -8,7 +8,25 @@ const getAllProductsInCart = async (req: Request, res: Response) => {
             const products = await prisma.shop_Cart.findMany({
                 select: {
                     productId: true,
-                    quantity: true
+                    quantity: true,
+                    product: {
+                        select: {
+                            productId: true,
+                            categoryId: true,
+                            contactId: true,
+                            productName: true,
+                            productDesc: true,
+                            productColor: true,
+                            productSize: true,
+                            productPrice: true,
+                            productStock: true,
+                            brandName: true,
+                            deliveryFees: true,
+                            images: {
+                                select: {image: true}
+                            }
+                        }
+                    }
                 },
                 where: { userId: userId}
             })
