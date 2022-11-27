@@ -36,7 +36,7 @@ const MoreLangForEdit: FC<{
                 variant="solid"
                 colorScheme="blackAlpha"
                 mb="2rem"
-                onClick={() => onDecrease(id)}
+                onClick={() => onDecrease(selectLang)}
             >
                 <TagLabel>Other Languages</TagLabel>
                 <TagCloseButton />

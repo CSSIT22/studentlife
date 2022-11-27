@@ -42,7 +42,7 @@ const history = () => {
     const [targetValue, setTargetValue] = React.useState<string>()
     const [expired, setExpired] = React.useState<string | undefined>()
     const [toggle, settoggle] = useState(false)
-
+    const [morelanglength, setmorelanglength] = useState(Number)
     const [post, setpost] = React.useState<announcement[]>([])
 
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
@@ -92,17 +92,21 @@ const history = () => {
         } else {   
             setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
         }
-        
+
         // setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
+        // setAddMoreLang(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000))
+
         setexMoreLang(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000))
+
+        setmorelanglength(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000).length)
         const value = await API.get("/announcement/gettypetarget");
         settv(value.data)
     }
     // console.log(addMoreLang);
-    // setexMoreLang(exmoreLang.filter((el) => el.languageId > 1000)) 
+    // setexMoreLang(exmoreLang) 
     
-    // console.log(post)
-    const moreLangLength = exmoreLang.length
+    console.log(exmoreLang)
+   
 
     useEffect(() => {
         getPost()
@@ -169,7 +173,7 @@ const history = () => {
     //     )
     // }
     // console.log(allPost)
-
+    
     const onAdd = () => {
         setAdd(add + 1)
     }
@@ -185,7 +189,9 @@ const history = () => {
     const decreaseCount = (id: number) => {
         setCount(count - 1)
         decreaseLang()
-        setAddMoreLang(addMoreLang.filter((el) => el.id != id))
+        setAddMoreLang(addMoreLang.filter((el) => el.languageId != id))
+        setmorelanglength(morelanglength-1)
+        setexMoreLang(exmoreLang.filter((el) => el.languageId != id))
     }
     // console.log(count)
 
@@ -202,10 +208,10 @@ const history = () => {
     const onDisable = () => {
         setdisable(!disable)
     }
-    // console.log(disable);
+    // console.log(morelanglength);
 
     const updateMoreLang = (add: Number) => {
-        if (add == moreLangLength) {
+        if (add == morelanglength) {
             return addMoreLang.map((el) => {
                 return (
                     <MoreLangForEdit
@@ -265,9 +271,10 @@ const history = () => {
         yyyy = today.getFullYear()
         return yyyy + "-" + mm + "-" + dd
     }
+    
     const submit = () => {
         API.post<post>("/announcement/editdetailpost", {
-            postid: parseInt(params.postId + ""),
+            postid: params.postId,
             topic: topic,
             detail: detail,
             targetType: targetType,
@@ -277,6 +284,8 @@ const history = () => {
             addMoreLang: addMoreLang,
         })
     }
+    console.log(expired);
+    
     return (
         <AppBody
             secondarynav={[
@@ -364,7 +373,7 @@ const history = () => {
                     </FormControl>
                     <FormControl>
                         <>
-                            {showMoreLang(moreLangLength, add)}
+                            {showMoreLang(morelanglength, add)}
                             {disable &&
                                 moreLangField.map((el) => {
                                     return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />

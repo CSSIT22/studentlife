@@ -4,19 +4,16 @@ import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
-import { announcement, languageInfo, post } from "@apiType/announcement"
+import { announcement, announcement_language} from "@apiType/announcement"
 import API from "src/function/API"
 
-// อยากลืมเปลี่ยนมาดึงจาก db นะ
-export let langInfos: languageInfo[] = [
-    { lang_id: 1000, langName: "English" },
-    { lang_id: 1001, langName: "Thai" },
-    { lang_id: 1002, langName: "Korea" },
-    { lang_id: 1003, langName: "Japaneses" },
-    { lang_id: 1004, langName:"Chinese"}
-]
 
 const detail = () => {
+    const [langInfos , setlanginfos] = useState<announcement_language[]>([])
+    const newData = API.get("/announcement/getotherlang")
+    useEffect(() => {
+        newData.then(res => setlanginfos(res.data))
+    },[])
 
     const params = useParams()
     // console.log(params.postId)
@@ -38,8 +35,8 @@ const detail = () => {
 
 
     const selectLangName = (lang_id: number) => {
-        const lang = langInfos.filter((el) => el.lang_id == lang_id)
-        return lang[0].langName
+        const lang = langInfos.filter((el) => el.languageId == lang_id)
+        return lang[0].language
     }
     const [lang, setlang] = useState<number>(1000)
     // console.log(lang);
