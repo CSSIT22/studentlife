@@ -931,6 +931,7 @@ model File_Info {
   comments    File_Comment[]
   folders     File_In_Folder[]
   history     File_History[]
+  snFile Sn_File[]
 }
 
 model User_Show_File {
@@ -1088,13 +1089,14 @@ model Logout_Detail {
 }
 
 model Ban_Status {
-  banId    String       @id @default(cuid())
   userId   String
   reason   String
   instance Int
   banFrom  DateTime     @default(now()) @db.Timestamp(0)
   banTo    DateTime     @db.Timestamp(0)
   user     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@id([userId, reason])
 }
 
 model Word_Report {
@@ -1140,6 +1142,16 @@ model Sn_Head {
   userRecent Sn_Recent[]
   userAccess Sn_Access[]
   inTheseLib Sn_In_Library[]
+  snFile Sn_File[]
+}
+
+model Sn_File {
+  snId String
+  fileId String
+  sn Sn_Head @relation(fields: [snId], references: [snId])
+  file File_Info @relation(fields: [fileId], references: [fileId])
+
+  @@id([snId, fileId])
 }
 
 model Sn_Votedetail {
