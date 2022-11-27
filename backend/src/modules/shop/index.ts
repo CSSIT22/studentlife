@@ -9,6 +9,7 @@ import getContactInfo from "./routes/get/getContactInfo"
 import getAllCoupons from "./routes/get/getAllCoupons"
 import getProductImages from "./routes/get/getProductImages"
 import postCartProduct from "./routes/post/postCartProduct"
+import getAllProductsInCart from "./routes/get/getAllProductsInCart"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -25,10 +26,9 @@ shopRoutes.get("/getAllReviews/:productId", getAllReviews)
 shopRoutes.get("/getContactInfo/:id", getContactInfo)
 // Coupon Routes --> Not Complete
 shopRoutes.get("/getAllCoupons", getAllCoupons)
-
-// Post Routes
 // Cart routes
 shopRoutes.post("/postCartProduct", postCartProduct)
+shopRoutes.get("/getAllProductsInCart", getAllProductsInCart)
 
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)

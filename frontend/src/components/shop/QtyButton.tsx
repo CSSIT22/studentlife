@@ -4,10 +4,9 @@ import React, { FC, useState } from 'react'
 
 const QtyButton: FC<{
     productId: number,
-    cartId: number,
     quantity: number,
     stock: number
-}> = ({ productId, cartId, quantity, stock }) => {
+}> = ({ productId, quantity, stock }) => {
     const [qty, setQty] = useState(quantity)
     // Add function to update PUT qty in backend
     const increaseQty = () => (setQty(qty + 1))

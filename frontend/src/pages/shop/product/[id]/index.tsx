@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import API from "src/function/API"
 
-import { Shop_Contact, Shop_Product, Shop_Product_Images, Shop_Product_Review } from "@apiType/shop"
+import { Shop_Product,  Shop_Product_Review } from "@apiType/shop"
 import { useParams } from "react-router-dom"
 import PageTitle from "src/components/shop/PageTitle"
 import ShopAppBody from "src/components/shop/ShopAppBody"
@@ -21,8 +21,6 @@ const index = () => {
 
     const [product, setProduct] = useState<Shop_Product | null>(null)
     const [reviews, setReviews] = useState<Shop_Product_Review[] | null>(null)
-    const [contact, setContact] = useState<Shop_Contact | null>(null)
-    const [productImages, setProductImages] = useState<Shop_Product_Images[] | null>(null)
 
     const [countReviews, setCountReviews] = useState(4)
     const [actionText, setActionText] = useState("Show All")
@@ -59,7 +57,7 @@ const index = () => {
                     isClosable: true,
                     duration: 1500,
                 })
-            } else{
+            } else {
                 toast({
                     title: 'Product Already in Cart or some other error occurred',
                     status: 'error',
@@ -69,13 +67,8 @@ const index = () => {
             }
         }
     }
-    let tempProd: Shop_Product
     useEffect(() => {
-        getProductInfo.then((res) => { setProduct(res.data); tempProd = res.data }).catch((err) => on()).finally(() => {
-            off()
-            API.get("/shop/getContactInfo/" + tempProd.contactId).then(res => setContact(res.data))
-            API.get("/shop/getProductImages/" + tempProd.productId).then(res => setProductImages(res.data))
-        })
+        getProductInfo.then((res) => { setProduct(res.data) }).catch((err) => on()).finally(() => { off() })
         getAllReviews.then(res => setReviews(res.data)).catch(err => onR()).finally(() => offR())
     }, [])
 
@@ -111,7 +104,7 @@ const index = () => {
                         pagination={true}
                         className="mySwiper"
                     >
-                        {slidesGenerator(productImages)}
+                        {slidesGenerator(product)}
                     </Swiper>
                 </ContentBox>
                 <ContentBox bg="#fff">
@@ -208,11 +201,11 @@ const index = () => {
                 <Text color="black" fontWeight="500" fontSize="lg">
                     Contact Details of {product.productName}
                 </Text>
-                {contact != null ? <Flex direction="column">
-                    <Text>Name: {contact.contactPerson}</Text>
-                    <Text>Phone no: {contact.phoneNo}</Text>
-                    {contact.lineId ? <Text>Line Id: {contact.lineId}</Text> : <Text></Text>}
-                    {contact.address ? <Text>Address: {contact.address}</Text> : <Text></Text>}
+                {product != null ? <Flex direction="column">
+                    <Text>Name: {product.contactTo.contactPerson}</Text>
+                    <Text>Phone no: {product.contactTo.phoneNo}</Text>
+                    {product.contactTo.lineId ? <Text>Line Id: {product.contactTo.lineId}</Text> : <Text></Text>}
+                    {product.contactTo.address ? <Text>Address: {product.contactTo.address}</Text> : <Text></Text>}
                 </Flex> : <>Cannot Find Contact Details</>
                 }
             </Flex>
@@ -301,25 +294,37 @@ const index = () => {
     }
 }
 
-function slidesGenerator(images: Shop_Product_Images[] | null) {
+function slidesGenerator(product: Shop_Product | null) {
     const slides = []
-    if (images != null) {
-        const imgs = images.map((image) => {
-            return image.image
-        })
-        for (let i = 0; i < imgs.length; i++) {
+    try {
+        if (product != null && product.images.length > 0) {
+            const imgs = product.images.map((image) => {
+                return image.image
+            })
+            for (let i = 0; i < imgs.length; i++) {
+                slides.push(
+                    <SwiperSlide>
+                        <Image
+                            borderRadius="3xl"
+                            src={imgs[i]}
+                            width={"auto"}
+                            minHeight={{ base: "1rem", md: "27rem" }}
+                        ></Image>
+                    </SwiperSlide>
+                )
+            }
+        } else {
             slides.push(
                 <SwiperSlide>
                     <Image
                         borderRadius="3xl"
-                        src={imgs[i]}
+                        src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"}
                         width={"auto"}
                         minHeight={{ base: "1rem", md: "27rem" }}
                     ></Image>
-                </SwiperSlide>
-            )
+                </SwiperSlide>)
         }
-    } else {
+    } catch (e) {
         slides.push(
             <SwiperSlide>
                 <Image

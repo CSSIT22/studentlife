@@ -20,7 +20,11 @@ const  getProductInformation = async (req:Request, res: Response) => {
                     productPrice: true,
                     productStock: true,
                     brandName: true,
-                    deliveryFees: true
+                    deliveryFees: true,
+                    images: {
+                        select: {image: true}
+                    },
+                    contactTo: true
                 },
                 where: {productId: parseInt(prodId)}
             }

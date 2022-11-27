@@ -1,20 +1,20 @@
-import { useBreakpointValue, Flex, Grid, GridItem, Box, Text, Checkbox, Button, Input, LinkBox } from "@chakra-ui/react"
+import { useBreakpointValue, Flex, Grid, GridItem, Box, Text, Checkbox, Button, Input, LinkBox, useBoolean } from "@chakra-ui/react"
 import { DeleteIcon } from "@chakra-ui/icons"
 import { Link } from "react-router-dom"
 import PageTitle from "../../../components/shop/PageTitle"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
-import convertCurrency from "../../../components/shop/functions/usefulFunctions"
+import convertCurrency, { setDataAPI } from "../../../components/shop/functions/usefulFunctions"
 import CartProduct from "src/components/shop/CartProduct"
 import ContentBox from "src/components/shop/ContentBox"
 import ThemedButton from "src/components/shop/ThemedButton"
 import TitleBox from "src/components/shop/TItleBox"
+import { useState } from "react"
+import { Shop_Cart } from "@apiType/shop"
 
 // Cart
 const Cart = () => {
-    
-    const selectBox = (
-        <TitleBox title="Products in Cart"></TitleBox>
-    )
+    const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
+    setDataAPI("/shop/getAllProductsInCart", setCartProducts)
     const orderSummary = (
         <ContentBox bg="#fff">
             <Flex direction="column" gap={5} p="5">
@@ -58,7 +58,6 @@ const Cart = () => {
 
         </ContentBox>
     )
-
     return (
         <ShopAppBody>
             <PageTitle title="Cart" />
@@ -66,8 +65,8 @@ const Cart = () => {
             <Grid templateColumns="3fr 2fr" gap={5}>
                 <GridItem colSpan={{ base: 2, md: 1 }}>
                     <Flex direction="column" gap={5}>
-                        {selectBox}
-                        {generateCartProducts()}
+                        <TitleBox title="Products in Cart"></TitleBox>
+                        {generateCartProducts(cartProducts)}
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={{ base: 2, md: 1 }}>
@@ -79,23 +78,24 @@ const Cart = () => {
     )
 }
 
-function generateCartProducts() {
-    let cart = []
-    for (let i = 0; i < 5; i++) {
-        cart.push(
-            <CartProduct
-                name="iPhone 15 Pro max"
-                price={50000}
-                quantity={2}
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                link="/shop/product/productDetail"
-                stock={15}
-                productId= {1}
-                cartId= {1}
-            />
-        )
+function generateCartProducts(cartProducts: Shop_Cart[] | null) {
+    try {
+        if (cartProducts != null && cartProducts.length > 0) {
+            let cart = []
+            for (let i = 0; i < cartProducts.length; i++) {
+                cart.push(
+                    <CartProduct
+                        productId={cartProducts[i].productId}
+                        quantity={cartProducts[i].quantity}
+                    />
+                )
+            }
+            return cart
+        }
+    } catch (error) {
+        return (<> An Error has Occured! Please Try Again Later</>)
     }
-    return cart
+
 }
 
 export default Cart

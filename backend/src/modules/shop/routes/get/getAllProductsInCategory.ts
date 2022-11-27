@@ -1,12 +1,12 @@
 import { Request, Response } from "express"
-import { Shop_Product } from "@apiType/shop"
+import { Shop_Product_With_Images } from "@apiType/shop"
 
 
 const getAllProductsInCategory = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const catId = req.params.id
-        let products: Shop_Product[] | null = await prisma.shop_Product.findMany({
+        let products: Shop_Product_With_Images[] | null = await prisma.shop_Product.findMany({
             select: {
                 productId: true,
                 categoryId: true,

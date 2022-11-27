@@ -114,7 +114,12 @@ export type Shop_Product = {
   productStock: number
   brandName: string
   deliveryFees: number
+  images: {
+    image: string
+  }[]
+  contactTo: Shop_Contact
 }
+
 export type Shop_Product_With_Images = {
   productId: number
   categoryId: number
@@ -179,7 +184,6 @@ export type Shop_Order_Product = {
  * 
  */
 export type Shop_Cart = {
-  userId: string
   productId: number
   quantity: number
 }
