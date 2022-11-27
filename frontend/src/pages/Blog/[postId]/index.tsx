@@ -22,20 +22,29 @@ import {
     HStack,
 } from "@chakra-ui/react"
 import { PhoneIcon, AddIcon, WarningIcon, HamburgerIcon } from "@chakra-ui/icons"
-import AppBody from "../../components/share/app/AppBody"
+import AppBody from "../../../components/share/app/AppBody"
 import { AiFillAccountBook } from "react-icons/ai"
-import Profile from "../../components/blog/Profile"
-import Optionbutton from "../../components/blog/Optionbutton"
-import PostText from "../../components/blog/PostText"
-import PostImage from "../../components/blog/PostImage"
-import EmojiReaction from "../../components/blog/EmojiReaction"
-import CommentButton from "../../components/blog/CommentButton"
-import RemodButton from "../../components/blog/RemodButton"
-import Username from "../../components/blog/Username"
-import Time from "../../components/blog/Time"
-import EmojiFeelingTelling from "../../components/blog/EmojiFeelingTelling"
+import Profile from "../../../components/blog/Profile"
+import Optionbutton from "../../../components/blog/Optionbutton"
+import PostText from "../../../components/blog/PostText"
+import PostImage from "../../../components/blog/PostImage"
+import EmojiReaction from "../../../components/blog/EmojiReaction"
+import CommentButton from "../../../components/blog/CommentButton"
+import RemodButton from "../../../components/blog/RemodButton"
+import Username from "../../../components/blog/Username"
+import Time from "../../../components/blog/Time"
+import EmojiFeelingTelling from "../../../components/blog/EmojiFeelingTelling"
+import API from "src/function/API"
+import { useEffect, useState } from "react"
+import { getItem } from "localforage"
+import { useParams } from "react-router-dom"
 
 const Home = () => {
+    const param = useParams()
+    const [post, setPost] = useState<any>(null)
+    useEffect(() => {
+        API.get("/blog/searchPost/" + param.postId).then(item => setPost(item.data))
+    }, [])
     return (
         <AppBody>
             <Center>
@@ -56,18 +65,7 @@ const Home = () => {
                         </Flex>
                     </Box>
                     <PostText
-                        text="Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh (Oh)
-                                Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh
-                                Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh (Oh)      
-                                Can we get much higher? (So high)
-                                Oh, oh, oh
-                                Oh, oh, oh-oh, oh"
+                        text={post.text}
                     />
                     <PostImage image="https://i.redd.it/ujfngj2v25k91.jpg" />
                     <Center>
