@@ -59,14 +59,14 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
     req.body.facultyPref.map((faculty: string) => {
         facultyPrefs.push({ userId: userId, facultyPref: faculty })
     })
-    const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge, faculties: facultyPrefs }
+    const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge}
     console.log("Plz work " + facultyPrefs.userId)
-    // await prisma.faculty_Pref.createMany({
-    //     data: facultyPrefs,
-    // })
     console.log(setPref)
     await prisma.dating_Options.create({
         data: setPref,
+    })
+    await prisma.faculty_Pref.createMany({
+        data: facultyPrefs,
     })
 
     return res.send("Success")

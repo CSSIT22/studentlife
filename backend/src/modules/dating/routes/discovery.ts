@@ -93,9 +93,9 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                             userId: reqUserId,
                         },
                     },
-                    datingSetting: {
-                        hasCompleteSetting: true,
-                    },
+                    // datingSetting: {
+                    //     hasCompleteSetting: true,
+                    // },
                 },
                 select: {
                     userId: true,
@@ -166,7 +166,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                 facultyObtainedUser[randomIndex] = temporaryValue
             }
 
-            facultyObtainedUser = facultyObtainedUser.slice(0, 50)
+            facultyObtainedUser = facultyObtainedUser.slice(0, 30)
             return res.send(facultyObtainedUser)
         }
     } catch (err) {

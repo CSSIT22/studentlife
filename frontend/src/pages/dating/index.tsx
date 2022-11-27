@@ -180,9 +180,8 @@ const DatingRandomCard: FC<{
     const nopeText = useAnimation()
     const navigate = useNavigate()
     const toast = useToast()
-    // Swipe the card
+
     const swiped = (direction: string, idToDelete: string, index: number) => {
-        console.log("Swiping " + idToDelete + " to the " + direction)
         handleClick(currentIndex)
         setHasSwipe(true)
         if (direction === "left") {
@@ -219,8 +218,10 @@ const DatingRandomCard: FC<{
         let frontCard = document.getElementById(index.toString()) as HTMLInputElement
         frontCard.style.pointerEvents = "none"
         let backCard = document.getElementById((index - 1).toString()) as HTMLInputElement
+        let button = document.getElementById("DatingButton") as HTMLInputElement
+        button.style.pointerEvents = "none"
         if (backCard) {
-            backCard.style.pointerEvents = "initial"
+            setTimeout(() => { backCard.style.pointerEvents = "initial"; button.style.pointerEvents = "initial"; }, 500)
         }
     }
 
@@ -257,7 +258,6 @@ const DatingRandomCard: FC<{
         <TinderCard
             ref={childRefs[index]}
             className="swipe"
-            key={character.userId}
             onSwipe={(dir: string) => swiped(dir, character.userId, index)}
             onCardLeftScreen={() => outOfFrame(character.fName, index)}
             preventSwipe={["down", "up"]}
@@ -378,7 +378,7 @@ const DatingRandomization = () => {
     // used for the tinder card
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
-            Array(50)
+            Array(30)
                 .fill(0)
                 .map(() => React.createRef()),
         []
@@ -403,6 +403,7 @@ const DatingRandomization = () => {
                     <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} />
                     {characters.map((character, index) => (
                         <DatingRandomCard
+                            key={index}
                             character={character}
                             index={index}
                             currentIndex={currentIndex}
@@ -417,31 +418,31 @@ const DatingRandomization = () => {
                     ))}
                 </Box>
                 {!(isLoading && !didMount) ? (
-                characters[currentIndex] != null ? (
-                    <Box>
-                        {/* Name, age, gender, and faculty */}
-                        <DatingRandomDetails characters={characters} currentIndex={currentIndex} />
-                        {/* Must have 2 boxs to hide the scroll bar in mobile */}
-                        <Box pb="5" pl="18px" pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
-                            <Box
-                                height="70px"
-                                pt="5px"
-                                overflowX={{ base: "auto", md: "visible" }}
-                                whiteSpace={{ base: "nowrap", md: "initial" }}
-                                style={{ WebkitOverflowScrolling: "touch" }}
-                            >
-                                {characters[currentIndex].interests.map((interestId, index) => (
-                                    // Show user's tags of interest
-                                    <DatingRandomTag id={interestId} index={index} allInterests={allInterests} />
-                                ))}
+                    characters[currentIndex] != null ? (
+                        <Box>
+                            {/* Name, age, gender, and faculty */}
+                            <DatingRandomDetails characters={characters} currentIndex={currentIndex} />
+                            {/* Must have 2 boxs to hide the scroll bar in mobile */}
+                            <Box pb="5" pl="18px" pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
+                                <Box
+                                    height="70px"
+                                    pt="5px"
+                                    overflowX={{ base: "auto", md: "visible" }}
+                                    whiteSpace={{ base: "nowrap", md: "initial" }}
+                                    style={{ WebkitOverflowScrolling: "touch" }}
+                                >
+                                    {characters[currentIndex].interests.map((interestId, index) => (
+                                        // Show user's tags of interest
+                                        <DatingRandomTag key={index} id={interestId} index={index} allInterests={allInterests} />
+                                    ))}
+                                </Box>
                             </Box>
                         </Box>
-                    </Box>
-                ) : (
-                    <DatingRandomOutOfCard numOfChar={numOfChar} />
-                )) : <></>}
+                    ) : (
+                        <DatingRandomOutOfCard numOfChar={numOfChar} />
+                    )) : <></>}
             </SimpleGrid>
-                <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
+                <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }} id="DatingButton">
                     {/* Cross button */}
                     <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
                     {/* Heart button */}
