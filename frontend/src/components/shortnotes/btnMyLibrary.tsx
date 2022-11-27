@@ -16,6 +16,19 @@ import {
     DrawerContent,
     DrawerCloseButton,
     useToast,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Spacer,
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import { BiLibrary } from "react-icons/bi"
@@ -25,6 +38,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
+import { HiDotsHorizontal } from "react-icons/hi"
+import { MdDeleteOutline } from "react-icons/md"
 
 const btnMyLibrary = () => {
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
@@ -72,6 +87,12 @@ const btnMyLibrary = () => {
         )
     }
     const toast = useToast()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const deleteLibrary = () => {
+        API.delete("shortnotes/deleteLibrary", {
+            libId: liPicked
+        })
+    }
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -154,6 +175,16 @@ const btnMyLibrary = () => {
                                 <IoIosArrowBack />
                             </Button>
                             <Heading size={"lg"}>{nPicked}</Heading>
+                            <Spacer />
+                            <Menu>
+                                <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
+                                <MenuList>
+
+                                    <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
+                                        Delete
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
                         </HStack>
                     </DrawerHeader>
                     <DrawerBody>
@@ -175,6 +206,23 @@ const btnMyLibrary = () => {
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>
             </Drawer>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Delete library</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>Are you sure to delete this library?</ModalBody>
+                    <ModalFooter>
+                        <Button onClick={() => {
+                            deleteLibrary()
+                            onClose()
+                            window.location.reload()
+                        }} colorScheme={"red"}>
+                            Delete
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     )
 }
