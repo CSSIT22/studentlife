@@ -112,6 +112,13 @@ const liList: FC<{
     const { value, getCheckboxProps } = useCheckboxGroup({
         //defaultValue: ["grehg343-gj54-4bad-9gre-fkg9fidhjd89"],
     })
+    const addToLibrary = () => {
+        API.post("/shortnotes/postInLibrary", {
+            snId: param.id,
+            libId: value
+        })
+        window.location.reload()
+    }
     return (
         <Box>
             <HStack>
@@ -223,12 +230,12 @@ const liList: FC<{
                                 </Box>
                             ))} */}
                             {li.map((li: any, key) => (
-                                <CustomCheckbox {...getCheckboxProps({ value: li.libId, name: li.libName })} /> //onClick={console.log(value)}
+                                <CustomCheckbox {...getCheckboxProps({ value: li.libId, name: li.libName })} />
                             ))}
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter>
-                        <Button w={"100%"} colorScheme={"orange"}>
+                        <Button w={"100%"} colorScheme={"orange"} onClick={addToLibrary}>
                             Done
                         </Button>
                     </DrawerFooter>
