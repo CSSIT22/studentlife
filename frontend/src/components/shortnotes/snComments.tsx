@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Textarea, VStack } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Textarea, useToast, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import API from 'src/function/API'
@@ -13,6 +13,15 @@ const snComments = () => {
             setComments(item.data)
         })
     }, [])
+
+    const [comm, setComm] = useState("")
+    const comment = () => {
+        API.post("/shortnotes/postComment", {
+            comment: comm,
+            snId: param.id
+        })
+    }
+    const toast = useToast()
     return (
         <Box>
             <Box mb={4} rounded={8}>
@@ -20,9 +29,20 @@ const snComments = () => {
                     <Heading size={"md"} mb={1}>
                         Comments
                     </Heading>
-                    <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} />
+                    <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
                     <Flex direction={"row"} justifyContent={"end"}>
-                        <Button colorScheme={"orange"}>Comment</Button>
+                        <Button colorScheme={"orange"} onClick={() => {
+                            (
+                                comment(),
+                                toast({
+                                    title: 'Commented',
+                                    description: "Your commented complete. ",
+                                    status: 'success',
+                                    duration: 9000,
+                                    isClosable: true,
+                                })
+                            )
+                        }}>Comment</Button>
                     </Flex>
                 </Box>
             </Box>

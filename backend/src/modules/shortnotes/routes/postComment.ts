@@ -8,12 +8,13 @@ const postComment = async (req: Request<any>, res: Response<any>) => {
 
         const cm = await prisma.sn_Comment.create({
             data: {
-                snId: req.params.id,
+                snId: req.body.snId,
                 userId: user,
-                comment: req.body.comment
+                comment: req.body.comment,
             },
         })
         res.send(cm)
+        console.log(cm)
     } catch (err) {
         console.log(err)
         return res.send(err)

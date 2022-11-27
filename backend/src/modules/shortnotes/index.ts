@@ -64,5 +64,4 @@ shortnotesRoutes.delete("/deleteLibrary/", deleteLibrary)
 
 shortnotesRoutes.delete("/deleteSnInLibrary/", deleteSnInLibrary)
 
-
 export default shortnotesRoutes
