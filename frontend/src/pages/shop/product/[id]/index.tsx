@@ -92,7 +92,7 @@ const index = () => {
     let oRating: string | number = " No Rating Yet"
     try {
         if (reviews != null) {
-            oRating = calculateAvgReview(reviews[0])
+            oRating = calculateAvgReview(reviews)
         }
     } catch (e) { }
 
