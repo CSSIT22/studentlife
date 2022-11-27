@@ -140,6 +140,7 @@ const createCommunity = () => {
             },
         },
     }
+
     //Send data to backend
     const submit = () => {
         // const communityID = Date.now()//Create unique ID
@@ -150,7 +151,7 @@ const createCommunity = () => {
         // console.log(communityPrivacy)
         // console.log(communityCoverPhoto)
         console.log(updatedTag)
-        API.post("/group/createtest", {
+        API.post("/group/createCommunity", {
             // communityID: Date.now(),
             communityName: communityName,
             communityDesc: communityDesc,
