@@ -277,9 +277,16 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
             }
             
         }
-        // console.log(allpost)
+        console.log(allpost)
         // console.log(allpost[0].annPin[0].status)
-        res.send(allpost)
+        let unexpirepost = []
+        for (let i = 0; i < allpost.length; i++) {
+            if(allpost[i].annExpired>date){
+                unexpirepost.push(allpost[i])
+            }
+        }
+        console.log(unexpirepost)
+        res.send(unexpirepost)
         
     }
     catch(err:any){
