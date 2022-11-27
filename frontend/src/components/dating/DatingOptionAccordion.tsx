@@ -34,7 +34,7 @@ const DatingOptionAccordion: FC<{
 
     globalThis.facs = addFac([])
     function addFac(facultyA: string[]) {
-        //facultyA.push("All Faculty")
+        // facultyA.push("All Faculty")
         for (const element of faculties) {
             facultyA.push(element.facultyName)
         }

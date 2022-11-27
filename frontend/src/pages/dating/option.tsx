@@ -134,7 +134,7 @@ const DatingOption = () => {
     function sendFac(SF: any[]) {
         console.log(SF)
         let arr: string[] = []
-        if (SF[0].facultyName !== "") {
+        if (SF[0] !== null && Object.keys(SF[0]).length !== 0) {
             for (let index = 0; index < selectedFac.length; index++) {
                 for (let index2 = 0; index2 < faculties.length; index2++) {
                     if (SF[index] === faculties[index2].facultyName) {
@@ -173,6 +173,16 @@ const DatingOption = () => {
             " | Selected Faculty: " +
             globalThis.faculty
         )
+        if (globalThis.faculty.length < 1) {
+            toast({
+                title: "Faculty Setting Incomplete!",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+                description: "You are required to set your faculty Preference first."
+            })
+        }
         // console.log("Test str " + sendFac(selectedFac))
         if (globalThis.firstTime) {
             API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
