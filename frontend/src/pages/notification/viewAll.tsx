@@ -35,32 +35,29 @@ const viewAll = () => {
         setreLoad(!reLoad)
     }
 
-    //getNotiobjectViewAll
-    const param = useParams()
-    const getUserNotiObject = API.get("/notification/getusernotiobject/" + param.id)
-    const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    useEffect(() => {
-        getUserNotiObject.then((res) => {
-            setUserNotiObject(res.data)
-        })
-    }, [reLoad])
-    //console.log(userNotiObjectViewAll)
-    //console.log(OBJECTS)
-
-    //select module
+     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
     function showSelectedModule(module: string) {
         setSelectedModule(module)
+        setreLoad(!reLoad)
     }
-    // const selectedModule: any[] = MODULES.filter((el) => el.isSelect === true)
-    const notiListModule: any[] = userNotiObject.filter((el) => el.module == selectedModule)
 
+    //getUserNotiObject by Module
+
+    const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
+    console.log(getUserNotiObjectModule);
+
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+    useEffect(() => {
+        getUserNotiObjectModule.then((res) => {
+            setUserNotiObjectModule(res.data)
+        })
+    }, [reLoad])
+    //console.log(userNotiObjectModule);
+
+    
     function showNotiListViewAll(): any {
-        if (selectedModule == "All") {
-            return <NotiListViewAll selectedList={userNotiObject} onClick={load}></NotiListViewAll>
-        } else {
-            return <NotiListViewAll selectedList={notiListModule} onClick={load}></NotiListViewAll>
-        }
+        return <NotiListViewAll module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiListViewAll>
     }
 
     return (
