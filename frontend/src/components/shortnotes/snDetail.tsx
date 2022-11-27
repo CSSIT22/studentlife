@@ -66,16 +66,21 @@ const liList: FC<{
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const param = useParams()
+
     const navigate = useNavigate()
+    const x = btoa("?type=shortnotes&id=" + param.id)
     const goToUpload = () => {
         navigate({
-            pathname: "../../airdrop",
-            search: "?type=shortnotes",
+            pathname: "../../airdrop/upload",
+            search: x,
         })
     }
+
+
     const [liPicked, setLiPicked] = useState<String[]>([])
 
-    const param = useParams()
+
     const deleteShortnote = () => {
         API.delete("/shortnotes/deleteShortnote/" + param.id)
     }
