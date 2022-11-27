@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 
 const addHistory = async (req:Request, res:Response) => {
     const user = req.user?.userId || ""
-    const resid = req.params.id + ""
+    const resid = req.params.id
     try {
         console.log("yea");
         
@@ -26,7 +26,7 @@ const addHistory = async (req:Request, res:Response) => {
     
         // console.log(isSeen);
         console.log(seen);
-        res.send({seen, isSeen})
+        res.send(seen)
     } catch (error) {
         console.log("Error");
         

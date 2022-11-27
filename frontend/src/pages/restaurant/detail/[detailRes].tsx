@@ -23,6 +23,7 @@ import {
     WrapItem,
     Icon,
     Heading,
+    useBoolean,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
@@ -41,7 +42,8 @@ function detail() {
     const [numres, setnumres] = useState(params.detailRes)
 
     const [property, setproperty] = React.useState<any>([])
-
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(false)
 
 
     useEffect(() => {
@@ -51,6 +53,32 @@ function detail() {
 
     console.log(property)
 
+    if (isLoading) 
+        return   (
+        <AppBody
+        secondarynav={[
+            { name: "Like or Nope", to: "/restaurant" },
+            { name: "My Favorite", to: "/restaurant/favorite" },
+            { name: "My History", to: "/restaurant/history" },
+        ]}
+    >
+         <Heading color={"black"}>Loading</Heading>
+        </AppBody>
+    )
+  
+
+    if(isError) return (
+        <AppBody
+        secondarynav={[
+            { name: "Like or Nope", to: "/restaurant" },
+            { name: "My Favorite", to: "/restaurant/favorite" },
+            { name: "My History", to: "/restaurant/history" },
+        ]}
+    >
+   <Heading color={"red"}> There is an Error</Heading>
+</AppBody>
+    )
+   
 
 
     const [isFavorite, setIsFavorite] = useState(false)

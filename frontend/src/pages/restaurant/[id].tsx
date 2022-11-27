@@ -16,6 +16,7 @@ import {
     Text,
     Container,
     Icon,
+    useBoolean,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
@@ -33,23 +34,49 @@ function LikeorNope() {
     const params = useParams()
     const [property, setproperty] = React.useState<Restaurant2[]>([])
     const navigate = useNavigate()
-
     const [res, setres] = React.useState(parseInt(params.id + ""))
-
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
     const likedRestaurant = () => {
         API.post("restaurant/" + params.id, { id: params.id })
     }
 
     useEffect(() => {
         API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
+        .catch((err) => on()) 
+        .finally(off)
         API.put("restaurant/" + params.id) 
-        // .catch((err) => on())
-        // .finally(off)
     }, [params.id])
+
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
+    )
+
+    if(isError) return (
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
+    )
     //  console.log(property);
      
+    
     const Nope = () => {
-        if (res < 9) {
+        if (res < 5) {
             setres(res + 1)
         } else {
             setres(0)
@@ -61,7 +88,7 @@ function LikeorNope() {
     }
 
     globalThis.respage = res
-    globalThis.rand = Math.floor(Math.random() * 10)
+    globalThis.rand = Math.floor(Math.random() * 6)
     const Random = () => {
         setres(globalThis.rand)
         return onClose()
@@ -95,7 +122,7 @@ function LikeorNope() {
                     <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                         <Box>
                             <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={() => {
-                                likedRestaurant
+                                likedRestaurant()
                                 navigate(`/restaurant/detail/${"000" +globalThis.respage}`)
                             }}>
                                 <Icon as={AiOutlineLike} w={12} h={12}/>
@@ -130,7 +157,7 @@ function LikeorNope() {
                                     <ModalCloseButton />
                                     <ModalFooter justifyContent={"center"} pt="60px">
                                         <Button colorScheme="blue" mr={3} onClick={Random} borderRadius={"5px"}>
-                                            <Link to={`/restaurant/detail/${rand}`}>Random</Link>
+                                            <Link to={`/restaurant/detail/${"000"+rand}`}>Random</Link>
                                         </Button>
 
                                         <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>
