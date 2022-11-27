@@ -8,9 +8,52 @@ import getCommunityMember from "./routes/community/member/getCommunityMember"
 import getCommunityPost from "./routes/community/post/getCommunityPost"
 import searchCommunity from "./routes/searchCommunity"
 import deleteFile from "./routes/community/file/deleteFile"
+import { CommunityType, OwnCommunity, JoinedCommunity, InvitedCommunity, SuggestionsCommunity } from "@apiType/group"
 
 const groupRoutes = express()
 groupRoutes.use(express.json())
+
+//Community
+let ownCommunity: OwnCommunity[] = [
+    // {
+    //     communityId: 1,
+    //     communityName: "Dota2",
+    //     communityOwnerId: 1,
+    //     communityMember: 100,
+    //     communityPrivacy: false,
+    //     lastActive: "1",
+    //     communityCoverPhoto: "https://images.workpointnews.com/workpointnews/2022/08/11195913/1660222751_61185_1719373.jpg",
+    // },
+]
+let joinedCommunity: JoinedCommunity[] = []
+let invitedCommunity: InvitedCommunity[] = []
+let suggestionsCommunity: SuggestionsCommunity[] = [
+    {
+        communityId: 2,
+        communityName: "League of Legends",
+        communityOwnerId: 2,
+        communityMember: 100,
+        communityPrivacy: true,
+        communityCoverPhoto:
+            "https://pentagram-production.imgix.net/cc7fa9e7-bf44-4438-a132-6df2b9664660/EMO_LOL_02.jpg?rect=0%2C0%2C1440%2C1512&w=640&crop=1&fm=jpg&q=70&auto=format&fit=crop&h=672",
+    },
+    {
+        communityId: 3,
+        communityName: "Learn to code",
+        communityOwnerId: 3,
+        communityMember: 100,
+        communityPrivacy: false,
+        communityCoverPhoto: "https://lawsonblake.com/content/images/2020/05/Learn-to-Code.jpg",
+    },
+    {
+        communityId: 4,
+        communityName: "Learn to Hack",
+        communityOwnerId: 3,
+        communityMember: 400,
+        communityPrivacy: true,
+        communityCoverPhoto: "https://lawsonblake.com/content/images/2020/05/Learn-to-Code.jpg",
+    },
+]
 
 groupRoutes.get("/getCommunity", getCommunity)
 groupRoutes.post("/createtest", (req, res) => {
@@ -31,110 +74,35 @@ groupRoutes.post("/createtest", (req, res) => {
     res.sendStatus(201)
 })
 groupRoutes.get("/getcommunitys", (req, res) => {
-    let communitys: any = {
-        ownCommunitys: [
-            {
-                ID: 1,
-                name: "Dota2",
-                Owner: "1",
-                Member: 666,
-                Tag: [2, 4],
-                Describe: "Best mental therapy center",
-                roleID: 4,
-                isPrivate: true,
-                coverPhoto: "https://picsum.photos/id/500/200",
-            },
-            {
-                ID: 2,
-                name: "Memeworld",
-                Owner: "3",
-                Member: 300,
-                Tag: [3],
-                Describe: "Storage of meme around the world",
-                roleID: 4,
-                isPrivate: false,
-                coverPhoto: "https://picsum.photos/id/501/200",
-            },
-        ],
-        joinedCommunitys: [
-            {
-                ID: 1,
-                name: "Dota2",
-                Owner: "1",
-                Member: 666,
-                Tag: [2, 4],
-                Describe: "Best mental therapy center",
-                roleID: 4,
-                isPrivate: true,
-                coverPhoto: "https://picsum.photos/id/1/200",
-            },
-            {
-                ID: 2,
-                name: "Memeworld",
-                Owner: "3",
-                Member: 300,
-                Tag: [3],
-                Describe: "Storage of meme around the world",
-                roleID: 4,
-                isPrivate: false,
-                coverPhoto: "https://picsum.photos/id/2/200",
-            },
-            {
-                ID: 3,
-                name: "IndianFood",
-                Owner: "2",
-                Member: 150,
-                Tag: [1, 2],
-                Describe: "No masara no flavor we can’t eat.",
-                roleID: 1,
-                isPrivate: true,
-                coverPhoto: "https://picsum.photos/id/3/200",
-            },
-            {
-                ID: 4,
-                name: "ThaiStreetFood",
-                Owner: "3",
-                Member: 50,
-                Tag: [1],
-                Describe: "Secret thai street food that have to try once",
-                roleID: 1,
-                isPrivate: false,
-                coverPhoto: "https://picsum.photos/id/4/200",
-            },
-        ],
-        invitations: [
-            {
-                inviteID: 1,
-                communityName: "Programmer community",
-                memberNumber: 8000,
-                coverPhoto: "https://picsum.photos/id/300/200",
-                isPrivate: true,
-                userName: "Passakorn puttama", //name of the person who invited
-                expireDate: "28",
-            },
-            {
-                inviteID: 2,
-                communityName: "Noob community",
-                memberNumber: 4000,
-                coverPhoto: "https://picsum.photos/id/301/200",
-                isPrivate: false,
-                userName: "Kitty Melody", //name of the person who invited
-                expireDate: "28",
-            },
-            {
-                inviteID: 2,
-                communityName: "Noob community",
-                memberNumber: 4000,
-                coverPhoto: "https://picsum.photos/id/302/200",
-                isPrivate: false,
-                userName: "Kitty Melody", //name of the person who invited
-                expireDate: "28",
-            },
-        ],
+    //mock up data 2 using for testing
+    let community: CommunityType = {
+        userId: req.user?.userId,
+        count: 5,
+        community: {
+            ownCommunity: ownCommunity,
+            joinedCommunity: joinedCommunity,
+            invitedCommunity: invitedCommunity,
+            suggestionsCommunity: suggestionsCommunity,
+        },
     }
-    res.send(communitys)
+    res.send(community)
     // res.sendStatus(200)
 })
+groupRoutes.post("/createcommunitys", (req, res) => {
+    ownCommunity.push({
+        communityName: req.body.communityName,
+        communityId: Date.now(),
+        communityOwnerId: req.user?.userId,
+        communityMember: 1,
+        communityPrivacy: req.body.communityPrivacy,
+        communityDesc: req.body.communityDesc,
+        communityTags: req.body.communityTags,
+        lastActive: "1",
+        communityCoverPhoto: "https://images.workpointnews.com/workpointnews/2022/08/11195913/1660222751_61185_1719373.jpg",
+    })
+    res.sendStatus(201)
+})
+
 groupRoutes.post("/createCommunity", createCommunity)
 groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.search("/searchCommunity", searchCommunity)
