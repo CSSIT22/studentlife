@@ -1,5 +1,5 @@
--- DropForeignKey
-ALTER TABLE "Announcement_Filter" DROP CONSTRAINT "Announcement_Filter_filterId_fkey";
+-- DropIndex
+DROP INDEX "Community_User_roleId_key";
 
 -- AlterTable
 ALTER TABLE "Analytic_User_Report" ALTER COLUMN "end" SET DEFAULT make_timestamp(3000, 1, 1, 0, 0, 0);
@@ -12,6 +12,3 @@ ALTER TABLE "ShortLink" ALTER COLUMN "expired" SET DEFAULT make_timestamp(3000, 
 
 -- AlterTable
 ALTER TABLE "User_To_Room" ALTER COLUMN "lefted" SET DEFAULT make_timestamp(3000, 1, 1, 0, 0, 0);
-
--- AddForeignKey
-ALTER TABLE "Announcement" ADD CONSTRAINT "Announcement_filterId_fkey" FOREIGN KEY ("filterId") REFERENCES "Announcement_Filter"("filterId") ON DELETE RESTRICT ON UPDATE CASCADE;
