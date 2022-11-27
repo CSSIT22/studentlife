@@ -132,8 +132,9 @@ const DatingOption = () => {
     }
 
     function sendFac(SF: any[]) {
+        console.log(SF)
         let arr: string[] = []
-        if (SF.length < 1) {
+        if (SF[0].facultyName !== "") {
             for (let index = 0; index < selectedFac.length; index++) {
                 for (let index2 = 0; index2 < faculties.length; index2++) {
                     if (SF[index] === faculties[index2].facultyName) {
@@ -143,11 +144,13 @@ const DatingOption = () => {
             }
         }
         else {
+            console.log("Oh no")
             for (let index = 0; index < faculties.length; index++) {
                 arr.push(faculties[index].facultyId)
             }
 
         }
+        console.log("Heh " + arr)
         return arr
     }
 
@@ -170,25 +173,22 @@ const DatingOption = () => {
             " | Selected Faculty: " +
             globalThis.faculty
         )
-        console.log("Test str " + sendFac(selectedFac))
+        // console.log("Test str " + sendFac(selectedFac))
         if (globalThis.firstTime) {
-            API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(selectedFac) })
+            API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
                 .then(() => navigate("/dating/interests"))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
-            // API.post<AllFaculty>("/dating/option/setOptionF", { facultyPref: sendFac(selectedFac) })
-            //     .then(() => navigate("/dating/interests"))
-            //     .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
         }
         else {
+            API.put<UserOption | AllFaculty>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
+                .then(() => navigate(globalThis.hasSetInterest))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 if (!datingEnroll.data.hasCompleteSetting) {
                     globalThis.hasSetInterest = "/dating/interests"
                 }
             })
-            // DON'T FORGET TO OPEN IT + DISABLE BUTTON
-            API.put<UserOption | AllFaculty>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(selectedFac) })
-                // .then(() => navigate(globalThis.hasSetInterest))
-                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+
         }
     }
 
@@ -263,7 +263,7 @@ const DatingOption = () => {
                         // DON'T FORGET TO OPEN IT
                         onClick={() => {
                             handleSubmit()
-                            //, setIsDisabled(!isDisabled) 
+                                , setIsDisabled(!isDisabled)
                         }}
                         m="80px"
                         p="30px"

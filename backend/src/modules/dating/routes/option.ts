@@ -45,34 +45,31 @@ optionRoutes.get("/getOption", verifyUser, async (req: Request, res: Response) =
 
 // Set the option
 optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) => {
-    // try {
-    const userId: string | undefined = req.user?.userId
-    const facPref: string[] = req.body.facultyPref
-    const ageMin: number = req.body.ageMin
-    const ageMax: number = req.body.ageMax
-    const genderPref: string = req.body.genderPref
-    const useAge: boolean = req.body.useAge
+    try {
+        const userId: string | undefined = req.user?.userId
+        const ageMin: number = req.body.ageMin
+        const ageMax: number = req.body.ageMax
+        const genderPref: string = req.body.genderPref
+        const useAge: boolean = req.body.useAge
+        const facultyPrefs: any = []
+        // console.log("Pref: " + req.body.facultyPref)
+        req.body.facultyPref.map((faculty: string) => {
+            facultyPrefs.push({ userId: userId, facultyPref: faculty })
+        })
+        const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge }
+        // console.log("Plz work " + facultyPrefs.userId)
+        // console.log(setPref)
+        await prisma.dating_Options.create({
+            data: setPref,
+        })
+        await prisma.faculty_Pref.createMany({
+            data: facultyPrefs,
+        })
 
-    const facultyPrefs: any = []
-    console.log("Do post")
-    console.log("Pref: " + req.body.facultyPref)
-    req.body.facultyPref.map((faculty: string) => {
-        facultyPrefs.push({ userId: userId, facultyPref: faculty })
-    })
-    const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge}
-    console.log("Plz work " + facultyPrefs.userId)
-    console.log(setPref)
-    await prisma.dating_Options.create({
-        data: setPref,
-    })
-    await prisma.faculty_Pref.createMany({
-        data: facultyPrefs,
-    })
-
-    return res.send("Success")
-    // } catch {
-    //     return res.status(400).send("Cannot set Option")
-    // }
+        return res.send("Success")
+    } catch {
+        return res.status(400).send("Cannot set Option")
+    }
 })
 
 // optionRoutes.post("/setOptionF", verifyUser, async (req: Request, res: Response) => {
@@ -99,28 +96,44 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
 // Update the option
 optionRoutes.put("/updateOption", verifyUser, async (req: Request, res: Response) => {
     try {
-        const userId = req.user?.userId
+        const userId: string | undefined = req.user?.userId
         const ageMin: number = req.body.ageMin
         const ageMax: number = req.body.ageMax
         const genderPref: string = req.body.genderPref
         const useAge: boolean = req.body.useAge
-        const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge }
         const facultyPrefs: any = []
-        console.log("Pref: " + req.body.facultyPref)
         req.body.facultyPref.map((faculty: string) => {
             facultyPrefs.push({ userId: userId, facultyPref: faculty })
         })
-        console.log("Plz work " + facultyPrefs)
-        facultyPrefs.map((faculty: any) => {
-            console.log("Test map: " + faculty.userId + " " + faculty.facultyPref)
-        })
+        const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge }
 
-        await prisma.dating_Options.update({
+        await prisma.dating_Options.deleteMany({
             where: {
                 userId: userId,
             },
+        })
+
+        // await prisma.faculty_Pref.deleteMany({
+        //     where: {
+        //         userId: userId,
+        //     },
+        // })
+
+        await prisma.dating_Options.create({
             data: setPref,
         })
+
+        // await prisma.dating_Options.update({
+        //     where: {
+        //         userId: userId,
+        //     },
+        //     data: setPref,
+        // })
+        console.log(req.body.facultyPref)
+        await prisma.faculty_Pref.createMany({
+            data: facultyPrefs,
+        })
+
         return res.send("Success")
     } catch {
         return res.status(400).send("Cannot update Option")

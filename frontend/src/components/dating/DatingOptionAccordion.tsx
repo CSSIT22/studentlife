@@ -14,7 +14,6 @@ const DatingOptionAccordion: FC<{
     setSelectedFac: React.Dispatch<React.SetStateAction<AllFaculty[]>>
     getCheckboxProps: any
 }> = ({ faculties, selectedFac, setSelectedFac, getCheckboxProps }) => {
-    const [selectedFac2, setSelectedFac2] = useState<string[]>([]) //For Faculties
     // setSelectedFac(["All Faculty"])
 
     function handleCheck(SF: string) {
@@ -35,7 +34,7 @@ const DatingOptionAccordion: FC<{
 
     globalThis.facs = addFac([])
     function addFac(facultyA: string[]) {
-        facultyA.push("All Faculty")
+        //facultyA.push("All Faculty")
         for (const element of faculties) {
             facultyA.push(element.facultyName)
         }
