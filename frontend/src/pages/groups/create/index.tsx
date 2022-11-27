@@ -198,14 +198,16 @@ const createCommunity = () => {
                     background={{ base: "none", md: "#E67F45" }}
                     width="full"
                 >
-                    <HStack fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
+                    <Flex gap='0.25' fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
                         <Box _hover={{ textDecoration: 'underline' }}>
                             <Link to={"/groups"}>Community</Link>
                         </Box>
-                        <ChevronRightIcon />
+                        <Box mt={'-0.25'}>
+                            <ChevronRightIcon />
+                        </Box>
                         <Text>Create Community</Text>
-                    </HStack>
-                    <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={4}>
+                    </Flex>
+                    <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={{ md: '3', base: '2' }}>
                         <Box display={{ base: 'block', md: 'none' }} ml='-6' mb={'1'}>
                             <Link to={"/groups"} >
                                 <ChevronLeftIcon />
