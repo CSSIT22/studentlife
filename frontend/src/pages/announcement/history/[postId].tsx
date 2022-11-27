@@ -20,7 +20,7 @@ import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
 import { Link, useParams } from "react-router-dom"
-import { addMoreLangType, post, tgType } from "@apiType/announcement"
+import { addMoreLangType, announcement, post, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 import MoreLangForEdit from "src/components/annoucement/MoreLangForEdit"
 import AppBody from "src/components/share/app/AppBody"
@@ -38,11 +38,13 @@ const history = () => {
     })
     const [topic, setTopic] = React.useState<string>()
     const [detail, setDetail] = React.useState<string>()
-    const [targetType, setTargetType] = React.useState<string | undefined>()
+    const [targetType, setTargetType] = React.useState<string>()
     const [targetValue, setTargetValue] = React.useState<string>()
     const [expired, setExpired] = React.useState<string | undefined>()
     const [toggle, settoggle] = useState(false)
-    const [post, setpost] = React.useState<post[]>([])
+
+    const [post, setpost] = React.useState<announcement[]>([])
+
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
     const [isOpen, setIsOpen] = React.useState(false)
@@ -64,17 +66,40 @@ const history = () => {
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
         setpost(getData.data)
-        setTopic(getData.data.annTopic)
-        setDetail(getData.data.annDetail)
-        setTargetType(getData.data.targetType)
-        setTargetValue(getData.data.targetValue)
-        d = new Date(getData.data.expiredOfPost)
-        setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
-        setexMoreLang(getData.data.addMoreLang)
+        setTopic(getData.data[0].annLanguage[0].annTopic)
+        setDetail(getData.data[0].annLanguage[0].annDetail)
+        setTargetType(getData.data[0].annFilter.filterType)
+        setTargetValue(getData.data[0].annFilter.value)
+        d = new Date(getData.data[0].annExpired)
+        // get date มาแค่ 1 หลัก แต่ date require 2 หลัก
+       if(d.getMonth() < 10){
+            const nm = "0"+(d.getMonth()+1) 
+            if(d.getDate() < 10){
+                const nd = "0"+(d.getDate()) 
+                setExpired(d.getFullYear()+"-"+nm+"-"+nd)
+            }else {
+                setExpired(d.getFullYear()+"-"+nm+"-"+d.getDate())
+            }
+            
+        }else if(d.getDate() < 10){
+            const nd = "0"+d.getDate()     
+            if(d.getMonth() < 10){
+                const nm = "0"+(d.getMonth()+1) 
+                setExpired(d.getFullYear()+"-"+nm+"-"+nd)
+            }else{
+                setExpired(d.getFullYear()+"-"+(d.getMonth() + 1)+"-"+nd)
+            }
+        } else {   
+            setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
+        }
+        
+        // setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
+        setexMoreLang(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000))
         const value = await API.get("/announcement/gettypetarget");
         settv(value.data)
     }
-    console.log(tv[0]);
+    // console.log(addMoreLang);
+    // setexMoreLang(exmoreLang.filter((el) => el.languageId > 1000)) 
     
     // console.log(post)
     const moreLangLength = exmoreLang.length
@@ -94,6 +119,8 @@ const history = () => {
         detail: " The announcement request has been sent.",
         status: "edit",
     }
+
+    
 
     const selectTargetValue = (tgType: string | undefined) => {
         if (tgType == "Faculty") {
@@ -194,8 +221,8 @@ const history = () => {
                     />
                 )
             })
-        } else {
-            return exmoreLang.map((el) => {
+        } else if(exmoreLang.length != 0){
+            return exmoreLang?.map((el) => {
                 return (
                     <MoreLangForEdit
                         onDecrease={decreaseCount}
