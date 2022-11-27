@@ -230,7 +230,7 @@ const liList: FC<{
                                 </Box>
                             ))} */}
                             {li.map((li: any, key) => (
-                                <CustomCheckbox {...getCheckboxProps({ value: li.libId, name: li.libName })} />
+                                <CustomCheckbox key={key} {...getCheckboxProps({ value: li.libId, name: li.libName })} />
                             ))}
                         </Stack>
                     </DrawerBody>

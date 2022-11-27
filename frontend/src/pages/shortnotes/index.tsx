@@ -104,7 +104,7 @@ const index = () => {
                         <Text alignSelf={"start"}>Course</Text>
                         <Select _focus={{ bg: '#f5f5f5' }} focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
                             {course.map((course: any, key) => (
-                                <option value={course.courseName}>{course.courseName}</option>
+                                <option key={key} value={course.courseName}>{course.courseName}</option>
                             ))}
                         </Select>
                     </VStack>
@@ -113,7 +113,7 @@ const index = () => {
             <VStack gap={2} pt={4}>
                 {coursePicked == "" ? (
                     <>
-                        {sn.map((sn: any) => (
+                        {sn.map((sn: any, key) => (
                             <Box
                                 as="button"
                                 w={"100%"}
@@ -125,13 +125,13 @@ const index = () => {
                                     console.log(snPicked)
                                 }}
                             >
-                                <SnList topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
                             </Box>
                         ))}
                     </>
                 ) : (
                     <>
-                        {filtered.map((sn: any) => (
+                        {filtered.map((sn: any, key: any) => (
                             <Box
                                 as="button"
                                 w={"100%"}
@@ -143,7 +143,7 @@ const index = () => {
                                     console.log(snPicked)
                                 }}
                             >
-                                <SnList topic={sn.snName} course={sn.courseId} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                <SnList key={key} topic={sn.snName} course={sn.courseId} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
                             </Box>
                         ))}
                     </>
