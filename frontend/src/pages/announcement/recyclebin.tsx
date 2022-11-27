@@ -52,7 +52,7 @@ const recyclebin = () => {
     useEffect(() => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
-    console.log(toggle);
+    // console.log(toggle);
     const click = () => {
         settoggle(!toggle)
     }
@@ -80,6 +80,8 @@ const recyclebin = () => {
         const expired = new Date(epd)
         const dEpd = Math.round(expired.getTime() / day)
         const diffD = dEpd - currentD
+        // console.log(expired);
+        
         if (diffD <= 3 && diffD > 0) {
             if (diffD == 1) {
                 return diffD + " day"
@@ -102,7 +104,6 @@ const recyclebin = () => {
             return ""
         }
     }
-    let expiredonrecycle: Date
     return (
         <AppBody
             secondarynav={[
@@ -118,23 +119,31 @@ const recyclebin = () => {
             </Flex>
             {allPost
                 .filter((fl) => {
-                    expiredonrecycle = new Date(fl.deleteAt)
+                    const expiredonrecycle = new Date(fl.deleteAt)
                     let date: number = new Date(fl.deleteAt).getDate()
                     let month: number = new Date(fl.deleteAt).getMonth()
                     let year: number = new Date(fl.deleteAt).getFullYear()
-                    expiredonrecycle.setDate(date + 3)
-          
+                    expiredonrecycle.setDate(date + 3)          
+                    // console.log(expiredonrecycle);
+                    
+
                     const expired = new Date(expiredonrecycle)
                     const expiredPost = Math.round(expired.getTime() / day)
                     const diffD = expiredPost - currentD
-                    console.log(diffD);
+                    // console.log(diffD);
+                    
                     
                     const hEpd = Math.round(expired.getTime() / hour)
                     const diffH = hEpd - currentH
+                    
+                    
                     return (diffD > 0 || diffH > 0)
                 })
                 .map((el) => {        
-                    const r = showRemaining(expiredonrecycle)
+                    const expired = new Date(el.deleteAt)
+                    let date: number = new Date(el.deleteAt).getDate()
+                    expired.setDate(date+3)
+                    const r = showRemaining(expired)
                     return (
                         <PostOnRecycle
                             topic={el.post.annLanguage[0].annTopic}
