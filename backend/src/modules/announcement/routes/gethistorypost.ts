@@ -16,6 +16,9 @@ const getHistoryPost = async (req: Request, res: Response) => {
              postId:true,
              userId:true,
              annLanguage:{
+                orderBy:{
+                    languageId : 'asc'
+                },
                 select:{
                     languageId:true,
                     annTopic:true,
@@ -36,7 +39,7 @@ const getHistoryPost = async (req: Request, res: Response) => {
            },
         })
         res.send(historypage)
-        console.log(historypage);
+        // console.log(historypage);
         
     }catch(err){
         res.status(404).send("Post on history not found")
