@@ -35,16 +35,21 @@ const approvalDetail = () => {
     const [targetType, setTargetType] = React.useState()
     const [targetValue, setTargetValue] = React.useState()
     const [topic, setTopic] = React.useState()
-    const [sender, setSender] = React.useState()
+    const [sender, setSender] = React.useState<string>("")
     const [detail, setDetail] = React.useState()
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
-        setTargetType(getData.data.targetType)
-        setTargetValue(getData.data.targetValue)
-        setTopic(getData.data.annTopic)
-        setSender(getData.data.sender)
-        setDetail(getData.data.annDetail)
+        // console.log("test3")
+        // console.log(getData.data[0].annFilter.filterType)
+        setTargetType(getData.data[0].annFilter.filterType)
+        setTargetValue(getData.data[0].annFilter.value)
+        setTopic(getData.data[0].annLanguage[0].annTopic)
+        const name = getData.data[0].annCreator.fName +" "+ getData.data[0].annCreator.lName
+        // console.log(getData.data[0].annCreator.fName)
+        setSender(name)
+        setDetail(getData.data[0].annLanguage[0].annDetail)
+        // console.log(detail)
     }
 
     useEffect(() => {
@@ -60,11 +65,11 @@ const approvalDetail = () => {
     // console.log(targetType[0], targetValue[0])
 
     const changeStatus = (status: string) => {
-        if (status == "approve") {
-            API.post<post>("/announcement/editstatusonapprove", { postId: parseInt(params.postId + ""), status: status, isapprove: true })
+        if (status == "Approve") {
+            API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: true })
             API.post<post>("/announcement/gettargetgroup", { postId: parseInt(params.postId + ""), targetType: targetType, targetValue: targetValue })
-        } else if (status == "disapprove") {
-            API.post<post>("/announcement/editstatusonapprove", { postId: parseInt(params.postId + ""), status: status, isapprove: false })
+        } else if (status == "Disapprove") {
+            API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: false })
         }
     }
 
@@ -107,7 +112,7 @@ const approvalDetail = () => {
             <Box width="100%" p="5" mt="14">
                 <Flex justifyContent={"space-between"}>
                     <Link to={"/announcement/approval"}>
-                        <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("Approve")}>
+                        <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("Approve")} >
                             Approve
                         </Button>
                     </Link>
@@ -121,4 +126,21 @@ const approvalDetail = () => {
         </AppBody>
     )
 }
+
+
+{/* <Box width="100%" p="5" mt="14">
+<Flex justifyContent={"space-between"}>
+    <Link to={"/announcement/approval"}>
+        <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("Approve")}>
+            Approve
+        </Button>
+    </Link>
+    <Link to={"/announcement/approval"}>
+        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("Disapprove")}>
+            Disapprove
+        </Button>
+    </Link>
+</Flex>
+</Box>
+</AppBody> */}
 export default approvalDetail

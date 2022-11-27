@@ -8,27 +8,6 @@ const getDetailEdit = async (req: Request, res: Response) => {
     const prisma = res.prisma
 
     try {
-        const postfilterid = await prisma.announcement.findMany({
-            where: {
-                postId: id,
-            },
-            select: {
-                filterId: true,
-            },
-        })
-
-        // const getfilter = await prisma.announcement_Filter.findMany({
-        //     where: {
-        //         filterId: postfilterid[0].filterId,
-        //     },
-        //     select: {
-        //         filterType: true,
-        //         value: true,
-        //     },
-        // })
-        // // res.send(getfilter)
-        // console.log(getfilter)
-
         const getdetail = await prisma.announcement.findMany({
             where: {
                 postId: id,
@@ -44,6 +23,9 @@ const getDetailEdit = async (req: Request, res: Response) => {
                     },
                 },
                 annLanguage: {
+                    orderBy:{
+                        languageId : 'asc'
+                    },
                     select: {
                         postId: true,
                         languageId: true,
@@ -63,7 +45,7 @@ const getDetailEdit = async (req: Request, res: Response) => {
         res.send(getdetail)
         console.log(getdetail)
         // console.log(getdetail[0].annCreator)
-        console.log(getdetail[0].annLanguage)
+        // console.log(getdetail[0].annLanguage)
 
     } catch (err: any) {
         console.log(err)
