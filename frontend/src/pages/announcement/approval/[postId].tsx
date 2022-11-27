@@ -67,7 +67,7 @@ const approvalDetail = () => {
     const changeStatus = (status: string) => {
         if (status == "Approve") {
             API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: true })
-            API.post<post>("/announcement/gettargetgroup", { postId: parseInt(params.postId + ""), targetType: targetType, targetValue: targetValue })
+            API.post<post>("/announcement/gettargetgroup", { postId: params.postId, targetType: targetType, targetValue: targetValue })
         } else if (status == "Disapprove") {
             API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: false })
         }
