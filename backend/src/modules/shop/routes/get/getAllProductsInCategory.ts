@@ -18,7 +18,10 @@ const getAllProductsInCategory = async (req: Request, res: Response) => {
                 productPrice: true,
                 productStock: true,
                 brandName: true,
-                deliveryFees: true
+                deliveryFees: true,
+                images: {
+                    select: {image: true}
+                }
             },
             where: {categoryId: parseInt(catId)}
         })

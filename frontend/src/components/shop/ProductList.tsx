@@ -16,29 +16,33 @@ const ProductList: FC<{
     )
 }
 function generateProducts(products: Shop_Product_With_Images[] | null) {
-    if (products != null) {
-        let dummyData = []
-        const dummy = products.map((product) => {
-            if (product.images.length > 0){
-                return (<ProductDisplay
-                    id={product.productId}
-                    name={product.productName}
-                    brandName={product.brandName}
-                    price={product.productPrice}
-                    image = {product.images[0].image}
-                ></ProductDisplay>)
-            } else {
-                return(<ProductDisplay
-                    id={product.productId}
-                    name={product.productName}
-                    brandName={product.brandName}
-                    price={product.productPrice}
-                ></ProductDisplay>)
-            }
-        })
-        dummyData.push(dummy)
+    try {
+        if (products != null) {
+            let dummyData = []
+            const dummy = products.map((product) => {
+                if (product.images.length > 0) {
+                    return (<ProductDisplay
+                        id={product.productId}
+                        name={product.productName}
+                        brandName={product.brandName}
+                        price={product.productPrice}
+                        image={product.images[0].image}
+                    ></ProductDisplay>)
+                } else {
+                    return (<ProductDisplay
+                        id={product.productId}
+                        name={product.productName}
+                        brandName={product.brandName}
+                        price={product.productPrice}
+                    ></ProductDisplay>)
+                }
+            })
+            dummyData.push(dummy)
 
-        return dummyData
+            return dummyData
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 

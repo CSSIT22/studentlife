@@ -1,4 +1,4 @@
-import { Shop_Product } from '@apiType/shop'
+import { Shop_Product, Shop_Product_With_Images } from '@apiType/shop'
 import { Center, useBoolean, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
@@ -11,7 +11,7 @@ import API from 'src/function/API'
 const index = () => {
     const param = useParams()
     const location = useLocation()
-    const [productList, setProductList] = useState<Shop_Product[] | null>(null)
+    const [productList, setProductList] = useState<Shop_Product_With_Images[] | null>(null)
     let completed = setDataAPI("/shop/getAllProductsInCategory/" + param.id, setProductList)
     if (completed!= true) {return <ShopAppBody>{completed}</ShopAppBody>}
     const category_name = location.state.cat_name
