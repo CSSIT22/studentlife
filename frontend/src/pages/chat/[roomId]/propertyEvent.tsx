@@ -21,33 +21,50 @@ import {
     EditablePreview,
     EditableInput,
     InputRightElement,
+    useDisclosure,
 } from "@chakra-ui/react"
 import AppBody from "../../../components/share/app/AppBody"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { AiFillBug, AiFillPicture, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { FaCircle } from "react-icons/fa"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
 import Member from "src/pages/groups/id/[communityID]/member"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
+import { RoomType } from "../[roomID]"
 
 const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
 }
 
 function propertyEvent(props: any) {
+    const [Room, setRoom] = React.useState<RoomType>()
     const [roomColor, setRoomColor] = React.useState("")
-    const colors = ["black", "blue", "gray", "red", "green", "purple", "pink", "orange", "teal", "yellow"]
+    // const colors = ["black", "blue", "gray", "red", "green", "purple", "pink", "orange", "teal", "yellow"]
+    const colors = ["#000000", "#0000ff", "#808080", "#ff0000", "#008000", "#800080", "#ffc0cb", "#ff8c00", "#008080", "#ffff00"]
 
     function colorRoom(e: any) {
         return setRoomColor(e.target.value)
     }
 
-    const [roomName, setRoomName] = useState("")
-    const submitRoomName = () => {
-        API.post("/chat")
+    const submitRoomColor = () => {
+        API.post(`/chat/${param.roomId}?chatColor=${encodeURIComponent(roomColor)}`)
+        navigate(`/chat/${param.roomId}`)
     }
 
-    type member = { memberPic:String , memberName:String , id: String}
+    let param = useParams()
+    useEffect(() => {
+        API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data)
+        )
+    }, [param])
+
+    const navigate = useNavigate()
+
+    const [roomName, setRoomName] = useState("")
+    const submitRoomName = () => {
+        API.post(`/chat/${param.roomId}?roomName=${roomName}`)
+        navigate(`/chat/${param.roomId}`)
+    }
 
     const members: any = [
         { memberPic: "https://picsum.photos/200/300", memberName: "Neng", id: "1" },
@@ -60,8 +77,8 @@ function propertyEvent(props: any) {
 
     const [selectedMember, setSelectedMember] = useState<any>([])
     const [searchMember, setSearchMember] = React.useState("")
-    
-    const renderMember = (member: any ) => {
+
+    const renderMember = (member: any) => {
         // if(selectedMember.length != 0){
         //     member.filter((e: any) => e.id == selectedMember.includes(e.id))
         //     console.log(selectedMember);
@@ -112,22 +129,24 @@ function propertyEvent(props: any) {
         )
     }
 
-    const quote = ["I wish I was your mirror, so that I could look at you every morning.",
-                    "When I need a pick me up, I just think of your laugh and it makes me smile.",
-                    "You know you're pretty… pretty amazing.",
-                    "I'm lucky because I have plans for today, for tomorrow, for the week, and for my whole life—to make you happy."]
-
-    const [quoteList, setQuote ] = useState(quote)
+    const [quoteList, setQuote] = useState<any>([])
     const [quoteText, setQuoteText] = useState("")
-    const [quoteWarning,setQuoteWarning] = useState("")
+    const [quoteWarning, setQuoteWarning] = useState("")
+    console.log(quoteList);
+
+    useEffect(() => {
+        API.get(`/chat/${param.roomId}/getQuote`).then((e) => setQuote(e.data)
+        )
+    }, [])
 
     const addQuote = () => {
-        if(quoteText.length !== 0){
-            setQuote([...quoteList , quoteText])
+        if (quoteText.length !== 0) {
+            // setQuote([...quoteList, quoteText])
+            API.post(`/chat/${param.roomId}/addQuote?quoteAdd=${quoteText}`)
             setQuoteText("")
             setQuoteWarning("")
         }
-        else if(quoteText.length == 0){
+        else if (quoteText.length == 0) {
             setQuoteWarning("Your input is empty! Please add the quote.")
         }
     }
@@ -136,9 +155,14 @@ function propertyEvent(props: any) {
 
     if (props === "Set room name") {
         return (
-            <Box p={"6"}>
-                <Input placeholder="Room name" />
-            </Box>
+            <VStack spacing={4} p={4}>
+                <Input placeholder={Room?.room.roomName} onChange={(e: any) => setRoomName(e.target.value)} />
+                <Box alignItems={'center'}>
+                    <Button colorScheme="orange" onClick={submitRoomName}>
+                        Done
+                    </Button>
+                </Box>
+            </VStack>
         )
     }
     if (props === "Set nickname") {
@@ -167,21 +191,21 @@ function propertyEvent(props: any) {
     }
     if (props === "Add quote") {
         return (
-            <Flex justifyContent={"center"}>
+            <Flex justifyContent={"center"} pb={6}>
                 <VStack>
                     <Text>Quote you added</Text>
-                    <Flex bg={"gray.200"} w={"96"} p={4} overflowY={"auto"} maxH={"60"}>
+                    <Flex bg={"gray.100"} w={"96"} p={4} overflowY={"auto"} maxH={"60"} rounded={'md'}>
                         <UnorderedList>
-                            {quoteList.map((e:any) =>(
-                                <ListItem>{e}</ListItem>
+                            {quoteList.map((e: any) => (
+                                <ListItem>{e.text}</ListItem>
                             ))}
                         </UnorderedList>
                     </Flex>
                     <Text pt={4}>Quote you want to add</Text>
                     <InputGroup>
-                        <Input placeholder="Quote" value={quoteText} onChange={(e) => setQuoteText(e.target.value)}/>
+                        <Input placeholder="Quote" value={quoteText} onChange={(e) => setQuoteText(e.target.value)} />
                         <InputRightElement>
-                            <Box onClick={()=> addQuote()} color="orange.200" cursor={'pointer'}><AiOutlinePlus size={20} /></Box>
+                            <Box onClick={() => addQuote()} color="orange.200" cursor={'pointer'}><AiOutlinePlus size={20} /></Box>
                         </InputRightElement>
                     </InputGroup>
                     <Box color="red" fontSize={12}>{quoteWarning}</Box>
@@ -206,8 +230,11 @@ function propertyEvent(props: any) {
                     </VStack>
                     <VStack>
                         <Text as="b">color code</Text>
-                        <Input placeholder="#000000" bgColor={roomColor} onChange={(e) => colorRoom(e)} />
+                        <Input placeholder={Room?.room.chatColor} bgColor={roomColor} onChange={(e) => colorRoom(e)} />
                     </VStack>
+                    <Button colorScheme="orange" onClick={submitRoomColor}>
+                        Done
+                    </Button>
                 </VStack>
             </Flex>
         )
@@ -221,6 +248,11 @@ function propertyEvent(props: any) {
                     <Input placeholder="Context" w={96} />
                     <Text>Reason for reporting</Text>
                     <Input placeholder="Reason" />
+                    <Box alignItems={'center'} p={6}>
+                        <Button colorScheme="green">
+                            Verify and send
+                        </Button>
+                    </Box>
                 </VStack>
             </Flex>
         )
@@ -251,7 +283,7 @@ function propertyEvent(props: any) {
     }
     if (props === "Invite people") {
         return (
-            <Flex justifyContent={"center"}>
+            <VStack>
                 <Flex w={"96"} direction={"column"} gap={4}>
                     <InputGroup>
                         <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
@@ -267,7 +299,12 @@ function propertyEvent(props: any) {
                         </Flex>
                     </Box>
                 </Flex>
-            </Flex>
+                <Box alignItems={'center'} p={6}>
+                    <Button colorScheme="orange">
+                        Invite
+                    </Button>
+                </Box>
+            </VStack>
         )
     }
     if (props === "Set room profile") {
@@ -281,24 +318,34 @@ function propertyEvent(props: any) {
                         alt="Room profile"
                     />
                     <Button>Choose from my library</Button>
+                    <Box alignItems={'center'} p={3}>
+                        <Button colorScheme="orange">
+                            Done
+                        </Button>
+                    </Box>
                 </VStack>
             </Flex>
         )
     }
     if (props === "Create community") {
         return (
-            <Flex justifyContent={"center"}>
+            <VStack justifyContent={"center"}>
                 <Text textAlign={"center"}>
                     Are you sure that you want to create
                     <br />
                     community from this group chat?
                 </Text>
-            </Flex>
+                <Box alignItems={'center'} p={6}>
+                    <Button colorScheme="orange">
+                        Create
+                    </Button>
+                </Box>
+            </VStack>
         )
     }
     if (props === "Leave group") {
         return (
-            <Flex justifyContent={"center"}>
+            <VStack justifyContent={"center"}>
                 <Text textAlign={"center"}>
                     If you leave this group, you'll not be able to see
                     <br />
@@ -306,7 +353,26 @@ function propertyEvent(props: any) {
                     <br />
                     Are you sure you want to leave group?
                 </Text>
-            </Flex>
+                <Box alignItems={'center'} p={6}>
+                    <Button colorScheme="orange">
+                        Leave group
+                    </Button>
+                </Box>
+            </VStack>
+        )
+    }
+    if (props === "Create group chat") {
+        return (
+            <VStack justifyContent={"center"}>
+                <Text textAlign={"center"}>
+                    Do you want to create group chat?
+                </Text>
+                <Box alignItems={'center'} p={6}>
+                    <Button colorScheme="orange">
+                        Create
+                    </Button>
+                </Box>
+            </VStack>
         )
     }
 }

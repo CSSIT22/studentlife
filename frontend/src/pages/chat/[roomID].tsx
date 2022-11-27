@@ -25,7 +25,7 @@ const mockMessage = [
     { text: "wait..? what?", from: "me", timeSent: "20:27" },
     { text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
 ]
-type RoomType = {
+export type RoomType = {
     room: {
         roomIndividual: {
             chatWith: {

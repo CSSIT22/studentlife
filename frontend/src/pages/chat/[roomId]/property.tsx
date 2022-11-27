@@ -31,33 +31,34 @@ import { useNavigate, useParams } from "react-router-dom"
 import Clist from "src/components/chat/Chat-list"
 import propertyDetail from "./propertyEvent"
 import API from "src/function/API"
+import { RoomType } from "../[roomID]"
 
 function showProperty() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [eventNames, setEventName] = React.useState("")
     const [eventButtons, setEventButton] = React.useState("")
-    const [Room, setRoom] = React.useState({ roomId: "", roomName: "", roomtype: "" })
+    const [Room, setRoom] = React.useState<RoomType>()
 
     let param = useParams()
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/user`)
-        
+        return navigate(`/user/${param.roomId}`)
+
     }
 
-    function NavigateCreateCommu(){
+    function NavigateCreateCommu() {
         return navigate('/groups/create')
     }
-    
+
     useEffect(() => {
-        API.get(`chat/${param.roomId}`).then((e) => setRoom(e.data)
+        API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data)
         )
     }, [param])
 
     function renderRoomProp() {
-        if(Room.roomtype === "INDIVIDUAL"){
-            return(
+        if (Room?.room.roomType === "INDIVIDUAL") {
+            return (
                 eventsIndi.map((event) => (
                     <Button
                         onClick={() => handleSizeClick(event)}
@@ -67,14 +68,15 @@ function showProperty() {
                         size="lg"
                         iconSpacing={"5"}
                         _hover={{ background: "transparent", transform: "scale(1.1)" }}
+                        _active={{ background: "orange.200" }}
                     >
                         {`${event.eventName}`}
                     </Button>
                 ))
             )
         }
-        else if(Room.roomtype === "GROUP"){
-            return(
+        else if (Room?.room.roomType === "GROUP") {
+            return (
                 eventsGroup.map((event) => (
                     <Button
                         onClick={() => handleSizeClick(event)}
@@ -84,6 +86,7 @@ function showProperty() {
                         size="lg"
                         iconSpacing={"5"}
                         _hover={{ background: "transparent", transform: "scale(1.1)" }}
+                        _active={{ background: "transparent" }}
                     >
                         {`${event.eventName}`}
                     </Button>
@@ -108,32 +111,34 @@ function showProperty() {
     }
     const eventsIndi = [
         { eventIcon: CgProfile, eventName: "View profile" },
-        { eventIcon: RiUserSettingsLine, eventName: "Set nickname", buttonValue: "Done" },
-        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Done" },
-        { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
-        { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
+        // { eventIcon: RiUserSettingsLine, eventName: "Set nickname" },
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name"},
+        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue : 'Done'},
+        { eventIcon: MdColorLens, eventName: "Change room color" },
+        { eventIcon: FaUserFriends, eventName: "Create group chat" },
+        { eventIcon: MdFlag, eventName: "Report"},
     ]
     const eventsGroup = [
-        { eventIcon: FaUserFriends, eventName: "Member", buttonValue: "Done" },
-        { eventIcon: FaUserPlus, eventName: "Invite people", buttonValue: "Invite" },
-        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name", buttonValue: "Done" },
-        { eventIcon: AiFillPicture, eventName: "Set room profile", buttonValue: "Done" },
-        { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue: "Done" },
-        { eventIcon: MdColorLens, eventName: "Change room color", buttonValue: "Done" },
-        { eventIcon: FaHome, eventName: "Create community", buttonValue: "Create" },
-        { eventIcon: MdFlag, eventName: "Report", buttonValue: "Verify and send" },
-        { eventIcon: FaDoorOpen, eventName: "Leave group", buttonValue: "Leave" },
+        { eventIcon: FaUserFriends, eventName: "Member"},
+        { eventIcon: FaUserPlus, eventName: "Invite people"},
+        { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name"},
+        { eventIcon: AiFillPicture, eventName: "Set room profile"},
+        { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : 'Done'},
+        { eventIcon: MdColorLens, eventName: "Change room color" },
+        { eventIcon: FaHome, eventName: "Create community" },
+        { eventIcon: MdFlag, eventName: "Report" },
+        { eventIcon: FaDoorOpen, eventName: "Leave group" },
     ]
 
     // console.log(Room);
-    
+
     return (
         <>
             <VStack spacing={6} alignItems={"flex-start"}>
                 {renderRoomProp()}
             </VStack>
 
-            <Modal isOpen={isOpen} onClose={onClose} size={{base:"xs" , md:"lg"}} isCentered>
+            <Modal isOpen={isOpen} onClose={onClose} size={{ md: 'lg' }} isCentered>
                 <ModalOverlay backdropFilter="blur(5px)" />
                 <ModalContent>
                     <ModalHeader>
@@ -144,12 +149,12 @@ function showProperty() {
                     <ModalCloseButton />
                     <ModalBody>{propertyDetail(eventNames)}</ModalBody>
 
-                    <ModalFooter display={"flex"} justifyContent={"center"}>
+                    {/* <ModalFooter display={"flex"} justifyContent={"center"}>
                         <Button colorScheme="orange" onClick={onClose}>
                             {eventButtons}
                         </Button>
-                        {/* <Button variant="ghost">Secondary Action</Button> */}
-                    </ModalFooter>
+                        <Button variant="ghost">Secondary Action</Button>
+                    </ModalFooter> */}
                 </ModalContent>
             </Modal>
         </>
@@ -173,7 +178,7 @@ const Property = () => {
                 </Hide>
                 <VStack spacing={10} display={"flex"} justifyContent={"center"}>
                     <HStack spacing={5}>
-                        <Button aria-label="Back to chat room" size="md" variant='solid' onClick={Navigate}><ArrowBackIcon /></Button>
+                        <Button aria-label="Back to chat room" size="md" variant='unstyled' _hover={{ transform: "scale(1.5)" }} transitionDuration="300ms" onClick={Navigate}><ArrowBackIcon /></Button>
                         <Heading size="lg">Chat properties</Heading>
                     </HStack>
                     <VStack pl={14} spacing={8} align="flex-start" fontSize="20">

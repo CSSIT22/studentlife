@@ -4,6 +4,9 @@ import express from "express"
 import getRoom from "./router/getRoom"
 import room_prop from "./router/getRoomProp"
 import spotify from "./router/spotifySearch"
+import editRoomProp from "./router/editRoomProp"
+import getQuote from "./router/getQuote"
+import addQuote from "./router/addQuote"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -18,6 +21,10 @@ chatRoutes.get("/spotifySearch",spotify)
 
 chatRoutes.get("/:id", room_prop)
 
-// chatRoutes.post("/:id", editproperty)
+chatRoutes.get("/:id/getQuote", getQuote)
+
+chatRoutes.post("/:id", editRoomProp)
+
+chatRoutes.post("/:id/addQuote", addQuote)
 
 export default chatRoutes
