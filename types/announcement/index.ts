@@ -37,32 +37,32 @@ export type tgType = {
 
 export type announcement = {
     postId:string,
-    userId:string | "",
+    userId:string,
     filterId:number,
     annCreate:Date,
     annExpired:Date,
     isApprove:boolean,
     annCreator:InitUserResponse
     annLanguage:post_to_language[],
-    annFilter:announcement_filter  | "",
+    annFilter:announcement_filter,
     annPost:announcement_post ,
-    annPin:announcement_pin[] | "",
-    annSee:announcement_seen[] | "",
-    annApprove:announcement_approve | "",
-    annDel:announcement_delete | ""
+    annPin:announcement_pin[] ,
+    annSee:announcement_seen[],
+    annApprove:announcement_approve ,
+    annDel:announcement_delete
 }
 
 export type announcement_filter = {
     filterId:number,
     filterType:string,
     value:string
-    announcement:announcement | ""
+    announcement:announcement 
 }
 
 export type announcement_language = {
     languageId:number,
     language:string
-    announcementPost:post_to_language[] | ""
+    announcementPost:post_to_language[] 
 }
 
 export type post_to_language = {
@@ -70,22 +70,22 @@ export type post_to_language = {
     languageId:number,
     annTopic:string,
     annDetail:string
-    post:announcement | "",
-    language:announcement_language | ""
+    post:announcement,
+    language:announcement_language 
 
 }
 
 export type announcement_post = {
     postId:string,
     status:string
-    announcement:announcement | "",
-    postTo:post_on_page[] | ""
+    announcement:announcement ,
+    postTo:post_on_page[] 
 }
 
 export type post_on_page = {
     postId:string,
     userId:string
-    post:announcement_post | "",
+    post:announcement_post ,
     user:InitUserResponse
 }
 
@@ -99,7 +99,7 @@ export type announcement_pin = {
     postId:string,
     userId:string,
     status:boolean,
-    post:announcement | ""
+    post:announcement 
     user:InitUserResponse
 }
 
@@ -107,7 +107,7 @@ export type announcement_seen = {
     postId:string,
     userId:string,
     seenAt:Date,
-    post:announcement | ""
+    post:announcement 
     user:InitUserResponse
 }
   
@@ -115,6 +115,6 @@ export type announcement_approve = {
     userId:string,
     postId:string,
     approveTime:Date,
-    postApprove:announcement[] | ""
+    postApprove:announcement[] 
     approvedBy:InitUserResponse
 }
