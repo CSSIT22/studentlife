@@ -1,4 +1,24 @@
-import { Box, Button, Center, CloseButton, filter, Flex, Show, Spacer, Stack, Text, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
+import {
+    Box,
+    Button,
+    Center,
+    CloseButton,
+    filter,
+    Flex,
+    Show,
+    Spacer,
+    Stack,
+    Text,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useToast,
+} from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Modulelist from "./moduleList/Modulelist"
 import NotiList from "./main/NotiList"
@@ -17,34 +37,50 @@ const NotiTable = () => {
         setreLoad(!reLoad)
     }
 
-    //getNotiobject
-    const param = useParams()
-    const getUserNotiObject = API.get("/notification/getusernotiobject/" + param.id)
-    const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    useEffect(() => {
-        getUserNotiObject.then((res) => {
-            setUserNotiObject(res.data)
-        })
-    }, [reLoad])
-    //console.log(userNotiObject)
-    //console.log(OBJECTS)
 
     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
     function showSelectedModule(module: string) {
         setSelectedModule(module)
+        setreLoad(!reLoad)
     }
 
-    //create list of selected module
-    const notiListModule: any[] = userNotiObject.filter((el) => el.module == selectedModule)
+    //getUserNotiObject by Module
+
+    const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
+    console.log(getUserNotiObjectModule);
+
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+    useEffect(() => {
+        getUserNotiObjectModule.then((res) => {
+            setUserNotiObjectModule(res.data)
+        })
+    }, [reLoad])
+    //console.log(userNotiObjectModule);
+
+
+
 
     function showNotiList(): any {
-        if (selectedModule == "All") {
-            return <NotiList selectedList={userNotiObject} onClick={load}></NotiList>
-        } else {
-            return <NotiList selectedList={notiListModule} onClick={load}></NotiList>
-        }
+        return <NotiList module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiList>
     }
+    // function alert() {
+    //     const toast = useToast()
+    //     return (
+    //         <Button
+    //             onClick={() =>
+    //                 toast({
+    //                     title: 'New Notification.',
+    //                     description: "iuytfrftgyhuojipkl[;",
+    //                     duration: 3000,
+    //                     isClosable: true,
+    //                 })
+    //             }
+    //         >
+    //             Show Noti
+    //         </Button>
+    //     )
+    // }
 
     //setting
     function ShowSetting() {
@@ -63,7 +99,7 @@ const NotiTable = () => {
                         </ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <NotiSetting id={settingApp.id} appSettingType={1} />
+                            <NotiSetting />
                         </ModalBody>
                         <ModalFooter>
                             <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
@@ -83,6 +119,10 @@ const NotiTable = () => {
                 </Box>
                 <Spacer />
                 <Box>
+                    {/* {alert()} */}
+                </Box>
+                <Spacer />
+                <Box>
                     <Stack direction={"row"}>
                         <MarkRead module={selectedModule} onClick={load} />
                         {ShowSetting()}
@@ -90,7 +130,7 @@ const NotiTable = () => {
                 </Box>
             </Flex>
 
-            <Stack padding={4} paddingTop={2} height="50vh" overflow="auto">
+            <Stack padding={4} paddingTop={2} height={{ base: "72vh", md: "50vh" }} overflow="auto">
                 {showNotiList()}
             </Stack>
             <Center paddingTop={2}>

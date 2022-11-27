@@ -2,15 +2,12 @@ type EXP = {
   currentXP: number;
   level: number;
 };
-type Role_Type =
-  | "ANNOUNCEMENT_ANNOUNCER"
-  | "SCHEDULE_CREATER"
-  | "ANNOUNCEMENT_APPROVER";
+type Role_Type = "ANNOUCEMENT_ANNOUNCER" | "SCHEDULE_CREATER";
 
 export type Role = {
+  expired: Date;
   roleId: string;
   roleName: Role_Type;
-  expired: Date;
 };
 export interface InitUserResponse {
   fName: string;
@@ -20,4 +17,5 @@ export interface InitUserResponse {
   levels: EXP | null;
   studentId: string;
   roles: Role[];
+  socketToken: string;
 }

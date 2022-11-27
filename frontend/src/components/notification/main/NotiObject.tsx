@@ -6,14 +6,15 @@ import { MODULES } from "../moduleList/moduleTest"
 import { USER } from "./mockupData/userProfile"
 
 const NotiObject: FC<{
-    id: number
-    userId: string
-    description: string
-    isRead: boolean
+    id: string
+    template: string
     date: Date
-    link: string
+    isRead: boolean
+    module: string
+    url: string
     onClick: Function
-}> = ({ id, description, isRead, date, userId, link, onClick }) => {
+    sender: string
+}> = ({ id, template, isRead, date, module, url, onClick, sender }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.6em" bg="gray" />
@@ -22,6 +23,7 @@ const NotiObject: FC<{
         }
     }
     function showDate() {
+
         const current = new Date()
 
         const minute = 1000 * 60
@@ -94,26 +96,20 @@ const NotiObject: FC<{
         }
     }
     function showDescription() {
-        return <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: description }} />
+        return <Text fontSize={"sm"} textAlign={"left"}>noti description</Text>
+        // <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: description }} />
     }
     function showUser() {
-        var user = USER.filter((el) => el.id == userId)
-        var userStatus = user[0].isOnline
+        //var user = USER.filter((el) => el.id == userId)
+
         //console.log(user)
 
-        if (userStatus) {
-            return (
-                <Avatar src={user[0].avatarImg} size={"sm"}>
-                    <AvatarBadge boxSize="1em" bg="green.500" />
-                </Avatar>
-            )
-        } else {
-            return (
-                <Avatar src={user[0].avatarImg} size={"sm"}>
-                    <AvatarBadge boxSize="1em" bg="gray" />
-                </Avatar>
-            )
-        }
+        return (
+            //<Avatar src={user[0].avatarImg} size={"sm"} />
+            <Avatar size={"sm"} />
+
+        )
+
     }
     function read() {
         API.post("/notification/readnotiobject/" + id)
@@ -131,7 +127,7 @@ const NotiObject: FC<{
                 read(), onClick()
             }}
         >
-            <a href={link}>
+            <a href={url}>
                 <Stack direction={"row"} spacing={5} padding={"1"}>
                     <Center>{showUser()}</Center>
 

@@ -4,9 +4,9 @@ import AppBody from "../../components/share/app/AppBody"
 
 const notiTable = () => {
     return (
-            <AppBody>
-                <NotiTable />
-            </AppBody>
+        <AppBody>
+            <NotiTable />
+        </AppBody>
     )
 }
 
