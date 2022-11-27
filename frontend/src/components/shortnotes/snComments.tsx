@@ -38,7 +38,7 @@ const snComments = () => {
                                     title: 'Commented',
                                     description: "Your commented complete. ",
                                     status: 'success',
-                                    duration: 9000,
+                                    duration: 4000,
                                     isClosable: true,
                                 })
                             )

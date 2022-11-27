@@ -83,16 +83,25 @@ const btnMyLibrary = () => {
     const submit = () => {
         API.post("/shortnotes/postLibrary", {
             libName: name
-        }).then((res) => console.log(res)
+        }).then((res) => {
+            console.log(res)
+            window.location.reload()
+        }
         )
     }
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const deleteLibrary = () => {
-        API.delete("shortnotes/deleteLibrary", {
-            libId: liPicked
+        API.delete("/shortnotes/deleteLibrary", {
+            data: {
+                libId: liPicked
+            }
+        }).then((res) => {
+            console.log(res);
+            window.location.reload()
         })
     }
+
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -155,7 +164,7 @@ const btnMyLibrary = () => {
                                         title: 'Library created.',
                                         description: "ํYou've created a new library.",
                                         status: 'success',
-                                        duration: 9000,
+                                        duration: 4000,
                                         isClosable: true,
                                     })
                                 }}>
@@ -216,7 +225,13 @@ const btnMyLibrary = () => {
                         <Button onClick={() => {
                             deleteLibrary()
                             onClose()
-                            window.location.reload()
+                            toast({
+                                title: 'Library deleted.',
+                                description: "You've deleted your library.",
+                                status: 'success',
+                                duration: 4000,
+                                isClosable: true,
+                            })
                         }} colorScheme={"red"}>
                             Delete
                         </Button>
