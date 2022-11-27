@@ -93,7 +93,6 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-    const cancelRef = React.useRef()
 
     const breakpoints = {
         sm: "400px",
@@ -102,7 +101,6 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
         xl: "1200px",
         "2xl": "1536px",
     }
-
     // 3. Extend the theme
     const theme = extendTheme({ breakpoints })
 

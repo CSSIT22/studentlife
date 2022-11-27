@@ -5,12 +5,15 @@ import getProfile from "./routers/getProfile"
 import getExp from "./routers/getExp"
 import getaboutmeuser from "./routers/getaboutmeuser"
 import editaboutmeuser from "./routers/editAboutmeuser"
+import getFriendData from "./routers/getFriendData"
 
 import init from "./routers/init"
 
 const userRoutes = express()
 
 userRoutes.get("/", verifyUser, init)
+
+userRoutes.get("/friendprofile/:id", getFriendData)
 
 userRoutes.get("/profile/exp", getExp)
 
