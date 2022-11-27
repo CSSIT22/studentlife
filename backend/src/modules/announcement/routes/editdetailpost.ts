@@ -52,6 +52,13 @@ const editDetailPost = async (req: Request, res: Response) => {
             data: {
                 annTopic: topic,
                 annDetail: detail,
+                post:{
+                    update:{
+                        annExpired:new Date(expiredpost),
+                        annCreated:new Date(),
+                        filterId:newTargetUser?.filterId
+                    }
+                }
             },
         })
 
