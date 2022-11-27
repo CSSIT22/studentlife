@@ -7,7 +7,7 @@ const postInLibrary = async (req: Request<any>, res: Response<any>) => {
         const user = req.user?.userId
 
         const payload: any = {
-            libId: parseInt(req.body.libId),
+            libId: req.body.libId,
             snId: req.body.snId,
         }
 

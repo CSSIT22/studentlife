@@ -83,7 +83,7 @@ const liList: FC<{
         API.delete("/shortnotes/deleteShortnote/" + param.id)
     }
 
-    const [selectedLi, setSelectedLi] = useState<any>()
+    const [selectedLi, setSelectedLi] = useState()
     const addToLibrary = () => {
         API.post("/shortnotes/postInLibrary", {
             snId: param.id,
