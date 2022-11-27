@@ -4,6 +4,15 @@ let exptable = {
     Dating: 10,
     Announce: 15,
     chatAddfriend: 20,
+    DatingTuT: 20,
+    DatingOption: 20,
+    DatingInterest: 20,
+    DatingDiscoveryLeft: 20,
+    DatingDiscoveryRight: 20,
+    DatingSkip: 20,
+    DatingRate: 20,
+    DatingPoll: 20,
+    DatingPollJoinActivity: 20,
 }
 // calExp(prisma, req.user?.userId || "", "chatAddfriend")
 type expType = keyof typeof exptable
