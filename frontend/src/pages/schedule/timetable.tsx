@@ -3,11 +3,12 @@ import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
 import Calendar from 'react-calendar';
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
-import { Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text } from "@chakra-ui/react"
-import { Box, extendTheme, Heading, SimpleGrid, Textarea } from "@chakra-ui/react"
-import { IconButton, useDisclosure, Button, ButtonGroup, Divider } from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, 
+    ModalFooter, ModalBody, ModalCloseButton, VStack, 
+    FormControl, FormLabel, FormErrorMessage, FormHelperText, 
+    Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text, Box, 
+    extendTheme, Heading, SimpleGrid, Textarea, IconButton, 
+    useDisclosure, Button, ButtonGroup, Divider} from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 // import { DESCRIPTION } from "src/components/notification/main/data/descTest"
@@ -51,13 +52,13 @@ const timetable = () => {
     const calendarModal = useDisclosure()
     const detailModal = useDisclosure()
     const navigate = useNavigate()
-    const [event, setEvent] = useState("")
-    const handleInputEventChange = (e: any) => setEvent(e.target.value)
+    
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-    const [name, setNameInput] = useState("")
-    const handleInputNameChange = (e: any) => setNameInput(e.target.value)
+    //set State for add event 
+   const [event, setEvent] = useState("")
+    const handleInputEventChange = (e: any) => setEvent(e.target.value)
 
     const [description, setDescriptionInput] = useState("")
     const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
@@ -65,18 +66,33 @@ const timetable = () => {
     const [location, setLocationInput] = useState("")
     const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
 
-    const [time, setTimeInput] = useState("")
-    const handleInputTimeChange = (e: any) => setTimeInput(e.target.value)
+    const [time, setStartTimeInput] = useState("")
+    const handleInputTimeChange = (e: any) => setStartTimeInput(e.target.value)
+
+    const [endtime, setEndTimeInput] = useState("")
+    const handleInputEndTimeChange = (e: any) => setEndTimeInput(e.target.value)
+    
+    //select date in calendar
     const [dateSelect, setDateInput] = useState(new Date())
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const monthNames = ["January", "February", "March", "April", 
+    "May", "June", "July", "August", "September", "October", 
+    "November", "December"]
     const dateButton = document.getElementById('my-element')
 
     function handleTime() {
         const starttime = new Date(time)
         return starttime
     }
+    function handleEndTime() {
+        const etime = new Date(endtime)
+        return etime
+    }
     function handleSubmit() {
-        console.log("Name: " + name + " Description: " + description + " Location: " + location + " Time: " + handleTime())
+        console.log("Name: " + event + 
+        " Description: " + description + 
+        " Location: " + location + 
+        " Start Time: " + handleTime() +
+        " End Time: " + handleEndTime())
     }
     function selectDate() {
         dateSelect
@@ -95,6 +111,7 @@ const timetable = () => {
                     borderRightRadius="55"
                     borderLeftRadius="55"
                     display={{ base: "none", md: "block" }} />
+
 
                 <Button id="dateButton" boxShadow="md" p="6" rounded="md"
                     bg="white"
@@ -138,12 +155,7 @@ const timetable = () => {
                     onClick={calendarModal.onOpen} display={{ base: "none", md: "block" }}>
                     {dateSelect.getFullYear()}
                 </Button>
-                {/* <Button id="calendarButton" boxShadow="md" p="6" rounded="md" bg="white" isOpen={calendarModal.isOpen} onClose={calendarModal.onClose}>
-                    Month
-                </Button> */}
-                {/* <Button boxShadow="md" p="6" rounded="md" bg="white">
-                    Year
-                </Button> */}
+                
                 <IconButton aria-label="next"
                     ml={"8"}
                     icon={<ChevronRightIcon />}
@@ -153,6 +165,8 @@ const timetable = () => {
                     borderRightRadius="55"
                     borderLeftRadius="55"
                     display={{ base: "none", md: "block" }} />
+
+                
 
                 <IconButton
                     onClick={modal1.onOpen}
@@ -215,16 +229,19 @@ const timetable = () => {
                                     </FormLabel>
                                     <Input placeholder="Select time" size="xs"
                                         id="time"
-                                        type="time"
-                                        value={time + " "}
-                                        onChange={handleInputTimeChange} />
+                                        type="datetime-local"
+                                         value={time}
+                                        onChange={(e)=>{handleInputTimeChange(e)}} />
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <FormLabel color="black">
                                         <Text fontSize="24px">End Time</Text>
                                     </FormLabel>
-                                    <Input placeholder="Select time" size="xs" type="time" />
+                                    <Input placeholder="Select time" 
+                                    size="xs" 
+                                    type="datetime-local" 
+                                    onChange={(e)=>{handleInputEndTimeChange(e)}}/>
                                 </FormControl>
 
                                 <FormControl mt={4}>
@@ -299,13 +316,9 @@ const timetable = () => {
 
             <Box boxShadow="md" p="4" rounded="md" bg="white">
                 <Text>01:00</Text>
-                {/* <Box zIndex="4"  position="fixed" bgColor="#FFA740"><Text color='black' width="88px" height="295px">Assignment</Text>  </Box>
-                 */}
-
                 <br />
                 <Divider orientation="horizontal" />
                 <Text>02:00</Text>
-                {/* <Box zIndex="5" position="fixed" bgColor="#7EFF69"><Text color='black' width="88px" height="295px">Course</Text>  </Box> */}
                 <br />
                 <Divider orientation="horizontal" />
                 <Text>03:00</Text>
@@ -393,6 +406,7 @@ const timetable = () => {
                 <h4></h4>
                 {/* this part is for edit evet modal     */}
             </Box>
+            
         </AppBody>
     )
 }
