@@ -69,7 +69,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             filterId.push(id.anotherUserId)
         })
 
-        const obtainedUser: any = []
+        const ageObtainedUser: any = []
 
         if (cardQueueUserId?.frontUserId && cardQueueUserId?.backUserId) {
             return res.send("Success!")
@@ -122,15 +122,29 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
             userProfileDB.map((user) => {
                 if (user.details && datingOptionsDB?.useAge && datingOptionsDB?.ageMin && datingOptionsDB?.ageMax) {
-                    if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax && obtainedUser.length != 20) {
-                        obtainedUser.push(user)
+                    if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax) {
+                        ageObtainedUser.push(user)
                     }
-                }
-                else if(datingOptionsDB?.useAge == false && obtainedUser.length != 20) {
-                    obtainedUser.push(user)
+                } else if (datingOptionsDB?.useAge == false) {
+                    ageObtainedUser.push(user)
                 }
             })
-            return res.send(obtainedUser)
+
+            const genderObtainedUser : any = []
+
+            ageObtainedUser.map((user: any) => {
+                if (datingOptionsDB?.genderPref == "Everyone" && genderObtainedUser.length != 20) {
+                    genderObtainedUser.push(user)
+                } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male" && genderObtainedUser.length != 20) {
+                    genderObtainedUser.push(user)
+                } else if (datingOptionsDB?.genderPref == "Female" && user.details.sex == "Female" && genderObtainedUser.length != 20) {
+                    genderObtainedUser.push(user)
+                } else if (datingOptionsDB?.genderPref == "LGBTQ+" && user.details.sex == "LGBTQ+" && genderObtainedUser.length != 20) {
+                    genderObtainedUser.push(user)
+                }
+            })
+
+            return res.send(genderObtainedUser)
         }
     } catch (err) {
         return res.status(404).send("User profiles not found")

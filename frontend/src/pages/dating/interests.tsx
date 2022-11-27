@@ -168,30 +168,14 @@ const TagOfInterest = () => {
                 </Box> : <></>}
             <Box>
                 {/* CheckboxGroup : List of tags of interest */}
-                {isLoading ? (
-                    <Box display="block" mt={{ md: "-200px" }}>
-                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
-                        <Box display="flex" justifyContent="center">
-                            <Text color="black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%" mt={{ base: "-130px", md: "-330px" }} >
-                                LOADING...
-                            </Text>
-                        </Box>
+                {isLoading || isSubmitted ? (
+                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
+                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
                     </Box>
                 ) : (
                     <></>
                 )}
-                {isSubmitted ? (
-                    <Box display="block" mt={{ md: "-200px" }}>
-                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
-                        <Box display="flex" justifyContent="center">
-                            <Text color="black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%" mt={{ base: "-130px", md: "-330px" }} >
-                                SUBMITTING...
-                            </Text>
-                        </Box>
-                    </Box>
-                ) : (
-                    <></>
-                )}
+
                 {isError && allInterests.length == 0 ? (
                     <Box pt={{ base: "270px", md: "320px" }}>
                         <DatingWentWrong />

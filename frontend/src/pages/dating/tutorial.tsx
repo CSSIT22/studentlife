@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Text, useBoolean, useBreakpointValue, useToast } from '@chakra-ui/react'
+import { Box, Button, Center, Text, useBoolean, useBreakpointValue, useToast } from '@chakra-ui/react'
 import DatingAppBody from 'src/components/dating/DatingAppBody'
 import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
@@ -87,13 +87,8 @@ const Tutorial = () => {
     return (
         <DatingAppBody>
             <Box>
-                {isSubmitted || isLoading ? <Box display="block" mt={{ md: "-200px" }}>
-                    <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.3" }} />
-                    <Box display="flex" justifyContent="center">
-                        <Text color="black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%" mt={{ base: "-130px", md: "-330px" }} >
-                            LOADING...
-                        </Text>
-                    </Box>
+                {isSubmitted || isLoading ? <Box display="block" mt={{ base: "100px", md: "-200px" }}>
+                    <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
                 </Box> :
                     <Swiper id="tutorial" pagination={true} modules={[Pagination]} className="mySwiper">
                         <SwiperSlide>
@@ -106,13 +101,13 @@ const Tutorial = () => {
                                         isMobile ?
                                             (<Text textAlign="center" fontWeight="700"
                                                 fontSize="36px"
-                                                lineHeight="133%" color="orange.600" pt="33px" >{fName.charAt(0) + fName.substring(1).toLowerCase()}&nbsp;{lName.charAt(0) + lName.substring(1).toLowerCase()}</Text>) :
+                                                lineHeight="133%" color="orange.600" pt="33px" >{fName}&nbsp;{lName}</Text>) :
                                             (<><Text textAlign="center" fontWeight="700"
                                                 fontSize="30px"
-                                                lineHeight="133%" color="orange.600" pt="39.5px">{fName.charAt(0) + fName.substring(1).toLowerCase()}</Text>
+                                                lineHeight="133%" color="orange.600" pt="39.5px">{fName}</Text>
                                                 <Text textAlign="center" fontWeight="700"
                                                     fontSize="30px"
-                                                    lineHeight="133%" color="orange.600" >{lName.charAt(0) + lName.substring(1).toLowerCase()}</Text></>)
+                                                    lineHeight="133%" color="orange.600" >{lName}</Text></>)
                                     }
                                     {
                                         isMobile ?

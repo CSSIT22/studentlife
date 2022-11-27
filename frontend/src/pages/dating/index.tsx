@@ -27,11 +27,13 @@ const RandomCardInside: FC<{
 
     let backgroundImage;
     if (character.image) {
-        backgroundImage = (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character?.userId
+        backgroundImage = (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character.userId
     }
     else {
         backgroundImage = NoProfileImg
     }
+
+    let linkto = "../../user/" + character.userId
 
     return (
         <Box
@@ -141,7 +143,7 @@ const RandomCardInside: FC<{
             </Box>
             {/* Profile button to go into user's profile */}
             <Box w="100%" display="flex" alignItems="end" justifyContent="end" mt={{ base: "220px", md: "280px" }}>
-                <Link to="../../user">
+                <Link to={linkto}>
                     <Button
                         aria-label="User Profile"
                         className="pressable"
@@ -402,7 +404,7 @@ const DatingRandomization = () => {
     return (
         // userSelect = none => prevent users from accidentally select texts
         <DatingAppBody userSelect="none">
-            {isLoading && didMount ? <></> : <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
+            <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
                 <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
                     <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} />
@@ -421,8 +423,8 @@ const DatingRandomization = () => {
                         />
                     ))}
                 </Box>
-                {/* Must have this condition to prevent crash!!! */}
-                {characters[currentIndex] != null ? (
+                {!(isLoading && !didMount) ? (
+                characters[currentIndex] != null ? (
                     <Box>
                         {/* Name, age, gender, and faculty */}
                         <DatingRandomDetails characters={characters} currentIndex={currentIndex} />
@@ -444,14 +446,14 @@ const DatingRandomization = () => {
                     </Box>
                 ) : (
                     <DatingRandomOutOfCard numOfChar={numOfChar} />
-                )}
+                )) : <></>}
             </SimpleGrid>
                 <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }}>
                     {/* Cross button */}
                     <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
                     {/* Heart button */}
                     <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
-                </Box></>}
+                </Box></>
 
         </DatingAppBody>
     )
