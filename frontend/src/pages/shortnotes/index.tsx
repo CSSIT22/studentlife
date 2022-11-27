@@ -125,7 +125,7 @@ const index = () => {
                                     console.log(snPicked)
                                 }}
                             >
-                                <SnList topic={sn.snName} course={sn.courseId} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                <SnList topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
                             </Box>
                         ))}
                     </>

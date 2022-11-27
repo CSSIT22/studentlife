@@ -64,7 +64,7 @@ const index = () => {
             {allow ? <Box><Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
                 <SnDetail
                     topic={shortnote.snName}
-                    course={shortnote.courseId}
+                    course={shortnote.course.courseName}
                     desc={shortnote.snDesc}
                     link={shortnote.snLink}
                     owner={shortnote.owner.fName + " " + shortnote.owner.lName}

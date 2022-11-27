@@ -9,6 +9,7 @@ const getShortnoteDetail = async (req: Request, res: Response) => {
                 snId: req.params.id,
             },
             include: {
+                course: true,
                 owner: {
                     select: {
                         fName: true,

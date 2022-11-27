@@ -26,7 +26,11 @@ shortnotesRoutes.use(express.json())
 
 shortnotesRoutes.get("/getShortnotes", async (req, res) => {
     const prisma = res.prisma
-    const sn = await prisma.sn_Head.findMany()
+    const sn = await prisma.sn_Head.findMany({
+        include: {
+            course: true,
+        },
+    })
     //console.log(sn)
     res.send(sn)
 })
