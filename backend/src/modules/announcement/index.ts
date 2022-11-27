@@ -277,8 +277,8 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
             }
             
         }
-        console.log(allpost)
-        console.log(allpost[0].annPin[0].status)
+        // console.log(allpost)
+        // console.log(allpost[0].annPin[0].status)
         res.send(allpost)
         
     }
