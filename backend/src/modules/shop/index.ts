@@ -10,6 +10,7 @@ import getAllCoupons from "./routes/get/getAllCoupons"
 import getProductImages from "./routes/get/getProductImages"
 import postCartProduct from "./routes/post/postCartProduct"
 import getAllProductsInCart from "./routes/get/getAllProductsInCart"
+import deleteCartProduct from "./routes/delete/deleteCartProduct"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -29,7 +30,7 @@ shopRoutes.get("/getAllCoupons", getAllCoupons)
 // Cart routes
 shopRoutes.post("/postCartProduct", postCartProduct)
 shopRoutes.get("/getAllProductsInCart", getAllProductsInCart)
-
+shopRoutes.delete("/deleteCartProduct/:productId", deleteCartProduct)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 

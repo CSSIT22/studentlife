@@ -3,18 +3,20 @@ import { DeleteIcon } from "@chakra-ui/icons"
 import { Link } from "react-router-dom"
 import PageTitle from "../../../components/shop/PageTitle"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
-import convertCurrency, { setDataAPI } from "../../../components/shop/functions/usefulFunctions"
+import convertCurrency, { setDataAPI, updateDataAPI } from "../../../components/shop/functions/usefulFunctions"
 import CartProduct from "src/components/shop/CartProduct"
 import ContentBox from "src/components/shop/ContentBox"
 import ThemedButton from "src/components/shop/ThemedButton"
 import TitleBox from "src/components/shop/TItleBox"
 import { useState } from "react"
 import { Shop_Cart } from "@apiType/shop"
+import API from "src/function/API"
 
 // Cart
 const Cart = () => {
     const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
     setDataAPI("/shop/getAllProductsInCart", setCartProducts)
+    console.log(cartProducts)
     const orderSummary = (
         <ContentBox bg="#fff">
             <Flex direction="column" gap={5} p="5">
@@ -78,16 +80,17 @@ const Cart = () => {
     )
 }
 
-function generateCartProducts(cartProducts: Shop_Cart[] | null) {
+function generateCartProducts(cartProducts: Shop_Cart[] | null){
     try {
+        
         if (cartProducts != null && cartProducts.length > 0) {
             let cart = []
             for (let i = 0; i < cartProducts.length; i++) {
                 cart.push(
                     <CartProduct
                         productId={cartProducts[i].productId}
-                        quantity={cartProducts[i].quantity}
-                    />
+                        quantity={cartProducts[i].quantity}                     
+                        />
                 )
             }
             return cart
