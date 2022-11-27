@@ -22,7 +22,7 @@ import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Link, useParams } from "react-router-dom"
 import API from "src/function/API"
-import { Restaurant } from "@apiType/restaurant"
+import { Restaurant2 } from "@apiType/restaurant"
 declare global {
     var respage: number, rand: number
 }
@@ -30,7 +30,7 @@ function LikeorNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = React.useState(1)
     const params = useParams()
-    const [property, setproperty] = React.useState<Restaurant[]>([])
+    const [property, setproperty] = React.useState<Restaurant2[]>([])
 
     const [res, setres] = React.useState(parseInt(params.id + ""))
 
@@ -40,10 +40,11 @@ function LikeorNope() {
 
     useEffect(() => {
         API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
+        API.put("restaurant/" + params.id) 
         // .catch((err) => on())
         // .finally(off)
-    }, [params.id])
-     console.log(property);
+    }, [])
+    //  console.log(property);
      
     const Nope = () => {
         if (res < 9) {
@@ -75,7 +76,7 @@ function LikeorNope() {
                 <Searchbar />
             </Box>
             <Box px={2} h={"100%"} pb={6} pt={2}>
-                {property?.map((e1: any) => {
+                {property.map((e1) => {
                     return (
                         <>
                             <Box py={5} h="20px" mb={"40px"}>
@@ -83,7 +84,7 @@ function LikeorNope() {
                                     {e1.resName}{" "}
                                 </Heading>
                             </Box>
-                            <ShowImage img={e1.img} />
+                            <ShowImage img={e1.images} />
                         </>
                     )
                 })}

@@ -9,15 +9,15 @@ const addRestaurant = async (req: Request, res: Response) => {
         const rest = await prisma.restaurant.create({
             data: {
                 resId: id,
-                resName: "Bear House",
+                resName: "Ping House",
                 lastupdated: new Date("2022-04-06 10:00:00"),
-                likes: 95,
+                likes: 442,
                 isSeen: false,
                 detail: {
                     create: {
                         
                         phoneNo: "0948421111",
-                        website: "https://www.starbucks.co.th",
+                        website: "https://www.google.co.th",
                         location:
                             "https://www.google.co.th/maps/place/Kitchen+Chef's/@13.6507247,100.4952625,17z/data=!3m1!4b1!4m5!3m4!1s0x30e2a354aad8ebf5:0x479bb05defc2e495!8m2!3d13.6507195!4d100.4974512",
                         vicinity: "opposite KMUTT",

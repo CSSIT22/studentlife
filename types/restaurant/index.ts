@@ -20,10 +20,10 @@ export type Restaurant2 = {
   lastupdated: Date;
   likes: number;
   isSeen: boolean
-  detail: Detail
-  images: Image
-  opanAt: Open
-  closeAt: Close
+  detail: Detail[]
+  images: Image1[]
+  opanAt: Open[]
+  closeAt: Close[]
 };
 
 export type Detail = {
@@ -38,7 +38,7 @@ export type Detail = {
   detailOf: Restaurant
 }
 
-export type Image = {
+export type Image1 = {
   imageId: number,
   resId: string,
   image: string,

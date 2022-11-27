@@ -15,7 +15,6 @@ try {
             images: true
         }
     })
-    console.log(selectRes);
     
     res.send([selectRes])
 } catch (error) {

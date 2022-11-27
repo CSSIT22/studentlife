@@ -11,7 +11,7 @@ const history = () => {
     const [property, setproperty] = React.useState<any>([])
     const params = useParams()
     useEffect(() => {
-        API.get("/restaurant/history?userid=" + 101).then((item) => setproperty(item.data))
+        API.get("/restaurant/history/").then((item) => setproperty(item.data))
     }, [])
     return (
         <AppBody
