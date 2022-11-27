@@ -29,7 +29,7 @@ CREATE TYPE "History_Type" AS ENUM ('UPLOAD', 'DOWNLOAD');
 CREATE TYPE "Vote_Type" AS ENUM ('UPVOTE', 'DOWNVOTE');
 
 -- CreateEnum
-CREATE TYPE "Payment_Type" AS ENUM ('SHOP', 'MESSAGE');
+CREATE TYPE "Payment_Type" AS ENUM ('SHOP');
 
 -- CreateEnum
 CREATE TYPE "ShortLink_Permission_Type" AS ENUM ('USER', 'MAJOR', 'FACULTY', 'YEAR');
@@ -367,6 +367,7 @@ CREATE TABLE "Task" (
 -- CreateTable
 CREATE TABLE "Task_Folder" (
     "folderId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "folderName" TEXT NOT NULL,
 
     CONSTRAINT "Task_Folder_pkey" PRIMARY KEY ("folderId")
@@ -924,14 +925,13 @@ CREATE TABLE "Logout_Detail" (
 
 -- CreateTable
 CREATE TABLE "Ban_Status" (
-    "banId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "reason" TEXT NOT NULL,
     "instance" INTEGER NOT NULL,
     "banFrom" TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "banTo" TIMESTAMP(0) NOT NULL,
 
-    CONSTRAINT "Ban_Status_pkey" PRIMARY KEY ("banId")
+    CONSTRAINT "Ban_Status_pkey" PRIMARY KEY ("userId","reason")
 );
 
 -- CreateTable
@@ -974,6 +974,14 @@ CREATE TABLE "Sn_Head" (
     "votes" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Sn_Head_pkey" PRIMARY KEY ("snId")
+);
+
+-- CreateTable
+CREATE TABLE "Sn_File" (
+    "snId" TEXT NOT NULL,
+    "fileId" TEXT NOT NULL,
+
+    CONSTRAINT "Sn_File_pkey" PRIMARY KEY ("snId","fileId")
 );
 
 -- CreateTable
@@ -1044,8 +1052,6 @@ CREATE TABLE "Transaction" (
     "transId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "payMethodId" INTEGER NOT NULL,
-    "subTotalPrice" DECIMAL(9,2) NOT NULL,
-    "pointUse" INTEGER NOT NULL,
     "totalPrice" DECIMAL(9,2) NOT NULL,
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("transId")
@@ -1059,7 +1065,6 @@ CREATE TABLE "Transaction_Detail" (
     "transStatus" TEXT NOT NULL,
     "isShip" BOOLEAN NOT NULL,
     "errKey" SERIAL NOT NULL,
-    "errId" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Transaction_Detail_pkey" PRIMARY KEY ("transId")
 );
@@ -1076,14 +1081,16 @@ CREATE TABLE "Transaction_Error" (
 -- CreateTable
 CREATE TABLE "Transaction_Paymethod" (
     "payMethodId" INTEGER NOT NULL,
-    "tokenId" TEXT NOT NULL,
+    "crId" TEXT NOT NULL DEFAULT '0',
+    "ebId" TEXT NOT NULL DEFAULT '0',
+    "qrId" TEXT NOT NULL DEFAULT '0',
 
     CONSTRAINT "Transaction_Paymethod_pkey" PRIMARY KEY ("payMethodId")
 );
 
 -- CreateTable
 CREATE TABLE "Credit_Card" (
-    "tokenId" TEXT NOT NULL,
+    "crId" TEXT NOT NULL,
     "ccId" TEXT NOT NULL,
     "holderName" TEXT NOT NULL,
     "country" TEXT NOT NULL,
@@ -1092,12 +1099,12 @@ CREATE TABLE "Credit_Card" (
     "last4" CHAR(4) NOT NULL,
     "cardExpired" DATE NOT NULL,
 
-    CONSTRAINT "Credit_Card_pkey" PRIMARY KEY ("tokenId")
+    CONSTRAINT "Credit_Card_pkey" PRIMARY KEY ("crId")
 );
 
 -- CreateTable
 CREATE TABLE "E_Banking" (
-    "tokenId" TEXT NOT NULL,
+    "ebId" TEXT NOT NULL,
     "bkId" TEXT NOT NULL,
     "holderName" TEXT NOT NULL,
     "holderType" TEXT NOT NULL,
@@ -1105,45 +1112,17 @@ CREATE TABLE "E_Banking" (
     "country" TEXT NOT NULL,
     "currency" TEXT NOT NULL,
 
-    CONSTRAINT "E_Banking_pkey" PRIMARY KEY ("tokenId")
+    CONSTRAINT "E_Banking_pkey" PRIMARY KEY ("ebId")
 );
 
 -- CreateTable
 CREATE TABLE "QR" (
-    "tokenId" TEXT NOT NULL,
+    "qrId" TEXT NOT NULL,
     "qrSourceId" TEXT NOT NULL,
     "qr" TEXT NOT NULL,
     "expired" TIMESTAMP(0) NOT NULL DEFAULT make_timestamp(3000, 1, 1, 0, 0, 0),
 
-    CONSTRAINT "QR_pkey" PRIMARY KEY ("tokenId")
-);
-
--- CreateTable
-CREATE TABLE "Transaction_Paytype" (
-    "transId" TEXT NOT NULL,
-    "typeOfTrans" "Payment_Type" NOT NULL,
-
-    CONSTRAINT "Transaction_Paytype_pkey" PRIMARY KEY ("transId")
-);
-
--- CreateTable
-CREATE TABLE "Kmutt_Point" (
-    "kpId" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "point" DECIMAL(8,2) NOT NULL,
-
-    CONSTRAINT "Kmutt_Point_pkey" PRIMARY KEY ("kpId")
-);
-
--- CreateTable
-CREATE TABLE "Kmutt_Point_History" (
-    "transId" TEXT NOT NULL,
-    "kpId" TEXT NOT NULL,
-    "pointsReceived" DECIMAL(8,2) NOT NULL DEFAULT 0,
-    "pointsSpent" DECIMAL(8,2) NOT NULL DEFAULT 0,
-    "pointTransactionAt" TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "Kmutt_Point_History_pkey" PRIMARY KEY ("transId")
+    CONSTRAINT "QR_pkey" PRIMARY KEY ("qrId")
 );
 
 -- CreateTable
@@ -1196,7 +1175,6 @@ CREATE TABLE "Shop_Product" (
     "productStock" INTEGER NOT NULL,
     "brandName" TEXT NOT NULL,
     "deliveryFees" DECIMAL(9,2) NOT NULL,
-    "views" BIGINT NOT NULL,
 
     CONSTRAINT "Shop_Product_pkey" PRIMARY KEY ("productId")
 );
@@ -1282,6 +1260,7 @@ CREATE TABLE "Restaurant_Detail" (
     "vicinity" TEXT NOT NULL,
     "latitude" REAL NOT NULL,
     "longitude" REAL NOT NULL,
+    "zone" TEXT NOT NULL,
 
     CONSTRAINT "Restaurant_Detail_pkey" PRIMARY KEY ("resId")
 );
@@ -1349,6 +1328,7 @@ CREATE TABLE "SReview_Shop" (
     "close" TEXT NOT NULL,
     "phoneNo" TEXT NOT NULL,
     "address" TEXT NOT NULL,
+    "zone" TEXT NOT NULL,
     "latitude" REAL NOT NULL,
     "longitude" REAL NOT NULL,
     "aveRating" DECIMAL(3,2) NOT NULL,
@@ -1758,9 +1738,6 @@ CREATE UNIQUE INDEX "Task_Check_taskId_key" ON "Task_Check"("taskId");
 CREATE UNIQUE INDEX "Task_History_userId_key" ON "Task_History"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Announcement_filterId_key" ON "Announcement"("filterId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Announcement_Approve_postId_key" ON "Announcement_Approve"("postId");
 
 -- CreateIndex
@@ -1806,10 +1783,13 @@ CREATE UNIQUE INDEX "Sn_Library_libName_userId_key" ON "Sn_Library"("libName", "
 CREATE UNIQUE INDEX "Transaction_Detail_errKey_key" ON "Transaction_Detail"("errKey");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Transaction_Paymethod_tokenId_key" ON "Transaction_Paymethod"("tokenId");
+CREATE UNIQUE INDEX "Transaction_Paymethod_crId_key" ON "Transaction_Paymethod"("crId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Kmutt_Point_userId_key" ON "Kmutt_Point"("userId");
+CREATE UNIQUE INDEX "Transaction_Paymethod_ebId_key" ON "Transaction_Paymethod"("ebId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Transaction_Paymethod_qrId_key" ON "Transaction_Paymethod"("qrId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Shop_Order_transId_key" ON "Shop_Order"("transId");
@@ -1953,6 +1933,9 @@ ALTER TABLE "Task" ADD CONSTRAINT "Task_folderId_fkey" FOREIGN KEY ("folderId") 
 ALTER TABLE "Task" ADD CONSTRAINT "Task_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Task_Group"("groupId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Task_Folder" ADD CONSTRAINT "Task_Folder_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User_Profile"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "User_To_Group" ADD CONSTRAINT "User_To_Group_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User_Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -1977,7 +1960,7 @@ ALTER TABLE "Task_History" ADD CONSTRAINT "Task_History_userId_fkey" FOREIGN KEY
 ALTER TABLE "Announcement" ADD CONSTRAINT "Announcement_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User_Profile"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Announcement_Filter" ADD CONSTRAINT "Announcement_Filter_filterId_fkey" FOREIGN KEY ("filterId") REFERENCES "Announcement"("filterId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Announcement" ADD CONSTRAINT "Announcement_filterId_fkey" FOREIGN KEY ("filterId") REFERENCES "Announcement_Filter"("filterId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Post_To_Language" ADD CONSTRAINT "Post_To_Language_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Announcement"("postId") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -2226,6 +2209,12 @@ ALTER TABLE "Sn_Head" ADD CONSTRAINT "Sn_Head_courseId_fkey" FOREIGN KEY ("cours
 ALTER TABLE "Sn_Head" ADD CONSTRAINT "Sn_Head_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User_Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Sn_File" ADD CONSTRAINT "Sn_File_snId_fkey" FOREIGN KEY ("snId") REFERENCES "Sn_Head"("snId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Sn_File" ADD CONSTRAINT "Sn_File_fileId_fkey" FOREIGN KEY ("fileId") REFERENCES "File_Info"("fileId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Sn_Votedetail" ADD CONSTRAINT "Sn_Votedetail_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User_Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -2271,25 +2260,13 @@ ALTER TABLE "Transaction_Detail" ADD CONSTRAINT "Transaction_Detail_transId_fkey
 ALTER TABLE "Transaction_Detail" ADD CONSTRAINT "Transaction_Detail_errKey_fkey" FOREIGN KEY ("errKey") REFERENCES "Transaction_Error"("errKey") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Credit_Card" ADD CONSTRAINT "Credit_Card_tokenId_fkey" FOREIGN KEY ("tokenId") REFERENCES "Transaction_Paymethod"("tokenId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Credit_Card" ADD CONSTRAINT "Credit_Card_crId_fkey" FOREIGN KEY ("crId") REFERENCES "Transaction_Paymethod"("crId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "E_Banking" ADD CONSTRAINT "E_Banking_tokenId_fkey" FOREIGN KEY ("tokenId") REFERENCES "Transaction_Paymethod"("tokenId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "E_Banking" ADD CONSTRAINT "E_Banking_ebId_fkey" FOREIGN KEY ("ebId") REFERENCES "Transaction_Paymethod"("ebId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "QR" ADD CONSTRAINT "QR_tokenId_fkey" FOREIGN KEY ("tokenId") REFERENCES "Transaction_Paymethod"("tokenId") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Transaction_Paytype" ADD CONSTRAINT "Transaction_Paytype_transId_fkey" FOREIGN KEY ("transId") REFERENCES "Transaction"("transId") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Kmutt_Point" ADD CONSTRAINT "Kmutt_Point_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User_Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Kmutt_Point_History" ADD CONSTRAINT "Kmutt_Point_History_transId_fkey" FOREIGN KEY ("transId") REFERENCES "Transaction"("transId") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Kmutt_Point_History" ADD CONSTRAINT "Kmutt_Point_History_kpId_fkey" FOREIGN KEY ("kpId") REFERENCES "Kmutt_Point"("kpId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "QR" ADD CONSTRAINT "QR_qrId_fkey" FOREIGN KEY ("qrId") REFERENCES "Transaction_Paymethod"("qrId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Shop_Order" ADD CONSTRAINT "Shop_Order_transId_fkey" FOREIGN KEY ("transId") REFERENCES "Transaction"("transId") ON DELETE RESTRICT ON UPDATE CASCADE;
