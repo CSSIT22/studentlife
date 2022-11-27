@@ -91,6 +91,10 @@ const liList: FC<{
         })
     }
     const toast = useToast()
+
+    useEffect(() => {
+        addToLibrary()
+    }, [selectedLi])
     return (
         <Box>
             <HStack>
@@ -204,7 +208,6 @@ const liList: FC<{
                             {li.map((li: any, key) => (
                                 <Box onClick={() => {
                                     setSelectedLi(li.libId)
-                                    addToLibrary()
                                     toast({
                                         title: 'Shortnote added',
                                         description: "The shortnote added to your selected library already.",
