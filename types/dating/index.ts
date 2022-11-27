@@ -25,6 +25,7 @@ export type UserCardDetail = {
   }[]
   studentMajor: {
     majorFaculty: {
+      facultyId: string
       facultyName: string
     }
   }

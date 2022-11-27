@@ -308,14 +308,7 @@ const DatingRandomization = () => {
             count = count - 1
             API.get("/dating/discovery/getCards").then((user) => {
                 let data = user.data
-                var currentIndex = data.length, temporaryValue, randomIndex;
-                while (0 !== currentIndex) {
-                    randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex -= 1;
-                    temporaryValue = data[currentIndex];
-                    data[currentIndex] = data[randomIndex];
-                    data[randomIndex] = temporaryValue;
-                }
+
                 setCharacters(data)
                 setNumOfChar(data.length)
                 API.get("/dating/discovery/getAllInterest").then((interest) => {
@@ -385,7 +378,7 @@ const DatingRandomization = () => {
     // used for the tinder card
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
-            Array(20)
+            Array(50)
                 .fill(0)
                 .map(() => React.createRef()),
         []
