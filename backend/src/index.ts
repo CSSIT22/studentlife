@@ -33,6 +33,7 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events"
 import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
+import mongoose, { mongo } from "mongoose"
 
 const PORT = 8000
 const app = express()
@@ -42,7 +43,7 @@ const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "
 const appCors = cors({
     origin: appOrigin,
     credentials: true,
-    allowedHeaders:["Content-Type"]
+    allowedHeaders: ["Content-Type"],
 })
 
 if (process.env.NODE_ENV !== "production") {
@@ -162,10 +163,12 @@ io.use((socket, next) => {
     }
 })
 
-io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
-    chatSocket(socket)
+export type customeSocketPrams = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>, prisma: PrismaClient) => any
 
-    notiSocket(socket)
+io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+    chatSocket(socket, prisma)
+
+    notiSocket(socket, prisma)
 
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)

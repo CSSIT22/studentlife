@@ -1091,13 +1091,14 @@ model Logout_Detail {
 }
 
 model Ban_Status {
-  banId    String       @id @default(cuid())
   userId   String
   reason   String
   instance Int
   banFrom  DateTime     @default(now()) @db.Timestamp(0)
   banTo    DateTime     @db.Timestamp(0)
   user     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@id([userId, reason])
 }
 
 model Word_Report {
