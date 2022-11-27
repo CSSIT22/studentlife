@@ -9,14 +9,11 @@ const ProductDisplay: FC<{
     name: string
     brandName: string
     price: number
-}> = ({ id, name, brandName, price }) => {
-    const [productImages, setProductImages] = useState<Shop_Product_Images[] | null>(null)
-    let displayImage: string
-    let completed = setDataAPI("shop/getProductImages/" + id, setProductImages)
+    image?: string
+}> = ({ id, name, brandName, price, image }) => {
     // Set Image to Placeholder
-    displayImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
-    if (productImages != null){displayImage = productImages[0].image}
-
+    let displayImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
+    if (image){displayImage = image}
     return (
         <LinkBox>
             <Link to={"/shop/product/" + id}>

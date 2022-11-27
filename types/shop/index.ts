@@ -115,6 +115,22 @@ export type Shop_Product = {
   brandName: string
   deliveryFees: number
 }
+export type Shop_Product_With_Images = {
+  productId: number
+  categoryId: number
+  contactId: number
+  productName: string
+  productDesc: string
+  productColor: string
+  productSize: string
+  productPrice: number
+  productStock: number
+  brandName: string
+  deliveryFees: number
+  images: {
+    image: string
+  }[]
+}
 
 /**
  * Model Shop_Categories

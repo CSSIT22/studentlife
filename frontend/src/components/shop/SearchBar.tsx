@@ -1,4 +1,4 @@
-import { Shop_Product } from "@apiType/shop"
+import { Shop_Product, Shop_Product_With_Images } from "@apiType/shop"
 import { Center, Container, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, Select, Spinner, useBoolean } from "@chakra-ui/react"
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import { TbSearch } from "react-icons/tb"
@@ -7,7 +7,7 @@ import API from "src/function/API"
 const Searchbar: FC<{
     setSearchQuery: Dispatch<SetStateAction<string>>
     searchQuery: string
-    setProducts: React.Dispatch<React.SetStateAction<Shop_Product[] | null>>
+    setProducts: React.Dispatch<React.SetStateAction<Shop_Product_With_Images[] | null>>
 }> = ({ searchQuery, setSearchQuery, setProducts }) => {
     const [timer, setTimer] = useState<number | null>(null)
     const didMount = useDidMount()
@@ -20,7 +20,7 @@ const Searchbar: FC<{
         return didMount
     }
 
-    const [products, setProductList] = useState<Shop_Product[] | null>(null)
+    const [products, setProductList] = useState<Shop_Product_With_Images[] | null>(null)
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const getAllProducts = API.get("/shop/getAllProducts")
@@ -28,7 +28,7 @@ const Searchbar: FC<{
         getAllProducts.then((res) => setProductList(res.data)).catch((err) => on()).finally(() => off())
         if (didMount) {
             if (products != null){
-                setProducts(() => products.filter((arr: any) => arr.name.toLowerCase().includes(searchQuery.toLowerCase())))
+                setProducts(() => products.filter((arr: any) => arr.productName.toLowerCase().includes(searchQuery.toLowerCase())))
             } 
         }
     }, [searchQuery])
@@ -46,7 +46,7 @@ const Searchbar: FC<{
             setTimer(null)
         }
         setTimer(
-            setTimeout(() => {
+            window.setTimeout(() => {
                 setSearchQuery(event.target.value)
             }, 100)
         )
