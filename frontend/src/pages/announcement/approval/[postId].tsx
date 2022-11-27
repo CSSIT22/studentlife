@@ -37,6 +37,7 @@ const approvalDetail = () => {
     const [topic, setTopic] = React.useState()
     const [sender, setSender] = React.useState<string>("")
     const [detail, setDetail] = React.useState()
+    const [toggle, settoggle] = React.useState(false)
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
@@ -54,7 +55,11 @@ const approvalDetail = () => {
 
     useEffect(() => {
         getPost()
-    }, [])
+    }, [toggle])
+
+    const reload = () =>{
+        settoggle(!toggle)
+    }
 
     // useEffect(() => {
     //     getData.then((item) => setpost(item.data)).catch((err) => on())
@@ -68,8 +73,10 @@ const approvalDetail = () => {
         if (status == "Approve") {
             API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: true })
             API.post<post>("/announcement/gettargetgroup", { postId: params.postId, targetType: targetType, targetValue: targetValue })
+            reload()
         } else if (status == "Disapprove") {
             API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: false })
+            reload()
         }
     }
 
