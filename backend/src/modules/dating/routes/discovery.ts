@@ -136,6 +136,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
             ageObtainedUser.map((user: any) => {
                 if (datingOptionsDB?.genderPref == "Everyone") {
+                    if(user.details.sex == "Male" || user.details.sex == "Female" || user.details.sex == "LGBTQ+")
                     genderObtainedUser.push(user)
                 } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male") {
                     genderObtainedUser.push(user)
