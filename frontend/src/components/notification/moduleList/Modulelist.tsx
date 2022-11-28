@@ -9,14 +9,7 @@ const Modulelist: FC<{ onClick: Function; selectedModule: string }> = ({ onClick
                 {selectedModule}
             </MenuButton>
             <MenuList background={"#E69C73"}>
-                {/* <Box as="button"
-            bg={"white"}
-            height="100%" 
-            overflow="auto"
-            _hover={{ bg: "#E69C73", transitionDuration: "0.2s" }}
-            transitionDuration="0.2s"
-            borderRadius="2xl"> */}
-                <Box w="100%" height="40vh" overflow="auto" background={"#E69C73"}>
+                <Box w="100%" height="30vh" overflow="auto" background={"#E69C73"}>
                     <Stack direction={"column"} padding={4}>
                         {MODULES.map((el) => {
                             return (

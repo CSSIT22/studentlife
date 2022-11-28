@@ -1,6 +1,7 @@
 import { Avatar, Box, Center, Container, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { AiFillLike, AiOutlineShareAlt } from "react-icons/ai"
+import API from "src/function/API"
 import AppBody from "../share/app/AppBody"
 import Feed from "./Feed"
 import { Postdata } from "./Postdata"
@@ -49,6 +50,8 @@ export const Post = (props: PostProps) => {
                 <Icon as={AiOutlineShareAlt}></Icon>
             </HStack>
         </Box>
+
+
     )
 
     return (

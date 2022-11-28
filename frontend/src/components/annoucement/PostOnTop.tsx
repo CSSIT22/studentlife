@@ -9,10 +9,10 @@ const PostOnTop: FC<{
     clickToExpand: Function
 }> = ({ topic, sender, clickToExpand }) => {
     return (
-        <Box height={"5rem"} width={"100%"} p="5" mt="0" backgroundColor="#D9D9D9" rounded="lg">
+        <Box height={"5rem"} width={"100%"} p="5" mt="0" backgroundColor="white" rounded="lg" shadow={"md"}>
             <Flex alignItems={"center"}>
                 <Box pr={"5"}>
-                    <TfiAnnouncement fontSize={"1.5rem"} />
+                    <TfiAnnouncement fontSize={"1.5rem"} color="#E65300" />
                 </Box>
                 <Box>
                     <Heading size={"sm"}>{topic}</Heading>
