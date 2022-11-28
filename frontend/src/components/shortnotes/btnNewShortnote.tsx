@@ -215,13 +215,15 @@ const btnNewShortnote = () => {
                                                 </Button>
                                             </GridItem>
                                         </Grid>
-                                        <VStack gap={2} mt={4} mb={4}>
-                                            {people.map((people, key) => (
-                                                <Box bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={3}>
-                                                    {people}
-                                                </Box>
-                                            ))}
-                                        </VStack>
+                                        <Box gap={2} mt={4} mb={4}>
+                                            <SimpleGrid columns={2} gap={4}>
+                                                {people.map((people, key) => (
+                                                    <Box bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={3}>
+                                                        <Text textAlign={"center"}>{people}</Text>
+                                                    </Box>
+                                                ))}
+                                            </SimpleGrid>
+                                        </Box>
                                     </Box>
                                 ) : null}
                             </Box>
