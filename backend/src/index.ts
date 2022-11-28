@@ -33,6 +33,7 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events"
 import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
+import mongoose, { mongo } from "mongoose"
 
 const PORT = 8000
 const app = express()
@@ -49,6 +50,8 @@ const appCors = cors({
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
 }
+
+mongoose.connect(process.env.MONGO_URL || "", { authSource: "admin" })
 
 const prisma = new PrismaClient()
 const redisClient = createClient({
@@ -161,10 +164,12 @@ io.use((socket, next) => {
     }
 })
 
-io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
-    chatSocket(socket)
+export type customeSocketPrams = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>, prisma: PrismaClient) => any
 
-    notiSocket(socket)
+io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+    chatSocket(socket, prisma)
+
+    notiSocket(socket, prisma)
 
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)
