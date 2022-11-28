@@ -1288,12 +1288,12 @@ model Restaurant {
   resName     String
   lastupdated DateTime                      @default(now()) @db.Timestamp(0)
   likes       Int                           @default(0)
-  closeAt     Restaurant_Close[]
   detail      Restaurant_Detail?
-  userFav     Restaurant_Favorite_By_User[]
   images      Restaurant_Image[]
-  userLike    Restaurant_Like_By_User[]
   openAt      Restaurant_Open[]
+  closeAt     Restaurant_Close[]
+  userLike    Restaurant_Like_By_User[]
+  userFav     Restaurant_Favorite_By_User[]
   userSeen    Restaurant_Seen_By_User[]
   reviews     SReview_Restaurant_Review[]
 }
@@ -1336,10 +1336,9 @@ model Restaurant_Close {
 model Restaurant_Like_By_User {
   userId     String
   resId      String
+  restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
   isLike     Boolean      @default(false)
   updatedAt  DateTime     @default(now()) @db.Timestamp(0)
-  restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
-  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, resId])
 }
@@ -1417,8 +1416,8 @@ model SReview_Restaurant_Review {
   text         String
   rating       Int                              @default(0)
   likeReceived Int                              @default(0)
-  reviewOf     Restaurant                       @relation(fields: [resId], references: [resId], onDelete: Cascade)
   review       SReview_Review                   @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
+  reviewOf     Restaurant                       @relation(fields: [resId], references: [resId], onDelete: Cascade)
   reviewBy     User_Profile                     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userLike     SReview_Restaurant_Review_Like[]
 }
