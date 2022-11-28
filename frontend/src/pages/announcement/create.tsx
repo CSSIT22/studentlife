@@ -30,11 +30,9 @@ import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post, tgType } from "@apiType/announcement"
 import API from "src/function/API"
+import { useLocation, useNavigate, useSearchParams, createSearchParams } from "react-router-dom"
 
 const create = () => {
-   
-   
-
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
         setIsOpen(true)
@@ -54,26 +52,20 @@ const create = () => {
     const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
 
-    const [tv, settv ] = useState<tgType[]>([])
+    const [tv, settv] = useState<tgType[]>([])
     const value = API.get("/announcement/gettypetarget")
     useEffect(() => {
-         value.then((res) => settv(res.data))
+        value.then((res) => settv(res.data))
         // console.log(value);
-    },[])
+    }, [])
     // console.log(targetValue);
     // const b = tv.map((el:string[]) => {return el.Faculty})
-    
-
-   
-   
-    
-    
 
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
             return (
                 <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    {tv[0]?.Faculty.map((el,index) => {
+                    {tv[0]?.Faculty.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -81,7 +73,7 @@ const create = () => {
         } else if (targetType == "Major") {
             return (
                 <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                     {tv[0]?.Major.map((el,index) => {
+                    {tv[0]?.Major.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -89,7 +81,7 @@ const create = () => {
         } else if (targetType == "Year") {
             return (
                 <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                     {tv[0]?.Year.map((el,index) => {
+                    {tv[0]?.Year.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -98,7 +90,6 @@ const create = () => {
             return ""
         }
     }
-    
 
     const disabledDates = () => {
         var today, dd, mm, yyyy
@@ -109,9 +100,11 @@ const create = () => {
         return yyyy + "-" + mm + "-" + dd
     }
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
+    console.log(addMoreLang)
+
     // const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     // console.log(addMoreLang);
-    
+
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
         // setAllPost([
         //     ...allPost,
@@ -133,16 +126,14 @@ const create = () => {
         //         addMoreLang: addMoreLang,
         //     },
         // ])
-            API.post<post>("/announcement/createpost", {
-                topic: title,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                expiredPost: expired,
-                addmorelang: addMoreLang,
-            })
-        
-        
+        API.post<post>("/announcement/createpost", {
+            topic: title,
+            detail: detail,
+            targetType: targetType,
+            targetValue: targetValue,
+            expiredPost: expired,
+            addmorelang: addMoreLang,
+        })
     }
     // console.log(allPost)
 
@@ -150,6 +141,7 @@ const create = () => {
     const addLang = (lang: number, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { id: addMoreLang.length, languageId: lang, annTopic: topic, annDetail: detail }])
     }
+
     // console.log(addMoreLang)
 
     const ALERT = () => {
@@ -166,6 +158,8 @@ const create = () => {
         setCount(count - 1)
         decreaseLang()
         setAddMoreLang(addMoreLang.filter((el) => el.id < addMoreLang.length - 1))
+        //setSearchParams("")
+        //eraseData()
     }
     // console.log(count)
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
@@ -181,6 +175,55 @@ const create = () => {
     const onDisable = () => {
         setdisable(!disable)
     }
+
+    // const [searchparams, setSearchParams] = useSearchParams()
+    // const [selectThai, setSelectT] = useState(String)
+    // const [selectKorea, setSelectK] = useState(String)
+    // const [selectJapan, setSelectJ] = useState(String)
+    // const [selectChinese, setSelectC] = useState(String)
+
+    // const selectLang = () => {
+    //     if (count > 0) {
+    //         if (searchparams.get("id") == selectThai) {
+    //             alert("You cannot choose the same language")
+    //             decreaseCount()
+    //         } else if (searchparams.get("id") == selectKorea) {
+    //             alert("You cannot choose the same language")
+    //             decreaseCount()
+    //         } else if (searchparams.get("id") == selectJapan) {
+    //             alert("You cannot choose the same language")
+    //             decreaseCount()
+    //         } else if (searchparams.get("id") == selectChinese) {
+    //             alert("You cannot choose the same language")
+    //             decreaseCount()
+    //         } else if (searchparams.get("id") == "1001") {
+    //             setSelectT("1001")
+    //         } else if (searchparams.get("id") == "1002") {
+    //             setSelectK("1002")
+    //         } else if (searchparams.get("id") == "1003") {
+    //             setSelectJ("1003")
+    //         } else if (searchparams.get("id") == "1004") {
+    //             setSelectC("1004")
+    //         }
+    //     }
+    // }
+    // const eraseData = () => {
+    //     if (selectThai != null) {
+    //         setSelectT("")
+    //     } else if (selectKorea != null) {
+    //         setSelectK("")
+    //     } else if (selectJapan != null) {
+    //         setSelectJ("")
+    //     } else if (selectChinese != null) {
+    //         setSelectC("")
+    //     }
+    // }
+    // console.log(searchparams.get("id"))
+    // console.log(selectThai)
+    // console.log(selectKorea)
+    // console.log(selectJapan)
+    // console.log(selectChinese)
+    // console.log(count)
     return (
         <AppBody
             secondarynav={[
@@ -263,7 +306,15 @@ const create = () => {
                     <FormControl>
                         <>
                             {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
+                                return (
+                                    <MoreLang
+                                        key={el.count}
+                                        onClick={decreaseCount}
+                                        addLang={addLang}
+                                        onDisable={onDisable}
+                                        addMoreLang={addMoreLang}
+                                    />
+                                )
                             })}
                             <Tag
                                 size={"lg"}
