@@ -28,7 +28,6 @@ const searchRestaurant = async(req: Request, res: Response) => {
             images: true
            }
         })
-        console.log(search);
         
         res.send(search)
     }

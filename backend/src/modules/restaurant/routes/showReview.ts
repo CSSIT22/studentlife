@@ -20,27 +20,5 @@ const showReview =  async(req: Request, res: Response) => {
         
     }
 
-
-
-    // let selectedRes: Restaurant | null = null
-    // getRestaurant().forEach((res) => {
-    //     if (res.id == id) {
-    //         selectedRes = res
-    //     }
-    // })
-
-    // let selectedRevi: Review[] = []
-    // getReview().forEach((res) => {
-    //     if (res.resId == id) {
-    //         selectedRevi.push(res)
-    //     }
-    // })
-    // // const Sresult = selectedRes, selectedRevi
-    // // res.send([selectedRes])
-    // // res.send([selectedRes, selectedRevi])
-    // res.send({resD: [selectedRes], reviD:[selectedRevi]})
-    
-    
-
 }
 export default showReview

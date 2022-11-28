@@ -3,7 +3,6 @@ import { Request, Response } from "express"
 const addFavorite = async(req:Request, res:Response) => {
  const resId = req.params.id
  const userId = req.user?.userId || ""
- console.log(userId)
  try {
     const prisma = res.prisma
         const addUserFav = await prisma.restaurant_Favorite_By_User.create({

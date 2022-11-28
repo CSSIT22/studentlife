@@ -215,8 +215,8 @@ export const setRestaurant = (newData: Restaurant[]) => {
 }
 
 restaurantRoutes.get("/search", searchRestaurant)
-restaurantRoutes.post("/favorite", deleteFavorite)
 restaurantRoutes.get("/favorite", showFavorite)
+restaurantRoutes.post("/favorite", deleteFavorite)
 restaurantRoutes.get("/history", showHistory)
 restaurantRoutes.get("/:id", verifyUser, showRestaurant)
 restaurantRoutes.put("/:id", addHistory)
