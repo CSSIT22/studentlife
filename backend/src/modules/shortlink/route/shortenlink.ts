@@ -8,6 +8,7 @@ const shortenlink = async (req: Request, res: Response) => {
     const customNanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz", 6) // Create custom nanoid randomizer
 
     console.log(req.body.originalLink)
+    console.log(req.user)
     try {
         const prisma = res.prisma
         const result = await prisma.shortLink.create({

@@ -30,6 +30,7 @@ import {
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import API from "src/function/API"
 
 const generate = () => {
     const navigate = useNavigate()
@@ -48,10 +49,13 @@ const generate = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
     const [link, setLink] = useState("")
+    const [generated, setGenerated] = useState("")
     const toast = useToast()
 
     const generateLink = async () => {
-        const response = await axios.post("http://localhost:8000/shortlink/generate", { originalLink: link })
+        const response = await API.post("http://localhost:8000/shortlink/generate", { originalLink: link }) //axios will call Http
+        setGenerated(response.data.result.shortenLink)
+        // console.log(response.data)
     }
 
     const breakpoints = {
@@ -93,13 +97,13 @@ const generate = () => {
                         <Box h="70px" w={"100%"}>
                             <Center>
                                 <Editable
-                                    defaultValue="Take some chakra"
                                     w={"75%"}
                                     height={"60px"}
                                     border={"4px"}
                                     borderColor={"black"}
                                     rounded={"md"}
-                                ></Editable>
+                                    align = "center"
+                                >{generated}</Editable>
                             </Center>
                         </Box>
                     </VStack>

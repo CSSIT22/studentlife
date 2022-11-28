@@ -7,9 +7,6 @@ shortlinkRoutes.use(express.json())
 
 shortlinkRoutes.post("/generate", verifyUser, shortenlink)
 
-shortlinkRoutes.get("/test", (req, res) => {
-    res.send("himom")
-})
 
 shortlinkRoutes.get("/", async (req, res) => {
     const prisma = res.prisma
