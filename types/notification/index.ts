@@ -15,3 +15,8 @@ export type Notiobject = {
   url: string;
   sender: string | null;
 };
+export type NotiUser = {
+  userId: string;
+  notiSettingApp: string;
+  notiSettingEmail: string;
+};

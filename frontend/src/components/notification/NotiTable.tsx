@@ -75,19 +75,19 @@ const NotiTable = () => {
             <Button
                 onClick={() =>
                     toast({
-                        position: 'bottom',
+                        position: 'bottom-right',
                         render: () => (
 
                             // <Box color='white' p={3} bg='blue.500'>
                             //     Hello World
                             // </Box>
-                            <Box shadow={"lg"} borderRadius="2xl" bg="orange.100" padding={3}>
+                            <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
                                 <Stack direction={"row"} spacing={3}>
                                     <Center><Avatar bg="blackAlpha.200" size={"sm"}>
                                         <AvatarBadge boxSize="1em" bg="green.500" />
                                     </Avatar>
                                     </Center>
-                                    <Stack><Text fontSize={"sm"}>
+                                    <Stack><Text fontSize={"sm"} color="white">
                                         <b>User123456</b> Create a post asdfkj asdf asdad
                                     </Text>
                                         <Text fontSize={"xs"} color="white">

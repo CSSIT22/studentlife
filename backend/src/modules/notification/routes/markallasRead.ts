@@ -1,5 +1,4 @@
 import { Express, Request, Response } from "express"
-import { getObject, setObject } from "../index"
 import { Notiobject } from "@apiType/notification"
 import { Module } from "@prisma/client"
 
