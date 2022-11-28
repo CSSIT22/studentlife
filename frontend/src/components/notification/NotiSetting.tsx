@@ -17,8 +17,8 @@ const NotiSetting = () => {
             setNotiUser(res.data)
         })
     }, [])
-    console.log(notiUser?.notiSettingApp as string);
-    console.log(notiUser?.notiSettingEmail as string);
+    //console.log(notiUser?.notiSettingApp as string);
+    //console.log(notiUser?.notiSettingEmail as string);
 
     function setUserSetting() {
         React.useEffect(() => {
