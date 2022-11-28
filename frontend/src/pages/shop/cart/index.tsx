@@ -23,8 +23,8 @@ const Cart = () => {
     }, [cartProducts])
     let st = 0, dt = 0
     cartProducts?.forEach(cartProduct => {
-        st += cartProduct.product.productPrice
-        dt += cartProduct.product.deliveryFees
+        st += parseFloat(cartProduct.product.productPrice)
+        dt += parseFloat(cartProduct.product.deliveryFees)
     })
     const summeryData = {
         subtotal: st,
@@ -106,7 +106,7 @@ function generateCartProducts(cartProducts: Shop_Cart[] | null){
                         quantity={cartProducts[i].quantity}
                         images={cartProducts[i].product.images} 
                         productName={cartProducts[i].product.productName} 
-                        productPrice={cartProducts[i].product.productPrice} 
+                        productPrice={parseFloat(cartProducts[i].product.productPrice)} 
                         productStock={cartProducts[i].product.productStock}                        
                         />
                 )

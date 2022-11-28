@@ -25,7 +25,7 @@ function generateProducts(products: Shop_Product_With_Images[] | null) {
                         id={product.productId}
                         name={product.productName}
                         brandName={product.brandName}
-                        price={product.productPrice}
+                        price={parseFloat(product.productPrice)}
                         image={product.images[0].image}
                     ></ProductDisplay>)
                 } else {
@@ -33,7 +33,7 @@ function generateProducts(products: Shop_Product_With_Images[] | null) {
                         id={product.productId}
                         name={product.productName}
                         brandName={product.brandName}
-                        price={product.productPrice}
+                        price={parseFloat(product.productPrice)}
                     ></ProductDisplay>)
                 }
             })

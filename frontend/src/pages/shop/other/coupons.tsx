@@ -29,10 +29,10 @@ function generateCoupons(coupons: Shop_Coupon[] | null) {
             data.push(
                 <CouponDisplay
                     couponCode={coupons[i].couponCode}
-                    discountAmount={coupons[i].discount}
+                    discountAmount={parseFloat(coupons[i].discount)}
                     details={coupons[i].couponDesc}
                     validUntil={date + ""}
-                    minSpend={coupons[i].minimumSpend}
+                    minSpend={parseFloat(coupons[i].minimumSpend)}
                 ></CouponDisplay>
             )
         }

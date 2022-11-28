@@ -1,4 +1,4 @@
-import { Shop_Product } from "@apiType/shop"
+import { Shop_Product } from "@prisma/client"
 import { Request, Response } from "express"
 
 const  getProductInformation = async (req:Request, res: Response) => {
@@ -9,18 +9,7 @@ const  getProductInformation = async (req:Request, res: Response) => {
         
         let selectedProduct: Shop_Product | null = await prisma.shop_Product.findUnique(
             {
-                select: {
-                    productId: true,
-                    categoryId: true,
-                    contactId: true,
-                    productName: true,
-                    productDesc: true,
-                    productColor: true,
-                    productSize: true,
-                    productPrice: true,
-                    productStock: true,
-                    brandName: true,
-                    deliveryFees: true,
+                include: {
                     images: {
                         select: {image: true}
                     },

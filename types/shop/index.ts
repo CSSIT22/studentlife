@@ -67,8 +67,8 @@ export type Shop_Order = {
   userId: string
   transId: string
   couponCode: string
-  totalPrice: number
-  totalDeliveryFees: number
+  totalPrice: string
+  totalDeliveryFees: string
   shipping: string
   orderPlaced: Date
   orderStatus: string
@@ -81,10 +81,10 @@ export type Shop_Order = {
 export type Shop_Coupon = {
   couponCode: string
   couponDesc: string
-  discount: number
+  discount: string
   validFrom: Date
   validTill: Date
-  minimumSpend: number
+  minimumSpend: string
   productId: number
   quota: number
 }
@@ -104,16 +104,16 @@ export type User_Coupon = {
  */
 export type Shop_Product = {
   productId: number
-  categoryId: number
+  categoryId: number | null
   contactId: number
   productName: string
   productDesc: string
   productColor: string
   productSize: string
-  productPrice: number
+  productPrice: string
   productStock: number
   brandName: string
-  deliveryFees: number
+  deliveryFees: string
   images: {
     image: string
   }[]
@@ -122,16 +122,16 @@ export type Shop_Product = {
 
 export type Shop_Product_With_Images = {
   productId: number
-  categoryId: number
+  categoryId: number | null
   contactId: number
   productName: string
   productDesc: string
   productColor: string
   productSize: string
-  productPrice: number
+  productPrice: string
   productStock: number
   brandName: string
-  deliveryFees: number
+  deliveryFees: string
   images: {
     image: string
   }[]

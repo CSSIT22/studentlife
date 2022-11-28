@@ -10,18 +10,7 @@ const getAllProductsInCart = async (req: Request, res: Response) => {
                     productId: true,
                     quantity: true,
                     product: {
-                        select: {
-                            productId: true,
-                            categoryId: true,
-                            contactId: true,
-                            productName: true,
-                            productDesc: true,
-                            productColor: true,
-                            productSize: true,
-                            productPrice: true,
-                            productStock: true,
-                            brandName: true,
-                            deliveryFees: true,
+                        include: {
                             images: {
                                 select: {image: true}
                             }

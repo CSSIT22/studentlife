@@ -113,14 +113,14 @@ const index = () => {
                             {product.productName}
                         </Text>
                         <Text fontSize={"2xl"} color="black" fontWeight="600">
-                            {convertCurrency(product.productPrice)}
+                            {convertCurrency(parseFloat(product.productPrice))}
                         </Text>
                         <Spacer />
                         <Flex justify="space-between">
                             <Text as="b" fontSize={"lg"}>BRAND: </Text><Text ml="3" fontSize={"lg"}>{product.brandName}</Text>
                         </Flex>
                         <Flex justify="space-between">
-                            <Text as="b" fontSize={"lg"}>DELIVERY: </Text><Text ml="3" fontSize={"lg"}>{convertCurrency(product.deliveryFees)}</Text>
+                            <Text as="b" fontSize={"lg"}>DELIVERY: </Text><Text ml="3" fontSize={"lg"}>{convertCurrency(parseFloat(product.deliveryFees))}</Text>
                         </Flex>
                         <Flex justify="space-between">
                             <Text as="b" fontSize={"lg"}>SIZE: </Text><Text ml="3" fontSize={"lg"}>{product.productSize}</Text>
