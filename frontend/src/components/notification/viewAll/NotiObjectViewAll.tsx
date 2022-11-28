@@ -24,14 +24,13 @@ import { TODO_LIST_TASK } from "../templates/TODO_LIST_TASK"
 const NotiObjectViewAll: FC<{
     id: number
     template: string
-    userId: string
-    description: string
     isRead: boolean
     date: Date
     module: string
-    link: string
+    url: string
     onClick: Function
-}> = ({ id, template, description, isRead, date, module, userId, link, onClick }) => {
+    sender: string
+}> = ({ id, template, isRead, date, module, url, onClick, sender }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -239,23 +238,28 @@ const NotiObjectViewAll: FC<{
     }
 
     function showUser() {
-        var user = USER.filter((el) => el.id == userId)
-        var userStatus = user[0].isOnline
-        //console.log(user)
+        // var user = USER.filter((el) => el.id == userId)
+        // var userStatus = user[0].isOnline
+        // //console.log(user)
 
-        if (userStatus) {
-            return (
-                <Avatar src={user[0].avatarImg} size={"md"}>
-                    <AvatarBadge boxSize="1em" bg="green.500" />
-                </Avatar>
-            )
-        } else {
-            return (
-                <Avatar src={user[0].avatarImg} size={"md"}>
-                    <AvatarBadge boxSize="1em" bg="gray" />
-                </Avatar>
-            )
-        }
+        // if (userStatus) {
+        //     return (
+        //         <Avatar src={user[0].avatarImg} size={"md"}>
+        //             <AvatarBadge boxSize="1em" bg="green.500" />
+        //         </Avatar>
+        //     )
+        // } else {
+        //     return (
+        //         <Avatar src={user[0].avatarImg} size={"md"}>
+        //             <AvatarBadge boxSize="1em" bg="gray" />
+        //         </Avatar>
+        //     )
+        // }
+        return (
+            //<Avatar src={user[0].avatarImg} size={"sm"} />
+            <Avatar size={"sm"} />
+
+        )
     }
     function read() {
         API.post("/notification/readnotiobject/" + id)
@@ -273,7 +277,7 @@ const NotiObjectViewAll: FC<{
                 read(), onClick()
             }}
         >
-            <a href={link}>
+            <a href={url}>
                 <Stack direction={"row"} spacing={12}>
                     <Box>
                         <Stack direction={"row"} spacing={12}>
@@ -281,8 +285,18 @@ const NotiObjectViewAll: FC<{
                                 {showStatus()}
                             </Center>
                             <Center>{showUser()}</Center>
-                            <Stack direction={"row"} spacing={300} padding={5}>
+                            <Stack direction={"row"} spacing={5} padding={5}>
                                 {showDescription()}
+                                {/* <Box as="button"
+                                    shadow={"lg"}
+                                    borderRadius="1xl"
+                                    bg="#D6D6D6"> */}
+                                <Button shadow={"lg"}
+                                    size='xs'
+                                    padding={1}
+                                    bg="#E3E3E3">
+                                    {module}
+                                </Button>
                             </Stack>
                         </Stack>
                     </Box>

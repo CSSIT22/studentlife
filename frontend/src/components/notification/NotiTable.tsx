@@ -18,6 +18,9 @@ import {
     ModalBody,
     ModalCloseButton,
     useToast,
+    Avatar,
+    AvatarBadge,
+    Circle,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Modulelist from "./moduleList/Modulelist"
@@ -48,7 +51,7 @@ const NotiTable = () => {
     //getUserNotiObject by Module
 
     const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
-    console.log(getUserNotiObjectModule);
+    //console.log(getUserNotiObjectModule);
 
     const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
     useEffect(() => {
@@ -64,23 +67,44 @@ const NotiTable = () => {
     function showNotiList(): any {
         return <NotiList module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiList>
     }
-    // function alert() {
-    //     const toast = useToast()
-    //     return (
-    //         <Button
-    //             onClick={() =>
-    //                 toast({
-    //                     title: 'New Notification.',
-    //                     description: "iuytfrftgyhuojipkl[;",
-    //                     duration: 3000,
-    //                     isClosable: true,
-    //                 })
-    //             }
-    //         >
-    //             Show Noti
-    //         </Button>
-    //     )
-    // }
+
+
+    function alert() {
+        const toast = useToast()
+        return (
+            <Button
+                onClick={() =>
+                    toast({
+                        position: 'bottom',
+                        render: () => (
+
+                            // <Box color='white' p={3} bg='blue.500'>
+                            //     Hello World
+                            // </Box>
+                            <Box shadow={"lg"} borderRadius="2xl" bg="orange.100" padding={3}>
+                                <Stack direction={"row"} spacing={3}>
+                                    <Center><Avatar bg="blackAlpha.200" size={"sm"}>
+                                        <AvatarBadge boxSize="1em" bg="green.500" />
+                                    </Avatar>
+                                    </Center>
+                                    <Stack><Text fontSize={"sm"}>
+                                        <b>User123456</b> Create a post asdfkj asdf asdad
+                                    </Text>
+                                        <Text fontSize={"xs"} color="white">
+                                            10 hours ago
+                                        </Text>
+                                    </Stack>
+                                </Stack>
+                            </Box>
+
+                        )
+                    })
+                }
+            >
+                Show Noti
+            </Button>
+        )
+    }
 
     //setting
     function ShowSetting() {
@@ -126,6 +150,7 @@ const NotiTable = () => {
                     <Stack direction={"row"}>
                         <MarkRead module={selectedModule} onClick={load} />
                         {ShowSetting()}
+
                     </Stack>
                 </Box>
             </Flex>

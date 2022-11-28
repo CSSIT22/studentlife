@@ -5,16 +5,6 @@ import React, { FC } from "react"
 import NotiObject from "./NotiObject"
 
 const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> = ({ selectedList, onClick, module }) => {
-    // const objectlist: any[] = [];
-    // selectedList.forEach(
-    //     (el) => {
-    //         if (el.notiObject.module == module) {
-    //             objectlist.push(el.notiObject)
-    //         }
-
-    //     }
-    // )
-    // console.log(objectlist)
 
     //sort selectedList
     const sortedList = selectedList.sort((a, b) => {
