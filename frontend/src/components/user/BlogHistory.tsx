@@ -13,14 +13,14 @@ function BlogHistory() {
 
     const theme = extendTheme({ breakpoints })
     return (
-        <Flex rounded="xl" direction="column" mt={{ base: "0", md: "4" }} mx={4} bg="white" p={2} position="initial" shadow={"lg"}>
-            <Text color="Black" p="5" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
+        <Flex rounded="xl" direction="column" mt={{ base: "2", md: "4" }} mx={4} bg={{ base: "", sm: "white" }} p={2} position="initial" shadow={{ base: "", md: "lg" }}>
+            <Text color="Black" p="3" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
                 BLOG HISTORY
             </Text>
 
-            <Container padding="2" mx={2} alignContent="center" alignSelf="center">
+            <Flex padding="2" mx={{ base: "10", md: "2" }} alignContent="center" alignSelf="center">
                 <Feed />
-            </Container>
+            </Flex>
         </Flex>
     )
 }
