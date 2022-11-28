@@ -11,6 +11,8 @@ import getProductImages from "./routes/get/getProductImages"
 import postCartProduct from "./routes/post/postCartProduct"
 import getAllProductsInCart from "./routes/get/getAllProductsInCart"
 import deleteCartProduct from "./routes/delete/deleteCartProduct"
+import incrementCPQuantity from "./routes/put/incrementCPQuantity"
+import decreaseCPQuantity from "./routes/put/decreaseCPQuantity"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -31,6 +33,8 @@ shopRoutes.get("/getAllCoupons", getAllCoupons)
 shopRoutes.post("/postCartProduct", postCartProduct)
 shopRoutes.get("/getAllProductsInCart", getAllProductsInCart)
 shopRoutes.delete("/deleteCartProduct/:productId", deleteCartProduct)
+shopRoutes.put("/incrementCPQuantity/:productId", incrementCPQuantity)
+shopRoutes.put("/decreaseCPQuantity/:productId", decreaseCPQuantity)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 

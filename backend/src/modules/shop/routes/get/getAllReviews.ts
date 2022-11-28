@@ -6,15 +6,7 @@ const getAllReviews = async (req: Request, res: Response) => {
         const prisma = res.prisma
         let pId = req.params.productId
         let filteredReviews: Shop_Product_Review[] | null = await prisma.shop_Product_Review.findMany({
-            select: {
-                reviewId: true,
-                userId: true,
-                productId: true,
-                reviewName: true,
-                reviewDesc: true,
-                reviewRating: true,
-                reviewAt: true,
-                image: true,
+            include: {
                 user: {
                     select: {
                         userId: true,

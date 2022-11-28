@@ -4,9 +4,10 @@ const deleteCartProduct = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const userId = req.user?.userId
+        const productId = parseInt(req.params.productId)
         if (userId != undefined) {
-            const deleted = await prisma.shop_Cart.deleteMany({
-                where: { userId: userId, productId: parseInt(req.params.productId)}
+            const deleted = await prisma.shop_Cart.delete({
+                where: {userId_productId : {userId, productId}}
             })
             return res.send(deleted)
         }

@@ -23,7 +23,9 @@ const CartProduct: FC<{
         fontWeight: "semibold",
         fontSize: "lg",
         as: "h4",
-        lineHeight: "tight"
+        lineHeight: "tight",
+        noOfLines: 1,
+        overflow: "hidden"
     }
         let displayImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
         if (images.length > 0) displayImage = images[0].image

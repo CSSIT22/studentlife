@@ -1,6 +1,7 @@
 import { MinusIcon, AddIcon } from '@chakra-ui/icons'
 import { Box, ButtonGroup, Button, IconButton, Center, Flex } from '@chakra-ui/react'
 import React, { FC, useState } from 'react'
+import API from 'src/function/API'
 
 const QtyButton: FC<{
     productId: number,
@@ -8,9 +9,14 @@ const QtyButton: FC<{
     stock: number
 }> = ({ productId, quantity, stock }) => {
     const [qty, setQty] = useState(quantity)
+    const [isError, setError] = useState(false)
     // Add function to update PUT qty in backend
-    const increaseQty = () => (setQty(qty + 1))
-    const decreaseQty = () => (setQty(qty - 1))
+    const increaseQty = () => {
+        API.put("/shop/incrementCPQuantity/" + productId).then((res) => setQty(res.data.quantity)).catch(err => setError(true))
+    }
+    const decreaseQty = () => {
+        API.put("/shop/decreaseCPQuantity/" + productId).then((res) => setQty(res.data.quantity)).catch(err => setError(true))
+    }
     return (
 
         <Flex>
