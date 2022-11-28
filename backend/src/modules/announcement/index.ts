@@ -268,6 +268,11 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
                         select:{
                             status: true
                         }
+                    },
+                    annApprove:{
+                        select:{
+                            approveTime:true
+                        }
                     }
                 }
 
