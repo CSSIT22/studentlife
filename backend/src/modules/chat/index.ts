@@ -8,6 +8,7 @@ import editRoomProp from "./router/editRoomProp"
 import getQuote from "./router/getQuote"
 import addQuote from "./router/addQuote"
 import createRoom from "./router/createRoom"
+import getMember from "./router/getMember"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -26,9 +27,10 @@ chatRoutes.get("/:id", room_prop)
 
 chatRoutes.get("/:id/getQuote", getQuote)
 
+chatRoutes.get("/:id/getMember", getMember)
+
 chatRoutes.post("/:id", editRoomProp)
 
 chatRoutes.post("/:id/addQuote", addQuote)
-
 
 export default chatRoutes

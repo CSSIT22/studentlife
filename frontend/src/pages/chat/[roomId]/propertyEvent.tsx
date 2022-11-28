@@ -27,13 +27,29 @@ import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { RoomType } from "../[roomID]"
+import { buffer_to_img } from "src/components/chat/function/64_to_img"
 
 const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
 }
 
+type memberType = {
+    userId: string,
+    roomId: string,
+    joined: string,
+    lefted: string,
+    user: {
+        fName: string,
+        image: {
+            type: string,
+            data: string
+        } | null
+    }
+}
+
 function propertyEvent(props: any) {
     const [Room, setRoom] = React.useState<RoomType>()
+    const [member, setMember] = React.useState<memberType>()
 
     // Change color
     const [roomColor, setRoomColor] = React.useState("")
@@ -51,6 +67,27 @@ function propertyEvent(props: any) {
         API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data)
         )
     }, [param])
+
+
+    useEffect(() => {
+        API.get(`/chat/${param.roomId}/getMember`).then((e) => setMember(e.data)
+        )
+    }, [param])
+    const renderMemberGroup = (element: any) => {
+        return (
+            element.map((e: memberType) => {
+                const img = e.user.image
+                return (
+                    <HStack spacing={4}>
+                        <Avatar name={e.user.fName} src={(img === null) ? "" : buffer_to_img(img?.data)} />
+                        <Heading size={"md"}>
+                            {e.user.fName}
+                        </Heading>
+                    </HStack>
+                )
+            })
+        )
+    }
 
     const navigate = useNavigate()
 
@@ -138,7 +175,7 @@ function propertyEvent(props: any) {
     }, [])
     const addQuote = () => {
         if (quoteText.length !== 0) {
-            setQuote([...quoteList, {text: quoteText}])
+            setQuote([...quoteList, { text: quoteText }])
             API.post(`/chat/${param.roomId}/addQuote?quoteAdd=${quoteText}`)
             setQuoteText("")
             setQuoteWarning("")
@@ -254,26 +291,9 @@ function propertyEvent(props: any) {
     }
     if (props === "Member") {
         return (
-            <VStack spacing={6} pb={6}>
-                <HStack spacing={4}>
-                    <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
-                    <Heading size={"md"}>
-                        <Editable defaultValue="Neng">
-                            <EditablePreview />
-                            <EditableInput />
-                        </Editable>
-                    </Heading>
-                </HStack>
-                <HStack spacing={4}>
-                    <Avatar name="Oil" src="https://bit.ly/dan-abramov" />
-                    <Heading size={"md"}>
-                        <Editable defaultValue="Oil">
-                            <EditablePreview />
-                            <EditableInput />
-                        </Editable>
-                    </Heading>
-                </HStack>
-            </VStack>
+            <Flex direction={'column'} alignItems={'center'} gap={5} pb={6}>
+                {renderMemberGroup(member)}
+            </Flex>
         )
     }
     if (props === "Invite people") {
