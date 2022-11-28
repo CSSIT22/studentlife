@@ -51,13 +51,13 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const btnRef = React.useRef(null)
     let history = useNavigate()
     const param = useParams();
-    const [isFollow, setIsFollow] = useState(false)
-    const [Phone, setPhone] = useState<any>()
-    const [BirthDate, setBirthDate] = useState<any>()
-    const [Sex, setSex] = useState<any>()
-    const [Hobbies, setHobbies] = useState<any>()
-    const [Years, setYears] = useState<any>()
-    const [Address, setAddress] = useState<any>()
+    const [isFollow, setIsFollow] = useState<boolean>(false)
+    const [Phone, setPhone] = useState<string>("")
+    const [BirthDate, setBirthDate] = useState<string>("")
+    const [Sex, setSex] = useState<string>("")
+    const [Hobbies, setHobbies] = useState<string>("")
+    const [Years, setYears] = useState<any>(0)
+    const [Address, setAddress] = useState<string>("")
     useEffect(() => {
         API.get(`/profile/edit/${param.userID}`).then((res) => {
             console.log(res.data)

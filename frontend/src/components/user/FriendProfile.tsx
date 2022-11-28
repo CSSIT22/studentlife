@@ -30,9 +30,11 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs"
 import { useParams } from "react-router-dom"
 import API from "src/function/API"
+import {useNavigate} from "react-router-dom"
 
 
 export default function SimpleThreeColumns() {
+    const navigate = useNavigate();
     const { isOpen: isReportModalOpen, onOpen: onReportModalOpen, onClose: onReportModalClose } = useDisclosure()
     const { isOpen: isConfirmRPModalOpen, onOpen: onConfirmRPModalOpen, onClose: onConfirmRPModalClose } = useDisclosure()
     const { isOpen: isBlockModalOpen, onOpen: onBlockModalOpen, onClose: onBlockModalClose } = useDisclosure()
@@ -204,6 +206,7 @@ export default function SimpleThreeColumns() {
                                 position="initial"
                                 value="inside"
                                 shadow={"lg"}
+                                onClick={() => navigate("/chat")}
                             >
                                 Message
                             </Button>
