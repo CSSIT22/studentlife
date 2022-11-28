@@ -1,17 +1,14 @@
 import { Box, Stack, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import NotiObject from "./NotiObject"
-import { OBJECTS } from "./data/objectsTest"
 
-const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
+const NotiList: FC<{ selectedList: any[]; onClick: Function }> = ({ selectedList, onClick }) => {
     //sort selectedList
-    // console.log("selectedList")
-    // console.log(selectedList)
     const sortedList = selectedList.sort((a, b) => {
         return b.date - a.date
     })
-    // console.log("sortedList")
-    // console.log(sortedList)
+
+    //show date
     const listDay: any[] = []
     function showDate(date: Date) {
         //prop = date
@@ -75,23 +72,23 @@ const NotiList: FC<{ selectedList: any[] }> = ({ selectedList }) => {
             }
         }
     }
-    console.log(listDay)
+    // console.log(listDay)
 
     return (
         <Box>
-            {sortedList.map((el, index) => {
+            {sortedList?.map((el) => {
                 return (
-                    <Box key={index}>
-                        <Text>{showDate(el.date)}</Text>
+                    <Box key={el.id}>
+                        {showDate(new Date(el.date))}
                         <Stack spacing={3}>
                             <NotiObject
-                                key={el.id}
                                 id={el.id}
                                 userId={el.user}
                                 description={el.description}
                                 isRead={el.isRead}
-                                date={el.date}
+                                date={new Date(el.date)}
                                 link={el.link}
+                                onClick={onClick}
                             />
                         </Stack>
                     </Box>

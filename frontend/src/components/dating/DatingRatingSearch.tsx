@@ -76,6 +76,7 @@ const DatingRatingSearch: FC<{
                 id="search"
                 name="search"
                 border="1px solid #CBD5E0"
+                bgColor="white"
                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                 onChange={(e) => handleSearchChange(e)}
             />

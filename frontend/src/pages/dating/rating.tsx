@@ -1,4 +1,4 @@
-import { Heading, Stack, Text, Box, Image, Flex, Center } from "@chakra-ui/react"
+import { Heading, Stack, Text, Box, Image, Flex, Center, Container } from "@chakra-ui/react"
 import { useState } from "react"
 import AppBody from "./../../components/share/app/AppBody"
 import { FRIEND } from "./../../components/dating/shared/friend"
@@ -11,39 +11,52 @@ const Rating = () => {
 
     return (
         <AppBody>
-            <Stack color="black" pt="10px">
-                <Heading>Rating</Heading>
-                <Text fontSize="xl">You are friend with</Text>
-                <Box pb="10">
-                    {/* Need to filter from the original file */}
-                    <DatingRatingSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFriends={setFriend} FRIENDS={FRIEND} />
-                </Box>
-                {friend.map((values) => {
-                    return (
-                        <Box>
-                            <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
-                                <Flex>
-                                    <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={values.url}
-                                        alt={values.Fname + " " + values.Lname}
+            <Box display="flex" justifyContent="center" mb={{ base: "150px", md: "200px" }}>
+                <Box zIndex="2" mt="-35px" position="fixed" w="100%" top={{ base: 21, md: 157 }}>
+                    <Box maxW="100%" bg="#FFF2E6" pt={{ base: "80px", md: "50px" }}>
+                        <Container w="container.lg" maxW={"100%"}>
+                            <Stack color="black" pt="10px">
+                                <Heading>Rating</Heading>
+                                <Box pt="20px" pb="20px">
+                                    {/* Need to filter from the original file */}
+                                    <DatingRatingSearch
+                                        searchQuery={searchQuery}
+                                        setSearchQuery={setSearchQuery}
+                                        setFriends={setFriend}
+                                        FRIENDS={FRIEND}
                                     />
-                                    <Center>
-                                        <Text ml="30px" fontSize="20px">
-                                            {values.Fname}
-                                            &nbsp;
-                                            {values.Lname}
-                                        </Text>
-                                    </Center>
-                                </Flex>
-                                <DatingRatingAllStar defaultFill={values.rate} rateFor={values.UserId} />
-                            </Box>
+                                </Box>
+                            </Stack>
+                        </Container>
+                    </Box>
+                </Box>
+            </Box>
+
+            {friend.map((values) => {
+                return (
+                    <Box>
+                        <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
+                            <Flex>
+                                <Image
+                                    borderRadius="full"
+                                    boxSize="78px"
+                                    objectFit="cover"
+                                    src={values.url}
+                                    alt={values.Fname + " " + values.Lname}
+                                />
+                                <Center>
+                                    <Text ml="30px" fontSize="20px">
+                                        {values.Fname}
+                                        &nbsp;
+                                        {values.Lname}
+                                    </Text>
+                                </Center>
+                            </Flex>
+                            <DatingRatingAllStar defaultFill={values.rate} rateFor={values.UserId} />
                         </Box>
-                    )
-                })}
-            </Stack>
+                    </Box>
+                )
+            })}
         </AppBody>
     )
 }

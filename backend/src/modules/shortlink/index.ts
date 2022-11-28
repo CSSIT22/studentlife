@@ -1,17 +1,27 @@
+import { verifyUser } from "./../backendService/middleware/verifyUser"
 import express from "express"
-import shortenlink from "./route/shortenlink"
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 
 const shortlinkRoutes = express()
-shortlinkRoutes.use(express.json())
 
-shortlinkRoutes.post("/generate", shortenlink)
+shortlinkRoutes.get('/test',async(req,res)=>{
+    const allUsers = await prisma.shortLink.findMany()
+    res.json(allUsers)
+    })
 
-shortlinkRoutes.get("/test", (req, res) => {
-    res.send("himom")
+shortlinkRoutes.get('/shortlink' ,async (req,res)=>{
+    const allUsers = await prisma.shortLink.findMany()
+    res.status(200).json(res)
+    console.log(allUsers)
+    res.json({msg:"Hello world"})
 })
+shortlinkRoutes.get("/", async (req, res) => {
+    const prisma = res.prisma
+    // const result = await prisma.shortLink.createMany({
 
- 
-
-
+    // })
+})
 export default shortlinkRoutes
+
