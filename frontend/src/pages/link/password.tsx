@@ -26,7 +26,7 @@ const password = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -47,20 +47,20 @@ const password = () => {
                         <Box h="70px">
                             <Center >
 
-                                <Input type={'password'} placeholder='Create Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} />
+                                <Input type={'password'} placeholder='Create Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"}/>
 
 
                             </Center>
                         </Box>
                         <Box h="70px">
                             <Center >
-                                <Input type={'password'} placeholder='Confirm Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} />
+                                <Input type={'password'} placeholder='Confirm Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
                             </Center>
                         </Box>
                         <Box h="70px">
                             <Link>
                                 <Center>
-                                    <Button bg={"orange.200"} w={"75%"} height={"60px"} onClick={complete}>
+                                    <Button bg={ "green.400"} w={"75%"} height={"60px"} onClick={complete}>
                                         <Text as={"b"}>SAVE</Text>
                                     </Button>
                                 </Center>
@@ -69,7 +69,7 @@ const password = () => {
                             <Box h="70px">
                                 <Link>
                                     <Center>
-                                        <Button bg={"orange.200"} w={"75%"} height={"60px"}  onClick={shortlink}>
+                                        <Button bg={"orange.600"} w={"75%"} height={"60px"}  onClick={shortlink}>
                                             <Text as={"b"}>Back</Text>
                                         </Button>
                                     </Center>

@@ -58,7 +58,7 @@ const generate = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"300px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -79,7 +79,7 @@ const generate = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} />
+                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"}  backgroundColor={"white"}/>
                                 </Center>
                             </Box>
                         </Box>
@@ -92,6 +92,7 @@ const generate = () => {
                                     border={"4px"}
                                     borderColor={"black"}
                                     rounded={"md"}
+                                    backgroundColor={"white"}
                                 ></Editable>
                             </Center>
                         </Box>
@@ -103,7 +104,7 @@ const generate = () => {
 
             <Center>
                 {" "}
-                <Box width={"80%"} height={"200px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"1%"}>
+                <Box width={"80%"} height={"200px"} background={"orange.200"} borderRadius="20px" marginTop={"1%"}>
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <Center>

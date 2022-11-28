@@ -28,7 +28,7 @@ const history = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"500px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"500px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -45,7 +45,7 @@ const history = () => {
                         </Heading>
                     </Box>
 
-                    <VStack spacing={5} align="stretch" marginBottom={"100%"}>
+                    <VStack spacing={5} align="stretch" marginBottom={"100%"} >
                         <Center>
                             <Box w="90%" p={5} color="white" alignItems={"center"}>
                                 <HStack spacing="24px">
@@ -123,7 +123,7 @@ const history = () => {
                                    </Box>
                                </HStack>
                                 <Box>
-                                    <Button bg={"orange.200"} w={"50%"} height={"60px"} onClick={shortlink}>
+                                    <Button bg={"orange.600"} w={"50%"} height={"60px"} onClick={shortlink}>
                                         <Text as={"b"}>Return</Text>
                                     </Button>
                                 </Box>

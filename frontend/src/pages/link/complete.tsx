@@ -9,7 +9,7 @@ const complete = () => {
     return (
         <AppBody>
             <Center>
-                <Box width={"80%"} height={"500px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"500px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
                     <Box p={5} className='my-box' marginLeft={"5%"}
                         width={"80%"}
                         marginTop={"-5"}

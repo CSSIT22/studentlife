@@ -1,5 +1,8 @@
-import { Avatar, Box, Button, Center, Checkbox, Grid, GridItem, Heading, HStack, Link, Text, VStack } from "@chakra-ui/react"
+import { SearchIcon } from "@chakra-ui/icons"
+import { Avatar, Box, Button, Center, Checkbox, extendTheme, Flex, Grid, GridItem, Heading, HStack, IconButton, Input, Link, Text, VStack } from "@chakra-ui/react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import UserList from "src/components/group/UserList"
 
 import AppBody from "src/components/share/app/AppBody"
 
@@ -16,15 +19,11 @@ const UserAc = () => {
                 <Box>
                     <Heading width={"300px"} height={"50px"} marginLeft={"10%"} marginTop={"-5"} background={"#f2f2f2"} borderRadius={"10px"} fontSize={"xl"} border={"3px solid white"} textAlign={"center"}>SHORTLINK PERMISSION</Heading>
                 </Box>
-
                 <VStack spacing={4} align='stretch' marginTop={"10%"}>
                     <Center>
                         <Box w='90%' p={4} color='white' alignItems={"center"}>
-                            {/* <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-                                <GridItem colSpan={0} h='10' bg='tomato' /><Heading>Kitibhum Supanurat</Heading>
-                                <GridItem colStart={5} colEnd={6} h='10' bg='papayawhip' />
-                            </Grid> */}
-    
+                            
+                            
                             <HStack spacing='24px'>
                             <Avatar name='Kitibhum Supanurat' src='https://bit.ly/broken-link' />
                                 <Box w='400px' h='10' ><Heading color={"black"}>

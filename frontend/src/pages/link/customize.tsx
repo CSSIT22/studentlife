@@ -44,7 +44,7 @@ const customize = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"300px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -65,13 +65,13 @@ const customize = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} />
+                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
                                 </Center>
                             </Box>
                         </Box>
                         <Box h="70px" w={"100%"}>
                             <Center>
-                            <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"}></Editable>
+                            <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"}></Editable>
                             </Center>
                         </Box>
                     </VStack>
@@ -82,7 +82,7 @@ const customize = () => {
 
             <Center>
                 {" "}
-                <Box width={"80%"} height={"200px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"1%"}>
+                <Box width={"80%"} height={"200px"} background={"orange.200"} borderRadius="20px" marginTop={"1%"}>
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
