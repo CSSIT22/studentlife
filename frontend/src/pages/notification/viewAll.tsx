@@ -44,7 +44,6 @@ const viewAll = () => {
     //         setUserNotiObject(res.data)
     //     })
     // }, [reLoad])
-
     //console.log(userNotiObjectViewAll)
     //console.log(OBJECTS)
 
@@ -58,7 +57,7 @@ const viewAll = () => {
     //getUserNotiObject by Module
 
     const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
-    // console.log(getUserNotiObjectModule);
+    //console.log(getUserNotiObjectModule);
 
     const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
     useEffect(() => {
