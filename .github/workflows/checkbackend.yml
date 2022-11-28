@@ -7,11 +7,11 @@ on:
 jobs:
   backend-build:
     name: Build Backend
-    runs-on: [self-hosted, linux, x64]
+    runs-on: [self-hosted, linux, x64, backend]
     timeout-minutes: 7
-    defaults:
-      run:
-        working-directory: ./frontend
+    # defaults:
+    #   run:
+    #     working-directory: ./frontend
     steps:
       - name: 😊 checkout
         uses: actions/checkout@v2
