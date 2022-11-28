@@ -36,14 +36,14 @@ const viewAll = () => {
     }
 
     //getNotiobjectViewAll
-    const param = useParams()
-    const getUserNotiObject = API.get("/notification/getusernotiobjectbymodule/" + param.id)
-    const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    useEffect(() => {
-        getUserNotiObject.then((res) => {
-            setUserNotiObject(res.data)
-        })
-    }, [reLoad])
+    // const param = useParams()
+    // const getUserNotiObject = API.get("/notification/getusernotiobjectbymodule/" + param.id)
+    // const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
+    // useEffect(() => {
+    //     getUserNotiObject.then((res) => {
+    //         setUserNotiObject(res.data)
+    //     })
+    // }, [reLoad])
     //console.log(userNotiObjectViewAll)
     //console.log(OBJECTS)
 
@@ -57,7 +57,7 @@ const viewAll = () => {
     //getUserNotiObject by Module
 
     const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
-    console.log(getUserNotiObjectModule);
+    //console.log(getUserNotiObjectModule);
 
     const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
     useEffect(() => {
