@@ -34,6 +34,7 @@ import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { friend } from "../data/friend"
 import API from "src/function/API"
+import { a } from "@react-spring/web"
 
 
 function detail() {
@@ -262,9 +263,9 @@ function detail() {
                                         </Popover>
 
                                         <Spacer />
-                                        <Button bg={"#E65300"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
-                                            <Link to={e1.detail.location}>GO</Link>
-                                        </Button>
+                                        <Box as={Button} to={e1.detail.location} bg={"#E65300"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
+                                            <a href={e1.detail.location}>GO</a>
+                                        </Box>
                                     </Flex>
                                 </Box>
                             </Box>

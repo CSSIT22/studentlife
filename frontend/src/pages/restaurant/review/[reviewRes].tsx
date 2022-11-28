@@ -27,21 +27,12 @@ function review() {
         API.get("/restaurant/review/" + params.reviewRes).then((item) => setproperty(item.data))
     }, [params.reviewRes])
     console.log(property)
+    property.reviews?.map((e2: any) => {
+        console.log(e2)
+    })
 
-    // const cloneArr = Object.assign([], property) 
-    // console.log(cloneArr)
 
-    // const resD = cloneArr.resD
-    // console.log(resD)
 
-    // const reviD = cloneArr.reviD //to .reviD
-    // console.log(reviD)
-
-    // const convReviD = {...reviD} // array -> object
-    // console.log(convReviD)
-
-    // const selectedRevi = convReviD[0] // object[0] -> array
-    // console.log(selectedRevi)
 
     return (
         <AppBody
@@ -54,6 +45,7 @@ function review() {
             <Searchbar />
             <Center mt={4}>
                 {property.map((e1: any) => {
+
                     return (
                         <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
                             <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
@@ -89,7 +81,11 @@ function review() {
                                         </Box>
                                     </Link>
                                 </Box>
-                                <ReviewContent name={e1.user.name} picture={e1.user.picture} rate={e1.review.rating} review={e1.review.text} />
+                                {e1.reviews.map((e2: any) => {
+                                    return (
+                                        <ReviewContent name={e2.reviewBy?.fName} picture={e2.reviewsBy?.image} rate={e2?.rating} review={e2?.text} />
+                                    )
+                                })}
                             </Box>
                         </Box>
                     )
