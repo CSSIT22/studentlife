@@ -23,8 +23,9 @@ import {
     IconButton,
     Input,
     useDisclosure,
+    useBoolean,
 } from "@chakra-ui/react"
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { TiWarning } from "react-icons/ti"
 import { Link } from "react-router-dom"
 import { MdPublic, MdPublicOff } from "react-icons/md"
@@ -35,13 +36,15 @@ import { SearchIcon } from "@chakra-ui/icons"
 import { userData } from "src/pages/groups/data"
 import InvitationBox from "./InvitationBox"
 import useWindowDimensions from "./hooks/useWindowDimensions"
+import API from "src/function/API"
+import AppBody from "../share/app/AppBody"
 
-const CommunityList: FC<{
+const NavCommunity: FC<{
     disableInvite?: boolean
     disableBtn?: boolean
     activeBtn?: number
     tags?: any
-    communityID: number
+    communityID: string
     communityName: string
     coverPhoto: string
     isPrivate: boolean
@@ -72,6 +75,57 @@ const CommunityList: FC<{
         setModalOpen(false)
         setSureOpen(false)
     }
+
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const [communitys, setCommunitys] = useState<any>()
+
+
+    useEffect(() => {
+        API.get("/group/getCommunity")
+            .then((res) => setCommunitys(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
+    if (isLoading) {
+        return (
+            // will fix the design later
+            <AppBody>
+                {/* <Box sx={{
+                    display: "inline - block",
+                    position: "relative",
+                    width: "80px",
+                    height: "80px",
+                }}>
+                    <Box sx={{
+                        position: "absolute",
+                        top: "33px",
+                        width: "13px",
+                        height: "13px",
+                        borderRadius: "50%",
+                        background: "#fff",
+                        animationTimingFunction: "cubic-bezier(0, 1, 1, 0)",
+                    }}>
+
+                    </Box> */}
+                <Text>Loading...</Text>
+                {/* </Box> */}
+            </AppBody>
+        )
+    }
+    if (isError) {
+        // will fix the design later
+        return (
+            <AppBody>
+                <Box>
+                    <Text>Something went wrong...</Text>
+                </Box>
+            </AppBody>
+        )
+    }
+
+
+
 
     return (
         <Box>
@@ -341,7 +395,7 @@ const CommunityList: FC<{
             </Box>
 
             <Flex direction="column" justify={"center"} align="center" mt={3}>
-                {isPrivate && communityID != 1000 ? (
+                {isPrivate && communityID != "" ? (
                     <Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
                         <HStack gap={2} p={2}>
                             <Box height={"55px"}></Box>
@@ -364,4 +418,4 @@ const CommunityList: FC<{
     )
 }
 
-export default CommunityList
+export default NavCommunity

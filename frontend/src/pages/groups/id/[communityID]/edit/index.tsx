@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
     Tooltip,
     Text,
@@ -40,13 +40,14 @@ import {
     IconButton,
     HStack,
     textDecoration,
+    useBoolean,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import AppBody from "src/components/share/app/AppBody"
 import { IoIosArrowBack } from "react-icons/io"
 import { MdDesktopWindows } from "react-icons/md"
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { userData } from "../../../data"
 import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
 import NavCommunity from "src/components/group/NavCommunity"
@@ -140,18 +141,25 @@ const createCommunity = () => {
             },
         },
     }
+
+    
+    let { communityID }: any = useParams()
+    const [community, setCommunity] = useState<any>()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
+    useEffect(() => {
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => setCommunity(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
+
+
+    
     //Send data to backend
     const submit = () => {
-        // const communityID = Date.now()//Create unique ID
-
-        // console.log(communityID)
-        // console.log(communityName)
-        // console.log(communityDes)
-        // console.log(communityPrivacy)
-        // console.log(communityCoverPhoto)
-        console.log(updatedTag)
         API.post("/group/createtest", {
-            // communityID: Date.now(),
             communityName: communityName,
             communityDesc: communityDesc,
             communityPrivacy: communityPrivacy,
@@ -159,8 +167,6 @@ const createCommunity = () => {
             communityTags: updatedTag,
         })
             .then((res) => {
-                // console.log(res.status)
-                // console.log(res.data)
                 toast({
                     title: "Success",
                     description: "Change Saved",
@@ -522,7 +528,7 @@ const createCommunity = () => {
                                     }
                                     coverPhoto={communityCoverPhoto}
                                     members={1}
-                                    communityID={1000}
+                                    communityID={"1"}
                                     tags={updatedTag}
                                     disableInvite={true}
                                 />

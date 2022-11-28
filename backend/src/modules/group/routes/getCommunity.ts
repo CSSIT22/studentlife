@@ -47,16 +47,19 @@ const getCommunity = async (req: Request, res: Response) => {
         })
 
 
-        const countJoin = joinedCommunitys.length
-        const countManage = ownCommunitys.length
+        const countJoined = joinedCommunitys.length
+        const countOwn = ownCommunitys.length
         const countInvite = invitations.length
 
 
         const commuinities: any = {
             
             ownCommunitys,
+            countOwn,
             joinedCommunitys,
-            invitations
+            countJoined,
+            invitations,
+            countInvite
             
         }
 

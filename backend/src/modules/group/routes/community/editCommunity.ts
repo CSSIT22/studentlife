@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 const editCommunity = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const body = req.body
+    const id = req.params.id
 
     const editCommunity: any = {
         communityName: body.communityName,
@@ -33,7 +34,7 @@ const editCommunity = async (req: Request, res: Response) => {
     try {
         await prisma.community.update({
             where: {
-                communityId: body.communityId,
+                communityId: id,
             },
             data: editCommunity
             
@@ -41,7 +42,7 @@ const editCommunity = async (req: Request, res: Response) => {
 
         await prisma.community_Tag.deleteMany({
             where:{
-                communityId:body.communityId
+                communityId:id
             }
         })
 

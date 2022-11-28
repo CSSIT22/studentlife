@@ -34,6 +34,17 @@ const communityTest = async (req: Request, res: Response) => {
             }
         })
 
+        const test = await prisma.restaurant.findMany({
+            select:{
+                resName:true,
+                images:true,
+                
+            },
+            where:{}
+        })
+
+        
+
         res.status(201).send(a)
     } catch (err) {
         console.log(err)
@@ -42,3 +53,5 @@ const communityTest = async (req: Request, res: Response) => {
 }
 
 export default communityTest
+
+

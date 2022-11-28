@@ -143,16 +143,7 @@ const createCommunity = () => {
 
     //Send data to backend
     const submit = () => {
-        // const communityID = Date.now()//Create unique ID
-
-        // console.log(communityID)
-        // console.log(communityName)
-        // console.log(communityDes)
-        // console.log(communityPrivacy)
-        // console.log(communityCoverPhoto)
-        console.log(updatedTag)
-        API.post("/group/createCommunity", {
-            // communityID: Date.now(),
+        API.post("/group/editCommunity", {
             communityName: communityName,
             communityDesc: communityDesc,
             communityPrivacy: communityPrivacy,
@@ -160,8 +151,6 @@ const createCommunity = () => {
             communityTags: updatedTag,
         })
             .then((res) => {
-                // console.log(res.status)
-                // console.log(res.data)
                 toast({
                     title: "Success",
                     description: "Community Created Successfully",
@@ -523,7 +512,7 @@ const createCommunity = () => {
                                     }
                                     coverPhoto={communityCoverPhoto}
                                     members={1}
-                                    communityID={1000}
+                                    communityID={""}
                                     tags={updatedTag}
                                     disableInvite={true}
                                 />

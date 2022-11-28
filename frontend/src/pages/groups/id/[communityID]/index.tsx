@@ -1,28 +1,38 @@
-import { Flex, Heading, Button, Box, Text } from "@chakra-ui/react"
-import React from "react"
+import { Flex, Heading, Button, Box, Text, useBoolean } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import NavCommunity from "src/components/group/NavCommunity"
 import AppBody from "src/components/share/app/AppBody"
 import { BrowserRouter, BrowserRouter as Router, useParams, Link } from "react-router-dom"
 import { userData } from "../../data"
+import API from "src/function/API"
 
 const headCommunity = () => {
-    let { communityID }: any = useParams<{ communityID: string }>()
+    let { communityID }: any = useParams()
+    const [community, setCommunity] = useState<any>()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
+    useEffect(() => {
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => setCommunity(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
+
     return (
         <AppBody>
             <NavCommunity
-                communityName="Passakorn group"
-                isPrivate={false}
+                communityName={community?.communityName}
+                isPrivate={community?.communityPrivacy}
                 isMember={true}
-                description={
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto laborum cumque nemo veniam amet fugiat beatae, quo magni eum voluptatem eligendi nesciunt numquam odio autem ex quaerat totam. At, facilis."
-                }
+                description={community?.communityDesc}
                 coverPhoto="https://picsum.photos/id/400/800"
                 members={10}
-                communityID={1000}
+                communityID={communityID}
                 tags={userData.Tag}
                 activeBtn={1}
             />
-            <Text>community</Text>
+            <Text>{communityID}</Text>
         </AppBody>
     )
 }
