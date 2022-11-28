@@ -1,11 +1,18 @@
 import { prisma } from "@prisma/client"
 import express from "express"
 import createEvent from "./routes/createEvent"
-import editEvent from "./routes/editEvent"
+import editEvent from "./routes/editevent"
+import getEditedevent from "./routes/getEditedevent"
+import readFromDBRoutes from "./routes/readFromDB"
+
 
 const scheduleRoutes = express()
 
 scheduleRoutes.use(express.json())
+
+scheduleRoutes.get("/",(_, res) => {
+    return res.send("Schedule Module API")
+})
 
 export type Event = {
     eventId: string
@@ -58,6 +65,10 @@ export const setEvent = (newData: Event[]) => {
 scheduleRoutes.get("/createEvent", createEvent)
 
 scheduleRoutes.get("/editEvent", editEvent)
+
+scheduleRoutes.get("/getEditedevent", getEditedevent)
+
+scheduleRoutes.get("/readFromDBRoutes", readFromDBRoutes)
 
 //event: id, name, startdate, enddate, starttime, endtime, eventtype_id, description_id
 //timetable: calendar_id, event_id, selecteddate
