@@ -1,8 +1,10 @@
-import { Box, Flex, Heading, Spacer, IconButton, SlideFade, Slide, useDisclosure, Button, Text, Container } from "@chakra-ui/react"
-import React from "react"
+import { announcement, announcement_approve, announcement_approve2 } from "@apiType/announcement"
+import { Box, Flex, Heading, Spacer, IconButton, SlideFade, Slide, useDisclosure, Button, Text, Container, useBoolean } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import { GrDown, GrUp } from "react-icons/gr"
 import { TfiAnnouncement } from "react-icons/tfi"
 import { Link } from "react-router-dom"
+import API from "src/function/API"
 import ExpandOnTop from "../../components/annoucement/ExpandOnTop"
 import PostOnTop from "../../components/annoucement/PostOnTop"
 import AppBody from "../../components/share/app/AppBody"
@@ -35,6 +37,66 @@ const test = () => {
         setHide(true)
     }
 
+    const [toggle, settoggle] = useState(false)
+    const [allPost2, setAllPost2] = useState<announcement[]>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const getDataPost = API.get("/announcement/getPostOnAnnouncement")
+    useEffect(() => {
+        getDataPost.then((res) => setAllPost2(res.data)).catch((err) => on()).finally(off)
+    }, [toggle])
+    console.log(allPost2);
+
+    const minute = 1000 * 60
+    const hour = minute * 60
+    const day = hour * 24
+
+    let LastestPost: number = 0
+    const approveTime: announcement_approve2[] = allPost2.map((el) => {
+        const apTime = new Date(el.annApprove.approveTime)
+        const dEpd = Math.round(apTime.getTime())
+        // console.log(dEpd);
+        return { postId: el.postId, approveTime: dEpd }
+    })
+
+    console.log(approveTime);
+    const findLasted = (approveTime: announcement_approve2[]) => {
+        let lasted:string;
+        for (let i = 0; i < approveTime.length; i++) {
+            if (approveTime[i].approveTime > LastestPost) {
+                LastestPost = approveTime[i].approveTime
+            }
+        }
+        for (let i = 0; i < approveTime.length; i++) {
+            if (approveTime[i].approveTime == LastestPost) {
+                return lasted = approveTime[i].postId
+            }
+        }
+    }
+
+    console.log(findLasted(approveTime));
+
+   const recentpost = () => {
+        // const postId = findLasted(approveTime)
+        // return allPost2.filter((el) => (
+        //     el.postId = postId?
+        // ))
+        // .map((post) => {
+        //     return (
+        //     <PostOnTop 
+        //     topic={post.annLanguage[0].annTopic} 
+        //     sender={post.annCreator.fName + " " + post.annCreator.lName} 
+        //     key={post.postId} 
+        //     clickToExpand={() => {
+        //         clickToExpand(), onToggle()
+        //     }} 
+        //     />
+        //     )
+        // })
+    }
+
+
+
     return (
         <AppBody
             secondarynav={[
@@ -48,19 +110,20 @@ const test = () => {
             {/* type 1 */}
             {clickArrowUp && (
                 <Box>
-                    {allPost
+                    {/* {recentpost} */}
+                    {/* {allPost
                         .filter((fl) => fl.postId == postInfoTest.length - 1)
-                        .map((el) => {
-                            return (
-                                <PostOnTop
+                        // findLasted(approveTime).map((el) => {
+                        //     return ( */}
+                    {/* <PostOnTop
                                     topic={el.topic}
                                     sender={el.sender}
                                     clickToExpand={() => {
                                         clickToExpand(), onToggle()
                                     }}
-                                />
-                            )
-                        })}
+                                /> */}
+                    {/* )
+                        })} */}
                 </Box>
             )}
 
