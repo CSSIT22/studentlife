@@ -23,6 +23,7 @@ import {
     Text,
     Link,
 } from "@chakra-ui/react"
+import API from "src/function/API"
 import { BrowserRouter as Router, Route, Link as RouteLink, Form } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
@@ -111,9 +112,6 @@ const createtask = () => {
                     Folder
                 </Heading>
                 <Select placeholder="Choose" size="md">
-                    <option value="option1">CSC210</option>
-                    <option value="option1">CSC220</option>
-                    <option value="option1">CSC213</option>
                 </Select>
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
@@ -130,6 +128,8 @@ const createtask = () => {
             </Box>
         </ToDoListAppBody>
     )
+
 }
+
 
 export default createtask

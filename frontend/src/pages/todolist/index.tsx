@@ -68,8 +68,9 @@ const index = () => {
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
             Sorting
           </MenuButton>
-          <Button colorScheme="orange">
-            <Link href="/todolist/folderpage">Folder</Link>
+          <Button colorScheme="orange" >
+            <Link href="/todolist/folderpage"
+              _hover={{ textDecoration: "none" }}>Folder</Link>
           </Button>
           <MenuList>
             <MenuItem>Due Date</MenuItem>
@@ -83,13 +84,14 @@ const index = () => {
       {/* backend */}
       {
         taskList.map((el: any) => (
-          <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#ECECEC" rounded="lg" key={el.taskId}>
-
+          <Box height={"5rem"} width={"100%"} p="5" mt="5"
+            backgroundColor="#FFFFFF" rounded="lg" key={el.taskId} boxShadow="md">
             <Flex alignItems={"center"}>
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
-              <Box>
+              <Link href="/todolist/task"
+                _hover={{ textDecoration: "none" }}>
                 <Text fontSize={"2xl"}>{el.taskName}</Text>
-              </Box>
+              </Link>
               <Spacer />
               <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
                 {el.isChecked && "Finished"}
