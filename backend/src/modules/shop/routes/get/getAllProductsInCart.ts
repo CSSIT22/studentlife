@@ -17,7 +17,8 @@ const getAllProductsInCart = async (req: Request, res: Response) => {
                         }
                     }
                 },
-                where: { userId: userId}
+                where: { userId: userId},
+                orderBy: {productId: 'desc'}
             })
             return res.send(products)
         }

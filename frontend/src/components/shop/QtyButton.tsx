@@ -6,19 +6,19 @@ import API from 'src/function/API'
 const QtyButton: FC<{
     productId: number,
     quantity: number,
-    stock: number
-}> = ({ productId, quantity, stock }) => {
+    stock: number,
+    setUpdates: React.Dispatch<React.SetStateAction<number>>
+}> = ({ productId, quantity, stock, setUpdates }) => {
     const [qty, setQty] = useState(quantity)
     const [isError, setError] = useState(false)
     // Add function to update PUT qty in backend
     const increaseQty = () => {
-        API.put("/shop/incrementCPQuantity/" + productId).then((res) => setQty(res.data.quantity)).catch(err => setError(true))
+        API.put("/shop/incrementCPQuantity/" + productId).then((res) => {setQty(res.data.quantity); setUpdates(prev => prev + 1)}).catch(err => setError(true))
     }
     const decreaseQty = () => {
-        API.put("/shop/decreaseCPQuantity/" + productId).then((res) => setQty(res.data.quantity)).catch(err => setError(true))
+        API.put("/shop/decreaseCPQuantity/" + productId).then((res) => {setQty(res.data.quantity); setUpdates(prev => prev + 1)}).catch(err => setError(true))
     }
     return (
-
         <Flex>
             <IconButton borderRadius="7px 0px 0px 7px" size="sm" variant="outline" aria-label="Add" icon={<MinusIcon />} disabled={qty == 1 ? true : false} onClick={decreaseQty} />
             <Box border="1px solid #d6dbe3" borderRadius="0px" px="3" py="0" alignContent="center" fontSize="lg" fontWeight="500">{qty}</Box>

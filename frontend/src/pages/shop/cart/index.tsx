@@ -15,12 +15,13 @@ import API from "src/function/API"
 // Cart
 const Cart = () => {
     const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
+    const [updates, setUpdates] = useState<number>(0)
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/shop/getAllProductsInCart")
     useEffect(() => {
         getData.then((res) => {setCartProducts(res.data)}).catch((err) => on()).finally(() => off())
-    }, [cartProducts])
+    }, [updates])
     let st = 0, dt = 0
     cartProducts?.forEach(cartProduct => {
         st += parseFloat(cartProduct.product.productPrice)
@@ -82,7 +83,7 @@ const Cart = () => {
                 <GridItem colSpan={{ base: 2, md: 1 }}>
                     <Flex direction="column" gap={5}>
                         <TitleBox title="Products in Cart"></TitleBox>
-                        {isError? <>There Was an Error</> : isLoading? <Spinner /> : generateCartProducts(cartProducts)}
+                        {isError? <>There Was an Error</> : isLoading? <Spinner /> : generateCartProducts(cartProducts, setUpdates)}
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={{ base: 2, md: 1 }}>
@@ -94,7 +95,7 @@ const Cart = () => {
     )
 }
 
-function generateCartProducts(cartProducts: Shop_Cart[] | null){
+function generateCartProducts(cartProducts: Shop_Cart[] | null, setUpdates: React.Dispatch<React.SetStateAction<number>>){
     try {
         
         if (cartProducts != null && cartProducts.length > 0) {
@@ -107,7 +108,8 @@ function generateCartProducts(cartProducts: Shop_Cart[] | null){
                         images={cartProducts[i].product.images} 
                         productName={cartProducts[i].product.productName} 
                         productPrice={parseFloat(cartProducts[i].product.productPrice)} 
-                        productStock={cartProducts[i].product.productStock}                        
+                        productStock={cartProducts[i].product.productStock}
+                        setUpdates = {setUpdates}                        
                         />
                 )
             }
