@@ -111,6 +111,20 @@ export default function Drophistory<FC>() {
     const [commentText, setComment] = useState("")
     const toast = useToast()
     const user = useContext(authContext)
+    const [modalPage, setModalPage] = useState(0)
+    const RenderModalComments = () => {
+        const componentArr: any = []
+        selectedHistory.file.comments.map((item: any) => {
+            componentArr.push(
+                <>
+                    <FileComment name={item.commentor.fName + " " + item.commentor.lName} comment={item.commentText} />
+                    <Divider />
+                </>
+            )
+        })
+
+        return componentArr
+    }
 
     const handleComment = async () => {
         const comment = await API.post("/airdrop/file/comment", {
@@ -159,33 +173,17 @@ export default function Drophistory<FC>() {
                                 Date:{"   " + new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", { timeZone: "Asia/Bangkok" })}
                             </Text>{" "}
                         </HStack>
-                        {selectedHistory.file.comments.map((item: any) => {
-                            return (
-                                <>
-                                    <FileComment name={item.commentor.fName + " " + item.commentor.lName} comment={item.commentText} />
-                                    <Divider />
-                                </>
-                            )
-                        })}
-                        <HStack>
-                            <Input
-                                type={"text"}
-                                id="commentin"
-                                value={commentText}
-                                onChange={(e) => {
-                                    setComment(e.target.value)
-                                }}
-                            />
-                            <Button
-                                onClick={() => {
-                                    handleComment()
-                                    updateComment()
-                                }}
-                            >
-                                Comment{" "}
-                            </Button>
-                        </HStack>
 
+                        <Text
+                            color={"gray.600"}
+                            decoration={"underline"}
+                            mt={3}
+                            onClick={() => {
+                                setModalPage(1)
+                            }}
+                        >
+                            See all comment
+                        </Text>
                         <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
                             (Tap outside to close)
                         </Text>
@@ -195,6 +193,7 @@ export default function Drophistory<FC>() {
             </>
         )
     }
+
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="history">
@@ -251,11 +250,98 @@ export default function Drophistory<FC>() {
                             isOpen={isOpen}
                             onClose={() => {
                                 onClose()
+                                setModalPage(0)
                             }}
                             isCentered
                         >
                             <ModalOverlay />
-                            {renderFileHistory()}
+                            <ModalContent textAlign={"center"}>
+                                <ModalHeader>
+                                    {modalPage == 0
+                                        ? selectedHistory.historyType == "DOWNLOAD"
+                                            ? "Download Information"
+                                            : "Upload Information"
+                                        : "File Comment"}
+                                </ModalHeader>
+                                <ModalBody>
+                                    {modalPage == 0 ? (
+                                        <>
+                                            <HStack>
+                                                <Text>Name:{"   " + selectedHistory.file.fileName}</Text>
+                                            </HStack>
+
+                                            <HStack>
+                                                <Text>
+                                                    Sender:{"   " + selectedHistory.file.sender.fName + " " + selectedHistory.file.sender.lName}
+                                                </Text>{" "}
+                                            </HStack>
+                                            <HStack>
+                                                <Text>Type:{"   " + selectedHistory.file.sendType}</Text>{" "}
+                                            </HStack>
+                                            <HStack>
+                                                <Text>
+                                                    Date:
+                                                    {"   " +
+                                                        new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", {
+                                                            timeZone: "Asia/Bangkok",
+                                                        })}
+                                                </Text>{" "}
+                                            </HStack>
+                                            <Text
+                                                color={"gray.600"}
+                                                decoration={"underline"}
+                                                mt={3}
+                                                onClick={() => {
+                                                    setModalPage(1)
+                                                }}
+                                            >
+                                                See all comment
+                                            </Text>
+                                            <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
+                                                (Tap outside to close)
+                                            </Text>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Divider />
+                                            {RenderModalComments()}
+                                            <HStack>
+                                                <Input
+                                                    type={"text"}
+                                                    id="commentin"
+                                                    value={commentText}
+                                                    onChange={(e) => {
+                                                        setComment(e.target.value)
+                                                    }}
+                                                />
+                                                <Button
+                                                    onClick={() => {
+                                                        handleComment()
+                                                        updateComment()
+                                                    }}
+                                                >
+                                                    Comment{" "}
+                                                </Button>
+                                            </HStack>
+
+                                            <Text
+                                                color={"gray.600"}
+                                                decoration={"underline"}
+                                                mt={3}
+                                                onClick={() => {
+                                                    setModalPage(0)
+                                                }}
+                                            >
+                                                Go back to file properties
+                                            </Text>
+                                            <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
+                                                (Tap outside to close)
+                                            </Text>
+                                        </>
+                                    )}
+                                </ModalBody>
+                                <ModalFooter></ModalFooter>
+                            </ModalContent>
                         </Modal>
                     </>
                 )}
