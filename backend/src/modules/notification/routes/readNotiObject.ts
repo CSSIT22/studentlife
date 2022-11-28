@@ -1,6 +1,5 @@
 import { prisma } from "@prisma/client"
 import { Express, Request, Response } from "express"
-import { getObject, setObject } from "../index"
 
 const readNotiObject = async (req: Request, res: Response) => {
     try {
