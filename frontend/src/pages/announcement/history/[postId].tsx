@@ -234,7 +234,7 @@ const history = () => {
             
                 return (
                     <MoreLangForEdit
-                        id={Date.now()}
+                        // id={Date.now()}
                         onDecrease={decreaseForEdit}
                         addLang={addLang}
                         selectLang={el.languageId}
