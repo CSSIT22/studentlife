@@ -29,6 +29,9 @@ import {
     ModalHeader,
     ModalOverlay,
     Spacer,
+    Grid,
+    GridItem,
+    Flex,
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import { BiLibrary } from "react-icons/bi"
@@ -102,6 +105,19 @@ const btnMyLibrary = () => {
         })
     }
 
+    const { isOpen: inIsOpen, onOpen: inOnOpen, onClose: inOnClose } = useDisclosure()
+    const [selectedInLi, setSelectedInLi] = useState("")
+    const deleteInLibrary = () => {
+        API.delete("/shortnotes/deleteSnInLibrary", {
+            data: {
+                libId: liPicked,
+                snId: selectedInLi
+            }
+        }).then((res) => {
+            console.log(res);
+            window.location.reload()
+        })
+    }
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -188,7 +204,6 @@ const btnMyLibrary = () => {
                             <Menu>
                                 <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
                                 <MenuList>
-
                                     <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
                                         Delete
                                     </MenuItem>
@@ -201,12 +216,33 @@ const btnMyLibrary = () => {
 
 
                             {snByLi.map((sn: any, key) => (
-                                <Box as="button" w={"100%"} onClick={() => {
-                                    navigate({
-                                        pathname: "./" + sn.sn.snId,
-                                    })
-                                }}>
-                                    <InLiList key={key} name={sn.sn.snName} course={sn.sn.course.courseName} />
+                                <Box as="button" w={"100%"} boxShadow={"md"} >
+                                    <Grid templateColumns="repeat(7, 1fr)">
+                                        <GridItem colSpan={6} onClick={() => {
+                                            navigate({
+                                                pathname: "./" + sn.sn.snId,
+                                            })
+                                        }}>
+                                            <InLiList key={key} name={sn.sn.snName} course={sn.sn.course.courseName} />
+                                        </GridItem>
+                                        <GridItem>
+                                            <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"}>
+                                                <Menu>
+                                                    <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
+                                                    <MenuList>
+                                                        <MenuItem icon={<MdDeleteOutline />} onClick={() => {
+                                                            inOnOpen(),
+                                                                setSelectedInLi(sn.sn.snId)
+                                                        }}>
+                                                            Delete
+                                                        </MenuItem>
+                                                    </MenuList>
+                                                </Menu>
+
+                                            </Flex>
+                                        </GridItem>
+                                    </Grid>
+
                                 </Box>
                             ))}
 
@@ -228,6 +264,29 @@ const btnMyLibrary = () => {
                             toast({
                                 title: 'Library deleted.',
                                 description: "You've deleted your library.",
+                                status: 'success',
+                                duration: 4000,
+                                isClosable: true,
+                            })
+                        }} colorScheme={"red"}>
+                            Delete
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Modal onClose={inOnClose} isOpen={inIsOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Delete library</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>Are you sure to remove this shortntoe from the library?</ModalBody>
+                    <ModalFooter>
+                        <Button onClick={() => {
+                            deleteInLibrary()
+                            onClose()
+                            toast({
+                                title: 'Shortnote removed..',
+                                description: "You've removed your shortnote.",
                                 status: 'success',
                                 duration: 4000,
                                 isClosable: true,
