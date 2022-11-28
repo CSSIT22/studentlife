@@ -16,6 +16,13 @@ import { AllInterests, UserCardDetail } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
 
+var countSwipe: any = []
+var countOut: any = []
+for (let i = 0; i < 50; i++) {
+    countSwipe.push(1)
+    countOut.push(1)
+}
+
 const RandomCardInside: FC<{
     childRefs: RefObject<any>[]
     index: number
@@ -176,6 +183,7 @@ const DatingRandomCard: FC<{
     setIsError: React.Dispatch<React.SetStateAction<boolean>>
     isError: boolean
 }> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters, setHasSwipe, setIsRunOut, setIsError, isError }) => {
+
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
     const likeText = useAnimation()
@@ -183,34 +191,42 @@ const DatingRandomCard: FC<{
     const navigate = useNavigate()
 
     const swiped = (direction: string, idToDelete: string, index: number) => {
-        handleClick(currentIndex)
-        setHasSwipe(true)
-        if (direction === "left") {
-            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
-                .catch((err) => setIsError(true))
-            // Run the cross button animation
-            nopeText.start("click")
-            controlCross.start("hidden")
-        } else if (direction === "right") {
-            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
-                .catch((err) => setIsError(true))
-            // Run the heart button animation
-            likeText.start("click")
-            controlHeart.start("hidden")
+        if (countSwipe[index] == 1) {
+            countSwipe[index]--
+            console.log(idToDelete + " " + index)
+            handleClick(index)
+            setHasSwipe(true)
+            if (direction === "left") {
+                API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
+                    .catch((err) => setIsError(true))
+                // Run the cross button animation
+                nopeText.start("click")
+                controlCross.start("hidden")
+            } else if (direction === "right") {
+                API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
+                    .catch((err) => setIsError(true))
+                // Run the heart button animation
+                likeText.start("click")
+                controlHeart.start("hidden")
+            }
+            if (index == 0) {
+                setIsRunOut(true)
+            }
+            updateCurrentIndex(index - 1)
         }
-        if (index == 0) {
-            setIsRunOut(true)
-        }
-        updateCurrentIndex(index - 1)
     }
 
     const outOfFrame = (name: string, idx: number) => {
-        currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-        let frontCard = document.getElementById(idx.toString()) as HTMLInputElement
-        frontCard.style.display = "none"
-        // Reload the page when running out of card
-        if (idx == 0 && !isError) {
-            navigate(0)
+        if (countOut[index] == 1) {
+            countOut[index]--
+            console.log(name + " " + index)
+            currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
+            let frontCard = document.getElementById(idx.toString()) as HTMLInputElement
+            frontCard.style.display = "none"
+            // Reload the page when running out of card
+            if (idx == 0 && !isError) {
+                navigate(0)
+            }
         }
     }
 
@@ -218,10 +234,8 @@ const DatingRandomCard: FC<{
         let frontCard = document.getElementById(index.toString()) as HTMLInputElement
         frontCard.style.pointerEvents = "none"
         let backCard = document.getElementById((index - 1).toString()) as HTMLInputElement
-        let button = document.getElementById("DatingButton") as HTMLInputElement
-        button.style.pointerEvents = "none"
         if (backCard) {
-            setTimeout(() => { backCard.style.pointerEvents = "initial"; button.style.pointerEvents = "initial"; }, 500)
+            backCard.style.pointerEvents = "initial"
         }
     }
 
@@ -293,6 +307,9 @@ const DatingRandomCard: FC<{
 }
 
 const DatingRandomization = () => {
+
+
+
     const didMount = useDidMount()
     const navigate = useNavigate()
     const [characters, setCharacters] = useState<UserCardDetail[]>([])
@@ -379,7 +396,7 @@ const DatingRandomization = () => {
     // used for the tinder card
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
-            Array(20)
+            Array(50)
                 .fill(0)
                 .map(() => React.createRef()),
         []
