@@ -43,12 +43,7 @@ function showProperty() {
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/user/${param.roomId}`)
-
-    }
-
-    function NavigateCreateCommu() {
-        return navigate('/groups/create')
+        return navigate(`/user/${Room?.userId}`)
     }
 
     useEffect(() => {

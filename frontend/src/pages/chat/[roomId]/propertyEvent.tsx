@@ -8,9 +8,6 @@ import {
     VStack,
     Text,
     Flex,
-    Center,
-    Divider,
-    border,
     InputGroup,
     InputLeftElement,
     Spacer,
@@ -21,15 +18,13 @@ import {
     EditablePreview,
     EditableInput,
     InputRightElement,
-    useDisclosure,
 } from "@chakra-ui/react"
 import AppBody from "../../../components/share/app/AppBody"
 import React, { useEffect, useState } from "react"
-import { AiFillBug, AiFillPicture, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
+import { AiFillBug, AiOutlinePlus } from "react-icons/ai"
 import { FaCircle } from "react-icons/fa"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
-import Member from "src/pages/groups/id/[communityID]/member"
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { RoomType } from "../[roomID]"
 
@@ -39,14 +34,13 @@ const propertyDetail = (props: any) => {
 
 function propertyEvent(props: any) {
     const [Room, setRoom] = React.useState<RoomType>()
-    const [roomColor, setRoomColor] = React.useState("")
-    // const colors = ["black", "blue", "gray", "red", "green", "purple", "pink", "orange", "teal", "yellow"]
-    const colors = ["#000000", "#0000ff", "#808080", "#ff0000", "#008000", "#800080", "#ffc0cb", "#ff8c00", "#008080", "#ffff00"]
 
+    // Change color
+    const [roomColor, setRoomColor] = React.useState("")
+    const colors = ["#000000", "#0000ff", "#808080", "#ff0000", "#008000", "#800080", "#ffc0cb", "#ff8c00", "#008080", "#ffff00"]
     function colorRoom(e: any) {
         return setRoomColor(e.target.value)
     }
-
     const submitRoomColor = () => {
         API.post(`/chat/${param.roomId}?chatColor=${encodeURIComponent(roomColor)}`)
         navigate(`/chat/${param.roomId}`)
@@ -60,6 +54,11 @@ function propertyEvent(props: any) {
 
     const navigate = useNavigate()
 
+    function NavigateCreateCommu() {
+        return navigate('/groups/create')
+    }
+
+    // Set room name
     const [roomName, setRoomName] = useState("")
     const submitRoomName = () => {
         API.post(`/chat/${param.roomId}?roomName=${roomName}`)
@@ -129,19 +128,17 @@ function propertyEvent(props: any) {
         )
     }
 
+    // Add quote
     const [quoteList, setQuote] = useState<any>([])
     const [quoteText, setQuoteText] = useState("")
     const [quoteWarning, setQuoteWarning] = useState("")
-    console.log(quoteList);
-
     useEffect(() => {
         API.get(`/chat/${param.roomId}/getQuote`).then((e) => setQuote(e.data)
         )
     }, [])
-
     const addQuote = () => {
         if (quoteText.length !== 0) {
-            // setQuote([...quoteList, quoteText])
+            setQuote([...quoteList, {text: quoteText}])
             API.post(`/chat/${param.roomId}/addQuote?quoteAdd=${quoteText}`)
             setQuoteText("")
             setQuoteWarning("")
@@ -150,8 +147,6 @@ function propertyEvent(props: any) {
             setQuoteWarning("Your input is empty! Please add the quote.")
         }
     }
-
-    const memberSearch = (search: String) => { }
 
     if (props === "Set room name") {
         return (
@@ -259,7 +254,7 @@ function propertyEvent(props: any) {
     }
     if (props === "Member") {
         return (
-            <VStack spacing={6}>
+            <VStack spacing={6} pb={6}>
                 <HStack spacing={4}>
                     <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
                     <Heading size={"md"}>
@@ -270,9 +265,9 @@ function propertyEvent(props: any) {
                     </Heading>
                 </HStack>
                 <HStack spacing={4}>
-                    <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+                    <Avatar name="Oil" src="https://bit.ly/dan-abramov" />
                     <Heading size={"md"}>
-                        <Editable defaultValue="Neng">
+                        <Editable defaultValue="Oil">
                             <EditablePreview />
                             <EditableInput />
                         </Editable>
@@ -335,7 +330,7 @@ function propertyEvent(props: any) {
                     <br />
                     community from this group chat?
                 </Text>
-                <Box alignItems={'center'} p={6}>
+                <Box alignItems={'center'} p={6} onClick={NavigateCreateCommu}>
                     <Button colorScheme="orange">
                         Create
                     </Button>
