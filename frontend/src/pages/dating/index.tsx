@@ -205,7 +205,6 @@ const DatingRandomCard: FC<{
     }
 
     const outOfFrame = (name: string, idx: number) => {
-        console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
         currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
         let frontCard = document.getElementById(idx.toString()) as HTMLInputElement
         frontCard.style.display = "none"
