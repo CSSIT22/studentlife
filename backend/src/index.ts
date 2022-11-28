@@ -36,13 +36,14 @@ import { set, deleteKey } from "./modules/backendService/socketstore/store"
 
 const PORT = 8000
 const app = express()
+app.use(express.json())
 
 const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])]
 
 const appCors = cors({
     origin: appOrigin,
     credentials: true,
-    allowedHeaders:["Content-Type"]
+    allowedHeaders: ["Content-Type"],
 })
 
 if (process.env.NODE_ENV !== "production") {

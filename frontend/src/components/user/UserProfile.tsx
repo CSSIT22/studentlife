@@ -19,7 +19,6 @@ import {
     Link,
     NumberInputField,
     NumberInput,
-
 } from "@chakra-ui/react"
 
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
@@ -69,7 +68,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     //     fetch();
     // }, [])
 
-    const postData = () => {
+    const postData = async () => {
         const formData = {
             phone: Phone,
             sex: Sex,
@@ -81,12 +80,10 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
 
         onClick(formData)
 
-
         console.log(formData)
 
 
-
-        API.post(`/user/profile/edit`, {
+        const res = await API.post("/user/profile/edit", {
             address: Address,
             birth: BirthDate,
             hobby: Hobbies,
@@ -95,7 +92,9 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             year: Years,
         }).then(() => {
             history("/read")
-        })
+        }).catch((err) => { return err })
+
+        console.log(res);
     }
 
 

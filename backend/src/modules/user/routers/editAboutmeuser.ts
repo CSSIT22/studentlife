@@ -5,7 +5,7 @@ const editaboutmeuser = async (req: Request, res: Response) => {
         const { prisma } = res
         const userId = req.user?.userId || ""
         const tail = req.body
-        console.log(req.body)
+
         const upsertUser = await prisma.detail.upsert({
             where: {
                 userId: userId,
@@ -28,6 +28,8 @@ const editaboutmeuser = async (req: Request, res: Response) => {
                 year: tail.year,
             },
         })
+        console.log(upsertUser)
+
         res.json(upsertUser)
     } catch (err) {
         res.status(400).send("Error find Aboutme")
