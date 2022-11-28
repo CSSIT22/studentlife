@@ -1,5 +1,5 @@
 import { announcement_language } from "@apiType/announcement"
-import { FormControl, FormLabel, Select, Input, Textarea, Box, Text, Tag, TagCloseButton, TagLabel, Button } from "@chakra-ui/react"
+import { FormControl, FormLabel, Select, Input, Textarea, Box, Text, Tag, TagCloseButton, TagLabel, Button, CloseButton } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import API from "src/function/API"
@@ -34,12 +34,12 @@ const MoreLang: FC<{
                 key={"lg"}
                 borderRadius="full"
                 variant="solid"
-                colorScheme="blackAlpha"
+                backgroundColor={"blue.600"}
                 mb="2rem"
                 onClick={() => onClick()}
             >
                 <TagLabel>Other Languages</TagLabel>
-                <TagCloseButton />
+                <CloseButton />
             </Tag>
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>

@@ -273,11 +273,11 @@ const history = () => {
             return (
                 <>
                     <Text fontSize={"0.8rem"} color="red.300" mt="5">
-                        if you sure about the the more lang that you edit, you need to click add both origin more lang. Then it will be disabled
+                        if you sure about the the more lang that you edit, you need to click add then you can't edit anymore
                     </Text>
                     {updateMoreLang(add)}
                     <Text fontSize={"0.8rem"} color="red.300" mt="5">
-                        if you sure about the the more lang that you edit, you need to click add both origin more lang. Then it will be disabled
+                        if you sure about the the more lang that you edit, you need to click add then you can't edit anymore
                     </Text>
                 </>
             )
