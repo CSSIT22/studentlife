@@ -40,17 +40,22 @@ import API from "src/function/API"
 import AppBody from "../share/app/AppBody"
 
 
-    
 
-    
+
+
 const NavCommunity: FC<{
     communityID: string
+    communityName?:string
+    isPrivate?:boolean
+    desc?:string
+    coverPhoto?: any
+    tags?: any
     disableInvite?: boolean
     disableBtn?: boolean
     activeBtn?: number
     isMember: boolean
     members: number
-}> = ({communityID,isMember, members, activeBtn, disableInvite, disableBtn }) => {
+}> = ({ communityID, isMember, members, activeBtn, disableInvite, disableBtn }) => {
     //t
     const [isModalOpen, setModalOpen] = useState(false)
     const modalOnClick = () => setModalOpen(!isModalOpen)
@@ -79,7 +84,7 @@ const NavCommunity: FC<{
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
 
-    
+
 
     useEffect(() => {
         API.get("/group/getCommunityId/" + communityID)
@@ -126,7 +131,7 @@ const NavCommunity: FC<{
     }
 
     const coverPhoto = community?.communityById.communityPhoto
-    const communityName =community?.communityById.communityName
+    const communityName = community?.communityById.communityName
     const isPrivate = community?.communityById.communityPrivacy
     const tags = community?.tag
     const desc = community?.communityById.communityDesc
@@ -155,13 +160,13 @@ const NavCommunity: FC<{
                     height: "15rem",
                     // height: "300px",
                 }}
-                src={coverPhoto}
+                src={"https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"}
                 fallbackSrc="https://via.placeholder.com/800"
             />
             <Box p={4} borderBottomRadius="md" backgroundColor={"white"} boxShadow={"2xl"}>
                 <HStack justify={"space-between"}>
                     <div>
-                        <Text as="b">{communityName}</Text>
+                        <Text as="b">{communityName ? communityName : "Community Name"}</Text>
                         <Box display="flex" fontSize={"sm"} alignItems="center" gap={1}>
                             {isPrivate ? <MdPublicOff /> : <MdPublic />}
                             <Text>

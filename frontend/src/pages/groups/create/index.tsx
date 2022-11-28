@@ -505,12 +505,12 @@ const createCommunity = () => {
                                     communityName={communityName ? communityName : "Community Name"}
                                     isPrivate={!communityPrivacy}
                                     isMember={true}
-                                    description={
+                                    desc={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    coverPhoto={communityCoverPhoto}
+                                    coverPhoto={"https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"}
                                     members={1}
                                     communityID={""}
                                     tags={updatedTag}
