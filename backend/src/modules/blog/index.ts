@@ -2,6 +2,8 @@ import express from "express"
 import getPostId from "./routes/getPostId"
 import postCreating from "./routes/postCreating"
 import postCreatingText from "./routes/postCreatingText"
+// import searchCreate from "./routes/searchCreate"
+
 import searchPost from "./routes/searchPost"
 
 const blogRoutes = express()
@@ -72,5 +74,7 @@ blogRoutes.get("/search/:postId", searchPost)
 blogRoutes.post("/postCreating", postCreating)
 
 blogRoutes.post("/postCreatingX", postCreatingText)
+
+// blogRoutes.post("/searchCreate/:userId", searchCreate)
 
 export default blogRoutes

@@ -1,16 +1,15 @@
 import { Request, Response } from "express"
 
-const postCreatingText = async (req: Request<any>, res: Response<any>) => {
+const postCreatingText = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const body = req.body
-    const user = await prisma.student_Post.create({
+    const post = await prisma.student_Post.create({
         data: {
-            userId: req.body.userId,
-            score: req.body.score,
-            seen: req.body.seen,
+            userId: req.user?.userId || "",
+            body: req.body.body,
         },
     })
-    res.send(user)
+    return res.send(post)
 }
 
 export default postCreatingText

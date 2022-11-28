@@ -1,18 +1,14 @@
 import { Request, Response } from "express"
-import { PostTextBox, Structure,postes } from ".."
 
-const searchPost = (req:Request, res:Response) => {
-    const postId = req.params.postId
-    let selectedPost: Structure | null = null
-    postes.forEach((post) => {
-        if (post.postId == postId) {
-            selectedPost = post
-        }
-    })
-    if (selectedPost != null) {
-        return res.send(selectedPost)
+const searchPost = async (req: Request, res: Response) => {
+    const prisma = res.prisma
+
+    try {
+        const post = await prisma.student_Post.findFirstOrThrow({ where: { postId: req.params.postId }, include: { postOwner: true } })
+        return res.send(post)
+    } catch (error) {
+        return res.status(404).send("Post not found")
     }
-    return res.status(404).send("Post not found")
 }
 
 export default searchPost
