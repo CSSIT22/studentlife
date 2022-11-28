@@ -138,7 +138,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
             res.send(everyUserId)
         }
     } catch (err: any) {
-        console.log(err)
+        // console.log(err)
         res.status(404).send("Target Group not found")
     }
 }

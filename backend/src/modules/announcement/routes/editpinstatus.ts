@@ -36,8 +36,8 @@ const editPinStatus = async (req: Request, res: Response) => {
         // })
     }
     catch(err: any){
-        res.send(err)
-        res.status(404).send("click pin again")
+        // res.send(err)
+        res.status(404).send(err)
     }
     // let editpinStatus: post | null = null
     // const newData = getPost().map((post) => {

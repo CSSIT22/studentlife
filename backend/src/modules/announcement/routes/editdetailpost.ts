@@ -134,7 +134,7 @@ const editDetailPost = async (req: Request, res: Response) => {
         })
         res.status(200)
     } catch (err) {
-        res.status(400)
+        res.status(400).send(err)
     }
 
     // let editpost: post | null = null

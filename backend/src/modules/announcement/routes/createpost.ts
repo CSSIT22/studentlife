@@ -59,7 +59,7 @@ const createPost = async (req: Request, res: Response) => {
         res.send(newPost)
         res.status(200)
     }catch(err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send(err)
     }
     // const newPost = {

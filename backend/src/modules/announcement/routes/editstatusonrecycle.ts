@@ -20,7 +20,7 @@ const editstatusOnRecyclebin = async (req: Request, res: Response) => {
         })
         res.send(addOnAnnouncement_post)
     }catch(err){
-        res.status(400).send("click again")
+        res.status(400).send(err)
     }
 
 

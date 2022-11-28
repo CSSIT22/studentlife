@@ -47,8 +47,8 @@ const editstatusOnApproval = async (req: Request, res: Response) => {
 
         }
     } catch (err: any) {
-        console.log(err)
-        res.status(404).send("Can not edit status post")
+        // console.log(err)
+        res.status(404).send(err)
     }
 
     // let editstatusA: post | null = null

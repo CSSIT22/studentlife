@@ -194,7 +194,7 @@ const history = () => {
     }
 
     
-    console.log(exmoreLang)
+    // console.log(exmoreLang)
 
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])

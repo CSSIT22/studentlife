@@ -48,7 +48,7 @@ const getDetailEdit = async (req: Request, res: Response) => {
         // console.log(getdetail[0].annLanguage)
 
     } catch (err: any) {
-        console.log(err)
+        // console.log(err)
         res.status(404).send("Can not get detail")
     }
     // let selectpost: post | null = null

@@ -30,7 +30,7 @@ const editstatusOnHistory = async (req: Request, res: Response) => {
         }
      
     }catch(err){
-        res.status(400).send("Click again")
+        res.status(400).send(err)
     }
 
 }
