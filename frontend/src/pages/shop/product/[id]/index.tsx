@@ -145,7 +145,7 @@ const index = () => {
                     Product Details of {product.productName}
                 </Text>
 
-                <Text pt="3">{product.productDesc}</Text>
+                <Text pt="3">{renderMultipleLineText(product.productDesc)}</Text>
                 <Flex gap={3} pt="5">
                     <Spacer />
                     <Pill bg="#a5e">
@@ -293,6 +293,11 @@ const index = () => {
             </Modal>
         )
     }
+}
+function renderMultipleLineText(text: string){
+    return text.split("???").map((i,key) => {
+        return <div key={key}>{i}</div>;
+    })
 }
 
 function slidesGenerator(product: Shop_Product | null) {
