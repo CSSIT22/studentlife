@@ -7,8 +7,12 @@ import getshopDb from "./routes/getshopDb"
 import getrestDb from "./routes/getrestDb"
 import getmyreviewDb from "./routes/getmyreviewDb"
 import getmyreviewDb2 from "./routes/getmyreviewDb2"
-import getmycommentDb from "./routes/postcommentDb"
 import postcomment from "./routes/postcommentDb"
+import getmycommentDb from "./routes/getmycommentDb"
+import getreviewDb from "./routes/getreviewDb"
+import getcommentDb from "./routes/getcommentDb"
+import getresDbPls from "./routes/getresDbPls"
+import getcountRate from "./routes/getcountRate"
 
 const shopreviewRoutes = express()
 
@@ -236,10 +240,11 @@ shopreviewRoutes.get("/getmyreviewDb2", getmyreviewDb2)
 //my review for restaurant review
 shopreviewRoutes.get("/getmycommentDb", getmycommentDb)
 shopreviewRoutes.get("/getshopImageDb", getshopImage)
-
-shopreviewRoutes.get("/getmyreview", (req, res) => {
-    res.send(Shop_Review)
-})
+shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
+shopreviewRoutes.get("/shopdetails/restaurant/:id", getresDbPls)
+shopreviewRoutes.get("/getreview/:id", getreviewDb)
+shopreviewRoutes.get("/getcommentDb/:id", getcommentDb)
+shopreviewRoutes.get("/getcountRate", getcountRate)
 
 shopreviewRoutes.get("/getrestaurant", (req, res) => {
     res.send(restaurants)
@@ -251,6 +256,5 @@ shopreviewRoutes.get("/getcomment", (req, res) => {
 
 shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
 shopreviewRoutes.get("/shopdetails/restaurant/:id", getRest)
-shopreviewRoutes.post("/postcomment", postcomment)
 
 export default shopreviewRoutes

@@ -1,63 +1,84 @@
 import { useDisclosure, Spacer, Flex, Heading, Image, AspectRatio, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Textarea, Input, ModalFooter, Button, SimpleGrid, Container, Box } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
 import AmountRate from 'src/components/shopreview/AmountRate'
 import AmountReview from 'src/components/shopreview/AmountReview'
-import ReviewDetail from 'src/components/shopreview/Comments'
 import LocationShop from 'src/components/shopreview/LocationShop'
 import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
+import ReviewDetail from 'src/components/shopreview/ReviewDetail'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
 import API from 'src/function/API'
 
 const restId = () => {
+    window.scrollTo(0, 0)
     const { isOpen, onOpen, onClose } = useDisclosure()
     let param = useParams()
-    const [detail, setDetail] = useState<any>([])
+    const [detail, setDetail2] = useState<any>([])
     useEffect(() => {
-        API.get(`/shopreview/shopdetails/restaurant/${param.restaurantId}`)
-            .then((res) => setDetail(res.data))
+        API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
+            .then((res) => setDetail2(res.data))
     }, [param])
+    const [review, setReview] = useState<any>([])
+    const getReview = API.get("/shopreview/getmyreviewDb2")
+    useEffect(() => {
+        getReview.then((res) => {
+            setReview(res.data)
+        })
+    }, [])
+    const navigate = useNavigate()
+    function Navigate(target: any) {
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
+    }
     return (
         <AppBody>
-            <ShopDetailName name={detail.name} />
-            <Box
-                flex={1}
-                bgImage={detail.image}
-                shadow={"lg"}
-                w={"100%"}
-                height={"sm"}
-                p={4}
-                color="white"
-                padding={5}
-            >
-                {/* คุยกับโจข้อแก้การเพิ่มขนาด fix box amount rate ใหม่ของตรงนี้ */}
-                <Spacer height={"95%"}></Spacer>
-                <Flex direction="row" justifyContent={"space-between"} alignItems="flex-end">
-                    <Heading color="white">
-                        <AmountRate ratting={detail.amo_rate} />
-                        {/* ดีงข้อมูลมาจาก database */}
+            {detail.map((item: any) => {
+                console.log(item)
+                return (
+                    <ShopDetailName name={item.detailOf.resName} />
+                )
+            })}
+            {detail.map((item: any) => (
+                <Box
+                    flex={1}
+                    bgImage={item.detailOf.images[0].image}
+                    shadow={"lg"}
+                    w={"100%"}
+                    height={"sm"}
+                    p={4}
+                    color="white"
+                    padding={5}
+                >
+                    {/* คุยกับโจข้อแก้การเพิ่มขนาด fix box amount rate ใหม่ของตรงนี้ */}
+                    <Spacer height={"95%"}></Spacer>
+                    <Flex direction="row" justifyContent={"space-between"} alignItems="flex-end">
+                        <Heading color="white">
+                            <AmountRate ratting={item.aveRating} />
+                            {/* ดีงข้อมูลมาจาก database */}
+                        </Heading>
+                        <Box p={1} minWidth={"60px"} maxWidth={"200px"} height={"25px"} rounded={"2xl"} background={"#FF3939"}>
+                            <Flex mb={1} direction={"row"} justifyContent={"center"} alignItems={"center"}>
+                                <Heading textAlign={"center"} size={"xs"} color="white">
+                                    <AmountReview am_re={item.reviewReceived} />
+                                    {/* ดีงข้อมูลมาจาก database */}
+                                </Heading>
+                            </Flex>
+                        </Box>
+                    </Flex>
+                </Box>
+            ))}
+            {detail.map((item: any) => (
+                <Flex direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
+                    <Heading padding={10} paddingLeft={"-1"} color={"green"} size={"lg"}>
+                        Opening
                     </Heading>
-                    <Box p={1} minWidth={"60px"} maxWidth={"200px"} height={"25px"} rounded={"2xl"} background={"#FF3939"}>
-                        <Flex mb={1} direction={"row"} justifyContent={"center"} alignItems={"center"}>
-                            <Heading textAlign={"center"} size={"xs"} color="white">
-                                <AmountReview am_re={detail.amo_review} />
-                                {/* ดีงข้อมูลมาจาก database */}
-                            </Heading>
-                        </Flex>
-                    </Box>
+                    <Heading padding={10} size={"lg"}>
+                        {item.detailOf.openAt[0].open} - {item.detailOf.closeAt[0].close}
+                    </Heading>
                 </Flex>
-            </Box>
-            <Flex direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
-                <Heading padding={10} paddingLeft={"-1"} color={"green"} size={"lg"}>
-                    Opening
-                </Heading>
-                <Heading padding={10} size={"lg"}>
-                    (9.00-16.00)
-                </Heading>
-            </Flex>
-
+            ))}
             <Box flex={1} shadow={"lg"} color="white" rounded={0}>
                 <AspectRatio ratio={16 / 1} w={"100%"} height={"160px"}>
                     <iframe
@@ -68,9 +89,9 @@ const restId = () => {
                 </AspectRatio>
             </Box>
 
-            {/* Box ยังไม่สามารถเอาข้อความมาตรงกลางได้ */}
-            <LocationShop location={detail.zone} phoneNumber={"099-123-4567"} />
-
+            {detail.map((item: any) => (
+                <LocationShop location={item.zone} phoneNumber={item.phoneNo} />
+            ))}
             <Rate />
 
             <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
@@ -129,22 +150,15 @@ const restId = () => {
                 </ModalContent>
             </Modal>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
-                <ReviewDetail
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
+                {review.map((item: any) => {
+                    if (param.resId === item.resId) {
+                        return (
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <ReviewDetail image={""} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
+                            </b>
+                        )
                     }
-                    name={"Micky"}
-                    ment={"Love this so much!!!"}
-                    date={"2022/05/18"}
-                />
-                <ReviewDetail
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Minny"}
-                    ment={"Yummy"}
-                    date={"2020/10/10"}
-                />
+                })}
             </SimpleGrid>
             <Container my={5} textAlign={"center"}>
                 That's all~

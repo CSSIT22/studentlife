@@ -1,6 +1,6 @@
 import { useDisclosure, Spacer, Flex, Heading, Image, AspectRatio, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Textarea, Input, ModalFooter, Button, SimpleGrid, Container, Box } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
 import AmountRate from 'src/components/shopreview/AmountRate'
 import AmountReview from 'src/components/shopreview/AmountReview'
@@ -20,6 +20,18 @@ const shopId = () => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
+    const [review, setReview] = useState<any>([])
+    const getReview = API.get("/shopreview/getmyreviewDb")
+    useEffect(() => {
+        getReview.then((res) => {
+            setReview(res.data)
+        })
+    }, [])
+    const navigate = useNavigate()
+    function Navigate(target: any) {
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
+    }
     return (
         <AppBody>
             {detail.map((item: any) => (
@@ -28,6 +40,7 @@ const shopId = () => {
             {detail.map((item: any) => (
                 <Box
                     flex={1}
+                    backgroundSize={"120%"}
                     bgImage={item.images[0].image}
                     shadow={"lg"}
                     w={"100%"}
@@ -135,22 +148,15 @@ const shopId = () => {
                 </ModalContent>
             </Modal>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
-                <ReviewDetail
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
+                {review.map((item: any) => {
+                    if (param.shopId === item.shopId) {
+                        return (
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <ReviewDetail image={item.reviewBy.image} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
+                            </b>
+                        )
                     }
-                    name={"Micky"}
-                    ment={"Love this so much!!!"}
-                    date={"2022/05/18"}
-                />
-                <ReviewDetail
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                    }
-                    name={"Minny"}
-                    ment={"Yummy"}
-                    date={"2020/10/10"}
-                />
+                })}
             </SimpleGrid>
             <Container my={5} textAlign={"center"}>
                 That's all~

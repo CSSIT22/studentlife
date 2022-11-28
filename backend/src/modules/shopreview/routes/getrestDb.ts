@@ -23,7 +23,7 @@ const getrestDb = async (req: Request, res: Response) => {
         })
         res.send(rest)
     } catch {
-        res.status(400).send("Error can't find room")
+        res.status(400).send("Error can't find restaurant")
     }
 }
 

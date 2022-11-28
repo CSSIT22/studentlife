@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-import { getAllShop, Shop, shops } from ".."
 
 const getShop = async (req: Request, res: Response) => {
     // const id = req.params.id

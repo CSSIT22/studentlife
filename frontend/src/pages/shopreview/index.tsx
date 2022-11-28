@@ -87,10 +87,9 @@ const shopreview = () => {
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                         {res.map((item: any) => {
-                            console.log(item.detail.zone)
                             if (zones.length === 0) {
                                 return (
-                                    <b onClick={() => Navigate2(item.restaurantId)}>
+                                    <b onClick={() => Navigate2(item.resId)}>
                                         <DetailBox key={item.id} heading={item.resName} image={item.images[0].image} rate={item.amo_rate} amo_re={item.amo_review} />
                                     </b>
                                 )

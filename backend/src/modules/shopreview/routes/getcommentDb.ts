@@ -1,12 +1,16 @@
 import { Request, Response } from "express"
+import { trusted } from "mongoose"
 
-const getmyreviewDb2 = async (req: Request, res: Response) => {
+const getmycommentDb = async (req: Request, res: Response) => {
     try {
         const id = req.params.id
         const prisma = res.prisma
-        const myreview = await prisma.sReview_Restaurant_Review.findMany({
-            include: {
-                reviewBy: {
+        const mycomment = await prisma.sReview_Comment.findMany({
+            select: {
+                likeReceived: true,
+                text: true,
+                commentedAt: true,
+                commentBy: {
                     select: {
                         fName: true,
                         lName: true,
@@ -14,12 +18,13 @@ const getmyreviewDb2 = async (req: Request, res: Response) => {
                 },
             },
             where: {
-                resId: id,
+                reviewId: id,
             },
         })
-        res.send(myreview)
+        res.send(mycomment)
     } catch {
         res.status(400).send("Error can't find room")
     }
 }
-export default getmyreviewDb2
+
+export default getmycommentDb

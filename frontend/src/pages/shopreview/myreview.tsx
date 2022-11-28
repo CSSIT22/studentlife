@@ -15,7 +15,7 @@ const myreview = () => {
     useEffect(() => {
         getMyReview.then((res) => {
             setMyReview(res.data)
-        })  
+        })
     }, [])
     const [myReviews2, setMyReview2] = useState<any>([])
     const getMyReview2 = API.get("/shopreview/getmyreviewDb2")
@@ -37,6 +37,10 @@ const myreview = () => {
     const navigateHome = () => {
         navigate("/shopreview")
     }
+    function Navigate(target: any) {
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
+    }
 
     return (
         <AppBody>
@@ -50,42 +54,47 @@ const myreview = () => {
                 {myReviews.map((item: any) => {
                     if (item.userId === user?.userId) {
                         return (
-                            <Myreview
-                                image={
-                                    "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                                }
-                                name={String(user?.fName) + " " + String(user?.lName)}
-                                ment={item.text}
-                                date={item.reviewedAt}
-                                am_like={item.likeReceived}
-                                ratting={item.rating}
-                            />
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <Myreview
+                                    image={
+                                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
+                                    }
+                                    name={String(user?.fName) + " " + String(user?.lName)}
+                                    ment={item.text}
+                                    date={item.reviewedAt}
+                                    am_like={item.likeReceived}
+                                    ratting={item.rating}
+                                />
+                            </b>
                         )
                     }
                 })}
                 {myReviews2.map((item: any) => {
                     if (item.userId === user?.userId) {
                         return (
-                            <Myreview
-                                image={
-                                    "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                                }
-                                name={String(user?.fName) + " " + String(user?.lName)}
-                                ment={item.text}
-                                date={item.reviewedAt}
-                                am_like={item.likeReceived}
-                                ratting={item.rating}
-                            />
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <Myreview
+                                    image={
+                                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
+                                    }
+                                    name={String(user?.fName) + " " + String(user?.lName)}
+                                    ment={item.text}
+                                    date={item.reviewedAt}
+                                    am_like={item.likeReceived}
+                                    ratting={item.rating}
+                                />
+                            </b>
                         )
                     }
                 })}
-                
+
                 <Container mt={5} textAlign={"center"}>
                     That's all for your review~
-                </Container><br />
-                <Heading mt={5} mb={3} ml={10} color={"black"} textAlign={"start"}>My Comment</Heading>
+                </Container>
+                <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
                 {myComments.map((item: any) => {
-                    if (item.userId === user?.userId) {
+                    console.log(item)
+                    if (item.commentBy.userId === user?.userId) {
                         return (
                             <Comments image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={item.commentedAt} />
                         )
