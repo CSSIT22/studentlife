@@ -5,7 +5,6 @@ import showDetail from "./routes/showDetail"
 import searchRestaurant from "./routes/searchRestaurant"
 import showReview from "./routes/showReview"
 import showFavorite from "./routes/showFavorite"
-import { review } from "./review"
 import showHistory from "./routes/showHistory"
 import { Restaurant } from "@apiType/restaurant"
 import { verifyUser } from "../backendService/middleware/verifyUser"
@@ -214,7 +213,6 @@ export const getRestaurant = () => restaurant
 export const setRestaurant = (newData: Restaurant[]) => {
     restaurant = newData
 }
-export const getReview = () => review
 
 restaurantRoutes.get("/search", searchRestaurant)
 restaurantRoutes.post("/favorite", deleteFavorite)

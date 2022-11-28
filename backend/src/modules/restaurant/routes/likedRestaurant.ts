@@ -1,7 +1,4 @@
-import { Restaurant } from "@apiType/restaurant"
-import { prisma } from "@prisma/client"
 import { Request, Response } from "express"
-import { getRestaurant, setRestaurant } from ".."
 
 const likedRestaurant = async(req: Request, res: Response) => {
     const user = req.user?.userId || ""
@@ -37,6 +34,7 @@ const likedRestaurant = async(req: Request, res: Response) => {
                 data:{
                     isLike: like,
                     updatedAt: new Date(),
+                    
                 }
             })
             res.send(liked)

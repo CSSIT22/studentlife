@@ -1,7 +1,4 @@
 import { Request, Response } from "express"
-import { getRestaurant, getReview, restaurant } from ".."
-import { Restaurant, Review } from "@apiType/restaurant"
-import { review } from "../review"
 const showReview =  async(req: Request, res: Response) => {
     const id = req.params.id
     try {

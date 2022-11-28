@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import { Restaurant } from "@apiType/restaurant"
-import { getRestaurant } from ".."
 
 const searchRestaurant = async(req: Request, res: Response) => {
     const name = req.query.name + ""

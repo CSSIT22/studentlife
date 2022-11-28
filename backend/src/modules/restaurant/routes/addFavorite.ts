@@ -1,6 +1,4 @@
-import { Restaurant } from "@apiType/restaurant"
 import { Request, Response } from "express"
-import { getRestaurant, setRestaurant } from ".."
 
 const addFavorite = async(req:Request, res:Response) => {
  const resId = req.params.id
