@@ -36,10 +36,9 @@ const MoreLang: FC<{
                 variant="solid"
                 backgroundColor={"blue.600"}
                 mb="2rem"
-                onClick={() => onClick()}
             >
                 <TagLabel>Other Languages</TagLabel>
-                <CloseButton />
+                <CloseButton disabled={disable}  onClick={() => onClick()}/>
             </Tag>
             <FormControl isRequired>
                 <FormLabel>Select Language</FormLabel>
