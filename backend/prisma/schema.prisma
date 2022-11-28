@@ -55,16 +55,29 @@ model User_Profile {
   sendNoti             Noti_Object[]
   notis                Noti_User?
   polls                Poll_Applicant[]
-  pComments            Post_Comment[]
-  userAnnouncement     Post_On_Page[]
-  pReported            Post_Report[]
-  questions            Question[]
-  answers              Question_Answer[]
-  answerComments       Question_Answer_Comment[]
-  questionComments     Question_Comment[]
-  modvotes             Question_Modvote[]
-  questionSetting      Question_Setting?
-  repost               Repost?
+  commuOwner           Community[]
+  community            Community_User[]
+  communityBlacklist   Community_Blacklist[]
+  sendFile             File_Info[]
+  files                User_Show_File[]
+  fileHistory          File_History[]
+  fComments            File_Comment[]
+  accessTo             Direct_Access[]
+  userBack             User_Back[]
+  banInstances         Ban_Status[]
+  wordReport           Word_Report[]
+  shortNotes           Sn_Head[]
+  voteTo               Sn_Votedetail[]
+  snComments           Sn_Comment[]
+  favSn                Sn_Fav[]
+  recentSn             Sn_Recent[]
+  accessSn             Sn_Access[]
+  transactions         Transaction[]
+  creditCards          Credit_Card[]
+  coupons              User_Coupon[]
+  carts                Shop_Cart[]
+  reviewProduct        Shop_Product_Review[]
+  likeRestaurants      Restaurant_Like_By_User[]
   favRestaurants       Restaurant_Favorite_By_User[]
   likeRestaurants      Restaurant_Like_By_User[]
   seenRestaurants      Restaurant_Seen_By_User[]
@@ -207,13 +220,11 @@ model Action_to_XP {
 model Student_Post {
   postId          String            @id @default(cuid())
   userId          String
+  body            String            @db.Char(1000)
   lastEdit        DateTime          @default(now()) @db.Timestamp(0)
   score           Int               @default(0)
   seen            Boolean           @default(false)
-  body            String            @db.Char(1000)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  communityPost   Community_Post?
-  postHided       Hide_Post[]
   images          Image_Container[]
   studentsComment Post_Comment[]
   userReported    Post_Report[]
@@ -775,6 +786,7 @@ model Community {
 model Community_User {
   userId      String
   communityId String
+  role        Community_Role @relation(fields: [roleId], references: [roleId], onDelete: SetDefault)
   roleId      String
   joined      DateTime       @db.Timestamp(0)
   status      Boolean        @default(false)
@@ -1125,9 +1137,9 @@ model Transaction {
   userId     String
   totalPrice Decimal             @db.Decimal(9, 2)
   payer      User_Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  detail     Transaction_Detail?
   moneyChat  Chat_Transaction?
   moneyShop  Shop_Order?
-  detail     Transaction_Detail?
 }
 
 model Transaction_Detail {
@@ -1149,25 +1161,35 @@ model Transaction_Error {
 }
 
 model Credit_Card {
-  crId         String       @id @default(cuid())
-  ccId         String
-  holderName   String
-  country      String
-  bank         String
-  cvc          String
-  last4        String       @db.Char(4)
-  cardExpired  DateTime     @db.Date
-  userId       String
-  User_Profile User_Profile @relation(fields: [userId], references: [userId])
+  crId        String       @id @default(cuid())
+  ccId        String
+  holderName  String
+  country     String
+  bank        String
+  cvc         String
+  last4       String       @db.Char(4)
+  cardExpired DateTime     @db.Date
+  userId      String
+  cardOwner   User_Profile @relation(fields: [userId], references: [userId])
 }
 
 model QR {
   qrId       String   @id @default(cuid())
   qrSourceId String
   qr         String
-  expired    DateTime @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, (0)::double precision)")) @db.Timestamp(0)
+  expired    DateTime @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
 }
 
+enum Payment_Type {
+  SHOP
+}
+
+enum Transaction_Paymethod {
+  CREDIT_CARD
+  QR
+}
+
+//Shop Module
 model Shop_Order {
   orderId           String               @id @default(cuid())
   userId            String
@@ -1288,7 +1310,6 @@ model Restaurant {
   resName     String
   lastupdated DateTime                      @default(now()) @db.Timestamp(0)
   likes       Int                           @default(0)
-  closeAt     Restaurant_Close[]
   detail      Restaurant_Detail?
   userFav     Restaurant_Favorite_By_User[]
   images      Restaurant_Image[]
@@ -1339,7 +1360,8 @@ model Restaurant_Like_By_User {
   isLike     Boolean      @default(false)
   updatedAt  DateTime     @default(now()) @db.Timestamp(0)
   restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
-  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  isLike     Boolean      @default(false)
+  updatedAt  DateTime     @default(now()) @db.Timestamp(0)
 
   @@id([userId, resId])
 }

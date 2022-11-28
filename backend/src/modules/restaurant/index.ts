@@ -11,7 +11,6 @@ import { Restaurant } from "@apiType/restaurant"
 import { verifyUser } from "../backendService/middleware/verifyUser"
 import deleteFavorite from "./routes/deleteFavorite"
 import addFavorite from "./routes/addFavorite"
-import addRestaurant from "./routes/addRestaurant"
 import { Request, Response } from "express"
 import addHistory from "./routes/addHistory"
 
@@ -227,6 +226,6 @@ restaurantRoutes.post("/:id", likedRestaurant)
 restaurantRoutes.get("/detail/:id", showDetail)
 restaurantRoutes.post("/detail/:id", addFavorite)
 restaurantRoutes.get("/review/:id", showReview)
-restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
+// restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
 
 export default restaurantRoutes

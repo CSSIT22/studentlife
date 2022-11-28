@@ -4,7 +4,6 @@ const addHistory = async (req:Request, res:Response) => {
     const user = req.user?.userId || ""
     const resid = req.params.id
     try {
-        console.log("yea");
         
         const prisma = res.prisma
         const seen = await prisma.restaurant_Seen_By_User.create({
@@ -28,7 +27,7 @@ const addHistory = async (req:Request, res:Response) => {
         console.log(seen);
         res.send(seen)
     } catch (error) {
-        console.log("Error");
+        console.log("Error store");
         
     }
 }

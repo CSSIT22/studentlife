@@ -1,3 +1,4 @@
+import { Close, Detail, Image1, Open } from "@apiType/restaurant"
 import {
     Box,
     Button,
@@ -21,32 +22,34 @@ import { AiOutlineClose } from "react-icons/ai"
 
 const Searchcontent: FC<{
     resName: string
-    open: string
-    close: string
-    phone: string
-    website: string
-    img: string
+    open: Array<Open>
+    close: Array<Close>
+    phone: Detail
+    website: Detail
+    img: Array<Image1>
 }> = ({ resName, phone, open, close, website, img }) => {
+    console.log(phone.phoneNO);
+    
     return (
         <>
             <Show below="sm">
                 <Box width={"100%"} height={"8rem"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
                     <Flex mb={"15px"}>
                         <Box width={"30%"} ml={"1rem"}>
-                            <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
+                            <Image boxSize="5rem" src={img[0]?.image} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
                         <Box width={"60%"} height={"6rem"} color={"black"}>
                             <Text fontSize={"sm"}>
                                 <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                             </Text>
                             <Text fontSize={"sm"}>
-                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {""} - {""}
                             </Text>
                             <Text fontSize={"sm"}>
-                                <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
+                                <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone.phoneNO}
                             </Text>
                             <Text fontSize={"sm"}>
-                                <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
+                                <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website.website}>{resName}</a>
                             </Text>
                         </Box>
                     </Flex>
@@ -61,20 +64,20 @@ const Searchcontent: FC<{
                         <Image
                             boxSize={"12.5rem"}
                             // height={{ lg: "9.5rem" }}
-                            src={img}
+                            src={img[0].image}
                             alt="Dan Abramov"
                             borderRadius={"10px"}
                         />
                     </Flex>
                     <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
                         <Text>
-                            <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                            <span style={{ fontWeight: "bold" }}>Open:</span> {""} - {""}
                         </Text>
                         <Text>
-                            <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
+                            <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone.phoneNO}
                         </Text>
                         <Text>
-                            <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
+                            <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website.website}>{resName}</a>
                         </Text>
                     </Box>
                 </Box>

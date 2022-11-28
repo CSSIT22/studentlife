@@ -47,7 +47,7 @@ const showHistory = async (req: Request, res: Response) => {
         //     },
         // })
 
-        console.log(hist)
+        //console.log(hist)
 
         res.send(hist)
     } catch (err) {
