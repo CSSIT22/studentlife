@@ -7,12 +7,12 @@ import QRcode from "src/components/transaction/methodpayment/QRcode"
 import axios from "axios"
 import { Link } from 'react-router-dom';
 
-const qrpayment: FC<{ totalPrice: number }> = ({ totalPrice }) => {
+const qrpayment = () => {
     const [rawData, setRawData] = React.useState("")
 
     useEffect(() => {
         axios.post("http://localhost:8000/transaction/payment", {
-            totalPrice: { totalPrice }
+            totalPrice: 5000
         }).then(function (response) {
             setRawData(response.data.Qr)
         })
@@ -24,7 +24,7 @@ const qrpayment: FC<{ totalPrice: number }> = ({ totalPrice }) => {
                 <Header name="QRCode" />
 
                 <Container maxW="90%" my="10px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
-                    <QRpayment total={totalPrice} paywithin="60 sec" />
+                    <QRpayment total={5000} paywithin="60 sec" />
                 </Container>
 
                 <Container maxW="90%" my="20px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>

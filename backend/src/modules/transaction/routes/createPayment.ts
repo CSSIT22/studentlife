@@ -12,7 +12,8 @@ const createPayment = async (req: Request, res: Response) => {
         const transaction = await prisma.transaction.create({
             data: {
                 transId: transId,
-                userId: req.user?.userId || "",
+                // userId: req.user?.userId || "",
+                userId: "Wpj1j-ExAOjlYwApIodF8",
                 totalPrice: body.totalPrice,
             },
         })

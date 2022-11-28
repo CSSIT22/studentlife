@@ -1,4 +1,4 @@
-import { Text, Container, Box, Stack, Button, Link, useMediaQuery, Hide, Show, Flex, Spacer, Center } from "@chakra-ui/react"
+import { Text, Container, Box, Stack, Button, useMediaQuery, Hide, Show, Flex, Spacer, Center } from "@chakra-ui/react"
 import React, { useState } from "react"
 import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
 import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
@@ -9,6 +9,7 @@ import OrderList from "../../../components/transaction/shoptransaction/OrderList
 import { useParams } from 'react-router-dom';
 import PaymentMethod from "src/components/transaction/methodpayment/PaymentMethod"
 import qrpayment from './qrpayment';
+import { Link } from 'react-router-dom';
 
 const shopTransaction = () => {
     const param = useParams()
@@ -40,14 +41,14 @@ const shopTransaction = () => {
                         imageUrl="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1099&q=80"
                         product="Smartwatch"
                         quantity={1}
-                        price={"21,244.00"}
+                        price={"2,500.00"}
                     />
                     <OrderList
                         imageAlt=""
                         imageUrl="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                         product="polaroid"
                         quantity={1}
-                        price={"11,259.78"}
+                        price={"2,500.00"}
                     />
                 </Stack>
             </Container>
@@ -70,11 +71,13 @@ const shopTransaction = () => {
                             Cancel
                         </Text>
                     </Button>
-                    <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
-                        <Text fontSize="lg" fontWeight={"bold"}>
-                            Comfirm
-                        </Text>
-                    </Button>
+                    <Link to="/transaction/shoptransactionqrpayment">
+                        <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
+                            <Text fontSize="lg" fontWeight={"bold"}>
+                                Comfirm
+                            </Text>
+                        </Button>
+                    </Link>
                 </Stack>
             </Show>
             <Hide below="md">
@@ -86,11 +89,13 @@ const shopTransaction = () => {
                             </Text>
                         </Box>
                         <Spacer />
-                        <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
-                            <Text fontSize="lg" fontWeight={"bold"}>
-                                Comfirm
-                            </Text>
-                        </Button>
+                        <Link to="/transaction/shoptransaction/qrpayment">
+                            <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
+                                <Text fontSize="lg" fontWeight={"bold"}>
+                                    Comfirm
+                                </Text>
+                            </Button>
+                        </Link>
                     </Flex>
                 </Container>
             </Hide>
