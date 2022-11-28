@@ -14,27 +14,9 @@ const shortenlink = async (req: Request, res: Response) => {
         const result = await prisma.shortLink.create({
             //await = wait for the database
             data: {
-                password: "", 
-                expired: new Date(),
-                permission: {
-                    create: {
-                        permType:"USER", 
-                    }
-                },
-
-                userAccess: {
-                    create: {
-                        
-                    }
-                }
-                userId: req.user?.userId || "",
-                originalLink: req.body.originalLink || "",
-                shortenLink: nanoid(),
-                linkCreator: {
-                    connect:{
-                        userId: req.user?.userId || ""
-                    }
-                }
+                userId:userId,
+                originalLink:body.originalLink,
+                shortenLink:customNanoid(),
             },
         })
         console.log(result)
