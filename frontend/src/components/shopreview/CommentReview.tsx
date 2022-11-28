@@ -3,6 +3,10 @@ import React, { FC } from 'react'
 import AmountLike from './AmountLike';
 
 const CommentReview: FC<{ image: String; name: String; ment: String; date: String }> = ({ image, name, ment, date }) => {
+
+    function onComment(){
+        
+    }
     return (
         <Box _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
             <Stack mb={3} direction={"row"} spacing={"24px"}>

@@ -57,7 +57,7 @@ const review = () => {
             <Container mt={5} mb={20} textAlign={"center"}>
                 That's all~
             </Container>
-            <CommentBar />
+            <CommentBar/>       
         </AppBody>
     )
 }

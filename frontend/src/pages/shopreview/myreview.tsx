@@ -15,7 +15,7 @@ const myreview = () => {
     useEffect(() => {
         getMyReview.then((res) => {
             setMyReview(res.data)
-        })
+        })  
     }, [])
     const [myReviews2, setMyReview2] = useState<any>([])
     const getMyReview2 = API.get("/shopreview/getmyreviewDb2")
@@ -79,10 +79,11 @@ const myreview = () => {
                         )
                     }
                 })}
+                
                 <Container mt={5} textAlign={"center"}>
                     That's all for your review~
-                </Container>
-                <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
+                </Container><br />
+                <Heading mt={5} mb={3} ml={10} color={"black"} textAlign={"start"}>My Comment</Heading>
                 {myComments.map((item: any) => {
                     if (item.userId === user?.userId) {
                         return (
