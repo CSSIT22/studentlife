@@ -402,7 +402,7 @@ const DatingRandomization = () => {
             <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
                 <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
-                    <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} isError={isError}/>
+                    <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} isError={isError} />
                     {!isError ?
                         characters.map((character, index) => (
                             <DatingRandomCard
@@ -444,7 +444,7 @@ const DatingRandomization = () => {
                         </Box>
                     </Box>
                 ) : (
-                    <DatingRandomOutOfCard numOfChar={numOfChar} isError={isError} currentIndex={currentIndex} isLoading={isLoading}/>
+                    <DatingRandomOutOfCard numOfChar={numOfChar} isError={isError} currentIndex={currentIndex} isLoading={isLoading} />
                 )}
             </SimpleGrid>
                 <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }} id="DatingButton">

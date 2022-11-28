@@ -132,7 +132,7 @@ const DatingOption = () => {
     }
 
     function sendFac(SF: any[]) {
-        console.log(SF)
+        //console.log(SF)
         let arr: string[] = []
         if (SF[0] !== null && Object.keys(SF[0]).length !== 0) {
             for (let index = 0; index < selectedFac.length; index++) {
@@ -144,13 +144,13 @@ const DatingOption = () => {
             }
         }
         else {
-            console.log("Oh no")
+            //console.log("Oh no")
             for (let index = 0; index < faculties.length; index++) {
                 arr.push(faculties[index].facultyId)
             }
 
         }
-        console.log("Heh " + arr)
+        //console.log("Heh " + arr)
         return arr
     }
 
