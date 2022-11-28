@@ -379,7 +379,7 @@ const DatingRandomization = () => {
     // used for the tinder card
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
-            Array(30)
+            Array(20)
                 .fill(0)
                 .map(() => React.createRef()),
         []
