@@ -11,6 +11,7 @@ import { Text, Box, Divider, useDisclosure, Fade, useBoolean, useToast, Spinner,
 import axios from "axios"
 import Lottie from "lottie-react"
 import receive from "../../components/airdrop/animation/receive.json"
+import download from "../../components/airdrop/animation/download.json"
 
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },

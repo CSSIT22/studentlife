@@ -51,7 +51,7 @@ if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
 }
 
-mongoose.connect(process.env.MONGO_URL || "")
+mongoose.connect(process.env.MONGO_URL || "", { authSource: "admin" })
 
 const prisma = new PrismaClient()
 const redisClient = createClient({
@@ -150,7 +150,7 @@ const io = new IOServer(server, {
 io.use((socket, next) => {
     try {
         const token = socket.handshake.headers.authorization
-        // console.log(token)
+        console.log(token)
         if (!token) {
             throw new Error("not authorized")
         }
@@ -178,8 +178,8 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     })
     // console.log(store)
 
-    // console.log(socket.handshake.headers)
-    // console.log("Hello")
+    console.log(socket.handshake.headers)
+    console.log("Hello")
 })
 
 server.listen(PORT, () => console.log(`running on ${PORT} !`))
