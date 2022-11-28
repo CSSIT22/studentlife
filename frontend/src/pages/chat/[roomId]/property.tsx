@@ -43,7 +43,7 @@ function showProperty() {
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/user/${param.roomId}`)
+        return navigate(`/user/${Room?.userId}`)
     }
 
     useEffect(() => {
