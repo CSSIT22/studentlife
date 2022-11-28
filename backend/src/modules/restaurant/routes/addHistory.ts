@@ -24,7 +24,6 @@ const addHistory = async (req:Request, res:Response) => {
         // })
     
         // console.log(isSeen);
-        console.log(seen);
         res.send(seen)
     } catch (error) {
         console.log("Error store");

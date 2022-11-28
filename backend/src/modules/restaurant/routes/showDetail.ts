@@ -5,7 +5,6 @@ const showDetail = async (req: Request, res: Response) => {
     const id = req.params.id
     var d = new Date();
     var dayNo = d.getDay()
-    console.log(d.getDay());
     try {
         const prisma = res.prisma
         const restaurant = await prisma.restaurant.findUnique({

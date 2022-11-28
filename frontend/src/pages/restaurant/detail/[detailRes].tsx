@@ -189,7 +189,7 @@ function detail() {
                                                 addFavorite()
                                             }}
                                         >
-                                            {isFavorite ? <AiFillHeart size={"full"} /> : <AiOutlineHeart size={"full"} />}
+                                            {isFavorite ? <Icon as={AiFillHeart} w={12} h={12} /> : <Icon as={AiOutlineHeart}  w={12} h={12} />}
                                         </Button>
                                         <Spacer />
                                         <Popover placement="top">

@@ -1,5 +1,5 @@
 import { Open, Restaurant2 } from "@apiType/restaurant"
-import { Box, Button, Flex, Grid, GridItem, Heading, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
+import { Box, Button, Flex, Grid, GridItem, Heading, Input, Menu, MenuButton, MenuItem, MenuList, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import FavoriteContent from "src/components/restaurant/FavoriteContent"
@@ -12,15 +12,40 @@ const search = () => {
     // const params = useParams()
     const [search, setsearch] = useState<Restaurant2[]>([])
     const [open, setopen] = useState<Open>();
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
 
     useEffect(() => {
         API.get("/restaurant/search?name=" + new URLSearchParams(location.search).get("name")).then((item) => setsearch(item.data))
-        // .catch((err) => on())
         // .finally(off)
+        .catch((err) => on())
+        .finally(off)
     }, [new URLSearchParams(location.search).get("name")])
-
-  console.log(search);
   
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
+    )
+
+    if(isError) return (
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
+    )
     
     return (
         <AppBody
