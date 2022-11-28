@@ -8,8 +8,8 @@ import UList from "src/components/shortlink/UList"
 
 const permission = () => {
     const navigate = useNavigate()
-    const userac = () => {
-        navigate("/link/uaccess")
+    const complete = () => {
+        navigate("/link/complete")
     }
     const shortac = () => {
         navigate("/link/saccess")
@@ -62,8 +62,8 @@ const permission = () => {
                                                         <SearchUserList/>
                                                     </ModalBody>
                                                     <ModalFooter>
-                                                        <Button onClick={onListClose} display={{ base: "none", md: "block" }}>
-                                                            Close
+                                                        <Button onClick={complete} bg={"green.400"}>
+                                                               Save
                                                         </Button>
                                                     </ModalFooter>
                                                 </ModalContent>
