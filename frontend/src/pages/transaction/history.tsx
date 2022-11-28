@@ -1,8 +1,9 @@
 import React from "react"
-import { Button, Center, Collapse, Container, Link, Show, Text } from "@chakra-ui/react"
+import { Button, Center, Collapse, Container, Show, Text } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import Header from "../../components/transaction/shoptransaction/Header"
 import PaymentHistory from "src/components/transaction/paymentHistory/PaymentHistory"
+import { Link } from 'react-router-dom';
 
 const historyTransaction = () => {
     const [show, setShow] = React.useState(false)
@@ -33,7 +34,7 @@ const historyTransaction = () => {
 
             </Container>
             <Center>
-                <Link href="#">
+                <Link to="#">
                     <Show below="md">
                         <Button colorScheme="red" w={"100px"} >
                             Back

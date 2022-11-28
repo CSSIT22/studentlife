@@ -1,7 +1,8 @@
-import { Button, Container, Hide, Input, InputGroup, InputLeftAddon, Link, Show, Stack, Text, useMediaQuery } from "@chakra-ui/react"
+import { Button, Container, Hide, Input, InputGroup, InputLeftAddon, Show, Stack, Text, useMediaQuery } from "@chakra-ui/react"
 import React from "react"
 import AppBody from "../../../components/share/app/AppBody"
 import Header from "../../../components/transaction/shoptransaction/Header"
+import { Link } from 'react-router-dom';
 
 const addcard = () => {
     const [isSmallerThan630] = useMediaQuery("(max-width: 630px)")
@@ -62,7 +63,7 @@ const addcard = () => {
                 </Container>
                 <Stack direction={"row"} justifyContent="center" gap={"3%"}>
                     <Show below="lg">
-                        <Link href="selectmastercard">
+                        <Link to="/transaction/shoptransaction/selectmastercard">
                             <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
                                 <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"}>
                                     Cancel
@@ -71,7 +72,7 @@ const addcard = () => {
                         </Link>
                     </Show>
 
-                    <Link href="../shoptransaction">
+                    <Link to="/transaction/shoptransaction">
                         <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
                             <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"}>
                                 Save

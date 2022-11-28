@@ -1,10 +1,11 @@
 import React, { useEffect } from "react"
 import AppBody from "src/components/share/app/AppBody"
 import Header from "src/components/transaction/shoptransaction/Header"
-import { Button, Container, Link, Stack, Text } from "@chakra-ui/react"
+import { Button, Container, Stack, Text } from "@chakra-ui/react"
 import QRpayment from "src/components/transaction/methodpayment/QRpayment"
 import QRcode from "src/components/transaction/methodpayment/QRcode"
 import axios from "axios"
+import { Link } from 'react-router-dom';
 
 const qrpayment = () => {
     const [rawData, setRawData] = React.useState("")
@@ -30,7 +31,7 @@ const qrpayment = () => {
                     <QRcode qrurl={"https://chart.googleapis.com/chart?cht=qr&chs=512x512&chl=" + rawData} />
                 </Container>
                 <Stack direction={"row"} justifyContent="center" gap={"3%"}>
-                    <Link href="../shoptransaction">
+                    <Link to="/transaction/shoptransaction">
                         <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
                             <Text fontSize="lg" fontWeight={"bold"}>
                                 Back

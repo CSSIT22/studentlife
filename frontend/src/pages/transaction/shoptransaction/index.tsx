@@ -1,7 +1,5 @@
 import { Text, Container, Box, Stack, Button, Link, useMediaQuery, Hide, Show, Flex, Spacer, Center } from "@chakra-ui/react"
 import React, { useState } from "react"
-import EbankModal from "src/components/transaction/methodpayment/EbankModal"
-import MasterCardModal from "src/components/transaction/methodpayment/MasterCardModal"
 import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
 import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
 import API from "src/function/API"
@@ -9,6 +7,7 @@ import AppBody from "../../../components/share/app/AppBody"
 import Header from "../../../components/transaction/shoptransaction/Header"
 import OrderList from "../../../components/transaction/shoptransaction/OrderList"
 import { useParams } from 'react-router-dom';
+import PaymentMethod from "src/components/transaction/methodpayment/PaymentMethod"
 
 const shopTransaction = () => {
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
@@ -54,51 +53,7 @@ const shopTransaction = () => {
                 </Stack>
             </Container>
 
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
-                <Show below="md">
-                    <Flex>
-                        <Center>
-                            <Stack direction={"column"}>
-                                <Text fontSize="md" fontWeight={"bold"}>
-                                    Total payment 123,123
-                                </Text>
-                                <Text fontSize="md" fontWeight={"bold"}>
-                                    Payment Method: ....
-                                </Text>
-                            </Stack>
-                        </Center>
-                        <Spacer />
-                        <Center>
-                            <Box>
-                                <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                                    <Link href="shoptransaction/selectmethod">
-                                        <Text fontSize="sm" fontWeight={"bold"} color="black">
-                                            Select Method
-                                        </Text>
-                                    </Link>
-                                </Button>
-                            </Box>
-                        </Center>
-                    </Flex>
-                </Show>
-                <Hide below="md">
-                    <Flex>
-                        <Text fontSize="lg" fontWeight={"bold"}>
-                            Payment Method
-                        </Text>
-                        <Spacer />
-                        <MasterCardModal />
-                        <Spacer />
-                        <EbankModal />
-                        <Spacer />
-                        <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                            <Text fontSize="lg" fontWeight={"bold"} color="black">
-                                QRCODE
-                            </Text>
-                        </Button>
-                    </Flex>
-                </Hide>
-            </Container>
+            <PaymentMethod/>
 
             <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Text fontSize="xl" fontWeight={"bold"}>
