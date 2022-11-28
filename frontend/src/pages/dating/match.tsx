@@ -1,6 +1,5 @@
 import { Box, Button, GridItem, Heading, useBreakpointValue, useToast , Image,Text} from "@chakra-ui/react"
-import React from "react"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
@@ -13,7 +12,6 @@ const DatingMatch = () => {
     const toast = useToast()
     let count = 1
     useEffect(() => {
-        window.scrollTo(0, 0)
         if (didMount && count != 0) {
             count--
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {

@@ -19,6 +19,7 @@ import {
     Flex,
     GridItem,
     Grid,
+    useBoolean,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useEffect, useState } from "react"
@@ -126,6 +127,7 @@ const CreateActivityPoll = () => {
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isSubmitted, setIsSubmitted] = useState(false)
+    const [isError, { on }] = useBoolean()
 
     //Validate the Header
     const isTooShortHeader = header.length < 10
@@ -337,6 +339,7 @@ const CreateActivityPoll = () => {
                                                 setInterests={setInterests}
                                                 setIsSubmiited={setIsSubmitted}
                                                 hasCompleteSetting={true}
+                                                on={on}
                                             />
                                         </GridItem>
                                     </ModalFooter>

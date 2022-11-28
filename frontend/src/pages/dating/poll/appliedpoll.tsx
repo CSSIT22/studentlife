@@ -1,13 +1,12 @@
-import { HStack, Box, Center, useToast, Button,Text,Image } from "@chakra-ui/react"
-import React from "react"
-import React, { useEffect, useState } from "react"
+import { HStack, Box, Center, useToast, Button,Text,Image, useBreakpointValue } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingAllActivityButton from "src/components/dating/DatingAllActivityButton"
 import DatingAppliedActivityButton from "src/components/dating/DatingAppliedActivityButton"
 import DatingYourActivityButton from "src/components/dating/DatingYourActivityButton"
 import API from "src/function/API"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
-import ChatImg from "../../components/dating/pic/chat.png"
+import ChatImg from "../../../components/dating/pic/chat.png"
 
 const YourAppliedActivityPoll = () => {
     const didMount = useDidMount()
@@ -57,6 +56,11 @@ const YourAppliedActivityPoll = () => {
                     })
             })
         }
+    })
+
+    const isMobile = useBreakpointValue({
+        base: false,
+        md: true,
     })
 
     function useDidMount() {
