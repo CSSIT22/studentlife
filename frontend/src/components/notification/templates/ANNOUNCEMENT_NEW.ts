@@ -1,5 +1,5 @@
 export const ANNOUNCEMENT_NEW = [
     {
-        template: "<p><b>[announcement_user_post_history.topic]+[announcement_user_post_history.status_post] get approved</b></p>"
-    }//(Post title) (doesn't/null) get approved+time[announcement_post.approve_time]
+        template: "<p><b>v1</b><br>v2</p>"
+    },//Announcement title<br>(sender)+time[announcement_post.post_at]
 ]

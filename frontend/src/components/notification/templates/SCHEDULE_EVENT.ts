@@ -1,5 +1,5 @@
-export const SCHEDULE = [
+export const SCHEDULE_EVENT = [
     {
-        template: "<p>[event.event_name] will start at [event.strtime]</p>"
+        template: "<p><b>v1</b> will start at v2</p>"
     }//[NewEvent_title] will start at [Event_startTime]
 ]
