@@ -225,10 +225,9 @@ export default function Index<FC>() {
                 .then((res) => {
                     console.log(res)
                     setConfirmDrop(true)
-                    on()
                 })
                 .catch((err) => {
-                    toast({ title: "Error", description: "Something went wrong", status: "error", duration: 3000, isClosable: true })
+                    on()
                     console.log(err)
                 })
         } catch {
