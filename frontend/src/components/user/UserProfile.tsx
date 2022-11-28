@@ -70,21 +70,29 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     // }, [])
 
     const postData = () => {
-        onClick({
+        const formData = {
             phone: Phone,
             sex: Sex,
             hobbies: Hobbies,
             birthdate: BirthDate,
             year: Years,
             address: Address,
-        })
-        API.post(`/user/profile/edit/${param.userID}`, {
-            Phone,
-            BirthDate,
-            Sex,
-            Hobbies,
-            Years,
-            Address
+        }
+
+        onClick(formData)
+
+
+        console.log(formData)
+
+
+
+        API.post(`/user/profile/edit`, {
+            address: Address,
+            birth: BirthDate,
+            hobby: Hobbies,
+            phone: Phone,
+            sex: Sex,
+            year: Years,
         }).then(() => {
             history("/read")
         })

@@ -3,9 +3,9 @@ import { Request, Response } from "express"
 const editaboutmeuser = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
-        const userId = req.user?.userId
+        const userId = req.user?.userId || ""
         const tail = req.body
-        console.log("Is work")
+        console.log(req.body)
         const upsertUser = await prisma.detail.upsert({
             where: {
                 userId: userId,
