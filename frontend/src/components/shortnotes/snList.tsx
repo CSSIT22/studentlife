@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, Text, Flex, Spacer } from "@chakra-ui/react"
+import { Box, Grid, GridItem, Text, Flex, Spacer, Hide } from "@chakra-ui/react"
 import React, { FC } from "react"
 
 const snList: FC<{
@@ -21,9 +21,11 @@ const snList: FC<{
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={2}>
-                    <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
-                        <Text>{new Date(date).toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
-                    </Flex>
+                    <Hide below="sm">
+                        <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
+                            <Text>{new Date(date).toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
+                        </Flex>
+                    </Hide>
                 </GridItem>
                 <GridItem colSpan={1} textAlign={"right"}>
                     <Flex alignItems={"center"} justifyContent={"right"} h={"100%"}>
