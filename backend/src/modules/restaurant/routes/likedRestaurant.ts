@@ -23,7 +23,7 @@ const likedRestaurant = async(req: Request, res: Response) => {
         //  return restaurant
         // })
         // setRestaurant(newdata)
-        console.log(liked);
+        // console.log(liked);
         
         res.send(liked)
     } catch (error) {

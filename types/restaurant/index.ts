@@ -22,7 +22,7 @@ export type Restaurant2 = {
   lastupdated: Date
   likes: number
   isSeen: boolean
-  detail: Detail[]
+  detail: Detail
   images: Image1[]
   opanAt: Open[]
   closeAt: Close[]

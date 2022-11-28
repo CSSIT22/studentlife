@@ -30,23 +30,28 @@ declare global {
 }
 function LikeorNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    //count Number of Nope -> 5 times then Random
     const [count, setcount] = React.useState(1)
     const params = useParams()
     const [property, setproperty] = React.useState<Restaurant2[]>([])
     const navigate = useNavigate()
+    // change params to run next restaurant
     const [res, setres] = React.useState(parseInt(params.id + ""))
     const [isError, {on}] = useBoolean()     
     const [isLoading, {off}] = useBoolean(true)
+    //when like, it will store userId and resId
     const likedRestaurant = () => {
         API.post("restaurant/" + params.id, { id: params.id })
     }
 
+    //Get restaurant to show on this page
     useEffect(() => {
         API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
         .catch((err) => on()) 
         .finally(off)
-        API.put("restaurant/" + params.id) 
+        // API.put("restaurant/" + params.id) 
     }, [params.id])
+    
 
     if (isLoading) 
     return    (
@@ -88,7 +93,7 @@ function LikeorNope() {
     }
 
     globalThis.respage = res
-    globalThis.rand = Math.floor(Math.random() * 6)
+    globalThis.rand = Math.floor(Math.random() * 5) + 1
     const Random = () => {
         setres(globalThis.rand)
         return onClose()
@@ -132,7 +137,7 @@ function LikeorNope() {
                         <Box>
                             <Button onClick={() => {
                                 Nope()
-                                navigate(`/restaurant/${"000" + (globalThis.respage == 9 ? 0 : globalThis.respage + 1)}`)
+                                navigate(`/restaurant/${"000" + (globalThis.respage == 6 ? 1 : globalThis.respage + 1)}`)
                                 }} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
                              
                                    <Icon as={AiOutlineDislike} w={12} h={12}/>

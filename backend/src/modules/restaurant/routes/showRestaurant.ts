@@ -18,7 +18,7 @@ try {
     
     res.send([selectRes])
 } catch (error) {
-    console.log("Error");
+    console.log("Show Error");
     
 }
 }

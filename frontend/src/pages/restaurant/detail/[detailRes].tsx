@@ -40,43 +40,43 @@ function detail() {
     const { onOpen } = useDisclosure()
     const params = useParams()
     const [numres, setnumres] = useState(params.detailRes)
-
+    
     const [property, setproperty] = React.useState<any>([])
     const [isError, {on}] = useBoolean()     
     const [isLoading, {off}] = useBoolean(false)
 
-
     useEffect(() => {
         API.get("/restaurant/detail/" + params.detailRes).
             then((item) => setproperty(item.data))
+            // .catch((err) => on()) 
+            // .finally(off)
     }, [params.detailRes])
 
     console.log(property)
 
     if (isLoading) 
-        return   (
-        <AppBody
-        secondarynav={[
-            { name: "Like or Nope", to: "/restaurant" },
-            { name: "My Favorite", to: "/restaurant/favorite" },
-            { name: "My History", to: "/restaurant/history" },
-        ]}
-    >
-         <Heading color={"black"}>Loading</Heading>
-        </AppBody>
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
     )
-  
 
     if(isError) return (
-        <AppBody
-        secondarynav={[
-            { name: "Like or Nope", to: "/restaurant" },
-            { name: "My Favorite", to: "/restaurant/favorite" },
-            { name: "My History", to: "/restaurant/history" },
-        ]}
-    >
-   <Heading color={"red"}> There is an Error</Heading>
-</AppBody>
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
     )
    
 

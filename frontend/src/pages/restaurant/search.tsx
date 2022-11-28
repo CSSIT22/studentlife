@@ -1,3 +1,4 @@
+import { Open, Restaurant2 } from "@apiType/restaurant"
 import { Box, Button, Flex, Grid, GridItem, Heading, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
@@ -9,14 +10,8 @@ import AppBody from "../../components/share/app/AppBody"
 const search = () => {
     const location = useLocation()
     // const params = useParams()
-    const [search, setsearch] = useState<any>([])
-    // const filterres = Restaurant.filter((e1) => {
-    //     var num = new URLSearchParams(location.search).get('name')?.length
-    //     console.log();
-
-    //     return e1.resName.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length) === new URLSearchParams(location.search).get('name')?.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length)
-
-    // })
+    const [search, setsearch] = useState<Restaurant2[]>([])
+    const [open, setopen] = useState<Open>();
 
     useEffect(() => {
         API.get("/restaurant/search?name=" + new URLSearchParams(location.search).get("name")).then((item) => setsearch(item.data))
@@ -24,9 +19,9 @@ const search = () => {
         // .finally(off)
     }, [new URLSearchParams(location.search).get("name")])
 
-    // console.log(search);
-    // console.log(new URLSearchParams(location.search).get('name'));
 
+    console.log(search);
+    
     return (
         <AppBody
             secondarynav={[
@@ -41,17 +36,18 @@ const search = () => {
                 Search Result
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
-                {search.map((e1: any) => {
+                {search?.map((e1) => {
                     return (
                         <GridItem>
-                            <Link to={`/restaurant/detail/${e1.id}`}>
+                            <Link to={`/restaurant/detail/${e1.resId}`}>
+                                
                                 <Searchcontent
                                     resName={e1.resName}
-                                    phone={e1.phone}
-                                    open={e1.open}
-                                    close={e1.close}
-                                    website={e1.website}
-                                    img={e1.img[0]}
+                                    phone={e1.detail}
+                                    open={e1.opanAt}
+                                    close={e1.closeAt}
+                                    website={e1.detail}
+                                    img={e1.images}
                                 />
                             </Link>
                         </GridItem>

@@ -2,9 +2,7 @@ import { Request, Response } from "express"
 
 const addRestaurant = async (req: Request, res: Response) => {
     const id = req.params.id
-    console.log("test")
     try {
-        console.log("test")
         const prisma = res.prisma
         const rest = await prisma.restaurant.create({
             data: {
