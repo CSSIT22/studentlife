@@ -115,9 +115,9 @@ const Room = () => {
                     flex={1}
                     bg="#FFF2E6"
                     marginLeft={{ base: 0, md: 5 }}
-                    // width={{ base: "100%", md: "300px" }}
+                    width={{ base: "80vw", md: "300px" }}
                     justifyContent={"space-between"}
-                    height={"78vh"}
+                    height={"75vh"}
                     flexDirection={"column"}
                 // maxH={'5000px'}
                 >
@@ -158,7 +158,7 @@ const Room = () => {
                             <Input
                                 marginLeft={5}
                                 isInvalid
-                                width={"md"}
+                                width={{base:"100%",md:"sm"}}
                                 size={"md"}
                                 placeholder="Type something"
                                 _placeholder={{ color: "#F8B88B" }}
