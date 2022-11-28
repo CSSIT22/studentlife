@@ -1,12 +1,29 @@
 import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import { MODULES } from "../moduleList/moduleTest"
 import { USER } from "../main/mockupData/userProfile"
 import API from "src/function/API"
+import { SHOP_REVIEW_COMMENT } from "../templates/SHOP_REVIEW_COMMENT"
+import { TRANSACTION_SUCCESS } from "../templates/TRANSACTION_SUCCESS"
+import { SCHEDULE_EVENT } from "../templates/SCHEDULE_EVENT"
+import { QnA_ANSWER_ANONYMOUS } from "../templates/QnA_ANSWER_ANONYMOUS"
+import { QnA_ANSWER } from "../templates/QnA_ANSWER"
+import { DATING_MATCH } from "../templates/DATING_MATCH"
+import { DATING_MATCH_FRIEND } from "../templates/DATING_MATCH_FRIEND"
+import { DATING_ACCEPTED } from "../templates/DATING_ACCEPTED"
+import { DATING_INTERESTED } from "../templates/DATING_INTERESTED"
+import { ANNOUNCEMENT_WAIT_FOR_APPROVE } from "../templates/ANNOUNCEMENT_WAIT_FOR_APPROVE"
+import { ANNOUNCEMENT_APPROVED } from "../templates/ANNOUNCEMENT_APPROVED"
+import { ANNOUNCEMENT_NEW } from "../templates/ANNOUNCEMENT_NEW"
+import { CHAT_MESSAGE } from "../templates/CHAT_MESSAGE"
+import { COMMUNITY_INVITE } from "../templates/COMMUNITY_INVITE"
+import { COMMUNITY_POST } from "../templates/COMMUNITY"
+import { TODO_LIST_TASK } from "../templates/TODO_LIST_TASK"
 
 const NotiObjectViewAll: FC<{
     id: number
+    template: string
     userId: string
     description: string
     isRead: boolean
@@ -14,7 +31,7 @@ const NotiObjectViewAll: FC<{
     module: string
     link: string
     onClick: Function
-}> = ({ id, description, isRead, date, module, userId, link, onClick }) => {
+}> = ({ id, template, description, isRead, date, module, userId, link, onClick }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -95,12 +112,130 @@ const NotiObjectViewAll: FC<{
             )
         }
     }
+    // function showDescription() {
+    //     return (
+    //         <Stack direction={"row"}>
+    //             <Text dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
+    //         </Stack>
+    //     )
+    // }
+
+    let v1 = ""
+    let v2 = ""
+    let v3 = ""
     function showDescription() {
-        return (
-            <Stack direction={"row"}>
-                <Text dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
-            </Stack>
-        )
+        const getvalue = API.get("/notification/getvalue")
+        //console.log(getvalue)
+        const [valueNotiObject, setValueNotiObject] = useState([])
+        useEffect(() => {
+            getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
+                setValueNotiObject(res.data)
+            })
+        }, [])
+        //console.log(valueNotiObject)
+
+        valueNotiObject.forEach((item: any) => {
+            if (item.notiObjectId == id) {
+                if (v1 == "") {
+                    v1 = item.value
+                } else if (v2 == "") {
+                    v2 = item.value
+                } else if (v3 == "") {
+                    v3 = item.value
+                }
+            }
+        });
+        console.log(v1, v2, v3)
+
+
+        if (template == "TODO_LIST_TASK") {
+            let result1 = (TODO_LIST_TASK[0].template).replace(/v1/g, v1)
+            //console.log(result1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            //console.log(result3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "COMMUNITY_POST") {
+            let result1 = (COMMUNITY_POST[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "COMMUNITY_INVITE") {
+            let result1 = (COMMUNITY_INVITE[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "CHAT_MESSAGE") {
+            let result1 = (CHAT_MESSAGE[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "ANNOUNCEMENT_NEW") {
+            let result1 = (ANNOUNCEMENT_NEW[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "ANNOUNCEMENT_APPROVED") {
+            let result1 = (ANNOUNCEMENT_APPROVED[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "ANNOUNCEMENT_WAIT_FOR_APPROVE") {
+            let result1 = (ANNOUNCEMENT_WAIT_FOR_APPROVE[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "DATING_INTERESTED") {
+            let result1 = (DATING_INTERESTED[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "DATING_ACCEPTED") {
+            let result1 = (DATING_ACCEPTED[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "DATING_MATCH_FRIEND") {
+            let result1 = (DATING_MATCH_FRIEND[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "DATING_MATCH") {
+            let result1 = (DATING_MATCH[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "QnA_ANSWER") {
+            let result1 = (QnA_ANSWER[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "QnA_ANSWER_ANONYMOUS") {
+            let result1 = (QnA_ANSWER_ANONYMOUS[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "SCHEDULE_EVENT") {
+            let result1 = (SCHEDULE_EVENT[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "SHOP_REVIEW_COMMENT") {
+            let result1 = (SHOP_REVIEW_COMMENT[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        } else if (template == "TRANSACTION_SUCCESS") {
+            let result1 = (TRANSACTION_SUCCESS[0].template).replace(/v1/g, v1)
+            let result2 = (result1).replace(/v2/g, v2)
+            let result3 = (result2).replace(/v3/g, v3)
+            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /><b>- {module}</b>{" "}</>
+        }
+
+
+
+        // return <Text fontSize={"sm"} textAlign={"left"}> showDescription </Text>
+        // <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: description }} />
     }
 
     function showUser() {

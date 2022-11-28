@@ -37,7 +37,7 @@ const viewAll = () => {
 
     //getNotiobjectViewAll
     const param = useParams()
-    const getUserNotiObject = API.get("/notification/getusernotiobject/" + param.id)
+    const getUserNotiObject = API.get("/notification/getusernotiobjectbymodule/" + param.id)
     const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
     useEffect(() => {
         getUserNotiObject.then((res) => {

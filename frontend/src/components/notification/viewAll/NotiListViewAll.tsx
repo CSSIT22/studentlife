@@ -86,6 +86,7 @@ const NotiListViewAll: FC<{ selectedList: any[]; onClick: Function }> = ({ selec
                         <Stack spacing={3}>
                             <NotiObjectViewAll
                                 id={el.id}
+                                template={el.template}
                                 userId={el.user}
                                 description={el.description}
                                 isRead={el.isRead}

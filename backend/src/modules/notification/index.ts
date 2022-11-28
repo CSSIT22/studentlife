@@ -108,7 +108,7 @@ notificationRoutes.use(express.json())
 
 notificationRoutes.get("/getusernotiobject", getUserNotiObject)
 notificationRoutes.get("/getNotiUser", getNotiUser)
-notificationRoutes.get("getvalue", getValue)
+notificationRoutes.get("/getvalue", getValue)
 notificationRoutes.get("/getusernotiobjectbymodule/:module", getUserNotiObjectbyModule)
 
 notificationRoutes.post("/addnotiobject", addNotiObject)
