@@ -220,8 +220,8 @@ model Student_Post {
   userId          String
   body            String            @db.Char(1000)
   lastEdit        DateTime          @default(now()) @db.Timestamp(0)
-  score           Int
-  seen            Boolean
+  score           Int               @default(0)
+  seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
   images          Image_Container[]
   vids            Video_Container[]
