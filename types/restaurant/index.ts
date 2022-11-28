@@ -21,7 +21,7 @@ export type Restaurant2 = {
   resName: string
   lastupdated: Date
   likes: number
-  detail: Detail
+  detail: Detail[]
   images: Image1[]
   opanAt: Open[]
   closeAt: Close[]

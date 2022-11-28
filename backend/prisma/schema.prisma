@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//User Profile Module
 model User_Profile {
   userId               String                           @id @default(uuid())
   studentId            String                           @unique @db.Char(11)
@@ -18,55 +14,46 @@ model User_Profile {
   lName                String
   email                String                           @unique
   image                Bytes?
-  details              Detail?
   majorId              String?
-  studentMajor         Major?                           @relation(fields: [majorId], references: [majorId], onDelete: SetNull)
-  roles                User_To_Role[]
-  userFollowers        Follow[]                         @relation("following")
-  userFollowing        Follow[]                         @relation("follower")
-  userReporters        User_Report[]                    @relation("reporting")
-  userReporting        User_Report[]                    @relation("reporter")
-  userBlockers         User_Blocked[]                   @relation("blocking")
-  userBlocking         User_Blocked[]                   @relation("blocker")
-  levels               EXP?
-  posts                Student_Post[]
-  reacted              Student_Reacted[]
-  repost               Repost[]
-  pComments            Post_Comment[]
-  pReported            Post_Report[]
-  cReported            Comment_Report[]
-  pHided               Hide_Post[]
-  cHided               Hide_Comment[]
-  notis                Noti_User?
-  sendNoti             Noti_Object[]
-  userTimetable        Timetable[]
-  tasks                Task[]
-  taskfolders          Task_Folder[]
-  groups               User_To_Group[]
-  taskTracking         Task_Track?
-  taskChecking         Task_Check[]
-  taskEditing          Task_History?
+  studentMajor         Major?                           @relation(fields: [majorId], references: [majorId])
+  createPoll           Activity_Poll[]
+  report               Analytic_Report[]
+  genReportModule      Analytic_Report_Module[]
+  userAccess           Analytic_User_Access?
+  userReport           Analytic_User_Report[]
   announcement         Announcement[]
-  userAnnouncement     Post_On_Page[]
+  annApproved          Announcement_Approve[]
   userPinAnnouncement  Announcement_Pin[]
   userSeeAnnouncement  Announcement_Seen[]
-  annApproved          Announcement_Approve[]
-  userChat             User_To_Room[]
+  banInstances         Ban_Status[]
+  backUserQueue        Card_Queue[]                     @relation("Back_User")
+  frontUserQueue       Card_Queue[]                     @relation("Front_User")
+  userQueue            Card_Queue?                      @relation("User")
   userChatTo           Chat_Individual[]                @relation("chatting")
   userChatFrom         Chat_Individual[]                @relation("chatter")
-  userSendMessage      Message[]
   userQuote            Chat_Quote[]
+  cReported            Comment_Report[]
+  commuOwner           Community[]
+  communityBlacklist   Community_Blacklist[]
+  community            Community_User[]
+  Credit_Card          Credit_Card[]
+  datingSetting        Dating_Enroll?
   userDating           Dating_Options?
-  userQueue            Card_Queue[]                     @relation("User")
-  frontUserQueue       Card_Queue[]                     @relation("Front User")
-  backUserQueue        Card_Queue[]                     @relation("Back User")
-  giveRate             User_Rating[]                    @relation("Receiver")
-  receiveRate          User_Rating[]                    @relation("Giver")
+  details              Detail?
+  accessTo             Direct_Access[]
+  levels               EXP?
+  fComments            File_Comment[]
+  fileHistory          File_History[]
+  sendFile             File_Info[]
+  userFollowers        Follow[]                         @relation("following")
+  userFollowing        Follow[]                         @relation("follower")
   giveHeart            Heart_History[]                  @relation("HReceiver")
   receiveHeart         Heart_History[]                  @relation("HGiver")
-  interests            User_Interest[]
-  datingSetting        Dating_Enroll?
-  createPoll           Activity_Poll[]
+  cHided               Hide_Comment[]
+  pHided               Hide_Post[]
+  userSendMessage      Message[]
+  sendNoti             Noti_Object[]
+  notis                Noti_User?
   polls                Poll_Applicant[]
   commuOwner           Community[]
   community            Community_User[]
@@ -92,27 +79,49 @@ model User_Profile {
   reviewProduct        Shop_Product_Review[]
   likeRestaurants      Restaurant_Like_By_User[]
   favRestaurants       Restaurant_Favorite_By_User[]
+  likeRestaurants      Restaurant_Like_By_User[]
   seenRestaurants      Restaurant_Seen_By_User[]
-  shopReview           SReview_Shop_Review[]
-  restaurantReview     SReview_Restaurant_Review[]
-  shopReviewLike       SReview_Shop_Review_Like[]
-  restaurantReviewLike SReview_Restaurant_Review_Like[]
   comment              SReview_Comment[]
   commentLike          SReview_Comment_Like[]
+  restaurantReview     SReview_Restaurant_Review[]
+  restaurantReviewLike SReview_Restaurant_Review_Like[]
+  shopReview           SReview_Shop_Review[]
+  shopReviewLike       SReview_Shop_Review_Like[]
   suggestions          SReview_Suggestion[]
-  questions            Question[]
-  questionSetting      Question_Setting?
-  questionComments     Question_Comment[]
-  answers              Question_Answer[]
-  answerComments       Question_Answer_Comment[]
-  modvotes             Question_Modvote[]
-  shortlinkQuota       ShortLink_Quota?
+  carts                Shop_Cart[]
+  reviewProduct        Shop_Product_Review[]
   shortlink            ShortLink[]
   shortlinkAccess      ShortLink_Permission_User[]
-  report               Analytic_Report[]
-  userAccess           Analytic_User_Access?
-  genReportModule      Analytic_Report_Module[]
-  userReport           Analytic_User_Report[]
+  shortlinkQuota       ShortLink_Quota?
+  accessSn             Sn_Access[]
+  snComments           Sn_Comment[]
+  favSn                Sn_Fav[]
+  shortNotes           Sn_Head[]
+  recentSn             Sn_Recent[]
+  voteTo               Sn_Votedetail[]
+  posts                Student_Post[]
+  reacted              Student_Reacted[]
+  tasks                Task[]
+  taskChecking         Task_Check[]
+  taskfolders          Task_Folder[]
+  taskEditing          Task_History?
+  taskTracking         Task_Track?
+  userTimetable        Timetable[]
+  transactions         Transaction[]
+  userBack             User_Back[]
+  userBlockers         User_Blocked[]                   @relation("blocking")
+  userBlocking         User_Blocked[]                   @relation("blocker")
+  coupons              User_Coupon[]
+  interests            User_Interest[]
+  giveRate             User_Rating[]                    @relation("Receiver")
+  receiveRate          User_Rating[]                    @relation("Giver")
+  userReporters        User_Report[]                    @relation("reporting")
+  userReporting        User_Report[]                    @relation("reporter")
+  files                User_Show_File[]
+  groups               User_To_Group[]
+  roles                User_To_Role[]
+  userChat             User_To_Room[]
+  wordReport           Word_Report[]
 }
 
 model Detail {
@@ -130,10 +139,10 @@ model Major {
   majorId         String                       @id @default(cuid())
   majorName       String
   facultyId       String?
-  student         User_Profile[]
-  majorFaculty    Faculty?                     @relation(fields: [facultyId], references: [facultyId], onDelete: SetNull)
+  majorFaculty    Faculty?                     @relation(fields: [facultyId], references: [facultyId])
   accessTo        Major_Access[]
   shortlinkAccess ShortLink_Permission_Major[]
+  student         User_Profile[]
 }
 
 model Faculty {
@@ -150,17 +159,11 @@ model Role {
   users    User_To_Role[]
 }
 
-enum Role_Type {
-  ANNOUNCEMENT_APPROVER
-  ANNOUNCEMENT_ANNOUNCER
-  SCHEDULE_CREATER
-}
-
 model User_To_Role {
   userId String
-  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   roleId String
   role   Role         @relation(fields: [roleId], references: [roleId], onDelete: Cascade)
+  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, roleId])
 }
@@ -170,8 +173,8 @@ model Follow {
   anotherUserId String
   date          DateTime     @default(now()) @db.Timestamp(0)
   score         Int
-  follower      User_Profile @relation("follower", fields: [userId], references: [userId], onDelete: Cascade)
   following     User_Profile @relation("following", fields: [anotherUserId], references: [userId], onDelete: Cascade)
+  follower      User_Profile @relation("follower", fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, anotherUserId])
 }
@@ -181,8 +184,8 @@ model User_Report {
   anotherUserId String
   reason        String
   date          DateTime     @default(now()) @db.Timestamp(0)
-  reporter      User_Profile @relation("reporter", fields: [userId], references: [userId])
   reporting     User_Profile @relation("reporting", fields: [anotherUserId], references: [userId], onDelete: Cascade)
+  reporter      User_Profile @relation("reporter", fields: [userId], references: [userId])
 
   @@id([userId, anotherUserId])
 }
@@ -191,8 +194,8 @@ model User_Blocked {
   userId        String
   anotherUserId String
   date          DateTime     @default(now()) @db.Timestamp(0)
-  blocker       User_Profile @relation("blocker", fields: [userId], references: [userId])
   blocking      User_Profile @relation("blocking", fields: [anotherUserId], references: [userId], onDelete: Cascade)
+  blocker       User_Profile @relation("blocker", fields: [userId], references: [userId])
 
   @@id([userId, anotherUserId])
 }
@@ -214,7 +217,6 @@ model Action_to_XP {
   xpGain     EXP      @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
-//Timeline & Post Module
 model Student_Post {
   postId          String            @id @default(cuid())
   userId          String
@@ -224,13 +226,11 @@ model Student_Post {
   seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
   images          Image_Container[]
-  vids            Video_Container[]
-  studentsReacted Student_Reacted[]
   studentsComment Post_Comment[]
-  rePost          Repost[]
   userReported    Post_Report[]
-  postHided       Hide_Post[]
-  communityPost   Community_Post?
+  rePost          Repost[]
+  studentsReacted Student_Reacted[]
+  vids            Video_Container[]
 }
 
 model Image_Container {
@@ -248,12 +248,12 @@ model Video_Container {
 }
 
 model Student_Reacted {
-  reacter User_Profile     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId  String
-  reactOn Student_Post     @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId  String
   emoteId String
   emotes  Emote_Collection @relation(fields: [emoteId], references: [emoteId], onDelete: Cascade)
+  reactOn Student_Post     @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  reacter User_Profile     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, postId])
 }
@@ -267,12 +267,12 @@ model Emote_Collection {
 
 model Post_Comment {
   commentId       String           @id @default(cuid())
-  commenter       User_Profile     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId          String
-  commentOn       Student_Post     @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId          String
   comment         String           @db.Char(100)
   cmTime          DateTime         @db.Timestamp(0)
+  commentOn       Student_Post     @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  commenter       User_Profile     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   commentReported Comment_Report[]
   commentHided    Hide_Comment[]
 }
@@ -282,97 +282,76 @@ model Repost {
   postId       String
   newUserId    String
   newPostTime  DateTime     @default(now()) @db.Timestamp(0)
-  originalPost Student_Post @relation(fields: [postId], references: [postId])
   shareUser    User_Profile @relation(fields: [newPostId], references: [userId], onDelete: Cascade)
+  originalPost Student_Post @relation(fields: [postId], references: [postId])
 }
 
 model Post_Report {
-  reporter User_Profile @relation(fields: [userId], references: [userId])
   userId   String
-  reported Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId   String
   reason   String       @db.Char(1000)
+  reported Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  reporter User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([userId, postId])
 }
 
 model Comment_Report {
-  reporter  User_Profile @relation(fields: [userId], references: [userId])
   userId    String
-  reported  Post_Comment @relation(fields: [commentId], references: [commentId], onDelete: Cascade)
   commentId String
   reason    String       @db.Char(1000)
+  reported  Post_Comment @relation(fields: [commentId], references: [commentId], onDelete: Cascade)
+  reporter  User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([userId, commentId])
 }
 
 model Hide_Post {
-  hider  User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId String
-  hided  Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId String
+  hided  Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  hider  User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, postId])
 }
 
 model Hide_Comment {
-  hider     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId    String
-  hided     Post_Comment @relation(fields: [commentId], references: [commentId], onDelete: Cascade)
   commentId String
+  hided     Post_Comment @relation(fields: [commentId], references: [commentId], onDelete: Cascade)
+  hider     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, commentId])
 }
 
-//Notification Module
 model Noti_User {
   userId           String             @id
-  user             User_Profile       @relation(fields: [userId], references: [userId])
   notiSettingEmail Noti_Type          @default(ALL)
   notiSettingApp   Noti_Type          @default(ALL)
+  user             User_Profile       @relation(fields: [userId], references: [userId])
   notiObjects      User_Noti_Object[]
 }
 
 model User_Noti_Object {
-  notiObject   Noti_Object @relation(fields: [notiObjectId], references: [notiObjectId], onDelete: Cascade)
   notiObjectId String
-  user         Noti_User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId       String
   isRead       Boolean     @default(false)
+  notiObject   Noti_Object @relation(fields: [notiObjectId], references: [notiObjectId], onDelete: Cascade)
+  user         Noti_User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([notiObjectId, userId])
 }
 
 model Noti_Object {
   notiObjectId String             @id @default(cuid())
-  userId       String
   template     Template
   date         DateTime           @db.Timestamp(0)
   module       Module
   url          String
+  userId       String
   sender       User_Profile       @relation(fields: [userId], references: [userId])
   users        User_Noti_Object[]
   values       Value[]
-}
-
-enum Template {
-  ANNOUNCEMENT_APPROVED
-  ANNOUNCEMENT_NEW
-  ANNOUNCEMENT_WAIT_FOR_APPROVE
-  CHAT_MESSAGE
-  COMMUNITY_INVITE
-  COMMUNITY_POST
-  DATING_ACCEPTED
-  DATING_INTERESTED
-  DATING_MATCH
-  DATING_MATCH_FRIEND
-  QnA_ANSWER
-  QnA_ANSWER_ANONYMOUS
-  SCHEDULE_EVENT
-  SHOP_REVIEW_COMMENT
-  TODO_LIST_TASK
-  TRANSACTION_SUCCESS
-  TRANSACTION_TRANSFER
 }
 
 model Value {
@@ -382,25 +361,6 @@ model Value {
   valueOf      Noti_Object @relation(fields: [notiObjectId], references: [notiObjectId], onDelete: Cascade)
 }
 
-enum Module {
-  ANNOUNCEMENT
-  CHAT
-  COMMUNITY
-  DATING
-  QnA
-  SCHEDULE
-  SHOP_REVIEW
-  TODO_LIST
-  TRANSACTION
-}
-
-enum Noti_Type {
-  ALL
-  MENTION
-  IGNORE
-}
-
-//Schedule Module
 model Timetable {
   tableId   String       @id @default(cuid())
   userId    String
@@ -416,13 +376,12 @@ model Event {
   endTime      DateTime     @db.Timestamp(0)
   eventTypeId  String
   descId       String       @unique
-  hostAt       Event_Place? @relation(fields: [placeId], references: [placeId])
   desc         String
   courseId     String?
-  course       Course?      @relation(fields: [courseId], references: [courseId])
   assignmentId String?
   assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId])
-  // alert Schedule_Alert?
+  course       Course?      @relation(fields: [courseId], references: [courseId])
+  hostAt       Event_Place? @relation(fields: [placeId], references: [placeId])
 }
 
 model Event_Place {
@@ -442,8 +401,8 @@ model Course {
   courseName  String
   lecturer    String
   assignments Assignment[]
-  shortNotes  Sn_Head[]
   event       Event[]
+  shortNotes  Sn_Head[]
 }
 
 model Assignment {
@@ -454,13 +413,6 @@ model Assignment {
   event              Event[]
 }
 
-// model Schedule_Alert {
-//   alertId String @id @default(cuid())
-//   eventId String @unique
-//   eventAlert Event @relation(fields: [eventId], references: [eventId])
-// }
-
-//TodoList Module
 model Task {
   taskId     String         @id @default(cuid())
   userId     String
@@ -471,9 +423,9 @@ model Task {
   taskType   String
   folderId   String
   groupId    String
-  taskOfUser User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   inFolder   Task_Folder    @relation(fields: [folderId], references: [folderId], onDelete: Cascade)
   inGroup    Task_Group     @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  taskOfUser User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   checkTask  Task_Check?
   edits      Task_History[]
 }
@@ -494,10 +446,10 @@ model Task_Group {
 }
 
 model User_To_Group {
-  user    User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId  String
-  group   Task_Group   @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
   groupId String
+  group   Task_Group   @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  user    User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, groupId])
 }
@@ -528,7 +480,6 @@ model Task_History {
   @@id([taskId, userId])
 }
 
-//Announcement Module
 model Announcement {
   postId      String                @id @default(cuid())
   userId      String
@@ -536,14 +487,14 @@ model Announcement {
   annCreated  DateTime              @default(now()) @db.Timestamp(0)
   annExpired  DateTime              @db.Date
   isApprove   Boolean               @default(false)
-  annCreator  User_Profile          @relation(fields: [userId], references: [userId])
-  annLanguage Post_To_Language[]
   annFilter   Announcement_Filter   @relation(fields: [filterId], references: [filterId])
-  annPost     Announcement_Post?
-  annPin      Announcement_Pin[]
-  annSee      Announcement_Seen[]
+  annCreator  User_Profile          @relation(fields: [userId], references: [userId])
   annApprove  Announcement_Approve?
   annDel      Announcement_Delete?
+  annPin      Announcement_Pin[]
+  annPost     Announcement_Post?
+  annSee      Announcement_Seen[]
+  annLanguage Post_To_Language[]
 }
 
 model Announcement_Filter {
@@ -560,12 +511,12 @@ model Announcement_Language {
 }
 
 model Post_To_Language {
-  post       Announcement          @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId     String
-  language   Announcement_Language @relation(fields: [languageId], references: [languageId], onDelete: Cascade)
   languageId Int
   annTopic   String
   annDetail  String
+  language   Announcement_Language @relation(fields: [languageId], references: [languageId], onDelete: Cascade)
+  post       Announcement          @relation(fields: [postId], references: [postId], onDelete: Cascade)
 
   @@id([postId, languageId])
 }
@@ -593,21 +544,21 @@ model Announcement_Delete {
 }
 
 model Announcement_Pin {
-  post   Announcement @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId String
-  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId String
   status Boolean      @default(false)
+  post   Announcement @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([postId, userId])
 }
 
 model Announcement_Seen {
-  post   Announcement @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId String
-  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId String
   seenAt DateTime     @default(now()) @db.Timestamp(0)
+  post   Announcement @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([postId, userId])
 }
@@ -616,35 +567,34 @@ model Announcement_Approve {
   userId      String
   postId      String       @unique
   approveTime DateTime     @default(now()) @db.Timestamp(0)
-  approvedBy  User_Profile @relation(fields: [userId], references: [userId])
   postApprove Announcement @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  approvedBy  User_Profile @relation(fields: [userId], references: [userId])
 
   @@id([userId, postId])
 }
 
-//Chat Module
 model Chat_Room {
   roomId         String               @id @default(cuid())
   roomName       String
   chatColor      String               @db.Char(7)
   created        DateTime             @default(now()) @db.Timestamp(0)
   roomType       Room_Type
-  roomIndividual Chat_Individual?
-  roomGroup      Chat_Group?
   poll           Activity_Poll?
-  haveUser       User_To_Room[]
-  messages       Message[]
+  roomGroup      Chat_Group?
+  roomIndividual Chat_Individual?
   quotes         Chat_Quote[]
+  messages       Message[]
+  haveUser       User_To_Room[]
   wordReport     Word_Report_Detail[]
 }
 
 model User_To_Room {
-  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId String
-  room   Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
   roomId String
   joined DateTime     @default(now()) @db.Timestamp(0)
-  lefted DateTime     @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
+  lefted DateTime     @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, (0)::double precision)")) @db.Timestamp(0)
+  room   Chat_Room    @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, roomId])
 }
@@ -653,9 +603,9 @@ model Chat_Individual {
   roomId        String       @unique
   userId        String
   anotherUserId String
+  chatWith      User_Profile @relation("chatting", fields: [anotherUserId], references: [userId])
   room          Chat_Room    @relation(fields: [roomId], references: [roomId])
   user          User_Profile @relation("chatter", fields: [userId], references: [userId])
-  chatWith      User_Profile @relation("chatting", fields: [anotherUserId], references: [userId])
 
   @@id([userId, anotherUserId])
 }
@@ -674,7 +624,7 @@ model Message {
   created       DateTime      @default(now()) @db.Timestamp(0)
   isRead        Boolean       @default(false)
   messageInRoom Chat_Room     @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-  messageSender User_Profile? @relation(fields: [senderId], references: [userId], onDelete: SetNull)
+  messageSender User_Profile? @relation(fields: [senderId], references: [userId])
 }
 
 model Chat_Quote {
@@ -708,20 +658,6 @@ model Chat_Transaction {
   transaction Transaction @relation(fields: [transId], references: [transId], onDelete: Cascade)
 }
 
-enum Room_Type {
-  INDIVIDUAL
-  GROUP
-}
-
-enum Message_Type {
-  TEXT
-  QUOTE
-  STICKER
-  RESTAURANT
-  TRANSACTION
-}
-
-//Dating Module
 model Dating_Options {
   userId     String         @unique
   ageMin     Int
@@ -744,17 +680,17 @@ model Card_Queue {
   userId      String        @id
   frontUserId String?
   backUserId  String?
+  backUser    User_Profile? @relation("Back_User", fields: [backUserId], references: [userId])
+  frontUser   User_Profile? @relation("Front_User", fields: [frontUserId], references: [userId])
   user        User_Profile  @relation("User", fields: [userId], references: [userId], onDelete: Cascade)
-  frontUser   User_Profile? @relation("Front User", fields: [frontUserId], references: [userId])
-  backUser    User_Profile? @relation("Back User", fields: [backUserId], references: [userId])
 }
 
 model User_Rating {
   userId        String
   anotherUserId String
   score         Int
-  scoreGiver    User_Profile @relation("Giver", fields: [userId], references: [userId], onDelete: Cascade)
   scoreReceiver User_Profile @relation("Receiver", fields: [anotherUserId], references: [userId], onDelete: Cascade)
+  scoreGiver    User_Profile @relation("Giver", fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, anotherUserId])
 }
@@ -764,8 +700,8 @@ model Heart_History {
   anotherUserId String
   heartedAt     DateTime     @default(now()) @db.Timestamp(0)
   isSkipped     Boolean
-  heartGiver    User_Profile @relation("HGiver", fields: [userId], references: [userId], onDelete: Cascade)
   heartReceiver User_Profile @relation("HReceiver", fields: [anotherUserId], references: [userId], onDelete: Cascade)
+  heartGiver    User_Profile @relation("HGiver", fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, anotherUserId])
 }
@@ -773,15 +709,15 @@ model Heart_History {
 model Interest {
   interestId   Int             @id @default(autoincrement())
   interestName String
-  users        User_Interest[]
   polls        Poll_Interest[]
+  users        User_Interest[]
 }
 
 model User_Interest {
-  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId     String
-  interest   Interest     @relation(fields: [interestId], references: [interestId], onDelete: Cascade)
   interestId Int
+  interest   Interest     @relation(fields: [interestId], references: [interestId], onDelete: Cascade)
+  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, interestId])
 }
@@ -805,19 +741,19 @@ model Activity_Poll {
   isOpen         Boolean
   pollcreated    DateTime         @default(now()) @db.Timestamp(0)
   roomId         String           @unique
-  pollCreator    User_Profile?    @relation(fields: [userId], references: [userId])
   pollIn         Chat_Room        @relation(fields: [roomId], references: [roomId])
+  pollCreator    User_Profile?    @relation(fields: [userId], references: [userId])
   participants   Poll_Applicant[]
   interests      Poll_Interest[]
 }
 
 model Poll_Applicant {
-  user         User_Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId       String
-  poll         Activity_Poll @relation(fields: [pollId], references: [pollId], onDelete: Cascade)
   pollId       String
   isAccepted   Boolean
   registerTime DateTime      @db.Timestamp(0)
+  poll         Activity_Poll @relation(fields: [pollId], references: [pollId], onDelete: Cascade)
+  user         User_Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, pollId])
 }
@@ -825,13 +761,12 @@ model Poll_Applicant {
 model Poll_Interest {
   pollId             String
   activityInterestId Int
-  pollInterest       Activity_Poll @relation(fields: [pollId], references: [pollId], onDelete: Cascade)
   interest           Interest      @relation(fields: [activityInterestId], references: [interestId], onDelete: Cascade)
+  pollInterest       Activity_Poll @relation(fields: [pollId], references: [pollId], onDelete: Cascade)
 
   @@id([pollId, activityInterestId])
 }
 
-//Community
 model Community {
   communityId      String                @id @default(cuid())
   communityName    String
@@ -839,24 +774,25 @@ model Community {
   communityDesc    String
   communityPrivacy Boolean
   communityPhoto   Bytes?
-  member           Community_User[]
   owner            User_Profile?         @relation(fields: [communityOwnerId], references: [userId])
-  blacklist        Community_Blacklist[]
-  tags             Community_Tag[]
-  posts            Community_Post[]
-  files            Community_File[]
   accessTo         Community_Access[]
+  blacklist        Community_Blacklist[]
+  files            Community_File[]
+  posts            Community_Post[]
+  tags             Community_Tag[]
+  member           Community_User[]
 }
 
 model Community_User {
-  user        User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId      String
-  community   Community      @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
   role        Community_Role @relation(fields: [roleId], references: [roleId], onDelete: SetDefault)
   roleId      String
   joined      DateTime       @db.Timestamp(0)
   status      Boolean        @default(false)
+  community   Community      @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
+  role        Community_Role @relation(fields: [roleId], references: [roleId], onDelete: SetDefault)
+  user        User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, communityId])
 }
@@ -867,27 +803,21 @@ model Community_Role {
   roleOf   Community_User[]
 }
 
-enum CRole_Type {
-  ADMIN
-  CO_ADMIN
-  MEMBER
-}
-
 model Community_Blacklist {
-  user        User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId      String
-  community   Community    @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
   since       DateTime     @default(now()) @db.Timestamp(0)
+  community   Community    @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
+  user        User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, communityId])
 }
 
 model Community_Tag {
-  community   Community @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
-  tag         Tag       @relation(fields: [tagId], references: [tagId], onDelete: Cascade)
   tagId       Int
+  community   Community @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
+  tag         Tag       @relation(fields: [tagId], references: [tagId], onDelete: Cascade)
 
   @@id([communityId, tagId])
 }
@@ -900,21 +830,20 @@ model Tag {
 }
 
 model Community_Post {
-  post        Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
   postId      String       @unique
-  community   Community    @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
   isPinned    Boolean      @default(false)
+  community   Community    @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
+  post        Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Community_File {
-  file        File_Info @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
   fileId      String    @unique
-  community   Community @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
+  community   Community @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
+  file        File_Info @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
 }
 
-//Airdrop Module
 model File_Info {
   fileId      String           @id @default(cuid())
   fileName    String
@@ -923,19 +852,19 @@ model File_Info {
   fileDesc    String
   fileExpired DateTime         @db.Timestamp(0)
   sender      User_Profile     @relation(fields: [fileSender], references: [userId], onDelete: Cascade)
-  users       User_Show_File[]
   community   Community_File?
   comments    File_Comment[]
-  folders     File_In_Folder[]
   history     File_History[]
+  folders     File_In_Folder[]
   snFile      Sn_File[]
+  users       User_Show_File[]
 }
 
 model User_Show_File {
-  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId String
-  file   File_Info    @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
   fileId String
+  file   File_Info    @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
+  user   User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, fileId])
 }
@@ -965,10 +894,10 @@ model Sub_Folder {
 }
 
 model File_In_Folder {
-  file      File_Info  @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
   fileId    String
-  folder    Sub_Folder @relation(fields: [sFolderId], references: [sFolderId], onDelete: Cascade)
   sFolderId String
+  file      File_Info  @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
+  folder    Sub_Folder @relation(fields: [sFolderId], references: [sFolderId], onDelete: Cascade)
 
   @@id([fileId, sFolderId])
 }
@@ -977,17 +906,10 @@ model File_Access {
   accessId   String             @id @default(cuid())
   fileId     String
   accessType Access_Type
-  everyone   Everyone_Access[]
   community  Community_Access[]
-  major      Major_Access[]
   direct     Direct_Access[]
-}
-
-enum Access_Type {
-  EVERYONE
-  COMMUNITY
-  MAJOR
-  DIRECT
+  everyone   Everyone_Access[]
+  major      Major_Access[]
 }
 
 model File_History {
@@ -995,16 +917,10 @@ model File_History {
   userId      String
   historyType History_Type
   createdAt   DateTime     @default(now()) @db.Timestamp(0)
-
-  file File_Info    @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
-  user User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  file        File_Info    @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
+  user        User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([fileId, userId])
-}
-
-enum History_Type {
-  UPLOAD
-  DOWNLOAD
 }
 
 model Everyone_Access {
@@ -1037,13 +953,12 @@ model Direct_Access {
   haveAccess    User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
-//Backend Module
 model User_Back {
   userId        String
   token         String
+  user          User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   loginSession  Login_Info?
   logoutSession Logout_Info?
-  user          User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, token])
 }
@@ -1101,8 +1016,8 @@ model Word_Report {
   word         String
   userId       String
   reporter     User_Profile        @relation(fields: [userId], references: [userId])
-  detail       Word_Report_Detail?
   reportedWord Filtered_Word       @relation(fields: [wordReportId], references: [wordReportId])
+  detail       Word_Report_Detail?
 }
 
 model Word_Report_Detail {
@@ -1110,17 +1025,16 @@ model Word_Report_Detail {
   roomId             String
   reason             String
   reportedAt         DateTime    @default(now()) @db.Timestamp(0)
-  detailOf           Word_Report @relation(fields: [wordReportDetailId], references: [wordReportId], onDelete: Cascade)
   reportFrom         Chat_Room   @relation(fields: [roomId], references: [roomId])
+  detailOf           Word_Report @relation(fields: [wordReportDetailId], references: [wordReportId], onDelete: Cascade)
 }
 
 model Filtered_Word {
-  wordReportId Int           @id
+  wordReportId Int          @id
   word         String
-  wordReport   Word_Report[]
+  wordReport   Word_Report?
 }
 
-//ShortNotes Module
 model Sn_Head {
   snId       String          @id @default(cuid())
   courseId   String
@@ -1133,20 +1047,20 @@ model Sn_Head {
   votes      Int             @default(0)
   course     Course          @relation(fields: [courseId], references: [courseId])
   owner      User_Profile    @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  voteDetail Sn_Votedetail[]
+  userAccess Sn_Access[]
   comments   Sn_Comment[]
   userFav    Sn_Fav[]
-  userRecent Sn_Recent[]
-  userAccess Sn_Access[]
-  inTheseLib Sn_In_Library[]
   snFile     Sn_File[]
+  inTheseLib Sn_In_Library[]
+  userRecent Sn_Recent[]
+  voteDetail Sn_Votedetail[]
 }
 
 model Sn_File {
   snId   String
   fileId String
-  sn     Sn_Head   @relation(fields: [snId], references: [snId])
   file   File_Info @relation(fields: [fileId], references: [fileId])
+  sn     Sn_Head   @relation(fields: [snId], references: [snId])
 
   @@id([snId, fileId])
 }
@@ -1156,15 +1070,10 @@ model Sn_Votedetail {
   snId     String
   userId   String
   voteType Vote_Type
-  votedBy  User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   voteTo   Sn_Head      @relation(fields: [snId], references: [snId], onDelete: Cascade)
+  votedBy  User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@unique([snId, userId])
-}
-
-enum Vote_Type {
-  UPVOTE
-  DOWNVOTE
 }
 
 model Sn_Comment {
@@ -1178,10 +1087,10 @@ model Sn_Comment {
 }
 
 model Sn_Fav {
-  shortNote Sn_Head      @relation(fields: [snId], references: [snId], onDelete: Cascade)
   snId      String
-  favBy     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId    String
+  shortNote Sn_Head      @relation(fields: [snId], references: [snId], onDelete: Cascade)
+  favBy     User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([snId, userId])
 }
@@ -1223,7 +1132,6 @@ model Sn_In_Library {
   @@id([libId, snId])
 }
 
-//Transaction Module
 model Transaction {
   transId    String              @id @default(cuid())
   userId     String
@@ -1241,8 +1149,8 @@ model Transaction_Detail {
   transStatus  String
   isShip       Boolean
   errKey       Int               @unique @default(autoincrement())
-  detailOf     Transaction       @relation(fields: [transId], references: [transId], onDelete: Cascade)
   haveError    Transaction_Error @relation(fields: [errKey], references: [errKey], onDelete: Cascade)
+  detailOf     Transaction       @relation(fields: [transId], references: [transId], onDelete: Cascade)
 }
 
 model Transaction_Error {
@@ -1292,8 +1200,8 @@ model Shop_Order {
   shipping          String
   orderPlaced       DateTime             @default(now()) @db.Timestamp(0)
   orderStatus       String
-  transaction       Transaction          @relation(fields: [transId], references: [transId], onDelete: Restrict)
-  useCoupon         User_Coupon?         @relation(fields: [couponCode], references: [couponCode], onDelete: SetNull)
+  useCoupon         User_Coupon?         @relation(fields: [couponCode], references: [couponCode])
+  transaction       Transaction          @relation(fields: [transId], references: [transId])
   products          Shop_Order_Product[]
 }
 
@@ -1306,15 +1214,15 @@ model Shop_Coupon {
   minimumSpend Decimal       @db.Decimal(9, 2)
   productId    Int?
   quota        Int
-  userCoupon   User_Coupon[]
-  product      Shop_Product? @relation(fields: [productId], references: [productId], onDelete: SetNull)
+  product      Shop_Product? @relation(fields: [productId], references: [productId])
+  userCoupon   User_Coupon?
 }
 
 model User_Coupon {
   userId     String
   couponCode String       @unique
-  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   coupon     Shop_Coupon  @relation(fields: [couponCode], references: [couponCode], onDelete: Cascade)
+  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   useCoupon  Shop_Order?
 
   @@id([userId, couponCode])
@@ -1332,13 +1240,13 @@ model Shop_Product {
   productStock Int
   brandName    String
   deliveryFees Decimal               @db.Decimal(9, 2)
-  images       Shop_Product_Images[]
-  inCategory   Shop_Categories?      @relation(fields: [categoryId], references: [categoryId], onDelete: SetNull)
+  inCategory   Shop_Categories?      @relation(fields: [categoryId], references: [categoryId])
   contactTo    Shop_Contact          @relation(fields: [contactId], references: [contactId], onDelete: Cascade)
-  orders       Shop_Order_Product[]
   carts        Shop_Cart[]
-  userReview   Shop_Product_Review[]
   coupons      Shop_Coupon[]
+  orders       Shop_Order_Product[]
+  images       Shop_Product_Images[]
+  userReview   Shop_Product_Review[]
 }
 
 model Shop_Categories {
@@ -1366,20 +1274,20 @@ model Shop_Product_Images {
 
 model Shop_Order_Product {
   orderId   String
-  order     Shop_Order   @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
   productId Int
-  product   Shop_Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
   quantity  Int
+  order     Shop_Order   @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+  product   Shop_Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
 
   @@id([orderId, productId])
 }
 
 model Shop_Cart {
   userId    String
-  user      User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   productId Int
-  product   Shop_Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
   quantity  Int
+  product   Shop_Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  user      User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, productId])
 }
@@ -1387,28 +1295,26 @@ model Shop_Cart {
 model Shop_Product_Review {
   reviewId     Int          @id
   userId       String
-  user         User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   productId    Int
-  product      Shop_Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
   reviewName   String
   reviewDesc   String
   reviewRating Int
   reviewAt     DateTime     @default(now()) @db.Timestamp(0)
   image        String
+  product      Shop_Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  user         User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
-//Restaurant Module
 model Restaurant {
   resId       String                        @id @default(cuid())
   resName     String
   lastupdated DateTime                      @default(now()) @db.Timestamp(0)
   likes       Int                           @default(0)
   detail      Restaurant_Detail?
-  images      Restaurant_Image[]
-  openAt      Restaurant_Open[]
-  closeAt     Restaurant_Close[]
-  userLike    Restaurant_Like_By_User[]
   userFav     Restaurant_Favorite_By_User[]
+  images      Restaurant_Image[]
+  userLike    Restaurant_Like_By_User[]
+  openAt      Restaurant_Open[]
   userSeen    Restaurant_Seen_By_User[]
   reviews     SReview_Restaurant_Review[]
 }
@@ -1450,8 +1356,9 @@ model Restaurant_Close {
 
 model Restaurant_Like_By_User {
   userId     String
-  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   resId      String
+  isLike     Boolean      @default(false)
+  updatedAt  DateTime     @default(now()) @db.Timestamp(0)
   restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
   isLike     Boolean      @default(false)
   updatedAt  DateTime     @default(now()) @db.Timestamp(0)
@@ -1461,24 +1368,23 @@ model Restaurant_Like_By_User {
 
 model Restaurant_Favorite_By_User {
   userId     String
-  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   resId      String
   restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
+  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, resId])
 }
 
 model Restaurant_Seen_By_User {
   userId     String
-  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   resId      String
-  restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
   seenAt     DateTime     @default(now()) @db.Timestamp(0)
+  restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
+  user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([userId, resId])
 }
 
-//ShopReview Module
 model SReview_Shop {
   shopId         String                @id @default(cuid())
   shopName       String
@@ -1505,10 +1411,10 @@ model SReview_Shop_Image {
 
 model SReview_Review {
   reviewId         String                     @id @default(cuid())
-  shopReview       SReview_Shop_Review?
+  comments         SReview_Comment[]
   restaurantReview SReview_Restaurant_Review?
   images           SReview_Review_Image[]
-  comments         SReview_Comment[]
+  shopReview       SReview_Shop_Review?
 }
 
 model SReview_Shop_Review {
@@ -1533,8 +1439,8 @@ model SReview_Restaurant_Review {
   text         String
   rating       Int
   likeReceived Int
-  review       SReview_Review                   @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   reviewOf     Restaurant                       @relation(fields: [resId], references: [resId], onDelete: Cascade)
+  review       SReview_Review                   @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   reviewBy     User_Profile                     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userLike     SReview_Restaurant_Review_Like[]
 }
@@ -1560,8 +1466,8 @@ model SReview_Comment {
 
 model SReview_Shop_Review_Like {
   reviewId   String
-  shopReview SReview_Shop_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   userId     String
+  shopReview SReview_Shop_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   user       User_Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([reviewId, userId])
@@ -1569,8 +1475,8 @@ model SReview_Shop_Review_Like {
 
 model SReview_Restaurant_Review_Like {
   reviewId         String
-  restaurantReview SReview_Restaurant_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   userId           String
+  restaurantReview SReview_Restaurant_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   user             User_Profile              @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([reviewId, userId])
@@ -1578,8 +1484,8 @@ model SReview_Restaurant_Review_Like {
 
 model SReview_Comment_Like {
   commentId Int
-  comment   SReview_Comment @relation(fields: [commentId], references: [commentId], onDelete: Cascade)
   userId    String
+  comment   SReview_Comment @relation(fields: [commentId], references: [commentId], onDelete: Cascade)
   user      User_Profile    @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([commentId, userId])
@@ -1592,7 +1498,6 @@ model SReview_Suggestion {
   user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
-//QA Module
 model Question {
   qId         String               @id @default(cuid())
   userId      String?
@@ -1601,12 +1506,12 @@ model Question {
   qTitle      String
   qDesc       String
   voteCount   Int
-  qCreator    User_Profile?        @relation(fields: [userId], references: [userId], onDelete: SetNull)
-  tags        Question_Tag[]
-  file        Question_Embed_File?
-  comments    Question_Comment[]
+  qCreator    User_Profile?        @relation(fields: [userId], references: [userId])
   answers     Question_Answer[]
+  comments    Question_Comment[]
+  file        Question_Embed_File?
   votes       Question_Modvote[]
+  tags        Question_Tag[]
 }
 
 model Question_Setting {
@@ -1656,10 +1561,10 @@ model Question_Answer {
   lastUpdated DateTime                    @default(now()) @db.Timestamp(0)
   text        String
   voteCount   Int
-  aCreator    User_Profile                @relation(fields: [userId], references: [userId], onDelete: Cascade)
   answerOf    Question                    @relation(fields: [qId], references: [qId], onDelete: Cascade)
-  file        Question_Answer_Embed_File?
+  aCreator    User_Profile                @relation(fields: [userId], references: [userId], onDelete: Cascade)
   comments    Question_Answer_Comment[]
+  file        Question_Answer_Embed_File?
 }
 
 model Question_Answer_Embed_File {
@@ -1691,7 +1596,6 @@ model Question_Modvote {
   voteBy      User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
-//ShortLink Module
 model ShortLink_Quota {
   userId    String       @id
   remaining Int
@@ -1704,25 +1608,18 @@ model ShortLink {
   originalLink  String
   shortenLink   String
   password      String                         @default("")
-  expired       DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
+  expired       DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, (0)::double precision)")) @db.Timestamp(0)
   linkCreator   User_Profile                   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   permission    ShortLink_Permission?
-  userAccess    ShortLink_Permission_User[]
-  majorAccess   ShortLink_Permission_Major[]
   facultyAccess ShortLink_Permission_Faculty[]
+  majorAccess   ShortLink_Permission_Major[]
+  userAccess    ShortLink_Permission_User[]
 }
 
 model ShortLink_Permission {
   slId     String                    @id
   permType ShortLink_Permission_Type
   permOf   ShortLink                 @relation(fields: [slId], references: [slId], onDelete: Cascade)
-}
-
-enum ShortLink_Permission_Type {
-  USER
-  MAJOR
-  FACULTY
-  YEAR
 }
 
 model ShortLink_Permission_User {
@@ -1737,16 +1634,16 @@ model ShortLink_Permission_Major {
   permId  Int       @id @default(autoincrement())
   slId    String
   majorId String
-  sl      ShortLink @relation(fields: [slId], references: [slId], onDelete: Cascade)
   major   Major     @relation(fields: [majorId], references: [majorId], onDelete: Cascade)
+  sl      ShortLink @relation(fields: [slId], references: [slId], onDelete: Cascade)
 }
 
 model ShortLink_Permission_Faculty {
   permId    Int       @id @default(autoincrement())
   slId      String
   facultyId String
-  sl        ShortLink @relation(fields: [slId], references: [slId], onDelete: Cascade)
   faculty   Faculty   @relation(fields: [facultyId], references: [facultyId], onDelete: Cascade)
+  sl        ShortLink @relation(fields: [slId], references: [slId], onDelete: Cascade)
 }
 
 model ShortLink_Delete_Link {
@@ -1754,7 +1651,6 @@ model ShortLink_Delete_Link {
   deletedAt DateTime @default(now()) @db.Timestamp(0)
 }
 
-//Analytic Module
 model Analytic_User_Access {
   userId             String       @id
   isGenUserReport    Boolean
@@ -1765,14 +1661,14 @@ model Analytic_User_Access {
 }
 
 model Analytic_Report {
-  reportId         Int                      @id @default(autoincrement())
+  reportId         Int                     @id @default(autoincrement())
   userId           String
-  reportTime       DateTime                 @default(now()) @db.Timestamp(0)
+  reportTime       DateTime                @default(now()) @db.Timestamp(0)
   unAuthorizedView Int
   authorizedView   Int
   periodHours      Int
-  user             User_Profile             @relation(fields: [userId], references: [userId])
-  modules          Analytic_Report_Module[]
+  user             User_Profile            @relation(fields: [userId], references: [userId])
+  modules          Analytic_Report_Module?
 }
 
 model Analytic_Report_Module {
@@ -1786,8 +1682,8 @@ model Analytic_Report_Module {
   totalRequest     Int
   userActive       Int
   mostCountry      String
-  genBy            User_Profile    @relation(fields: [userId], references: [userId])
   moduleOf         Analytic_Report @relation(fields: [reportId], references: [reportId])
+  genBy            User_Profile    @relation(fields: [userId], references: [userId])
 }
 
 model Analytic_View {
@@ -1795,11 +1691,11 @@ model Analytic_View {
   time             DateTime                          @default(now()) @db.Timestamp(0)
   url              String
   module           String
-  location         Json                              @db.JsonB //GeoJson
+  location         Json
   ip               String
   externalPlatform String
-  reports          Analytic_View_In_User_Report[]
   requests         Analytic_Request_In_User_Report[]
+  reports          Analytic_View_In_User_Report[]
 }
 
 model Analytic_External_Platform {
@@ -1817,15 +1713,15 @@ model Analytic_User_Report {
   usedTimePerDay Int
   totalRequest   Int
   start          DateTime                       @default(now()) @db.Timestamp(0)
-  end            DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
+  end            DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, (0)::double precision)")) @db.Timestamp(0)
   genBy          User_Profile                   @relation(fields: [userId], references: [userId])
   views          Analytic_View_In_User_Report[]
 }
 
 model Analytic_View_In_User_Report {
   reportId   String
-  userreport Analytic_User_Report @relation(fields: [reportId], references: [reportId])
   viewId     String
+  userreport Analytic_User_Report @relation(fields: [reportId], references: [reportId])
   view       Analytic_View        @relation(fields: [viewId], references: [viewId])
 
   @@id([reportId, viewId])
@@ -1836,13 +1732,13 @@ model Analytic_Request {
   userId     String
   module     String
   time       DateTime                          @default(now()) @db.Timestamp(0)
-  body       Json                              @db.JsonB
+  body       Json
   ip         String
   deviceName String
-  location   Json                              @db.JsonB //GeoJson
+  location   Json
   status     String
-  views      Analytic_Request_In_User_Report[]
   devices    Analytic_Device[]
+  views      Analytic_Request_In_User_Report[]
 }
 
 model Analytic_Device {
@@ -1857,9 +1753,105 @@ model Analytic_Device {
 
 model Analytic_Request_In_User_Report {
   reqId   String
-  request Analytic_Request @relation(fields: [reqId], references: [reqId])
   viewId  String
+  request Analytic_Request @relation(fields: [reqId], references: [reqId])
   view    Analytic_View    @relation(fields: [viewId], references: [viewId])
 
   @@id([reqId, viewId])
+}
+
+enum Role_Type {
+  ANNOUNCEMENT_APPROVER
+  ANNOUNCEMENT_ANNOUNCER
+  SCHEDULE_CREATER
+}
+
+enum Template {
+  ANNOUNCEMENT_APPROVED
+  ANNOUNCEMENT_NEW
+  ANNOUNCEMENT_WAIT_FOR_APPROVE
+  CHAT_MESSAGE
+  COMMUNITY_INVITE
+  COMMUNITY_POST
+  DATING_ACCEPTED
+  DATING_INTERESTED
+  DATING_MATCH
+  DATING_MATCH_FRIEND
+  QnA_ANSWER
+  QnA_ANSWER_ANONYMOUS
+  SCHEDULE_EVENT
+  SHOP_REVIEW_COMMENT
+  TODO_LIST_TASK
+  TRANSACTION_SUCCESS
+  TRANSACTION_TRANSFER
+}
+
+enum Module {
+  ANNOUNCEMENT
+  CHAT
+  COMMUNITY
+  DATING
+  QnA
+  SCHEDULE
+  SHOP_REVIEW
+  TODO_LIST
+  TRANSACTION
+}
+
+enum Noti_Type {
+  ALL
+  MENTION
+  IGNORE
+}
+
+enum Room_Type {
+  INDIVIDUAL
+  GROUP
+}
+
+enum Message_Type {
+  TEXT
+  QUOTE
+  STICKER
+  RESTAURANT
+  TRANSACTION
+}
+
+enum CRole_Type {
+  ADMIN
+  CO_ADMIN
+  MEMBER
+}
+
+enum Access_Type {
+  EVERYONE
+  COMMUNITY
+  MAJOR
+  DIRECT
+}
+
+enum History_Type {
+  UPLOAD
+  DOWNLOAD
+}
+
+enum Vote_Type {
+  UPVOTE
+  DOWNVOTE
+}
+
+enum Payment_Type {
+  SHOP
+}
+
+enum ShortLink_Permission_Type {
+  USER
+  MAJOR
+  FACULTY
+  YEAR
+}
+
+enum Transaction_Paymethod {
+  CREDIT_CARD
+  QR
 }
