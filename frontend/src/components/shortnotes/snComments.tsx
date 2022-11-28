@@ -54,7 +54,9 @@ const snComments = () => {
                     </Flex>
                 </Box>
             </Box>
-            {cmLoad ? <Box><Lottie style={style} animationData={loading}></Lottie></Box>
+            {cmLoad ?
+                //<Box><Lottie style={style} animationData={loading}></Lottie></Box>
+                null
 
                 :
                 <VStack gap={4}>
