@@ -1517,8 +1517,8 @@ model SReview_Shop_Review {
   userId       String
   reviewedAt   DateTime                   @default(now()) @db.Timestamp(0)
   text         String
-  rating       Int
-  likeReceived Int
+  rating       Int                        @default(0)
+  likeReceived Int                        @default(0)
   review       SReview_Review             @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   reviewOf     SReview_Shop               @relation(fields: [shopId], references: [shopId], onDelete: Cascade)
   reviewBy     User_Profile               @relation(fields: [userId], references: [userId], onDelete: Cascade)
@@ -1531,8 +1531,8 @@ model SReview_Restaurant_Review {
   userId       String
   reviewedAt   DateTime                         @default(now()) @db.Timestamp(0)
   text         String
-  rating       Int
-  likeReceived Int
+  rating       Int                              @default(0)
+  likeReceived Int                              @default(0)
   review       SReview_Review                   @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
   reviewOf     Restaurant                       @relation(fields: [resId], references: [resId], onDelete: Cascade)
   reviewBy     User_Profile                     @relation(fields: [userId], references: [userId], onDelete: Cascade)
