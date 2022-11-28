@@ -185,11 +185,15 @@ const history = () => {
         setMoreLangField(moreLangField.filter((el) => el.count != count-1))
         // setexMoreLang(exmoreLang.filter((el) => el.languageId != id))
     }
+
+
     const decreaseForEdit = (langid:number) => {
         console.log(langid);
         setmorelanglength(morelanglength - 1)
         setexMoreLang(exmoreLang.filter((el) => {return el.languageId != langid}))
     }
+
+    
     console.log(exmoreLang)
 
     const AddLang = () => {
@@ -226,12 +230,10 @@ const history = () => {
             // ลบจากด้านล่างลำดับได้ปกติ
             // ลบจากด้านบน ค่าที่เปลี่ยนแปลงไป ถูกต้องแต่ render ผิด
             
-           return exmoreLang?.map((el,index) => {
+           return exmoreLang?.map((el) => {
             // wtf log ค่าถูกตามที่ต้องการถูกทุกอย่าง ที่frontend ไม่ได้ re render ตามนั้น?????
             console.log(el.languageId);
             console.log(el.annTopic);
-            
-            
                 return (
                     <MoreLangForEdit
                         // id={Date.now()}
@@ -240,7 +242,7 @@ const history = () => {
                         selectLang={el.languageId}
                         title={el.annTopic}
                         dt={el.annDetail}
-                        key={index}
+                        key={el.languageId}
                         onAdd={onAdd}
                     />
                 )
