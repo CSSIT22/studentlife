@@ -27,8 +27,8 @@ const customize = () => {
         navigate("/link/permission")
     }
     const complete = () => {
-      navigate("/link/complete")
-  }
+        navigate("/link/complete")
+    }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
 
@@ -71,7 +71,14 @@ const customize = () => {
                         </Box>
                         <Box h="70px" w={"100%"}>
                             <Center>
-                            <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"}></Editable>
+                                <Editable
+                                    defaultValue="Take some chakra"
+                                    w={"75%"}
+                                    height={"60px"}
+                                    border={"4px"}
+                                    borderColor={"black"}
+                                    rounded={"md"}
+                                ></Editable>
                             </Center>
                         </Box>
                     </VStack>
@@ -95,7 +102,7 @@ const customize = () => {
                                         <AlertDialogBody>Are you sure?</AlertDialogBody>
 
                                         <AlertDialogFooter>
-                                            <Button colorScheme='green' onClick={complete} ml={3}>
+                                            <Button colorScheme="green" onClick={complete} ml={3}>
                                                 SAVE
                                             </Button>
                                             <Button ref={cancelRef} onClick={onClose} ml={3}>
@@ -131,7 +138,10 @@ const customize = () => {
                                             <Button bg={"orange.200"} w={"100%"} mt={3} onClick={password}>
                                                 Shortlink Password
                                             </Button>
-                                            <Button bg={"pink.200"} w={"100%"} mt={3}
+                                            <Button
+                                                bg={"pink.200"}
+                                                w={"100%"}
+                                                mt={3}
                                                 onClick={() =>
                                                     toast({
                                                         title: "Add Unblock features!",
@@ -140,9 +150,8 @@ const customize = () => {
                                                         duration: 3000,
                                                         isClosable: true,
                                                     })
-
                                                 }
-                                                    >
+                                            >
                                                 Shortlink Unblock
                                             </Button>
                                             <Button bg={"cyan.200"} w={"100%"} mt={3} onClick={permission}>

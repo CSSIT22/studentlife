@@ -1,5 +1,6 @@
 import { Flex, Center, Box, Image, useColorModeValue, LinkBox, LinkOverlay } from "@chakra-ui/react"
 import { FC } from "react"
+import { FC } from "react"
 import { createSearchParams, Link, useNavigate } from "react-router-dom"
 export const CategoryItem: FC<{
     id: number
@@ -28,6 +29,8 @@ export const CategoryItem: FC<{
                         </Box>
                     </Center>
                 </Box>
+            </Link>
+            {/* </LinkOverlay> */}
             </Link>
             {/* </LinkOverlay> */}
         </LinkBox>

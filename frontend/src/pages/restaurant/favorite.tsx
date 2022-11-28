@@ -10,13 +10,11 @@ import { key } from "localforage"
 function favorite() {
     // const showfv = Restaurant.filter((e1) => e1.status === true)
     const params = useParams()
-    const [property, setproperty] = React.useState<any>([]);
+    const [property, setproperty] = React.useState<any>([])
 
     useEffect(() => {
-        API.get("/restaurant/favorite?userid=" + "101") 
-            .then((item) => setproperty(item.data))          
+        API.get("/restaurant/favorite?userid=" + "101").then((item) => setproperty(item.data))
     }, [])
-
 
     return (
         <AppBody

@@ -2,13 +2,11 @@ import { Box, Stack, Text, Divider } from "@chakra-ui/react"
 import React, { FC } from "react"
 import NotiObjectViewAll from "./NotiObjectViewAll"
 
-
 const NotiListViewAll: FC<{ selectedList: any[]; onClick: Function }> = ({ selectedList, onClick }) => {
     //sort selectedList
     const sortedList = selectedList.sort((a, b) => {
         return b.date - a.date
     })
-
 
     // show date
     const list: any[] = []

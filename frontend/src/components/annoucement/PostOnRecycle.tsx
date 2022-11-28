@@ -33,7 +33,7 @@ const PostOnRecycle: FC<{
                 </Box>
                 <Spacer />
                 <Flex direction={"column"} alignItems="end">
-                <VscDebugRestart fontSize={"2rem"} color="#E65D10" />
+                    <VscDebugRestart fontSize={"2rem"} color="#E65D10" />
                     {/* <Text fontSize={"xs"} as="b">
                         remaining
                     </Text> */}

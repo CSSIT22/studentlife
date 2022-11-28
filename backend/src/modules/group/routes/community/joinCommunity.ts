@@ -8,8 +8,8 @@ const joinCommunity = async (req: Request, res: Response) => {
 
     const joinRequest: any = {
         userid: userid,
-        communityId:body.communityId,
-        status: true
+        communityId: body.communityId,
+        status: true,
     }
 
     try {

@@ -33,6 +33,7 @@ const Searchbar: FC<{
         }
     }, [searchQuery])
     if (isError) {
+    if (isError) {
         return <Heading>There is an Error! Please Try Again Later</Heading>
     }
     if (isLoading) {

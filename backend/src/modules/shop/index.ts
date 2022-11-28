@@ -36,4 +36,3 @@ shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 
 
 export default shopRoutes
-
