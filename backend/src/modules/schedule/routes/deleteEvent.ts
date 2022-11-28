@@ -10,9 +10,9 @@ const deleteEvent = async (req: Request, res:Response) => {
             },
         })
 
-        res.status(200).send("Delete Task Success")
+        res.status(200).send("Delete Event Success")
     }catch (err){
-        res.status(404)
+        res.status(404).send("Failed to delete event")
     }
 }
 
