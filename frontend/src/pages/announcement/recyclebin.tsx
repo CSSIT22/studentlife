@@ -7,7 +7,7 @@ import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
 import AppBody from "../../components/share/app/AppBody"
 import detail from "./detail/[postId]"
 import { postInfoTest } from "./postInfoTest"
-import {post} from '@apiType/announcement'
+import { post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const recyclebin = () => {
@@ -44,16 +44,16 @@ const recyclebin = () => {
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "delete", id: 12, expired: "45:23:11" },
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
     // ]
-    const [toggle,settoggle] = useState(false)
+    const [toggle, settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<post[]>([])
     const getData = API.get("/announcement/getdeletepost")
     useEffect(() => {
         getData.then((res) => setAllPost(res.data))
-    },[toggle])
+    }, [toggle])
     const click = () => {
         settoggle(!toggle)
     }
-    
+
     // console.log(allPost)
 
     const minute = 1000 * 60
@@ -110,7 +110,7 @@ const recyclebin = () => {
             </Flex>
             {allPost
                 .filter((fl) => {
-                    const expired = new Date(fl.expiredAfterDelete+"")
+                    const expired = new Date(fl.expiredAfterDelete + "")
                     const expiredPost = Math.round(expired.getTime() / day)
                     const diffD = expiredPost - currentD
                     const hEpd = Math.round(expired.getTime() / hour)
@@ -118,7 +118,7 @@ const recyclebin = () => {
                     return fl.status == "delete" && (diffD > 0 || diffH > 0)
                 })
                 .map((el) => {
-                    const r = showRemaining(el.expiredAfterDelete+"")
+                    const r = showRemaining(el.expiredAfterDelete + "")
                     return (
                         <PostOnRecycle
                             topic={el.topic}

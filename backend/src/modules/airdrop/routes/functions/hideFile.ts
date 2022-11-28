@@ -1,4 +1,4 @@
-const hideFile =  async (req: Request | any, res: Response | any) => {
+const hideFile = async (req: Request | any, res: Response | any) => {
     const { fileId } = req.body
     const { prisma } = res
     // console.log(req.body);
@@ -11,4 +11,4 @@ const hideFile =  async (req: Request | any, res: Response | any) => {
     })
     res.json("hide file sucessful")
 }
-export default hideFile;
+export default hideFile

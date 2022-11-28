@@ -36,7 +36,6 @@ import NotiTable from "src/components/notification/NotiTable"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
 
-
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
     const navigate = useNavigate()
@@ -89,13 +88,17 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                         </MenuButton>
                                         <MenuList>
                                             <MenuGroup title="User">
-                                                <MenuItem icon={<FaUserAlt />}>Profile</MenuItem>
+                                                <Link to="/user">
+                                                    <MenuItem icon={<FaUserAlt />}>Profile</MenuItem>
+                                                </Link>
                                                 <MenuItem as={Link} to={"/auth/revokeTokens"} icon={<FaHistory />}>
                                                     Login Activity
                                                 </MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
-                                                <MenuItem onClick={logout} icon={<BiLogOut />}>Logout</MenuItem>
+                                                <MenuItem onClick={logout} icon={<BiLogOut />}>
+                                                    Logout
+                                                </MenuItem>
                                             </MenuGroup>
                                         </MenuList>
                                     </>

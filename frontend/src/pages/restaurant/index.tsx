@@ -27,7 +27,7 @@ import { Restaurant } from "@apiType/restaurant"
 function Homepage() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = useState(0)
-    const [property, setproperty] = React.useState<Restaurant[]>([]);
+    const [property, setproperty] = React.useState<Restaurant[]>([])
     // const property = Restaurant.filter((e1) => {
     //     return e1.id == count
     // })
@@ -35,11 +35,9 @@ function Homepage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        API.get("/restaurant/" + 0)
-            .then((item) => setproperty(item.data))
-            // .catch((err) => on())
-            // .finally(off)
-            
+        API.get("/restaurant/" + 0).then((item) => setproperty(item.data))
+        // .catch((err) => on())
+        // .finally(off)
     }, [])
     return (
         <AppBody

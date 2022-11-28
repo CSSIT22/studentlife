@@ -1,24 +1,21 @@
 import { Box, Button, Center, Flex, Input, InputGroup, InputLeftElement, Select, SimpleGrid } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { TfiSearch } from "react-icons/tfi"
-import { useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 const Searchbar = () => {
     let [search, setSearch] = React.useState<any>()
     const navigate = useNavigate()
 
-    function handleSubmit(event:any) {
-        event.preventDefault();
-        setSearch(search);
+    function handleSubmit(event: any) {
+        event.preventDefault()
+        setSearch(search)
         // console.log(search)
-        
+
         navigate(`/restaurant/search?name=${search}`)
-        
-      }
+    }
     return (
         <Center>
-            <form
-                onSubmit={handleSubmit}
-            >
+            <form onSubmit={handleSubmit}>
                 <Flex flexDirection={"column"} alignItems={"center"}>
                     <InputGroup id="se" width={{ base: "13rem", lg: "20rem" }} mr="2" backgroundColor={"white"} boxShadow={"lg"} borderRadius={"6px"}>
                         <InputLeftElement children={<TfiSearch />} pt={1} pl="2" />

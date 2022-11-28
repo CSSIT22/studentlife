@@ -23,7 +23,7 @@ const ProductList: FC<{
     if (repeat == undefined) {
         repeat = true
     }
-    
+
     return (
         <Flex justify="center" pt="3" wrap="wrap" gap="1rem">
             {generateProducts(products, repeat)}
@@ -53,7 +53,7 @@ function generateProducts(
     const dummy = products.map((product) => {
         return (
             <ProductDisplay
-                id = {product.productId}
+                id={product.productId}
                 name={product.name}
                 image={product.image}
                 brandName={product.brand}
