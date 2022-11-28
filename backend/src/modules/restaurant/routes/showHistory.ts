@@ -26,29 +26,6 @@ const showHistory = async (req: Request, res: Response) => {
                 userId: user,
             },
         })
-
-        //     const prisma = res.prisma
-        //     const resSeen = await prisma.restaurant.findMany({
-        //         select: { resName: true, isSeen: true, images: true },
-        //         where: { isSeen: true },
-        //     })
-
-        //     const hist = await prisma.restaurant_Seen_By_User.findMany({
-        //     where: {
-        //         userId: user,
-        //         // resId: { in: resSeen.map((item: any) => item.resId) },
-        //     },
-        //     include: {
-        //         restaurant: {
-        //             include: {
-        //                 images: true,
-        //             },
-        //         },
-        //     },
-        // })
-
-        //console.log(hist)
-
         res.send(hist)
     } catch (err) {
         console.log(err)

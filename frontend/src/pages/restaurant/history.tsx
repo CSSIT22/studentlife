@@ -15,10 +15,10 @@ const history = () => {
         API.get("/restaurant/history/").then((item) => setproperty(item.data))
     }, [])
 
-    useEffect(() => {
-        console.log(property);
+    // useEffect(() => {
+    //     console.log(property);
 
-    }, [property])
+    // }, [property])
 
     return (
         <AppBody
@@ -35,7 +35,7 @@ const history = () => {
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
                 {property.map((e1: any) => {
-                    console.log(e1);
+                    //console.log(e1);
                     return (
                         <GridItem>
                             <Historycontent resName={e1.restaurant.resName} date={e1.updatedAt} status={e1.isLike} img={e1.restaurant.images} />
