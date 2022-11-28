@@ -46,7 +46,7 @@ const test = () => {
     useEffect(() => {
         getDataPost.then((res) => setAllPost2(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
-    console.log(allPost2);
+    // console.log(allPost2);
 
     if (isLoading)
         return (
@@ -67,28 +67,32 @@ const test = () => {
         return { postId: el.postId, approveTime: dEpd }
     })
 
-    console.log(approveTime.sort());
+    // console.log(approveTime.sort());
     const sort = approveTime.sort();
-    const findLasted = (approveTime: announcement_approve2[]) => {
-        let lasted: string;
-        for (let i = 0; i < approveTime.length; i++) {
-            if (approveTime[i].approveTime > LastestPost) {
-                LastestPost = approveTime[i].approveTime
-            }
-        }
-        for (let i = 0; i < approveTime.length; i++) {
-            if (approveTime[i].approveTime == LastestPost) {
-                return lasted = approveTime[i].postId
-            }
-        }
+    // const findLasted = (approveTime: announcement_approve2[]) => {
+    //     let lasted: string;
+    //     for (let i = 0; i < approveTime.length; i++) {
+    //         if (approveTime[i].approveTime > LastestPost) {
+    //             LastestPost = approveTime[i].approveTime
+    //         }
+    //     }
+    //     for (let i = 0; i < approveTime.length; i++) {
+    //         if (approveTime[i].approveTime == LastestPost) {
+    //             return lasted = approveTime[i].postId
+    //         }
+    //     }
+    // }
+
+    // console.log(allPost2.filter((el) => {
+    //     return el.postId == sort[sort.length-1].postId
+    // }))
+    // console.log(sort[sort.length-5].postId);
+
+    let fivepost = []
+    for (let i = allPost2.length-1; i > allPost2.length-6;i--) {
+        fivepost.push(allPost2[i])
     }
-
-    console.log(allPost2.filter((el) => {
-        return el.postId == sort[sort.length-1].postId
-    }))
-    console.log(sort[sort.length-1].postId);
-    
-
+    // console.log(fivepost)
 
     return (
         <AppBody
@@ -126,11 +130,9 @@ const test = () => {
             {clickArrowDown && (
                 <Slide direction="top" in={isOpen} style={{ zIndex: 10, position: "relative" }}>
                     <Box pb="5" px="5" mt={5} bg="white" rounded="md" shadow="md">
-                        {allPost
-                            // อันนี้มันยังเรียงตามid น้อยไปมากอยู่ ไม่ได้เอาอันใหม่สุดขึ้นบน ตอนดึงจากdb น่าจะต้องใช้order by
-                            .filter((fl) => fl.postId > postInfoTest.length - 6)
+                        {fivepost
                             .map((el) => {
-                                return <ExpandOnTop topic={el.topic} sender={el.sender} />
+                                return <ExpandOnTop topic={el.annLanguage[0].annTopic} sender={el.annCreator.fName+" "+el.annCreator.lName} />
                             })}
                         <Flex alignItems={"center"} pt={"7"}>
                             <Box pr={"7"}>
