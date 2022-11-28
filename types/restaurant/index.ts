@@ -33,7 +33,7 @@ export type Restaurant2 = {
 
 export type Detail = {
   resId: string
-  phoneNO: string
+  phoneNo: string
   website: string
   location: string
   vicinity: string
@@ -69,6 +69,8 @@ export type Close = {
 export type Like = {
   userId: string
   resId: string
+  isLike: boolean
+  updatedAt: Date
 }
 
 export type Favorite = {

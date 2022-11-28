@@ -4,23 +4,39 @@ import { getRestaurant } from ".."
 
 const searchRestaurant = async(req: Request, res: Response) => {
     const name = req.query.name + ""
-
+    var d = new Date();
+    var dayNo = d.getDay()
+    try {
         const prisma = res.prisma
         const search = await prisma.restaurant.findMany({
+        
            where: {
-             resName: name
+             resName: {contains: name, mode: "insensitive"}
                 
            }, 
            include: {
             detail: true,
-            openAt: true,
-            closeAt: true,
+            closeAt: {
+                where: {
+                    day: dayNo,
+                },
+            },
+            openAt: {
+                where: {
+                    day: dayNo,
+                },
+            },
             images: true
            }
         })
         console.log(search);
         
         res.send(search)
+    }
+        catch (error) {
+        console.log("Search error");
+        
+        }
   
 
     // getRestaurant().forEach((res) => {

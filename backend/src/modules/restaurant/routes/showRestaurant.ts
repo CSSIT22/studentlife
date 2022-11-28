@@ -1,10 +1,11 @@
 import { Request, Response } from "express"
 import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
+import axios from "axios"
 const showRestaurant = async(req: Request, res: Response) => {
     const id = req.params.id
   
-    
+   // axios.get()
 try {
     const prisma = res.prisma
     const selectRes = await prisma.restaurant.findFirstOrThrow({

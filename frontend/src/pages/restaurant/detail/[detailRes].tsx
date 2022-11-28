@@ -92,7 +92,9 @@ function detail() {
     const addFavorite = () => {
         API.post("/restaurant/detail/" + params.detailRes)
     }
-
+    
+    console.log(property);
+    
     return (
         <AppBody
             secondarynav={[

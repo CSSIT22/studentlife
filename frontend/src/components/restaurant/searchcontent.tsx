@@ -22,13 +22,13 @@ import { AiOutlineClose } from "react-icons/ai"
 
 const Searchcontent: FC<{
     resName: string
-    open: Array<Open>
-    close: Array<Close>
+    open: string
+    close: string
     phone: Detail
     website: Detail
     img: Array<Image1>
 }> = ({ resName, phone, open, close, website, img }) => {
-    console.log(phone.phoneNO);
+
     
     return (
         <>
@@ -43,10 +43,10 @@ const Searchcontent: FC<{
                                 <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                             </Text>
                             <Text fontSize={"sm"}>
-                                <span style={{ fontWeight: "bold" }}>Open:</span> {""} - {""}
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
                             </Text>
                             <Text fontSize={"sm"}>
-                                <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone.phoneNO}
+                                <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone?.phoneNo}
                             </Text>
                             <Text fontSize={"sm"}>
                                 <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website.website}>{resName}</a>
@@ -71,10 +71,10 @@ const Searchcontent: FC<{
                     </Flex>
                     <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
                         <Text>
-                            <span style={{ fontWeight: "bold" }}>Open:</span> {""} - {""}
+                            <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
                         </Text>
                         <Text>
-                            <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone.phoneNO}
+                            <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone.phoneNo}
                         </Text>
                         <Text>
                             <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website.website}>{resName}</a>

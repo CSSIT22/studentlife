@@ -19,8 +19,8 @@ const search = () => {
         // .finally(off)
     }, [new URLSearchParams(location.search).get("name")])
 
-
-    console.log(search);
+  console.log(search);
+  
     
     return (
         <AppBody
@@ -36,7 +36,7 @@ const search = () => {
                 Search Result
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
-                {search?.map((e1) => {
+                {search.map((e1:any) => {
                     return (
                         <GridItem>
                             <Link to={`/restaurant/detail/${e1.resId}`}>
@@ -44,8 +44,8 @@ const search = () => {
                                 <Searchcontent
                                     resName={e1.resName}
                                     phone={e1.detail}
-                                    open={e1.opanAt}
-                                    close={e1.closeAt}
+                                    open={e1.openAt[0].open}
+                                    close={e1.closeAt[0].close}
                                     website={e1.detail}
                                     img={e1.images}
                                 />
