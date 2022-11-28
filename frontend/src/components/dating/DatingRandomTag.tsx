@@ -11,7 +11,10 @@ const DatingRandomTag: FC<{
     allInterests: AllInterests[]
 }> = ({ id, index, allInterests }) => {
 
+    let interestName = allInterests.find((interest) => interest.interestId === id.interestId)?.interestName
+
     return (
+        interestName ? 
         <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -35,10 +38,10 @@ const DatingRandomTag: FC<{
             >
                 <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
                     {/* Convert interest id to interest name */}
-                    {allInterests.find((interest) => interest.interestId === id.interestId)?.interestName}
+                    {interestName}
                 </Text>
             </Tag>
-        </motion.div>
+        </motion.div> : <></>
     )
 }
 

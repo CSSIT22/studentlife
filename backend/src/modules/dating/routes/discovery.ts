@@ -127,7 +127,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax) {
                         ageObtainedUser.push(user)
                     }
-                } else if (datingOptionsDB?.useAge == false) {
+                } else if (datingOptionsDB?.useAge == false && user.details?.birth) {
                     ageObtainedUser.push(user)
                 }
             })
@@ -136,6 +136,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
             ageObtainedUser.map((user: any) => {
                 if (datingOptionsDB?.genderPref == "Everyone") {
+                    if(user.details.sex == "Male" || user.details.sex == "Female" || user.details.sex == "LGBTQ+")
                     genderObtainedUser.push(user)
                 } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male") {
                     genderObtainedUser.push(user)
@@ -166,7 +167,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                 facultyObtainedUser[randomIndex] = temporaryValue
             }
 
-            facultyObtainedUser = facultyObtainedUser.slice(0, 30)
+            facultyObtainedUser = facultyObtainedUser.slice(0, 20)
             return res.send(facultyObtainedUser)
         }
     } catch (err) {

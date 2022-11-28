@@ -40,7 +40,7 @@ const RandomCardInside: FC<{
             ref={childRefs[index]}
             id={index.toString()}
             borderRadius="10px"
-            backgroundColor="gray"
+            backgroundColor="orange.100"
             backgroundImage={backgroundImage}
             w={{ base: "326px", md: "379px" }}
             h={{ base: "402px", md: "464px" }}
@@ -205,7 +205,6 @@ const DatingRandomCard: FC<{
     }
 
     const outOfFrame = (name: string, idx: number) => {
-        console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
         currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
         let frontCard = document.getElementById(idx.toString()) as HTMLInputElement
         frontCard.style.display = "none"
@@ -380,7 +379,7 @@ const DatingRandomization = () => {
     // used for the tinder card
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
-            Array(30)
+            Array(20)
                 .fill(0)
                 .map(() => React.createRef()),
         []
