@@ -68,6 +68,16 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     //     fetch();
     // }, [])
 
+    const [rating, setRating] = useState<number>(0)
+
+    useEffect(() => {
+        async function fetch() {
+            const res = await API.get(`/user/profile/exp`)
+            setRating(res.data.exp)
+        }
+        fetch()
+
+    }, [])
     const postData = async () => {
         const formData = {
             phone: Phone,
@@ -147,7 +157,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                             />
                         </motion.div>{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
-                            Rating : 9999
+                            Rating : {rating}
                         </Box>
                     </VStack>
                 </GridItem>
