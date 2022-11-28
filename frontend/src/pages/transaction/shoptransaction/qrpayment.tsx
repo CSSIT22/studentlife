@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { FC, useEffect } from "react"
 import AppBody from "src/components/share/app/AppBody"
 import Header from "src/components/transaction/shoptransaction/Header"
 import { Button, Container, Stack, Text } from "@chakra-ui/react"
@@ -7,12 +7,12 @@ import QRcode from "src/components/transaction/methodpayment/QRcode"
 import axios from "axios"
 import { Link } from 'react-router-dom';
 
-const qrpayment = () => {
+const qrpayment: FC<{ totalPrice: number }> = ({ totalPrice }) => {
     const [rawData, setRawData] = React.useState("")
 
     useEffect(() => {
         axios.post("http://localhost:8000/transaction/payment", {
-            totalPrice: 100
+            totalPrice: { totalPrice }
         }).then(function (response) {
             setRawData(response.data.Qr)
         })
@@ -24,7 +24,7 @@ const qrpayment = () => {
                 <Header name="QRCode" />
 
                 <Container maxW="90%" my="10px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
-                    <QRpayment total="50,000.00" paywithin="60 sec" />
+                    <QRpayment total={totalPrice} paywithin="60 sec" />
                 </Container>
 
                 <Container maxW="90%" my="20px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>

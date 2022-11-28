@@ -8,15 +8,14 @@ import Header from "../../../components/transaction/shoptransaction/Header"
 import OrderList from "../../../components/transaction/shoptransaction/OrderList"
 import { useParams } from 'react-router-dom';
 import PaymentMethod from "src/components/transaction/methodpayment/PaymentMethod"
+import qrpayment from './qrpayment';
 
 const shopTransaction = () => {
-    const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
     const param = useParams()
     const [order, setOrder] = useState("")
+    const totalPrice = 5000
     const submit = () => {
-        API.post("/transaction/payment", {
 
-        })
     }
 
     return (
@@ -53,16 +52,16 @@ const shopTransaction = () => {
                 </Stack>
             </Container>
 
-            <PaymentMethod/>
+            <PaymentMethod />
 
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
+            {/* <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Payment Details
                 </Text>
                 <Text fontSize={{ base: "md", lg: "lg" }}>Merchandise subtotal : 123123</Text>
                 <Text fontSize={{ base: "md", lg: "lg" }}>Point discount : 123</Text>
                 <Text fontSize={{ base: "md", lg: "lg" }}>Total : 123</Text>
-            </Container>
+            </Container> */}
 
             <Show below="md">
                 <Stack direction={"row"} justifyContent="center" gap={"3%"}>
@@ -83,7 +82,7 @@ const shopTransaction = () => {
                     <Flex>
                         <Box bg="orange.50" h="50px" w={"80%"} py="9px" borderRadius="10px">
                             <Text fontSize="xl" color={"black"} pl="5%" fontWeight={"bold"}>
-                                Total payment 123,123
+                                Total payment : {totalPrice}
                             </Text>
                         </Box>
                         <Spacer />
