@@ -19,6 +19,16 @@ const showEvent = () => {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
+
+    //const [event, setEvent] = useState([])
+
+    // const getEditedData = API.post("/scheduleRoutes/editevent")
+    // useEffect(()=>{
+    //     getEditedData.then(res=>{
+        // setEvent(res.data)
+    //    มีบรรทัดบนอันนี้ไม่ต้อง     console.log(res.data)
+    //     })
+    // })
     
   return (
     <AppBody>
