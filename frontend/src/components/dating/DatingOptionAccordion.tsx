@@ -34,7 +34,7 @@ const DatingOptionAccordion: FC<{
 
     globalThis.facs = addFac([])
     function addFac(facultyA: string[]) {
-        // facultyA.push("All Faculty")
+        facultyA.push("All Faculty")
         for (const element of faculties) {
             facultyA.push(element.facultyName)
         }
@@ -68,20 +68,23 @@ const DatingOptionAccordion: FC<{
             setSelectedFac([...arr])
             //console.log("This remove? :" + arr.splice(arr.indexOf(fac), arr.indexOf(fac) + 1))
         }
-        let arrWithoutAllfact = faculties.filter((item) => item.facultyName !== globalThis.facs[0])
+        let arrWithoutAllfact = globalThis.facs.filter((item) => item !== "All Faculty")
         //        let arrWithoutAllfact = faculties.filter((item) => item.facultyName !== faculties[0].facultyName)
         let isAll = true
         arrWithoutAllfact.forEach((item) => {
+            // console.log(arrWithoutAllfact)
             if (!arr.includes(item)) {
                 isAll = false
+                // console.log(isAll)
             }
         })
         if (isAll) {
             // setSelectedFac([faculties[0].facultyName, ...arr])
-            setSelectedFac([globalThis.facs, ...arr])
+            // console.log(globalThis.facs[0])
+            setSelectedFac([globalThis.facs[0], ...arr])
         } else {
             // setSelectedFac(arr.filter((item) => item !== faculties[0]))
-            setSelectedFac(arr.filter((item) => item !== faculties[0]))
+            setSelectedFac(arr.filter((item) => item !== globalThis.facs[0]))
         }
         // console.log("This :" + arr)
     }
