@@ -161,10 +161,10 @@ const Room = () => {
                                 width={{base:"100%",md:"sm"}}
                                 size={"md"}
                                 placeholder="Type something"
-                                _placeholder={{ color: "#F8B88B" }}
+                                _placeholder={{ color: "#ffffff" }}
                                 type={"text"}
                                 focusBorderColor="#606070"
-                                errorBorderColor="#F8B88B"
+                                errorBorderColor="#ffffff"
                                 onChange={(e) => onType(e)}
                                 value={Text}
                             />
