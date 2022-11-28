@@ -45,7 +45,7 @@ import {
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { MdPostAdd } from "react-icons/md"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 
 const btnNewShortnote = () => {
@@ -78,15 +78,22 @@ const btnNewShortnote = () => {
     const [desc, setDesc] = useState("")
     const [ispublic, setIsPublic] = useBoolean(true)
     const navigate = useNavigate()
+    const param = useParams()
     const create = () => {
         API.post("/shortnotes/postShortnote", {
             courseId: course,
             isPublic: ispublic,
             snName: name,
             snDesc: desc,
+            people: people
         }).then((res) => {
             console.log(res)
+            API.post("/shortnotes/postAccess", {
+                snId: res.data.snId,
+                people: people
+            })
             navigate("./" + res.data.snId)
+
         }
         )
     }
