@@ -123,3 +123,8 @@ export type announcement_approve = {
     postApprove:announcement[] 
     approvedBy:InitUserResponse
 }
+
+export type announcement_approve2 = {
+    postId:string,
+    approveTime:number,
+}
