@@ -129,7 +129,7 @@ const FileList: FC<{
             <>
                 <HStack>
                     <Text fontSize={"xl"}>File Name:</Text>
-                    <Text>{modalData.fileName.split(".")[0]}</Text>
+                    <Text>{modalData.fileName.split(".")[0].length > 25 ? modalData.fileName.split(".")[0].slice(0,25) + "..." : modalData.fileName.split(".")[0]}</Text>
                 </HStack>
                 <HStack>
                     <Text fontSize={"xl"}>File Type:</Text>
@@ -175,7 +175,7 @@ const FileList: FC<{
                 <HStack>
                     <Text fontSize={"xl"}>Expired Time:</Text>
                     <Text>
-                        {modalData.fileExpired == "0"
+                        {new Date(modalData.fileExpired).getFullYear() == 2000
                             ? "Permanent"
                             : new Date(modalData.fileExpired).toLocaleString("en-US", {
                                   timeZone: "Asia/Bangkok",
@@ -282,9 +282,11 @@ const FileList: FC<{
                         <Text>{info.fileName.length > 12 ? info.fileName.slice(0, 12) + "..." : info.fileName}</Text>
                     </Hide>
 
-                    <Text fontSize={["0.76rem", "md"]}>{senderName}</Text>
+                    <Text fontSize={["0.76rem", "md"]}>{
+                        senderName && senderName?.length > 7 ? senderName?.slice(0, 7) + "..." : senderName
+                    }</Text>
 
-                    <HStack>
+                    <HStack spacing={0}>
                         <IconButton
                             aria-label="accept"
                             icon={<MdDone />}

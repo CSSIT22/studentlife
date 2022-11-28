@@ -85,16 +85,13 @@ export default function Receivedrop<FC>() {
                 <Box mb={5} ml={5}>
                     <Text fontSize={"3xl"} display={"flex"} alignItems={"center"}>
                         Receive Files
-                            <Lottie
+                        <Box w={["20%","10%","10%","10%"]} display={"inline-flex"} ml={"1rem"}>
+                        <Lottie
                                 animationData={receive}
                                 loop={false}
-                                style={{
-                                    width: "10%",
-                                    height: "10%",
-                                    display: "inline-flex",
-                                    marginLeft: "1rem",
-                                }}
                             ></Lottie>
+                        </Box>
+
                     </Text>
                 </Box>
                 {/* component for list will coming sooner */}

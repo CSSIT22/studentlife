@@ -4,7 +4,7 @@ import PageBox from "../../components/airdrop/pageBox"
 import FileComment from "src/components/airdrop/FileComment"
 import { HiUpload, HiDownload } from "react-icons/hi"
 import API from "src/function/API"
-import { MdOutlineHistory, MdImage, MdDone, MdOutlineClose, MdInfoOutline } from "react-icons/md"
+import { MdOutlineHistory, MdFileCopy, MdInfoOutline } from "react-icons/md"
 import {
     Flex,
     Box,
@@ -26,20 +26,17 @@ import {
     Fade,
     Spinner,
     useToast,
+    useBreakpointValue,
 } from "@chakra-ui/react"
 import { authContext } from "src/context/AuthContext"
 import Lottie from "lottie-react"
 import history from "../../components/airdrop/animation/history.json"
-
 
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
     { name: "History", icon: MdOutlineHistory, to: "/airdrop/history" },
 ]
-
-
-
 
 export default function Drophistory<FC>() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -79,6 +76,7 @@ export default function Drophistory<FC>() {
             comments: [],
         },
     })
+
     const [historyData, setHistoryData] = useState<any>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [historyPerPage] = useState(5)
@@ -88,13 +86,13 @@ export default function Drophistory<FC>() {
     const firstIndex = lastIndex - historyPerPage
     let currentHistory = historyData?.slice(firstIndex, lastIndex)
     useEffect(() => {
-        fetchHistory()        
+        fetchHistory()
         return () => {}
     }, [])
 
-    useEffect(()=>{
-        currentHistory = historyData?.slice(firstIndex, lastIndex)   
-    },[historyData])
+    useEffect(() => {
+        currentHistory = historyData?.slice(firstIndex, lastIndex)
+    }, [historyData])
 
     const [commentText, setComment] = useState("")
     const toast = useToast()
@@ -198,18 +196,11 @@ export default function Drophistory<FC>() {
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="history">
                 <Box mb={3} ml={5}>
-                <Text fontSize={"3xl"} display={"flex"} alignItems={"center"}>
+                    <Text fontSize={"3xl"} display={"flex"} alignItems={"center"}>
                         History
-                            <Lottie
-                                animationData={history}
-                                loop={false}
-                                style={{
-                                    width: "10%",
-                                    height: "10%",
-                                    display: "inline-flex",
-                                    marginLeft: "1rem",
-                                }}
-                            ></Lottie>
+                        <Box w={["20%", "10%", "10%", "10%"]} display={"inline-flex"} ml={"1rem"}>
+                            <Lottie animationData={history} loop={false}></Lottie>
+                        </Box>
                     </Text>
                 </Box>
                 {isLoading ? (
@@ -225,19 +216,32 @@ export default function Drophistory<FC>() {
                         {currentHistory?.map((item: any, index: any) => {
                             return (
                                 <>
-                                    <Flex direction={"row"} justifyContent={"space-around"} alignItems={"center"} py={"3"} key={index}>
-                                        <Box as={MdImage} size={"3rem"} />
+                                    <Flex
+                                        direction={"row"}
+                                        justifyContent={{
+                                            base: "space-evenly",
+                                            md: "space-between",
+                                            lg: "space-between",
+                                        }}
+                                        alignItems={"center"}
+                                        px={"10"}
+                                        py={"3"}
+                                        gap={3}
+                                        key={index}
+                                    >
+                                        <Box as={MdFileCopy} size={"2rem"} />
+
+                                        <Text>
+                                        {item.file.fileName.length > 12
+                                                ? item.file.fileName.substring(0, 12) + "..."
+                                                : item.file.fileName}
+                                        </Text>
+                                        {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}
                                         <Hide below={"md"}>
-                                            <Text>
-                                                {item.file.fileName.length > 12
-                                                    ? item.file.fileName.substring(0, 12) + "..."
-                                                    : item.file.fileName.concat(" ")}
+                                            <Text color={"gray.400"}>
+                                                {new Date(item.createdAt).toLocaleString("en-US", { timeZone: "Asia/Bangkok" })}
                                             </Text>
                                         </Hide>
-                                        {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}
-                                        <Text color={"gray.400"}>
-                                            {new Date(item.createdAt).toLocaleString("en-US", { timeZone: "Asia/Bangkok" })}
-                                        </Text>
                                         <HStack>
                                             <IconButton
                                                 aria-label="infomation"
@@ -360,30 +364,65 @@ export default function Drophistory<FC>() {
             </PageBox>
             {/* //pagination*/}
             <Flex justifyContent={"center"} flexDirection={"row"} alignItems={"center"} gap={"3"} mt={"4"}>
-                {Array(...new Array(Math.ceil(historyData.length/historyPerPage)).fill("")).map((item, key) => {
+                {Array(...new Array(Math.ceil(historyData.length / historyPerPage)).fill("")).map((item, key) => {
                     return (
-                        <Button
-                            key={key}
-                            onClick={() => {
-                                setCurrentPage(key + 1)
-                            }}
-                            bg={"whiteAlpha.800"}
-                            rounded={"3xl"}
-                            size={"md"}
-                            _hover={{
-                                transform: "scale(1.1)",
-                                color: "white",
-                                bg: "orange.500",
-                                shadow: "xl",
-                            }}
-                            {...(currentPage === key + 1 && {
-                                bg: "orange.500",
-                                color: "white",
-                            })}
-                            shadow={"md"}
-                        >
-                            {key + 1}
-                        </Button>
+                        <>
+                            {Math.ceil(historyData.length / historyPerPage) > 5 ? (
+                                <>
+                                    {
+                                        key >= currentPage-3  && key <= currentPage+1 ? (
+                                            <Button
+                                            key={key}
+                                            onClick={() => {
+                                                setCurrentPage(key + 1)
+                                            }}
+                                            bg={"whiteAlpha.800"}
+                                            rounded={"3xl"}
+                                            size={"md"}
+                                            _hover={{
+                                                transform: "scale(1.1)",
+                                                color: "white",
+                                                bg: "orange.500",
+                                                shadow: "xl",
+                                            }}
+                                            {...(currentPage === key + 1 && {
+                                                bg: "orange.500",
+                                                color: "white",
+                                            })}
+                                            shadow={"md"}
+                                        >
+                                            {key + 1}
+                                        </Button>
+                                        ) : (
+                                            <></>
+                                        )
+                                    }
+                                </>
+                            ) : (
+                                <Button
+                                    key={key}
+                                    onClick={() => {
+                                        setCurrentPage(key + 1)
+                                    }}
+                                    bg={"whiteAlpha.800"}
+                                    rounded={"3xl"}
+                                    size={"md"}
+                                    _hover={{
+                                        transform: "scale(1.1)",
+                                        color: "white",
+                                        bg: "orange.500",
+                                        shadow: "xl",
+                                    }}
+                                    {...(currentPage === key + 1 && {
+                                        bg: "orange.500",
+                                        color: "white",
+                                    })}
+                                    shadow={"md"}
+                                >
+                                    {key + 1}
+                                </Button>
+                            )}
+                        </>
                     )
                 })}
             </Flex>
