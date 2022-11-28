@@ -18,7 +18,7 @@ import { QnA_ANSWER_ANONYMOUS } from "../templates/QnA_ANSWER_ANONYMOUS"
 import { SCHEDULE_EVENT } from "../templates/SCHEDULE_EVENT"
 import { SHOP_REVIEW_COMMENT } from "../templates/SHOP_REVIEW_COMMENT"
 import { TODO_LIST_TASK } from "../templates/TODO_LIST_TASK"
-import { TRANSACTION_SUCCESS } from "../templates/transaction_success"
+import { TRANSACTION_SUCCESS } from "../templates/TRANSACTION_SUCCESS"
 
 import { USER } from "./mockupData/userProfile"
 
