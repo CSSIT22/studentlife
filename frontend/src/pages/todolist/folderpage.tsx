@@ -62,30 +62,34 @@ const folderpage = () => {
         </Button>
       </Box>
 
+      <Modal isOpen={isCreateOpen} onClose={onCreateClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create Folder</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Heading as="h2" size="ms" noOfLines={1} display="flex" alignItems="center">
+              <AiFillFolder />
+              Folder Name
+            </Heading>
+            <Input placeholder="Folder Name" size="md" />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={onCreateClose}>
+              Close
+            </Button>
+            <Button colorScheme="blue">Done</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       {
         folderList.map((el: any) => (
-          <Modal isOpen={isCreateOpen} onClose={onCreateClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Create Folder</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Heading as="h2" size="ms" noOfLines={1} display="flex" alignItems="center">
-                  <AiFillFolder />
-                  Folder Name
-                </Heading>
-                <Input placeholder="Folder Name" size="md" />
-              </ModalBody>
-
-              <ModalFooter>
-                <Button variant="ghost" mr={3} onClick={onCreateClose}>
-                  Close
-                </Button>
-                <Button colorScheme="blue">Done</Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-
+          <Heading as="h2" size="3xl" noOfLines={1} display="flex" alignItems="center">
+            <AiFillFolder />
+            CSC 102
+          </Heading>
         ))
       }
     </ToDoListAppBody>

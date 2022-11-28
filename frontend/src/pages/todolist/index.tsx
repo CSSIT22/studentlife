@@ -80,8 +80,7 @@ const index = () => {
         </Menu>
       </Flex>
 
-
-
+      {/* backend */}
       {
         taskList.map((el: any) => (
           <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="#ECECEC" rounded="lg" key={el.taskId}>
@@ -106,8 +105,6 @@ const index = () => {
         </Text>
         <Progress marginTop={2} value={20} size="lg" colorScheme="orange" />
       </Box>
-      )
-
 
     </ToDoListAppBody >
   )
