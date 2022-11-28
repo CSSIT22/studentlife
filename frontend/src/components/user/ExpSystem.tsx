@@ -3,30 +3,23 @@ import { VStack, Flex, Heading, Box, Text, Progress, Stack } from "@chakra-ui/re
 import API from "src/function/API"
 import { useNavigate, useParams } from "react-router-dom"
 
-let history = useNavigate()
-const [level, setLevel] = useState<any>()
-const [CurrentExp, setCurrentExp] = useState<any>()
-const [Sex, setSex] = useState<any>()
-
-useEffect(() => {
-    API.get(`/profile/exp`).then((res) => {
-        console.log(res.data)
-    })
-}, [])
-
-const postExp = () => {
-    API.put(`/profile/exp`, {
-        level,
-        CurrentExp,
-
-
-    }).then(() => {
-        history("/read")
-    })
-}
 
 
 function ExpSystem() {
+    let history = useNavigate()
+    const [currentExp, setCurrentExp] = useState<number>(0)
+
+    useEffect(() => {
+        async function fetch() {
+            const res = await API.get(`/user/profile/exp`)
+            setCurrentExp(res.data.exp)
+        }
+        fetch()
+    }, [])
+
+
+
+
     return (
         <div>
             <Flex rounded="xl" direction="column" mt={4} mx={4} bg="white" position="initial" shadow={"lg"}>
@@ -35,18 +28,18 @@ function ExpSystem() {
                         LV.
                     </Text>
                     <Text color="black" fontWeight="500"  >
-                        10
+                        {Math.floor(currentExp / 100)}
                     </Text>
                 </Stack>
 
                 <div></div>
-                <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={50} />
+                <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={currentExp/10} />
                 <Stack direction="row" alignContent="center" ml="5" mb="5" mt={1} spacing={1}>
                     <Text color="black" fontSize="md" fontWeight="500">
                         EXP :
                     </Text>
                     <Text color="black" fontSize="md" fontWeight="500">
-                        500
+                        {currentExp}
                     </Text>
                     <Text color="black" fontSize="md" fontWeight="500">
                         /

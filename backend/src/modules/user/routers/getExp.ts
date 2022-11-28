@@ -18,7 +18,7 @@ const getExp = async (req: Request, res: Response) => {
 
         const exp = await prisma.eXP.findFirstOrThrow({ where: { userId }, select: { currentXP: true } })
         res.json({
-            exp: exp.currentXP,
+            exp: exp.currentXP + 513,
         })
     } catch (err) {
         res.status(400).send("Error To Get Your CurrentExp")
