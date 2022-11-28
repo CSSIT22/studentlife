@@ -9,9 +9,9 @@ const showHistory = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const hist = await prisma.restaurant.findMany({
-            where: {
-                isSeen: true,
-            },
+            // where: {
+            //     isSeen: true,
+            // },
             include: {
                 userSeen: {
                     select: {
