@@ -5,7 +5,7 @@ import { MODULES } from "../moduleList/moduleTest"
 import { USER } from "../main/mockupData/userProfile"
 import API from "src/function/API"
 import { SHOP_REVIEW_COMMENT } from "../templates/SHOP_REVIEW_COMMENT"
-import { TRANSACTION_SUCCESS } from "../templates/TRANSACTION_SUCCESS"
+import { TRANSACTION_SUCCESS } from "../templates/transaction_success"
 import { SCHEDULE_EVENT } from "../templates/SCHEDULE_EVENT"
 import { QnA_ANSWER_ANONYMOUS } from "../templates/QnA_ANSWER_ANONYMOUS"
 import { QnA_ANSWER } from "../templates/QnA_ANSWER"
@@ -291,12 +291,14 @@ const NotiObjectViewAll: FC<{
                                     shadow={"lg"}
                                     borderRadius="1xl"
                                     bg="#D6D6D6"> */}
-                                <Button shadow={"lg"}
-                                    size='xs'
-                                    padding={1}
-                                    bg="#E3E3E3">
-                                    {module}
-                                </Button>
+                                <Center>
+                                    <Button shadow={"lg"}
+                                        size='xs'
+                                        padding={1}
+                                        bg="#E3E3E3">
+                                        {module}
+                                    </Button>
+                                </Center>
                             </Stack>
                         </Stack>
                     </Box>
