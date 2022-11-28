@@ -20,7 +20,7 @@ import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
 import { Link, useParams } from "react-router-dom"
-import { addMoreLangType, announcement, post, tgType } from "@apiType/announcement"
+import { addMoreLangType, announcement, post, post_to_language, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 import MoreLangForEdit from "src/components/annoucement/MoreLangForEdit"
 import AppBody from "src/components/share/app/AppBody"
@@ -47,10 +47,10 @@ const history = () => {
     const [post, setpost] = React.useState<announcement[]>([])
 
     const [moreLangField, setMoreLangField] = React.useState<any[]>([])
-    const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
+    const [addMoreLang, setAddMoreLang] = React.useState<post_to_language2[]>([])
     const [isOpen, setIsOpen] = React.useState(false)
     const [add, setAdd] = React.useState(0)
-    const [exmoreLang, setexMoreLang] = React.useState<addMoreLangType[]>([])
+    const [exmoreLang, setexMoreLang] = React.useState<post_to_language2[]>([])
     const [count, setCount] = React.useState(0)
     const [disable, setdisable] = useState(true)
 
@@ -63,6 +63,7 @@ const history = () => {
     const [isLoading, { off }] = useBoolean(true)
     const [tt, settt] = useState<addMoreLangType[]>([])
     const [tv, settv] = useState<tgType[]>([])
+    const [exlang2 , setexlang2] = useState<addMoreLangType[]>([])
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
@@ -102,11 +103,17 @@ const history = () => {
         setmorelanglength(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
         const value = await API.get("/announcement/gettypetarget");
         settv(value.data)
+        // for(let i=0;i<getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length;i++){
+        //     exlang2.push( {id:Date.now(),languageId:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].languageId,annTopic:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].annTopic,annDetail:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].annDetail})
+        // }
+        // getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).forEach((el:any) => {
+        //    exlang2.push( {id:Date.now(),languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail})
+        // })
     }
-    console.log(addMoreLang);
+    // console.log(exlang2.slice(0,exmoreLang.length));
     // setexMoreLang(exmoreLang) 
-
-    console.log(exmoreLang)
+   
+   
 
 
     useEffect(() => {
@@ -162,7 +169,7 @@ const history = () => {
     }
 
     const addLang = (lang: number, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, languageId: lang, annTopic: topic, annDetail: detail }])
+        setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
 
     const increaseCount = () => {
@@ -181,9 +188,9 @@ const history = () => {
     const decreaseForEdit = (langid:number) => {
         console.log(langid);
         setmorelanglength(morelanglength - 1)
-        setexMoreLang(exmoreLang.filter((el) => el.languageId != langid))
+        setexMoreLang(exmoreLang.filter((el) => {return el.languageId != langid}))
     }
-    // console.log(count)
+    console.log(exmoreLang)
 
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])
@@ -192,11 +199,11 @@ const history = () => {
 
 
     // console.log(moreLangLength)
-    console.log(addMoreLang)
+    // console.log(addMoreLang)
     const onDisable = () => {
         setdisable(!disable)
     }
-    // console.log(moreLangField);
+    // console.log(exmoreLang);
     // console.log(count);
     
 
@@ -216,10 +223,18 @@ const history = () => {
                 )
             })
         }else {
-            // เรียงตาม order ?
+            // ลบจากด้านล่างลำดับได้ปกติ
+            // ลบจากด้านบน ค่าที่เปลี่ยนแปลงไป ถูกต้องแต่ render ผิด
+            
            return exmoreLang?.map((el,index) => {
+            // wtf log ค่าถูกตามที่ต้องการถูกทุกอย่าง ที่frontend ไม่ได้ re render ตามนั้น?????
+            console.log(el.languageId);
+            console.log(el.annTopic);
+            
+            
                 return (
                     <MoreLangForEdit
+                        id={Date.now()}
                         onDecrease={decreaseForEdit}
                         addLang={addLang}
                         selectLang={el.languageId}
@@ -282,7 +297,9 @@ const history = () => {
                 </>
             )
         } else {
-            return ""
+            return (
+                updateMoreLang(add)
+            )
         }
     }
 
@@ -308,7 +325,7 @@ const history = () => {
         })
     }
     // console.log(expired);
-
+    // console.log(exmoreLang)
     return (
         <AppBody
             secondarynav={[
