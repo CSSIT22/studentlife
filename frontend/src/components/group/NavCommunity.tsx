@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { TiWarning } from "react-icons/ti"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { BsThreeDots } from "react-icons/bs"
 import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUserLock, FaUserShield, FaUser } from "react-icons/fa"
@@ -39,19 +39,18 @@ import useWindowDimensions from "./hooks/useWindowDimensions"
 import API from "src/function/API"
 import AppBody from "../share/app/AppBody"
 
+
+    
+
+    
 const NavCommunity: FC<{
+    communityID: string
     disableInvite?: boolean
     disableBtn?: boolean
     activeBtn?: number
-    tags?: any
-    communityID: string
-    communityName: string
-    coverPhoto: string
-    isPrivate: boolean
-    description: string
     isMember: boolean
     members: number
-}> = ({ communityID, communityName, coverPhoto, isPrivate, tags, description, isMember, members, activeBtn, disableInvite, disableBtn }) => {
+}> = ({communityID,isMember, members, activeBtn, disableInvite, disableBtn }) => {
     //t
     const [isModalOpen, setModalOpen] = useState(false)
     const modalOnClick = () => setModalOpen(!isModalOpen)
@@ -76,17 +75,19 @@ const NavCommunity: FC<{
         setSureOpen(false)
     }
 
+    const [community, setCommunity] = useState<any>()
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const [communitys, setCommunitys] = useState<any>()
 
+    
 
     useEffect(() => {
-        API.get("/group/getCommunity")
-            .then((res) => setCommunitys(res.data))
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => setCommunity(res.data))
             .catch((err) => on())
             .finally(() => off())
     }, [])
+
     if (isLoading) {
         return (
             // will fix the design later
@@ -124,6 +125,11 @@ const NavCommunity: FC<{
         )
     }
 
+    const coverPhoto = community?.communityById.communityPhoto
+    const communityName =community?.communityById.communityName
+    const isPrivate = community?.communityById.communityPrivacy
+    const tags = community?.tag
+    const desc = community?.communityById.communityDesc
 
 
 
@@ -347,7 +353,7 @@ const NavCommunity: FC<{
                             px={3}
                             borderRadius={"md"}
                             fontSize="xs"
-                            key={t.tagID}
+                            key={t.tagI}
                         >
                             {t.tagName}
                         </Box>
@@ -355,7 +361,7 @@ const NavCommunity: FC<{
                 </Flex>
 
                 <Text mt={2} fontSize="xs" padding={1}>
-                    {description}
+                    {desc}
                 </Text>
                 <Flex gap={2} mt={3}>
                     <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative="path">
