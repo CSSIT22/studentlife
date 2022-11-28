@@ -41,9 +41,13 @@ import { useParams } from "react-router-dom"
 
 const Home = () => {
     const param = useParams()
-    const [post, setPost] = useState<any>(null)
+    const [post, setPost,] = useState<any>(null)
+    // const getData = API.get("/blog/searchPost/" + param.postId)
     useEffect(() => {
-        API.get("/blog/searchPost/" + param.postId).then(item => setPost(item.data))
+        API.get("/blog/search/" + param.postId).then(item => setPost(item.data))
+        // getData.then((res) => {
+        //     console.log(res.data)
+        // })
     }, [])
     return (
         <AppBody>
@@ -64,9 +68,9 @@ const Home = () => {
                             <Optionbutton />
                         </Flex>
                     </Box>
-                    <PostText
-                        text={post.text}
-                    />
+                    {post && <PostText
+                        text={post.postId}
+                    />}
                     <PostImage image="https://i.redd.it/ujfngj2v25k91.jpg" />
                     <Center>
                         <Box marginTop={"6"} display="flex" gap={10}>

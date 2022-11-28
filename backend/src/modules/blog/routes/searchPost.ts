@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
-import { Post, postDetail } from ".."
+import { PostTextBox, postTextbodies, Structure,postes } from ".."
 
 const searchPost = (req:Request, res:Response) => {
     const postId = req.params.postId
-    let selectedPost: Post | null = null
-    postDetail.forEach((post) => {
+    let selectedPost: Structure | null = null
+    postes.forEach((post) => {
         if (post.postId == postId) {
             selectedPost = post
         }
