@@ -1402,8 +1402,7 @@ model Restaurant {
   resId       String                        @id @default(cuid())
   resName     String
   lastupdated DateTime                      @default(now()) @db.Timestamp(0)
-  likes       Int
-  isSeen      Boolean
+  likes       Int                           @default(0)
   detail      Restaurant_Detail?
   images      Restaurant_Image[]
   openAt      Restaurant_Open[]
@@ -1454,6 +1453,8 @@ model Restaurant_Like_By_User {
   user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   resId      String
   restaurant Restaurant   @relation(fields: [resId], references: [resId], onDelete: Cascade)
+  isLike     Boolean      @default(false)
+  updatedAt  DateTime     @default(now()) @db.Timestamp(0)
 
   @@id([userId, resId])
 }
