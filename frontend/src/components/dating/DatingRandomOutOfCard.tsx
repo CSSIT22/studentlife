@@ -92,7 +92,7 @@ const DatingRandomOutOfCard: FC<{
                     >
                         <Box display="flex">
                             <Text color="black" fontWeight="700" fontSize={{ base: "20px", md: "3xl" }} lineHeight="120%" pl="18px">
-                                Something went wrong
+                                Something went wrong.
                             </Text>
                         </Box>
                         <Box>
