@@ -38,6 +38,7 @@ model User_Profile {
   pHided               Hide_Post[]
   cHided               Hide_Comment[]
   notis                Noti_User?
+  sendNoti             Noti_Object[]
   userTimetable        Timetable[]
   tasks                Task[]
   taskfolders          Task_Folder[]
@@ -85,6 +86,7 @@ model User_Profile {
   recentSn             Sn_Recent[]
   accessSn             Sn_Access[]
   transactions         Transaction[]
+  creditCards          Credit_Card[]
   coupons              User_Coupon[]
   carts                Shop_Cart[]
   reviewProduct        Shop_Product_Review[]
@@ -216,11 +218,11 @@ model Action_to_XP {
 model Student_Post {
   postId          String            @id @default(cuid())
   userId          String
+  body            String            @db.Char(1000)
   lastEdit        DateTime          @default(now()) @db.Timestamp(0)
-  score           Int
-  seen            Boolean
+  score           Int               @default(0)
+  seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  postBody        Post_Body?
   images          Image_Container[]
   vids            Video_Container[]
   studentsReacted Student_Reacted[]
@@ -229,12 +231,6 @@ model Student_Post {
   userReported    Post_Report[]
   postHided       Hide_Post[]
   communityPost   Community_Post?
-}
-
-model Post_Body {
-  postId String       @id
-  text   String       @db.Char(1000)
-  bodyOf Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Image_Container {
@@ -349,10 +345,12 @@ model User_Noti_Object {
 
 model Noti_Object {
   notiObjectId String             @id @default(cuid())
+  userId       String
   template     Template
   date         DateTime           @db.Timestamp(0)
   module       Module
   url          String
+  sender       User_Profile       @relation(fields: [userId], references: [userId])
   users        User_Noti_Object[]
   values       Value[]
 }
@@ -856,7 +854,7 @@ model Community_User {
   community   Community      @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
   role        Community_Role @relation(fields: [roleId], references: [roleId], onDelete: SetDefault)
-  roleId      String         @unique
+  roleId      String
   joined      DateTime       @db.Timestamp(0)
   status      Boolean        @default(false)
 
@@ -1227,14 +1225,13 @@ model Sn_In_Library {
 
 //Transaction Module
 model Transaction {
-  transId     String              @id @default(cuid())
-  userId      String
-  payMethodId Int
-  totalPrice  Decimal             @db.Decimal(9, 2)
-  payer       User_Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  detail      Transaction_Detail?
-  moneyChat   Chat_Transaction?
-  moneyShop   Shop_Order?
+  transId    String              @id @default(cuid())
+  userId     String
+  totalPrice Decimal             @db.Decimal(9, 2)
+  payer      User_Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  detail     Transaction_Detail?
+  moneyChat  Chat_Transaction?
+  moneyShop  Shop_Order?
 }
 
 model Transaction_Detail {
@@ -1255,49 +1252,33 @@ model Transaction_Error {
   error   Transaction_Detail?
 }
 
-model Transaction_Paymethod {
-  payMethodId Int          @id
-  crId        String       @unique @default("0")
-  ebId        String       @unique @default("0")
-  qrId        String       @unique @default("0")
-  ccMethod    Credit_Card?
-  ebMethod    E_Banking?
-  qrMethod    QR?
-}
-
 model Credit_Card {
-  crId        String                @id @default(cuid())
+  crId        String       @id @default(cuid())
   ccId        String
   holderName  String
   country     String
   bank        String
   cvc         String
-  last4       String                @db.Char(4)
-  cardExpired DateTime              @db.Date
-  payMethod   Transaction_Paymethod @relation(fields: [crId], references: [crId], onDelete: Cascade)
-}
-
-model E_Banking {
-  ebId       String                @id @default(cuid())
-  bkId       String
-  holderName String
-  holderType String
-  bank       String
-  country    String
-  currency   String
-  payMethod  Transaction_Paymethod @relation(fields: [ebId], references: [ebId], onDelete: Cascade)
+  last4       String       @db.Char(4)
+  cardExpired DateTime     @db.Date
+  userId      String
+  cardOwner   User_Profile @relation(fields: [userId], references: [userId])
 }
 
 model QR {
-  qrId       String                @id @default(cuid())
+  qrId       String   @id @default(cuid())
   qrSourceId String
   qr         String
-  expired    DateTime              @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
-  payMethod  Transaction_Paymethod @relation(fields: [qrId], references: [qrId], onDelete: Cascade)
+  expired    DateTime @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
 }
 
 enum Payment_Type {
   SHOP
+}
+
+enum Transaction_Paymethod {
+  CREDIT_CARD
+  QR
 }
 
 //Shop Module
@@ -1455,7 +1436,7 @@ model Restaurant_Image {
 model Restaurant_Open {
   openId Int        @id @default(autoincrement())
   resId  String
-  open   DateTime   @db.Timestamp(0)
+  open   String
   day    Int
   openOf Restaurant @relation(fields: [resId], references: [resId], onDelete: Cascade)
 }
@@ -1463,7 +1444,7 @@ model Restaurant_Open {
 model Restaurant_Close {
   closeId Int        @id @default(autoincrement())
   resId   String
-  close   DateTime   @db.Timestamp(0)
+  close   String
   day     Int
   openOf  Restaurant @relation(fields: [resId], references: [resId], onDelete: Cascade)
 }
