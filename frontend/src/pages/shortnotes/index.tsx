@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack } from "@chakra-ui/react"
+import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
@@ -15,6 +15,7 @@ const index = () => {
         API.get("/shortnotes/getShortnotes").then((item) => {
             setSn(item.data)
             //console.log(item.data)
+            onToggle()
         })
     }, [])
 
@@ -23,6 +24,7 @@ const index = () => {
         API.get("/shortnotes/getResentShortnotes").then((item) => {
             setRsn(item.data)
             //console.log(item.data)
+            rsnOnToggle()
         })
     }, [])
 
@@ -36,6 +38,8 @@ const index = () => {
     const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
     const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
     const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
+    const { isOpen, onToggle } = useDisclosure()
+    const { isOpen: rsnIsOpen, onToggle: rsnOnToggle } = useDisclosure()
 
     const btnRef = React.useRef()
 
@@ -72,20 +76,22 @@ const index = () => {
                 <Spacer />
                 <BtnMl />
             </HStack>
-            <Box mt={4} mb={12}>
-                <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
-                    {rsn.map((rsn: any, key) => (
-                        <Box as="button" onClick={() => {
-                            navigate({
-                                pathname: "./" + rsn.shortNote.snId,
-                            })
-                        }}>
-                            <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic}></Rsn>
+            <SlideFade in={isOpen} offsetY='20px'>
+                <Box mt={4} mb={12}>
+                    <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
+                        {rsn.map((rsn: any, key) => (
+                            <Box as="button" onClick={() => {
+                                navigate({
+                                    pathname: "./" + rsn.shortNote.snId,
+                                })
+                            }}>
+                                <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic}></Rsn>
 
-                        </Box>
-                    ))}
-                </SimpleGrid>
-            </Box>
+                            </Box>
+                        ))}
+                    </SimpleGrid>
+                </Box>
+            </SlideFade>
 
             {/*Shortnote list section*/}
             <Flex alignItems={"end"}>
@@ -110,45 +116,47 @@ const index = () => {
                     </VStack>
                 </Stack>
             </Flex>
-            <VStack gap={2} pt={4}>
-                {coursePicked == "" ? (
-                    <>
-                        {sn.map((sn: any, key) => (
-                            <Box
-                                as="button"
-                                w={"100%"}
-                                onClick={() => {
-                                    setSnPicked(sn.id)
-                                    navigate({
-                                        pathname: "./" + sn.snId,
-                                    })
-                                    console.log(snPicked)
-                                }}
-                            >
-                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
-                            </Box>
-                        ))}
-                    </>
-                ) : (
-                    <>
-                        {filtered.map((sn: any, key: any) => (
-                            <Box
-                                as="button"
-                                w={"100%"}
-                                onClick={() => {
-                                    setSnPicked(sn.id)
-                                    navigate({
-                                        pathname: "./" + sn.snId,
-                                    })
-                                    console.log(snPicked)
-                                }}
-                            >
-                                <SnList key={key} topic={sn.snName} course={sn.courseId} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
-                            </Box>
-                        ))}
-                    </>
-                )}
-            </VStack>
+            <Collapse in={rsnIsOpen} animateOpacity>
+                <VStack gap={2} pt={4}>
+                    {coursePicked == "" ? (
+                        <>
+                            {sn.map((sn: any, key) => (
+                                <Box
+                                    as="button"
+                                    w={"100%"}
+                                    onClick={() => {
+                                        setSnPicked(sn.id)
+                                        navigate({
+                                            pathname: "./" + sn.snId,
+                                        })
+                                        console.log(snPicked)
+                                    }}
+                                >
+                                    <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                </Box>
+                            ))}
+                        </>
+                    ) : (
+                        <>
+                            {filtered.map((sn: any, key: any) => (
+                                <Box
+                                    as="button"
+                                    w={"100%"}
+                                    onClick={() => {
+                                        setSnPicked(sn.id)
+                                        navigate({
+                                            pathname: "./" + sn.snId,
+                                        })
+                                        console.log(snPicked)
+                                    }}
+                                >
+                                    <SnList key={key} topic={sn.snName} course={sn.courseId} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                </Box>
+                            ))}
+                        </>
+                    )}
+                </VStack>
+            </Collapse>
         </AppBody>
     )
 }
