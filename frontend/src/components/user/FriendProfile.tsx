@@ -30,6 +30,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs"
 import { useParams, useNavigate } from "react-router-dom"
 import API from "src/function/API"
+import { user } from "../transaction/shared/testuser"
 
 export default function SimpleThreeColumns() {
     const navigate = useNavigate();
@@ -57,7 +58,7 @@ export default function SimpleThreeColumns() {
     useEffect(() => {
         async function fetch() {
             const res = await API.get(`/user/friendprofile/${param.userID}`);
-            setUserData({ ...res.data.user, image: btoa(String.fromCharCode(...new Uint8Array(res.data.user.image.data))) });
+            setUserData({ ...res.data.user });
         }
 
         fetch();
@@ -77,7 +78,7 @@ export default function SimpleThreeColumns() {
         sm: "400px",
         md: "800px",
         lg: "960px",
-        xl: "1200px",
+        xl: "1270px",
         "2xl": "1536px",
     }
 
@@ -105,8 +106,8 @@ export default function SimpleThreeColumns() {
                 bg={{ base: "", md: "white" }}
                 shadow={{ base: "", md: "lg" }}
             >
-                <GridItem rounded="xl" area={"nav"} mt={5}>
-                    <VStack align="stretch" alignItems="center" ml={7}>
+                <GridItem rounded="xl" area={"nav"} mt={10}>
+                    <VStack align="stretch" alignSelf={{ md: "center", base: "" }} alignItems={{ base: "center", md: "" }} ml={7}>
                         <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
                             <Avatar
                                 pt={2}
@@ -114,11 +115,11 @@ export default function SimpleThreeColumns() {
                                 display="flex"
                                 position="initial"
                                 float={"inline-end"}
-                                size={{ md: "3xl", base: "2xl" }}
+                                size={{ md: "3xl", base: "xl" }}
                                 shadow="xl"
-                                // name="Christian Nwamba"
                                 // src="https://bit.ly/code-beast"
-                                src={`data:image/png;base64,${userData.image}`}
+                                // src={`data:image/png;base64,${userData.image}`}
+                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + userData?.userId}
                             />
                         </motion.div>{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
@@ -144,7 +145,10 @@ export default function SimpleThreeColumns() {
                                 damping: 20,
                             }}
                         >
-                            <Box fontSize={{ lg: "5xl", base: "xl" }}>{`${userData.fName} ${userData.lName}`}</Box>
+                            <Stack direction={{ base: "column", md: "row" }} spacing={{ base: "-1", md: "3" }}>
+                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{`${userData.fName}`}</Box>
+                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{`${userData.lName}`}</Box>
+                            </Stack>
                         </motion.div>
                     </Stack>
 
@@ -185,7 +189,7 @@ export default function SimpleThreeColumns() {
                                         }}
                                         pl={5}
                                         width={{ lg: "7rem", base: "" }}
-                                        height={{ lg: "3rem", base: "2rem" }}
+                                        height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                         fontSize={{ base: "", lg: "lg" }}
                                         bg="orange.600"
                                         position="initial"
@@ -208,7 +212,7 @@ export default function SimpleThreeColumns() {
                                         variant="outline"
                                         pl={5}
                                         width={{ lg: "7rem", base: "" }}
-                                        height={{ lg: "3rem", base: "2rem" }}
+                                        height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                         fontSize={{ base: "", lg: "lg" }}
                                         position="initial"
                                         value="inside"
@@ -224,7 +228,7 @@ export default function SimpleThreeColumns() {
                                 bg="orange.600"
                                 _hover={{ background: "orange.200" }}
                                 width={{ lg: "7rem", base: "" }}
-                                height={{ lg: "3rem", base: "2rem" }}
+                                height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                 fontSize={{ base: "", lg: "lg" }}
                                 position="initial"
                                 value="inside"
@@ -248,7 +252,7 @@ export default function SimpleThreeColumns() {
                                     variant="solid"
                                     shadow={"lg"}
                                     width={{ lg: "2rem", base: "" }}
-                                    height={{ lg: "3rem", base: "2rem" }}
+                                    height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                     fontSize={{ base: "", lg: "lg" }}
                                     bg="orange.600"
                                     value="inside"
