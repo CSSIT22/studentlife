@@ -25,6 +25,8 @@ import ShowImage from "../../components/restaurant/ShowImage"
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { Restaurant2 } from "@apiType/restaurant"
+import  Lottie from 'lottie-react'
+import loading1 from './animation/loading1.json'
 declare global {
     var respage: number, rand: number
 }
@@ -62,7 +64,12 @@ function LikeorNope() {
         { name: "My History", to: "/restaurant/history" },
     ]}
 >
-     <Heading color={"black"}>Loading</Heading>
+     {/* <Heading color={"black"}>Loading</Heading> */}
+     <Box w={"100%"} h={"100%"}>
+        <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
+     <Lottie animationData={loading1} style={{scale: 1}}/>
+       </Flex>
+     </Box>
     </AppBody>
     )
 

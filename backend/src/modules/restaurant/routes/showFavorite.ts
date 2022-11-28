@@ -43,8 +43,6 @@ const showFavorite = async (req: Request, res: Response) => {
             },
         })
 
-        console.log(fav)
-
         res.send(fav)
     } catch (err) {
         console.log(err)

@@ -1,4 +1,4 @@
-import { Heading, Box, Grid, GridItem, Button } from "@chakra-ui/react"
+import { Heading, Box, Grid, GridItem, Button, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
@@ -13,15 +13,43 @@ function favorite() {
     const params = useParams()
     const [property, setproperty] = React.useState<Restaurant2[]>([])
     const [status, setstatus] = useState(true)
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
 
     useEffect(() => {
         API.get("/restaurant/favorite").then((item) => setproperty(item.data))
+        .catch((err) => on())
+        .finally(off)
     }, [status])
 
     const load = () => {
         setstatus(!status)
     }
 
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
+    )
+
+    if(isError) return (
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
+    )
     console.log(property)
     return (
         <AppBody
