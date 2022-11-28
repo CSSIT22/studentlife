@@ -53,7 +53,7 @@ function propertyEvent(props: any) {
 
     // Change color
     const [roomColor, setRoomColor] = React.useState("")
-    const colors = ["#000000", "#0000ff", "#808080", "#ff0000", "#008000", "#800080", "#ffc0cb", "#ff8c00", "#008080", "#ffff00"]
+    const colors = ["#000000", "#AEC6CF", "#808080", "#ff6961", "#C1E1C1", "#C3B1E1", "#ffc0cb", "#E68E5C", "#88aed0", "#FDFD96"]
     function colorRoom(e: any) {
         return setRoomColor(e.target.value)
     }
