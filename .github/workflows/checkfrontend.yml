@@ -10,9 +10,9 @@ jobs:
     runs-on: [self-hosted, linux, x64]
     timeout-minutes: 5
     container: node:16-alpine
-    defaults:
-      run:
-        working-directory: ./frontend
+    # defaults:
+    #   run:
+    #     working-directory: ./frontend
     steps:
       - name: 🎤 Checkout
         uses: actions/checkout@v2
