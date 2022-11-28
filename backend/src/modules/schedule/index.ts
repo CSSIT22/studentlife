@@ -4,6 +4,7 @@ import createEvent from "./routes/createEvent"
 import editEvent from "./routes/editevent"
 import getEditedevent from "./routes/getEditedevent"
 import readFromDBRoutes from "./routes/readFromDB"
+import deleteEvent from "./routes/deleteEvent"
 
 
 const scheduleRoutes = express()
@@ -63,11 +64,9 @@ export const setEvent = (newData: Event[]) => {
 }
 
 scheduleRoutes.get("/createEvent", createEvent)
-
 scheduleRoutes.get("/editEvent", editEvent)
-
+scheduleRoutes.get("/deleteEvent", deleteEvent)
 scheduleRoutes.get("/getEditedevent", getEditedevent)
-
 scheduleRoutes.get("/readFromDBRoutes", readFromDBRoutes)
 
 //event: id, name, startdate, enddate, starttime, endtime, eventtype_id, description_id
