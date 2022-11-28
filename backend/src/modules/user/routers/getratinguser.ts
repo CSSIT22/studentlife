@@ -20,7 +20,7 @@ const getRating = async (req: Request, res: Response) => {
             exp: Rating.score,
         })
     } catch (err) {
-        res.status(400).send("Error To Get Your CurrentExp")
+        res.status(400).send("Error To Get Your User Rating")
     }
 }
 
