@@ -40,7 +40,7 @@ const RandomCardInside: FC<{
             ref={childRefs[index]}
             id={index.toString()}
             borderRadius="10px"
-            backgroundColor="gray"
+            backgroundColor="orange.100"
             backgroundImage={backgroundImage}
             w={{ base: "326px", md: "379px" }}
             h={{ base: "402px", md: "464px" }}
