@@ -521,7 +521,7 @@ const createCommunity = () => {
                                     communityName={communityName ? communityName : "Community Name"}
                                     isPrivate={!communityPrivacy}
                                     isMember={true}
-                                    description={
+                                    desc={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
