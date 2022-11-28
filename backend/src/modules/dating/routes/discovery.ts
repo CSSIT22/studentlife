@@ -127,7 +127,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax) {
                         ageObtainedUser.push(user)
                     }
-                } else if (datingOptionsDB?.useAge == false) {
+                } else if (datingOptionsDB?.useAge == false && user.details?.birth) {
                     ageObtainedUser.push(user)
                 }
             })
