@@ -218,11 +218,11 @@ model Action_to_XP {
 model Student_Post {
   postId          String            @id @default(cuid())
   userId          String
+  body            String            @db.Char(1000)
   lastEdit        DateTime          @default(now()) @db.Timestamp(0)
-  score           Int
-  seen            Boolean
+  score           Int               @default(0)
+  seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  postBody        Post_Body?
   images          Image_Container[]
   vids            Video_Container[]
   studentsReacted Student_Reacted[]
@@ -231,12 +231,6 @@ model Student_Post {
   userReported    Post_Report[]
   postHided       Hide_Post[]
   communityPost   Community_Post?
-}
-
-model Post_Body {
-  postId String       @id
-  text   String       @db.Char(1000)
-  bodyOf Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Image_Container {
@@ -860,7 +854,7 @@ model Community_User {
   community   Community      @relation(fields: [communityId], references: [communityId], onDelete: Cascade)
   communityId String
   role        Community_Role @relation(fields: [roleId], references: [roleId], onDelete: SetDefault)
-  roleId      String         @unique
+  roleId      String
   joined      DateTime       @db.Timestamp(0)
   status      Boolean        @default(false)
 
