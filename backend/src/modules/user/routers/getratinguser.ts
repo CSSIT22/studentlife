@@ -17,7 +17,7 @@ const getRating = async (req: Request, res: Response) => {
 
         const Rating = await prisma.user_Rating.findFirstOrThrow({ where: { userId }, select: { score: true } })
         res.json({
-            exp: Rating.score,
+            Rating: Rating.score,
         })
     } catch (err) {
         res.status(400).send("Error To Get Your User Rating")
