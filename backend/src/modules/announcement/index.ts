@@ -295,7 +295,7 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
         
     }
     catch(err:any){
-        res.send(err)
+        // res.send(err)
         res.status(400).send("Error find to post")
     }
     // let selectpost: post[] = []
