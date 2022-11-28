@@ -4,16 +4,16 @@ const getRating = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user?.userId || ""
-        const checkRating = await prisma.user_Rating.findFirst({ where: { userId } })
-        // if (checkRating === null) {
-        //     await prisma.user_Rating.create({
-        //         data: {
-        //             userId: userId,
-        //             anotherUserId : userId,
-        //             score: 0,
-        //         },
-        //     })
-        // }
+        const checkRatingUser = await prisma.user_Rating.findFirst({ where: { userId } })
+        if (checkRatingUser === null) {
+            await prisma.user_Rating.create({
+                data: {
+                    userId: userId,
+                    anotherUserId: userId,
+                    score: 0,
+                },
+            })
+        }
 
         const Rating = await prisma.user_Rating.findFirstOrThrow({ where: { userId }, select: { score: true } })
         res.json({
