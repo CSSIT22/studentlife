@@ -1,18 +1,33 @@
 import { prisma } from "@prisma/client"
 import express from "express"
 import createEvent from "./routes/createEvent"
-import editEvent from "./routes/editevent"
-import getEditedevent from "./routes/getEditedevent"
-import readFromDBRoutes from "./routes/readFromDB"
-import deleteEvent from "./routes/deleteEvent"
-
+import editEvent from "./routes/editEvent"
 
 const scheduleRoutes = express()
 
 scheduleRoutes.use(express.json())
 
-scheduleRoutes.get("/",(_, res) => {
-    return res.send("Schedule Module API")
+scheduleRoutes.put("/createEvent", (req, res) => {
+    const eventId = req.body.eventId
+    const eventName = req.body.eventName
+    const startTime = req.body.startTime
+    const endTime = req.body.endTime
+    const startDate = req.body.startDate
+    const endDate = req.body.endDate
+    const eventDesc = req.body.eventDesc
+    const eventType = req.body.eventType
+
+    res.send({
+        success: true,
+        eventName: eventName,
+        eventId: eventId,
+        startTime: startTime,
+        endTime: endTime,
+        startDate: startDate,
+        endDate: endDate,
+        eventDesc: eventDesc,
+        eventType: eventType,
+    })
 })
 
 export type Event = {
@@ -45,7 +60,7 @@ export let events: Event[] = [
         eventDesc: "Go with PM to discuss blaaaaaaaaaaaaaaaaa",
         startTime: new Date(),
         endTime: new Date(),
-        startDate: new Date(),
+        startDate: new Date(), //createDate
         endDate: new Date(),
         eventType: [
             { id: "1", name: "Course" },
@@ -63,11 +78,20 @@ export const setEvent = (newData: Event[]) => {
     events = newData
 }
 
-scheduleRoutes.get("/createEvent", createEvent)
 scheduleRoutes.get("/editEvent", editEvent)
-scheduleRoutes.get("/deleteEvent", deleteEvent)
-scheduleRoutes.get("/getEditedevent", getEditedevent)
-scheduleRoutes.get("/readFromDBRoutes", readFromDBRoutes)
+
+// import editEvent from "./routes/editevent"
+// import getEditedevent from "./routes/getEditedevent"
+// import readFromDBRoutes from "./routes/readFromDB"
+
+// const scheduleRoutes = express()
+
+// scheduleRoutes.use(express.json())
+
+// scheduleRoutes.get("/",(_, res) => {
+//     return res.send("Schedule Module API")
+
+//---------------------------
 
 //event: id, name, startdate, enddate, starttime, endtime, eventtype_id, description_id
 //timetable: calendar_id, event_id, selecteddate
