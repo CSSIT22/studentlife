@@ -1,51 +1,47 @@
 import express, { Request, Response } from "express"
-import { PrismaClient } from "@prisma/client"
-
+import { verifyUser } from "../.././backendService/middleware/verifyUser"
 const userRoutes = express()
-const prisma = new PrismaClient()
 
 //getdepartment
-userRoutes.get("/getdepartment", async (req: Request, res: Response) => {
+userRoutes.get("/getdepartment", verifyUser, async (req: Request | any, res: Response | any) => {
     try {
         const user = req.user?.userId
-        const department = await prisma.user_Profile.findFirstOrThrow({
-            where: {
-                userId: user,
-            },
+        const { prisma } = res
+        const department = await prisma.major.groupBy({
+            by: ["facultyId", "majorName"],
+        })
+        res.json(department)
+    } catch (err) {
+        console.log(err)
+    }
+})
+userRoutes.get("/getcommunity", async (req: Request, res: Response) => {
+    try {
+        const { prisma } = res
+        const community = await prisma.community.findMany({
             select: {
-                majorId: true,
+                communityName: true,
             },
         })
-        const departmentList = await prisma.user_Profile.findMany({
-            where: {
-                AND: [
-                    {
-                        userId: {
-                            not: user,
-                        },
-                    },
-                    {
-                        majorId: department?.majorId,
-                    },
-                ],
-            },
+        res.json(community)
+    } catch (err) {
+        console.log(err)
+    }
+})
+userRoutes.get("/getspecific", async (req: Request, res: Response) => {
+    try {
+        const { prisma } = res
+        const specific = await prisma.user_Profile.findMany({
             select: {
                 fName: true,
                 lName: true,
             },
         })
-        const result: string[] = []
-        departmentList.map((item) => {
-            result.push(item.fName + " " + item.lName)
-        })
-        // console.log(departmentList)
-        res.json(result)
+        res.json(specific)
     } catch (err) {
         console.log(err)
     }
 })
-userRoutes.get("/community", async (req: Request, res: Response) => {})
-userRoutes.get("/specific", async (req: Request, res: Response) => {})
 
 userRoutes.get("/userprofile/:id", async (req: Request, res: Response) => {
     try {

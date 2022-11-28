@@ -18,11 +18,9 @@ const allLink = () => {
                     <Text as={"b"}>ALL-LINK</Text>
                 </Box>
                 <br />
-                <Box bgColor={"orange.200"} p="10rem" borderRadius="15">
-                
-                </Box>
+                <Box bgColor={"orange.200"} p="10rem" borderRadius="15"></Box>
             </Container>
         </AppBody>
     )
 }
-export default allLink;
+export default allLink

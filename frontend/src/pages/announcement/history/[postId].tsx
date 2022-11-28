@@ -1,7 +1,6 @@
 import {
     Flex,
     Spacer,
-    Button,
     Stack,
     FormControl,
     FormLabel,
@@ -14,55 +13,70 @@ import {
     Text,
     Box,
     Show,
+    useBoolean,
+    Heading,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
 import { Link, useParams } from "react-router-dom"
-import index from ".."
-import ModalForEvent from "../../../components/annoucement/ModalForEvent"
-import MoreLang from "../../../components/annoucement/MoreLang"
-import MoreLangForEdit from "../../../components/annoucement/MoreLangForEdit"
-import AppBody from "../../../components/share/app/AppBody"
-import detail from "../detail/[postId]"
+import { addMoreLangType, post } from "@apiType/announcement"
+import API from "src/function/API"
+import MoreLangForEdit from "src/components/annoucement/MoreLangForEdit"
+import AppBody from "src/components/share/app/AppBody"
+import ModalForEvent from "src/components/annoucement/ModalForEvent"
+import MoreLang from "src/components/annoucement/MoreLang"
 import { postInfoTest } from "../postInfoTest"
 
 const history = () => {
+    // const [isError, {on}] = useBoolean()
     const params = useParams()
     // console.log(params.postId);
     const [allPost, setAllPost] = React.useState(postInfoTest)
     const postParams = allPost.filter((el) => {
         return el.postId == parseInt(params.postId + "")
     })
-    // console.log(postParams[0].addMoreLang.length)
-
-    const tgType = postParams.map((el) => {
-        return el.targetType
-    })
-    // console.log(tgType[0]);
-    const tgValue = postParams.map((el) => {
-        return el.targetValue
-    })
-    // console.log(tgValue[0]);
-    const tp = postParams.map((el) => {
-        return el.topic
-    })
-    // console.log(tp[0]);
-    const dt = postParams.map((el) => {
-        return el.detail
-    })
-    const epd = postParams.map((el) => {
-        return el.expiredOfPost
-    })
-    const st = postParams.map((el) => {
-        return el.status
-    })
-    // console.log(postParams);
-    const moreLangLength = postParams[0].addMoreLang.length
-
-    //  ยังเคลียร์ field value ตอนเลือก type ใหม่ไม่ได้
-
+    const [topic, setTopic] = React.useState<string>()
+    const [detail, setDetail] = React.useState<string>()
+    const [targetType, setTargetType] = React.useState<string | undefined>()
+    const [targetValue, setTargetValue] = React.useState<string>()
+    const [expired, setExpired] = React.useState<string | undefined>()
+    const [toggle, settoggle] = useState(false)
+    const [post, setpost] = React.useState<post[]>([])
+    const [moreLangField, setMoreLangField] = React.useState<any[]>([])
+    const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
     const [isOpen, setIsOpen] = React.useState(false)
+    const [add, setAdd] = React.useState(0)
+    const [exmoreLang, setexMoreLang] = React.useState<addMoreLangType[]>([])
+    const [count, setCount] = React.useState(0)
+    const [disable, setdisable] = useState(true)
+
+    const tog = () => {
+        settoggle(!toggle)
+    }
+
+    let d: Date
+
+    const [tt, settt] = useState<addMoreLangType[]>([])
+
+    async function getPost() {
+        const getData = await API.get("/announcement/getdetailedit/" + params.postId)
+        setpost(getData.data)
+        setTopic(getData.data.topic)
+        setDetail(getData.data.detail)
+        setTargetType(getData.data.targetType)
+        setTargetValue(getData.data.targetValue)
+        d = new Date(getData.data.expiredOfPost)
+        setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
+        setexMoreLang(getData.data.addMoreLang)
+    }
+    console.log(post)
+    const moreLangLength = exmoreLang.length
+
+    useEffect(() => {
+        getPost()
+    }, [toggle])
+
     const onOpen = () => {
         setIsOpen(true)
     }
@@ -74,39 +88,11 @@ const history = () => {
         detail: " The announcement request has been sent.",
         status: "edit",
     }
-    const [post, setPost] = React.useState(Array<any>)
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: string, addMoreLang: Array<any>) => {
-        setPost([
-            {
-                postId: Math.random(),
-                userId: "123456",
-                lang: "English",
-                topic: title,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                postAt: Date.now(),
-                expired: expired,
-                status: "waiting",
-                isApprove: false,
-                addMoreLang: addMoreLang,
-            },
-            ...post,
-        ])
-    }
-    // console.log(post);
-    const [topic, setTopic] = React.useState(tp[0])
-    const [detail, setDetail] = React.useState(dt[0])
-    const [targetType, setTargetType] = React.useState(tgType[0])
-    const [targetValue, setTargetValue] = React.useState(tgValue[0])
-    const [expired, setExpired] = React.useState(epd[0])
-    // console.log("origin: "+tgType[0]+" new: "+targetType);
-    // console.log("target value "+targetValue);
 
-    const selectTargetValue = (tgType: string) => {
+    const selectTargetValue = (tgType: string | undefined) => {
         if (tgType == "Faculty") {
             return (
-                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
                     <option>Science</option>
                     <option>Engineering</option>
                     <option>Information Technology</option>
@@ -115,7 +101,7 @@ const history = () => {
             )
         } else if (tgType == "Major") {
             return (
-                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
                     <option>Computer Science</option>=<option>Math</option>
                     <option>Biology</option>
                     <option>Chemistry</option>
@@ -123,7 +109,7 @@ const history = () => {
             )
         } else if (tgType == "Year") {
             return (
-                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue}>
+                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} value={targetValue} bg="white">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -134,49 +120,44 @@ const history = () => {
             return ""
         }
     }
-    // remain this part
-    const [addMoreLang, setAddMoreLang] = React.useState<any[]>([])
-    // console.log(expired);
-    const updatePost = () => {
-        setAllPost(
-            allPost.map((el) => {
-                if (el.postId == parseInt(params.postId + "")) {
-                    el.topic = topic
-                    el.detail = detail
-                    el.targetType = targetType
-                    el.targetValue = targetValue
-                    el.expiredOfPost = expired
-                    el.addMoreLang = addMoreLang
-                }
-                return el
-            })
-        )
-    }
+
+    // console.log(addMoreLang);
+    // const updatePost = () => {
+    //     setAllPost(
+    //         allPost.map((el) => {
+    //             if (el.postId == parseInt(params.postId + "")) {
+    //                 el.topic = topic
+    //                 el.detail = detail
+    //                 el.targetType = targetType
+    //                 el.targetValue = targetValue
+    //                 el.expiredOfPost = new Date(expired)
+    //                 el.addMoreLang = addMoreLang
+    //             }
+    //             return el
+    //         })
+    //     )
+    // }
     // console.log(allPost)
 
-    const [add, setAdd] = React.useState(0)
     const onAdd = () => {
         setAdd(add + 1)
     }
-    // console.log(allPost)
-    // console.log(addMoreLang)
 
-    const addLang = (lang: string, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { lang: lang, topic: topic, detail: detail }])
+    const addLang = (lang: number, topic: string, detail: string) => {
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, lang_id: lang, topic: topic, detail: detail }])
     }
-    // console.log(addMoreLang)
-    const [count, setCount] = React.useState(0)
+
     const increaseCount = () => {
         setCount(count + 1)
         AddLang()
     }
-    const decreaseCount = () => {
+    const decreaseCount = (id: number) => {
         setCount(count - 1)
         decreaseLang()
-        setAddMoreLang(addMoreLang.pop())
+        setAddMoreLang(addMoreLang.filter((el) => el.id != id))
     }
     // console.log(count)
-    const [moreLangField, setMoreLangField] = React.useState<any[]>([])
+
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])
     }
@@ -185,42 +166,41 @@ const history = () => {
     const decreaseLang = () => {
         setAddMoreLang(moreLangField.pop())
     }
-    // const lang = () =>{
-    // const morelang = [];
-    // for(let i =0;i<moreLangLength;i++){
-    //     morelang.push(<MoreLang onClick={decreaseCount} addLang={addLang}/>)
-    // }
-    // console.log(morelang);
-
-    // }
-    // console.log(add);
+    console.log(moreLangLength)
+    console.log(addMoreLang.length)
+    const onDisable = () => {
+        setdisable(!disable)
+    }
+    // console.log(disable);
 
     const updateMoreLang = (add: Number) => {
         if (add == moreLangLength) {
             return addMoreLang.map((el) => {
                 return (
                     <MoreLangForEdit
+                        id={el.id}
                         onDecrease={decreaseCount}
                         addLang={addLang}
-                        selectLang={el.lang}
+                        selectLang={el.lang_id}
                         title={el.topic}
                         dt={el.detail}
-                        key={Math.random()}
+                        key={el.id}
                         onAdd={onAdd}
                         add={true}
                     />
                 )
             })
         } else {
-            return postParams[0].addMoreLang.map((el) => {
+            return exmoreLang.map((el) => {
                 return (
                     <MoreLangForEdit
                         onDecrease={decreaseCount}
+                        id={el.id}
                         addLang={addLang}
-                        selectLang={el.lang}
+                        selectLang={el.lang_id}
                         title={el.topic}
                         dt={el.detail}
-                        key={Math.random()}
+                        key={el.id}
                         onAdd={onAdd}
                         add={false}
                     />
@@ -246,6 +226,26 @@ const history = () => {
         }
     }
 
+    const disabledDates = () => {
+        var today, dd, mm, yyyy
+        today = new Date()
+        dd = today.getDate()
+        mm = today.getMonth() + 1
+        yyyy = today.getFullYear()
+        return yyyy + "-" + mm + "-" + dd
+    }
+    const submit = () => {
+        API.post<post>("/announcement/editdetailpost", {
+            postid: parseInt(params.postId + ""),
+            topic: topic,
+            detail: detail,
+            targetType: targetType,
+            targetValue: targetValue,
+            postat: new Date(),
+            expiredpost: expired,
+            addMoreLang: addMoreLang,
+        })
+    }
     return (
         <AppBody
             secondarynav={[
@@ -258,9 +258,10 @@ const history = () => {
         >
             <form
                 onSubmit={(e) => {
+                    tog()
                     onOpen()
                     e.preventDefault()
-                    updatePost()
+                    submit()
                 }}
             >
                 <Flex alignItems={"center"}>
@@ -282,26 +283,34 @@ const history = () => {
                             status={modalEdit.status}
                             allPost={allPost}
                             setAllPost={setAllPost}
+                            //onclick not use in edit post
+                            onClick={tog}
                         />
                     </Box>
                 </Flex>
-                <Stack spacing={3} p="5">
+                <Stack spacing={3} p="5" color="black">
                     <FormControl>
                         <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English"></Select>
+                        <Select isDisabled placeholder="English" bg="white"></Select>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} />
+                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white" />
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} />
+                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white" />
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Target Group</FormLabel>
                         <Flex>
-                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} value={targetType}>
+                            <Select
+                                placeholder="Select Type"
+                                pr={"2"}
+                                onChange={(el) => setTargetType(el.target.value)}
+                                value={targetType}
+                                bg="white"
+                            >
                                 <option>Everyone</option>
                                 <option>Year</option>
                                 <option>Major</option>
@@ -312,15 +321,35 @@ const history = () => {
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>Expired Date</FormLabel>
-                        <Input placeholder="Select expired date" size="md" type="date" onChange={(e) => setExpired(e.target.value)} value={expired} />
+                        <Input
+                            placeholder="Select expired date"
+                            size="md"
+                            type="date"
+                            min={disabledDates()}
+                            onChange={(e) => setExpired(e.target.value)}
+                            value={expired}
+                            bg="white"
+                        />
                     </FormControl>
                     <FormControl>
                         <>
                             {showMoreLang(moreLangLength, add)}
-                            {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} />
-                            })}
-                            <Tag size={"lg"} key={"lg"} variant="subtle" colorScheme="orange" onClick={increaseCount} cursor={"pointer"} mt="5">
+                            {disable &&
+                                moreLangField.map((el) => {
+                                    return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
+                                })}
+                            <Tag
+                                size={"lg"}
+                                key={"lg"}
+                                variant="subtle"
+                                backgroundColor={"#DD6B20"}
+                                color="white"
+                                onClick={() => {
+                                    increaseCount()
+                                }}
+                                cursor={"pointer"}
+                                mt="5"
+                            >
                                 <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
                                 <TagLabel>Add More Language</TagLabel>
                             </Tag>

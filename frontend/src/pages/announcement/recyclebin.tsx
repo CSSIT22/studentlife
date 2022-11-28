@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
@@ -7,6 +7,8 @@ import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
 import AppBody from "../../components/share/app/AppBody"
 import detail from "./detail/[postId]"
 import { postInfoTest } from "./postInfoTest"
+import { post } from "@apiType/announcement"
+import API from "src/function/API"
 
 const recyclebin = () => {
     // const { isOpen, onOpen, onClose } = useDisclosure()
@@ -42,15 +44,26 @@ const recyclebin = () => {
     //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "delete", id: 12, expired: "45:23:11" },
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
     // ]
-    const [allPost, setAllPost] = React.useState(postInfoTest)
+    const [toggle, settoggle] = useState(false)
+    const [allPost, setAllPost] = React.useState<post[]>([])
+    const getData = API.get("/announcement/getdeletepost")
+    useEffect(() => {
+        getData.then((res) => setAllPost(res.data))
+    }, [toggle])
+    const click = () => {
+        settoggle(!toggle)
+    }
+
+    // console.log(allPost)
+
     const minute = 1000 * 60
     const hour = minute * 60
     const day = hour * 24
 
     const date = new Date()
     // console.log(date);
-    const d = new Date("Sat Nov 12 2022 01:39:11 GMT+0700")
-    console.log(d)
+    // const d = new Date("Sat Nov 12 2022 01:39:11 GMT+0700")
+    // console.log(d)
 
     const currentD = Math.round(date.getTime() / day)
     const currentH = Math.round(date.getTime() / hour)
@@ -97,7 +110,7 @@ const recyclebin = () => {
             </Flex>
             {allPost
                 .filter((fl) => {
-                    const expired = new Date(fl.expiredAfterDelete)
+                    const expired = new Date(fl.expiredAfterDelete + "")
                     const expiredPost = Math.round(expired.getTime() / day)
                     const diffD = expiredPost - currentD
                     const hEpd = Math.round(expired.getTime() / hour)
@@ -105,7 +118,7 @@ const recyclebin = () => {
                     return fl.status == "delete" && (diffD > 0 || diffH > 0)
                 })
                 .map((el) => {
-                    const r = showRemaining(el.expiredAfterDelete)
+                    const r = showRemaining(el.expiredAfterDelete + "")
                     return (
                         <PostOnRecycle
                             topic={el.topic}
@@ -122,6 +135,7 @@ const recyclebin = () => {
             <ModalForEvent
                 isOpen={isOpen}
                 onClose={onClose}
+                onClick={click}
                 topic={modalRecycle.topic}
                 detail={modalRecycle.detail}
                 status={statusPostRequest}

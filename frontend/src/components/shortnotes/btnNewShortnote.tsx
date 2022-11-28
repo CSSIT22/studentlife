@@ -88,7 +88,7 @@ const btnNewShortnote = () => {
                             <GridItem colSpan={1}>
                                 <Flex justifyContent={"center"}>
                                     <Box w={"60%"}>
-                                        <Select variant="filled" placeholder="Course" size={"sm"} rounded={4}>
+                                        <Select focusBorderColor="orange.500" variant="filled" placeholder="Course" size={"sm"} rounded={4}>
                                             {course.map((course, key) => (
                                                 <option value={course}>{course}</option>
                                             ))}
@@ -100,13 +100,13 @@ const btnNewShortnote = () => {
                             <GridItem colSpan={3}>
                                 <Box>
                                     <Text>Name</Text>
-                                    <Input variant="outline" placeholder="" />
+                                    <Input variant="outline" placeholder="" focusBorderColor="orange.500" />
                                 </Box>
                             </GridItem>
                             <GridItem colSpan={3}>
                                 <Box>
                                     <Text>Description</Text>
-                                    <Textarea placeholder="" h={200} />
+                                    <Textarea placeholder="" h={200} focusBorderColor="orange.500" />
                                 </Box>
                             </GridItem>
                             <Spacer />
@@ -140,6 +140,7 @@ const btnNewShortnote = () => {
                                             <GridItem colSpan={4}>
                                                 <Input
                                                     placeholder="studentID, comma seperated"
+                                                    focusBorderColor="orange.500"
                                                     value={pName}
                                                     onChange={(e) => setName(e.target.value)}
                                                 ></Input>
