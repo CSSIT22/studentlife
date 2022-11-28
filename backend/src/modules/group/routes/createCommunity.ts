@@ -32,22 +32,19 @@ const createCommunity = async (req: Request, res: Response) => {
         communityOwnerId: userid,
         communityDesc: body.communityDesc,
         communityPrivacy: body.communityPrivacy,
-        tags: { create: tag2id },
+        tags: { create: tag2id }
+        
     }
-    console.log("hello")
-    // console.log(createCommunity)
-    // console.log(req.body.communityName)
-    // console.log(req.body.communityTags)
-    // res.sendStatus(201)
-    // try {
-    //     await prisma.community.create({
-    //         data: createCommunity,
-    //     })
 
-    //     res.status(201).send("Created Success")
-    // } catch (err) {
-    //     res.status(403)
-    // }
+    try {
+        await prisma.community.create({
+            data: createCommunity,
+        })
+
+        res.status(201).send("Created Success")
+    } catch (err) {
+        res.status(403)
+    }
 }
 
 export default createCommunity

@@ -1,16 +1,21 @@
-import { InvitedCommunity } from "@apiType/group"
 import { Flex, HStack, Box, Image, Text, Button, Stack, VStack } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 
-const InvitationBox: FC<InvitedCommunity> = ({
+const InvitationBox: FC<{
+    userName: string
+    communityName: string
+    memberNumber: number
+    coverPhoto: any
+    isPrivate: boolean
+    expireDate: string
+}> = ({
     communityName,
-    communityMember,
-    communityCoverPhoto,
-    communityId,
+    memberNumber,
+    coverPhoto,
+    isPrivate,
     userName, //name of the person who invited
-    expired,
-    communityPrivacy,
+    expireDate,
 }) => {
     const [acceptBtn, setAcceptBtn] = useState(true)
     const [declinetBtn, setDeclinetBtn] = useState(true)
@@ -36,16 +41,16 @@ const InvitationBox: FC<InvitedCommunity> = ({
                     <Flex direction={{ base: "column-reverse", sm: "column-reverse", lg: "column" }}>
                         <Flex direction={{ base: "column", sm: "column", lg: "row" }} gap={2} justify="space-between">
                             <HStack>
-                                <Image ml={1} borderRadius="md" boxSize="55px" src={communityCoverPhoto} alt="Cover Photo" />
+                                <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto} alt="Cover Photo" />
                                 <div>
                                     <Box display="flex" alignItems="center" gap={1}>
-                                        {communityPrivacy ? <MdPublicOff /> : <MdPublic />}
+                                        {isPrivate ? <MdPublicOff /> : <MdPublic />}
                                         <Text as="b" fontSize="sm">
                                             {communityName}
                                         </Text>
                                     </Box>
                                     <Text fontSize="sm">
-                                        {communityMember} {communityMember == 1 ? "Member" : "Members"}
+                                        {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
                                     </Text>
                                 </div>
                             </HStack>
@@ -66,9 +71,9 @@ const InvitationBox: FC<InvitedCommunity> = ({
                         </Flex>
                         <Box m={1}>
                             <Text fontSize="sm" as="b">
-                                {`${userName} invited you to join this community`}
+                                {userName} invited you to join this community
                             </Text>
-                            <Text fontSize="sm">{`Invite will be expired within ${expired} days`}</Text>
+                            <Text fontSize="sm">Invite will be expired within {expireDate} days</Text>
                         </Box>
                     </Flex>
                 </Box>

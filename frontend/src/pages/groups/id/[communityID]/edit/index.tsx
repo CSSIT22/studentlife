@@ -226,7 +226,7 @@ const createCommunity = () => {
                             focusBorderColor="none"
                             sx={isDesktop ? desktopStyle.input : mobileStyle.input}
                             type="name"
-                            value={communityName}
+                            value={community.communityName}
                             placeholder="Community Name"
                             onChange={(e) => setCommunityName(e.target.value)}
                         />

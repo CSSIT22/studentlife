@@ -1,9 +1,13 @@
-import { SuggestionsCommunity } from "@apiType/group"
 import { HStack, Box, Image, Text, Button, Flex } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 
-const SuggestBox: FC<SuggestionsCommunity> = ({ communityName, communityMember, communityCoverPhoto, communityPrivacy }) => {
+const SuggestBox: FC<{
+    communityName: string
+    memberNumber: number
+    coverPhoto: string
+    isPrivate: boolean
+}> = ({ communityName, memberNumber, coverPhoto, isPrivate }) => {
     return (
         <Box
             sx={{ transition: "transform ease 300ms" }}
@@ -18,7 +22,7 @@ const SuggestBox: FC<SuggestionsCommunity> = ({ communityName, communityMember, 
                     background: "tomato",
                     width: "100%",
                     height: "20vh",
-                    backgroundImage: `url(${communityCoverPhoto})`,
+                    backgroundImage: `url(${coverPhoto})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -29,13 +33,13 @@ const SuggestBox: FC<SuggestionsCommunity> = ({ communityName, communityMember, 
                 <Flex direction={"column"} gap={2} justify="space-between">
                     <div>
                         <Box display="flex" alignItems="center" gap={1}>
-                            {communityPrivacy ? <MdPublicOff /> : <MdPublic />}
+                            {isPrivate ? <MdPublicOff /> : <MdPublic />}
                             <Text as="b" fontSize="sm">
                                 {communityName}
                             </Text>
                         </Box>
                         <Text fontSize="sm">
-                            {communityMember} {communityMember == 1 ? "Member" : "Members"}
+                            {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
                         </Text>
                     </div>
                     <Button _hover={{ background: "orange.200" }} background={"orange.500"} color="white" size="sm">

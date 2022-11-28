@@ -20,12 +20,27 @@ import setRole from "./routes/community/member/setRole"
 import unBanMember from "./routes/community/member/unBanMember"
 import getCommunityId from "./routes/community/getCommunityId"
 
-
 const groupRoutes = express()
 groupRoutes.use(express.json())
 
 groupRoutes.get("/getCommunity", getCommunity)
-
+groupRoutes.post("/createtest", (req, res) => {
+    const body = req.body
+    const userid = req.user?.userId
+    const createCommunity: any = {
+        communityName: body.communityName,
+        communityOwnerId: userid,
+        communityDesc: body.communityDesc,
+        communityPrivacy: body.communityPrivacy,
+        communityPhoto: body.communityCoverPhoto,
+        communityTags: body.communityTags,
+    }
+    console.log("hello")
+    console.log(createCommunity)
+    console.log(req.body.communityName)
+    console.log(req.body.communityTags)
+    res.sendStatus(201)
+})
 
 groupRoutes.post("/createCommunity", createCommunity)
 groupRoutes.delete("/deleteCommunity", deleteCommunity)
@@ -33,8 +48,7 @@ groupRoutes.get("/searchCommunity", searchCommunity)
 groupRoutes.post("/editCommunity", editCommunity)
 groupRoutes.get("/getCommunity", getCommunity)
 
-
-groupRoutes.post("/pendingRequest",pendingRequest)
+groupRoutes.post("/pendingRequest", pendingRequest)
 groupRoutes.delete("/leaveCommunity", leaveCommunity)
 groupRoutes.post("/joinCommunity", joinCommunity)
 groupRoutes.post("/acceptRequest", acceptRequest)
@@ -51,9 +65,7 @@ groupRoutes.post("/banMember", banMember)
 groupRoutes.post("/setRole", setRole)
 groupRoutes.delete("/unBanMember", unBanMember)
 
-
-
-groupRoutes.get("/getCommunityId/:id",getCommunityId)
-groupRoutes.get("/communityTest",communityTest)
+groupRoutes.get("/getCommunityId/:id", getCommunityId)
+groupRoutes.get("/communityTest", communityTest)
 
 export default groupRoutes
