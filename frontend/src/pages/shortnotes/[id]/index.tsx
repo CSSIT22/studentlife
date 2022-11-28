@@ -24,8 +24,7 @@ const index = () => {
     const resentOnclick = () => {
         API.post("/shortnotes/postResentShortnote", {
             snId: param.id
-        }).then((res) => console.log(res)
-        )
+        })
     }
     useEffect(() => {
         API.get("shortnotes/getShortnoteDetail/" + param.id).then((item) => {

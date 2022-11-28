@@ -67,9 +67,9 @@ const btnMyLibrary = () => {
     const inLibraryFilter = () => {
         setSelectedLi(li.filter((items: any) => items.libId == liPicked))
 
-        console.log(liPicked);
+        //console.log(liPicked);
 
-        console.log(snByLi);
+        //console.log(snByLi);
     }
     useEffect(() => {
         selectedLi.map((sn: any) => (

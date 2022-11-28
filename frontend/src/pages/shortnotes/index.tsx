@@ -150,7 +150,7 @@ const index = () => {
                                             navigate({
                                                 pathname: "./" + sn.snId,
                                             })
-                                            console.log(snPicked)
+                                            //console.log(snPicked)
                                         }}
                                     >
                                         <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
