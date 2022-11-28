@@ -141,7 +141,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                 display="flex"
                                 position="initial"
                                 float={"inline-end"}
-                                size={{ md: "3xl", base: "2xl" }}
+                                size={{ md: "2xl", base: "2xl" }}
                                 shadow="xl"
                                 src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user?.userId}
                             />
