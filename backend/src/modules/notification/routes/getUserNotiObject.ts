@@ -1,7 +1,6 @@
 import { Module, prisma } from "@prisma/client"
 import { Express, Request, Response } from "express"
 import { trusted } from "mongoose"
-import { getObject } from ".."
 
 const getUserNotiObject = async (req: Request, res: Response) => {
     const prisma = res.prisma
