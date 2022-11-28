@@ -51,7 +51,7 @@ const NotiTable = () => {
     //getUserNotiObject by Module
 
     const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
-    console.log(getUserNotiObjectModule);
+    //console.log(getUserNotiObjectModule);
 
     const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
     useEffect(() => {
@@ -61,7 +61,7 @@ const NotiTable = () => {
     }, [reLoad])
     //console.log(userNotiObjectModule);
 
-    
+
 
 
     function showNotiList(): any {
@@ -143,7 +143,7 @@ const NotiTable = () => {
                 </Box>
                 <Spacer />
                 <Box>
-                    {alert()}
+                    {/* {alert()} */}
                 </Box>
                 <Spacer />
                 <Box>
