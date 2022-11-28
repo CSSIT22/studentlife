@@ -429,17 +429,6 @@ const YourAppliedActivityPoll = () => {
                             h={{ base: "50px", md: "72px" }}
                             backgroundColor="white"
                             border="1px solid"
-                            mr={{ base: "12px", md: "24px" }}
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Image src={GroupChatImg} />
-                        </Button>
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
                             <Image src={ChatImg} />
                         </Button>
