@@ -36,6 +36,7 @@ const test = () => {
         setTop(false)
         setHide(true)
     }
+    
 
     const [toggle, settoggle] = useState(false)
     const [allPost2, setAllPost2] = useState<announcement[]>([])
@@ -46,6 +47,13 @@ const test = () => {
         getDataPost.then((res) => setAllPost2(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
     console.log(allPost2);
+
+    if (isLoading)
+        return (
+            <AppBody>
+                <Heading>Loading</Heading>
+            </AppBody>
+        )
 
     const minute = 1000 * 60
     const hour = minute * 60
@@ -59,9 +67,10 @@ const test = () => {
         return { postId: el.postId, approveTime: dEpd }
     })
 
-    console.log(approveTime);
+    console.log(approveTime.sort());
+    const sort = approveTime.sort();
     const findLasted = (approveTime: announcement_approve2[]) => {
-        let lasted:string;
+        let lasted: string;
         for (let i = 0; i < approveTime.length; i++) {
             if (approveTime[i].approveTime > LastestPost) {
                 LastestPost = approveTime[i].approveTime
@@ -74,27 +83,11 @@ const test = () => {
         }
     }
 
-    console.log(findLasted(approveTime));
-
-   const recentpost = () => {
-        // const postId = findLasted(approveTime)
-        // return allPost2.filter((el) => (
-        //     el.postId = postId?
-        // ))
-        // .map((post) => {
-        //     return (
-        //     <PostOnTop 
-        //     topic={post.annLanguage[0].annTopic} 
-        //     sender={post.annCreator.fName + " " + post.annCreator.lName} 
-        //     key={post.postId} 
-        //     clickToExpand={() => {
-        //         clickToExpand(), onToggle()
-        //     }} 
-        //     />
-        //     )
-        // })
-    }
-
+    console.log(allPost2.filter((el) => {
+        return el.postId == sort[sort.length-1].postId
+    }))
+    console.log(sort[sort.length-1].postId);
+    
 
 
     return (
@@ -111,19 +104,20 @@ const test = () => {
             {clickArrowUp && (
                 <Box>
                     {/* {recentpost} */}
-                    {/* {allPost
-                        .filter((fl) => fl.postId == postInfoTest.length - 1)
-                        // findLasted(approveTime).map((el) => {
-                        //     return ( */}
-                    {/* <PostOnTop
-                                    topic={el.topic}
-                                    sender={el.sender}
+                    {allPost2.filter((el) => {
+                         return el.postId == sort[sort.length-1].postId
+                    })
+                    .map((fl) => {
+                            return (
+                                <PostOnTop
+                                    topic={fl.annLanguage[0].annTopic}
+                                    sender={fl.annCreator.fName+" "+fl.annCreator.lName}
                                     clickToExpand={() => {
                                         clickToExpand(), onToggle()
                                     }}
-                                /> */}
-                    {/* )
-                        })} */}
+                                />
+                            )
+                        })}
                 </Box>
             )}
 
