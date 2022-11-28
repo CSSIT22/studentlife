@@ -21,7 +21,6 @@ export type Restaurant2 = {
   resName: string
   lastupdated: Date
   likes: number
-  isSeen: boolean
   detail: Detail[]
   images: Image1[]
   opanAt: Open[]
@@ -70,6 +69,8 @@ export type Close = {
 export type Like = {
   userId: string
   resId: string
+  isLike: boolean
+  updateAt:Date
 }
 
 export type Favorite = {

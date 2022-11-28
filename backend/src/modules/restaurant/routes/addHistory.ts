@@ -15,14 +15,14 @@ const addHistory = async (req:Request, res:Response) => {
             }
         })
 
-        const isSeen = await prisma.restaurant.update({
-            where: {
-                resId: resid
-            }, 
-            data:{
-             isSeen: true
-            }
-        })
+        // const isSeen = await prisma.restaurant.update({
+        //     where: {
+        //         resId: resid
+        //     }, 
+        //     data:{
+        //      isSeen: true
+        //     }
+        // })
     
         // console.log(isSeen);
         console.log(seen);

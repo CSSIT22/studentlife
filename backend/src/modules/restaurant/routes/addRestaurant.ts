@@ -12,7 +12,6 @@ const addRestaurant = async (req: Request, res: Response) => {
                 resName: "Tenjo",
                 lastupdated: new Date("2022-04-06 10:00:00"),
                 likes:  95,
-                isSeen: false,
                 detail: {
                     create: {
                         phoneNo: "0948421111",
