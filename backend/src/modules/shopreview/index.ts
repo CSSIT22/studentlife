@@ -8,6 +8,7 @@ import getrestDb from "./routes/getrestDb"
 import getmyreviewDb from "./routes/getmyreviewDb"
 import getmyreviewDb2 from "./routes/getmyreviewDb2"
 import getmycommentDb from "./routes/getmycommentDb"
+import postmyreview from "./routes/postMyreview"
 
 const shopreviewRoutes = express()
 
@@ -144,6 +145,8 @@ export let restaurants: Restaurant[] = [
     },
 ]
 
+
+
 export type Review = {
     reviewId: String
     shopId: String
@@ -250,5 +253,8 @@ shopreviewRoutes.get("/getcomment", (req, res) => {
 
 shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
 shopreviewRoutes.get("/shopdetails/restaurant/:id", getRest)
+shopreviewRoutes.post("/postmyreview", postmyreview )
+
+
 
 export default shopreviewRoutes

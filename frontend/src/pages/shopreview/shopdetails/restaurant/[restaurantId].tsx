@@ -9,6 +9,7 @@ import LocationShop from 'src/components/shopreview/LocationShop'
 import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
+import TempUpload from 'src/components/shopreview/TempUpload'
 import API from 'src/function/API'
 
 const restId = () => {
@@ -19,6 +20,19 @@ const restId = () => {
         API.get(`/shopreview/shopdetails/restaurant/${param.restaurantId}`)
             .then((res) => setDetail(res.data))
     }, [param])
+    const [text, setText] = useState("")
+    const submit = () => {
+
+        API.post("/shopreview/postmyreview", {
+            text: text,
+            shopId: param.shopId,
+        }).then((res) => {
+            console.log(res)
+            window.location.reload()
+        })
+
+    }
+
     return (
         <AppBody>
             <ShopDetailName name={detail.name} />
@@ -98,31 +112,22 @@ const restId = () => {
                             marginTop={"5"}
                             minHeight={"100px"}
                             maxHeight={"200px"}
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+
                         ></Textarea>
                         <Input type={"file"} id="id" hidden multiple></Input>
-                        <Box
-                            onClick={() => {
-                                document.getElementById("id")?.click()
-                            }}
-                            as="button"
-                            paddingTop={"10px"}
-                        >
-                            <Image
-                                src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
-                                width={"40px"}
-                                borderRadius="full"
-                                marginLeft={"1"}
-                                marginTop={"-58px"}
-                                padding={"4px"}
-                            />
-                        </Box>
+
+                        <TempUpload />
+
+
                     </ModalBody>
 
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button bgColor={"green"} color="white">
+                        <Button bgColor={"green"} color="white" onClick={submit}>
                             Submit
                         </Button>
                     </ModalFooter>
@@ -149,7 +154,10 @@ const restId = () => {
             <Container my={5} textAlign={"center"}>
                 That's all~
             </Container>
+
+
         </AppBody>
+
     )
 }
 

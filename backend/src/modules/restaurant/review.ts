@@ -1,4 +1,4 @@
-import { Restaurant, Review } from "@apiType/restaurant"
+import { Restaurant,  Review } from "@apiType/restaurant"
 
 export let review: Review[] = [
     {
