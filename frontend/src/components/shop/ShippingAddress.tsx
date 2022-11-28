@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { Box, FormControl, FormLabel, Input } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import ThemedButton from 'src/components/shop/ThemedButton'
@@ -9,7 +9,9 @@ type formInputs = {
     pvn: string,
     ctry: string
 }
-const ShippingAddress = () => {
+const ShippingAddress:FC<{
+    couponDiscount: number
+}> = ({couponDiscount}) => {
     const [inputs, setInputs] = useState<formInputs>({
         al1: "",
         al2: "",
@@ -51,7 +53,7 @@ const ShippingAddress = () => {
                 </FormControl>
             </Box>
             <Box mt='10' mb='20'>
-                <Link onSubmit={handleSubmit} to='../shop/confirm_order' state={{add: inputs.al1 + " \n" + inputs.al2 + "\n " + inputs.dst + ", " + inputs.pvn + ", " + inputs.ctry}}>
+                <Link onSubmit={handleSubmit} to='../shop/confirm_order' state={{add: inputs.al1 + " \n" + inputs.al2 + "\n " + inputs.dst + ", " + inputs.pvn + ", " + inputs.ctry, couponDiscount: couponDiscount}}>
                     <ThemedButton >Next</ThemedButton>
                 </Link>
             </Box>

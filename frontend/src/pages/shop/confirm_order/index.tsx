@@ -16,6 +16,7 @@ const ConfirmOrder = () => {
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const location = useLocation()
+    const couponDiscount = location.state.couponDiscount
     const add = location.state.add
     const getData = API.get("/shop/getAllProductsInCart")
     useEffect(() => {
@@ -23,13 +24,13 @@ const ConfirmOrder = () => {
     }, [cartProducts])
     let st = 0, dt = 0
     cartProducts?.forEach(cartProduct => {
-        st += cartProduct.product.productPrice
-        dt += cartProduct.product.deliveryFees
+        st += parseFloat(cartProduct.product.productPrice) * cartProduct.quantity
+        dt += parseFloat(cartProduct.product.deliveryFees)
     })
     const summeryData = {
         subtotal: st,
         deliveryTotal: dt,
-        total: st + dt
+        total: st + dt - couponDiscount
     }
     const shippingAddress = (
         <ContentBox bg='#fff'>
@@ -53,7 +54,7 @@ const ConfirmOrder = () => {
                 </Flex>
                 <Flex gap={2} justify="space-between">
                     <Text>Coupon Discount</Text>
-                    <Text as="b">{convertCurrency(20)}</Text>
+                    <Text as="b">{convertCurrency(couponDiscount)}</Text>
                 </Flex>
                 <Flex gap={2} justify="space-between">
                     <Text>Total</Text>
@@ -77,7 +78,7 @@ const ConfirmOrder = () => {
                     <Flex direction="column" gap={2}>
                         <TitleBox title="Order Includes" />
                         <Grid bg='#fff' boxShadow='lg' borderRadius='lg'>
-                            {generateCartProducts()}
+                            {generateCartProducts(cartProducts)}
                         </Grid>
                     </Flex>
                 </GridItem>
@@ -91,22 +92,25 @@ const ConfirmOrder = () => {
         </ShopAppBody>
     )
 }
-export function generateCartProducts() {
-    let products = []
-    for (let i = 0; i < 3; i++) {
-        products.push(
-            <GridItem bg="" borderBottom="1px" pl='2'>
-                <OrderConfirmProduct
-                    id={1}
-                    name="Pen"
-                    price={10000}
-                    quantity={2}
-                    image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                ></OrderConfirmProduct>
-            </GridItem>
-        )
-    }
+export function generateCartProducts(cartProducts: Shop_Cart[] | null) {
+    if (cartProducts != null){
+        let products = []
+        for (let i = 0; i < cartProducts.length; i++) {
+            products.push(
+                <GridItem bg="" borderBottom="1px" pl='2'>
+                    <OrderConfirmProduct
+                        id={cartProducts[i].productId}
+                        name={cartProducts[i].product.productName}
+                        price={parseFloat(cartProducts[i].product.productPrice)}
+                        quantity={cartProducts[i].quantity}
+                        image={cartProducts[i].product.images[0].image}
+                    ></OrderConfirmProduct>
+                </GridItem>
+            )
+        }
     return products
+    }
+    
 }
 
 export default ConfirmOrder

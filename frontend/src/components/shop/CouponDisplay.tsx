@@ -42,7 +42,7 @@ const CouponDisplay: FC<{
             >
                 <GridItem overflow={"hidden"} area="name">
                     <Flex h="full" justify="center" align="center">
-                        <Text fontSize="3xl" fontWeight="800">
+                        <Text fontSize={{base: "xl", md : "3xl"}} fontWeight="800">
                             {couponCode}
                         </Text>
                     </Flex>

@@ -6,13 +6,22 @@ const getAllCoupons = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const userid = req.user?.userId
         if (userid != undefined) {
-            const coupons: User_Coupon[] = await prisma.user_Coupon.findMany({ where: { userId: userid } })
+            const coupons = await prisma.user_Coupon.findMany({
+                select: {
+                    coupon: true,
+                },
+                where: { userId: userid },
+            })
             let couponDetails = []
             for (let i = 0; i < coupons.length; i++) {
-                let couponD = await prisma.shop_Coupon.findUnique({ where: {couponCode: coupons[i].couponCode} })
-                couponDetails.push(couponD)
+                let expDate = new Date(coupons[i].coupon.validTill.toString())
+                let now = new Date()
+                if (coupons[i].coupon.quota > 0) {
+                    if (now < expDate) {
+                        couponDetails.push(coupons[i].coupon)
+                    }
+                }
             }
-            // Add function to check coupon validity -> Expiriry date, quota, etc
             return res.send(couponDetails)
         }
         return res.status(404).send("User not found")
