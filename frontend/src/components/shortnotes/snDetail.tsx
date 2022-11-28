@@ -80,7 +80,11 @@ const liList: FC<{
     }
 
     const deleteShortnote = () => {
-        API.delete("/shortnotes/deleteShortnote/" + param.id)
+        API.delete("/shortnotes/deleteShortnote/" + param.id).then(() => {
+            navigate({
+                pathname: "../shortnotes",
+            })
+        })
     }
 
     const [selectedLi, setSelectedLi] = useState()
@@ -172,10 +176,6 @@ const liList: FC<{
                         <Button onClick={() => {
                             deleteShortnote()
                             onClose()
-                            navigate({
-                                pathname: "../shortnotes",
-                            })
-                            window.location.reload()
                         }} colorScheme={"red"}>
                             Delete
                         </Button>

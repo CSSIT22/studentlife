@@ -10,7 +10,7 @@ const postAccess = async (req: Request<any>, res: Response<any>) => {
         people.forEach(async (p: any) => {
             const pId = await prisma.user_Profile.findFirstOrThrow({
                 where: {
-                    studentId: p,
+                    studentId: p.trim(),
                 },
                 select: {
                     userId: true,

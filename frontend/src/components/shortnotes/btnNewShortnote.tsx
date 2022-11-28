@@ -42,6 +42,10 @@ import {
     Collapse,
     useBoolean,
     Hide,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    useToast,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { MdPostAdd } from "react-icons/md"
@@ -80,23 +84,35 @@ const btnNewShortnote = () => {
     const navigate = useNavigate()
     const param = useParams()
     const create = () => {
-        API.post("/shortnotes/postShortnote", {
-            courseId: course,
-            isPublic: ispublic,
-            snName: name,
-            snDesc: desc,
-            people: people
-        }).then((res) => {
-            console.log(res)
-            API.post("/shortnotes/postAccess", {
-                snId: res.data.snId,
-                people: people
+        if (name == '' || course == '' || desc == '') {
+            toast({
+                position: "top",
+                title: 'Please complete the form.',
+                status: 'warning',
+                duration: 4000,
+                isClosable: true,
             })
-            navigate("./" + res.data.snId)
+        } else {
+            API.post("/shortnotes/postShortnote", {
+                courseId: course.toUpperCase(),
+                isPublic: ispublic,
+                snName: name,
+                snDesc: desc,
+                people: people
+            }).then((res) => {
+                console.log(res)
+                API.post("/shortnotes/postAccess", {
+                    snId: res.data.snId,
+                    people: people
+                })
+                navigate("./" + res.data.snId)
+
+            }
+            )
 
         }
-        )
     }
+    const toast = useToast()
     return (
         <Box>
             <Button colorScheme={"orange"} onClick={nsOnOpen}>
@@ -113,22 +129,37 @@ const btnNewShortnote = () => {
                             <GridItem colSpan={1}>
                                 <Flex justifyContent={"center"}>
                                     <Box w={"60%"}>
-                                        <Text>Course</Text>
-                                        <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={course} onChange={(e) => setCourse(e.target.value)} />
+                                        <FormControl isRequired>
+
+                                            <FormLabel>Course</FormLabel>
+                                            <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={course} onChange={(e) => setCourse(e.target.value)} />
+                                            <FormErrorMessage>Course is required.</FormErrorMessage>
+
+                                        </FormControl>
+
                                     </Box>
                                 </Flex>
                             </GridItem>
                             <Spacer />
                             <GridItem colSpan={3}>
                                 <Box>
-                                    <Text>Name</Text>
-                                    <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <FormControl isRequired>
+                                        <FormLabel>Name</FormLabel>
+                                        <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={name} onChange={(e) => setName(e.target.value)} />
+                                        <FormErrorMessage>Name is required.</FormErrorMessage>
+                                    </FormControl>
                                 </Box>
                             </GridItem>
                             <GridItem colSpan={3}>
                                 <Box>
-                                    <Text>Description</Text>
-                                    <Textarea placeholder="" h={200} focusBorderColor="orange.500" value={desc} onChange={(e) => setDesc(e.target.value)} />
+                                    <FormControl isRequired>
+
+                                        <FormLabel>Description</FormLabel>
+
+                                        <Textarea placeholder="" h={200} focusBorderColor="orange.500" value={desc} onChange={(e) => setDesc(e.target.value)} />
+                                        <FormErrorMessage>Description is required.</FormErrorMessage>
+                                    </FormControl>
+
                                 </Box>
                             </GridItem>
                             <Spacer />
@@ -173,7 +204,9 @@ const btnNewShortnote = () => {
                                                     rounded={8}
                                                     w={"100%"}
                                                     onClick={() => {
-                                                        let newPeople = [pName, ...people] //add to begin
+                                                        let x = pName.split(',')
+                                                        //let newPeople = [pName, ...people] //add to begin
+                                                        let newPeople = x.concat(people)
                                                         setPeoples(newPeople)
                                                         setpName("")
                                                     }}
