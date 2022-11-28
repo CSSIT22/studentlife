@@ -1,6 +1,7 @@
 import { Shop_Product_Images } from "@apiType/shop"
 import { Badge, Box, Center, Flex, Image, LinkBox, LinkOverlay, Spacer, VStack } from "@chakra-ui/react"
-import React, { FC, useState } from "react"
+import { motion } from "framer-motion"
+import React, { FC, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import convertCurrency, { setDataAPI } from "./functions/usefulFunctions"
 
@@ -15,6 +16,9 @@ const ProductDisplay: FC<{
     let displayImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
     if (image){displayImage = image}
     return (
+        <motion.div initial={{scale: 0.1}} animate={{ scale: 1}} transition={{
+            default: { ease: "backOut", duration: 0.5}
+          }}>
         <LinkBox>
             <Link to={"/shop/product/" + id}>
                 <Box mt="6" background="white" width="11rem" height="16rem" borderRadius="lg" overflow="hidden" shadow="xl" border="1px solid"
@@ -38,6 +42,7 @@ const ProductDisplay: FC<{
                 </Box>
             </Link>
         </LinkBox>
+        </motion.div>
     )
 }
 

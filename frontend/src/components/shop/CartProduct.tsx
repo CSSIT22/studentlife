@@ -1,5 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons"
 import { Text, Flex, IconButton, Box, Image } from "@chakra-ui/react"
+import { motion } from "framer-motion"
 import React, { FC } from "react"
 import { Link } from "react-router-dom"
 import API from "src/function/API"
@@ -50,6 +51,9 @@ const CartProduct: FC<{
     let displayImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
     if (images.length > 0) displayImage = images[0].image
     return (
+        <motion.div initial={{scale: 0.1}} animate={{ scale: 1}} transition={{
+            default: { ease: "backOut", duration: 0.5}
+          }}>
         <ContentBox>
             <Flex p="5" align="center" gap={5}>
                 <Flex wrap="wrap" gap={5} justify="space-around" width="full" align="center">
@@ -73,6 +77,7 @@ const CartProduct: FC<{
                 <IconButton icon={<DeleteIcon />} onClick={deleteProduct} aria-label={"Delete"} colorScheme="red" _hover={{ transform: "scale(1.1)" }} _active={{ transform: "scale(1.0)" }} transitionDuration="300ms"></IconButton>
             </Flex>
         </ContentBox>
+        </motion.div>
     )
 }
 

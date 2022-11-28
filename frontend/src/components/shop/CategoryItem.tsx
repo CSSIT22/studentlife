@@ -1,4 +1,5 @@
 import { Flex, Center, Box, Image, useColorModeValue, LinkBox, LinkOverlay } from "@chakra-ui/react"
+import { motion } from "framer-motion"
 import { FC } from "react"
 import { createSearchParams, Link, useNavigate } from "react-router-dom"
 export const CategoryItem: FC<{
@@ -10,6 +11,9 @@ export const CategoryItem: FC<{
 
 
     return (
+        <motion.div initial={{scale: 0.1}} animate={{ scale: 1}} transition={{
+            default: { ease: "backOut", duration: 0.5}
+          }}>
         <LinkBox>
             <Link
                 to={link ? link : "/shop/categories/" + id}
@@ -31,5 +35,6 @@ export const CategoryItem: FC<{
             </Link>
             {/* </LinkOverlay> */}
         </LinkBox>
+        </motion.div>
     )
 }
