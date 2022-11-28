@@ -118,6 +118,7 @@ const Clist: FC<any> = () => {
             )
         }
         if (target === 2 && e.roomType === "GROUP") {
+            const img = e.roomGroup?.groupImg
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
@@ -131,7 +132,7 @@ const Clist: FC<any> = () => {
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.roomName} src={e.roomGroup.groupImg} />
+                        <Avatar name={e.roomName} src={(img === null) ? "" : img} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
@@ -154,7 +155,7 @@ const Clist: FC<any> = () => {
     }
 
     return (
-        <Box minH={"78vh"} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
+        <Box minH={"78vh"} background="orange.200" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />

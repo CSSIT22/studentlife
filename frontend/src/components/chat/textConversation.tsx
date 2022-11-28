@@ -1,5 +1,6 @@
 import { Avatar, Box, HStack, VStack } from "@chakra-ui/react"
 import { Text } from "@chakra-ui/react"
+import { useState } from "react"
 
 let d = new Date()
 d.toLocaleString
@@ -8,9 +9,10 @@ type props = {
     message: string
     timeSent: string
     from: string
+    color : any
 }
 
-export const TextBar = ({ message, timeSent, from }: props) => {
+export const TextBar = ({ message, timeSent, from ,color }: props) => {
     const isMe = from === "me"
     const align = isMe ? "flex-end" : "flex-start"
     const bottomRradius = isMe ? 0 : 32
@@ -19,7 +21,7 @@ export const TextBar = ({ message, timeSent, from }: props) => {
         <VStack marginTop={2} alignItems={align} alignSelf={align}>
                     <HStack>
                         <Box
-                            bg={isMe ? "#E68E5C" : "white"}
+                            bg={isMe ? color : "white"}
                             paddingX={6}
                             paddingY={1}
                             maxWidth={80}

@@ -31,8 +31,8 @@ export type RoomType = {
         roomIndividual: {
             chatWith: {
                 image: {
-                    type:string
-                    data : string
+                    type: string
+                    data: string
                 } | null
             }
         } | null
@@ -54,7 +54,7 @@ const Room = () => {
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
     const [Room, setRoom] = useState<RoomType>()
-    const scroll = useRef<null|HTMLDivElement>(null);
+    const scroll = useRef<null | HTMLDivElement>(null);
     //fetch API
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
@@ -62,54 +62,49 @@ const Room = () => {
 
     useEffect(() => {
         scroll.current?.scrollIntoView();
-    },[msg])
+    }, [msg])
 
     //function
     function onType(e: any) {
         setText(e.target.value)
     }
 
-    function onSend() {
-        setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
-        socketIO.emit("send-msg", { userId: Room?.userId, roomId: Room?.room.roomId, message: Text })
-        setText("")
+    function onSend(e: any) {
+        e.preventDefault()
+        if (Text == "") {
+            alert("ไม่ให้ส่งคั้บ")
+        } else {
+            setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
+            socketIO.emit("send-msg", { userId: Room?.userId, roomId: Room?.room.roomId, message: Text })
+            setText("")
+        }
     }
     function renderTitle() {
         if (Room?.room.roomType === "INDIVIDUAL") {
             const img = Room.room.roomIndividual?.chatWith.image
             return (
                 <Flex alignItems={"center"}>
-                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : buffer_to_img(img?.data)}/>
+                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : buffer_to_img(img?.data)} />
                     <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
                         {Room?.room.roomName}
                     </Box>
                 </Flex>
             )
         }
-        else{
+        else {
             const img = Room?.room.roomGroup?.groupImg
             return (
                 <Flex alignItems={"center"}>
-                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : img}/>
+                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : img} />
                     <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
                         {Room?.room.roomName}
                     </Box>
                 </Flex>
             )
         }
-        
+
     }
 
-    //keyCode is deprecated
-    // const text = document.querySelector('input');
-    // text?.addEventListener('keyup', (e) => {
-    //     if(e.keyCode === 13){
-    //         {msg.map(({ text, from, timeSent }, roomID) => (
-    //             <TextBar key={roomID} message={text} timeSent={timeSent} from={from} />
-    //         ))}
-    //     }
-    // })
-    
     return (
         <AppBody>
             <HStack>
@@ -120,7 +115,7 @@ const Room = () => {
                     flex={1}
                     bg="#FFF2E6"
                     marginLeft={{ base: 0, md: 5 }}
-                    width={{ base: "100%", md: "300px" }}
+                    // width={{ base: "100%", md: "300px" }}
                     justifyContent={"space-between"}
                     height={"78vh"}
                     flexDirection={"column"}
@@ -128,7 +123,7 @@ const Room = () => {
                 >
                     <Flex
                         alignItems={"center"}
-                        bg="#E68E5C"
+                        bg={Room?.room.chatColor}
                         justifyContent={"space-between"}
                         width={{ base: "100%", md: "auto" }}
                         roundedTopLeft={"lg"}
@@ -136,7 +131,7 @@ const Room = () => {
                         py={2}
                     >
                         <Flex alignItems={"center"}>
-                          {renderTitle()}
+                            {renderTitle()}
                         </Flex>
                         <Flex marginRight={4}>
                             <Box marginX={5}>
@@ -152,27 +147,29 @@ const Room = () => {
 
                     <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} maxH={"65vh"}>
                         {msg.map(({ text, from, timeSent }, roomID) => (
-                            <TextBar key={roomID} message={text} timeSent={timeSent} from={from} />
+                            <TextBar key={roomID} message={text} timeSent={timeSent} from={from} color={Room?.room.chatColor} />
                         ))}
                         <div ref={scroll}></div>
                     </Box>
 
-                    <Flex h={"55px"} bg="#E68E5C" justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
+                    <Flex h={"55px"} bg={Room?.room.chatColor} justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
                         <Plustoggle />
-                        <Input
-                            marginLeft={5}
-                            isInvalid
-                            width={"md"}
-                            size={"md"}
-                            placeholder="Type something"
-                            _placeholder={{ color: "#F8B88B" }}
-                            type={"text"}
-                            focusBorderColor="#606070"
-                            errorBorderColor="#F8B88B"
-                            onChange={(e) => onType(e)}
-                            value={Text}
-                        />
-                        <Flex alignItems={"center"}>
+                        <form onSubmit={onSend}>
+                            <Input
+                                marginLeft={5}
+                                isInvalid
+                                width={"md"}
+                                size={"md"}
+                                placeholder="Type something"
+                                _placeholder={{ color: "#F8B88B" }}
+                                type={"text"}
+                                focusBorderColor="#606070"
+                                errorBorderColor="#F8B88B"
+                                onChange={(e) => onType(e)}
+                                value={Text}
+                            />
+                        </form>
+                        <Flex alignItems={"center"} >
                             <Box cursor={"pointer"} marginRight={4}>
                                 <BiSticker size={30} />
                             </Box>
