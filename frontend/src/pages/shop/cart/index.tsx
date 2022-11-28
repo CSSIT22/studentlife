@@ -57,9 +57,11 @@ const Cart = () => {
                     ></Input>
                     <ThemedButton maxW="24"> APPLY </ThemedButton>
                 </Flex>
-                <Button variant="link" width="min">
-                    See Your Coupons
-                </Button>
+                <Link to={"/shop/other/coupons"}>
+                    <Button variant="link" width="min">
+                        See Your Coupons
+                    </Button>
+                </Link>
                 <Flex gap={2} justify="space-between">
                     <Text >Total</Text>
                     <Text as="b">{convertCurrency(summeryData.total)}</Text>
