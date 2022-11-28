@@ -34,9 +34,11 @@ const ShortAc = () => {
                                 <Center>
                                     <List>
                                         <ListItem marginBottom={""}>
-                                            <Center><Text as={"b"}  fontSize="2xl">
-                                                Major
-                                            </Text></Center>
+                                            <Center>
+                                                <Text as={"b"} fontSize="2xl">
+                                                    Major
+                                                </Text>
+                                            </Center>
                                         </ListItem>
 
                                         <ListItem marginBottom={"20px"}>
@@ -46,9 +48,11 @@ const ShortAc = () => {
                                         </ListItem>
 
                                         <ListItem>
-                                        <Center><Text as={"b"} fontSize="2xl">
-                                                Faculty
-                                            </Text></Center>
+                                            <Center>
+                                                <Text as={"b"} fontSize="2xl">
+                                                    Faculty
+                                                </Text>
+                                            </Center>
                                         </ListItem>
 
                                         <ListItem marginBottom={"20px"}>
@@ -56,11 +60,13 @@ const ShortAc = () => {
                                                 <Text as={"b"}>Click!</Text>
                                             </Button>
                                         </ListItem>
-                                        
+
                                         <ListItem>
-                                        <Center><Text as={"b"} fontSize="2xl">
-                                                Year
-                                            </Text></Center>
+                                            <Center>
+                                                <Text as={"b"} fontSize="2xl">
+                                                    Year
+                                                </Text>
+                                            </Center>
                                         </ListItem>
                                         <ListItem marginBottom={"20px"}>
                                             <Button bg={"orange.200"} w={"100%"} height={"60px"} onClick={complete}>

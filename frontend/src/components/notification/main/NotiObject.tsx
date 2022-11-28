@@ -1,8 +1,9 @@
 import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
+import API from "src/function/API"
 import { MODULES } from "../moduleList/moduleTest"
-import { USER } from "./data/userProfile"
+import { USER } from "./mockupData/userProfile"
 
 const NotiObject: FC<{
     id: number
@@ -11,7 +12,8 @@ const NotiObject: FC<{
     isRead: boolean
     date: Date
     link: string
-}> = ({ id, description, isRead, date, userId, link }) => {
+    onClick: Function
+}> = ({ id, description, isRead, date, userId, link, onClick }) => {
     function showStatus() {
         if (isRead) {
             return <Circle size="0.6em" bg="gray" />
@@ -20,7 +22,6 @@ const NotiObject: FC<{
         }
     }
     function showDate() {
-        //use current date for testing
         const current = new Date()
 
         const minute = 1000 * 60
@@ -47,14 +48,14 @@ const NotiObject: FC<{
 
                 // console.log(diffHours + " hours ago")
                 return (
-                    <Text fontSize={"xs"} color="gray.400">
+                    <Text fontSize={"xs"} color="gray.400" align={"left"}>
                         {diffHours} hours ago
                     </Text>
                 )
             } else {
                 // console.log(diffMinutes + " minutes ago")
                 return (
-                    <Text fontSize={"xs"} color="gray.400">
+                    <Text fontSize={"xs"} color="gray.400" align={"left"}>
                         {diffMinutes} minutes ago
                     </Text>
                 )
@@ -62,7 +63,7 @@ const NotiObject: FC<{
         } else if (diffDay > 0 && diffDay < 7) {
             // console.log(diffDay + " days ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"xs"} color="gray.400" align={"left"}>
                     {diffDay} days ago
                 </Text>
             )
@@ -70,7 +71,7 @@ const NotiObject: FC<{
             const diffWeek = Math.floor(diffDay / 7)
             // console.log(diffWeek + " weeks ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"xs"} color="gray.400" align={"left"}>
                     {diffWeek} weeks ago
                 </Text>
             )
@@ -78,7 +79,7 @@ const NotiObject: FC<{
             const diffMonth = Math.floor(diffDay / 30)
             // console.log(diffMonth + " months ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"xs"} color="gray.400" align={"left"}>
                     {diffMonth} months ago
                 </Text>
             )
@@ -86,14 +87,14 @@ const NotiObject: FC<{
             const diffYear = Math.floor(diffDay / 365)
             // console.log(diffYear + " years ago")
             return (
-                <Text fontSize={"xs"} color="gray.400">
+                <Text fontSize={"xs"} color="gray.400" align={"left"}>
                     {diffYear} years ago
                 </Text>
             )
         }
     }
     function showDescription() {
-        return <div dangerouslySetInnerHTML={{ __html: description }} />
+        return <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: description }} />
     }
     function showUser() {
         var user = USER.filter((el) => el.id == userId)
@@ -114,7 +115,9 @@ const NotiObject: FC<{
             )
         }
     }
-
+    function read() {
+        API.post("/notification/readnotiobject/" + id)
+    }
     return (
         <Box
             as="button"
@@ -124,19 +127,17 @@ const NotiObject: FC<{
             borderRadius="2xl"
             bg="white"
             padding={2}
-            key={id}
+            onClick={() => {
+                read(), onClick()
+            }}
         >
             <a href={link}>
                 <Stack direction={"row"} spacing={5} padding={"1"}>
                     <Center>{showUser()}</Center>
 
                     <Stack>
-                        <Text fontSize={"sm"} textAlign={"left"}>
-                            {showDescription()}
-                        </Text>
-                        <Text fontSize={"xs"} textAlign={"left"} color="gray.400">
-                            {showDate()}
-                        </Text>
+                        {showDescription()}
+                        {showDate()}
                     </Stack>
 
                     <Spacer />

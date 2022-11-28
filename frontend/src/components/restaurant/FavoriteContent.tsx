@@ -3,8 +3,6 @@ import {
     Button,
     ButtonGroup,
     Flex,
-    Grid,
-    GridItem,
     Heading,
     Image,
     Popover,
@@ -17,11 +15,11 @@ import {
     PopoverTrigger,
     Show,
     Text,
+    useDisclosure,
 } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import { Link } from "react-router-dom"
-import { Restaurant } from "src/pages/restaurant/data/restaurant"
 
 const FavoriteContent: FC<{
     id: number
@@ -33,30 +31,17 @@ const FavoriteContent: FC<{
     link: string
     img: string
 }> = ({ id, resName, phone, open, close, website, link, img }) => {
-    // const ClosePop = () => {
-    //     setclose(true);
-    //     // console.log(close);
-
+    // const DeleteFv = () => {
+    //     Restaurant[id].status = false
+    //     console.log(Restaurant[id].status)
     // }
 
-    const DeleteFv = () => {
-        Restaurant[id].status = false
-        console.log(Restaurant[id].status)
-    }
-
     return (
-        // <Box mb={{lg:"4rem"}} width="100%">
-        //    {/* <Flex direction={"row"} justifyContent={"center"}>
-        //     <Show above="lg">
-        //             <Box width={"30%"} mt={"35px"}>
-        //                 <Image boxSize="12.5rem" height={"9.6rem"} src="https://bit.ly/dan-abramov" alt="Dan Abramov" borderRadius={"10px"} />
-        //             </Box>
-        //         </Show> */}
         <>
             <Show below="sm">
                 <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
                     <Popover placement="auto">
-                        {({ isOpen, onClose }) => (
+                        {({ onClose }: any) => (
                             <>
                                 <PopoverTrigger>
                                     <Flex justifyContent={"end"} height={3}>
@@ -66,11 +51,13 @@ const FavoriteContent: FC<{
                                 <PopoverContent>
                                     <PopoverArrow />
                                     <PopoverCloseButton />
-                                    <PopoverHeader textAlign={"center"}>ARE YOU SURE</PopoverHeader>
-                                    <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
-                                    <PopoverFooter display="flex" justifyContent="center">
+                                    <PopoverHeader textAlign={"center"} border="0">
+                                        ARE YOU SURE
+                                    </PopoverHeader>
+                                    <PopoverBody border="0"> you want to unfavorite this restaurant?</PopoverBody>
+                                    <PopoverFooter display="flex" justifyContent="center" border="0">
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={DeleteFv} mr={2}>
+                                            <Button colorScheme="green" onClick={onClose} mr={2}>
                                                 Yes
                                             </Button>
 
@@ -84,55 +71,53 @@ const FavoriteContent: FC<{
                         )}
                     </Popover>
 
-                    <Flex mb={"15px"}>
-                        {/* <Show below="lg"> */}
-                        <Box width={"30%"}>
-                            <Image
-                                boxSize={{ base: "5rem", lg: "12.5rem" }}
-                                height={{ lg: "9.5rem" }}
-                                src={img}
-                                alt="Dan Abramov"
-                                borderRadius={"10px"}
-                            />
+                    <Flex alignItems={"center"}>
+                        <Box width={"30%"} ml={"1rem"}>
+                            <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
                         {/* </Show> */}
-                        <Box width={"100%"} display="flex" justifyContent={"center"}>
-                            <Box width={"70%"} color={"black"}>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
-                                </Text>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
-                                </Text>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Phone:</span> {phone}
-                                </Text>
-                                <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                    <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
-                                </Text>
-                            </Box>
+
+                        <Box width={"60%"} color={"black"}>
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
+                            </Text>
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                            </Text>
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Phone:</span> {phone}
+                            </Text>
+                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                                <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
+                            </Text>
                         </Box>
                     </Flex>
                 </Box>
             </Show>
             <Show above="sm">
-                <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
+                <Box width={"100%"} p={5} shadow="md" backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
                     <Popover placement="bottom">
-                        {({ isOpen, onClose }) => (
+                        {({ onClose }: any) => (
                             <>
                                 <PopoverTrigger>
                                     <Flex justifyContent={"end"} height={3}>
                                         <AiOutlineClose />
                                     </Flex>
                                 </PopoverTrigger>
-                                <PopoverContent>
-                                    <PopoverArrow />
+                                <PopoverContent borderWidth={"2px"} borderColor="black">
+                                    <PopoverArrow bg={"red"} />
                                     <PopoverCloseButton />
-                                    <PopoverHeader textAlign={"center"}>ARE YOU SURE</PopoverHeader>
-                                    <PopoverBody> you want to unfavorite this restaurant?</PopoverBody>
-                                    <PopoverFooter display="flex" justifyContent="center">
+                                    <PopoverHeader textAlign={"center"} border="0" color={"#E53E3E"} fontWeight={"bold"}>
+                                        ARE YOU SURE
+                                    </PopoverHeader>
+                                    <PopoverBody textAlign={"center"} fontWeight={"bold"}>
+                                        {" "}
+                                        you want to unfavorite <br />
+                                        this restaurant?
+                                    </PopoverBody>
+                                    <PopoverFooter display="flex" justifyContent="center" border="0">
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" onClick={DeleteFv} mr={2}>
+                                            <Button colorScheme="green" mr={2}>
                                                 Yes
                                             </Button>
 
@@ -150,13 +135,7 @@ const FavoriteContent: FC<{
                             <Heading color={"#E65D10"} fontSize="xl">
                                 {resName}
                             </Heading>
-                            <Image
-                                boxSize={"12.5rem"}
-                                // height={{ lg: "9.5rem" }}
-                                src={img}
-                                alt="Dan Abramov"
-                                borderRadius={"10px"}
-                            />
+                            <Image boxSize={"12.5rem"} src={img} alt="Dan Abramov" borderRadius={"10px"} />
                         </Flex>
                         <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
                             <Text>

@@ -1,32 +1,67 @@
-import { Heading, Text, Box, Stack, Center, Button, SimpleGrid, useRadioGroup, useCheckboxGroup, useToast } from "@chakra-ui/react"
+import { Heading, Text, Box, Stack, Center, Button, SimpleGrid, useRadioGroup, useCheckboxGroup, useToast, useBoolean } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioBox"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingOptionRangeSlider from "../../components/dating/DatingOptionRangeSlider"
 import DatingOptionAccordion from "../../components/dating/DatingOptionAccordion"
+import { AllFaculty } from "@apiType/dating"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 declare global {
-    var age: number[], gender: string, faculty: string[], useAge: boolean
+    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean
 }
 const DatingOption = () => {
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (didMount) {
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (!datingEnroll.data.hasCompleteTutorial) {
+                    navigate("/dating/tutorial")
+                }
+            })
+            API.get("/dating/option/getFaculty")
+                .then((allFaculty) => {
+                    setFaculties(allFaculty.data)
+                })
+                .catch((err) => console.log("It's WRONG! " + err))
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     //set default value from database by using condition from here
+
+    // const [isError, { on }] = useBoolean()
+    // const [isLoading, { off }] = useBoolean(true)
     const options = ["Male", "Female", "Everyone"] // Gender type
-    const faculties = [
-        "All Faculty",
-        "Faculty of Engineering",
-        "Faculty of Science",
-        "Faculty of Industrial Education and Technology",
-        "School of Information Technology (SIT)",
-        "School of Architecture and Design",
-        "Faculty of Energy, Environment and Materials",
-        "School of Bioresources and Technology ",
-        "School of Liberal Arts",
-        "Graduate School of Management and Innovation (GMI)",
-        "Faculty of Industrial Education and Technology",
-        "Institute of FIeld RoBOtics (FIBO)",
-        "The Joint Graduate School of Energy and Environment (JGSEE)",
-        "Collage of Multidiscliplinary Sciences",
-    ] // All faculties
+    const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
+    // globalThis.faculty
+
+    // const faculties = [
+    //     "All Faculty",
+    //     "Faculty of Engineering",
+    //     "Faculty of Science",
+    //     "Faculty of Industrial Education and Technology",
+    //     "School of Information Technology (SIT)",
+    //     "School of Architecture and Design",
+    //     "Faculty of Energy, Environment and Materials",
+    //     "School of Bioresources and Technology ",
+    //     "School of Liberal Arts",
+    //     "Graduate School of Management and Innovation (GMI)",
+    //     "Institute of FIeld RoBOtics (FIBO)",
+    //     "The Joint Graduate School of Energy and Environment (JGSEE)",
+    //     "Collage of Multidiscliplinary Sciences",
+    // ] // All faculties
 
     //For RadioBox
     const { getRootProps, getRadioProps } = useRadioGroup({
@@ -39,17 +74,17 @@ const DatingOption = () => {
 
     //For faculty
     const { value, getCheckboxProps } = useCheckboxGroup({
-        defaultValue: globalThis.faculty,
+        defaultValue: ["All Faculty"],
     })
 
     globalThis.useAge = true //need db + condition
     globalThis.age = [19, 25] //need db + condition
     globalThis.gender = "Everyone" //need db + condition
-    globalThis.faculty = ["All Faculty"] //need db + condition
+    // globalThis.faculty = ["All Faculty"] //need db + condition
     const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
     const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
     const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
-    const [selectedFac, setSelectedFac] = useState<string[]>(globalThis.faculty) //For Faculties
+    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
 
     useEffect(() => {
         setSelectedFac(faculties)

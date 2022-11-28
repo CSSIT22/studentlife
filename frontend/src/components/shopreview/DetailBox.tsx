@@ -4,25 +4,27 @@ import { useNavigate } from "react-router-dom"
 import AmountRate from "./AmountRate"
 import AmountReview from "./AmountReview"
 
-const DetailBox: FC<{ heading: String; image: String }> = ({ heading, image }) => {
+const DetailBox: FC<{ heading: String; image: String; rate: String; amo_re: String }> = ({ heading, image, rate, amo_re }) => {
     const navigate = useNavigate()
     const navigateShopDetail = () => {
         navigate("/shopreview/shopdetails")
     }
     return (
-        <Box onClick={navigateShopDetail} as="button" p={5} h={32} background={`url('${image}')`} shadow={"md"} rounded={"2xl"}>
-            <Heading overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} size="md" textAlign={"left"} color="black">
-                {heading}
-            </Heading>
+        <Box onClick={navigateShopDetail} as="button" p={3} h={32} background={`url('${image}')`} shadow={"md"} rounded={"2xl"}>
+            <Flex>
+                <Heading overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} size="md" textAlign={"left"} color="black">
+                    {heading}
+                </Heading>
+            </Flex>
             <br></br>
             <br></br>
             <Flex direction="row" justifyContent={"space-between"} alignItems="flex-end">
                 <Heading color="white">
-                    <AmountRate ratting={"5"} />
+                    <AmountRate ratting={rate} />
                     {/* ดีงข้อมูลมาจาก database */}
                 </Heading>
-                <Heading size={"xs"} color="black">
-                    <AmountReview am_re={"32"} />
+                <Heading backdropFilter="auto" backdropContrast="30%" overflow={"hidden"} whiteSpace={"nowrap"} size={"xs"} color="white">
+                    <AmountReview am_re={amo_re} />
                     {/* ดีงข้อมูลมาจาก database */}
                 </Heading>
             </Flex>
