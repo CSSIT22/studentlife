@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { ReactElement } from "react"
 import { motion } from "framer-motion"
 import FriendList from "../user/FriendList"
@@ -28,13 +28,12 @@ import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import API from "src/function/API"
-import {useNavigate} from "react-router-dom"
-
 
 export default function SimpleThreeColumns() {
     const navigate = useNavigate();
+    const param = useParams();
     const { isOpen: isReportModalOpen, onOpen: onReportModalOpen, onClose: onReportModalClose } = useDisclosure()
     const { isOpen: isConfirmRPModalOpen, onOpen: onConfirmRPModalOpen, onClose: onConfirmRPModalClose } = useDisclosure()
     const { isOpen: isBlockModalOpen, onOpen: onBlockModalOpen, onClose: onBlockModalClose } = useDisclosure()
@@ -43,9 +42,32 @@ export default function SimpleThreeColumns() {
     const btnRef = React.useRef(null)
     const [isFollow, setIsFollow] = useState(true)
 
+    const [userData, setUserData] = useState({
+        userId: "",
+        studentId: "",
+        username: "",
+        fName: "",
+        lName: "",
+        email: "",
+        image: "",
+        majorId: "",
+    })
+
+
+    useEffect(() => {
+        async function fetch() {
+            const res = await API.get(`/user/friendprofile/${param.userID}`);
+            setUserData({ ...res.data.user, image: btoa(String.fromCharCode(...new Uint8Array(res.data.user.image.data))) });
+        }
+
+        fetch();
+    }, [])
+
     function handleClick() {
         setIsFollow(!isFollow)
     }
+
+
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -94,8 +116,9 @@ export default function SimpleThreeColumns() {
                                 float={"inline-end"}
                                 size={{ md: "3xl", base: "2xl" }}
                                 shadow="xl"
-                                name="Christian Nwamba"
-                                src="https://bit.ly/code-beast"
+                                // name="Christian Nwamba"
+                                // src="https://bit.ly/code-beast"
+                                src={`data:image/png;base64,${userData.image}`}
                             />
                         </motion.div>{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
@@ -108,7 +131,7 @@ export default function SimpleThreeColumns() {
                         <Box fontSize={{ lg: "md", base: "sm" }} color="orange.700">
                             ID :
                         </Box>
-                        <Box fontSize={{ lg: "lg", base: "md" }}>64130500XXX</Box>
+                        <Box fontSize={{ lg: "lg", base: "md" }}>{userData.studentId}</Box>
                     </HStack>
 
                     <Stack p={1} direction={{ base: "column", md: "row" }}>
@@ -121,7 +144,7 @@ export default function SimpleThreeColumns() {
                                 damping: 20,
                             }}
                         >
-                            <Box fontSize={{ lg: "5xl", base: "xl" }}>KRIT PANNOI</Box>
+                            <Box fontSize={{ lg: "5xl", base: "xl" }}>{`${userData.fName} ${userData.lName}`}</Box>
                         </motion.div>
                     </Stack>
 
@@ -145,7 +168,7 @@ export default function SimpleThreeColumns() {
                             <Box fontSize={{ base: "sm", lg: "lg" }} display={{ base: "block", lg: "none" }} color="orange.700">
                                 Major :
                             </Box>
-                            <Box fontSize={{ base: "md", lg: "xl" }}>Computer Science</Box>
+                            <Box fontSize={{ base: "md", lg: "xl" }}>{userData.majorId}</Box>
                         </Stack>
                     </Stack>
                 </GridItem>

@@ -5,6 +5,7 @@ const editaboutmeuser = async (req: Request, res: Response) => {
         const { prisma } = res
         const userId = req.user?.userId
         const tail = req.body
+        console.log("Is work")
         const upsertUser = await prisma.detail.upsert({
             where: {
                 userId: userId,

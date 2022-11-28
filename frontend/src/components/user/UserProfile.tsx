@@ -58,11 +58,16 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const [Hobbies, setHobbies] = useState<string>("")
     const [Years, setYears] = useState<any>(0)
     const [Address, setAddress] = useState<string>("")
-    useEffect(() => {
-        API.get(`/profile/edit/${param.userID}`).then((res) => {
-            console.log(res.data)
-        })
-    }, [])
+
+    // useEffect(() => {
+    //     async function fetch(){
+    //         API.get(`/user/profile/edit/${param.userID}`).then((res) => {
+    //             console.log(res)
+    //         })
+    //     }
+
+    //     fetch();
+    // }, [])
 
     const postData = () => {
         onClick({
@@ -73,7 +78,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             year: Years,
             address: Address,
         })
-        API.post(`profile/edit/${param.userID}`, {
+        API.post(`/user/profile/edit/${param.userID}`, {
             Phone,
             BirthDate,
             Sex,

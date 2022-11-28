@@ -32,7 +32,7 @@ function index() {
 
         getUserData()
     }, [])
-
+ 
     const [aboutmeForm, setAboutmeForm] = useState<AboutMeForm>({
         phone: "089XXXXXXX",
         sex: "Male",
