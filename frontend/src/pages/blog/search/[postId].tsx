@@ -69,7 +69,7 @@ const Home = () => {
                         </Flex>
                     </Box>
                     {post && <PostText
-                        text={post.postId}
+                        text={post.body}
                     />}
                     <PostImage image="https://i.redd.it/ujfngj2v25k91.jpg" />
                     <Center>

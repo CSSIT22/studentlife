@@ -14,16 +14,16 @@ export type Structure = {
     lastEdit: string
     score: Number
     seen: Boolean
-    postOwner: string
-    postBody: string
-    images: string[]
-    vids: string[]
-    studentsReacted: string[]
-    studentsComment: string[]
-    rePost: string[]
-    userReported: string[]
-    postHided: string[]
-    communityPost: string
+    // postOwner: string
+    body: string
+    // images: string[]
+    // vids: string[]
+    // studentsReacted: string[]
+    // studentsComment: string[]
+    // rePost: string[]
+    // userReported: string[]
+    // postHided: string[]
+    // communityPost: string
 }
 
 export let postes: Structure[] = [
@@ -33,16 +33,7 @@ export let postes: Structure[] = [
         lastEdit: "10/2/2022",
         score: 112,
         seen: true,
-        postOwner: "Jhon",
-        postBody: "10001",
-        images: [""],
-        vids: [""],
-        studentsReacted: [""],
-        studentsComment: [""],
-        rePost: [""],
-        userReported: [""],
-        postHided: [""],
-        communityPost: "Public",
+        body: "asdasdasdasd",
     },
 
     {
@@ -51,16 +42,7 @@ export let postes: Structure[] = [
         lastEdit: "10/2/2022",
         score: 123131,
         seen: true,
-        postOwner: "Jaden",
-        postBody: "10002",
-        images: [""],
-        vids: [""],
-        studentsReacted: [""],
-        studentsComment: [""],
-        rePost: [""],
-        userReported: [""],
-        postHided: [""],
-        communityPost: "Public",
+        body: "rdgfhgfjghjgjh",
     },
     {
         postId: "10003",
@@ -68,16 +50,7 @@ export let postes: Structure[] = [
         lastEdit: "10/2/2022",
         score: 33432,
         seen: true,
-        postOwner: "Anattaa",
-        postBody: "10003",
-        images: [""],
-        vids: [""],
-        studentsReacted: [""],
-        studentsComment: [""],
-        rePost: [""],
-        userReported: [""],
-        postHided: [""],
-        communityPost: "Public",
+        body: "dffffdffdsdfesdfsdf",
     },
 ]
 
@@ -85,12 +58,6 @@ export type PostTextBox = {
     postId: string
     text: string
 }
-
-export let postTextbodies: PostTextBox[] = [
-    { postId: "10001", text: "เทสๆ" },
-    { postId: "10002", text: "ๅ/-ๅ/-ๅ/-ๅ-/ๅ-" },
-    { postId: "10003", text: "อ๊ากกกกกก" },
-]
 
 export const getPostDetail = () => postes
 
@@ -105,6 +72,5 @@ blogRoutes.get("/search/:postId", searchPost)
 blogRoutes.post("/postCreating", postCreating)
 
 blogRoutes.post("/postCreatingX", postCreatingText)
-
 
 export default blogRoutes

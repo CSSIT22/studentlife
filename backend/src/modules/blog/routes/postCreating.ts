@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { Structure, postes, PostTextBox, setPostDetail, postTextbodies, getPostDetail } from ".."
+import { Structure, postes, PostTextBox, setPostDetail, getPostDetail } from ".."
 
 const postCreating = (req: Request, res: Response) => {
     const postId = req.body.postId
@@ -7,16 +7,7 @@ const postCreating = (req: Request, res: Response) => {
     const lastEdit = req.body.lastEdit
     const score = req.body.score
     const seen = req.body.seen
-    const postOwner = req.body.postOwner
-    const postBody = req.body.postBody
-    const images = req.body.images
-    const vids = req.body.vids
-    const studentsReacted = req.body.studentsReacted
-    const studentsComment = req.body.studentsComment
-    const rePost = req.body.rePost
-    const userReported = req.body.userReported
-    const postHided = req.body.postHided
-    const communityPost = req.body.communityPost
+    const body = req.body.body
 
     let postCreate: Structure | null = null
     const postcreated = getPostDetail().map((postes) => {
@@ -27,16 +18,8 @@ const postCreating = (req: Request, res: Response) => {
                 lastEdit: lastEdit,
                 score: score,
                 seen: seen,
-                postOwner: postOwner,
-                postBody: postBody,
-                images: images,
-                vids: vids,
-                studentsReacted: studentsReacted,
-                studentsComment: studentsComment,
-                rePost: rePost,
-                userReported: userReported,
-                postHided: postHided,
-                communityPost: communityPost,
+
+                body: body,
             }
             return {
                 postId: postId,
@@ -44,16 +27,8 @@ const postCreating = (req: Request, res: Response) => {
                 lastEdit: lastEdit,
                 score: score,
                 seen: seen,
-                postOwner: postOwner,
-                postBody: postBody,
-                images: images,
-                vids: vids,
-                studentsReacted: studentsReacted,
-                studentsComment: studentsComment,
-                rePost: rePost,
-                userReported: userReported,
-                postHided: postHided,
-                communityPost: communityPost,
+
+                body: body,
             }
         }
         return postes

@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { postTextbodies,postes } from ".."
+import { postes } from ".."
 
 const getPostId = (req: Request, res: Response) => {
     res.send(postes)

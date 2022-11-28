@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { PostTextBox, postTextbodies, Structure,postes } from ".."
+import { PostTextBox, Structure,postes } from ".."
 
 const searchPost = (req:Request, res:Response) => {
     const postId = req.params.postId
