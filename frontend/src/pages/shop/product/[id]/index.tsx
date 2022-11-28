@@ -5,7 +5,7 @@ import { Shop_Product,  Shop_Product_Review } from "@apiType/shop"
 import { useParams } from "react-router-dom"
 import PageTitle from "src/components/shop/PageTitle"
 import ShopAppBody from "src/components/shop/ShopAppBody"
-import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast, Spacer, Center } from "@chakra-ui/react"
+import { Image, Text, Box, Button, Flex, FormControl, FormLabel, Grid, GridItem, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Textarea, useBoolean, useDisclosure, useToast, Spacer, Center, Avatar } from "@chakra-ui/react"
 import ContentBox from "src/components/shop/ContentBox"
 import convertCurrency, { dateFormat, setDataAPI } from "src/components/shop/functions/usefulFunctions"
 import ReviewItem from "src/components/shop/ReviewItem"
@@ -157,8 +157,9 @@ const index = () => {
                             <BsStarFill color="yellow"></BsStarFill>
                         </Flex>
                     </Pill>
-                    <Pill bg={product.productColor}>
-                        <Text color={product.productColor.toLowerCase() == "white" ? "#222" : "#fff"} as="b">{product.productColor}</Text>
+                    <Pill bg={"#fff"}>
+                        <Box p="2" border="1px solid" borderRadius={"3px"} bg={product.productColor}></Box>
+                        <Text color={ "#222"} as="b">{product.productColor}</Text>
                     </Pill>
 
                 </Flex>
@@ -305,7 +306,6 @@ function slidesGenerator(product: Shop_Product | null) {
                 slides.push(
                     <SwiperSlide>
                         <Image
-                            borderRadius="3xl"
                             src={imgs[i]}
                             width={"auto"}
                             minHeight={{ base: "1rem", md: "27rem" }}
