@@ -35,32 +35,42 @@ const shopreview = () => {
 
     const [shops, setshops] = useState<any>([])
     const [res, setRes] = useState<any>([])
-    const getShop = API.get("/shopreview/getshop")
+    const getShop = API.get("/shopreview/getshopDb")
     useEffect(() => {
         getShop.then((res) => {
             setshops(res.data)
         })
     }, [])
-    const getRestaurant = API.get("/shopreview/getrestaurant")
+    const getRestaurant = API.get("/shopreview/getrestDb")
     useEffect(() => {
         getRestaurant.then((res) => {
             setRes(res.data)
         })
     }, [])
 
+    function Navigate(target: any) {
+        navigate(`/shopreview/shopdetails/shop/${target}`)
+        window.scrollTo(0, 0)
+    }
+    function Navigate2(target: any) {
+        navigate(`/shopreview/shopdetails/restaurant/${target}`)
+        window.scrollTo(0, 0)
+    }
     const renderShop = (e: any) => {
         if (target === 1) {
             return (
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                         {shops.map((item: any) => {
-                            if (zones.length === 0 && item.type === "shop") {
+                            if (zones.length === 0) {
                                 return (
-                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                    <b onClick={() => Navigate(item.shopId)}>
+                                        <DetailBox key={item.id} heading={item.shopName} image={item.images[0].image} rate={item.aveRating} amo_re={item.reviewReceived} />
+                                    </b>
                                 )
-                            } else if (zones.includes(item.zone) && item.type === "shop") {
+                            } else if (zones.includes(item.zone)) {
                                 return (
-                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                    <DetailBox key={item.id} heading={item.shopName} image={item.images[0].image} rate={item.aveRating} amo_re={item.reviewReceived} />
                                 )
                             }
                         })}
@@ -77,13 +87,16 @@ const shopreview = () => {
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                         {res.map((item: any) => {
-                            if (zones.length === 0 && item.type === "restaurant") {
+                            console.log(item.detail.zone)
+                            if (zones.length === 0) {
                                 return (
-                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                    <b onClick={() => Navigate2(item.restaurantId)}>
+                                        <DetailBox key={item.id} heading={item.resName} image={item.images[0].image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                    </b>
                                 )
-                            } else if (zones.includes(item.zone) && item.type === "restaurant") {
+                            } else if (zones.includes(item.detail.zone)) {
                                 return (
-                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                    <DetailBox key={item.id} heading={item.resName} image={item.images[0].image} rate={item.amo_rate} amo_re={item.amo_review} />
                                 )
                             }
                         })}

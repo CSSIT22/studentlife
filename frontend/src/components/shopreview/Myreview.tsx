@@ -155,13 +155,12 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
             </Stack>
 
 
-            <Collapse startingHeight={20} in={show}>
-                <Flex direction={"row"} alignItems={"flex-start"}>
-                    <Text overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} as={"b"} color={"black"} size={"sm"}>
-                        {ment}
-                    </Text>
-                </Flex>
-            </Collapse>
+            <Flex direction={"row"} alignItems={"flex-start"}>
+                <Text overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} as={"b"} color={"black"} size={"sm"}>
+                    {ment}
+                </Text>
+            </Flex>
+
 
             {/* <Button _hover={{ background: "gray.500", color: "white" }} mb={4} size="sm" onClick={handleToggle} mt="1rem">
                 Show {show ? "Less" : "More"}

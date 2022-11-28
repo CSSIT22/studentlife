@@ -10,6 +10,7 @@ import Myreview from "src/components/shopreview/Myreview"
 import ReviewCards from "src/components/shopreview/ReviewCards"
 
 const review = () => {
+    window.scrollTo(0, 0)
     return (
         <AppBody>
             <Flex mb={5} alignItems={"center"}>

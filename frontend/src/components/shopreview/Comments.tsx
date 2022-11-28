@@ -8,7 +8,7 @@ import EditReview from "./EditReview"
 import EditComment from "./EditComment"
 import { authContext } from "src/context/AuthContext"
 
-const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String }> = ({ image, name, ment, date }) => {
+const Comments: FC<{ image: String; name: String; ment: String; date: String }> = ({ image, name, ment, date }) => {
     const [active, setActive] = useState(false)
     const handleClick = () => {
         setActive(!active)
@@ -123,4 +123,4 @@ const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String
     )
 }
 
-export default ReviewDetail
+export default Comments

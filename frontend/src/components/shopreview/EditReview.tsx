@@ -56,7 +56,7 @@ const EditReview = () => {
                             Close
                         </Button>
                         <Button colorScheme={"green"} color="white">
-                            Submit
+                            Save
                         </Button>
                     </ModalFooter>
                 </ModalContent>
