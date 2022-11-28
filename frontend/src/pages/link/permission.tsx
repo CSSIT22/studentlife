@@ -1,6 +1,10 @@
-import { Box, Button, Center, Heading, VStack, Text, Checkbox, ListItem, OrderedList, List, Stack } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, VStack, Text, Checkbox, ListItem, OrderedList, List, Stack, list, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react"
+import React from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
+import SearchUserList from "src/components/shortlink/SearchUserList"
+import UList from "src/components/shortlink/UList"
 
 const permission = () => {
     const navigate = useNavigate()
@@ -10,6 +14,9 @@ const permission = () => {
     const shortac = () => {
         navigate("/link/saccess")
     }
+    const { isOpen: isListOpen, onOpen: onListOpen, onClose: onListClose } = useDisclosure()
+    const btnUse = React.useRef(null)
+
     return (
         <AppBody>
             <Center>
@@ -43,9 +50,24 @@ const permission = () => {
                                         </ListItem>
 
                                         <ListItem marginBottom={"50px"}>
-                                            <Button bg={"orange.600"} w={"100%"} height={"60px"} onClick={userac}>
+                                            <Button bg={"orange.600"} w={"100%"} height={"60px"} onClick={onListOpen}>
                                                 <Text as={"b"}>Click!</Text>
                                             </Button>
+                                            <Modal onClose={onListClose} finalFocusRef={btnUse} isOpen={isListOpen}>
+                                                <ModalOverlay />
+                                                <ModalContent>
+                                                    <ModalHeader>Select user(s) to access your link!</ModalHeader>
+                                                    <ModalCloseButton />
+                                                    <ModalBody rounded="xl">
+                                                        <SearchUserList/>
+                                                    </ModalBody>
+                                                    <ModalFooter>
+                                                        <Button onClick={onListClose} display={{ base: "none", md: "block" }}>
+                                                            Close
+                                                        </Button>
+                                                    </ModalFooter>
+                                                </ModalContent>
+                                            </Modal>
                                         </ListItem>
 
                                         <ListItem>

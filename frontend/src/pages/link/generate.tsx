@@ -90,19 +90,20 @@ const generate = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} />
+                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} backgroundColor={"white"}/>
                                 </Center>
                             </Box>
                         </Box>
                         <Box h="70px" w={"100%"}>
                             <Center>
-                                <Editable
+                                <Editable 
                                     w={"75%"}
                                     height={"60px"}
                                     border={"4px"}
                                     borderColor={"black"}
                                     rounded={"md"}
                                     alignItems = "center"
+                                    backgroundColor={"white"}
                                 >{generated}</Editable>
                             </Center>
                         </Box>

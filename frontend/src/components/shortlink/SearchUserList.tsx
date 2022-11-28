@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
-import UserList from "../group/UserList"
-import std from "../shortlink/MUser"
+import std from "./MUser"
+import UList from "./UList"
 
-function FriendList() {
+function SearchUserList() {
     const [search, setSearch] = useState("")
     console.log(search)
 
@@ -40,7 +40,7 @@ function FriendList() {
                     rounded: "xl",
 
                     "::-webkit-scrollbar-track": {
-                        background: "white", 
+                        background: "white",
                         rounded: "xl",
                     },
                     "::-webkit-scrollbar-thumb": {
@@ -50,10 +50,9 @@ function FriendList() {
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
                     {std
-                       .filter((user) => user.name.toLowerCase().includes(search) || user.last.toLowerCase().includes(search))
-                       .map((user) => (
-                           <UserList userProfile={""} userName={user.name} key={user.id} userRole={""}  />
-                        //    <UserList userProfile={""} userName={user.name} key={user.id} last={user.last} />
+                        .filter((user) => user.name.toLowerCase().includes(search) || user.last.toLowerCase().includes(search))
+                        .map((user) => (
+                            <UList userProfile={""} userName={user.name} key={user.id} lastName={user.last} />
                         ))}
                 </Flex>
             </Box>
@@ -61,5 +60,5 @@ function FriendList() {
     )
 }
 
-export default FriendList
+export default SearchUserList
 
