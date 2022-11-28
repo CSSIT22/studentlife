@@ -282,7 +282,7 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
             }
             
         }
-        console.log(allpost)
+        // console.log(allpost)
         // console.log(allpost[0].annPin[0].status)
         let unexpirepost = []
         for (let i = 0; i < allpost.length; i++) {
@@ -290,7 +290,7 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
                 unexpirepost.push(allpost[i])
             }
         }
-        console.log(unexpirepost)
+        // console.log(unexpirepost)
         res.send(unexpirepost)
         
     }
