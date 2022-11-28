@@ -7,6 +7,8 @@ import SnDetail from 'src/components/shortnotes/snDetail'
 import SnComments from 'src/components/shortnotes/snComments'
 import API from 'src/function/API'
 import { authContext } from 'src/context/AuthContext'
+import Lottie from "lottie-react";
+import loading from "../lottie/loading.json";
 
 const index = () => {
     const user = useContext(authContext)
@@ -16,6 +18,9 @@ const index = () => {
     const [access, setAccess] = useState<any>([])
     const [load, setLoad] = useBoolean(true)
     const [allow, setAllow] = useBoolean(false)
+    const style = {
+        height: 96,
+    };
     const resentOnclick = () => {
         API.post("/shortnotes/postResentShortnote", {
             snId: param.id
@@ -54,9 +59,10 @@ const index = () => {
         }).finally(setLoad.off)
 
     }, [])
+
     if (load) {
         return (
-            <AppBody><Heading>Loading...</Heading></AppBody>
+            <AppBody><Box mt={300}><Lottie style={style} animationData={loading}></Lottie></Box></AppBody>
         )
     }
     return (
