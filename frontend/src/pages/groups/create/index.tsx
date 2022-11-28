@@ -52,6 +52,7 @@ import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
 import NavCommunity from "src/components/group/NavCommunity"
 import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import FriendInviteList from "src/components/group/FriendInviteList"
+import { desktopStyle, mobileStyle } from "src/components/group/styles/styles"
 
 const createCommunity = () => {
     const toast = useToast()
@@ -128,7 +129,7 @@ const createCommunity = () => {
             color: "gray.600",
             fontSize: "xl",
             fontWeight: "bold",
-            mb: 1,
+            mb: 4,
         },
         button1: {
             bg: "orange.400",
@@ -140,7 +141,6 @@ const createCommunity = () => {
             },
         },
     }
-
     //Send data to backend
     const submit = () => {
         API.post("/group/editCommunity", {
@@ -304,6 +304,7 @@ const createCommunity = () => {
                         </AccordionItem>
                     </Accordion>
 
+
                     {/* Cant get friend from another module */}
                     <FormLabel display="none" sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
                         Invite friends to join this community
@@ -387,6 +388,19 @@ const createCommunity = () => {
                             color="black"
                         />
                     </FormControl>
+
+                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
+                        Upload cover photo
+                    </FormLabel>
+                    <Input
+                        // value={communityCoverPhoto}
+                        // onChange={(e) => setCommunityCoverPhoto(e.target.value)}
+                        mb='2'
+                        pt='1'
+                        bg='white'
+                        type='file'
+                        accept='.png, .jpg, .jpeg' />
+
                     <Button
                         width="full"
                         mt={{ md: 4 }}

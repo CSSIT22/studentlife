@@ -1,13 +1,9 @@
+import { SuggestionsCommunity } from "@apiType/group"
 import { HStack, Box, Image, Text, Button, Flex } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 
-const SuggestBox: FC<{
-    communityName: string
-    memberNumber: number
-    coverPhoto: string
-    isPrivate: boolean
-}> = ({ communityName, memberNumber, coverPhoto, isPrivate }) => {
+const SuggestBox: FC<SuggestionsCommunity> = ({ communityName, communityMember, communityCoverPhoto, communityPrivacy }) => {
     return (
         <Box
             sx={{ transition: "transform ease 300ms" }}
@@ -22,7 +18,7 @@ const SuggestBox: FC<{
                     background: "tomato",
                     width: "100%",
                     height: "20vh",
-                    backgroundImage: `url(${coverPhoto})`,
+                    backgroundImage: `url(${communityCoverPhoto})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -33,13 +29,13 @@ const SuggestBox: FC<{
                 <Flex direction={"column"} gap={2} justify="space-between">
                     <div>
                         <Box display="flex" alignItems="center" gap={1}>
-                            {isPrivate ? <MdPublicOff /> : <MdPublic />}
+                            {communityPrivacy ? <MdPublicOff /> : <MdPublic />}
                             <Text as="b" fontSize="sm">
                                 {communityName}
                             </Text>
                         </Box>
                         <Text fontSize="sm">
-                            {memberNumber} {memberNumber == 1 ? "Member" : "Members"}
+                            {communityMember} {communityMember == 1 ? "Member" : "Members"}
                         </Text>
                     </div>
                     <Button _hover={{ background: "orange.200" }} background={"orange.500"} color="white" size="sm">
