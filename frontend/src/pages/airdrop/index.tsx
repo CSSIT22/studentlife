@@ -168,8 +168,8 @@ export default function Index<FC>() {
                 })
             }
         }
-        // const socketIO = socket()
-        // socketIO.emit("upload")
+        const socketIO = socket()
+        socketIO.emit("upload")
     }
     //Function for handle file drop
     const handleDrop = async () => {

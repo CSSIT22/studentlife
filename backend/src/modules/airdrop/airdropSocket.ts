@@ -4,6 +4,7 @@ import { customeSocketPrams } from "src"
 
 const airdropSocket: customeSocketPrams = (socket, prisma) => {
     socket.on("upload", (data) => {
+        console.log("someone upload the file")
         socket.broadcast.emit("newupload")
     })
 }

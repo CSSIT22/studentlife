@@ -12,7 +12,7 @@ const drive = axios.create({
 const uploadFile = async (req: Request | any | string, res: Response | any) => {
     const sender = await req.user?.userId
     const { prisma } = res
-
+    const receiverBody = req.body.receiver
     //save file to drive
     const formData = new fd()
     const fileList = req.files
@@ -115,7 +115,7 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     take: fileUpload.count,
                 })
                 const receiverListId: string[] = [] //departmentid
-                if (req.body.receiver != typeof Array) {
+                if (receiverBody == typeof String) {
                     receiverListId.push(req.body.receiver)
                 } else {
                     receiverListId.push(...req.body.receiver)
@@ -152,7 +152,7 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     take: fileUpload.count,
                 })
                 const receiverListId = []
-                if (req.body.receiver != typeof Array) {
+                if (receiverBody == typeof String) {
                     const receiver = await prisma.community.findFirst({
                         where: {
                             communityName: req.body.receiver,
@@ -163,7 +163,8 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     })
                     receiverListId.push(receiver?.communityId)
                 } else {
-                    for (const item of req.body.receiver) {
+                    const receiverArr  = Object.keys(req.body.receiver).map((key) => req.body.receiver[key]);
+                    for (const item of receiverArr) {
                         const receiver = await prisma.community.findFirst({
                             where: {
                                 communityName: item,
@@ -206,15 +207,15 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     take: fileUpload.count,
                 })
                 const receiverListId = []
-                if (req.body.receiver != typeof Array) {
+                if (receiverBody == typeof String) {
                     const receiver = await prisma.user_Profile.findFirst({
                         where: {
                             AND: [
                                 {
-                                    fName: req.body.receiver.split(" ")[0],
+                                    fName:receiverBody.split(" ")[0],
                                 },
                                 {
-                                    lName: req.body.receiver.split(" ")[1],
+                                    lName:receiverBody.split(" ")[1],
                                 },
                             ],
                         },
@@ -224,7 +225,8 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     })
                     receiverListId.push(receiver?.userId)
                 } else {
-                    for (const item of req.body.receiver) {
+                    const receiverArr  = Object.keys(req.body.receiver).map((key) => req.body.receiver[key]);
+                    for (const item of receiverArr) {
                         const receiver = await prisma.user_Profile.findFirst({
                             where: {
                                 AND: [

@@ -150,7 +150,7 @@ const io = new IOServer(server, {
 io.use((socket, next) => {
     try {
         const token = socket.handshake.headers.authorization
-        console.log(token)
+        // console.log(token)
         if (!token) {
             throw new Error("not authorized")
         }
@@ -178,8 +178,8 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     })
     // console.log(store)
 
-    console.log(socket.handshake.headers)
-    console.log("Hello")
+    // console.log(socket.handshake.headers)
+    // console.log("Hello")
 })
 
 server.listen(PORT, () => console.log(`running on ${PORT} !`))

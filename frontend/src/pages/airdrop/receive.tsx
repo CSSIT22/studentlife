@@ -12,8 +12,6 @@ import axios from "axios"
 import Lottie from "lottie-react"
 import receive from "../../components/airdrop/animation/receive.json"
 
-
-
 const linkMenu = [
     { name: "Drop", icon: HiUpload, to: "/airdrop" },
     { name: "Receive", icon: HiDownload, to: "/airdrop/receive" },
@@ -45,9 +43,7 @@ export default function Receivedrop<FC>() {
             withCredentials: true,
         })
             .then((res) => {
-                if (fileList.length === 0 || res.data.length !== fileList.length) {
-                    setFileList(res.data)
-                }
+                setFileList(res.data)
             })
             .catch((err) => {
                 on()
@@ -76,8 +72,9 @@ export default function Receivedrop<FC>() {
     useEffect(() => {
         socketIO.on("newupload", () => {
             fetchAllFile()
+            fetchAllFile()
         })
-    })
+    }, [socketIO])
 
     return (
         <AppBody secondarynav={linkMenu}>
@@ -85,13 +82,9 @@ export default function Receivedrop<FC>() {
                 <Box mb={5} ml={5}>
                     <Text fontSize={"3xl"} display={"flex"} alignItems={"center"}>
                         Receive Files
-                        <Box w={["20%","10%","10%","10%"]} display={"inline-flex"} ml={"1rem"}>
-                        <Lottie
-                                animationData={receive}
-                                loop={false}
-                            ></Lottie>
+                        <Box w={["20%", "10%", "10%", "10%"]} display={"inline-flex"} ml={"1rem"}>
+                            <Lottie animationData={receive} loop={false}></Lottie>
                         </Box>
-
                     </Text>
                 </Box>
                 {/* component for list will coming sooner */}
