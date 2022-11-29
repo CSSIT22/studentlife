@@ -142,7 +142,7 @@ const createCommunity = () => {
         },
     }
 
-    
+
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
     const [isError, { on }] = useBoolean()
@@ -156,7 +156,7 @@ const createCommunity = () => {
     }, [])
 
 
-    
+
     //Send data to backend
     const submit = () => {
         API.post("/group/createtest", {
@@ -541,6 +541,4 @@ const createCommunity = () => {
     )
 }
 
-export default createCommunity
-
-export default createCommunity
+export default createCommunity;
