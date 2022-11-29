@@ -44,7 +44,7 @@ const snComments = () => {
                                 comment(),
                                 toast({
                                     title: 'Commented',
-                                    description: "Your commented complete. ",
+                                    description: "You've commented on the post. ",
                                     status: 'success',
                                     duration: 4000,
                                     isClosable: true,
@@ -65,6 +65,8 @@ const snComments = () => {
                             name={cm.commentor.fName + " " + cm.commentor.lName}
                             desc={cm.comment}
                             date={cm.commentedAt}
+                            owner={cm.commentor.userId}
+                            commentId={cm.commentId}
                         />
                     ))}
                 </VStack>

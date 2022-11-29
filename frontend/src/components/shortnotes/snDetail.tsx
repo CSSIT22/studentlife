@@ -230,7 +230,7 @@ const liList: FC<{
                                     addToLibrary(li.libId)
                                     toast({
                                         title: 'Shortnote added',
-                                        description: "The shortnote added to your selected library already.",
+                                        description: "You've added the shortnote to your library.",
                                         status: 'success',
                                         duration: 4000,
                                         isClosable: true,
