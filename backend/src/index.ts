@@ -51,7 +51,7 @@ if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
 }
 
-mongoose.connect(process.env.MONGO_URL || "")
+mongoose.connect(process.env.MONGO_URL || "", { authSource: "admin" })
 
 const prisma = new PrismaClient()
 const redisClient = createClient({
