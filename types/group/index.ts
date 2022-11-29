@@ -19,7 +19,7 @@ export type OwnCommunity = {
   communityName: string;
   communityPrivacy: boolean;
   communityCoverPhoto: string;
-  communityId: number;
+  communityId: string;
 
   communityOwnerId?: string;
   communityMember?: number;
@@ -33,7 +33,7 @@ export type JoinedCommunity = {
   communityName: string;
   communityPrivacy: boolean;
   communityCoverPhoto: string;
-  communityId: number;
+  communityId: string;
 
   communityOwnerId?: number;
   communityMember?: number;
