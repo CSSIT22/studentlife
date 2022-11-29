@@ -129,7 +129,11 @@ const FavoriteContent: FC<{
                                     </PopoverBody>
                                     <PopoverFooter display="flex" justifyContent="center" border="0">
                                         <ButtonGroup size="sm">
-                                            <Button colorScheme="green" mr={2}>
+                                            <Button colorScheme="green" mr={2} onClick={() => {
+                                                deleteRes()
+                                                load()
+                                                onClose()
+                                            }}>
                                                 Yes
                                             </Button>
 

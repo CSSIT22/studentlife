@@ -43,14 +43,12 @@ function detail() {
     const [numres, setnumres] = useState(params.detailRes)
 
     const [property, setproperty] = React.useState<any>([])
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(false)
-
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(false)
+    const getdetail =  API.get("/restaurant/detail/" + params.detailRes)
     useEffect(() => {
-        API.get("/restaurant/detail/" + params.detailRes).
-            then((item) => setproperty(item.data))
-        // .catch((err) => on()) 
-        // .finally(off)
+     getdetail.then((item) => setproperty(item.data))
+           
     }, [params.detailRes])
 
     console.log(property)

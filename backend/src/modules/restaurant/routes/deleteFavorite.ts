@@ -2,20 +2,35 @@ import { Restaurant } from "@apiType/restaurant"
 import { Request, Response } from "express"
 import { getRestaurant, setRestaurant } from ".."
 
-const deleteFavorite = (req: Request, res: Response) => {
+const deleteFavorite = async(req: Request, res: Response) => {
+    const user = req.user?.userId || ""
     const id = req.body.id
-    let deleteRes: Restaurant | null = null
-    const newdata = getRestaurant().map((restaurant) => {
-        if (restaurant.id == id) {
-            restaurant.isFavorite = false
-            deleteRes = restaurant
+    const prisma = res.prisma
+    try {
+        const deletefav = await prisma.restaurant_Favorite_By_User.deleteMany({
+            where: {
+              userId: user,
+              resId: id
+            },
+           
+        })
+        console.log(deletefav);
+        res.send(deletefav)
+
+        
+    } catch (error) {
+        console.log("delete Error");
+        
+    }
+    // const newdata = getRestaurant().map((restaurant) => {
+    //     if (restaurant.id == id) {
+    //         restaurant.isFavorite = false
+    //         deleteRes = restaurant
             
-        }
-        return restaurant
-    })
+    //     }
+    //     return restaurant
+    // })
   
     
-    setRestaurant(newdata)
-    res.send(deleteRes)
 }
 export default deleteFavorite
