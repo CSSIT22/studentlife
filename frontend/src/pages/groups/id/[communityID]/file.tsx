@@ -51,9 +51,9 @@ const file = () => {
     return (
         <AppBody>
             <NavCommunity
-                communityID  = {communityID}
+                communityId={communityID}
                 isMember={true}
-                members={10}
+                communityMembers={10}
                 activeBtn={3}
             />
             <HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
