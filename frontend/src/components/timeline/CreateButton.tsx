@@ -13,7 +13,7 @@ const CreateButton = () => {
         //     <Text fontSize='2xl' textAlign="center"> + </Text>
         // </Button>
 
-        <Button onClick={routeChange} size="85px" bg="who" color="tomato" float="right" position="fixed" right="5%" bottom="5%" borderRadius={100} _hover={{ color: "black" }}>
+        <Button onClick={routeChange} size="85px" bg="transparent" color="tomato" float="right" position="fixed" right="5%" bottom="5%" borderRadius={100} _hover={{ color: "black" }}>
             <AiFillPlusCircle size="85px" />
         </Button>
     )
