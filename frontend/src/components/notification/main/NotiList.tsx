@@ -1,16 +1,13 @@
-import { Notiobject } from "@apiType/notification";
 import { Box, Stack, Text } from "@chakra-ui/react"
-import { Any } from "@react-spring/types";
 import React, { FC } from "react"
 import NotiObject from "./NotiObject"
 
-const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> = ({ selectedList, onClick, module }) => {
-
+const NotiList: FC<{ selectedList: any[]; onClick: Function }> = ({ selectedList, onClick }) => {
     //sort selectedList
     const sortedList = selectedList.sort((a, b) => {
-        return new Date(b.notiObject.date).getTime() - new Date(a.notiObject.date).getTime()
+        return b.date - a.date
     })
-    //console.log(sortedList)
+
     //show date
     const listDay: any[] = []
     function showDate(date: Date) {
@@ -81,18 +78,17 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
         <Box>
             {sortedList?.map((el) => {
                 return (
-                    <Box key={el.notiObjectId}>
-                        {showDate(new Date(el.notiObject.date))}
+                    <Box key={el.id}>
+                        {showDate(new Date(el.date))}
                         <Stack spacing={3}>
                             <NotiObject
-                                id={el.notiObject.notiObjectId}
-                                template={el.notiObject.template}
-                                date={new Date(el.notiObject.date)}
+                                id={el.id}
+                                userId={el.user}
+                                description={el.description}
                                 isRead={el.isRead}
-                                module={el.notiObject.module}
-                                url={el.notiObject.url}
+                                date={new Date(el.date)}
+                                link={el.link}
                                 onClick={onClick}
-                                sender={el.notiObject.userId}
                             />
                         </Stack>
                     </Box>

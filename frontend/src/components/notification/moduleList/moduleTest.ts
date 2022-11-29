@@ -10,3 +10,4 @@ export const MODULES = [
     { id: 8, name: "DATING" },
     { id: 9, name: "SCHEDULE" },
 ]
+
