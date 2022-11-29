@@ -33,6 +33,7 @@ import AppBody from "src/components/share/app/AppBody"
 import { AddIcon, ArrowRightIcon } from "@chakra-ui/icons"
 import { AiFillFolder } from "react-icons/ai"
 import axios from "axios"
+import { IconContext } from "react-icons"
 
 const folderpage = () => {
   const { isOpen: isCreateOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure()
@@ -93,31 +94,32 @@ const folderpage = () => {
       {/* backend */}
       {
         folderList.map((el: any) => (
-          <Box height={"5rem"} width={"100%"} p="5" mt="5"
-            backgroundColor="#FFFFFF" rounded="lg" boxShadow="md">
-            <Flex alignItems={"center"}>
-              <Heading as="h2" size="ms" noOfLines={1} display="flex" alignItems="center" key={el.folderId}>
-              </Heading>
-              <AiFillFolder />
+          <Box height={"30%"} width={"-webkit-fit-content"} p="5" mt="5"
+            backgroundColor="#FFFFFF" display={"flex"} alignItems={"center"} marginLeft="150" marginTop={"-15"} >
+            {/*  rounded="lg"
+            boxShadow="md" size="ms" justifyContent={'space-evenly'}*/}
+            <Box as="h2" noOfLines={1} display="flex" alignItems="center" key={el.folderId} flexDirection="column" >
+              {/* <Icon as={MdReceipt} w={6} h={6} /> */}
+              <IconContext.Provider value={{ size: '100' }}>
+                <AiFillFolder />
+              </IconContext.Provider>
               {/* <Box height={"5rem"} width={"100%"} p="5" mt="5"
               backgroundColor="#FFFFFF" rounded="lg" key={el.folderId} boxShadow="md"> */}
               {/* <Flex alignItems={"center"}>
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} /> */}
-              <Link href="/todolist/task"
-                _hover={{ textDecoration: "none" }}>
-                <Text marginLeft={3} fontSize={"2xl"}>{el.folderName}</Text>
-              </Link>
-              <Spacer />
-              {/* <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
-              {el.isChecked && "Finished"}
-            </Box> */}
-              {/* </Flex> */}
-              {/* </Box> */}
-            </Flex>
+              {/* <Link href="/todolist/task"
+                _hover={{ textDecoration: "none" }}> */}
+              <Text alignItems={"center"} fontSize={"2xl"}>{el.folderName}</Text>
+            </Box>
+            <Spacer />
+            {/* </Link> */}
+
+            {/* </Flex> */}
+            {/* </Box> */}
           </Box>
         ))
       }
-    </ToDoListAppBody>
+    </ToDoListAppBody >
   )
 }
 
