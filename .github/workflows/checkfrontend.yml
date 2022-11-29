@@ -1,4 +1,4 @@
-name: Build check (Frontend)
+name: Build check (Frontend, backend)
 
 on:
   pull_request:
@@ -6,18 +6,20 @@ on:
       - "*"
 jobs:
   frontend-build:
-    name: 🐳 Build React.js Frontend
+    name: 🐳 Check Frontend, Backend
     runs-on: [self-hosted, linux, x64]
-    timeout-minutes: 5
+    timeout-minutes: 8
     container: node:16-alpine
-    defaults:
-      run:
-        working-directory: ./frontend
     steps:
       - name: 🎤 Checkout
         uses: actions/checkout@v2
       - name: ⌚ Compile React.js production build
         run: |
           cd ./frontend
+          npm i
+          npm run build
+      - name: compile backend
+        run: |
+          cd ./backend
           npm i
           npm run build

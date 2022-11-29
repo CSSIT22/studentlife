@@ -19,7 +19,7 @@ const getshopDb = async (req: Request, res: Response) => {
         res.send(shop)
         // res.send(shop.map((e) => e.images))
     } catch {
-        res.status(400).send("Error can't find room")
+        res.status(400).send("Error can't find shop")
     }
 }
 

@@ -9,49 +9,19 @@ import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
 import ReviewDetail from 'src/components/shopreview/ReviewDetail'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
-import TempUpload from 'src/components/shopreview/TempUpload'
 import API from 'src/function/API'
 
-const shopId = () => {
-    const [rating, setRating] = React.useState(0)
-    const buttons = []
-
-
-    const onClick = (idx: any) => {
-        var x = idx
-        // allow user to click first icon and set rating to zero if rating is already 1
-        if (rating === 1 && parseInt(x) === 1) {
-            setRating(0)
-        } else {
-            setRating(parseInt(x))
-        }
-    }
+const restId = () => {
     window.scrollTo(0, 0)
     const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const [text, setText] = useState("")
-    
-    const submit = () => {
-
-        API.post("/shopreview/postmyreview", { 
-            text: text,
-            shopId:param.shopId,
-         }).then((res) => {
-            console.log(res)
-            window.location.reload()
-        })
-    }
-
-
     let param = useParams()
-    const [detail, setDetail] = useState<any>([])
-
+    const [detail, setDetail2] = useState<any>([])
     useEffect(() => {
-        API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
-            .then((res) => setDetail(res.data))
+        API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
+            .then((res) => setDetail2(res.data))
     }, [param])
     const [review, setReview] = useState<any>([])
-    const getReview = API.get("/shopreview/getmyreviewDb")
+    const getReview = API.get("/shopreview/getmyreviewDb2")
     useEffect(() => {
         getReview.then((res) => {
             setReview(res.data)
@@ -64,14 +34,16 @@ const shopId = () => {
     }
     return (
         <AppBody>
-            {detail.map((item: any) => (
-                <ShopDetailName name={item.shopName} />
-            ))}
+            {detail.map((item: any) => {
+                console.log(item)
+                return (
+                    <ShopDetailName name={item.detailOf.resName} />
+                )
+            })}
             {detail.map((item: any) => (
                 <Box
                     flex={1}
-                    backgroundSize={"120%"}
-                    bgImage={item.images[0].image}
+                    bgImage={item.detailOf.images[0].image}
                     shadow={"lg"}
                     w={"100%"}
                     height={"sm"}
@@ -103,7 +75,7 @@ const shopId = () => {
                         Opening
                     </Heading>
                     <Heading padding={10} size={"lg"}>
-                        {item.open} - {item.close}
+                        {item.detailOf.openAt[0].open} - {item.detailOf.closeAt[0].close}
                     </Heading>
                 </Flex>
             ))}
@@ -118,7 +90,7 @@ const shopId = () => {
             </Box>
 
             {detail.map((item: any) => (
-                <LocationShop location={item.address} phoneNumber={item.phoneNo} />
+                <LocationShop location={item.zone} phoneNumber={item.phoneNo} />
             ))}
             <Rate />
 
@@ -126,7 +98,6 @@ const shopId = () => {
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
                     + Addyour
                 </Heading>
-
                 {/* pop ups  */}
             </Box>
 
@@ -140,7 +111,7 @@ const shopId = () => {
 
                     <ModalBody>
                         <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
-                        {/* input here */}
+
                         <Textarea
                             colorScheme="white"
                             focusBorderColor="black"
@@ -148,16 +119,7 @@ const shopId = () => {
                             marginTop={"5"}
                             minHeight={"100px"}
                             maxHeight={"200px"}
-                            value={text}
-                            onChange={(e) => setText(e.target.value)}
-
-
-                        >
-                        </Textarea>
-                        <Input type={"file"} id="id" hidden multiple></Input>
-
-                        <TempUpload />
-
+                        ></Textarea>
                         <Input type={"file"} id="id" hidden multiple></Input>
                         <Box
                             onClick={() => {
@@ -181,21 +143,18 @@ const shopId = () => {
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-
-                        <Button bgColor={"green"} color="white" onClick={submit}>
+                        <Button bgColor={"green"} color="white">
                             Submit
                         </Button>
-
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
                 {review.map((item: any) => {
-                    if (param.shopId === item.shopId) {
+                    if (param.resId === item.resId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail image={item.reviewBy.image} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
+                                <ReviewDetail image={""} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
                             </b>
                         )
                     }
@@ -208,4 +167,4 @@ const shopId = () => {
     )
 }
 
-export default shopId
+export default restId

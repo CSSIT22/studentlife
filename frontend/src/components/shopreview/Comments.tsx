@@ -37,7 +37,7 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
                     </Text>
                 </Flex>
                 {/* ดีงข้อมูลมาจาก database */}
-                <Spacer width={"100%"} as="button"></Spacer>
+                <Spacer width={"100%"}></Spacer>
                 <Flex direction={"column"} justifyContent={"flex-start"}>
                     {isHovering && <Popover placement="bottom">
                         <PopoverTrigger>
@@ -112,7 +112,7 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
                         {ment}
                     </Text>
                 </Box>
-                <Spacer width={"100%"} as="button"></Spacer>
+                {/* <Spacer width={"100%"} as="button"></Spacer> */}
             </Flex>
             {/* ดีงข้อมูลมาจาก database */}
             <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
