@@ -136,8 +136,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
             ageObtainedUser.map((user: any) => {
                 if (datingOptionsDB?.genderPref == "Everyone") {
-                    if(user.details.sex == "Male" || user.details.sex == "Female" || user.details.sex == "LGBTQ+")
-                    genderObtainedUser.push(user)
+                    if (user.details.sex == "Male" || user.details.sex == "Female" || user.details.sex == "LGBTQ+") genderObtainedUser.push(user)
                 } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male") {
                     genderObtainedUser.push(user)
                 } else if (datingOptionsDB?.genderPref == "Female" && user.details.sex == "Female") {
@@ -201,10 +200,9 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                         isSkipped: isSkipped,
                     },
                 })
-                if(isSkipped == true) {
+                if (isSkipped == true) {
                     calExp(prisma, req.user?.userId || "", "DatingDiscoveryLeft")
-                }
-                else if(isSkipped == false) {
+                } else if (isSkipped == false) {
                     calExp(prisma, req.user?.userId || "", "DatingDiscoveryRight")
                 }
             } catch (error) {

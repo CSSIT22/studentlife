@@ -40,11 +40,11 @@ fileRoutes.get("/", async (req: Request, res: Response) => {
 fileRoutes.get("/getallfile", verifyUser, getAllFile)
 fileRoutes.get("/comment", getHistory)
 fileRoutes.get("/download/:fileid", downloadFile)
-fileRoutes.post("/upload",verifyUser, upload.array("upload"), uploadFile)
-fileRoutes.post("/uploadother",verifyUser, upload.array("upload"), uploadOther)
+fileRoutes.post("/upload", verifyUser, upload.array("upload"), uploadFile)
+fileRoutes.post("/uploadother", verifyUser, upload.array("upload"), uploadOther)
 fileRoutes.post("/hidefile", hideFile)
 fileRoutes.post("/comment", commentFile)
-fileRoutes.get("/gethistory",verifyUser, getHistory)
+fileRoutes.get("/gethistory", verifyUser, getHistory)
 
 //check expired file every 5 minutes
 // setInterval(deleteExpiredFile, 5000)

@@ -38,5 +38,4 @@ shopRoutes.put("/decreaseCPQuantity/:productId", decreaseCPQuantity)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 
-
 export default shopRoutes

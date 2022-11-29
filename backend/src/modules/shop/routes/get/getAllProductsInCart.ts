@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
 
 const getAllProductsInCart = async (req: Request, res: Response) => {
-    try{
+    try {
         const prisma = res.prisma
         const userId = req.user?.userId
-        if (userId != undefined){
+        if (userId != undefined) {
             const products = await prisma.shop_Cart.findMany({
                 select: {
                     productId: true,
@@ -12,18 +12,18 @@ const getAllProductsInCart = async (req: Request, res: Response) => {
                     product: {
                         include: {
                             images: {
-                                select: {image: true}
-                            }
-                        }
-                    }
+                                select: { image: true },
+                            },
+                        },
+                    },
                 },
-                where: { userId: userId},
-                orderBy: {productId: 'desc'}
+                where: { userId: userId },
+                orderBy: { productId: "desc" },
             })
             return res.send(products)
         }
         return res.status(404).send("No User Found")
-    } catch(err){
+    } catch (err) {
         return res.status(404).send("An error has occurred | " + err)
     }
 }

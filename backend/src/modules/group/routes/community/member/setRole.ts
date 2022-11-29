@@ -20,8 +20,7 @@ const setRole = async (req: Request, res: Response) => {
         })
 
         res.status(200).send("Set role success")
-
-    } catch (err){
+    } catch (err) {
         console.log(err)
         res.status(404)
     }
