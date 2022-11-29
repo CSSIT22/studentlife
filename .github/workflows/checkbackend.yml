@@ -4,7 +4,9 @@ on:
   pull_request:
     branches:
       - "*"
-
+  defaults:
+    run:
+      working-directory: ./backend
 jobs:
   backend-build:
     name: Build Backend

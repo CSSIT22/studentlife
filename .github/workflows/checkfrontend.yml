@@ -4,7 +4,9 @@ on:
   pull_request:
     branches:
       - "*"
-
+  defaults:
+    run:
+      working-directory: ./frontend
 jobs:
   frontend-build:
     name: 🐳 Build React.js Frontend
@@ -14,7 +16,6 @@ jobs:
     steps:
       - name: 🎤 Checkout
         uses: actions/checkout@v2
-
       - name: ⌚ Compile React.js production build
         run: |
           cd ./frontend
