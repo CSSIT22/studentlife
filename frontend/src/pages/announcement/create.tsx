@@ -30,11 +30,10 @@ import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
+import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 
 const create = () => {
-
-
-
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
         setIsOpen(true)
@@ -53,20 +52,13 @@ const create = () => {
     const [targetType, setTargetType] = React.useState(String)
     const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
-
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const [tv, settv] = useState<tgType[]>([])
     const value = API.get("/announcement/gettypetarget")
     useEffect(() => {
-        value.then((res) => settv(res.data))
-        // console.log(value);
+        value.then((res) => settv(res.data)).catch(err => on()).finally(off)
     }, [])
-    // console.log(targetValue);
-    // const b = tv.map((el:string[]) => {return el.Faculty})
-
-
-
-
-
 
 
     const selectTargetValue = (targetType: string) => {
@@ -109,30 +101,9 @@ const create = () => {
         return yyyy + "-" + mm + "-" + dd
     }
     const [addMoreLang, setAddMoreLang] = React.useState<post_to_language2[]>([])
-    // const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
-    // console.log(addMoreLang);
+
 
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: post_to_language2[]) => {
-        // setAllPost([
-        //     ...allPost,
-        //     {
-        //         postId: allPost.length,
-        //         userId: "0" + allPost.length + 1,
-        //         lang_id: 1000,
-        //         topic: title,
-        //         detail: detail,
-        //         sender: "SAMO-SIT",
-        //         status: "waiting",
-        //         pinStatus: false,
-        //         isApprove: false,
-        //         targetType: targetType,
-        //         targetValue: targetValue,
-        //         postAt: new Date(),
-        //         expiredOfPost: expired,
-        //         expiredAfterDelete: null,
-        //         addMoreLang: addMoreLang,
-        //     },
-        // ])
         API.post<post>("/announcement/createpost", {
             topic: title,
             detail: detail,
@@ -141,16 +112,11 @@ const create = () => {
             expiredPost: expired,
             addmorelang: addMoreLang,
         })
-
-
     }
-    // console.log(allPost)
 
-    // console.log(expired);
     const addLang = (lang: number, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
-    // console.log(addMoreLang)
 
     const ALERT = () => {
         alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
@@ -187,97 +153,110 @@ const create = () => {
             ]}
             p={{ md: "3rem" }}
         >
-            {/* <Form> */}
-            <form
-                onSubmit={(e) => {
-                    onOpen()
-                    e.preventDefault()
-                    addPost(topic, detail, targetType, targetValue, new Date(expired), addMoreLang)
-                }}
-            >
-                <Flex alignItems={"center"}>
-                    <Show below="lg">
-                        <Text as={"b"} fontSize="xl">
-                            <Link to={"/announcement"}>
-                                <Box>
-                                    <GrClose />
-                                </Box>
-                            </Link>
-                        </Text>
-                    </Show>
-                    <Spacer />
-                    <Box textAlign={"right"}>
-                        <Input type={"submit"} value="Announce" backgroundColor={"#DD6B20"} color="white" cursor="pointer" shadow={"md"} />
-                        <ModalForEvent
-                            isOpen={isOpen}
-                            onClose={onClose}
-                            topic={modalCreate.topic}
-                            detail={modalCreate.detail}
-                            status={modalCreate.event}
-                            allPost={""}
-                            setAllPost={""}
-                            onClick={onClose}
-                        />
-                    </Box>
-                </Flex>
-                <Stack spacing={3} p="5" color="black">
-                    <FormControl>
-                        <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English" value={1000} bg="white"></Select>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} bg="white" />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} bg="white" />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Target Group</FormLabel>
-                        <Flex>
-                            <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} bg="white">
-                                <option>Everyone</option>
-                                <option>Year</option>
-                                <option>Major</option>
-                                <option>Faculty</option>
-                            </Select>
-                            {selectTargetValue(targetType)}
-                        </Flex>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Expired Date</FormLabel>
-                        <Input
-                            placeholder="Select expired date"
-                            size="md"
-                            type="date"
-                            min={disabledDates()}
-                            onChange={(e) => setExpired(e.target.value)}
-                            bg="white"
-                        />
-                    </FormControl>
-                    <FormControl>
-                        <>
-                            {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} addMoreLang={addMoreLang} />
-                            })}
-                            <Tag
-                                size={"lg"}
-                                key={"lg"}
-                                variant="subtle"
-                                backgroundColor={"#DD6B20"}
-                                color="white"
-                                onClick={increaseCount}
-                                cursor={"pointer"}
-                            >
-                                <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
-                                <TagLabel>Add More Language</TagLabel>
-                            </Tag>
-                        </>
-                    </FormControl>
-                </Stack>
-            </form>
-            {/* </Form> */}
+            {(() => {
+                if (isLoading && !isError) {
+                    return <AnnounceLoading />
+                } else {
+                    if (isError) {
+                        return <AnnounceError />
+                    } else {
+                        return (
+                            <>
+                                <form
+                                    onSubmit={(e) => {
+                                        onOpen()
+                                        e.preventDefault()
+                                        addPost(topic, detail, targetType, targetValue, new Date(expired), addMoreLang)
+                                    }}
+                                >
+                                    <Flex alignItems={"center"}>
+                                        <Show below="lg">
+                                            <Text as={"b"} fontSize="xl">
+                                                <Link to={"/announcement"}>
+                                                    <Box>
+                                                        <GrClose />
+                                                    </Box>
+                                                </Link>
+                                            </Text>
+                                        </Show>
+                                        <Spacer />
+                                        <Box textAlign={"right"}>
+                                            <Input type={"submit"} value="Announce" backgroundColor={"#DD6B20"} color="white" cursor="pointer" shadow={"md"} />
+                                            <ModalForEvent
+                                                isOpen={isOpen}
+                                                onClose={onClose}
+                                                topic={modalCreate.topic}
+                                                detail={modalCreate.detail}
+                                                status={modalCreate.event}
+                                                allPost={""}
+                                                setAllPost={""}
+                                                onClick={onClose}
+                                            />
+                                        </Box>
+                                    </Flex>
+                                    <Stack spacing={3} p="5" color="black">
+                                        <FormControl>
+                                            <FormLabel>Language</FormLabel>
+                                            <Select isDisabled placeholder="English" value={1000} bg="white"></Select>
+                                        </FormControl>
+                                        <FormControl isRequired>
+                                            <FormLabel>Title</FormLabel>
+                                            <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} bg="white" />
+                                        </FormControl>
+                                        <FormControl isRequired>
+                                            <FormLabel>Detail</FormLabel>
+                                            <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} bg="white" />
+                                        </FormControl>
+                                        <FormControl isRequired>
+                                            <FormLabel>Target Group</FormLabel>
+                                            <Flex>
+                                                <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} bg="white">
+                                                    <option>Everyone</option>
+                                                    <option>Year</option>
+                                                    <option>Major</option>
+                                                    <option>Faculty</option>
+                                                </Select>
+                                                {selectTargetValue(targetType)}
+                                            </Flex>
+                                        </FormControl>
+                                        <FormControl isRequired>
+                                            <FormLabel>Expired Date</FormLabel>
+                                            <Input
+                                                placeholder="Select expired date"
+                                                size="md"
+                                                type="date"
+                                                min={disabledDates()}
+                                                onChange={(e) => setExpired(e.target.value)}
+                                                bg="white"
+                                            />
+                                        </FormControl>
+                                        <FormControl>
+                                            <>
+                                                {moreLangField.map((el) => {
+                                                    return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} addMoreLang={addMoreLang} />
+                                                })}
+                                                <Tag
+                                                    size={"lg"}
+                                                    key={"lg"}
+                                                    variant="subtle"
+                                                    backgroundColor={"#DD6B20"}
+                                                    color="white"
+                                                    onClick={increaseCount}
+                                                    cursor={"pointer"}
+                                                >
+                                                    <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
+                                                    <TagLabel>Add More Language</TagLabel>
+                                                </Tag>
+                                            </>
+                                        </FormControl>
+                                    </Stack>
+                                </form>
+                            </>
+                        )
+                    }
+                }
+            })()}
+
         </AppBody>
     )
 }

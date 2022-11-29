@@ -28,6 +28,7 @@ import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import MoreLang from "src/components/annoucement/MoreLang"
 import { postInfoTest } from "../postInfoTest"
 import MoreLangAdded from "src/components/annoucement/MoreLangAdded"
+import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
 
 const history = () => {
     const params = useParams()
@@ -55,46 +56,44 @@ const history = () => {
 
     let d: Date
     const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-    const [tt, settt] = useState<addMoreLangType[]>([])
     const [tv, settv] = useState<tgType[]>([])
-    const [exlang2, setexlang2] = useState<addMoreLangType[]>([])
 
     async function getPost() {
-        const getData = await API.get("/announcement/getdetailedit/" + params.postId)
-        setpost(getData.data)
-        setTopic(getData.data[0].annLanguage[0].annTopic)
-        setDetail(getData.data[0].annLanguage[0].annDetail)
-        setTargetType(getData.data[0].annFilter.filterType)
-        setTargetValue(getData.data[0].annFilter.value)
-        d = new Date(getData.data[0].annExpired)
-        if (d.getMonth() < 10) {
-            const nm = "0" + (d.getMonth() + 1)
-            if (d.getDate() < 10) {
-                const nd = "0" + (d.getDate())
-                setExpired(d.getFullYear() + "-" + nm + "-" + nd)
-            } else {
-                setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
-            }
-
-        } else if (d.getDate() < 10) {
-            const nd = "0" + d.getDate()
+        await API.get("/announcement/getdetailedit/" + params.postId).then((item) => {
+            setpost(item.data)
+            setTopic(item.data[0].annLanguage[0].annTopic)
+            setDetail(item.data[0].annLanguage[0].annDetail)
+            setTargetType(item.data[0].annFilter.filterType)
+            setTargetValue(item.data[0].annFilter.value)
+            d = new Date(item.data[0].annExpired)
             if (d.getMonth() < 10) {
                 const nm = "0" + (d.getMonth() + 1)
-                setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+                if (d.getDate() < 10) {
+                    const nd = "0" + (d.getDate())
+                    setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+                } else {
+                    setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
+                }
+
+            } else if (d.getDate() < 10) {
+                const nd = "0" + d.getDate()
+                if (d.getMonth() < 10) {
+                    const nm = "0" + (d.getMonth() + 1)
+                    setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+                } else {
+                    setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + nd)
+                }
             } else {
-                setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + nd)
+                setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
             }
-        } else {
-            setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
-        }
 
 
-        setexMoreLang(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
+            setexMoreLang(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
 
-        setmorelanglength(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
-        const value = await API.get("/announcement/gettypetarget");
-        settv(value.data)
+            setmorelanglength(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
+        }).catch(err => on())
+
+        await API.get("/announcement/gettypetarget").then(item => settv(item.data))
     }
 
 
@@ -201,9 +200,9 @@ const history = () => {
                 )
             })
         } else {
-           
+
             return exmoreLang?.map((el) => {
-          
+
                 return (
                     <MoreLangForEdit
                         // id={Date.now()}
@@ -273,107 +272,118 @@ const history = () => {
             ]}
             p={{ md: "3rem" }}
         >
-            <form
-                onSubmit={(e) => {
-                    tog()
-                    onOpen()
-                    // e.preventDefault()
-                    e.stopPropagation()
-                    submit()
-                }}
-            >
-                <Flex alignItems={"center"}>
-                    <Show below="lg">
-                        <Text as={"b"} fontSize="xl">
-                            <Link to={"/announcement/history"}>
-                                <GrClose />
-                            </Link>
-                        </Text>
-                    </Show>
-                    <Spacer />
-                    <Box textAlign={"right"}>
-                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
-                        <ModalForEvent
-                            isOpen={isOpen}
-                            onClose={onClose}
-                            topic={modalEdit.topic}
-                            detail={modalEdit.detail}
-                            status={modalEdit.status}
-                            allPost={allPost}
-                            setAllPost={setAllPost}
-                            //onclick not use in edit post
-                            onClick={tog}
-                        />
-                    </Box>
-                </Flex>
-                <Stack spacing={3} p="5" color="black">
-                    <FormControl>
-                        <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English" bg="white"></Select>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white" />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white" />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Target Group</FormLabel>
-                        <Flex>
-                            <Select
-                                placeholder="Select Type"
-                                pr={"2"}
-                                onChange={(el) => setTargetType(el.target.value)}
-                                value={targetType}
-                                bg="white"
-                            >
-                                <option>Everyone</option>
-                                <option>Year</option>
-                                <option>Major</option>
-                                <option>Faculty</option>
-                            </Select>
-                            {selectTargetValue(targetType)}
-                        </Flex>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Expired Date</FormLabel>
-                        <Input
-                            placeholder="Select expired date"
-                            size="md"
-                            type="date"
-                            min={disabledDates()}
-                            onChange={(e) => setExpired(e.target.value)}
-                            value={expired}
-                            bg="white"
-                        />
-                    </FormControl>
-                    <FormControl>
+            {(() => {
+                if (isError) {
+                    return <AnnounceError />
+                } else {
+                    return (
                         <>
-                            {showMoreLang(morelanglength, add)}
-                            {disable && moreLangField?.map((_, index) => {
-                                    return <MoreLang key={index} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} addMoreLang={addMoreLang}/>
-                                })}
-                            <Tag
-                                size={"lg"}
-                                key={"lg"}
-                                variant="subtle"
-                                backgroundColor={"#DD6B20"}
-                                color="white"
-                                onClick={() => {
-                                    increaseCount()
+                            <form
+                                onSubmit={(e) => {
+                                    tog()
+                                    onOpen()
+                                    // e.preventDefault()
+                                    e.stopPropagation()
+                                    submit()
                                 }}
-                                cursor={"pointer"}
-                                mt="5"
                             >
-                                <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
-                                <TagLabel>Add More Language</TagLabel>
-                            </Tag>
+                                <Flex alignItems={"center"}>
+                                    <Show below="lg">
+                                        <Text as={"b"} fontSize="xl">
+                                            <Link to={"/announcement/history"}>
+                                                <GrClose />
+                                            </Link>
+                                        </Text>
+                                    </Show>
+                                    <Spacer />
+                                    <Box textAlign={"right"}>
+                                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
+                                        <ModalForEvent
+                                            isOpen={isOpen}
+                                            onClose={onClose}
+                                            topic={modalEdit.topic}
+                                            detail={modalEdit.detail}
+                                            status={modalEdit.status}
+                                            allPost={allPost}
+                                            setAllPost={setAllPost}
+                                            //onclick not use in edit post
+                                            onClick={tog}
+                                        />
+                                    </Box>
+                                </Flex>
+                                <Stack spacing={3} p="5" color="black">
+                                    <FormControl>
+                                        <FormLabel>Language</FormLabel>
+                                        <Select isDisabled placeholder="English" bg="white"></Select>
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Title</FormLabel>
+                                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white" />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Detail</FormLabel>
+                                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white" />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Target Group</FormLabel>
+                                        <Flex>
+                                            <Select
+                                                placeholder="Select Type"
+                                                pr={"2"}
+                                                onChange={(el) => setTargetType(el.target.value)}
+                                                value={targetType}
+                                                bg="white"
+                                            >
+                                                <option>Everyone</option>
+                                                <option>Year</option>
+                                                <option>Major</option>
+                                                <option>Faculty</option>
+                                            </Select>
+                                            {selectTargetValue(targetType)}
+                                        </Flex>
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Expired Date</FormLabel>
+                                        <Input
+                                            placeholder="Select expired date"
+                                            size="md"
+                                            type="date"
+                                            min={disabledDates()}
+                                            onChange={(e) => setExpired(e.target.value)}
+                                            value={expired}
+                                            bg="white"
+                                        />
+                                    </FormControl>
+                                    <FormControl>
+                                        <>
+                                            {showMoreLang(morelanglength, add)}
+                                            {disable && moreLangField?.map((_, index) => {
+                                                return <MoreLang key={index} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} addMoreLang={addMoreLang} />
+                                            })}
+                                            <Tag
+                                                size={"lg"}
+                                                key={"lg"}
+                                                variant="subtle"
+                                                backgroundColor={"#DD6B20"}
+                                                color="white"
+                                                onClick={() => {
+                                                    increaseCount()
+                                                }}
+                                                cursor={"pointer"}
+                                                mt="5"
+                                            >
+                                                <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
+                                                <TagLabel>Add More Language</TagLabel>
+                                            </Tag>
+                                        </>
+                                    </FormControl>
+                                </Stack>
+                            </form>
                         </>
-                    </FormControl>
-                </Stack>
-            </form>
+                    )
+                }
+            })()}
+
         </AppBody>
     )
 }

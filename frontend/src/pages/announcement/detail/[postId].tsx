@@ -6,46 +6,34 @@ import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
 import { announcement, announcement_language } from "@apiType/announcement"
 import API from "src/function/API"
+import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
+import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
 
 
 const detail = () => {
+    const params = useParams()
     const [langInfos, setlanginfos] = useState<announcement_language[]>([])
+    const getData = API.get("/announcement/getdetailedit/" + params.postId)
     const newData = API.get("/announcement/getotherlang")
+
     useEffect(() => {
         newData.then(res => setlanginfos(res.data))
+        getData.then((item) => setpost(item.data)).catch((err) => on()).finally(off)
     }, [])
 
-    const params = useParams()
-    // console.log(params.postId)
-    // const post = postInfoTest.filter((el) => {
-    //     return el.postId == parseInt(params.postId + "")
-    // })
+
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [post, setpost] = useState<announcement[]>([])
-    const getData = API.get("/announcement/getdetailedit/" + params.postId)
-
-    useEffect(() => {
-        getData.then((item) => setpost(item.data)).catch((err) => on()).finally(off)
-        // console.log(post)
-        // console.log("hello")
-    }, [])
-    if (isError)
-        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
-
 
     const selectLangName = (lang_id: number) => {
         const lang = langInfos.filter((el) => el.languageId == lang_id)
         return lang[0].language
     }
     const [lang, setlang] = useState<number>(1000)
-    // console.log(lang);
     const otherLang = post.map((el) => el.annLanguage)
-    // console.log(otherLang);
     const selectLang = (lang: number) => {
         const selected = otherLang[0]?.filter((el) => el.languageId == lang)
-        // console.log(selected);
-
         if (lang != 1000) {
             return (
                 <>
@@ -127,39 +115,52 @@ const detail = () => {
             ]}
             p={{ md: "3rem" }}
         >
-            <Flex alignItems={"center"}>
-                <Show below="lg">
-                    <Text as={"b"} fontSize="xl">
-                        <Link to="/announcement">
-                            <GrClose />
-                        </Link>
-                    </Text>
-                </Show>
-                {/* <Spacer /> */}
-            </Flex>
+            {(() => {
+                if (isLoading && !isError) {
+                    return <AnnounceLoading />
+                } else {
+                    if (isError) {
+                        return <AnnounceError />
+                    } else {
+                        return (
+                            <>
+                                <Flex alignItems={"center"}>
+                                    <Show below="lg">
+                                        <Text as={"b"} fontSize="xl">
+                                            <Link to="/announcement">
+                                                <GrClose />
+                                            </Link>
+                                        </Text>
+                                    </Show>
+                                </Flex>
 
-            <Stack spacing={3} p="5">
-                <Grid templateColumns={{ base: "1fr 1fr", lg: "1fr 3fr" }} my={5}>
-                    <GridItem>
-                        <Select
-                            placeholder="select language"
-                            bg="blue.600"
-                            color={"white"}
-                            onChange={(el) => setlang(parseInt(el.target.value + ""))}
-                        >
-                            {/* <option value={1000}>English</option> */}
-                            {otherLang[0]?.map((el, index) => {
-                                return (
-                                    <option value={el.languageId} key={index} style={{ background: "#FFF", color: "#000" }}>
-                                        {selectLangName(el.languageId)}
-                                    </option>
-                                )
-                            })}
-                        </Select>
-                    </GridItem>
-                </Grid>
-                {selectLang(lang)}
-            </Stack>
+                                <Stack spacing={3} p="5">
+                                    <Grid templateColumns={{ base: "1fr 1fr", lg: "1fr 3fr" }} my={5}>
+                                        <GridItem>
+                                            <Select
+                                                placeholder="select language"
+                                                bg="blue.600"
+                                                color={"white"}
+                                                onChange={(el) => setlang(parseInt(el.target.value + ""))}
+                                            >
+                                                {otherLang[0]?.map((el, index) => {
+                                                    return (
+                                                        <option value={el.languageId} key={index} style={{ background: "#FFF", color: "#000" }}>
+                                                            {selectLangName(el.languageId)}
+                                                        </option>
+                                                    )
+                                                })}
+                                            </Select>
+                                        </GridItem>
+                                    </Grid>
+                                    {selectLang(lang)}
+                                </Stack>
+                            </>
+                        )
+                    }
+                }
+            })()}
+
         </AppBody>
     )
 }

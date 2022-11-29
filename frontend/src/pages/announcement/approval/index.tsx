@@ -8,6 +8,8 @@ import HeaderPage from "../../../components/annoucement/HeaderPage"
 import { postInfoTest } from "../postInfoTest"
 import { announcement, post } from "@apiType/announcement"
 import API from "src/function/API"
+import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
+import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
 
 const index = () => {
     const [allPost, setAllPost] = React.useState<announcement[]>([])
@@ -17,14 +19,6 @@ const index = () => {
     useEffect(() => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [])
-    if (isLoading)
-    return (
-        <AppBody>
-            <Heading>Loading</Heading>
-        </AppBody>
-    )
-if (isError)
-    return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
 
     return (
         <AppBody
@@ -36,14 +30,28 @@ if (isError)
             ]}
             p={{ md: "3rem" }}
         >
-            <Flex alignItems={"center"}>
-                <HeaderPage head="Approval" />
-            </Flex>
-            {allPost
-                // .filter((fl) => fl.status == "waiting")
-                .map((el) => {
-                    return <PostOnApproval topic={el.annLanguage[0].annTopic} sender={el.annCreator.fName+" "+el.annCreator.lName} id={el.postId} key={el.postId} />
-                })}
+            {(() => {
+                if (isLoading && !isError) {
+                    return <AnnounceLoading />
+                } else {
+                    if (isError) {
+                        return <AnnounceError />
+                    } else {
+                        return (
+                            <>
+                                <Flex alignItems={"center"}>
+                                    <HeaderPage head="Approval" />
+                                </Flex>
+                                {allPost
+                                    .map((el) => {
+                                        return <PostOnApproval topic={el.annLanguage[0].annTopic} sender={el.annCreator.fName + " " + el.annCreator.lName} id={el.postId} key={el.postId} />
+                                    })}
+                            </>
+                        )
+                    }
+                }
+            })()}
+
         </AppBody>
     )
 }
