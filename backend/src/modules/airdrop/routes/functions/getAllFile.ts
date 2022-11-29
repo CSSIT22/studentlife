@@ -142,6 +142,9 @@ const getAllFile = async (req: Request | any, res: Response | any) => {
                     },
                 },
             },
+            orderBy: {
+                fileId: "desc",
+            },
         })
         res.json(fileList)
     } catch (err) {

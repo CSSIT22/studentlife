@@ -1,374 +1,544 @@
+import React, { useEffect, useState } from "react"
 import {
-    Box,
+    Tooltip,
     Text,
-    HStack,
-    Input,
-    Select,
-    Textarea,
-    Tag,
+    useDisclosure,
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
     Button,
-    Flex,
-    IconButton,
-    TagCloseButton,
-    TagLabel,
-    Link,
-    background,
+    FormControl,
+    FormErrorMessage,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Modal,
+    Radio,
+    RadioGroup,
+    Textarea,
+    useToast,
+    VStack,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Tag,
+    Drawer,
+    DrawerBody,
+    DrawerContent,
     DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    Flex,
+    Collapse,
+    IconButton,
+    HStack,
+    textDecoration,
+    useBoolean,
 } from "@chakra-ui/react"
-import { FormControl } from "@chakra-ui/react"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
-import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from "@chakra-ui/react"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react"
-import { ChevronRightIcon, SearchIcon, ChevronLeftIcon } from "@chakra-ui/icons"
-import { useState } from "react"
-
-import { FaPlus } from "react-icons/fa"
-import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
-import { MdPublic, MdDesktopWindows } from "react-icons/md"
-
-import FriendInviteList from "src/components/group/FriendInviteList"
-import NavCommunity from "src/components/group/NavCommunity"
-import { BiBorderRadius } from "react-icons/bi"
+import API from "src/function/API"
 import AppBody from "src/components/share/app/AppBody"
-import { userData } from "src/pages/groups/data"
+import { IoIosArrowBack } from "react-icons/io"
+import { MdDesktopWindows } from "react-icons/md"
+import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
+import { Link, useParams } from "react-router-dom"
+import { userData } from "../../../data"
+import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
+import NavCommunity from "src/components/group/NavCommunity"
+import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
+import FriendInviteList from "src/components/group/FriendInviteList"
 
-const create = () => {
-    const [GroupName, setGroupName] = useState("")
-    const textChange = (event: any) => setGroupName(event.target.value)
+const createCommunity = () => {
+    const toast = useToast()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [isTagBarOpen, setIsTagBarOpen] = useState(false)
+    const { height, width } = useWindowDimensions()
+    const [preview, setPreview] = useState(true) //true = desktop, false = mobile
+    const [searchValue, setSearchValue] = useState("") //for store search value
 
-    const [Describe, setDescrip] = useState("")
-    const DesChange = (event: any) => setDescrip(event.target.value)
+    let isDesktop = (width || 0) > 768
+    //form values
+    const [communityName, setCommunityName] = useState("")
+    const [communityDesc, setCommunityDesc] = useState("")
+    const [communityPrivacy, setCommunityPrivacy] = useState(true) //true = public, false = private
+    const [communityCoverPhoto, setCommunityCoverPhoto] = useState(
+        "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
+    )
 
-    const [Privacy, setPrivacy] = useState(false)
-    const PriChange = (event: any) => setPrivacy(!event.target.value)
+    //tags
+    const [tags, setTags] = useState(userData.Tag)
+    // const [isAdded, setIsAdded] = useState(false)
+    // const [showTag, setShowTag] = useState(false)
+    const [selectedTag, setSelectedTag] = useState<any>([])
+    const [updatedTag, setUpdatedTag] = useState<any>([])
 
-    const PrivacyOnChange = (e: any) => (e.target.value == "true" ? setPrivacy(true) : setPrivacy(false))
-
-    const [changePreview, setPreview] = useState(true)
-    const PreviewChange = () => {
-        setPreview(!changePreview)
+    const handleAddTag = (tag: any) => {
+        if (!tag.isSelected) {
+            tag.isSelected = true
+            setSelectedTag([...selectedTag, tag])
+        } else {
+            tag.isSelected = false
+            setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
+        }
+    }
+    //form styles
+    const desktopStyle = {
+        input: {
+            bg: "white",
+            color: "#848383",
+            shadow: "lg",
+            borderRadius: "md",
+            fontWeight: 500,
+            fontSize: "sm",
+            mb: 1,
+        },
+        title: {
+            color: "#FFFFFF",
+            fontWeight: "bold",
+            fontSize: "sm",
+            mb: 2,
+        },
+        button1: {
+            bg: "white",
+            color: "#848383",
+            shadow: "lg",
+            borderRadius: "md",
+            _hover: {
+                bg: "gray.100",
+            },
+        },
+    }
+    const mobileStyle = {
+        //formInput
+        input: {
+            bg: "white",
+            color: "#848383",
+            shadow: "md",
+            borderRadius: "xl",
+            fontWeight: 500,
+            mb: 2,
+        },
+        // formLabel
+        title: {
+            color: "gray.600",
+            fontSize: "xl",
+            fontWeight: "bold",
+            mb: 1,
+        },
+        button1: {
+            bg: "orange.400",
+            color: "white",
+            shadow: "md",
+            borderRadius: "xl",
+            _hover: {
+                bg: "orange.600",
+            },
+        },
     }
 
-    // const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const [isModalOpen, setModalOpen] = useState(false)
-    const modalOnClick = () => setModalOpen(!isModalOpen)
+    let { communityID }: any = useParams()
+    const [community, setCommunity] = useState<any>()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
 
-    const [isSureOpen, setSureOpen] = useState(false)
-    const sureOnClick = () => setSureOpen(!isSureOpen)
+    useEffect(() => {
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => setCommunity(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
 
-    const [tagBtn, setTagBtn] = useState(false)
 
-    const handleTagChoose = () => {
-        setTagBtn(!tagBtn)
+
+    //Send data to backend
+    const submit = () => {
+        API.post("/group/createtest", {
+            communityName: communityName,
+            communityDesc: communityDesc,
+            communityPrivacy: communityPrivacy,
+            communityCoverPhoto: communityCoverPhoto,
+            communityTags: updatedTag,
+        })
+            .then((res) => {
+                toast({
+                    title: "Success",
+                    description: "Change Saved",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+                toast({
+                    title: "Error",
+                    description: "Community Edit Failed",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                })
+            })
+        onClose()
     }
-
-    const handleTagCancel = () => {
-        setTagBtn(false)
-    }
-
-    //Tag
-    const [isDrawerOpen, setDrawerOpen] = useState(false)
-    const [tag, setTag] = useState(userData.Tag)
-    // const [tagColor, setTagColor] = useState(false)
-    const [chooseTag, setChooseTag] = useState<any>([])
-    const [tagArray, setTagArray] = useState([])
-    const handleTagOnlick = (obj: any) => () => {
-        // console.log(obj)
-        setChooseTag([...chooseTag, obj])
-        // setTagColor(!tagColor)
-        setTag(tag.filter((item: any) => item.tagID !== obj.tagID))
-        // console.log(chooseTag)
-    }
-
-    const handleTagDelete = (obj: any) => () => {
-        setChooseTag(chooseTag.filter((item: any) => item != obj))
-        setTag([...tag, obj])
-    }
-    const onSubmit = () => {
-        setTagArray(chooseTag)
-        setDrawerOpen(false)
-    }
-
     return (
         <AppBody>
-            <HStack gap={changePreview ? "50px" : "100px"} mb={4}>
-                {/*Edit Community*/}
+            {/* <form method='post' onSubmit={submit}> */}
+            <Flex gap="2" alignItems="flex-start">
+                {/* Form input */}
                 <Box
-                    width={{ sm: "100%", md: "450px" }}
-                    borderRadius="md"
-                    mt={5}
-                    padding={4}
-                    background={{ md: "orange.400", base: "" }}
-                    color={{ md: "white", base: "black" }}
+                    maxWidth={{ base: "full", md: "320px" }}
+                    px={{ base: "3" }}
+                    p={{ md: "5" }}
+                    mb={{ md: "4" }}
+                    borderRadius="xl"
+                    background={{ base: "none", md: "#E67F45" }}
+                    width="full"
                 >
-                    <Breadcrumb
-                        display={{ sm: "none", md: "block" }}
-                        ml={"0.4"}
-                        fontSize={"xs"}
-                        spacing="1.5px"
-                        separator={<ChevronRightIcon color="white" />}
+                    <Flex gap='0.25' fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
+                        <Box _hover={{ textDecoration: 'underline' }}>
+                            <Link to={"/groups"}>Community</Link>
+                        </Box>
+                        <Box mt={'-0.25'}>
+                            <ChevronRightIcon />
+                        </Box>
+                        <Text>Edit Community</Text>
+                    </Flex>
+                    <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={{ md: '3', base: '2' }}>
+                        <Box display={{ base: 'block', md: 'none' }} ml='-6' mb={'1'}>
+                            <Link to={"/groups/id/1000"} >
+                                <ChevronLeftIcon />
+                            </Link>
+                        </Box>
+                        Edit Community
+                    </Heading>
+                    <FormControl isRequired={communityName === ""} isInvalid={communityName === ""}>
+                        <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Name</FormLabel>
+                        <Input
+                            focusBorderColor="none"
+                            sx={isDesktop ? desktopStyle.input : mobileStyle.input}
+                            type="name"
+                            value={community.communityName}
+                            placeholder="Community Name"
+                            onChange={(e) => setCommunityName(e.target.value)}
+                        />
+                    </FormControl>
+
+                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Tags</FormLabel>
+                    <Box
+                        onClick={() => setIsTagBarOpen(true)}
+                        sx={{
+                            bg: "white",
+                            color: "#848383",
+                            shadow: "md",
+                            fontWeight: 500,
+                        }}
+                        fontSize={{ base: "md", md: "sm" }}
+                        borderRadius={{ base: "xl", md: "md" }}
+                        mb="2"
+                        _hover={{ bg: "gray.50", cursor: "pointer" }}
+                        p="2"
+                        pl="4"
                     >
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href="http://127.0.0.1:5173/groups/id/1">Community</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbItem isCurrentPage>
-                            <BreadcrumbLink href="#" _hover={{ textDecoration: "none", cursor: "default" }}>
-                                Edit Community
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                    </Breadcrumb>
+                        Choose Tags
+                    </Box>
+                    <Collapse in={updatedTag.length != 0} animateOpacity>
+                        <Box
+                            bg="gray.200"
+                            p={{ base: 4, md: 2 }}
+                            // shadow='md'
+                            display="flex"
+                            flexWrap="wrap"
+                            gap="2"
+                            borderRadius={{ base: "xl", md: "md" }}
+                            mt={{ base: 2, md: 0 }}
+                            mb="2"
+                        >
+                            {updatedTag.map((tag: any) => {
+                                return (
+                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
+                                        <Tag
+                                            key={tag.tagID}
+                                            shadow="lg"
+                                            fontSize={{ base: "md", md: "xs" }}
+                                            borderRadius="full"
+                                            bg="green.500"
+                                            color="#FFFFFF"
+                                            px={{ base: 4, md: 2 }}
+                                            py={{ base: 2, md: 1 }}
+                                            fontWeight="bold"
+                                        >
+                                            {tag.tagName}
+                                        </Tag>
+                                    </Tooltip>
+                                )
+                            })}
+                        </Box>
+                    </Collapse>
 
-                    <HStack ml={-2} mb={{ md: 0, sm: 4 }}>
-                        <Link href="http://127.0.0.1:5173/groups">
-                            <ChevronLeftIcon display={{ sm: "block", md: "none" }} color="black" w={6} h={6} />
-                        </Link>
-                        <Text fontSize={"2xl"} fontWeight={700}>
-                            Edit Community
-                        </Text>
-                    </HStack>
+                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Privacy</FormLabel>
+                    <Accordion allowToggle>
+                        <AccordionItem
+                            borderRadius={{ base: "xl", md: "md" }}
+                            sx={{
+                                borderTopWidth: "",
+                                borderColor: "",
+                                overflowAnchor: "",
+                                bg: "white",
+                                color: "#848383",
+                                shadow: "md",
+                                fontWeight: 500,
+                                mb: 2,
+                            }}
+                        >
+                            <AccordionButton>
+                                <Box fontSize={{ base: "md", md: "sm" }} fontWeight={500} flex="1" textAlign="left">
+                                    Choose Privacy
+                                </Box>
+                                <AccordionIcon />
+                            </AccordionButton>
+                            <AccordionPanel pb={4}>
+                                <RadioGroup defaultValue="public">
+                                    <VStack align="flex-start">
+                                        <Radio value="public" onChange={() => setCommunityPrivacy(true)}>
+                                            <Text fontSize={{ base: "md", md: "sm" }}>Public</Text>
+                                        </Radio>
+                                        <Radio value="private" onChange={() => setCommunityPrivacy(false)}>
+                                            <Text fontSize={{ base: "md", md: "sm" }}>Private</Text>{" "}
+                                        </Radio>
+                                    </VStack>
+                                </RadioGroup>
+                            </AccordionPanel>
+                        </AccordionItem>
+                    </Accordion>
 
-                    <Text fontSize={"md"} fontWeight={500}>
-                        <Text mb={{ md: 0, sm: 4 }}>Name</Text>
-                        <FormControl mb={{ md: 2, sm: 4 }}>
-                            <Input
-                                type="Name"
-                                placeholder="Community Name"
-                                value={GroupName}
-                                onChange={textChange}
-                                background={"white"}
-                                color="black"
-                            />
-                        </FormControl>
-
-                        {/* Tags */}
-                        <HStack mb={{ md: 2, sm: 4 }}>
-                            <Text>Tags</Text>
-                            <Box ml={2} my={2}>
-                                <Button colorScheme={"green"} onClick={() => setDrawerOpen(true)} size="xs">
-                                    <FaPlus />
-                                </Button>
+                    {/* Cant get friend from another module */}
+                    <FormLabel display="none" sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
+                        Invite friends to join this community
+                    </FormLabel>
+                    <Box display="none" borderRadius={"md"}>
+                        <HStack
+                            borderRadius={"md"}
+                            boxShadow="md"
+                            padding={1}
+                            mb={{ md: 1, sm: 4 }}
+                            background={"white"}
+                            border="1px"
+                            borderColor="gray.200"
+                        >
+                            <Box color={"black"} mr={-1}>
+                                <IconButton
+                                    aria-label="Search database"
+                                    disabled={true}
+                                    _hover={{ cursor: "default", background: "default" }}
+                                    background={"white"}
+                                    icon={<SearchIcon />}
+                                />
+                            </Box>
+                            <Box width={"100%"} backgroundColor={"white"} color={"black"}>
+                                <Input
+                                    width={"100%"}
+                                    variant={"filled"}
+                                    type={"search"}
+                                    value={searchValue}
+                                    onChange={(e: any) => setSearchValue(e.target.value)}
+                                    placeholder="Seacrh for friends"
+                                    focusBorderColor="gray.200"
+                                ></Input>
                             </Box>
                         </HStack>
 
-                        <Drawer placement={"bottom"} onClose={() => setDrawerOpen(false)} isOpen={isDrawerOpen}>
-                            <DrawerOverlay />
-                            <DrawerContent>
-                                <DrawerHeader borderBottomWidth="1px">Choose tags here!</DrawerHeader>
-                                <DrawerBody>
-                                    <Flex gap={2} flexWrap={"wrap"}>
-                                        {/* {userData.Tag.map((i) => (
-                                            <Button onClick={((handleTagChoose))}
-                                                colorScheme={tagBtn ? 'green' : 'yellow'}
-                                                variant='solid'
-                                                key={i.tagID}
-                                                borderRadius="full"
-                                                size={"md"}
-                                            >{i.tagName}
-                                            </Button>
-                                        ))} */}
-                                        {/* <Box> */}
-                                        {tag.map((tag: any) => (
-                                            <Button
-                                                variant="solid"
-                                                key={tag.tagID}
-                                                borderRadius="full"
-                                                size={"md"}
-                                                value={tag}
-                                                onClick={handleTagOnlick(tag)}
-                                            >
-                                                {tag.tagName}
-                                            </Button>
-                                        ))}
-                                        {/* </Box> */}
-                                    </Flex>
-                                </DrawerBody>
-                                <DrawerHeader borderBottomWidth="1px">Selected Tags</DrawerHeader>
-                                <DrawerBody>
-                                    {chooseTag.map((tag: any) => tag).length > 0 ? (
-                                        <Flex gap={2} flexWrap={"wrap"} mb={4}>
-                                            {chooseTag.map((tag: any) => (
-                                                <Button
-                                                    key={tag.tagID}
-                                                    borderRadius="full"
-                                                    variant="solid"
-                                                    size={"md"}
-                                                    backgroundColor={"orange.400"}
-                                                    color="white"
-                                                    onClick={handleTagDelete(tag)}
-                                                    value={tag}
-                                                >
-                                                    {tag.tagName}
-                                                </Button>
-                                            ))}
-                                        </Flex>
-                                    ) : (
-                                        <Text>None</Text>
-                                    )}
-                                </DrawerBody>
-                                <DrawerFooter>
-                                    <Button onClick={onSubmit} colorScheme="blue">
-                                        Confirm
-                                    </Button>
-                                </DrawerFooter>
-                            </DrawerContent>
-                        </Drawer>
+                        <Box
+                            background={{ md: "orange.400", base: "" }}
+                            height={{ sm: "400px", md: "200px" }}
+                            paddingRight={0.5}
+                            mb={{ md: 0, sm: 4 }}
+                            sx={{
+                                "-webkit-overflow-scrolling": "touch" /* enables momentum-scrolling on iOS */,
+                                overflowY: "scroll",
+                                scrollBehavior: "smooth",
 
-                        <Box width="100%" bg={"white"} boxShadow={{ sm: "xs", md: "none" }} padding={1} borderRadius={"md"} mb={{ md: 2, sm: 4 }}>
-                            <HStack flexWrap={"wrap"} gap={2} justify={"flex-start"} padding={2}>
-                                {/* {userData.Tag.map((Tags) =>
-                                    <Tag
-                                        fontSize={"md"}
-                                        size={"md"}
-                                        key={Tags.tagID}
-                                        borderRadius='full'
-                                        variant='solid'
-                                        colorScheme='green'
-                                        sx={{ marginLeft: '0 !important' }}
-                                    >
-                                        <TagLabel>{Tags.tagName}</TagLabel>
-                                        <TagCloseButton />
-                                    </Tag>)} */}
-
-                                {tagArray.map((tag: any) => tag).length > 0 ? (
-                                    tagArray.map((tag: any) => (
-                                        <Tag
-                                            fontSize={"md"}
-                                            size={"lg"}
-                                            key={tag.tagID}
-                                            borderRadius="full"
-                                            variant="solid"
-                                            colorScheme="green"
-                                            sx={{ marginLeft: "0 !important" }}
-                                        >
-                                            <TagLabel>{tag.tagName}</TagLabel>
-                                            {/* <TagCloseButton onClick={handleTagDelete(tag)} /> */}
-                                        </Tag>
-                                    ))
-                                ) : (
-                                    <Text as={"p"} fontWeight={"normal"} color={{ base: "white", md: "gray" }}>
-                                        Edit your community tags!{" "}
-                                    </Text>
-                                )}
-                            </HStack>
-                        </Box>
-
-                        {/* Privacy */}
-                        <HStack mb={{ md: 0, sm: 4 }}>
-                            <Text mr={-1}>Privacy</Text>
-                            <MdPublic color="White" />
-                        </HStack>
-
-                        <FormControl mb={{ md: 2, sm: 4 }}>
-                            <Select onChange={PrivacyOnChange} placeholder="Public" background={"white"} color="black">
-                                {/* <option value={'false'}>Public</option > */}
-                                <option value={"true"}>Private</option>
-                            </Select>
-                        </FormControl>
-
-                        <Text mb={{ md: 0, sm: 4 }}>Description</Text>
-                        <FormControl mb={{ md: 2, sm: 4 }}>
-                            <Textarea
-                                value={Describe}
-                                onChange={DesChange}
-                                placeholder="Type your group description here"
-                                size="sm"
-                                background={"white"}
-                                color="black"
-                            />
-                        </FormControl>
-
-                        <Text mb={{ md: 0, sm: 4 }}>Edit a cover photo</Text>
-
-                        <Button width="100%" color="black" size={"sm"} mb={{ md: 2, sm: 4 }}>
-                            + Upload Cover Photo
-                        </Button>
-
-                        <Button
-                            onClick={modalOnClick}
-                            width="100%"
-                            mt={2}
-                            color={{ md: "black", sm: "white" }}
-                            background={{ md: "white", sm: "orange.500" }}
-                            _hover={{ background: "default.200" }}
-                            size={"md"}
+                                "::-webkit-scrollbar-track": {
+                                    background: "white",
+                                    rounded: "xl",
+                                },
+                                "::-webkit-scrollbar-thumb": {
+                                    background: { md: "gray", sm: "none" },
+                                },
+                            }}
                         >
-                            Save
-                        </Button>
-                        <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={modalOnClick} isCentered>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Save save save!</ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody pb={6}>Are you sure you want to save?</ModalBody>
-
-                                <ModalFooter>
-                                    <Button colorScheme="blue" mr={3} onClick={sureOnClick}>
-                                        Sure
-                                    </Button>
-                                    <Modal closeOnOverlayClick={false} isOpen={isSureOpen} onClose={sureOnClick} isCentered>
-                                        <ModalOverlay />
-                                        <ModalContent>
-                                            <ModalHeader>Save save save!</ModalHeader>
-                                            <Link href="http://127.0.0.1:5173/groups/id/1000/">
-                                                <ModalCloseButton /> {/* Will link to created community page */}
-                                            </Link>
-                                            <ModalBody pb={6}>Change saved!</ModalBody>
-                                            <ModalFooter>
-                                                <Link href="http://127.0.0.1:5173/groups/id/1000/" _hover={{ textDecoration: "none" }}>
-                                                    <Button onClick={modalOnClick}>Close</Button> {/* Will link to created community page */}
-                                                </Link>
-                                            </ModalFooter>
-                                        </ModalContent>
-                                    </Modal>
-                                    <Button onClick={modalOnClick}>Cancel</Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
-                    </Text>
-                </Box>
-
-                {/* Desktop Preview */}
-                <Box
-                    background={"orange.400"}
-                    borderRadius="md"
-                    paddingTop={5}
-                    color={"white"}
-                    width={changePreview ? "550px" : "375px"}
-                    display={{ sm: "none", md: "block" }}
-                >
-                    <HStack justifyContent={"space-between"} align={"center"} padding={1} mt={-2} paddingLeft={5} paddingRight={5}>
-                        <Text fontSize={"2xl"} fontWeight={700}>
-                            {changePreview ? "Desktop Preview" : " Mobile Preview"}
-                        </Text>
-                        <Text display={"flex"} gap={2}>
-                            {changePreview ? <HiOutlineDevicePhoneMobile onClick={PreviewChange} /> : <MdDesktopWindows onClick={PreviewChange} />}
-                        </Text>
-                    </HStack>
-
-                    <Box width="100%" borderRadius="md" padding={5} paddingTop={"5rem"} background={"orange.400"} textColor={"white"}>
-                        <Box color={"black"}>
-                            <NavCommunity
-                                disableBtn={true}
-                                communityName={GroupName ? GroupName : "Community Name"}
-                                isPrivate={Privacy ? Privacy : false}
-                                isMember={true}
-                                description={
-                                    Describe
-                                        ? Describe
-                                        : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
-                                }
-                                coverPhoto="https://picsum.photos/id/400/800"
-                                members={1}
-                                communityID={1000}
-                                tags={chooseTag}
-                                disableInvite={true}
-                            />
+                            <Flex gap={{ md: 1, sm: 2 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
+                                {userData.friends
+                                    .filter((friends) => {
+                                        return searchValue.toLowerCase() == "" ? friends : friends.userName.toLowerCase().includes(searchValue)
+                                    })
+                                    .map((i) => (
+                                        <FriendInviteList key={i.userName} userName={i.userName} userProfile={i.profile} isSelected={i.isSelected} />
+                                    ))}
+                            </Flex>
                         </Box>
                     </Box>
+
+                    <FormControl>
+                        <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Description</FormLabel>
+                        <FormHelperText mb="2">
+                            <Text color={{ base: "gray.600", md: "#FFFFFF" }}>Describe your community so people know what it's about.</Text>
+                        </FormHelperText>
+                        <Textarea
+                            focusBorderColor="none"
+                            sx={isDesktop ? desktopStyle.input : mobileStyle.input}
+                            value={communityDesc}
+                            onChange={(e) => setCommunityDesc(e.target.value)}
+                            // placeholder="Type your group description here"
+                            size="sm"
+                            background={"white"}
+                            color="black"
+                        />
+                    </FormControl>
+                    <Button
+                        width="full"
+                        mt={{ md: 4 }}
+                        sx={isDesktop ? desktopStyle.button1 : mobileStyle.button1}
+                        isLoading={false}
+                        type="submit"
+                        isDisabled={communityName === ""}
+                        onClick={onOpen}
+                    >
+                        Edit Community
+                    </Button>
+                    {/* </form> */}
+
+                    {/* Modal for confirmation */}
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader> Edit your community!</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody mt={'-2'}>
+                                Are you sure you want to save?
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button onClick={submit} colorScheme="blue" mr={3} boxShadow='md'>
+                                    Sure
+                                </Button>
+                                <Button variant="cancel" onClick={onClose} boxShadow='md'>Cancel</Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+
+                    {/* Tag bar */}
+                    <Drawer
+                        placement="bottom"
+                        onClose={() => {
+                            setIsTagBarOpen(false)
+                            // setShowTag(true)
+                            setUpdatedTag(selectedTag)
+                        }}
+                        isOpen={isTagBarOpen}
+                    >
+                        <DrawerOverlay />
+                        <DrawerContent mx={{ base: "5", md: "10%", lg: "20%" }} width="auto" backgroundColor="#e67f45" borderTopRadius="3rem" pb="20">
+                            <DrawerBody pt="6" display="flex" flexWrap="wrap" gap="2">
+                                {tags.map((tag) => (
+                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
+                                        <Tag
+                                            key={tag.tagID}
+                                            _hover={{ cursor: "pointer" }}
+                                            shadow="lg"
+                                            borderRadius="full"
+                                            px="4"
+                                            py="2"
+                                            fontWeight="bold"
+                                            bg={tag.isSelected ? "#444444" : "#FFFFFF"}
+                                            color={tag.isSelected ? "#FFFFFF" : "#444444"}
+                                            onClick={() => handleAddTag(tag)}
+                                        >
+                                            {tag.tagName}
+                                        </Tag>
+                                    </Tooltip>
+                                ))}
+                            </DrawerBody>
+                        </DrawerContent>
+                    </Drawer>
                 </Box>
-            </HStack>
-        </AppBody>
+                <Box width="full" display={{ base: "none", md: "block" }}>
+                    <Flex justifyContent="center" width="full">
+                        <Box sx={{ transition: "width 0.8s", transitionTimingFunction: "ease-in-out" }} width={preview ? "full" : "350px"}>
+                            <Box borderTopRadius="xl" bg="#e67f45" px="3" pt="5">
+                                <Flex
+                                    justifyContent="space-between"
+                                    direction="row"
+                                    borderTopRadius="md"
+                                    bg="white"
+                                    px="4"
+                                    py="2"
+                                    color="#FFFFFFF"
+                                    fontSize="md"
+                                    as="b"
+                                >
+                                    <Text>{preview ? "Desktop Preview" : "Mobile Priview"}</Text>
+                                    <Flex direction="row" alignItems="center" justifyContent="center" gap="2">
+                                        <Tooltip hasArrow arrowSize={5} borderRadius="md" label="Click for switch to mobile preview">
+                                            <Box
+                                                borderRadius="md"
+                                                px="3"
+                                                py="1"
+                                                _hover={{ cursor: "pointer" }}
+                                                color="white"
+                                                bg={preview ? "gray.300" : "gray.500"}
+                                                onClick={() => setPreview(false)}
+                                            >
+                                                <HiOutlineDevicePhoneMobile />
+                                            </Box>
+                                        </Tooltip>
+                                        <Tooltip hasArrow arrowSize={5} borderRadius="md" label="Click for switch to desktop preview">
+                                            <Box
+                                                borderRadius="md"
+                                                px="3"
+                                                py="1"
+                                                _hover={{ cursor: "pointer" }}
+                                                color="white"
+                                                bg={preview ? "gray.500" : "gray.300"}
+                                                onClick={() => setPreview(true)}
+                                            >
+                                                <MdDesktopWindows />
+                                            </Box>
+                                        </Tooltip>
+                                    </Flex>
+                                </Flex>
+                            </Box>
+                            <Box p="5" px="3" bg="#e67f45" paddingTop="5rem" borderBottomRadius="xl">
+                                <NavCommunity
+                                    disableBtn={true}
+                                    communityName={communityName ? communityName : "Community Name"}
+                                    isPrivate={!communityPrivacy}
+                                    isMember={true}
+                                    desc={
+                                        communityDesc
+                                            ? communityDesc
+                                            : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
+                                    }
+                                    coverPhoto={communityCoverPhoto}
+                                    members={1}
+                                    communityID={"1"}
+                                    tags={updatedTag}
+                                    disableInvite={true}
+                                />
+                            </Box>
+                        </Box>
+                    </Flex>
+                </Box>
+            </Flex >
+        </AppBody >
     )
 }
-export default create
+
+export default createCommunity;
