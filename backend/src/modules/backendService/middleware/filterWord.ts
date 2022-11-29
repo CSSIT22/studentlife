@@ -1,13 +1,24 @@
-import { Request, Response, NextFunction } from "express"
+import express, { Request, Response, NextFunction } from "express"
 
-// path localhost:8000/backendservice/test
-/**
- * need to check
- * req.body
- * req.params
- * req.query
- */
-export const filterWord = async (req: Request, res: Response, next: NextFunction) => {
+const router = express.Router()
+
+router.use(express.json())
+
+const getWords = (rawString: string[]): string[] => {
+    let words: string[] = []
+    rawString.forEach((item) => {
+        if (item) {
+            let temp1: string[] = item
+                .toLowerCase()
+                .split(/[^a-zก-๏]/)
+                .filter((word) => word.length > 1)
+            words.push(...temp1)
+        }
+    })
+    return words
+}
+
+const filterWordHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const prisma = res.prisma
         const reqBody: string = JSON.stringify(req.body)
@@ -31,16 +42,6 @@ export const filterWord = async (req: Request, res: Response, next: NextFunction
     }
 }
 
-const getWords = (rawString: string[]): string[] => {
-    let words: string[] = []
-    rawString.forEach((item) => {
-        if (item) {
-            let temp1: string[] = item
-                .toLowerCase()
-                .split(/[^a-zก-๏]/)
-                .filter((word) => word.length > 1)
-            words.push(...temp1)
-        }
-    })
-    return words
-}
+router.use(filterWordHandler)
+
+export { router as filterWord }
