@@ -6,7 +6,7 @@ const InvitationBox: FC<{
     userName: string
     communityName: string
     memberNumber: number
-    coverPhoto: string
+    coverPhoto: any
     isPrivate: boolean
     expireDate: string
 }> = ({

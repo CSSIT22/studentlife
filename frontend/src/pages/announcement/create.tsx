@@ -16,8 +16,10 @@ import {
     Textarea,
     Box,
     Show,
+    Heading,
+    useBoolean,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
 import { Link, To } from "react-router-dom"
@@ -26,42 +28,13 @@ import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
-import { addMoreLangType, post } from "@apiType/announcement"
+import { addMoreLangType, post, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 
 const create = () => {
-    const selectTargetValue = (targetType: string) => {
-        if (targetType == "Faculty") {
-            return (
-                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    <option>Science</option>
-                    <option>Engineering</option>
-                    <option>Information Technology</option>
-                    <option>Economics</option>
-                </Select>
-            )
-        } else if (targetType == "Major") {
-            return (
-                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    <option>Computer Science</option>
-                    <option>Math</option>
-                    <option>Biology</option>
-                    <option>Chemistry</option>
-                </Select>
-            )
-        } else if (targetType == "Year") {
-            return (
-                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </Select>
-            )
-        } else {
-            return ""
-        }
-    }
+   
+   
+
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
         setIsOpen(true)
@@ -78,8 +51,55 @@ const create = () => {
     const [topic, setTopic] = React.useState(String)
     const [detail, setDetail] = React.useState(String)
     const [targetType, setTargetType] = React.useState(String)
-    const [targetValue, setTargetValue] = React.useState(String)
+    const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
+
+    const [tv, settv ] = useState<tgType[]>([])
+    const value = API.get("/announcement/gettypetarget")
+    useEffect(() => {
+         value.then((res) => settv(res.data))
+        // console.log(value);
+    },[])
+    // console.log(targetValue);
+    // const b = tv.map((el:string[]) => {return el.Faculty})
+    
+
+   
+   
+    
+    
+
+    const selectTargetValue = (targetType: string) => {
+        if (targetType == "Faculty") {
+            return (
+                <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} bg="white">
+                    {tv[0]?.Faculty.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
+                </Select>
+            )
+        } else if (targetType == "Major") {
+            return (
+                <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} bg="white">
+                     {tv[0]?.Major.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
+                </Select>
+            )
+        } else if (targetType == "Year") {
+            return (
+                <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} bg="white">
+                     {tv[0]?.Year.map((el,index) => {
+                        return <option key={index}>{el}</option>
+                    })}
+                </Select>
+            )
+        } else {
+            return ""
+        }
+    }
+    
+
     const disabledDates = () => {
         var today, dd, mm, yyyy
         today = new Date()
@@ -89,7 +109,9 @@ const create = () => {
         return yyyy + "-" + mm + "-" + dd
     }
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
-    const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    // const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
+    // console.log(addMoreLang);
+    
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
         // setAllPost([
         //     ...allPost,
@@ -111,20 +133,22 @@ const create = () => {
         //         addMoreLang: addMoreLang,
         //     },
         // ])
-        API.post<post>("/announcement/createpost", {
-            topic: title,
-            detail: detail,
-            targetType: targetType,
-            targetValue: targetValue,
-            expiredPost: expired,
-            addmorelang: addMoreLang,
-        })
+            API.post<post>("/announcement/createpost", {
+                topic: title,
+                detail: detail,
+                targetType: targetType,
+                targetValue: targetValue,
+                expiredPost: expired,
+                addmorelang: addMoreLang,
+            })
+        
+        
     }
-    console.log(allPost)
+    // console.log(allPost)
 
     // console.log(expired);
     const addLang = (lang: number, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, lang_id: lang, topic: topic, detail: detail }])
+        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, languageId: lang, annTopic: topic, annDetail: detail }])
     }
     // console.log(addMoreLang)
 
@@ -194,8 +218,8 @@ const create = () => {
                             topic={modalCreate.topic}
                             detail={modalCreate.detail}
                             status={modalCreate.event}
-                            allPost={allPost}
-                            setAllPost={setAllPost}
+                            allPost={""}
+                            setAllPost={""}
                             onClick={onClose}
                         />
                     </Box>

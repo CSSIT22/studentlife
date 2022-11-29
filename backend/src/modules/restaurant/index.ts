@@ -5,11 +5,16 @@ import showDetail from "./routes/showDetail"
 import searchRestaurant from "./routes/searchRestaurant"
 import showReview from "./routes/showReview"
 import showFavorite from "./routes/showFavorite"
-import { review } from "./review"
 import showHistory from "./routes/showHistory"
 import { Restaurant } from "@apiType/restaurant"
 import { verifyUser } from "../backendService/middleware/verifyUser"
+import deleteFavorite from "./routes/deleteFavorite"
+import addFavorite from "./routes/addFavorite"
+import { Request, Response } from "express"
+import addHistory from "./routes/addHistory"
+
 const restaurantRoutes = express()
+restaurantRoutes.use(express.json())
 
 export let restaurant: Restaurant[] = [
     {
@@ -89,7 +94,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
-        userid: 101,
+        userid: 102,
         id: 4,
         resName: "Amazon",
         open: "09.00",
@@ -127,7 +132,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
-        userid: 102,
+        userid: 103,
         id: 6,
         resName: "Ping House",
         amountOflike: 442,
@@ -146,7 +151,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
-        userid: 103,
+        userid: 101,
         id: 7,
         resName: "Bear House",
         amountOflike: 95,
@@ -165,7 +170,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
-        userid: 101,
+        userid:101,
         id: 8,
         resName: "Tenjo",
         open: "09.00",
@@ -184,7 +189,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
-        userid: 101,
+        userid: 102,
         id: 9,
         resName: "Zen",
         open: "09.00",
@@ -208,14 +213,17 @@ export const getRestaurant = () => restaurant
 export const setRestaurant = (newData: Restaurant[]) => {
     restaurant = newData
 }
-export const getReview = () => review
 
 restaurantRoutes.get("/search", searchRestaurant)
 restaurantRoutes.get("/favorite", showFavorite)
+restaurantRoutes.post("/favorite", deleteFavorite)
 restaurantRoutes.get("/history", showHistory)
 restaurantRoutes.get("/:id", verifyUser, showRestaurant)
+restaurantRoutes.put("/:id", addHistory)
 restaurantRoutes.post("/:id", likedRestaurant)
 restaurantRoutes.get("/detail/:id", showDetail)
+restaurantRoutes.post("/detail/:id", addFavorite)
 restaurantRoutes.get("/review/:id", showReview)
+// restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
 
 export default restaurantRoutes

@@ -1,4 +1,5 @@
-import { Box, Button, Flex, Grid, GridItem, Heading, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
+import { Open, Restaurant2 } from "@apiType/restaurant"
+import { Box, Button, Flex, Grid, GridItem, Heading, Input, Menu, MenuButton, MenuItem, MenuList, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import FavoriteContent from "src/components/restaurant/FavoriteContent"
@@ -9,24 +10,43 @@ import AppBody from "../../components/share/app/AppBody"
 const search = () => {
     const location = useLocation()
     // const params = useParams()
-    const [search, setsearch] = useState<any>([])
-    // const filterres = Restaurant.filter((e1) => {
-    //     var num = new URLSearchParams(location.search).get('name')?.length
-    //     console.log();
-
-    //     return e1.resName.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length) === new URLSearchParams(location.search).get('name')?.toLowerCase().substring(0,new URLSearchParams(location.search).get('name')?.length)
-
-    // })
+    const [search, setsearch] = useState<Restaurant2[]>([])
+    const [open, setopen] = useState<Open>();
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
 
     useEffect(() => {
         API.get("/restaurant/search?name=" + new URLSearchParams(location.search).get("name")).then((item) => setsearch(item.data))
-        // .catch((err) => on())
         // .finally(off)
+        .catch((err) => on())
+        .finally(off)
     }, [new URLSearchParams(location.search).get("name")])
+  
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
+    )
 
-    // console.log(search);
-    // console.log(new URLSearchParams(location.search).get('name'));
-
+    if(isError) return (
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
+    )
+    
     return (
         <AppBody
             secondarynav={[
@@ -41,17 +61,18 @@ const search = () => {
                 Search Result
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
-                {search.map((e1: any) => {
+                {search.map((e1:any) => {
                     return (
                         <GridItem>
-                            <Link to={`/restaurant/detail/${e1.id}`}>
+                            <Link to={`/restaurant/detail/${e1.resId}`}>
+                                
                                 <Searchcontent
                                     resName={e1.resName}
-                                    phone={e1.phone}
-                                    open={e1.open}
-                                    close={e1.close}
-                                    website={e1.website}
-                                    img={e1.img[0]}
+                                    phone={e1.detail}
+                                    open={e1.openAt[0].open}
+                                    close={e1.closeAt[0].close}
+                                    website={e1.detail}
+                                    img={e1.images}
                                 />
                             </Link>
                         </GridItem>
