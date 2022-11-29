@@ -39,6 +39,7 @@ import {
     Collapse,
     IconButton,
     HStack,
+    textDecoration,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import AppBody from "src/components/share/app/AppBody"
@@ -49,7 +50,7 @@ import { Link } from "react-router-dom"
 import { userData } from "../data"
 import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
 import NavCommunity from "src/components/group/NavCommunity"
-import { SearchIcon } from "@chakra-ui/icons"
+import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import FriendInviteList from "src/components/group/FriendInviteList"
 
 const createCommunity = () => {
@@ -127,7 +128,7 @@ const createCommunity = () => {
             color: "gray.600",
             fontSize: "xl",
             fontWeight: "bold",
-            mb: 4,
+            mb: 1,
         },
         button1: {
             bg: "orange.400",
@@ -139,18 +140,10 @@ const createCommunity = () => {
             },
         },
     }
+
     //Send data to backend
     const submit = () => {
-        // const communityID = Date.now()//Create unique ID
-
-        // console.log(communityID)
-        // console.log(communityName)
-        // console.log(communityDes)
-        // console.log(communityPrivacy)
-        // console.log(communityCoverPhoto)
-        console.log(updatedTag)
-        API.post("/group/createtest", {
-            // communityID: Date.now(),
+        API.post("/group/editCommunity", {
             communityName: communityName,
             communityDesc: communityDesc,
             communityPrivacy: communityPrivacy,
@@ -158,11 +151,9 @@ const createCommunity = () => {
             communityTags: updatedTag,
         })
             .then((res) => {
-                // console.log(res.status)
-                // console.log(res.data)
                 toast({
                     title: "Success",
-                    description: "Community created successfully",
+                    description: "Community Created Successfully",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
@@ -173,7 +164,7 @@ const createCommunity = () => {
                 console.log(err)
                 toast({
                     title: "Error",
-                    description: "Community creation failed",
+                    description: "Community Creation Failed",
                     status: "error",
                     duration: 5000,
                     isClosable: true,
@@ -196,10 +187,21 @@ const createCommunity = () => {
                     background={{ base: "none", md: "#E67F45" }}
                     width="full"
                 >
-                    <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={4}>
-                        <Link to={"/groups"}>
-                            <IoIosArrowBack />
-                        </Link>
+                    <Flex gap='0.25' fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
+                        <Box _hover={{ textDecoration: 'underline' }}>
+                            <Link to={"/groups"}>Community</Link>
+                        </Box>
+                        <Box mt={'-0.25'}>
+                            <ChevronRightIcon />
+                        </Box>
+                        <Text>Create Community</Text>
+                    </Flex>
+                    <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={{ md: '3', base: '2' }}>
+                        <Box display={{ base: 'block', md: 'none' }} ml='-6' mb={'1'}>
+                            <Link to={"/groups"} >
+                                <ChevronLeftIcon />
+                            </Link>
+                        </Box>
                         Create Community
                     </Heading>
                     <FormControl isRequired={communityName === ""} isInvalid={communityName === ""}>
@@ -399,16 +401,19 @@ const createCommunity = () => {
                     {/* </form> */}
 
                     {/* Modal for confirmation */}
-                    <Modal isOpen={isOpen} onClose={onClose}>
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
                         <ModalOverlay />
                         <ModalContent>
-                            <ModalHeader> Are you sure you want to create the community?</ModalHeader>
+                            <ModalHeader> Create your community!</ModalHeader>
                             <ModalCloseButton />
+                            <ModalBody mt={'-2'}>
+                                Are you sure you want to create the community?
+                            </ModalBody>
                             <ModalFooter>
-                                <Button onClick={submit} colorScheme="blue" mr={3}>
+                                <Button onClick={submit} colorScheme="blue" mr={3} boxShadow='md'>
                                     Sure
                                 </Button>
-                                <Button variant="cancel">Cancel</Button>
+                                <Button variant="cancel" onClick={onClose} boxShadow='md'>Cancel</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Modal>
@@ -500,14 +505,14 @@ const createCommunity = () => {
                                     communityName={communityName ? communityName : "Community Name"}
                                     isPrivate={!communityPrivacy}
                                     isMember={true}
-                                    description={
+                                    desc={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    coverPhoto={communityCoverPhoto}
+                                    coverPhoto={"https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"}
                                     members={1}
-                                    communityID={1000}
+                                    communityID={""}
                                     tags={updatedTag}
                                     disableInvite={true}
                                 />
@@ -515,8 +520,8 @@ const createCommunity = () => {
                         </Box>
                     </Flex>
                 </Box>
-            </Flex>
-        </AppBody>
+            </Flex >
+        </AppBody >
     )
 }
 

@@ -4,15 +4,15 @@ import { MdPublic, MdPublicOff } from "react-icons/md"
 import { Link } from "react-router-dom"
 
 const CommunityList: FC<{
-    communityID: number
+    communityId: string
     communityName: string
     lastActive: string
-    coverPhoto: string
+    coverPhoto: any
     isPrivate: boolean
-    roleID: number
-}> = ({ communityName, lastActive, coverPhoto, isPrivate, roleID, communityID }) => {
+
+}> = ({ communityName, lastActive, coverPhoto, isPrivate, communityId }) => {
     return (
-        <Link to={`/groups/id/${communityID}`}>
+        <Link to={`/groups/id/${communityId}`}>
             <Box
                 sx={{ transition: "transform ease 300ms" }}
                 _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }}
@@ -24,7 +24,7 @@ const CommunityList: FC<{
             >
                 <Box p={2} borderRadius="md">
                     <HStack gap={2}>
-                        <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto} alt="Cover Photo" />
+                        <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto ? coverPhoto:"https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"} alt="Cover Photo" />
                         <div>
                             <Box display="flex" alignItems="center" gap={1}>
                                 {isPrivate ? <MdPublicOff /> : <MdPublic />}

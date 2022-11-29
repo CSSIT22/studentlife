@@ -25,6 +25,7 @@ export type UserCardDetail = {
   }[]
   studentMajor: {
     majorFaculty: {
+      facultyId: string
       facultyName: string
     }
   }
@@ -32,4 +33,11 @@ export type UserCardDetail = {
 export type AllFaculty = {
   facultyId: string;
   facultyName: string;
+};
+
+export type UserOption = {
+  ageMin: number;
+  ageMax: number;
+  genderPref: string;
+  useAge: boolean;
 };

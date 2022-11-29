@@ -4,50 +4,46 @@ import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
-import { languageInfo, post } from "@apiType/announcement"
+import { announcement, announcement_language} from "@apiType/announcement"
 import API from "src/function/API"
 
-export let langInfos: languageInfo[] = [
-    { lang_id: 1000, langName: "English" },
-    { lang_id: 1001, langName: "Thai" },
-    { lang_id: 1002, langName: "Korea" },
-    { lang_id: 1003, langName: "Japaneses" },
-]
 
 const detail = () => {
-    const [isError, { on }] = useBoolean()
+    const [langInfos , setlanginfos] = useState<announcement_language[]>([])
+    const newData = API.get("/announcement/getotherlang")
+    useEffect(() => {
+        newData.then(res => setlanginfos(res.data))
+    },[])
+
     const params = useParams()
     // console.log(params.postId)
     // const post = postInfoTest.filter((el) => {
     //     return el.postId == parseInt(params.postId + "")
     // })
-    const [post, setpost] = useState<post[]>([])
-    const getData = API.get("/announcement/getdetail/" + params.postId)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const [post, setpost] = useState<announcement[]>([])
+    const getData = API.get("/announcement/getdetailedit/" + params.postId)
+
     useEffect(() => {
-        getData.then((item) => setpost(item.data)).catch((err) => on())
+        getData.then((item) => setpost(item.data)).catch((err) => on()).finally(off)
+        // console.log(post)
+        // console.log("hello")
     }, [])
-    // console.log(p);
     if (isError)
-        return (
-            <AppBody>
-                <Heading color={"red"}>There is an Error</Heading>
-            </AppBody>
-        )
-    // const otlang = p.map((el) => el.addMoreLang)
-    // console.log(otlang[0]);
-    // const slt = otlang[0]?.filter((el) => el.lang_id == 1001);
-    // console.log(slt);
+        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
+
 
     const selectLangName = (lang_id: number) => {
-        const lang = langInfos.filter((el) => el.lang_id == lang_id)
-        return lang[0].langName
+        const lang = langInfos.filter((el) => el.languageId == lang_id)
+        return lang[0].language
     }
     const [lang, setlang] = useState<number>(1000)
     // console.log(lang);
-    const otherLang = post.map((el) => el.addMoreLang)
+    const otherLang = post.map((el) => el.annLanguage)
     // console.log(otherLang);
     const selectLang = (lang: number) => {
-        const selected = otherLang[0]?.filter((el) => el.lang_id == lang)
+        const selected = otherLang[0]?.filter((el) => el.languageId == lang)
         // console.log(selected);
 
         if (lang != 1000) {
@@ -55,30 +51,30 @@ const detail = () => {
                 <>
                     <Heading as="h2" size="xl">
                         {selected?.map((el) => {
-                            return el.topic
+                            return el.annTopic
                         })}
                     </Heading>
                     <Box>
                         <Text fontSize="md">
                             Sender:{" "}
                             {post.map((el) => {
-                                return el.sender
+                                return el.annCreator.fName + " " + el.annCreator.lName
                             })}
                         </Text>
                         <Text fontSize="md">
                             To:{" "}
                             {post.map((el) => {
-                                return el.targetType
+                                return el.annFilter.filterType
                             })}{" "}
                             {post.map((el) => {
-                                return el.targetValue
+                                return el.annFilter.value
                             })}
                         </Text>
                     </Box>
                     <Box>
                         <Text fontSize="sm" align="justify">
                             {selected?.map((el) => {
-                                return el.detail
+                                return el.annDetail
                             })}
                         </Text>
                     </Box>
@@ -89,30 +85,30 @@ const detail = () => {
                 <>
                     <Heading as="h2" size="xl">
                         {post.map((el) => {
-                            return el.topic
+                            return el.annLanguage[0].annTopic
                         })}
                     </Heading>
                     <Box>
                         <Text fontSize="md">
                             Sender:{" "}
                             {post.map((el) => {
-                                return el.sender
+                                return el.annCreator.fName + " " + el.annCreator.lName
                             })}
                         </Text>
                         <Text fontSize="md">
                             To:{" "}
                             {post.map((el) => {
-                                return el.targetType
+                                return el.annFilter.filterType
                             })}{" "}
                             {post.map((el) => {
-                                return el.targetValue
+                                return el.annFilter.value
                             })}
                         </Text>
                     </Box>
                     <Box>
                         <Text fontSize="sm" align="justify">
                             {post.map((el) => {
-                                return el.detail
+                                return el.annLanguage[0].annDetail
                             })}
                         </Text>
                     </Box>
@@ -151,11 +147,11 @@ const detail = () => {
                             color={"white"}
                             onChange={(el) => setlang(parseInt(el.target.value + ""))}
                         >
-                            <option value={1000}>English</option>
-                            {otherLang[0]?.map((el) => {
+                            {/* <option value={1000}>English</option> */}
+                            {otherLang[0]?.map((el,index) => {
                                 return (
-                                    <option value={el.lang_id} key={el.id} style={{ background: "#FFF", color: "#000" }}>
-                                        {selectLangName(el.lang_id)}
+                                    <option value={el.languageId} key={index} style={{ background: "#FFF", color: "#000" }}>
+                                        {selectLangName(el.languageId)}
                                     </option>
                                 )
                             })}
