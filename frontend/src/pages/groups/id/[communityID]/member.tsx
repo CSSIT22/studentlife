@@ -24,15 +24,16 @@ const Member = () => {
     return (
         <AppBody>
             <NavCommunity
-                communityName={community?.communityById.communityName}
-                isPrivate={community?.communityById.communityPrivacy}
+                communityName={community?.communityName}
+                communityId={community?.communityId}
+                communityCoverPhoto={community?.communityCoverPhoto}
+                communityPrivacy={community?.communityPrivacy}
+                // communityCoverPhoto={community?.communityCoverPhoto}
+                communityDesc={community?.communityDesc}
                 isMember={true}
-                description={community?.communityById.communityDesc}
-                coverPhoto="https://picsum.photos/id/400/800"
-                members={10}
-                communityID={communityID}
-                tags={community?.tag}
-                activeBtn={2}
+                communityMembers={10}
+                activeBtn={1}
+                tags={tag}
             />
             <Flex direction={{ base: "column-reverse", md: "row" }} gap={2} align="flex-start" mb={4}>
                 <Flex width="100%" gap={3} direction={"column"}>

@@ -9,12 +9,17 @@ import API from "src/function/API"
 const headCommunity = () => {
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
+    const [tag, setTag] = useState<any>()
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
 
     useEffect(() => {
         API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
+            .then((res) => {
+                setCommunity(res.data.communityById)
+                setTag(res.data.tag)
+                console.log(res.data.tag)
+            })
             .catch((err) => on())
             .finally(() => off())
     }, [])
@@ -22,17 +27,18 @@ const headCommunity = () => {
     return (
         <AppBody>
             <NavCommunity
-                communityName={community?.communityById.communityName}
-                isPrivate={community?.communityById.communityPrivacy}
+                communityName={community?.communityName}
+                communityId={community?.communityId}
+                communityCoverPhoto={community?.communityCoverPhoto}
+                communityPrivacy={community?.communityPrivacy}
+                // communityCoverPhoto={community?.communityCoverPhoto}
+                communityDesc={community?.communityDesc}
                 isMember={true}
-                description={community?.communityById.communityDesc}
-                coverPhoto="https://picsum.photos/id/400/800"
-                members={10}
-                communityID={communityID}
-                tags={community?.tag}
+                communityMembers={10}
                 activeBtn={1}
+                tags={tag}
             />
-            <Text>{communityID}</Text>
+            <Text>{community?.communityId}</Text>
         </AppBody>
     )
 }
