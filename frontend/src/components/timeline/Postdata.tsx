@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react"
+import API from "src/function/API"
+
 function CurrentDate(): string {
     var date: Date = new Date()
     var dmy = date.toDateString()
@@ -15,6 +18,7 @@ function ScoreUp(likes: number, comments: number, shares: number) {
     shares *= 2 // 1 shares = 2 scores
     return likes + comments + shares
 }
+let a = RandomNumber();
 export const Postdata = [
     {
         id: "1",
@@ -26,7 +30,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "https://img.freepik.com/premium-vector/boy-waving-hand-greeting-cute-people-illustration_107355-500.jpg?w=1380",
-        score: RandomNumber()
+        score: RandomNumber(),
     },
     {
 
@@ -39,7 +43,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "https://img.freepik.com/premium-vector/smiling-young-man-showing-thumbs-up-illustration-hand-drawn-style_213307-233.jpg?w=1380",
-        score: RandomNumber()
+        score: RandomNumber(),
     },
     {
         id: "3",
@@ -51,7 +55,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "https://img.freepik.com/premium-vector/big-obstacle-concept-illustration_1133-825.jpg?w=1800",
-        score: RandomNumber()
+        score: RandomNumber(),
     },
     {
         id: "4",
@@ -63,6 +67,102 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber()
-    }
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
+    {
+        id: RandomNumber(),
+        name: "Mr.Cat " + " " + RandomNumber(),
+        dateTime: CurrentDate(),
+        message: "Testing random messages number " + RandomNumber() + "...",
+        likes: RandomNumber(),
+        comments: RandomNumber(),
+        shares: RandomNumber(),
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
+        media: "",
+        score: RandomNumber(),
+    },
 ]
