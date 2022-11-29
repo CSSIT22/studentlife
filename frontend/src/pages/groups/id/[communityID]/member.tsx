@@ -24,9 +24,9 @@ const Member = () => {
     return (
         <AppBody>
             <NavCommunity
-                communityID  = {communityID}
+                communityId={communityID}
                 isMember={true}
-                members={10}
+                communityMembers={10}
                 activeBtn={2}
             />
             <Flex direction={{ base: "column-reverse", md: "row" }} gap={2} align="flex-start" mb={4}>
