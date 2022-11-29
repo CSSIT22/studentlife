@@ -2,7 +2,7 @@ import { Box, Button, Flex, Heading, SimpleGrid, Stack } from "@chakra-ui/react"
 import { FC, useState } from "react"
 import AmountRate from "./AmountRate"
 
-const Rate = () => {
+const Rate: FC<{}> = ({ }) => {
     const [active1, setActive1] = useState(false)
     const handleClick1 = () => {
         setActive1(!active1)
