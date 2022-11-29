@@ -27,9 +27,7 @@ const MoreLangForEdit: FC<{
 
 
     return (
-        <form onSubmit={() => {
-            addLang(parseInt(otherLang + ""), topic, detail), setDisable(true), onAdd()
-        }}>
+        <form target="javascript:void())">
             <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#000"} my="10">
                 <Tag
                     height={"1.5"}
@@ -73,6 +71,12 @@ const MoreLangForEdit: FC<{
                     disabled={disable}
                     bg="blue.700"
                     color="white"
+                    onClick={(e) => {
+                        if (!otherLang || !topic || !detail) {
+                            return;
+                        }
+                        addLang(parseInt(otherLang + ""), topic, detail), setDisable(true), onAdd()
+                    }}
                 >
                     Add
                 </Button>
