@@ -55,7 +55,7 @@ const MoreLang: FC<{
     // console.log(otherLang);
 
    // const navigate = useNavigate()
-    const toCreate = (e) => {
+    const toCreate = (e:any) => {
         setOtherLang(e.target.value)
         //const a = parseInt(otherLang)
         //cutENG.filter((el) => {
