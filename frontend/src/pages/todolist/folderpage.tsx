@@ -30,7 +30,7 @@ import {
 import React, { useEffect, useState } from "react"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import AppBody from "src/components/share/app/AppBody"
-import { AddIcon } from "@chakra-ui/icons"
+import { AddIcon, ArrowRightIcon } from "@chakra-ui/icons"
 import { AiFillFolder } from "react-icons/ai"
 import axios from "axios"
 
@@ -39,17 +39,23 @@ const folderpage = () => {
 
   const [folderList, setFolderList] = useState([])
 
-  const fetchFolderList = async () => {
-    const res = await axios.get("http://localhost:8000/todolist/listfolder", {
-      withCredentials: true,
-    })
+  // const fetchFolderList = async () => {
+  //   const res = await axios.get("http://localhost:8000/todolist/listfolder", {
+  //     withCredentials: true,
+  //   })
 
-    setFolderList(res.data);
-  }
+  //   setFolderList(res.data);
+  // }
 
   useEffect(() => {
-    fetchFolderList();
+    axios.get("http://localhost:8000/todolist/listfolder").then((res) => {
+      setFolderList(res.data);
+    })
   }, [])
+
+  // useEffect(() => {
+  //   fetchFolderList();
+  // }, [])
 
   return (
     <ToDoListAppBody>
@@ -84,12 +90,31 @@ const folderpage = () => {
         </ModalContent>
       </Modal>
 
+      {/* backend */}
       {
         folderList.map((el: any) => (
-          <Heading as="h2" size="3xl" noOfLines={1} display="flex" alignItems="center">
-            <AiFillFolder />
-            CSC 102
-          </Heading>
+          <Box height={"5rem"} width={"100%"} p="5" mt="5"
+            backgroundColor="#FFFFFF" rounded="lg" boxShadow="md">
+            <Flex alignItems={"center"}>
+              <Heading as="h2" size="ms" noOfLines={1} display="flex" alignItems="center" key={el.folderId}>
+              </Heading>
+              <AiFillFolder />
+              {/* <Box height={"5rem"} width={"100%"} p="5" mt="5"
+              backgroundColor="#FFFFFF" rounded="lg" key={el.folderId} boxShadow="md"> */}
+              {/* <Flex alignItems={"center"}>
+              <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} /> */}
+              <Link href="/todolist/task"
+                _hover={{ textDecoration: "none" }}>
+                <Text marginLeft={3} fontSize={"2xl"}>{el.folderName}</Text>
+              </Link>
+              <Spacer />
+              {/* <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
+              {el.isChecked && "Finished"}
+            </Box> */}
+              {/* </Flex> */}
+              {/* </Box> */}
+            </Flex>
+          </Box>
         ))
       }
     </ToDoListAppBody>
