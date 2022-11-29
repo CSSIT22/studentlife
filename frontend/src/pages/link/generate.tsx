@@ -102,8 +102,8 @@ const generate = () => {
                                     border={"4px"}
                                     borderColor={"black"}
                                     rounded={"md"}
-                                    align = "center"
-                                >{generated}</Editable>
+                                    align="center"
+                                >{generated != "" ? "http://localhost:8000/shortlink/redirect?shorten=" : ""}{generated}</Editable>
                             </Center>
                         </Box>
                     </VStack>

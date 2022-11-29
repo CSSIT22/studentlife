@@ -5,7 +5,7 @@ const shortenlink = async (req: Request, res: Response) => {
     //async = Does not folow the steps ()
     const body = req.body // Request parameter from user
     const userId = req.user?.userId || "" //Request userID from middleware to know who is using it.
-    const customNanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz", 6) // Create custom nanoid randomizer
+    const customNanoid = customAlphabet ("abcdefghijklmnopqrstuvwxyz", 6) // Create custom nanoid randomizer
 
     console.log(req.body.originalLink)
     console.log(req.user)
