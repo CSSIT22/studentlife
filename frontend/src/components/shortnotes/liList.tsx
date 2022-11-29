@@ -5,7 +5,7 @@ const liList: FC<{
     name: String
 }> = ({ name }) => {
     return (
-        <Grid bg="white" rounded={8} boxShadow={"xl"} templateRows={"repeat(3, 1fr)"} h={100}>
+        <Grid bg="white" rounded={8} boxShadow={"xl"} templateRows={"repeat(3, 1fr)"} h={100} _hover={{ cursor: "pointer", bg: '#f4f4f4' }} transition='all 0.2s cubic-bezier(.08,.52,.52,1)' >
             <Spacer />
             <Heading size={"md"} p={2} textAlign={"center"}>
                 {name}

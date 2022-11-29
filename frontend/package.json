@@ -9,7 +9,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@chakra-ui/icons": "^2.0.11",
+        "@chakra-ui/icons": "^2.0.12",
         "@chakra-ui/react": "^2.4.1",
         "@dropzone-ui/react": "^6.7.20",
         "@emotion/react": "^11.10.5",

@@ -4,10 +4,43 @@ import { nanoid } from "nanoid"
 import { verifyUser } from "./middleware/verifyUser"
 import UAParser from "ua-parser-js"
 import DeviceDetector from "node-device-detector"
+import { banned } from "./middleware/banned"
+import { reportRequest } from "@apiType/backendService"
+import { filterWord } from "./middleware/filterWord"
 
 const backendserviceRoutes = express()
 
 backendserviceRoutes.use(express.json())
+
+backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
+    const { prisma } = res
+    try {
+        const bannedUser = await res.prisma.ban_Status.upsert({
+            where: {
+                userId_reason: {
+                    userId: req.body.bannedUserId,
+                    reason: req.body.reason,
+                },
+            },
+            update: {
+                instance: {
+                    increment: 1,
+                },
+            },
+            create: {
+                userId: req.body.bannedUserId || "",
+                banTo: req.body.banTo,
+                reason: req.body.reason,
+                instance: 0,
+            },
+        })
+    } catch (error) {
+        return res.status(400).json({ message: error })
+    }
+})
+backendserviceRoutes.get("/test", filterWord, (req, res) => {
+    res.send("you passed the filter word")
+})
 
 backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
@@ -35,7 +68,7 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
 })
 
 backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, res: Response) => {
-    const prisma = res.prisma
+    const { prisma, redis } = res
 
     const detector = new DeviceDetector({
         clientIndexes: true,
@@ -83,6 +116,8 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
                 },
             },
         })
+
+        redis.DEL(`sess:${token}`)
 
         console.log(logoutResult)
 
