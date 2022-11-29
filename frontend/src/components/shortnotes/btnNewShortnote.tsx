@@ -48,6 +48,7 @@ import {
     useToast,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
+import { AiOutlineCloseCircle } from "react-icons/ai"
 import { MdPostAdd } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
@@ -217,10 +218,22 @@ const btnNewShortnote = () => {
                                         </Grid>
                                         <Box gap={2} mt={4} mb={4}>
                                             <SimpleGrid columns={2} gap={4}>
-                                                {people.map((people, key) => (
-                                                    <Box bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={3}>
-                                                        <Text textAlign={"center"}>{people}</Text>
-                                                    </Box>
+                                                {people.map((p, key) => (
+                                                    <Grid templateColumns='repeat(5, 1fr)' bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
+                                                        <GridItem colSpan={4}>
+                                                            <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
+                                                                <Text>{p}</Text>
+                                                            </Flex>
+                                                        </GridItem>
+                                                        <GridItem>
+                                                            <Button variant={"ghost"} onClick={() => {
+                                                                let x = people.filter((e) => e != p)
+                                                                setPeoples(x)
+                                                            }}>
+                                                                <AiOutlineCloseCircle />
+                                                            </Button>
+                                                        </GridItem>
+                                                    </Grid>
                                                 ))}
                                             </SimpleGrid>
                                         </Box>
