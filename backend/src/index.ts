@@ -32,6 +32,7 @@ import { verify } from "jsonwebtoken"
 import { DefaultEventsMap } from "socket.io/dist/typed-events"
 import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
+import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
 import mongoose, { mongo } from "mongoose"
 
@@ -169,6 +170,8 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     chatSocket(socket, prisma)
 
     notiSocket(socket, prisma)
+
+    airdropSocket(socket, prisma)
 
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)
