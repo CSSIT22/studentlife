@@ -34,13 +34,14 @@ export const calExp = async (prisma: PrismaClient, userId: string, exp: expType)
                 userId: userId,
             },
             update: {
-                currentXP: (oldXP?.currentXP || 0) + Math.floor(Math.random() * 100),
+                currentXP: (oldXP?.currentXP || 0) + Math.floor(addexp), //Math.floor(Math.random() * 100)
             },
             create: {
                 userId: userId,
                 currentXP: 0,
             },
         })
+
         console.log(result)
     } catch (err: any) {
         console.log(err)
