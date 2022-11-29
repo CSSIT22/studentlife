@@ -23,6 +23,7 @@ import {
     Text,
     Link,
 } from "@chakra-ui/react"
+import API from "src/function/API"
 import { BrowserRouter as Router, Route, Link as RouteLink, Form } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
@@ -107,6 +108,11 @@ const createtask = () => {
                     <option value="option1">3 days before due date</option>
                     <option value="option1">7 days before due date</option>
                 </Select>
+                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
+                    Folder
+                </Heading>
+                <Select placeholder="Choose" size="md">
+                </Select>
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     {type == "individual" ? (
@@ -122,6 +128,8 @@ const createtask = () => {
             </Box>
         </ToDoListAppBody>
     )
+
 }
+
 
 export default createtask
