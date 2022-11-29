@@ -35,6 +35,7 @@ import notiSocket from "./modules/notification/notiSocket"
 import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
 import mongoose, { mongo } from "mongoose"
+import { filterWord } from "./modules/backendService/middleware/filterWord"
 
 const PORT = 8000
 const app = express()
@@ -113,6 +114,8 @@ app.use((_, res, next) => {
     res.redis = redisClient
     next()
 })
+
+app.use(filterWord)
 
 app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
