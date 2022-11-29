@@ -54,6 +54,8 @@ model User_Profile {
   userChat            User_To_Room[]
   // userSendMessage     Message[]
   userQuote           Chat_Quote[]
+  nicks               Chat_Nickname[]               @relation("me")
+  nickedBy            Chat_Nickname[]               @relation("nick")
   userDating          Dating_Options?
   userQueue           Card_Queue[]                  @relation("User")
   frontUserQueue      Card_Queue[]                  @relation("Front User")
@@ -619,16 +621,17 @@ model Announcement_Approve {
 
 //Chat Module
 model Chat_Room {
-  roomId         String               @id @default(cuid())
-  roomName       String
-  chatColor      String               @db.Char(7)
-  created        DateTime             @default(now()) @db.Timestamp(0)
-  roomType       Room_Type
-  poll           Activity_Poll?
-  haveUser       User_To_Room[]
+  roomId     String               @id @default(cuid())
+  roomName   String
+  chatColor  String               @db.Char(7)
+  created    DateTime             @default(now()) @db.Timestamp(0)
+  roomType   Room_Type
+  poll       Activity_Poll?
+  haveUser   User_To_Room[]
+  nick       Chat_Nickname[]
   // messages       Message[]
-  quotes         Chat_Quote[]
-  wordReport     Word_Report_Detail[]
+  quotes     Chat_Quote[]
+  wordReport Word_Report_Detail[]
 }
 
 model User_To_Room {
@@ -647,6 +650,9 @@ model Chat_Nickname {
   anotherUserId String
   roomId        String
   nickname      String
+  user          User_Profile @relation("me", fields: [userId], references: [userId])
+  nameWho       User_Profile @relation("nick", fields: [anotherUserId], references: [userId])
+  room          Chat_Room    @relation(fields: [roomId], references: [roomId])
 
   @@id([userId, anotherUserId, roomId])
 }
@@ -1493,10 +1499,10 @@ model SReview_Review {
   resId        String                 @default("0")
   shopId       String                 @default("0")
   userId       String
-  reviewedAt   DateTime @default(now()) @db.Timestamp(0)
+  reviewedAt   DateTime               @default(now()) @db.Timestamp(0)
   text         String
   rating       Int
-  likeReceived Int @default(0)
+  likeReceived Int                    @default(0)
   images       SReview_Review_Image[]
   reviewer     User_Profile           @relation(fields: [userId], references: [userId])
   restaurant   Restaurant             @relation(fields: [resId], references: [resId])
