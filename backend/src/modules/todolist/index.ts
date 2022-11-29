@@ -1,7 +1,5 @@
 import express from "express"
-// import createTask from "./routes/createtask"
-// import deleteTask from "./routes/deleteTask"
-// import editTask from "./routes/editTask"
+import createTask from "./routes/createtask"
 import listTask from "./routes/listtask"
 // import createTask from "./routes/createTask"
 
@@ -12,6 +10,7 @@ todolistRoutes.use(express.json())
 // todolistRoutes.delete("/deleteTask", deleteTask)
 // todolistRoutes.get("/editTask", editTask)
 todolistRoutes.get("/listtask", listTask)
+todolistRoutes.get("/listfolder", listfolder)
 
 todolistRoutes.put("/createtask", (req, res) => {
     const taskName = req.body.taskName
