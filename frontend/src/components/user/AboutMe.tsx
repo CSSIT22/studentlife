@@ -30,7 +30,7 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                     ABOUT ME
                 </Text>
                 <Box id="detail" ml={5} p={5}>
-                    <SimpleGrid columns={{ base: "2", md: "1", lg: "2" }} spacing={7} >
+                    <SimpleGrid columns={{ base: 2, md: 1, lg: 2 }} spacing={7} >
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             PHONE
                         </Text>
