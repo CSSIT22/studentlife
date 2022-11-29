@@ -18,6 +18,11 @@ export const std = [
         id: 4,
         name: " Nattapat ",
         last: "  Medtoe "
+    },
+    {
+        id: 5,
+        name: " Thanakorn ",
+        last: "  SuperMed"
     }
 ]
 export default std
