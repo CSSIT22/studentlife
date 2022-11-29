@@ -4,7 +4,7 @@ import React from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import SuggestedFriend from "./SuggestedFriend"
 
-const FriendSuggestion = ({ photoUrl, year, department, faculty }: { photoUrl: string; year: number; department: string; faculty: string }) => {
+const FriendSuggestion = (/*{ photoUrl, year, department, faculty }: { photoUrl: string; year: number; department: string; faculty: string }*/) => {
     return (
         <Box minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} overflow="auto" fontWeight="semibold">
             <Box w="full" h="7" bgColor="orange.300" p="1">

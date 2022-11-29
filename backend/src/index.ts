@@ -32,12 +32,14 @@ import { verify } from "jsonwebtoken"
 import { DefaultEventsMap } from "socket.io/dist/typed-events"
 import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
+import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
 import mongoose, { mongo } from "mongoose"
 import { filterWord } from "./modules/backendService/middleware/filterWord"
 
 const PORT = 8000
 const app = express()
+app.use(express.json())
 
 const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])]
 
@@ -172,6 +174,8 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     chatSocket(socket, prisma)
 
     notiSocket(socket, prisma)
+
+    airdropSocket(socket, prisma)
 
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)

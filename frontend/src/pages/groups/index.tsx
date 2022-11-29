@@ -29,10 +29,10 @@ const index = () => {
     //get community form backend
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const [communitys, setCommunitys] = useState<any>([])
+    const [communitys, setCommunitys] = useState<any>()
 
     useEffect(() => {
-        API.get("/group/getcommunitys")
+        API.get("/group/getCommunity")
             .then((res) => setCommunitys(res.data))
             .catch((err) => on())
             .finally(() => off())
@@ -191,25 +191,22 @@ const index = () => {
                                 Community you manage
                             </Text>
 
-                            {communitys.ownCommunitys.filter((community: any) => community.name.toLowerCase().includes(searchValue.toLowerCase()))
+                            {communitys.ownCommunitys.filter((community: any) => community.communityName.toLowerCase().includes(searchValue.toLowerCase()))
                                 .length > 0 ? (
                                 communitys.ownCommunitys
                                     .filter((community: any) => {
-                                        return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
+                                        return searchValue.toLowerCase() == "" ? community : community.communityName.toLowerCase().includes(searchValue)
                                     })
                                     .map((community: any) =>
-                                        community.roleID >= 3 ? (
+                                         (
                                             <CommunityList
-                                                communityID={community.ID}
-                                                key={community.ID}
-                                                communityName={community.name}
+                                                communityId={community.communityId}
+                                                key={community.communityId}
+                                                communityName={community.communityName}
                                                 lastActive={"9"}
-                                                coverPhoto={community.coverPhoto}
-                                                isPrivate={community.isPrivate}
-                                                roleID={community.roleID}
+                                                coverPhoto={community.communityPhoto}
+                                                isPrivate={community.communityPrivacy}
                                             />
-                                        ) : (
-                                            <div></div>
                                         )
                                     )
                             ) : (
@@ -237,26 +234,24 @@ const index = () => {
                                 Community you've joined
                             </Text>
 
-                            {communitys.joinedCommunitys.filter((community: any) => community.name.toLowerCase().includes(searchValue.toLowerCase()))
+                            {communitys.joinedCommunitys.filter((community: any) => community.communityName.toLowerCase().includes(searchValue.toLowerCase()))
                                 .length > 0 ? (
                                 communitys.joinedCommunitys
                                     .filter((community: any) => {
-                                        return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
+                                        return searchValue.toLowerCase() == "" ? community : community.communityName.toLowerCase().includes(searchValue)
                                     })
 
                                     .map((community: any) =>
-                                        community.roleID < 3 ? (
+                                        (
                                             <CommunityList
-                                                communityID={community.ID}
-                                                key={community.ID}
-                                                communityName={community.name}
+                                                communityId={community.communityId}
+                                                key={community.communityId}
+                                                communityName={community.communityName}
                                                 lastActive={"9"}
-                                                coverPhoto={community.coverPhoto}
-                                                isPrivate={community.isPrivate}
-                                                roleID={community.roleID}
+                                                coverPhoto={community.communityPhoto}
+                                                isPrivate={community.communityPrivacy}
                                             />
-                                        ) : (
-                                            <div></div>
+                                        
                                         )
                                     )
                             ) : (
@@ -302,13 +297,13 @@ const index = () => {
                             </Text>
                             {communitys.invitations.map((i: any) => (
                                 <InvitationBox
-                                    key={i.inviteID}
-                                    userName={i.userName}
+                                    key={i.communityID}
+                                    userName={"Test"}
                                     communityName={i.communityName}
-                                    memberNumber={i.memberNumber}
-                                    isPrivate={i.isPrivate}
-                                    coverPhoto={i.coverPhoto}
-                                    expireDate={i.expireDate}
+                                    memberNumber={600}
+                                    isPrivate={i.communityPrivacy}
+                                    coverPhoto={i.communityPhoto}
+                                    expireDate={"7"}
                                 />
                             ))}
                         </Box>
@@ -333,11 +328,11 @@ const index = () => {
                             <Grid gap={2} templateColumns={{ sm: "repeat(1,1fr)", md: "repeat(2, 1fr)" }} width="100%">
                                 {communitys.invitations.map((i: any) => (
                                     <SuggestBox
-                                        key={i.inviteID}
+                                        key={i.communityID}
                                         communityName={i.communityName}
-                                        memberNumber={i.memberNumber}
-                                        isPrivate={i.isPrivate}
-                                        coverPhoto={i.coverPhoto}
+                                        memberNumber={700}
+                                        isPrivate={i.communityPrivacy}
+                                        coverPhoto={i.communityPhoto}
                                     />
                                 ))}
                             </Grid>
