@@ -3,12 +3,14 @@ import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
 import Calendar from 'react-calendar';
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, 
-    ModalFooter, ModalBody, ModalCloseButton, VStack, 
-    FormControl, FormLabel, FormErrorMessage, FormHelperText, 
-    Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text, Box, 
-    extendTheme, Heading, SimpleGrid, Textarea, IconButton, 
-    useDisclosure, Button, ButtonGroup, Divider} from "@chakra-ui/react"
+import {
+    Modal, ModalOverlay, ModalContent, ModalHeader,
+    ModalFooter, ModalBody, ModalCloseButton, VStack,
+    FormControl, FormLabel, FormErrorMessage, FormHelperText,
+    Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text, Box,
+    extendTheme, Heading, SimpleGrid, Textarea, IconButton,
+    useDisclosure, Button, ButtonGroup, Divider
+} from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import API from "src/function/API";
@@ -53,12 +55,12 @@ const timetable = () => {
     const calendarModal = useDisclosure()
     const detailModal = useDisclosure()
     const navigate = useNavigate()
-    
+
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     //set State for add event 
-   const [event, setEvent] = useState("")
+    const [event, setEvent] = useState("")
     const handleInputEventChange = (e: any) => setEvent(e.target.value)
 
     const [description, setDescriptionInput] = useState("")
@@ -72,12 +74,12 @@ const timetable = () => {
 
     const [endtime, setEndTimeInput] = useState("")
     const handleInputEndTimeChange = (e: any) => setEndTimeInput(e.target.value)
-    
+
     //select date in calendar
     const [dateSelect, setDateInput] = useState(new Date())
-    const monthNames = ["January", "February", "March", "April", 
-    "May", "June", "July", "August", "September", "October", 
-    "November", "December"]
+    const monthNames = ["January", "February", "March", "April",
+        "May", "June", "July", "August", "September", "October",
+        "November", "December"]
     const dateButton = document.getElementById('my-element')
 
     function handleTime() {
@@ -89,11 +91,11 @@ const timetable = () => {
         return etime
     }
     function handleSubmit() {
-        console.log("Name: " + event + 
-        " Description: " + description + 
-        " Location: " + location + 
-        " Start Time: " + handleTime() +
-        " End Time: " + handleEndTime())
+        console.log("Name: " + event +
+            " Description: " + description +
+            " Location: " + location +
+            " Start Time: " + handleTime() +
+            " End Time: " + handleEndTime())
     }
     function selectDate() {
         dateSelect
@@ -131,11 +133,11 @@ const timetable = () => {
                    date ={date}
                    setDate={setDate}/> */}
                 </Button>
-                <Modal id="calendarButton" 
-                initialFocusRef={initialRef} 
-                finalFocusRef={finalRef} 
-                isOpen={calendarModal.isOpen} 
-                onClose={calendarModal.onClose}
+                <Modal id="calendarButton"
+                    initialFocusRef={initialRef}
+                    finalFocusRef={finalRef}
+                    isOpen={calendarModal.isOpen}
+                    onClose={calendarModal.onClose}
                 >
                     <ModalOverlay />
                     <ModalContent>
@@ -162,7 +164,7 @@ const timetable = () => {
                     onClick={calendarModal.onOpen} display={{ base: "none", md: "block" }}>
                     {dateSelect.getFullYear()}
                 </Button>
-                
+
                 <IconButton aria-label="next"
                     ml={"8"}
                     icon={<ChevronRightIcon />}
@@ -173,7 +175,7 @@ const timetable = () => {
                     borderLeftRadius="55"
                     display={{ base: "none", md: "block" }} />
 
-                
+
 
                 <IconButton
                     onClick={modal1.onOpen}
@@ -237,18 +239,18 @@ const timetable = () => {
                                     <Input placeholder="Select time" size="xs"
                                         id="time"
                                         type="datetime-local"
-                                         value={time}
-                                        onChange={(e)=>{handleInputTimeChange(e)}} />
+                                        value={time}
+                                        onChange={(e) => { handleInputTimeChange(e) }} />
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <FormLabel color="black">
                                         <Text fontSize="24px">End Time</Text>
                                     </FormLabel>
-                                    <Input placeholder="Select time" 
-                                    size="xs" 
-                                    type="datetime-local" 
-                                    onChange={(e)=>{handleInputEndTimeChange(e)}}/>
+                                    <Input placeholder="Select time"
+                                        size="xs"
+                                        type="datetime-local"
+                                        onChange={(e) => { handleInputEndTimeChange(e) }} />
                                 </FormControl>
 
                                 <FormControl mt={4}>
@@ -413,7 +415,7 @@ const timetable = () => {
                 <h4></h4>
                 {/* this part is for edit evet modal     */}
             </Box>
-            
+
         </AppBody>
     )
 }

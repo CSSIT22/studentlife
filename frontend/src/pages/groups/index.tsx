@@ -7,7 +7,7 @@ import { userData } from "./data"
 import CommunityList from "../../components/group/CommunityList"
 import SuggestBox from "../../components/group/SuggestBox"
 import InvitationBox from "../../components/group/InvitationBox"
-import useWindowDimensions from 'src/components/group/hooks/useWindowDimensions'
+import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
 import { Link } from "react-router-dom"
 import API from "src/function/API"
 
@@ -33,8 +33,9 @@ const index = () => {
 
     useEffect(() => {
         API.get("/group/getcommunitys")
-            .then(res => setCommunitys(res.data))
-            .catch((err) => on()).finally(() => off())
+            .then((res) => setCommunitys(res.data))
+            .catch((err) => on())
+            .finally(() => off())
     }, [])
     if (isLoading) {
         return (
@@ -59,7 +60,7 @@ const index = () => {
                     </Box> */}
                 <Text>Loading...</Text>
                 {/* </Box> */}
-            </AppBody >
+            </AppBody>
         )
     }
     if (isError) {
@@ -84,9 +85,9 @@ const index = () => {
                         <HStack justify={"space-between"}>
                             <HStack gap={1} display={searchBtn ? "none" : "flex"}>
                                 <Button
-                                    borderRadius='xl'
-                                    _hover={allBtn ? { background: 'gray.400' } : { background: 'orange.200' }}
-                                    size='sm'
+                                    borderRadius="xl"
+                                    _hover={allBtn ? { background: "gray.400" } : { background: "orange.200" }}
+                                    size="sm"
                                     color="#FFFFFF"
                                     backgroundColor={allBtn ? "#6b7999" : "#e65300"}
                                     onClick={() => setBtn({ allBtn: true, inviteBtn: false, suggestBtn: false })}
@@ -96,22 +97,24 @@ const index = () => {
                                 </Button>
                                 <Button
                                     sx={{ boxShadow: "rgba(0, 0, 0, 0.24) 2px 3px 5px" }}
-                                    borderRadius='xl'
-                                    size='sm'
-                                    _hover={inviteBtn ? { background: 'gray.400' } : { background: 'orange.200' }}
+                                    borderRadius="xl"
+                                    size="sm"
+                                    _hover={inviteBtn ? { background: "gray.400" } : { background: "orange.200" }}
                                     color="#FFFFFF"
                                     backgroundColor={inviteBtn ? "#6b7999" : "#e65300"}
-                                    onClick={() => setBtn({ allBtn: false, inviteBtn: true, suggestBtn: false })}>
+                                    onClick={() => setBtn({ allBtn: false, inviteBtn: true, suggestBtn: false })}
+                                >
                                     Invited
                                 </Button>
                                 <Button
                                     sx={{ boxShadow: "rgba(0, 0, 0, 0.24) 2px 3px 5px" }}
-                                    borderRadius='xl'
-                                    size='sm'
-                                    _hover={suggestBtn ? { background: 'gray.400' } : { background: 'orange.200' }}
+                                    borderRadius="xl"
+                                    size="sm"
+                                    _hover={suggestBtn ? { background: "gray.400" } : { background: "orange.200" }}
                                     color="#FFFFFF"
                                     backgroundColor={suggestBtn ? "#6b7999" : "#e65300"}
-                                    onClick={() => setBtn({ allBtn: false, inviteBtn: false, suggestBtn: true })}>
+                                    onClick={() => setBtn({ allBtn: false, inviteBtn: false, suggestBtn: true })}
+                                >
                                     Suggested
                                 </Button>
                             </HStack>{" "}
@@ -119,21 +122,22 @@ const index = () => {
                                 <Stack direction={"row"} justify="end" width={"100%"} gap={1}>
                                     <Link to="/groups/create">
                                         <Button
-                                            _hover={{ background: 'gray.50' }}
+                                            _hover={{ background: "gray.50" }}
                                             sx={{ boxShadow: "rgba(17, 12, 46, 0.15) 0px 3px 5px 0px" }}
-                                            borderRadius='xl'
-                                            size='sm'
-                                            bg='#FFFFFF'
-                                            display={searchBtn ? "none" : "flex"}>
+                                            borderRadius="xl"
+                                            size="sm"
+                                            bg="#FFFFFF"
+                                            display={searchBtn ? "none" : "flex"}
+                                        >
                                             <FaPlus />
                                         </Button>
                                     </Link>
                                     <Input
-                                        bg='#FFFFFF'
-                                        _hover={{ background: 'gray.50' }}
+                                        bg="#FFFFFF"
+                                        _hover={{ background: "gray.50" }}
                                         sx={{ boxShadow: "rgba(17, 12, 46, 0.15) 0px 2px 3px 0px" }}
-                                        borderRadius='xl'
-                                        size='sm'
+                                        borderRadius="xl"
+                                        size="sm"
                                         width={"100%"}
                                         display={searchBtn ? "" : "none"}
                                         variant={"filled"}
@@ -144,12 +148,13 @@ const index = () => {
                                         focusBorderColor="gray.200"
                                     ></Input>
                                     <Button
-                                        _hover={{ background: 'gray.50' }}
+                                        _hover={{ background: "gray.50" }}
                                         sx={{ boxShadow: "rgba(17, 12, 46, 0.15) 0px 3px 5px 0px" }}
-                                        bg='#FFFFFF'
-                                        borderRadius='xl'
-                                        size='sm'
-                                        onClick={handleSearchBtn}>
+                                        bg="#FFFFFF"
+                                        borderRadius="xl"
+                                        size="sm"
+                                        onClick={handleSearchBtn}
+                                    >
                                         <FaSearch />
                                     </Button>
                                 </Stack>
@@ -161,9 +166,9 @@ const index = () => {
                     <Show above="md">
                         <Box textAlign={"center"}>
                             <Input
-                                background={'white'}
-                                color='black'
-                                boxShadow={'2xl'}
+                                background={"white"}
+                                color="black"
+                                boxShadow={"2xl"}
                                 textAlign={"center"}
                                 width={"100%"}
                                 variant={"filled"}
@@ -173,36 +178,40 @@ const index = () => {
                                 placeholder="Seacrh Communities"
                                 focusBorderColor="gray.200"
                             ></Input>
-                            <Link to={'/groups/create'}  >
-                                <Button mt="2" colorScheme="orange" _hover={{ background: 'orange.200' }} variant="solid" width="95%" fontSize="sm">
+                            <Link to={"/groups/create"}>
+                                <Button mt="2" colorScheme="orange" _hover={{ background: "orange.200" }} variant="solid" width="95%" fontSize="sm">
                                     + Create New Community
                                 </Button>
                             </Link>
-
                         </Box>
                     </Show>
                     <Box display={allBtn || isMobile ? "block" : "none"}>
                         <Box mt={4} mb={3} background={{ md: "orange.400", base: "" }} p={{ md: "3", base: "4" }} borderRadius={"md"}>
-                            <Text as="b" color={{ md: "white", base: "black" }}>Community you manage</Text>
+                            <Text as="b" color={{ md: "white", base: "black" }}>
+                                Community you manage
+                            </Text>
 
-
-                            {communitys.ownCommunitys.filter((community: any) => community.name.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ? (
+                            {communitys.ownCommunitys.filter((community: any) => community.name.toLowerCase().includes(searchValue.toLowerCase()))
+                                .length > 0 ? (
                                 communitys.ownCommunitys
                                     .filter((community: any) => {
                                         return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                     })
-                                    .map((community: any) => (community.roleID >= 3 ? (
-                                        <CommunityList
-                                            communityID={community.ID}
-                                            key={community.ID}
-                                            communityName={community.name}
-                                            lastActive={"9"}
-                                            coverPhoto={community.coverPhoto}
-                                            isPrivate={community.isPrivate}
-                                            roleID={community.roleID}
-                                        />) :
-                                        <div></div>
-                                    ))
+                                    .map((community: any) =>
+                                        community.roleID >= 3 ? (
+                                            <CommunityList
+                                                communityID={community.ID}
+                                                key={community.ID}
+                                                communityName={community.name}
+                                                lastActive={"9"}
+                                                coverPhoto={community.coverPhoto}
+                                                isPrivate={community.isPrivate}
+                                                roleID={community.roleID}
+                                            />
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    )
                             ) : (
                                 <Box borderRadius="md" backgroundColor="red.200" mt={2}>
                                     <Box p={2} borderRadius="md">
@@ -224,27 +233,32 @@ const index = () => {
                         </Box>
 
                         <Box mt={4} mb={3} background={{ md: "orange.400", base: "" }} p={{ md: "3", base: "4" }} borderRadius={"md"}>
-                            <Text as="b" color={{ md: "white", base: "black" }}>Community you've joined</Text>
+                            <Text as="b" color={{ md: "white", base: "black" }}>
+                                Community you've joined
+                            </Text>
 
-                            {communitys.joinedCommunitys.filter((community: any) => community.name.toLowerCase().includes(searchValue.toLowerCase())).length >
-                                0 ? (
+                            {communitys.joinedCommunitys.filter((community: any) => community.name.toLowerCase().includes(searchValue.toLowerCase()))
+                                .length > 0 ? (
                                 communitys.joinedCommunitys
                                     .filter((community: any) => {
                                         return searchValue.toLowerCase() == "" ? community : community.name.toLowerCase().includes(searchValue)
                                     })
 
-                                    .map((community: any) => (community.roleID < 3 ? (
-                                        <CommunityList
-                                            communityID={community.ID}
-                                            key={community.ID}
-                                            communityName={community.name}
-                                            lastActive={"9"}
-                                            coverPhoto={community.coverPhoto}
-                                            isPrivate={community.isPrivate}
-                                            roleID={community.roleID}
-                                        />) :
-                                        <div></div>
-                                    ))
+                                    .map((community: any) =>
+                                        community.roleID < 3 ? (
+                                            <CommunityList
+                                                communityID={community.ID}
+                                                key={community.ID}
+                                                communityName={community.name}
+                                                lastActive={"9"}
+                                                coverPhoto={community.coverPhoto}
+                                                isPrivate={community.isPrivate}
+                                                roleID={community.roleID}
+                                            />
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    )
                             ) : (
                                 <Box borderRadius="md" backgroundColor="red.200" mt={2}>
                                     <Box p={2} borderRadius="md">
@@ -268,7 +282,7 @@ const index = () => {
                 </Box>
                 {/* <Show above="md"> */}
                 <Show>
-                    <Box width={"100%"} >
+                    <Box width={"100%"}>
                         <Box
                             display={inviteBtn || isMobile ? "block" : "none"}
                             borderRadius="md"
@@ -280,8 +294,12 @@ const index = () => {
                             pr={5}
                             pb={4}
                         >
-                            <Text as="b" color={{ md: "white", base: "black" }}>Invitation</Text>
-                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>These people have invited you to join the community</Text>
+                            <Text as="b" color={{ md: "white", base: "black" }}>
+                                Invitation
+                            </Text>
+                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>
+                                These people have invited you to join the community
+                            </Text>
                             {communitys.invitations.map((i: any) => (
                                 <InvitationBox
                                     key={i.inviteID}
@@ -306,8 +324,12 @@ const index = () => {
                             pr={5}
                             pb={4}
                         >
-                            <Text as="b" color={{ md: "white", base: "black" }}>Suggested for you</Text>
-                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>Communities you might be interested in.</Text>
+                            <Text as="b" color={{ md: "white", base: "black" }}>
+                                Suggested for you
+                            </Text>
+                            <Text fontSize="sm" color={{ md: "white", base: "black" }}>
+                                Communities you might be interested in.
+                            </Text>
                             <Grid gap={2} templateColumns={{ sm: "repeat(1,1fr)", md: "repeat(2, 1fr)" }} width="100%">
                                 {communitys.invitations.map((i: any) => (
                                     <SuggestBox
@@ -322,8 +344,8 @@ const index = () => {
                         </Box>
                     </Box>
                 </Show>
-            </Flex >
-        </AppBody >
+            </Flex>
+        </AppBody>
     )
 }
 

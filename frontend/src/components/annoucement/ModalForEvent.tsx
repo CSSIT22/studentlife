@@ -13,21 +13,20 @@ const ModalForEvent: FC<{
     allPost: Array<any>
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
     selectPost?: number
-    onClick:Function
-}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost,onClick }) => {
+    onClick: Function
+}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost, onClick }) => {
     // console.log(status + " " + selectPost)
     // console.log(allPost);
-    let expiredonrecycle:Date = new Date()
-    let date:number = new Date().getDate()
-    let month:number = new Date().getMonth()
-    let year:number = new Date().getFullYear()
+    let expiredonrecycle: Date = new Date()
+    let date: number = new Date().getDate()
+    let month: number = new Date().getMonth()
+    let year: number = new Date().getFullYear()
     // console.log  (year+"-"+month+"-"+date);
-    expiredonrecycle.setDate(date+3)
+    expiredonrecycle.setDate(date + 3)
     expiredonrecycle.setMonth(month)
     expiredonrecycle.setFullYear(year)
     // console.log(expiredonrecycle);
-    
-    
+
     const toggle = () => {
         onClick()
         if (status == "approve") {
@@ -40,7 +39,7 @@ const ModalForEvent: FC<{
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonhistory", {postId:selectPost, status:"delete",expiredAfterDelete: expiredonrecycle})
+            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "delete", expiredAfterDelete: expiredonrecycle })
         } else if (status == "disapprove") {
             // setAllPost(
             //     allPost.map((el) => {
@@ -50,7 +49,7 @@ const ModalForEvent: FC<{
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonhistory", {postId:selectPost, status:"deleted",expiredAfterDelete:expiredonrecycle})
+            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "deleted", expiredAfterDelete: expiredonrecycle })
         } else if (status == "delete") {
             // setAllPost(
             //     allPost.map((el) => {
@@ -60,7 +59,7 @@ const ModalForEvent: FC<{
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonrecycle",{postId:selectPost})
+            API.post<post>("/announcement/editstatusonrecycle", { postId: selectPost })
         }
     }
     // console.log(status);

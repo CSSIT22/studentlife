@@ -1,10 +1,24 @@
-import { Flex, Spacer, Heading, Text, Stack, Box, ButtonGroup, Button, Alert, AlertIcon, useControllableState, Show, useBoolean } from "@chakra-ui/react"
+import {
+    Flex,
+    Spacer,
+    Heading,
+    Text,
+    Stack,
+    Box,
+    ButtonGroup,
+    Button,
+    Alert,
+    AlertIcon,
+    useControllableState,
+    Show,
+    useBoolean,
+} from "@chakra-ui/react"
 import React, { Children, FC, useEffect } from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import ModalForEvent from "../../../components/annoucement/ModalForEvent"
 import AppBody from "../../../components/share/app/AppBody"
-import {post} from '@apiType/announcement'
+import { post } from "@apiType/announcement"
 import { postInfoTest } from "../postInfoTest"
 import API from "src/function/API"
 
@@ -16,20 +30,42 @@ const approvalDetail = () => {
     // const post = postInfoTest.filter((el) => {
     //     return el.postId == parseInt(params + "")
     // }
-    
+
     const [post, setpost] = React.useState<post[]>([])
-    const getData = API.get("/announcement/getdetail/" + params.postId)
+    const [targetType, setTargetType] = React.useState()
+    const [targetValue, setTargetValue] = React.useState()
+    const [topic, setTopic] = React.useState()
+    const [sender, setSender] = React.useState()
+    const [detail, setDetail] = React.useState()
+
+    async function getPost() {
+        const getData = await API.get("/announcement/getdetailedit/" + params.postId)
+        setpost(getData.data)
+        setTargetType(getData.data.targetType)
+        setTargetValue(getData.data.targetValue)
+        setTopic(getData.data.topic)
+        setSender(getData.data.sender)
+        setDetail(getData.data.detail)
+    }
+
     useEffect(() => {
-        getData.then((item) => setpost(item.data)).catch((err) => on())
+        getPost()
     }, [])
 
+    // useEffect(() => {
+    //     getData.then((item) => setpost(item.data)).catch((err) => on())
+    // }, [])
+
+    // const targetType = post.map((el) => el.targetType)
+    // const targetValue = post.map((el)=> el.targetValue)
+    // console.log(targetType[0], targetValue[0])
 
     const changeStatus = (status: string) => {
-        if(status == "approve"){
-            API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:true})
-        }else if(status == "disapprove"){
-            API.post<post>("/announcement/editstatusonapprove", {postId:parseInt(params.postId+""), status:status, isapprove:false})
-
+        if (status == "approve") {
+            API.post<post>("/announcement/editstatusonapprove", { postId: parseInt(params.postId + ""), status: status, isapprove: true })
+            API.post<post>("/announcement/gettargetgroup", { postId: parseInt(params.postId + ""), targetType: targetType, targetValue: targetValue })
+        } else if (status == "disapprove") {
+            API.post<post>("/announcement/editstatusonapprove", { postId: parseInt(params.postId + ""), status: status, isapprove: false })
         }
     }
 
@@ -55,44 +91,31 @@ const approvalDetail = () => {
             </Flex>
             <Stack spacing={3} p="5">
                 <Heading as="h2" size="xl">
-                    {post.map((el) => {
-                        return el.topic
-                    })}
+                    {topic}
                 </Heading>
                 <Box>
+                    <Text fontSize="md">Sender: {sender}</Text>
                     <Text fontSize="md">
-                        Sender:{" "}
-                        {post.map((el) => {
-                            return el.sender
-                        })}
-                    </Text>
-                    <Text fontSize="md">
-                        To:{" "}
-                        {post.map((el) => {
-                            return el.targetType
-                        })}{" "}
-                        {post.map((el) => {
-                            return el.targetValue
-                        })}
+                        To: {targetType} {targetValue}
                     </Text>
                 </Box>
                 <Box>
                     <Text fontSize="sm" align="justify">
-                        {post.map((el) => {
-                            return el.detail
-                        })}
+                        {detail}
                     </Text>
                 </Box>
             </Stack>
             <Box width="100%" p="5" mt="14">
                 <Flex justifyContent={"space-between"}>
                     <Link to={"/announcement/approval"}>
-                        <Button  bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("approve")}>
+                        <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("approve")}>
                             Approve
                         </Button>
                     </Link>
                     <Link to={"/announcement/approval"}>
-                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("disapprove")}>Disapprove</Button>
+                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("disapprove")}>
+                            Disapprove
+                        </Button>
                     </Link>
                 </Flex>
             </Box>

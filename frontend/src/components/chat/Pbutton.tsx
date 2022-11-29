@@ -28,12 +28,11 @@ function Plustoggle() {
     //function handle
     function Navigate() {
         return navigate(`/chat/${param.roomID}/property`)
-
     }
 
     return (
         <>
-            <RadioGroup defaultValue={"bottom"} children={undefined} ></RadioGroup>
+            <RadioGroup defaultValue={"bottom"} children={undefined}></RadioGroup>
             <Box marginLeft={5}>
                 <FaPlus size={"20px"} cursor={"pointer"} onClick={onOpen} />
             </Box>

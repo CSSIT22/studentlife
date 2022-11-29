@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react"
 
 const PostLink = () => {
-  return (
-    <div>PostLink</div>
-  )
+    return <div>PostLink</div>
 }
 
 export default PostLink

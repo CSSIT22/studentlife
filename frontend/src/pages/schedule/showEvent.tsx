@@ -10,12 +10,12 @@ import {
     EditableInput,
     EditableTextarea,
     EditablePreview,
-  } from '@chakra-ui/react'
+} from '@chakra-ui/react'
 
 const showEvent = () => {
     const modal2 = useDisclosure()
     const modal3 = useDisclosure()
-    const navigate =  useNavigate()
+    const navigate = useNavigate()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -25,49 +25,49 @@ const showEvent = () => {
     // const getEditedData = API.post("/scheduleRoutes/editevent")
     // useEffect(()=>{
     //     getEditedData.then(res=>{
-        // setEvent(res.data)
+    // setEvent(res.data)
     //    มีบรรทัดบนอันนี้ไม่ต้อง     console.log(res.data)
     //     })
     // })
-    
-  return (
-    <AppBody>
-        <IconButton aria-label="previous" icon={<ChevronLeftIcon />} onClick={() => navigate("/schedule/timetable/")} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
-        <br />
+
+    return (
+        <AppBody>
+            <IconButton aria-label="previous" icon={<ChevronLeftIcon />} onClick={() => navigate("/schedule/timetable/")} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
+            <br />
             <Box boxShadow="md" p="6" rounded="md" bg="white" mt={"6"}>
-                <Text textAlign={["center"]} fontSize="5xl" color={"#000000"}> 
-                Assignment
-                </Text> 
+                <Text textAlign={["center"]} fontSize="5xl" color={"#000000"}>
+                    Assignment
+                </Text>
             </Box>
             <br />
             <Box boxShadow="md" p="6" rounded="md" bg="white" w={"980px"} h={"152px"}>
                 <Text textAlign={["left"]} color="#858585"> Description </Text>
-                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
-                Do Tower of Hanoi p.405 - 409
-                </Text> 
+                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
+                    Do Tower of Hanoi p.405 - 409
+                </Text>
             </Box><br />
             <SimpleGrid columns={[1, 3]} spacing="30px">
-            <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
-            <Text textAlign={["left"]} color="#858585"> Time </Text>
-                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
-                06:00-06:30 AM
-                </Text> 
-            </Box>
-            <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
-            <Text textAlign={["left"]} color="#858585"> Type </Text>
-                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
-                Assignment
-                </Text> 
-            </Box>
-            <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
-            <Text textAlign={["left"]} color="#858585"> Location </Text>
-                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}> 
-                MS Team
-                </Text> 
-            </Box>
+                <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
+                    <Text textAlign={["left"]} color="#858585"> Time </Text>
+                    <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
+                        06:00-06:30 AM
+                    </Text>
+                </Box>
+                <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
+                    <Text textAlign={["left"]} color="#858585"> Type </Text>
+                    <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
+                        Assignment
+                    </Text>
+                </Box>
+                <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
+                    <Text textAlign={["left"]} color="#858585"> Location </Text>
+                    <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
+                        MS Team
+                    </Text>
+                </Box>
             </SimpleGrid>
             <br />
-<Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white" ml={"825"} bgColor="#E1AB20">
+            <Button id="editEvent" onClick={modal2.onOpen} bg="gray" colorScheme="white" ml={"825"} bgColor="#E1AB20">
                 Edit
             </Button>
             <Modal id="editEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="xl">
@@ -171,9 +171,9 @@ const showEvent = () => {
                         </Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal> 
-    </AppBody>
-  )
+            </Modal>
+        </AppBody>
+    )
 }
 
 export default showEvent
