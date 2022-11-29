@@ -49,8 +49,10 @@ const index = () => {
             }
 
         }).finally(setLoad.off)
-        file()
+
+        //file()
     }, [])
+
     const file = () => {
         API.get("/shortnotes/getFile", {
             data: {
@@ -94,6 +96,7 @@ const index = () => {
                     link={shortnote.snLink}
                     owner={shortnote.owner.fName + " " + shortnote.owner.lName}
                     date={shortnote.created}
+                    isPublic={shortnote.isPublic}
                 />
             </Box>
                 <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6}>

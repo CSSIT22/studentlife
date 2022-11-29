@@ -34,9 +34,11 @@ import {
     useCheckboxGroup,
     useCheckbox,
     useToast,
+    Input,
+    SimpleGrid,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
-import { AiFillDelete, AiOutlineUpload } from "react-icons/ai"
+import { AiFillDelete, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
@@ -54,7 +56,8 @@ const liList: FC<{
     link: String
     owner: String
     date: string | any
-}> = ({ topic, course, desc, link, owner, date }) => {
+    isPublic: boolean
+}> = ({ topic, course, desc, link, owner, date, isPublic }) => {
     const user = useContext(authContext)
 
     const [li, setLi] = useState([])
@@ -67,6 +70,7 @@ const liList: FC<{
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: apIsOpen, onOpen: apOnOpen, onClose: apOnClose } = useDisclosure()
 
     const param = useParams()
 
@@ -87,7 +91,6 @@ const liList: FC<{
         })
     }
 
-    // const [selectedLi, setSelectedLi] = useState()
     const addToLibrary = (li: string) => {
         API.post("/shortnotes/postInLibrary", {
             snId: param.id,
@@ -96,9 +99,18 @@ const liList: FC<{
     }
     const toast = useToast()
 
-    // useEffect(() => {
-    //     addToLibrary()
-    // }, [selectedLi])
+
+    const [pName, setpName] = useState("")
+    const [people, setPeoples] = useState<string[]>([])
+
+    const addPoeple = () => {
+        API.post("/shortnotes/postAccess", {
+            snId: param.id,
+            people: people
+        })
+    }
+
+
     return (
         <Box>
             <HStack>
@@ -110,9 +122,17 @@ const liList: FC<{
                         <MenuItem icon={<BiLibrary />} onClick={mliOnOpen}>
                             Add to library
                         </MenuItem>
-                        {owner == user?.fName + " " + user?.lName ? <><MenuItem icon={<AiOutlineUpload />} onClick={goToUpload}>
-                            Upload file
-                        </MenuItem>
+                        {owner == user?.fName + " " + user?.lName ? <>
+                            {isPublic == false ?
+                                <MenuItem icon={<AiOutlineUsergroupAdd />} onClick={apOnOpen}>
+                                    Add people
+                                </MenuItem>
+                                :
+                                null
+                            }
+                            <MenuItem icon={<AiOutlineUpload />} onClick={goToUpload}>
+                                Upload file
+                            </MenuItem>
                             <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
                                 Delete
                             </MenuItem></> : null}
@@ -228,6 +248,63 @@ const liList: FC<{
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
+            <Modal onClose={apOnClose} isOpen={apIsOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Add people</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+                            <GridItem colSpan={4}>
+                                <Input
+                                    placeholder="studentID, comma seperated"
+                                    focusBorderColor="orange.500"
+                                    value={pName}
+                                    onChange={(e) => setpName(e.target.value)}
+                                ></Input>
+                            </GridItem>
+                            <GridItem colSpan={1}>
+                                <Button
+                                    colorScheme={"orange"}
+                                    rounded={8}
+                                    w={"100%"}
+                                    onClick={() => {
+                                        let x = pName.split(',')
+                                        //let newPeople = [pName, ...people] //add to begin
+                                        let newPeople = x.concat(people)
+                                        setPeoples(newPeople)
+                                        setpName("")
+                                    }}
+                                >
+                                    Add
+                                </Button>
+                            </GridItem>
+                        </Grid>
+                        <Box gap={2} mt={4} mb={4}>
+                            <SimpleGrid columns={2} gap={4}>
+                                {people.map((people, key) => (
+                                    <Box bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={3}>
+                                        <Text textAlign={"center"}>{people}</Text>
+                                    </Box>
+                                ))}
+                            </SimpleGrid>
+                        </Box>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={() => {
+                            addPoeple()
+                            apOnClose()
+                            toast({
+                                title: 'People added',
+                                description: "You've added people to acces this shortnote..",
+                                status: 'success',
+                                duration: 4000,
+                                isClosable: true,
+                            })
+                        }} w={"100%"} colorScheme={"orange"}>Done</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     )
 }
