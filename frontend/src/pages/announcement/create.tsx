@@ -32,8 +32,8 @@ import { addMoreLangType, post, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 
 const create = () => {
-   
-   
+
+
 
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
@@ -54,26 +54,26 @@ const create = () => {
     const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
 
-    const [tv, settv ] = useState<tgType[]>([])
+    const [tv, settv] = useState<tgType[]>([])
     const value = API.get("/announcement/gettypetarget")
     useEffect(() => {
-         value.then((res) => settv(res.data))
+        value.then((res) => settv(res.data))
         // console.log(value);
-    },[])
+    }, [])
     // console.log(targetValue);
     // const b = tv.map((el:string[]) => {return el.Faculty})
-    
 
-   
-   
-    
-    
+
+
+
+
+
 
     const selectTargetValue = (targetType: string) => {
         if (targetType == "Faculty") {
             return (
                 <Select placeholder="Select Faculty" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                    {tv[0]?.Faculty.map((el,index) => {
+                    {tv[0]?.Faculty.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -81,7 +81,7 @@ const create = () => {
         } else if (targetType == "Major") {
             return (
                 <Select placeholder="Select Major" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                     {tv[0]?.Major.map((el,index) => {
+                    {tv[0]?.Major.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -89,7 +89,7 @@ const create = () => {
         } else if (targetType == "Year") {
             return (
                 <Select placeholder="Select Year" onChange={(el) => setTargetValue(el.target.value)} bg="white">
-                     {tv[0]?.Year.map((el,index) => {
+                    {tv[0]?.Year.map((el, index) => {
                         return <option key={index}>{el}</option>
                     })}
                 </Select>
@@ -98,7 +98,7 @@ const create = () => {
             return ""
         }
     }
-    
+
 
     const disabledDates = () => {
         var today, dd, mm, yyyy
@@ -111,7 +111,7 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
     // const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     // console.log(addMoreLang);
-    
+
     const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
         // setAllPost([
         //     ...allPost,
@@ -133,16 +133,16 @@ const create = () => {
         //         addMoreLang: addMoreLang,
         //     },
         // ])
-            API.post<post>("/announcement/createpost", {
-                topic: title,
-                detail: detail,
-                targetType: targetType,
-                targetValue: targetValue,
-                expiredPost: expired,
-                addmorelang: addMoreLang,
-            })
-        
-        
+        API.post<post>("/announcement/createpost", {
+            topic: title,
+            detail: detail,
+            targetType: targetType,
+            targetValue: targetValue,
+            expiredPost: expired,
+            addmorelang: addMoreLang,
+        })
+
+
     }
     // console.log(allPost)
 

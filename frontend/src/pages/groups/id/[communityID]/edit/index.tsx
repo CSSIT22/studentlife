@@ -542,3 +542,5 @@ const createCommunity = () => {
 }
 
 export default createCommunity
+
+export default createCommunity
