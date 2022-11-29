@@ -1,5 +1,5 @@
 import { useDisclosure, Spacer, Flex, Heading, Image, AspectRatio, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Textarea, Input, ModalFooter, Button, SimpleGrid, Container, Box } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
 import AmountRate from 'src/components/shopreview/AmountRate'
@@ -9,14 +9,28 @@ import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
 import ReviewDetail from 'src/components/shopreview/ReviewDetail'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
+import TempAddYour from 'src/components/shopreview/tempCode/TempAddYour'
+import TempAddYour1 from 'src/components/shopreview/tempCode/TempAddyour1'
 import TempUpload from 'src/components/shopreview/TempUpload'
 import API from 'src/function/API'
 
+// main component
 const shopId = () => {
-    const [rating, setRating] = React.useState(0)
+    const [rating, setRating] = useState(0)
+    const [text, setText] = useState("")
+    const [detail, setDetail] = useState<any>([])
+    const [review, setReview] = useState<any>([])
+    const navigate = useNavigate()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    let param = useParams()
     const buttons = []
 
+    const Navigate = (target: any) => {
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
+    }
 
+    // handle onclick
     const onClick = (idx: any) => {
         var x = idx
         // allow user to click first icon and set rating to zero if rating is already 1
@@ -26,49 +40,39 @@ const shopId = () => {
             setRating(parseInt(x))
         }
     }
-    window.scrollTo(0, 0)
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const [text, setText] = useState("")
-    
+    // handle form submit
     const submit = () => {
-
-        API.post("/shopreview/postmyreview", { 
+        API.post("/shopreview/postmyreview", {
             text: text,
-            shopId:param.shopId,
-         }).then((res) => {
+            shopId: param.shopId,
+        }).then((res) => {
             console.log(res)
             window.location.reload()
         })
     }
 
-
-    let param = useParams()
-    const [detail, setDetail] = useState<any>([])
-
+    // fetch shop detail data
     useEffect(() => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
-    const [review, setReview] = useState<any>([])
-    const getReview = API.get("/shopreview/getmyreviewDb")
+
+    // fetch user's reviews data
     useEffect(() => {
-        getReview.then((res) => {
+        API.get("/shopreview/getmyreviewDb").then((res) => {
             setReview(res.data)
         })
     }, [])
-    const navigate = useNavigate()
-    function Navigate(target: any) {
-        navigate(`/shopreview/review/${target}`)
-        window.scrollTo(0, 0)
-    }
+
     return (
         <AppBody>
-            {detail.map((item: any) => (
-                <ShopDetailName name={item.shopName} />
+            {detail.map((item: any, index: any) => (
+                <ShopDetailName key={index} name={item.shopName} />
             ))}
-            {detail.map((item: any) => (
+            {detail.map((item: any, index: any) => (
                 <Box
+                    key={index}
                     flex={1}
                     backgroundSize={"120%"}
                     bgImage={item.images[0].image}
@@ -97,8 +101,8 @@ const shopId = () => {
                     </Flex>
                 </Box>
             ))}
-            {detail.map((item: any) => (
-                <Flex direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
+            {detail.map((item: any, index: any) => (
+                <Flex key={index} direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
                     <Heading padding={10} paddingLeft={"-1"} color={"green"} size={"lg"}>
                         Opening
                     </Heading>
@@ -117,8 +121,8 @@ const shopId = () => {
                 </AspectRatio>
             </Box>
 
-            {detail.map((item: any) => (
-                <LocationShop location={item.address} phoneNumber={item.phoneNo} />
+            {detail.map((item: any, index: any) => (
+                <LocationShop key={index} location={item.address} phoneNumber={item.phoneNo} />
             ))}
             <Rate />
 
@@ -130,6 +134,21 @@ const shopId = () => {
                 {/* pop ups  */}
             </Box>
 
+            <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
+                {review.map((item: any, index: any) => {
+                    if (param.shopId === item.shopId) {
+                        return (
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <ReviewDetail key={index} image={item.reviewBy.image} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
+                            </b>
+                        )
+                    }
+                })}
+            </SimpleGrid>
+            <Container my={5} textAlign={"center"}>
+                That's all~
+            </Container>
+            {/* Modal Component */}
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -181,29 +200,13 @@ const shopId = () => {
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-
                         <Button bgColor={"green"} color="white" onClick={submit}>
                             Submit
                         </Button>
-
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
-            <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
-                {review.map((item: any) => {
-                    if (param.shopId === item.shopId) {
-                        return (
-                            <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail image={item.reviewBy.image} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
-                            </b>
-                        )
-                    }
-                })}
-            </SimpleGrid>
-            <Container my={5} textAlign={"center"}>
-                That's all~
-            </Container>
+            {/* End of Modal Component */}
         </AppBody>
     )
 }
