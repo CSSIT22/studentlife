@@ -14,8 +14,8 @@ const PageBox: FC<{
                 {...(props.pageName != "drop"
                     ? {
                           px: 5,
-                          py:["10%","5%"],
-                          h: ["60vh","60vh", "50vh"],
+                          py:["10%","3%"],
+                          h: ["60vh","60vh", "60vh","56vh"],
                           flexDirection: "column",
                           w: ["100%"],
                           mt:["25%","13%" ,"6%", "15%"]
