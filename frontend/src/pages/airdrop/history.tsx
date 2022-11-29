@@ -232,9 +232,7 @@ export default function Drophistory<FC>() {
                                         <Box as={MdFileCopy} size={"2rem"} />
 
                                         <Text>
-                                        {item.file.fileName.length > 12
-                                                ? item.file.fileName.substring(0, 12) + "..."
-                                                : item.file.fileName}
+                                            {item.file.fileName.length > 12 ? item.file.fileName.substring(0, 12) + "..." : item.file.fileName}
                                         </Text>
                                         {item.historyType == "DOWNLOAD" ? <HiDownload fontSize={"2rem"} /> : <HiUpload fontSize={"2rem"} />}
                                         <Hide below={"md"}>
@@ -296,11 +294,12 @@ export default function Drophistory<FC>() {
                                             </HStack>
                                             <HStack>
                                                 <Text>
-                                                    Date:
-                                                    {"   " +
-                                                        new Date(selectedHistory.file.fileExpired).toLocaleString("en-Us", {
-                                                            timeZone: "Asia/Bangkok",
-                                                        })}
+                                                    Expired Date:
+                                                    {new Date(selectedHistory.file.fileExpired).getFullYear() == 2000
+                                                        ? " Permanent"
+                                                        : " "+ new Date(selectedHistory.file.fileExpired).toLocaleString("en-US", {
+                                                              timeZone: "Asia/Bangkok",
+                                                          })}
                                                 </Text>{" "}
                                             </HStack>
                                             <Text
@@ -369,9 +368,8 @@ export default function Drophistory<FC>() {
                         <>
                             {Math.ceil(historyData.length / historyPerPage) > 5 ? (
                                 <>
-                                    {
-                                        key >= currentPage-3  && key <= currentPage+1 ? (
-                                            <Button
+                                    {key >= currentPage - 3 && key <= currentPage + 1 ? (
+                                        <Button
                                             key={key}
                                             onClick={() => {
                                                 setCurrentPage(key + 1)
@@ -393,10 +391,9 @@ export default function Drophistory<FC>() {
                                         >
                                             {key + 1}
                                         </Button>
-                                        ) : (
-                                            <></>
-                                        )
-                                    }
+                                    ) : (
+                                        <></>
+                                    )}
                                 </>
                             ) : (
                                 <Button
