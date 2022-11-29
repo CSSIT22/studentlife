@@ -1,20 +1,30 @@
 import React, { useEffect } from "react"
 import AppBody from "../../../components/share/app/AppBody"
 import { GrClose } from "react-icons/gr"
-import { Flex, Heading, Spacer, Text } from "@chakra-ui/react"
+import { Flex, Heading, Spacer, Text, useBoolean } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import PostOnApproval from "../../../components/annoucement/PostOnApproval"
 import HeaderPage from "../../../components/annoucement/HeaderPage"
 import { postInfoTest } from "../postInfoTest"
-import { post } from "@apiType/announcement"
+import { announcement, post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const index = () => {
-    const [allPost, setAllPost] = React.useState<post[]>([])
+    const [allPost, setAllPost] = React.useState<announcement[]>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/getwaitingpost")
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data))
+        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [])
+    if (isLoading)
+    return (
+        <AppBody>
+            <Heading>Loading</Heading>
+        </AppBody>
+    )
+if (isError)
+    return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
 
     return (
         <AppBody
@@ -30,9 +40,9 @@ const index = () => {
                 <HeaderPage head="Approval" />
             </Flex>
             {allPost
-                .filter((fl) => fl.status == "waiting")
+                // .filter((fl) => fl.status == "waiting")
                 .map((el) => {
-                    return <PostOnApproval topic={el.topic} sender={el.sender} status={el.status} id={el.postId} key={el.postId} />
+                    return <PostOnApproval topic={el.annLanguage[0].annTopic} sender={el.annCreator.fName+" "+el.annCreator.lName} id={el.postId} key={el.postId} />
                 })}
         </AppBody>
     )

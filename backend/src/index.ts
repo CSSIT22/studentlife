@@ -32,8 +32,10 @@ import { verify } from "jsonwebtoken"
 import { DefaultEventsMap } from "socket.io/dist/typed-events"
 import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
+import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
 import mongoose, { mongo } from "mongoose"
+import { filterWord } from "./modules/backendService/middleware/filterWord"
 
 const PORT = 8000
 const app = express()
@@ -113,6 +115,8 @@ app.use((_, res, next) => {
     next()
 })
 
+app.use(filterWord)
+
 app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
 })
@@ -169,6 +173,8 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     chatSocket(socket, prisma)
 
     notiSocket(socket, prisma)
+
+    airdropSocket(socket, prisma)
 
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)

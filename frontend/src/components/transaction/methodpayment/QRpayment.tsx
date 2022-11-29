@@ -2,7 +2,7 @@ import { Text, Stack, useMediaQuery } from "@chakra-ui/react"
 import React, { FC } from "react"
 
 const QRpayment: FC<{
-    total: string
+    total: number
     paywithin: string
 }> = ({ total, paywithin }) => {
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")

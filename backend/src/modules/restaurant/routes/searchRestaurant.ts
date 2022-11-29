@@ -1,15 +1,46 @@
 import { Request, Response } from "express"
 import { Restaurant } from "@apiType/restaurant"
-import { getRestaurant } from ".."
 
-const searchRestaurant = (req: Request, res: Response) => {
+const searchRestaurant = async(req: Request, res: Response) => {
     const name = req.query.name + ""
-    let searchRes: Restaurant[] = []
-    getRestaurant().forEach((res) => {
-        if (res.resName.substring(0, name.length).toLowerCase() == name.substring(0, name.length).toLowerCase()) {
-            searchRes.push(res)
+    var d = new Date();
+    var dayNo = d.getDay()
+    try {
+        const prisma = res.prisma
+        const search = await prisma.restaurant.findMany({
+        
+           where: {
+             resName: {contains: name, mode: "insensitive"}
+                
+           }, 
+           include: {
+            detail: true,
+            closeAt: {
+                where: {
+                    day: dayNo,
+                },
+            },
+            openAt: {
+                where: {
+                    day: dayNo,
+                },
+            },
+            images: true
+           }
+        })
+        
+        res.send(search)
+    }
+        catch (error) {
+        console.log("Search error");
+        
         }
-    })
-    res.send(searchRes)
+  
+
+    // getRestaurant().forEach((res) => {
+    //     if (res.resName.substring(0, name.length).toLowerCase() == name.substring(0, name.length).toLowerCase()) {
+    //         searchRes.push(res)
+    //     }
+    // })
 }
 export default searchRestaurant
