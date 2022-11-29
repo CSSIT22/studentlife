@@ -49,6 +49,8 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const { isOpen: isFollowerListOpen, onOpen: onFollowerListopen, onClose: onFollowerListClose } = useDisclosure()
     const btnRef = React.useRef(null)
     let history = useNavigate()
+    let navigate = useNavigate()
+
     const param = useParams();
     const [isFollow, setIsFollow] = useState<boolean>(false)
     const [Phone, setPhone] = useState<string>("")
@@ -310,6 +312,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                 fontSize={{ base: "", lg: "lg" }}
                                 position="initial"
                                 shadow={"lg"}
+                                onClick={() => navigate("/blog/create")}
                             >
                                 Create blog
                             </Button></motion.div>{" "}
