@@ -9,12 +9,14 @@ shortlinkRoutes.use(express.json())
 shortlinkRoutes.post("/generate", verifyUser, shortenlink)
 shortlinkRoutes.get("/redirect", verifyUser, getRedirect)
 
-
+shortlinkRoutes.get("/test", async (req, res) => {
+    const allUsers = await prisma.shortLink.findMany()
+    res.json(allUsers)
+})
 shortlinkRoutes.get("/", async (req, res) => {
     const prisma = res.prisma
     // const result = await prisma.shortLink.createMany({
 
     // })
 })
-
 export default shortlinkRoutes
