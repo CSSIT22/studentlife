@@ -143,7 +143,7 @@ const createCommunity = () => {
 
     //Send data to backend
     const submit = () => {
-        API.post("/group/editCommunity", {
+        API.post("/group/createCommunity", {
             communityName: communityName,
             communityDesc: communityDesc,
             communityPrivacy: communityPrivacy,
@@ -505,7 +505,7 @@ const createCommunity = () => {
                                     communityName={communityName ? communityName : "Community Name"}
                                     isPrivate={!communityPrivacy}
                                     isMember={true}
-                                    desc={
+                                    description={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"

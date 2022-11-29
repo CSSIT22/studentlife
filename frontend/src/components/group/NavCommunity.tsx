@@ -23,11 +23,10 @@ import {
     IconButton,
     Input,
     useDisclosure,
-    useBoolean,
 } from "@chakra-ui/react"
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import { TiWarning } from "react-icons/ti"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { BsThreeDots } from "react-icons/bs"
 import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUserLock, FaUserShield, FaUser } from "react-icons/fa"
@@ -36,26 +35,20 @@ import { SearchIcon } from "@chakra-ui/icons"
 import { userData } from "src/pages/groups/data"
 import InvitationBox from "./InvitationBox"
 import useWindowDimensions from "./hooks/useWindowDimensions"
-import API from "src/function/API"
-import AppBody from "../share/app/AppBody"
-
-
-
-
 
 const NavCommunity: FC<{
-    communityID: string
-    communityName?:string
-    isPrivate?:boolean
-    desc?:string
-    coverPhoto?: any
-    tags?: any
     disableInvite?: boolean
     disableBtn?: boolean
     activeBtn?: number
+    tags?: any
+    communityID: string
+    communityName: string
+    coverPhoto: string
+    isPrivate: boolean
+    description: string
     isMember: boolean
     members: number
-}> = ({ communityID, isMember, members, activeBtn, disableInvite, disableBtn }) => {
+}> = ({ communityID, communityName, coverPhoto, isPrivate, tags, description, isMember, members, activeBtn, disableInvite, disableBtn }) => {
     //t
     const [isModalOpen, setModalOpen] = useState(false)
     const modalOnClick = () => setModalOpen(!isModalOpen)
@@ -80,64 +73,6 @@ const NavCommunity: FC<{
         setSureOpen(false)
     }
 
-    const [community, setCommunity] = useState<any>()
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-
-
-
-    useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
-            .catch((err) => on())
-            .finally(() => off())
-    }, [])
-
-    if (isLoading) {
-        return (
-            // will fix the design later
-            <AppBody>
-                {/* <Box sx={{
-                    display: "inline - block",
-                    position: "relative",
-                    width: "80px",
-                    height: "80px",
-                }}>
-                    <Box sx={{
-                        position: "absolute",
-                        top: "33px",
-                        width: "13px",
-                        height: "13px",
-                        borderRadius: "50%",
-                        background: "#fff",
-                        animationTimingFunction: "cubic-bezier(0, 1, 1, 0)",
-                    }}>
-
-                    </Box> */}
-                <Text>Loading...</Text>
-                {/* </Box> */}
-            </AppBody>
-        )
-    }
-    if (isError) {
-        // will fix the design later
-        return (
-            <AppBody>
-                <Box>
-                    <Text>Something went wrong...</Text>
-                </Box>
-            </AppBody>
-        )
-    }
-
-    const coverPhoto = community?.communityById.communityPhoto
-    const communityName = community?.communityById.communityName
-    const isPrivate = community?.communityById.communityPrivacy
-    const tags = community?.tag
-    const desc = community?.communityById.communityDesc
-
-
-
     return (
         <Box>
             <Image
@@ -160,13 +95,13 @@ const NavCommunity: FC<{
                     height: "15rem",
                     // height: "300px",
                 }}
-                src={"https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"}
+                src={coverPhoto}
                 fallbackSrc="https://via.placeholder.com/800"
             />
             <Box p={4} borderBottomRadius="md" backgroundColor={"white"} boxShadow={"2xl"}>
                 <HStack justify={"space-between"}>
                     <div>
-                        <Text as="b">{communityName ? communityName : "Community Name"}</Text>
+                        <Text as="b">{communityName}</Text>
                         <Box display="flex" fontSize={"sm"} alignItems="center" gap={1}>
                             {isPrivate ? <MdPublicOff /> : <MdPublic />}
                             <Text>
@@ -350,7 +285,7 @@ const NavCommunity: FC<{
                 </HStack>
 
                 <Flex mt={2} flexWrap={"wrap"} gap={1}>
-                    {tags.map((t: any) => (
+                    {tags?.map((t: any) => (
                         <Box
                             backgroundColor={"orange.500"}
                             color={"white"}
@@ -358,7 +293,7 @@ const NavCommunity: FC<{
                             px={3}
                             borderRadius={"md"}
                             fontSize="xs"
-                            key={t.tagI}
+                            key={t.tagID}
                         >
                             {t.tagName}
                         </Box>
@@ -366,7 +301,7 @@ const NavCommunity: FC<{
                 </Flex>
 
                 <Text mt={2} fontSize="xs" padding={1}>
-                    {desc}
+                    {description}
                 </Text>
                 <Flex gap={2} mt={3}>
                     <Link to={disableBtn ? "" : `/groups/id/${communityID}/`} relative="path">
@@ -406,7 +341,7 @@ const NavCommunity: FC<{
             </Box>
 
             <Flex direction="column" justify={"center"} align="center" mt={3}>
-                {isPrivate && communityID != "" ? (
+                {isPrivate && isMember ?  (
                     <Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
                         <HStack gap={2} p={2}>
                             <Box height={"55px"}></Box>

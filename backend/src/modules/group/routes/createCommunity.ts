@@ -19,7 +19,10 @@ const createCommunity = async (req: Request, res: Response) => {
                 in: body.communityTag,
             },
         },
+        
     })
+
+    
 
     let b: number[] = []
 

@@ -54,13 +54,29 @@ import NavCommunity from "src/components/group/NavCommunity"
 import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import FriendInviteList from "src/components/group/FriendInviteList"
 
-const createCommunity = () => {
+const editCommunity = () => {
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isTagBarOpen, setIsTagBarOpen] = useState(false)
     const { height, width } = useWindowDimensions()
     const [preview, setPreview] = useState(true) //true = desktop, false = mobile
     const [searchValue, setSearchValue] = useState("") //for store search value
+
+
+    let { communityID }: any = useParams()
+    const [community, setCommunity] = useState<any>()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
+    useEffect(() => {
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => setCommunity(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
+
+
+
 
     let isDesktop = (width || 0) > 768
     //form values
@@ -87,6 +103,7 @@ const createCommunity = () => {
             setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
         }
     }
+    
     //form styles
     const desktopStyle = {
         input: {
@@ -142,18 +159,6 @@ const createCommunity = () => {
         },
     }
 
-    
-    let { communityID }: any = useParams()
-    const [community, setCommunity] = useState<any>()
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-
-    useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
-            .catch((err) => on())
-            .finally(() => off())
-    }, [])
 
 
     
@@ -226,7 +231,7 @@ const createCommunity = () => {
                             focusBorderColor="none"
                             sx={isDesktop ? desktopStyle.input : mobileStyle.input}
                             type="name"
-                            value={community.communityName}
+                            value={communityName}
                             placeholder="Community Name"
                             onChange={(e) => setCommunityName(e.target.value)}
                         />
@@ -521,7 +526,7 @@ const createCommunity = () => {
                                     communityName={communityName ? communityName : "Community Name"}
                                     isPrivate={!communityPrivacy}
                                     isMember={true}
-                                    desc={
+                                    description={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
@@ -541,4 +546,4 @@ const createCommunity = () => {
     )
 }
 
-export default createCommunity
+export default editCommunity

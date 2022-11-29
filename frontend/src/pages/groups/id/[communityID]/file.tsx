@@ -51,10 +51,15 @@ const file = () => {
     return (
         <AppBody>
             <NavCommunity
-                communityID  = {communityID}
+                communityName={community?.communityById.communityName}
+                isPrivate={community?.communityById.communityPrivacy}
                 isMember={true}
+                description={community?.communityById.communityDesc}
+                coverPhoto="https://picsum.photos/id/400/800"
                 members={10}
-                activeBtn={3}
+                communityID={communityID}
+                tags={community?.tag}
+                activeBtn={1}
             />
             <HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
                 <Text as={"b"} ml={8}>

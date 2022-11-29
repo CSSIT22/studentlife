@@ -43,8 +43,6 @@ const communityTest = async (req: Request, res: Response) => {
             where:{}
         })
 
-        
-
         res.status(201).send(a)
     } catch (err) {
         console.log(err)

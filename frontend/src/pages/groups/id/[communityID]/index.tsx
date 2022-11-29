@@ -22,9 +22,14 @@ const headCommunity = () => {
     return (
         <AppBody>
             <NavCommunity
-                communityID  = {communityID}
+                communityName={community?.communityById.communityName}
+                isPrivate={community?.communityById.communityPrivacy}
                 isMember={true}
+                description={community?.communityById.communityDesc}
+                coverPhoto="https://picsum.photos/id/400/800"
                 members={10}
+                communityID={communityID}
+                tags={community?.tag}
                 activeBtn={1}
             />
             <Text>{communityID}</Text>
