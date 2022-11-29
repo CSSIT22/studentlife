@@ -1,11 +1,10 @@
 import { Heading, Box, Grid, GridItem, Button, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import API from "src/function/API"
-import { key } from "localforage"
 import { Restaurant2 } from "@apiType/restaurant"
 
 function favorite() {
@@ -15,13 +14,14 @@ function favorite() {
     const [status, setstatus] = useState(true)
     const [isError, {on}] = useBoolean()     
     const [isLoading, {off}] = useBoolean(true)
-
+    const getFav =  API.get("/restaurant/favorite")
     useEffect(() => {
-        API.get("/restaurant/favorite").then((item) => setproperty(item.data))
+       getFav.then((item) => setproperty(item.data))
         .catch((err) => on())
         .finally(off)
-    }, [status])
 
+    }, [status])
+    
     const load = () => {
         setstatus(!status)
     }
@@ -50,7 +50,6 @@ function favorite() {
        <Heading color={"red"}> There is an Error</Heading>
     </AppBody>
     )
-    console.log(property)
     return (
         <AppBody
             secondarynav={[
@@ -66,7 +65,7 @@ function favorite() {
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
                 {property.map(({ restaurant }: any) => {
-                    console.log(property)
+                  
                     return (
                         <GridItem>
                             <FavoriteContent
