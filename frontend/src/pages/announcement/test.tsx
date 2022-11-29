@@ -1,8 +1,10 @@
-import { Box, Flex, Heading, Spacer, IconButton, SlideFade, Slide, useDisclosure, Button, Text, Container } from "@chakra-ui/react"
-import React from "react"
+import { announcement, announcement_approve, announcement_approve2 } from "@apiType/announcement"
+import { Box, Flex, Heading, Spacer, IconButton, SlideFade, Slide, useDisclosure, Button, Text, Container, useBoolean } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import { GrDown, GrUp } from "react-icons/gr"
 import { TfiAnnouncement } from "react-icons/tfi"
 import { Link } from "react-router-dom"
+import API from "src/function/API"
 import ExpandOnTop from "../../components/annoucement/ExpandOnTop"
 import PostOnTop from "../../components/annoucement/PostOnTop"
 import AppBody from "../../components/share/app/AppBody"
@@ -34,6 +36,63 @@ const test = () => {
         setTop(false)
         setHide(true)
     }
+    
+
+    const [toggle, settoggle] = useState(false)
+    const [allPost2, setAllPost2] = useState<announcement[]>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const getDataPost = API.get("/announcement/getPostOnAnnouncement")
+    useEffect(() => {
+        getDataPost.then((res) => setAllPost2(res.data)).catch((err) => on()).finally(off)
+    }, [toggle])
+    // console.log(allPost2);
+
+    if (isLoading)
+        return (
+            <AppBody>
+                <Heading>Loading</Heading>
+            </AppBody>
+        )
+
+    const minute = 1000 * 60
+    const hour = minute * 60
+    const day = hour * 24
+
+    let LastestPost: number = 0
+    const approveTime: announcement_approve2[] = allPost2.map((el) => {
+        const apTime = new Date(el.annApprove.approveTime)
+        const dEpd = Math.round(apTime.getTime())
+        // console.log(dEpd);
+        return { postId: el.postId, approveTime: dEpd }
+    })
+
+    // console.log(approveTime.sort());
+    const sort = approveTime.sort();
+    // const findLasted = (approveTime: announcement_approve2[]) => {
+    //     let lasted: string;
+    //     for (let i = 0; i < approveTime.length; i++) {
+    //         if (approveTime[i].approveTime > LastestPost) {
+    //             LastestPost = approveTime[i].approveTime
+    //         }
+    //     }
+    //     for (let i = 0; i < approveTime.length; i++) {
+    //         if (approveTime[i].approveTime == LastestPost) {
+    //             return lasted = approveTime[i].postId
+    //         }
+    //     }
+    // }
+
+    // console.log(allPost2.filter((el) => {
+    //     return el.postId == sort[sort.length-1].postId
+    // }))
+    // console.log(sort[sort.length-5].postId);
+
+    let fivepost = []
+    for (let i = allPost2.length-1; i > allPost2.length-6;i--) {
+        fivepost.push(allPost2[i])
+    }
+    // console.log(fivepost)
 
     return (
         <AppBody
@@ -48,13 +107,15 @@ const test = () => {
             {/* type 1 */}
             {clickArrowUp && (
                 <Box>
-                    {allPost
-                        .filter((fl) => fl.postId == postInfoTest.length - 1)
-                        .map((el) => {
+                    {/* {recentpost} */}
+                    {allPost2.filter((el) => {
+                         return el.postId == sort[sort.length-1].postId
+                    })
+                    .map((fl) => {
                             return (
                                 <PostOnTop
-                                    topic={el.topic}
-                                    sender={el.sender}
+                                    topic={fl.annLanguage[0].annTopic}
+                                    sender={fl.annCreator.fName+" "+fl.annCreator.lName}
                                     clickToExpand={() => {
                                         clickToExpand(), onToggle()
                                     }}
@@ -69,11 +130,9 @@ const test = () => {
             {clickArrowDown && (
                 <Slide direction="top" in={isOpen} style={{ zIndex: 10, position: "relative" }}>
                     <Box pb="5" px="5" mt={5} bg="white" rounded="md" shadow="md">
-                        {allPost
-                            // อันนี้มันยังเรียงตามid น้อยไปมากอยู่ ไม่ได้เอาอันใหม่สุดขึ้นบน ตอนดึงจากdb น่าจะต้องใช้order by
-                            .filter((fl) => fl.postId > postInfoTest.length - 6)
+                        {fivepost
                             .map((el) => {
-                                return <ExpandOnTop topic={el.topic} sender={el.sender} />
+                                return <ExpandOnTop topic={el.annLanguage[0].annTopic} sender={el.annCreator.fName+" "+el.annCreator.lName} />
                             })}
                         <Flex alignItems={"center"} pt={"7"}>
                             <Box pr={"7"}>

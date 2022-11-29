@@ -10,7 +10,7 @@ import API from "src/function/API"
 
 function review() {
     const params = useParams()
-    const numres = parseInt(params.reviewRes + "")
+    const numres = params.reviewRes
     // const property = Restaurant.filter((e1) => {
     //     return e1.id == numres
     // })
@@ -22,28 +22,17 @@ function review() {
     // })
     // console.log(revi)
 
+
     useEffect(() => {
         API.get("/restaurant/review/" + params.reviewRes).then((item) => setproperty(item.data))
     }, [params.reviewRes])
     console.log(property)
-    const cloneArr = Object.assign([], property)
-    console.log(cloneArr)
-    const resD = cloneArr.resD
-    console.log(resD)
-    const reviD = cloneArr.reviD
-    console.log(reviD)
-    const convReviD = { ...reviD }
-    console.log(convReviD)
-    const selectedRevi = convReviD[0]
-    console.log(selectedRevi)
-    // console.log(resD[0].filter((e1: { id: number }) => {
-    //     return e1.id == numres
-    // }))
+    property.reviews?.map((e2: any) => {
+        console.log(e2)
+    })
 
-    // useEffect(() => {
-    //     API.get("/restaurant/review/" + params.reviewRes).then((item) => setrevi(item.data))
-    // }, [params.reviewRes])
-    // console.log(revi)
+
+
 
     return (
         <AppBody
@@ -55,7 +44,8 @@ function review() {
         >
             <Searchbar />
             <Center mt={4}>
-                {resD?.map((e1: any) => {
+                {property.map((e1: any) => {
+
                     return (
                         <Box px={2} width="full" borderWidth="1px" borderRadius="lg" overflow="hidden">
                             <Box my={5} textAlign={"center"} fontWeight="bold" fontSize={"2xl"}>
@@ -66,20 +56,12 @@ function review() {
                                     {e1.resName}
                                 </Heading>
                             </Box>
-                            <ShowImage img={e1.img} />
+                            <ShowImage img={e1.images} />
                             <Box p="4">
                                 <Box display="flex" alignItems="baseline" px={{ base: 10, md: 290 }}>
-                                    <Box
-                                        color=""
-                                        fontWeight="semibold"
-                                        letterSpacing="wide"
-                                        fontSize="xs"
-                                        textTransform="uppercase"
-                                        display="flex"
-                                        verticalAlign={"AiOutlineLike"}
-                                    >
+                                    <Box color="" fontWeight="semibold" letterSpacing="wide" fontSize="xs" textTransform="uppercase" display="flex" verticalAlign={"AiOutlineLike"}>
                                         <Icon as={AiOutlineLike} fontSize="md" />
-                                        {e1.amountOflike} liked
+                                        {e1.likes} liked
                                     </Box>
                                     <Spacer />
                                     <Link to={`/restaurant/detail/${numres}`}>
@@ -92,19 +74,16 @@ function review() {
                                             textTransform="uppercase"
                                             px={2}
                                             py={1}
-                                            display="flex"
-                                            verticalAlign={"AiOutlineComment"}
+                                            display="flex" verticalAlign={"AiOutlineComment"}
                                         >
                                             <Icon as={AiOutlineComment} fontSize="md" />
                                             REVIEW
                                         </Box>
                                     </Link>
                                 </Box>
-                                {selectedRevi.map((e2: any) => {
+                                {e1.reviews.map((e2: any) => {
                                     return (
-                                        <>
-                                            <ReviewContent name={e2.name} picture={e2.picture} rate={e2.rate} review={e2.review} />
-                                        </>
+                                        <ReviewContent name={e2.reviewBy?.fName} picture={e2.reviewsBy?.image} rate={e2?.rating} review={e2?.text} />
                                     )
                                 })}
                             </Box>
