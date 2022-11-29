@@ -6,7 +6,7 @@ interface AboutMeProps {
     phone: string
     sex: string
     hobbies: string
-    birthdate: string
+    birthdate: number
     year: any
     address: string
 }
