@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "npm run db:gen && nodemon ./src/index.ts",
-        "build": "tsc && webpack --config webpack.config.js",
+        "build": "tsc",
         "db:migrateDev": "prisma migrate dev",
         "db:gen": "prisma generate",
         "db:pull": "prisma db pull",
