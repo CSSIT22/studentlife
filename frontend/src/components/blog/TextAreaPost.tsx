@@ -1,7 +1,7 @@
-import { Box, Textarea } from "@chakra-ui/react"
+import { Box, ComponentWithAs, Textarea, TextareaProps } from "@chakra-ui/react"
 import React from "react"
 
-const TextAreaPost = () => {
+const TextAreaPost: ComponentWithAs<"textarea", TextareaProps> = (props ) => {
     return (
         <Box>
             <Textarea
@@ -11,6 +11,7 @@ const TextAreaPost = () => {
                 width="100%"
                 height="100px"
                 marginTop="5"
+                {...props}
             />
         </Box>
     )
