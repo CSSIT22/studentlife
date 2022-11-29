@@ -16,6 +16,7 @@ import deleteSnInLibrary from "./routes/deleteSnInLibrary"
 import postAccess from "./routes/postAccess"
 import getFile from "./routes/getFile"
 import getEachFile from "./routes/getEachFile"
+import deleteComment from "./routes/deleteComment"
 
 const shortnotesRoutes = express()
 
@@ -72,5 +73,7 @@ shortnotesRoutes.delete("/deleteShortnote/:id", deleteShortnote)
 shortnotesRoutes.delete("/deleteLibrary/", deleteLibrary)
 
 shortnotesRoutes.delete("/deleteSnInLibrary/", deleteSnInLibrary)
+
+shortnotesRoutes.delete("/deleteComment", deleteComment)
 
 export default shortnotesRoutes
