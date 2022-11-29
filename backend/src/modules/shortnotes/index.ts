@@ -36,9 +36,6 @@ shortnotesRoutes.get("/getShortnotes", async (req, res) => {
         include: {
             course: true,
         },
-        orderBy: {
-            snName: "asc",
-        },
     })
     //console.log(sn)
     res.send(sn)
