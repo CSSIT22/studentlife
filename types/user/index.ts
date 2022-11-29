@@ -17,4 +17,5 @@ export interface InitUserResponse {
   levels: EXP | null;
   studentId: string;
   roles: Role[];
+  socketToken: string;
 }

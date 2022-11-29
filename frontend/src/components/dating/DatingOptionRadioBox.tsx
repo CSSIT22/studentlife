@@ -20,10 +20,10 @@ export function DatingOptionRadioBox(props: any) {
                 borderWidth="1px"
                 borderRadius="15px"
                 //boxShadow="md"
-                backgroundColor="#E65300"
+                backgroundColor="#B24000"
                 color="white"
                 _checked={{
-                    bg: "#B24000",
+                    bg: "#E65300",
                     color: "white",
                 }}
                 _focus={{

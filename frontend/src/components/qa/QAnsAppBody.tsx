@@ -2,7 +2,6 @@ import { useBreakpointValue } from "@chakra-ui/react"
 import AppBody from "../share/app/AppBody"
 
 const QAnsAppBody = (props: any) => {
-
     const isMobile = useBreakpointValue({
         base: false,
         md: true,

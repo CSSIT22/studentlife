@@ -1,36 +1,71 @@
-import { Box, Button, Container, Flex, Heading, Link, Text, SimpleGrid, VStack, Collapse, TabList, Tab, WrapItem, Center } from "@chakra-ui/react"
-import { FC, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import {
+    Box,
+    Button,
+    Container,
+    Flex,
+    Heading,
+    Link,
+    Text,
+    SimpleGrid,
+    VStack,
+    Collapse,
+    TabList,
+    Tab,
+    WrapItem,
+    Center,
+    Spacer,
+} from "@chakra-ui/react"
+import { FC, useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import Myreview from "src/components/shopreview/Myreview"
 import Rate from "src/components/shopreview/Rate"
 import SelectZone from "src/components/shopreview/SelectZone"
 import Zone from "src/components/shopreview/Zone"
+import { authContext } from "src/context/AuthContext"
+import API from "src/function/API"
 import AppBody from "../../components/share/app/AppBody"
 import SecondaryNav from "../../components/share/navbar/SecondaryNav"
 import DetailBox from "../../components/shopreview/DetailBox"
-import Header from "../../components/shopreview/Header"
 import ReviewDetail from "../../components/shopreview/ReviewDetail"
 import ShopName from "../../components/shopreview/ShopName"
 
 const shopreview = () => {
     // const [userRoom, setuserRoom] = useState<room>(mockRoom)
     const [target, setTarget] = useState(1)
-    const navigateShop = useNavigate()
-    //function handle
-    function Navigate(target: any) {
-        return navigate(`/shopreview/shopdetails/${target}`)
-    }
+
+    const [shops, setshops] = useState<any>([])
+    const [res, setRes] = useState<any>([])
+    const getShop = API.get("/shopreview/getshop")
+    useEffect(() => {
+        getShop.then((res) => {
+            setshops(res.data)
+        })
+    }, [])
+    const getRestaurant = API.get("/shopreview/getrestaurant")
+    useEffect(() => {
+        getRestaurant.then((res) => {
+            setRes(res.data)
+        })
+    }, [])
 
     const renderShop = (e: any) => {
         if (target === 1) {
             return (
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-                        <DetailBox heading="ร้าน 1" image="https://cf.shopee.co.th/file/354b570e0bbc41553d97b1bf0489dcdf" />
-                        <DetailBox heading="ร้าน 2" image="https://cf.shopee.co.th/file/354b570e0bbc41553d97b1bf0489dcdf" />
-                        <DetailBox heading="ร้าน 3" image="https://cf.shopee.co.th/file/354b570e0bbc41553d97b1bf0489dcdf" />
-                        <DetailBox heading="ร้าน 4" image="https://cf.shopee.co.th/file/354b570e0bbc41553d97b1bf0489dcdf" />
+                        {shops.map((item: any) => {
+                            if (zones.length === 0 && item.type === "shop") {
+                                return (
+                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                )
+                            } else if (zones.includes(item.zone) && item.type === "shop") {
+                                return (
+                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                )
+                            }
+                        })}
                     </SimpleGrid>
+
                     <Container my={5} textAlign={"center"}>
                         That's all~
                     </Container>
@@ -41,34 +76,17 @@ const shopreview = () => {
             return (
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-                        <DetailBox
-                            heading="ข้าวมันไก่ป้าตุ๊ก"
-                            image="https://assets.epicurious.com/photos/62d6c5146b6e74298a39d06a/1:1/w_320%2Cc_limit/BakedSalmon_RECIPE_04142022_9780_final.jpg"
-                        />
-                        <DetailBox
-                            heading="ข้าวมันไก่ป้าตุ๊กต๊ากต๊อกเต๊ก"
-                            image="https://assets.epicurious.com/photos/62d6c5146b6e74298a39d06a/1:1/w_320%2Cc_limit/BakedSalmon_RECIPE_04142022_9780_final.jpg"
-                        />
-                        <DetailBox
-                            heading="ร้านนี่ไม่มีขื่อ"
-                            image="https://assets.epicurious.com/photos/62d6c5146b6e74298a39d06a/1:1/w_320%2Cc_limit/BakedSalmon_RECIPE_04142022_9780_final.jpg"
-                        />
-                        <DetailBox
-                            heading="ร้าน 4"
-                            image="https://assets.epicurious.com/photos/62d6c5146b6e74298a39d06a/1:1/w_320%2Cc_limit/BakedSalmon_RECIPE_04142022_9780_final.jpg"
-                        />
-                        <DetailBox
-                            heading="ร้าน 4"
-                            image="https://assets.epicurious.com/photos/62d6c5146b6e74298a39d06a/1:1/w_320%2Cc_limit/BakedSalmon_RECIPE_04142022_9780_final.jpg"
-                        />
-                        <DetailBox
-                            heading="ร้าน 4"
-                            image="https://assets.epicurious.com/photos/62d6c5146b6e74298a39d06a/1:1/w_320%2Cc_limit/BakedSalmon_RECIPE_04142022_9780_final.jpg"
-                        />
-                        <DetailBox
-                            heading="ร้าน 4"
-                            image="https://assets.epicurious.com/photos/62d6c5146b6e74298a39d06a/1:1/w_320%2Cc_limit/BakedSalmon_RECIPE_04142022_9780_final.jpg"
-                        />
+                        {res.map((item: any) => {
+                            if (zones.length === 0 && item.type === "restaurant") {
+                                return (
+                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                )
+                            } else if (zones.includes(item.zone) && item.type === "restaurant") {
+                                return (
+                                    <DetailBox key={item.id} heading={item.name} image={item.image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                )
+                            }
+                        })}
                     </SimpleGrid>
                     <Container my={5} textAlign={"center"}>
                         That's all~
@@ -94,18 +112,34 @@ const shopreview = () => {
                 transitionDuration="300ms"
                 width={"100px"}
                 rounded={"3xl"}
+                shadow={"lg"}
             >
                 {name}
             </Button>
         )
     }
+    const [count, setCount] = useState(1)
+    const ZoneCount = () => {
+        return <Tests name={"+" + count} />
+    }
+
     const [zones, setZones] = useState<string[]>([])
     function handleSetZones(zone: any) {
         if (!zones.includes(zone)) {
             setZones([...zones, zone])
+            if (zones.length > 2) {
+                setCount(count + 1)
+            } else if (count <= 0) {
+                setCount(1)
+            }
         } else {
             const newArr = zones.filter((value) => value !== zone)
             setZones(newArr)
+            if (zones.length > 2) {
+                setCount(count - 1)
+            } else if (count <= 0) {
+                setCount(1)
+            }
         }
     }
 
@@ -136,6 +170,7 @@ const shopreview = () => {
                     mr={4}
                     width={"200px"}
                     rounded={"3xl"}
+                    shadow={"lg"}
                 >
                     Shop
                 </Button>
@@ -148,16 +183,29 @@ const shopreview = () => {
                     onClick={() => setTarget(2)}
                     width={"200px"}
                     rounded={"3xl"}
+                    shadow={"lg"}
                 >
                     Restaurant
                 </Button>
             </Flex>
             <Flex mb={5}>
                 <Zone name={"+zone"} handleSetZones={handleSetZones} />
-                {zones.map((item, index) => {
+                {/* {zones.map((item, index) => {
                     // return <SelectZone key={index} handleSetZones={handleSetZones} name={item} />
                     return <Tests key={index} name={item} />
-                })}
+                })} */}
+                {zones.length < 3 ? (
+                    zones.map((item, index) => {
+                        // return <SelectZone key={index} handleSetZones={handleSetZones} name={item} />
+                        return <Tests key={index} name={item} />
+                    })
+                ) : (
+                    <>
+                        <Tests name={zones[0]} />
+                        <Tests name={zones[1]} />
+                        <ZoneCount />
+                    </>
+                )}
                 {/* <SelectZone handleSetZones={handleSetZones} name={"หอหญิง"} /> */}
             </Flex>
             <Heading color={"black"} size={"lg"}>
@@ -169,3 +217,6 @@ const shopreview = () => {
 }
 
 export default shopreview
+function userContext(authContext: any) {
+    throw new Error("Function not implemented.")
+}
