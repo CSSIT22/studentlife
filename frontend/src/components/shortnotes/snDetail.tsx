@@ -71,7 +71,7 @@ const liList: FC<{
     const param = useParams()
 
     const navigate = useNavigate()
-    const x = btoa("?type=shortnotes&id=" + param.id)
+    const x = btoa("?type=shortnote&id=" + param.id)
     const goToUpload = () => {
         navigate({
             pathname: "../../airdrop/upload",

@@ -21,6 +21,7 @@ const index = () => {
     const style = {
         height: 96,
     };
+    const [ress, setRess] = useState<any>([])
     const resentOnclick = () => {
         API.post("/shortnotes/postResentShortnote", {
             snId: param.id
@@ -47,17 +48,36 @@ const index = () => {
                 setShortnote(item.data)
             }
 
-            // console.log(user?.userId)
-            // console.log(x)
-            // console.log(x.includes(user?.userId));
-            // console.log(allow);
-            // console.log(item.data.isPublic);
-
-
-
         }).finally(setLoad.off)
-
+        file()
     }, [])
+    const file = () => {
+        API.get("/shortnotes/getFile", {
+            data: {
+                snId: param.id
+            }
+        }).then((res) => {
+            setRess(res.data)
+            //console.log(res.data);
+
+        })
+
+    }
+    useEffect(() => {
+        ress.forEach((res: any) => {
+            console.log(ress);
+
+            API.get("/shortnotes/getEachFile", {
+                data: res,
+
+                responseType: "arraybuffer"
+            }).then((res2) => {
+                console.log(res2.data);
+
+            })
+        });
+
+    }, [ress])
 
     if (load) {
         return (
