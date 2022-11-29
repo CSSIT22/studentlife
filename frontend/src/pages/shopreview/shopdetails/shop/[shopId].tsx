@@ -16,13 +16,13 @@ import API from 'src/function/API'
 
 // main component
 const shopId = () => {
-    const [rating, setRating] = useState(0)
-    const [text, setText] = useState("")
-    const [detail, setDetail] = useState<any>([])
-    const [review, setReview] = useState<any>([])
-    const navigate = useNavigate()
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    let param = useParams()
+    const [rating, setRating] = useState(0) // rating star max = 5
+    const [text, setText] = useState("") // review description 
+    const [detail, setDetail] = useState<any>([]) // shop's detail fetch from backend
+    const [review, setReview] = useState<any>([]) // user's reviews fetch from backend
+    const navigate = useNavigate() // navigation function for handling navigate to shop's review comment page
+    const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
+    let param = useParams() // get data from param
     const buttons = []
 
     const Navigate = (target: any) => {
@@ -158,7 +158,7 @@ const shopId = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        <RatingStar rating={rating} onClick={onClick} size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
                         {/* input here */}
                         <Textarea
                             colorScheme="white"
