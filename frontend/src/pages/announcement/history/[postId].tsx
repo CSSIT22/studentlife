@@ -168,16 +168,13 @@ const history = () => {
     }
 
 
-    const decreaseCount = (id: number) => {
+    const decreaseCount = () => {
         setCount(count - 1)
-        setAddMoreLang(addMoreLang.filter((el) => el.languageId != id))
         setMoreLangField(moreLangField.filter((el) => el.count != count - 1))
-        // setexMoreLang(exmoreLang.filter((el) => el.languageId != id))
     }
 
 
     const decreaseForEdit = (langid: number) => {
-        // console.log(langid);
         setmorelanglength(morelanglength - 1)
         setexMoreLang(exmoreLang.filter((el) => { return el.languageId != langid }))
     }
@@ -356,7 +353,7 @@ const history = () => {
                         <>
                             {showMoreLang(morelanglength, add)}
                             {disable && moreLangField?.map((_, index) => {
-                                    return <MoreLang key={index} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
+                                    return <MoreLang key={index} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} addMoreLang={addMoreLang}/>
                                 })}
                             <Tag
                                 size={"lg"}

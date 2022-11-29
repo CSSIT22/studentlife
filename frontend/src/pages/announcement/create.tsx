@@ -28,7 +28,7 @@ import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
-import { addMoreLangType, post, tgType } from "@apiType/announcement"
+import { addMoreLangType, post, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 
 const create = () => {
@@ -108,11 +108,11 @@ const create = () => {
         yyyy = today.getFullYear()
         return yyyy + "-" + mm + "-" + dd
     }
-    const [addMoreLang, setAddMoreLang] = React.useState<addMoreLangType[]>([])
+    const [addMoreLang, setAddMoreLang] = React.useState<post_to_language2[]>([])
     // const [allPost, setAllPost] = React.useState<post[]>(postInfoTest)
     // console.log(addMoreLang);
 
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: addMoreLangType[]) => {
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: post_to_language2[]) => {
         // setAllPost([
         //     ...allPost,
         //     {
@@ -148,7 +148,7 @@ const create = () => {
 
     // console.log(expired);
     const addLang = (lang: number, topic: string, detail: string) => {
-        setAddMoreLang([...addMoreLang, { id: addMoreLang.length, languageId: lang, annTopic: topic, annDetail: detail }])
+        setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
     // console.log(addMoreLang)
 
@@ -156,27 +156,23 @@ const create = () => {
         alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
         window.history.go(-1)
     }
-
+    const AddLang = () => {
+        setMoreLangField([...moreLangField, { count: count }])
+    }
     const [count, setCount] = React.useState(0)
     const increaseCount = () => {
         setCount(count + 1)
         AddLang()
     }
+
     const decreaseCount = () => {
         setCount(count - 1)
-        decreaseLang()
-        setAddMoreLang(addMoreLang.filter((el) => el.id < addMoreLang.length - 1))
+        setMoreLangField(moreLangField.filter((el) => el.count != count - 1))
     }
-    // console.log(count)
-    const [moreLangField, setMoreLangField] = React.useState<any[]>([])
-    const AddLang = () => {
-        setMoreLangField([...moreLangField, { count: count }])
-    }
-    // console.log(moreLangField)
 
-    const decreaseLang = () => {
-        setAddMoreLang(moreLangField.pop())
-    }
+    const [moreLangField, setMoreLangField] = React.useState<any[]>([])
+
+
     const [disable, setdisable] = useState(true)
     const onDisable = () => {
         setdisable(!disable)
@@ -263,7 +259,7 @@ const create = () => {
                     <FormControl>
                         <>
                             {moreLangField.map((el) => {
-                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
+                                return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} addMoreLang={addMoreLang} />
                             })}
                             <Tag
                                 size={"lg"}
