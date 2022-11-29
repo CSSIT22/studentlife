@@ -16,8 +16,9 @@ import {
     Portal,
     IconButton,
     Center,
+    useBoolean,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import NavCommunity from "src/components/group/NavCommunity"
 import AppBody from "src/components/share/app/AppBody"
 import { BrowserRouter, BrowserRouter as Router, useParams, Link } from "react-router-dom"
@@ -29,25 +30,30 @@ import { RiDeleteBinFill } from "react-icons/ri"
 import { communityData } from "../../communityData"
 import FileList from "src/components/group/FileList"
 import { SearchIcon } from "@chakra-ui/icons"
+import API from "src/function/API"
 const file = () => {
-    let { communityID }: any = useParams<{ communityID: string }>()
+
     const [searchValue, setSearchValue] = useState("") //for store search value
     const handleChange = (event: any) => setSearchValue(event.target.value)
 
-    // const tags = [{ tagID: 1, tagName: "#Sport" }, { tagID: 2, tagName: "#Music" }, { tagID: 3, tagName: "#Gaming" }]
+    let { communityID }: any = useParams()
+    const [community, setCommunity] = useState<any>()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
+    useEffect(() => {
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => setCommunity(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
+
     return (
         <AppBody>
             <NavCommunity
-                communityName="Passakorn group"
-                isPrivate={false}
+                communityID  = {communityID}
                 isMember={true}
-                description={
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto laborum cumque nemo veniam amet fugiat beatae, quo magni eum voluptatem eligendi nesciunt numquam odio autem ex quaerat totam. At, facilis."
-                }
-                coverPhoto="https://picsum.photos/id/400/800"
                 members={10}
-                communityID={1000}
-                tags={userData.Tag}
                 activeBtn={3}
             />
             <HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
