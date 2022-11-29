@@ -29,8 +29,8 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                 <Text color="black" p="5" fontSize={{ base: "xl", md: "2xl" }} fontWeight="600">
                     ABOUT ME
                 </Text>
-                <Box id="detail" ml={5}>
-                    <SimpleGrid columns={2} spacing={7} p={5}>
+                <Box id="detail" ml={5} p={5}>
+                    <SimpleGrid columns={{ base: "2", md: "1", lg: "2" }} spacing={7} >
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             PHONE
                         </Text>
@@ -68,7 +68,7 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                             {props.year}
                         </Text>
                     </SimpleGrid>
-                    <Stack direction={{ base: "column", lg: "row" }} spacing={10} p={5}>
+                    <Stack direction={{ base: "column", lg: "row" }} mt="5" spacing={{ md: "5", base: "2" }}>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             ADDRESS
                         </Text>

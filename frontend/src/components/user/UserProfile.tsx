@@ -115,7 +115,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
         sm: "400px",
         md: "800px",
         lg: "960px",
-        xl: "1200px",
+        xl: "1270px",
         "2xl": "1536px",
     }
     // 3. Extend the theme
@@ -143,7 +143,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                 shadow={{ base: "", md: "lg" }}
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
-                    <VStack align="stretch" alignItems="center" ml={7}>
+                    <VStack align="stretch" alignItems="center" ml={7} mt="5">
                         <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
                             <Avatar
                                 pt={2}
@@ -151,7 +151,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                 display="flex"
                                 position="initial"
                                 float={"inline-end"}
-                                size={{ md: "2xl", base: "2xl" }}
+                                size={{ md: "3xl", base: "2xl" }}
                                 shadow="xl"
                                 src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user?.userId}
                             />
@@ -179,10 +179,10 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                 damping: 20,
                             }}
                         >
-                            {" "}
-                            <Box fontSize={{ lg: "5xl", base: "xl" }}>
-                                {user?.fName} {user?.lName}
-                            </Box>
+                            <Stack direction={{ base: "column", md: "row" }} spacing={{ base: "-1", md: "3" }}>
+                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{user?.fName} </Box>
+                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{user?.lName}</Box>
+                            </Stack>
                         </motion.div>
                     </Stack>
 
@@ -216,8 +216,8 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                         <motion.div whileHover={{ scale: 0.9 }}>
                             <Button
                                 pl={5}
-                                width={{ lg: "7rem", base: "" }}
-                                height={{ lg: "3rem", base: "2rem" }}
+                                width={{ xl: "7rem", lg: "5rem", base: "" }}
+                                height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                 fontSize={{ base: "", lg: "lg" }}
                                 bg="orange.600"
                                 _hover={{ background: "orange.200" }}
@@ -306,7 +306,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                 bg="orange.600"
                                 _hover={{ background: "orange.200" }}
                                 width={{ lg: "9rem", base: "" }}
-                                height={{ lg: "3rem", base: "2rem" }}
+                                height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                 fontSize={{ base: "", lg: "lg" }}
                                 position="initial"
                                 shadow={"lg"}
