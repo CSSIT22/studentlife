@@ -5,8 +5,6 @@ const acceptRequest = async (req: Request, res: Response) => {
     const body = req.body
 
     const invite: any = {
-        userId: req.body.userId,
-        communityId: req.body.communityId,
         status: true,
     }
 
@@ -14,14 +12,15 @@ const acceptRequest = async (req: Request, res: Response) => {
         await prisma.community_User.update({
             where: {
                 userId_communityId: {
-                    userId: req.body.userId,
+                    userId: req.body.user,
                     communityId: req.body.communityId,
                 },
             },
             data: invite,
         })
         res.status(200).send("Request has been accept")
-    } catch {
+    } catch (err){
+        console.log(err)
         res.status(403)
     }
 }

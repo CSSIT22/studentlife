@@ -13,14 +13,14 @@ const DatingRandomFaculty: FC<{
     })
 
     function getAge(dateString: Date) {
-        var today = new Date()
-        var birthDate = new Date(dateString)
-        var age = today.getFullYear() - birthDate.getFullYear()
-        var m = today.getMonth() - birthDate.getMonth()
+        var today = new Date();
+        var birthDate = new Date(dateString);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--
+            age--;
         }
-        return age
+        return age;
     }
 
     return (
@@ -44,16 +44,14 @@ const DatingRandomFaculty: FC<{
                                     ? characters[currentIndex].fName.substring(0, 12).concat("...")
                                     : characters[currentIndex].fName
                                 : characters[currentIndex].fName.length > 15
-                                    ? characters[currentIndex].fName.substring(0, 15).concat("...")
-                                    : characters[currentIndex].fName}{" "}
+                                ? characters[currentIndex].fName.substring(0, 15).concat("...")
+                                : characters[currentIndex].fName}{" "}
                             {characters[currentIndex].lName.substring(0, 1)}.
                         </Text>
 
                         {/* Gender & Age */}
                         <Text color="black" fontWeight="400" fontSize={{ base: "20px", md: "3xl" }} lineHeight="120%" pl="18px">
-                            <>
-                                {characters[currentIndex].details.sex}, {getAge(characters[currentIndex].details.birth)}
-                            </>
+                            <>{characters[currentIndex].details.sex.substring(0,1)}, {getAge(characters[currentIndex].details.birth)}</>
                         </Text>
                     </Box>
                 </motion.div>
@@ -74,8 +72,8 @@ const DatingRandomFaculty: FC<{
                         {isMobile
                             ? characters[currentIndex].studentMajor.majorFaculty.facultyName
                             : characters[currentIndex].studentMajor.majorFaculty.facultyName.length > 30
-                                ? characters[currentIndex].studentMajor.majorFaculty.facultyName.substring(0, 30).trim().concat("...")
-                                : characters[currentIndex].studentMajor.majorFaculty.facultyName}
+                            ? characters[currentIndex].studentMajor.majorFaculty.facultyName.substring(0, 30).trim().concat("...")
+                            : characters[currentIndex].studentMajor.majorFaculty.facultyName}
                     </Text>
                 </Box>
             </motion.div>

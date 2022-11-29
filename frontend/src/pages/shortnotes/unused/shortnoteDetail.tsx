@@ -46,11 +46,11 @@ import {
     MenuList,
     IconButton,
 } from "@chakra-ui/react"
-import AppBody from "../../components/share/app/AppBody"
+import AppBody from "../../../components/share/app/AppBody"
 import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons"
 import { HiDotsHorizontal } from "react-icons/hi"
-import CmList from "../../components/shortnotes/cmList"
-import SnDetail from "../../components/shortnotes/snDetail"
+import CmList from "../../../components/shortnotes/cmList"
+import SnDetail from "../../../components/shortnotes/snDetail"
 import { BiDownArrow, BiDownvote, BiUpArrow, BiUpvote } from "react-icons/bi"
 
 const snDetail = () => {
@@ -60,12 +60,9 @@ const snDetail = () => {
                 <SnDetail
                     topic={"Shortnote name"}
                     course={"CSC213"}
-                    desc={
-                        " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum sint, odio ut praesentium explicabo hic harum voluptatem veniam architecto, recusandae, nisi aliquid? Fuga placeat dolore voluptates eligendi ut, aut dignissimos."
-                    }
+                    desc={" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum sint, odio ut praesentium explicabo hic harum voluptatem veniam architecto, recusandae, nisi aliquid? Fuga placeat dolore voluptates eligendi ut, aut dignissimos."}
                     link={"modlink.me/shortnote/filename.pdf"}
-                    owner={"Shortnote Shotenot"}
-                />
+                    owner={"Shortnote Shotenot"} date={undefined} />
             </Box>
             <Box bg={"white"} boxShadow={"xl"} rounded={8}>
                 <GridItem p={6}>
@@ -84,22 +81,13 @@ const snDetail = () => {
                     <VStack gap={4}>
                         <CmList
                             name={"Firstname Lastname"}
-                            desc={
-                                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"
-                            }
-                        />
+                            desc={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"} date={undefined} />
                         <CmList
                             name={"Firstname Lastname"}
-                            desc={
-                                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"
-                            }
-                        />
+                            desc={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"} date={undefined} />
                         <CmList
                             name={"firstname lastname"}
-                            desc={
-                                "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"
-                            }
-                        />
+                            desc={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ab at quibusdam dicta nulla ipsum in sequi, enim modiNon, id! Quae illo iste id cum quia aut doloribus eligendi"} date={undefined} />
                     </VStack>
                 </GridItem>
             </Box>
