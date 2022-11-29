@@ -13,7 +13,7 @@ interface AboutMeForm {
     sex: string
     hobbies: string
     birthdate: string
-    year: any
+    year: number
     address: string
 }
 
@@ -23,7 +23,7 @@ function index() {
         sex: "Male",
         hobbies: "run walk",
         birthdate: "12/01/2020",
-        year: "2",
+        year: 2,
         address: "Street: 723/106-107 Charansanitwong 53 Rd. City: Bang Phat State/province/area: Bangkok Phone number 66 0-2434-7113 Zip code 10700",
     })
     const breakpoints = {

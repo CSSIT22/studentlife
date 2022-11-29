@@ -7,7 +7,7 @@ interface AboutMeProps {
     sex: string
     hobbies: string
     birthdate: string
-    year: any
+    year: number
     address: string
 }
 

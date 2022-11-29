@@ -31,7 +31,7 @@ interface AboutMeProps {
     sex: string
     hobbies: string
     birthdate: string
-    year: any
+    year: number
     address: string
 }
 
@@ -55,7 +55,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const [BirthDate, setBirthDate] = useState<string>("")
     const [Sex, setSex] = useState<string>("")
     const [Hobbies, setHobbies] = useState<string>("")
-    const [Years, setYears] = useState<any>(0)
+    const [Years, setYears] = useState<number>(0)
     const [Address, setAddress] = useState<string>("")
 
     // useEffect(() => {
