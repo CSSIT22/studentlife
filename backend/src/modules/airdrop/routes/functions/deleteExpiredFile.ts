@@ -1,27 +1,42 @@
-const path = require("path")
-const fs = require("fs")
-const deleteExpiredFile = async (req: Request | any, res: Response | any) => {
+import { PrismaClient} from '@prisma/client';
+import { Request, Response } from "express"
+const axios = require("axios")
+const drive = axios.create({
+    baseURL: "https://drive.modlifes.me",
+    headers: {
+        Authorization: "Bearer GjkhtiJ12!",
+        "Content-Type": " multipart/form-data",
+    },
+})
+
+const deleteExpiredFile = async (req: Request<any>, res: Response<any>) => {
     const today = new Date()
-    const { prisma } = res
+    //new prisma 
+    const prisma = new PrismaClient()
     const expiredFile = await prisma.file_Info.findMany({
         where: {
-            fileExpired: {
-                lt: today,
-            },
+            AND: [
+                {
+                    fileExpired: {
+                        lt: today,
+                    },
+                },
+                {
+                    fileExpired: {
+                        gt: new Date(1000000000000),
+                    },
+                },
+            ],
         },
     })
     expiredFile.map(async (item: any) => {
-        const directoryPath = path.join(__dirname, "../files" + "/" + item.sendType)
-        fs.unlink(directoryPath + "/" + item.fileName, (err: any) => {
-            if (err) {
-                console.log(err)
-            }
-        })
+        // const deleteFromDrive = await drive.delete(`/${item.fileId}`)
         await prisma.file_Info.delete({
             where: {
                 fileId: item.fileId,
             },
         })
     })
+    console.log("Check expired file")
 }
 export default deleteExpiredFile

@@ -13,7 +13,7 @@ const ShopDeatailName: FC<{
             <Link href="javascript:javascript:history.go(-1)">
                 <ChevronLeftIcon w={8} h={8} />
             </Link>
-            <Heading>{name}</Heading>
+            <Heading color={"black"}>{name}</Heading>
         </Flex>
     )
 }

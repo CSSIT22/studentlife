@@ -15,67 +15,109 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
+    useToast,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Spacer,
+    Grid,
+    GridItem,
+    Flex,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { BiLibrary } from "react-icons/bi"
 import LiList from "./liList"
 import InLiList from "./inLiList"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io"
+import API from "src/function/API"
+import { authContext } from "src/context/AuthContext"
+import { HiDotsHorizontal } from "react-icons/hi"
+import { MdDeleteOutline } from "react-icons/md"
 
 const btnMyLibrary = () => {
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
     const { isOpen: nliIsOpen, onOpen: nliOnOpen, onClose: nliOnClose } = useDisclosure()
     const { isOpen: inliIsOpen, onOpen: inliOnOpen, onClose: inliOnClose } = useDisclosure()
 
-    const [picked, setPicked] = useState("")
     const [nPicked, setNPicked] = useState("")
-    {
-        /*}
-    async function openNli() {
-        await nliOnOpen()
-        await mliOnClose()
+
+    const [li, setLi] = useState([])
+    useEffect(() => {
+        API.get("/shortnotes/getLibrary").then((item) => {
+            setLi(item.data)
+        })
+    }, [])
+
+    const [liPicked, setliPicked] = useState()
+    const [selectedLi, setSelectedLi] = useState<any>([])
+    const [snByLi, setSnByLi] = useState([])
+    useEffect(() => {
+        inLibraryFilter()
+    }, [liPicked])
+    const inLibraryFilter = () => {
+        setSelectedLi(li.filter((items: any) => items.libId == liPicked))
+
+        //console.log(liPicked);
+
+        //console.log(snByLi);
     }
-    async function closeNli() {
-        await nliOnClose()
-        await mliOnOpen()
+    useEffect(() => {
+        selectedLi.map((sn: any) => (
+            setSnByLi(sn.shortNotes)
+        ), [selectedLi])
+    })
+
+    const navigate = useNavigate()
+
+
+    //const user = useContext(authContext)
+    const [name, setName] = useState("")
+
+    const submit = () => {
+        API.post("/shortnotes/postLibrary", {
+            libName: name
+        }).then((res) => {
+            console.log(res)
+            window.location.reload()
+        }
+        )
     }
-    async function openInLi() {
-        await inliOnOpen()
-        await mliOnClose()
-    }
-    async function closeInli() {
-        await inliOnClose()
-        await mliOnOpen()
-    }
-*/
+    const toast = useToast()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const deleteLibrary = () => {
+        API.delete("/shortnotes/deleteLibrary", {
+            data: {
+                libId: liPicked
+            }
+        }).then((res) => {
+            console.log(res);
+            window.location.reload()
+        })
     }
 
-    const li = [
-        { id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", name: "Network midterm", owner: "grehg343-gj54-4bad-9gre-fkg9fidhjd89" },
-        { id: "grehg343-gj54-4bad-9gre-fkg9fidhjd89", name: "Year 1 term 2 ", owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" },
-    ]
-    const inLi = [
-        {
-            topic: "How to make ER diagram in 10 minutes.",
-            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            course: "CSC218",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-        },
-        {
-            topic: "How to make ER diagram in 10 minutess.",
-            liId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            course: "CSC218",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-        },
-        {
-            topic: "How to make ER diagram in 10 minutesss.",
-            liId: "grehg343-gj54-4bad-9gre-fkg9fidhjd89",
-            course: "CSC218",
-            owner: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-        },
-    ]
-
+    const { isOpen: inIsOpen, onOpen: inOnOpen, onClose: inOnClose } = useDisclosure()
+    const [selectedInLi, setSelectedInLi] = useState("")
+    const deleteInLibrary = () => {
+        API.delete("/shortnotes/deleteSnInLibrary", {
+            data: {
+                libId: liPicked,
+                snId: selectedInLi
+            }
+        }).then((res) => {
+            console.log(res);
+            window.location.reload()
+        })
+    }
     return (
         <Box>
             <Button colorScheme="orange" onClick={mliOnOpen}>
@@ -95,29 +137,18 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            {li.map((li, key) => (
+                            {li.map((li: any, key) => (
                                 <Box
                                     as="button"
                                     onClick={() => {
-                                        setNPicked(li.name) //collect selected li.name
-                                        setPicked(li.id) //collect selected li.id
+                                        setNPicked(li.libName) //collect selected li.name
+                                        setliPicked(li.libId) //collect selected li.id
                                         inliOnOpen()
-                                        console.log(picked)
                                     }}
                                 >
-                                    <LiList name={li.name}></LiList>
+                                    <LiList key={key} name={li.libName}></LiList>
                                 </Box>
                             ))}
-                            {/* <Box as="button" onClick={inliOnOpen}>
-                                <LiList name={"midterm y2/1"}></LiList>
-                            </Box>
-                            <LiList name={"Network"}></LiList>
-                            <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList>
-                            <LiList name={"midterm y2/1"}></LiList>
-                            <LiList name={"Network"}></LiList>
-                            <LiList name={"Algo p1"}></LiList>
-                            <LiList name={"Java"}></LiList> */}
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
@@ -140,9 +171,19 @@ const btnMyLibrary = () => {
 
                                 <Box w={"100%"}>
                                     <Text>Name</Text>
-                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" />
+                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" value={name} onChange={(e) => setName(e.target.value)} />
                                 </Box>
-                                <Button colorScheme="orange" w={"100%"}>
+                                <Button colorScheme="orange" w={"100%"} onClick={() => {
+                                    submit()
+                                    nliOnClose()
+                                    toast({
+                                        title: 'Library created.',
+                                        description: "ํYou've created a new library.",
+                                        status: 'success',
+                                        duration: 4000,
+                                        isClosable: true,
+                                    })
+                                }}>
                                     Create
                                 </Button>
                             </VStack>
@@ -159,29 +200,103 @@ const btnMyLibrary = () => {
                                 <IoIosArrowBack />
                             </Button>
                             <Heading size={"lg"}>{nPicked}</Heading>
+                            <Spacer />
+                            <Menu>
+                                <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
+                                <MenuList>
+                                    <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
+                                        Delete
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
                         </HStack>
                     </DrawerHeader>
                     <DrawerBody>
                         <VStack spacing={4}>
-                            {inLi.map((inLi, key) => (
-                                <InLiList name={inLi.topic} course={inLi.course} />
+
+
+                            {snByLi.map((sn: any, key) => (
+                                <Box as="button" w={"100%"} boxShadow={"md"} >
+                                    <Grid templateColumns="repeat(7, 1fr)">
+                                        <GridItem colSpan={6} onClick={() => {
+                                            navigate({
+                                                pathname: "./" + sn.sn.snId,
+                                            })
+                                        }}>
+                                            <InLiList key={key} name={sn.sn.snName} course={sn.sn.course.courseName} />
+                                        </GridItem>
+                                        <GridItem>
+                                            <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"}>
+                                                <Menu>
+                                                    <MenuButton as={IconButton} aria-label="Options" icon={<HiDotsHorizontal />} variant="ghost" />
+                                                    <MenuList>
+                                                        <MenuItem icon={<MdDeleteOutline />} onClick={() => {
+                                                            inOnOpen(),
+                                                                setSelectedInLi(sn.sn.snId)
+                                                        }}>
+                                                            Delete
+                                                        </MenuItem>
+                                                    </MenuList>
+                                                </Menu>
+
+                                            </Flex>
+                                        </GridItem>
+                                    </Grid>
+
+                                </Box>
                             ))}
-                            {/* <Box w={"100%"}>
-                                <Link to={"./shortnoteDetail"}>
-                                    <InLiList name={"Shortnote 001"} course={"CSC213"} />
-                                </Link>
-                            </Box>
-                            <InLiList name={"Shortnote 002"} course={"CSC214"} />
-                            <InLiList name={"Shortnote 003"} course={"CSC215"} />
-                            <InLiList name={"Shortnote 001"} course={"CSC213"} />
-                            <InLiList name={"Shortnote 002"} course={"CSC214"} />
-                            <InLiList name={"Shortnote 003"} course={"CSC215"} /> */}
+
                         </VStack>
                     </DrawerBody>
-
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>
             </Drawer>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Delete library</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>Are you sure to delete this library?</ModalBody>
+                    <ModalFooter>
+                        <Button onClick={() => {
+                            deleteLibrary()
+                            onClose()
+                            toast({
+                                title: 'Library deleted.',
+                                description: "You've deleted your library.",
+                                status: 'success',
+                                duration: 4000,
+                                isClosable: true,
+                            })
+                        }} colorScheme={"red"}>
+                            Delete
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Modal onClose={inOnClose} isOpen={inIsOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Delete library</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>Are you sure to remove this shortntoe from the library?</ModalBody>
+                    <ModalFooter>
+                        <Button onClick={() => {
+                            deleteInLibrary()
+                            onClose()
+                            toast({
+                                title: 'Shortnote removed..',
+                                description: "You've removed your shortnote.",
+                                status: 'success',
+                                duration: 4000,
+                                isClosable: true,
+                            })
+                        }} colorScheme={"red"}>
+                            Delete
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     )
 }
