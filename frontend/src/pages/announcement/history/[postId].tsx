@@ -30,13 +30,8 @@ import { postInfoTest } from "../postInfoTest"
 import MoreLangAdded from "src/components/annoucement/MoreLangAdded"
 
 const history = () => {
-    // const [isError, {on}] = useBoolean()
     const params = useParams()
-    // console.log(params.postId);
     const [allPost, setAllPost] = React.useState(postInfoTest)
-    const postParams = allPost.filter((el) => {
-        return el.postId == parseInt(params.postId + "")
-    })
     const [topic, setTopic] = React.useState<string>()
     const [detail, setDetail] = React.useState<string>()
     const [targetType, setTargetType] = React.useState<string>()
@@ -52,7 +47,7 @@ const history = () => {
     const [add, setAdd] = React.useState(0)
     const [exmoreLang, setexMoreLang] = React.useState<post_to_language2[]>([])
     const [count, setCount] = React.useState(0)
-    const [disable, setdisable] = useState(true)
+    const [disable, setdisable] = useState(false)
 
     const tog = () => {
         settoggle(!toggle)
@@ -63,7 +58,7 @@ const history = () => {
     const [isLoading, { off }] = useBoolean(true)
     const [tt, settt] = useState<addMoreLangType[]>([])
     const [tv, settv] = useState<tgType[]>([])
-    const [exlang2 , setexlang2] = useState<addMoreLangType[]>([])
+    const [exlang2, setexlang2] = useState<addMoreLangType[]>([])
 
     async function getPost() {
         const getData = await API.get("/announcement/getdetailedit/" + params.postId)
@@ -73,7 +68,6 @@ const history = () => {
         setTargetType(getData.data[0].annFilter.filterType)
         setTargetValue(getData.data[0].annFilter.value)
         d = new Date(getData.data[0].annExpired)
-        // get date มาแค่ 1 หลัก แต่ date require 2 หลัก
         if (d.getMonth() < 10) {
             const nm = "0" + (d.getMonth() + 1)
             if (d.getDate() < 10) {
@@ -83,7 +77,7 @@ const history = () => {
                 setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
             }
 
-        } else if (d.getDate() < 10) {3
+        } else if (d.getDate() < 10) {
             const nd = "0" + d.getDate()
             if (d.getMonth() < 10) {
                 const nm = "0" + (d.getMonth() + 1)
@@ -95,25 +89,16 @@ const history = () => {
             setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
         }
 
-        // setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
-        // setAddMoreLang(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000))
 
         setexMoreLang(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
 
         setmorelanglength(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
         const value = await API.get("/announcement/gettypetarget");
         settv(value.data)
-        // for(let i=0;i<getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length;i++){
-        //     exlang2.push( {id:Date.now(),languageId:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].languageId,annTopic:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].annTopic,annDetail:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].annDetail})
-        // }
-        // getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).forEach((el:any) => {
-        //    exlang2.push( {id:Date.now(),languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail})
-        // })
     }
-    // console.log(exlang2.slice(0,exmoreLang.length));
-    // setexMoreLang(exmoreLang) 
-   
-   
+
+
+
 
 
     useEffect(() => {
@@ -172,68 +157,56 @@ const history = () => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
 
+    const AddLang = () => {
+        setMoreLangField([...moreLangField, { count: count }])
+    }
+
     const increaseCount = () => {
         setCount(count + 1)
         AddLang()
+        setdisable(true)
     }
 
-    // console.log(morelanglength);
-    
+
     const decreaseCount = (id: number) => {
         setCount(count - 1)
         setAddMoreLang(addMoreLang.filter((el) => el.languageId != id))
-        setMoreLangField(moreLangField.filter((el) => el.count != count-1))
+        setMoreLangField(moreLangField.filter((el) => el.count != count - 1))
         // setexMoreLang(exmoreLang.filter((el) => el.languageId != id))
     }
 
 
-    const decreaseForEdit = (langid:number) => {
-        console.log(langid);
+    const decreaseForEdit = (langid: number) => {
+        // console.log(langid);
         setmorelanglength(morelanglength - 1)
-        setexMoreLang(exmoreLang.filter((el) => {return el.languageId != langid}))
+        setexMoreLang(exmoreLang.filter((el) => { return el.languageId != langid }))
     }
 
-    
-    console.log(exmoreLang)
-
-    const AddLang = () => {
-        setMoreLangField([...moreLangField, { count: count }])
-    }
-    // console.log(moreLangField);
-
-
-    // console.log(moreLangLength)
-    // console.log(addMoreLang)
     const onDisable = () => {
-        setdisable(!disable)
+        setdisable(false)
+        setMoreLangField(moreLangField.filter((el) => el.count == count))
     }
-    // console.log(exmoreLang);
-    // console.log(count);
-    
+
 
     const updateMoreLang = (add: Number) => {
-        if(add == morelanglength){
-            return addMoreLang.map((el,index) => {
+        if (add == morelanglength) {
+            return addMoreLang.map((el, index) => {
                 return (
                     <MoreLangAdded
-                    title={el.annTopic}
-                    dt={el.annDetail}
-                    selectLang={el.languageId}
-                    key={index}
-                    addLang={addLang}
-                    onAdd={onAdd}
-                    add={true}
+                        title={el.annTopic}
+                        dt={el.annDetail}
+                        selectLang={el.languageId}
+                        key={index}
+                        addLang={addLang}
+                        onAdd={onAdd}
+                        add={true}
                     />
                 )
             })
-        }else {
-            // ลบจากด้านล่างลำดับได้ปกติ
-            // ลบจากด้านบน ค่าที่เปลี่ยนแปลงไป ถูกต้องแต่ render ผิด
-            
-           return exmoreLang?.map((el) => {
-            // wtf log ค่าถูกตามที่ต้องการถูกทุกอย่าง ที่frontend ไม่ได้ re render ตามนั้น?????
-            console.log(el.languageId);
-            console.log(el.annTopic);
+        } else {
+           
+            return exmoreLang?.map((el) => {
+          
                 return (
                     <MoreLangForEdit
                         // id={Date.now()}
@@ -247,43 +220,10 @@ const history = () => {
                     />
                 )
             })
-        } 
+        }
     }
-       
-    // if (add == morelanglength) {
-    //     return addMoreLang.map((el) => {
-    //         return (
-    //             <MoreLangForEdit
-    //                 id={el.id}
-    //                 onDecrease={decreaseCount}
-    //                 addLang={addLang}
-    //                 selectLang={el.languageId}
-    //                 title={el.annTopic}
-    //                 dt={el.annDetail}
-    //                 key={el.id}
-    //                 onAdd={onAdd}
-    //                 add={true}
-    //             />
-    //         )
-    //     })
-    // } else if(exmoreLang.length != 0){
-    //     return exmoreLang?.map((el) => {
-    //         return (
-    //             <MoreLangForEdit
-    //                 onDecrease={decreaseCount}
-    //                 id={el.id}
-    //                 addLang={addLang}
-    //                 selectLang={el.languageId}
-    //                 title={el.annTopic}
-    //                 dt={el.annDetail}
-    //                 key={el.id}
-    //                 onAdd={onAdd}
-    //                 add={false}
-    //             />
-    //         )
-    //     })
-    // }
-    // }
+
+
 
     const showMoreLang = (moreLangLength: Number, add: Number) => {
         if (moreLangLength > 0) {
@@ -326,8 +266,6 @@ const history = () => {
             addMoreLang: addMoreLang,
         })
     }
-    // console.log(expired);
-    // console.log(exmoreLang)
     return (
         <AppBody
             secondarynav={[
@@ -342,7 +280,8 @@ const history = () => {
                 onSubmit={(e) => {
                     tog()
                     onOpen()
-                    e.preventDefault()
+                    // e.preventDefault()
+                    e.stopPropagation()
                     submit()
                 }}
             >
@@ -416,9 +355,8 @@ const history = () => {
                     <FormControl>
                         <>
                             {showMoreLang(morelanglength, add)}
-                            {disable &&
-                                moreLangField?.map((el) => {
-                                    return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
+                            {disable && moreLangField?.map((_, index) => {
+                                    return <MoreLang key={index} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
                                 })}
                             <Tag
                                 size={"lg"}
