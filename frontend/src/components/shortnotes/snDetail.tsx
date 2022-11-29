@@ -87,18 +87,18 @@ const liList: FC<{
         })
     }
 
-    const [selectedLi, setSelectedLi] = useState()
-    const addToLibrary = () => {
+    // const [selectedLi, setSelectedLi] = useState()
+    const addToLibrary = (li: string) => {
         API.post("/shortnotes/postInLibrary", {
             snId: param.id,
-            libId: selectedLi
+            libId: li
         })
     }
     const toast = useToast()
 
-    useEffect(() => {
-        addToLibrary()
-    }, [selectedLi])
+    // useEffect(() => {
+    //     addToLibrary()
+    // }, [selectedLi])
     return (
         <Box>
             <HStack>
@@ -207,7 +207,7 @@ const liList: FC<{
                             ))} */}
                             {li.map((li: any, key) => (
                                 <Box onClick={() => {
-                                    setSelectedLi(li.libId)
+                                    addToLibrary(li.libId)
                                     toast({
                                         title: 'Shortnote added',
                                         description: "The shortnote added to your selected library already.",
