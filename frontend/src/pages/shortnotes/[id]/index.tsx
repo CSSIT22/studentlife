@@ -99,7 +99,7 @@ const index = () => {
                     isPublic={shortnote.isPublic}
                 />
             </Box>
-                <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6}>
+                <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6} mb={4}>
                     <SnComments />
                 </Box>
             </Box>
