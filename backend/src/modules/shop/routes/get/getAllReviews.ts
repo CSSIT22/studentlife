@@ -12,8 +12,8 @@ const getAllReviews = async (req: Request, res: Response) => {
                         userId: true,
                         fName: true,
                         lName: true,
-                    }
-                }
+                    },
+                },
             },
             where: { productId: parseInt(pId) },
         })

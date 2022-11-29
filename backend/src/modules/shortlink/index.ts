@@ -10,5 +10,4 @@ shortlinkRoutes.use(express.json())
 shortlinkRoutes.post("/generate", verifyUser, shortenlink)
 shortlinkRoutes.get("/redirect", verifyUser, getRedirect)
 
-
 export default shortlinkRoutes

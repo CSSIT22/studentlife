@@ -3,7 +3,7 @@ import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
 const showDetail = async (req: Request, res: Response) => {
     const id = req.params.id
-    var d = new Date();
+    var d = new Date()
     var dayNo = d.getDay()
     try {
         const prisma = res.prisma
@@ -24,11 +24,10 @@ const showDetail = async (req: Request, res: Response) => {
                 },
             },
         })
-        
-    res.send([restaurant])
+
+        res.send([restaurant])
     } catch (err) {
-        console.log("Error");
-        
+        console.log("Error")
     }
     // let selectedRes: Restaurant | null = null
     // getRestaurant().forEach((res) => {

@@ -1,4 +1,4 @@
-import { announcement } from './../../../../../types/announcement/index';
+import { announcement } from "./../../../../../types/announcement/index"
 import { Request, Response } from "express"
 import { getPost } from ".."
 import { post } from "../../../../../types/announcement"
@@ -10,35 +10,34 @@ const getDeletePost = async (req: Request, res: Response) => {
     // console.log(id)
     try {
         const recyclebin = await prisma.announcement_Delete.findMany({
-            where:{
-                post:{
-                    userId:req.user?.userId || ""
-                }
+            where: {
+                post: {
+                    userId: req.user?.userId || "",
+                },
             },
-            select:{
-                deleteAt:true,
-                post:{
-                    select:{
-                        postId:true,
+            select: {
+                deleteAt: true,
+                post: {
+                    select: {
+                        postId: true,
                         annLanguage: {
                             select: {
-                                languageId:true,
-                                annTopic:true,
-                                annDetail:true
+                                languageId: true,
+                                annTopic: true,
+                                annDetail: true,
                             },
                         },
-                        annCreator:{
-                            select:{
-                                fName:true,
-                                lName:true
-                            }
+                        annCreator: {
+                            select: {
+                                fName: true,
+                                lName: true,
+                            },
                         },
-                    }
-                }
-            }
+                    },
+                },
+            },
         })
 
-       
         res.send(recyclebin)
     } catch (err) {
         res.status(404).send("Post on recycle bin not found")
