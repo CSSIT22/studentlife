@@ -3,6 +3,7 @@ import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
 const showDetail = async (req: Request, res: Response) => {
     const id = req.params.id
+    const userId = req.user?.userId || ""
     var d = new Date();
     var dayNo = d.getDay()
     try {
@@ -21,7 +22,9 @@ const showDetail = async (req: Request, res: Response) => {
                     where: {
                         day: dayNo,
                     },
-                },
+                },userFav:{
+                    where:{userId:userId}
+                }
             },
         })
         

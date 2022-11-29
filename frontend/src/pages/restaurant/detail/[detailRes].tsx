@@ -41,60 +41,65 @@ function detail() {
     const { onOpen } = useDisclosure()
     const params = useParams()
     const [numres, setnumres] = useState(params.detailRes)
-    
+
     const [property, setproperty] = React.useState<any>([])
-    const [isError, {on}] = useBoolean()     
-    const [isLoading, {off}] = useBoolean(false)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(false)
 
     useEffect(() => {
         API.get("/restaurant/detail/" + params.detailRes).
             then((item) => setproperty(item.data))
-            // .catch((err) => on()) 
-            // .finally(off)
+        // .catch((err) => on()) 
+        // .finally(off)
     }, [params.detailRes])
 
     console.log(property)
 
-    if (isLoading) 
-    return    (
-    <AppBody
-    secondarynav={[
-        { name: "Like or Nope", to: "/restaurant" },
-        { name: "My Favorite", to: "/restaurant/favorite" },
-        { name: "My History", to: "/restaurant/history" },
-    ]}
->
-     <Heading color={"black"}>Loading</Heading>
-    </AppBody>
-    )
+    if (isLoading)
+        return (
+            <AppBody
+                secondarynav={[
+                    { name: "Like or Nope", to: "/restaurant" },
+                    { name: "My Favorite", to: "/restaurant/favorite" },
+                    { name: "My History", to: "/restaurant/history" },
+                ]}
+            >
+                <Heading color={"black"}>Loading</Heading>
+            </AppBody>
+        )
 
-    if(isError) return (
-    <AppBody
+    if (isError) return (
+        <AppBody
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-       <Heading color={"red"}> There is an Error</Heading>
-    </AppBody>
+            <Heading color={"red"}> There is an Error</Heading>
+        </AppBody>
     )
+
+    let [isFavorite, setIsFavorite] = useState(Boolean)
    
-
-
-    const [isFavorite, setIsFavorite] = useState(false)
     useEffect(() => {
-        console.log(isFavorite)
-    }, [isFavorite])
-    const setFavoriteStatus = () => {
-        console.log(isFavorite)
-    }
+        property.map((el: any) => {
+            console.log(el.userFav.length)
+            if (el.userFav.length == 1) {
+                setIsFavorite(true)
+            } else { 
+                setIsFavorite(false) 
+            }
+        })
+    }, [setIsFavorite, property])
+
+
+
     const addFavorite = () => {
         API.post("/restaurant/detail/" + params.detailRes)
     }
-    
-    console.log(property);
-    
+
+
     return (
         <AppBody
             secondarynav={[
@@ -106,7 +111,6 @@ function detail() {
             <Searchbar />
             <Center w={"full"} mt={4}>
                 {property.map((e1: any) => {
-
                     return (
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
@@ -184,12 +188,11 @@ function detail() {
                                             borderRadius={"full"}
                                             p={0}
                                             onClick={() => {
-                                                setIsFavorite(!isFavorite)
-                                                setFavoriteStatus
+                                                setIsFavorite(true)
                                                 addFavorite()
                                             }}
                                         >
-                                            {isFavorite ? <Icon as={AiFillHeart} w={12} h={12} /> : <Icon as={AiOutlineHeart}  w={12} h={12} />}
+                                            {isFavorite ? <Icon as={AiFillHeart} w={12} h={12} /> : <Icon as={AiOutlineHeart} w={12} h={12} />}
                                         </Button>
                                         <Spacer />
                                         <Popover placement="top">
