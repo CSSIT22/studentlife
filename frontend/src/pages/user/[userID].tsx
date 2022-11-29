@@ -16,7 +16,7 @@ interface AboutMeForm {
     sex: string
     hobbies: string
     birthdate: string
-    year: string
+    year: any
     address: string
 }
 
