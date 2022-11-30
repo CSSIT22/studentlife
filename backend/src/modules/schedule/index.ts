@@ -1,7 +1,7 @@
 import { prisma } from "@prisma/client"
 import express from "express"
 import createEvent from "./routes/createEvent"
-import editEvent from "./routes/editEvent"
+import editEvent from "./routes/editevent"
 
 const scheduleRoutes = express()
 
@@ -79,6 +79,7 @@ export const setEvent = (newData: Event[]) => {
 }
 
 scheduleRoutes.get("/editEvent", editEvent)
+scheduleRoutes.post("/createEvent", createEvent)
 
 // import editEvent from "./routes/editevent"
 // import getEditedevent from "./routes/getEditedevent"
