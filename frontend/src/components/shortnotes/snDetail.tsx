@@ -149,9 +149,7 @@ const liList: FC<{
             </Box>
             <Box mb={4}>
                 <Heading size={"md"}>Link</Heading>
-                <Link to={"./fileId"}>
-                    <Text color={"blue.500"}>{link}</Text>
-                </Link>
+                <Text color={"blue.500"}>{link}</Text>
             </Box>
             <HStack>
                 {/* <HStack>
