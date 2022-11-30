@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import { Box, FormControl, FormLabel, Input } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import ThemedButton from 'src/components/shop/ThemedButton'
 type formInputs = {
     al1: string,
@@ -12,6 +12,7 @@ type formInputs = {
 const ShippingAddress:FC<{
     couponDiscount: number
 }> = ({couponDiscount}) => {
+    const navigate = useNavigate()
     const [inputs, setInputs] = useState<formInputs>({
         al1: "",
         al2: "",
@@ -24,11 +25,13 @@ const ShippingAddress:FC<{
         const value = event.target.value;
         setInputs(values => ({...values, [name]: value}))
       }
-      const handleSubmit = (event: React.FormEvent<HTMLAnchorElement>) => {
+      const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        navigate('../shop/confirm_order', {state: {add: inputs.al1 + " \n" + inputs.al2 + "\n " + inputs.dst + ", " + inputs.pvn + ", " + inputs.ctry, couponDiscount: couponDiscount}})
       }
     return (
         <div>
+            <form onSubmit={handleSubmit}>
             <Box my="5" boxShadow='lg' bg="#FFFFFF" borderRadius='lg'>
                 <FormControl p="3" isRequired>
                     <FormLabel>Address Line 1</FormLabel>
@@ -53,10 +56,9 @@ const ShippingAddress:FC<{
                 </FormControl>
             </Box>
             <Box mt='10' mb='20'>
-                <Link onSubmit={handleSubmit} to='../shop/confirm_order' state={{add: inputs.al1 + " \n" + inputs.al2 + "\n " + inputs.dst + ", " + inputs.pvn + ", " + inputs.ctry, couponDiscount: couponDiscount}}>
-                    <ThemedButton >Next</ThemedButton>
-                </Link>
+                    <ThemedButton type='submit'>Next</ThemedButton>
             </Box>
+            </form>
         </div>
     )
 }
