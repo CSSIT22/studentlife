@@ -17,6 +17,8 @@ import postAccess from "./routes/postAccess"
 import getFile from "./routes/getFile"
 import getEachFile from "./routes/getEachFile"
 import deleteComment from "./routes/deleteComment"
+import getPeople from "./routes/getPeople"
+import deletePeople from "./routes/deletePeople"
 
 const shortnotesRoutes = express()
 
@@ -56,6 +58,8 @@ shortnotesRoutes.get("/getFile", getFile)
 
 shortnotesRoutes.get("/getEachFile", getEachFile)
 
+shortnotesRoutes.get("/getPeople/:id", getPeople)
+
 shortnotesRoutes.post("/postShortnote", postShortnote)
 
 shortnotesRoutes.post("/postLibrary", postLibrary)
@@ -75,5 +79,7 @@ shortnotesRoutes.delete("/deleteLibrary/", deleteLibrary)
 shortnotesRoutes.delete("/deleteSnInLibrary/", deleteSnInLibrary)
 
 shortnotesRoutes.delete("/deleteComment", deleteComment)
+
+shortnotesRoutes.delete("/deletePeople", deletePeople)
 
 export default shortnotesRoutes

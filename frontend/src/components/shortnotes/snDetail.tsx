@@ -36,6 +36,8 @@ import {
     useToast,
     Input,
     SimpleGrid,
+    VStack,
+    Divider,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineCloseCircle, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
@@ -59,10 +61,14 @@ const liList: FC<{
     isPublic: boolean
 }> = ({ topic, course, desc, link, owner, date, isPublic }) => {
     const user = useContext(authContext)
+    const param = useParams()
 
     const [li, setLi] = useState([])
-
+    const [access, setAccess] = useState([])
     useEffect(() => {
+        API.get("/shortnotes/getPeople/" + param.id).then((item) => {
+            setAccess(item.data)
+        })
         API.get("/shortnotes/getLibrary").then((item) => {
             setLi(item.data)
         })
@@ -76,7 +82,6 @@ const liList: FC<{
             setPeoples([])
         }
     }, [apIsOpen])
-    const param = useParams()
 
     const navigate = useNavigate()
     const x = btoa("?type=shortnote&id=" + param.id)
@@ -114,6 +119,14 @@ const liList: FC<{
         })
     }
 
+    const deletePoeple = (u: any) => {
+        API.delete("/shortnotes/deletePeople", {
+            data: {
+                snId: param.id,
+                userId: u
+            }
+        })
+    }
 
     return (
         <Box>
@@ -129,7 +142,7 @@ const liList: FC<{
                         {owner == user?.fName + " " + user?.lName ? <>
                             {isPublic == false ?
                                 <MenuItem icon={<AiOutlineUsergroupAdd />} onClick={apOnOpen}>
-                                    Add people
+                                    Manage people
                                 </MenuItem>
                                 :
                                 null
@@ -244,19 +257,15 @@ const liList: FC<{
                         </Stack>
                     </DrawerBody>
                     <DrawerFooter>
-                        {/* <Button w={"100%"} colorScheme={"orange"} onClick={addToLibrary}>
-                            Done
-                        </Button> */}
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
-            <Modal onClose={apOnClose} isOpen={apIsOpen} isCentered>
+            <Modal onClose={apOnClose} isOpen={apIsOpen} isCentered scrollBehavior={"inside"}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Add people</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+                    <ModalHeader>
+                        Manage people
+                        <Grid templateColumns="repeat(5, 1fr)" gap={4} mt={2}>
                             <GridItem colSpan={4}>
                                 <Input
                                     placeholder="studentID, comma seperated"
@@ -281,7 +290,9 @@ const liList: FC<{
                                     Add
                                 </Button>
                             </GridItem>
-                        </Grid>
+                        </Grid></ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
                         <Box gap={2} mt={4} mb={4}>
                             <SimpleGrid columns={2} gap={4}>
                                 {people.map((p, key) => (
@@ -302,6 +313,38 @@ const liList: FC<{
                                     </Grid>
                                 ))}
                             </SimpleGrid>
+                            <Divider my={6} />
+                            <Heading mb={2} size={"md"}>Peoples</Heading>
+                            <VStack gap={2}>
+                                {access.map((a: any, key) => (
+                                    <Grid templateColumns='repeat(7, 1fr)' bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
+                                        <GridItem colSpan={6}>
+                                            <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
+                                                <Text w={"100%"}>{a.accessBy.studentId}</Text>
+                                                <Text w={"100%"}>{a.accessBy.fName} {a.accessBy.lName}</Text>
+                                            </Flex>
+                                        </GridItem>
+                                        <GridItem>
+                                            <Button variant={"ghost"} onClick={() => {
+                                                deletePoeple(a.accessBy.userId)
+                                                toast({
+                                                    title: 'People deleted',
+                                                    description: "You've deleted people to access this shortnote.",
+                                                    status: 'success',
+                                                    duration: 4000,
+                                                    isClosable: true,
+                                                })
+
+
+                                                let x: any = access.filter((e: any) => e != a)
+                                                setAccess(x)
+                                            }}>
+                                                <AiOutlineCloseCircle />
+                                            </Button>
+                                        </GridItem>
+                                    </Grid>
+                                ))}
+                            </VStack>
                         </Box>
                     </ModalBody>
                     <ModalFooter>
@@ -310,7 +353,7 @@ const liList: FC<{
                             apOnClose()
                             toast({
                                 title: 'People added',
-                                description: "You've added people to acces this shortnote..",
+                                description: "You've added people to access this shortnote.",
                                 status: 'success',
                                 duration: 4000,
                                 isClosable: true,
