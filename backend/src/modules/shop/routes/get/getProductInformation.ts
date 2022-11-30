@@ -13,7 +13,18 @@ const  getProductInformation = async (req:Request, res: Response) => {
                     images: {
                         select: {image: true}
                     },
-                    contactTo: true
+                    contactTo: true,
+                    userReview: {
+                        include:{
+                            user: {
+                                select: {
+                                    userId: true,
+                                    fName: true,
+                                    lName: true,
+                                }
+                            }
+                        }
+                    }
                 },
                 where: {productId: parseInt(prodId)}
             }

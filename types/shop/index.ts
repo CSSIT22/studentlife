@@ -118,6 +118,7 @@ export type Shop_Product = {
     image: string
   }[]
   contactTo: Shop_Contact
+  userReview: Shop_Product_Review[]
 }
 
 export type Shop_Product_With_Images = {
