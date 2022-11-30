@@ -30,9 +30,9 @@ const index = () => {
     useEffect(() => {
         API.get("shortnotes/getShortnoteDetail/" + param.id).then((item) => {
             resentOnclick()
+            setShortnote(item.data)
             if (item.data.isPublic) {
                 setAllow.on()
-                setShortnote(item.data)
             } else {
                 setAccess(item.data.userAccess)
                 const acc = item.data.userAccess
@@ -44,11 +44,9 @@ const index = () => {
 
                 if (x.includes(user?.userId)) {
                     setAllow.on()
+                } else {
+                    onOpen()
                 }
-                setShortnote(item.data)
-            }
-            if (item.data.isPublic == false) {
-                onOpen()
             }
         }).finally(setLoad.off)
 
