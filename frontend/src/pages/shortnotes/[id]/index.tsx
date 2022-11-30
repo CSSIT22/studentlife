@@ -1,4 +1,4 @@
-import { Box, Button, Flex, GridItem, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useBoolean, useDisclosure, VStack } from '@chakra-ui/react'
+import { Box, Text, Button, Flex, GridItem, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Textarea, useBoolean, useDisclosure, VStack } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
@@ -136,6 +136,26 @@ const index = () => {
                                 </Flex>
                             </Box>
                         </Box>
+                    </Box>
+                    <Box bg={"white"} boxShadow={"xl"} p={3} rounded={8} mb={2}>
+                        <Heading py={3} size={"sm"} alignSelf={"center"}>Joshua Wong</Heading>
+                        <Text>Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong </Text>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
+                            <Text fontSize={"xs"} alignSelf={"end"}>
+                                {new Date("2022-11-29 07:34:05").toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
+                            </Text>
+                        </Flex>
+
+                    </Box>
+                    <Box bg={"white"} boxShadow={"xl"} p={3} rounded={8}>
+                        <Heading py={3} size={"sm"} alignSelf={"center"}>Joshua Wong</Heading>
+                        <Text>Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong </Text>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
+                            <Text fontSize={"xs"} alignSelf={"end"}>
+                                {new Date("2022-11-29 07:34:05").toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
+                            </Text>
+                        </Flex>
+
                     </Box>
                 </Box>
             }
