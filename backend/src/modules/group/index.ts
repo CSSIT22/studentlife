@@ -19,6 +19,7 @@ import banMember from "./routes/community/member/banMember"
 import setRole from "./routes/community/member/setRole"
 import unBanMember from "./routes/community/member/unBanMember"
 import getCommunityId from "./routes/community/getCommunityId"
+import getTag from "./routes/getTag"
 
 const groupRoutes = express()
 groupRoutes.use(express.json())
@@ -67,5 +68,6 @@ groupRoutes.delete("/unBanMember", unBanMember)
 
 groupRoutes.get("/getCommunityId/:id", getCommunityId)
 groupRoutes.get("/communityTest", communityTest)
+groupRoutes.get("/getTag",getTag)
 
 export default groupRoutes

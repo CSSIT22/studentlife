@@ -10,11 +10,15 @@ const communityTest = async (req: Request, res: Response) => {
                 tagId: true,
             },
             where: {
-                tagName: {
+                tagId: {
                     in: body.communityTag,
                 },
             },
         })
+
+        let isSelect = false
+
+        let haha = {tag2id,isSelect}
 
         let b: any = []
 
@@ -43,7 +47,7 @@ const communityTest = async (req: Request, res: Response) => {
             where:{}
         })
 
-        res.status(201).send(a)
+        res.status(201).send(haha)
     } catch (err) {
         console.log(err)
         res.status(403)

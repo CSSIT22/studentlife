@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Tooltip, Text, useDisclosure, Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, Input, Modal, Radio, RadioGroup, Textarea, useToast, VStack, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Collapse, IconButton, HStack } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { Tooltip, Text, useDisclosure, Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, Input, Modal, Radio, RadioGroup, Textarea, useToast, VStack, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Collapse, IconButton, HStack, useBoolean } from '@chakra-ui/react'
 import API from 'src/function/API'
 import AppBody from 'src/components/share/app/AppBody'
 import { IoIosArrowBack } from 'react-icons/io'
@@ -28,20 +28,39 @@ const createCommunity = () => {
     const [communityPrivacy, setCommunityPrivacy] = useState(true)//true = public, false = private
     const [communityCoverPhoto, setCommunityCoverPhoto] = useState("https://storage.googleapis.com/thistinestorage/photos/DSC_5803-Edit-2.jpg")
 
+    
+
     //tags 
-    const [tags, setTags] = useState(userData.Tag)
-    // const [isAdded, setIsAdded] = useState(false)
-    // const [showTag, setShowTag] = useState(false)
+    const [tags, setTags] = useState<any>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    
+    useEffect(() => {
+        API.get("/group/getTag/")
+            .then((res) => setTags(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
+
+    
+
     const [selectedTag, setSelectedTag] = useState<any>([]);
     const [updatedTag, setUpdatedTag] = useState<any>([]);
+    const [createTag, setCreateTag] = useState<any>([]);
 
+
+    useEffect(() => {
+            console.log(createTag)
+            console.log(updatedTag)
+            console.log(selectedTag)
+        }, [createTag])
     const handleAddTag = (tag: any) => {
         if (!tag.isSelected) {
             tag.isSelected = true
             setSelectedTag([...selectedTag, tag])
         } else {
             tag.isSelected = false
-            setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
+            setSelectedTag(selectedTag.filter((item: any) => item.tagId !== tag.tagId))
         }
     }
 
@@ -50,12 +69,10 @@ const createCommunity = () => {
         API.post("/group/createCommunity", {
             communityName: communityName,
             communityDesc: communityDesc,
-            communityPrivacy: communityPrivacy,
+            communityPrivacy: !communityPrivacy,
             communityCoverPhoto: communityCoverPhoto,
-            communityTags: updatedTag,
+            communityTags: createTag,
         }).then((res) => {
-            // console.log(res.status)
-            // console.log(res.data)
             toast({
                 title: "Success",
                 description: "Community created successfully",
@@ -118,7 +135,10 @@ const createCommunity = () => {
                     </FormControl>
 
                     <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Tags</FormLabel>
-                    <Box onClick={() => setIsTagBarOpen(true)}
+                    <Box onClick={() => {
+                        setIsTagBarOpen(true)
+                        setCreateTag([])
+                    }}
                         sx={{
                             bg: "white",
                             color: "#848383",
@@ -159,7 +179,7 @@ const createCommunity = () => {
                                             label={tag.tagDescription}>
                                             <Tag
 
-                                                key={tag.tagID}
+                                                key={tag.tagId}
                                                 shadow='lg'
                                                 fontSize={{ base: 'md', md: 'xs' }}
                                                 borderRadius='full'
@@ -343,8 +363,10 @@ const createCommunity = () => {
                         placement='bottom'
                         onClose={() => {
                             setIsTagBarOpen(false)
-                            // setShowTag(true)
                             setUpdatedTag(selectedTag)
+                            selectedTag.forEach((item:any) => {
+                                setCreateTag((createTag : any) => [...createTag, item.tagName])
+                            });
                         }}
                         isOpen={isTagBarOpen}>
                         <DrawerOverlay />
@@ -360,10 +382,10 @@ const createCommunity = () => {
                                 flexWrap='wrap'
                                 gap='2' >
                                 {
-                                    tags.map((tag) =>
-                                        <Tooltip hasArrow arrowSize={5} borderRadius='xl' label={tag.tagDescription}>
+                                    tags.map((tag:any) =>
+                                        <Tooltip hasArrow arrowSize={5} borderRadius='xl' label={tag.tagDesc}>
                                             <Tag
-                                                key={tag.tagID}
+                                                key={tag.tagId}
                                                 _hover={{ cursor: 'pointer' }}
                                                 shadow='lg'
                                                 borderRadius='full'

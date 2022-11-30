@@ -16,7 +16,7 @@ const createCommunity = async (req: Request, res: Response) => {
         },
         where: {
             tagName: {
-                in: body.communityTag,
+                in: body.communityTags,
             },
         },
         

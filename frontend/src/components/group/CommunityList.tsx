@@ -23,7 +23,7 @@ const CommunityList: FC<OwnCommunity> = ({ communityName, lastActive, communityC
                             <Box display="flex" alignItems="center" gap={1}>
                                 {communityPrivacy ? <MdPublicOff /> : <MdPublic />}
                                 <Text as="b" fontSize="sm">
-                                    {communityName}test
+                                    {communityName}
                                 </Text>
                             </Box>
                             <Text fontSize="sm">Last active {lastActive} days ago</Text>

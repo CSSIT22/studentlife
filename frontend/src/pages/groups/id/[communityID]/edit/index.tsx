@@ -522,20 +522,19 @@ const editCommunity = () => {
                             </Box>
                             <Box p="5" px="3" bg="#e67f45" paddingTop="5rem" borderBottomRadius="xl">
                                 <NavCommunity
-                                    disableBtn={true}
+                                    disabled={true}
                                     communityName={communityName ? communityName : "Community Name"}
-                                    isPrivate={!communityPrivacy}
+                                    communityPrivacy={!communityPrivacy}
                                     isMember={true}
-                                    description={
+                                    communityDesc={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    coverPhoto={communityCoverPhoto}
-                                    members={1}
-                                    communityID={"1"}
+                                    communityCoverPhoto={communityCoverPhoto}
+                                    communityMembers={1}
+                                    communityId={"1"}
                                     tags={updatedTag}
-                                    disableInvite={true}
                                 />
                             </Box>
                         </Box>
