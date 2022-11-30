@@ -1,6 +1,6 @@
-import { Box, Button, Flex, GridItem, Heading, Textarea, useBoolean, VStack } from '@chakra-ui/react'
+import { Box, Button, Flex, GridItem, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useBoolean, useDisclosure, VStack } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
 import CmList from 'src/components/shortnotes/cmList'
 import SnDetail from 'src/components/shortnotes/snDetail'
@@ -47,7 +47,9 @@ const index = () => {
                 }
                 setShortnote(item.data)
             }
-
+            if (item.data.isPublic == false) {
+                onOpen()
+            }
         }).finally(setLoad.off)
 
         //file()
@@ -81,6 +83,14 @@ const index = () => {
 
     }, [ress])
 
+
+    const blur = {
+        filter: "blur(8px)"
+    }
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const navigate = useNavigate()
+
     if (load) {
         return (
             <AppBody><Box mt={300}><Lottie style={style} animationData={loading}></Lottie></Box></AppBody>
@@ -104,12 +114,50 @@ const index = () => {
                 </Box>
             </Box>
                 :
-                <Box mt={300}>
-                    <Flex bg={"white"} rounded={8} boxShadow={"xl"} w={"100%"} h={"100%"}>
-                        <Heading alignSelf={"center"} textAlign={"center"}>Sorry, you don't have the permission to access this shortnote.</Heading>
-                    </Flex>
+                <Box style={blur}>
+                    <Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+                        <SnDetail
+                            topic={"What do you expect to see???"}
+                            course={"LOL555"}
+                            desc={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, voluptatem asperiores. Molestiae expedita minima ad in commodi veritatis iusto quaerat animi quis! Dolores voluptatem nesciunt porro quidem alias ut suscipit."}
+                            link={"youtu.be/dQw4w9WgXcQ"}
+                            owner={"Maibok Yaloktam"}
+                            date={shortnote.created}
+                            isPublic={shortnote.isPublic}
+                        />
+                    </Box>
+                    <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6} mb={4}>
+                        <Box mb={4} rounded={8}>
+                            <Box>
+                                <Heading size={"md"} mb={1}>
+                                    Comments
+                                </Heading>
+                                <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} />
+                                <Flex direction={"row"} justifyContent={"end"}>
+                                    <Button colorScheme={"orange"} >Comment</Button>
+                                </Flex>
+                            </Box>
+                        </Box>
+                    </Box>
                 </Box>
             }
+            <Modal isCentered closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Permission needed.</ModalHeader>
+                    <ModalBody pb={6}>
+                        You don't have a permission to access this shortnote.</ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='orange' mr={3} onClick={() => {
+                            navigate({
+                                pathname: "../shortnotes"
+                            })
+                        }}>
+                            Back
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </AppBody>
     )
 }
