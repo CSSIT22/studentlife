@@ -38,7 +38,7 @@ import {
     SimpleGrid,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
-import { AiFillDelete, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
+import { AiFillDelete, AiOutlineCloseCircle, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
@@ -71,7 +71,11 @@ const liList: FC<{
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: apIsOpen, onOpen: apOnOpen, onClose: apOnClose } = useDisclosure()
-
+    useEffect(() => {
+        if (!apIsOpen) {
+            setPeoples([])
+        }
+    }, [apIsOpen])
     const param = useParams()
 
     const navigate = useNavigate()
@@ -280,10 +284,22 @@ const liList: FC<{
                         </Grid>
                         <Box gap={2} mt={4} mb={4}>
                             <SimpleGrid columns={2} gap={4}>
-                                {people.map((people, key) => (
-                                    <Box bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={3}>
-                                        <Text textAlign={"center"}>{people}</Text>
-                                    </Box>
+                                {people.map((p, key) => (
+                                    <Grid templateColumns='repeat(5, 1fr)' bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
+                                        <GridItem colSpan={4}>
+                                            <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
+                                                <Text>{p}</Text>
+                                            </Flex>
+                                        </GridItem>
+                                        <GridItem>
+                                            <Button variant={"ghost"} onClick={() => {
+                                                let x = people.filter((e) => e != p)
+                                                setPeoples(x)
+                                            }}>
+                                                <AiOutlineCloseCircle />
+                                            </Button>
+                                        </GridItem>
+                                    </Grid>
                                 ))}
                             </SimpleGrid>
                         </Box>
