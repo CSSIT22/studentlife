@@ -43,9 +43,8 @@ const getCommunity = async (req: Request, res: Response) => {
 
         const suggestions = await prisma.community.findMany({
             where: {
-                communityId: {
-                    notIn: [...communityUser.map((item: any) => item.communityId), ...communityUserInvite.map((item: any) => item.communityId)],
-                },
+                communityId: { notIn: communityUser.map((item: any) => item.communityId) },
+                NOT:{communityOwnerId: userId}
             },
         })
 

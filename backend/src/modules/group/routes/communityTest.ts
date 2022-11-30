@@ -32,6 +32,22 @@ const communityTest = async (req: Request, res: Response) => {
             any: tag2id.map((item) => a.push({ tagid: item.tagId, communityId: body.communityId })),
         }
 
+
+        const communityUser = await prisma.community_User.findMany({
+            where: {
+                userId: body.user,
+                status: true,
+            },
+        })
+
+        const suggestions = await prisma.community.findMany({
+            where: {
+                communityId: { notIn: communityUser.map((item: any) => item.communityId) },
+                NOT:{communityOwnerId: body.user}
+            },
+        })
+
+
         const newTag = await prisma.community_Tag.findMany({
             where:{
                 tagId: { notIn: a.map((item: any) => item.tagId) },
@@ -47,7 +63,7 @@ const communityTest = async (req: Request, res: Response) => {
             where:{}
         })
 
-        res.status(201).send(haha)
+        res.send(suggestions)
     } catch (err) {
         console.log(err)
         res.status(403)
