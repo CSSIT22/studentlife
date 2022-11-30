@@ -209,3 +209,11 @@ export type Shop_Product_Review = {
     lName: string;
   }
 }
+
+export type Post_Product_Review = {
+  productId: number
+  reviewName: string
+  reviewDesc: string
+  reviewRating: number
+  image: string
+}

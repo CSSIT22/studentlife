@@ -13,6 +13,7 @@ import getAllProductsInCart from "./routes/get/getAllProductsInCart"
 import deleteCartProduct from "./routes/delete/deleteCartProduct"
 import incrementCPQuantity from "./routes/put/incrementCPQuantity"
 import decreaseCPQuantity from "./routes/put/decreaseCPQuantity"
+import postUserReview from "./routes/post/postUserReview"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -25,6 +26,7 @@ shopRoutes.get("/getAllCategories", getAllCategories)
 shopRoutes.get("/getAllProductsInCategory/:id", getAllProductsInCategory)
 // Review Routes
 shopRoutes.get("/getAllReviews/:productId", getAllReviews)
+shopRoutes.post("/postUserReview", postUserReview)
 // Contact routes
 shopRoutes.get("/getContactInfo/:id", getContactInfo)
 // Coupon Routes --> Not Complete

@@ -1,16 +1,40 @@
-import { Shop_Product, Shop_Product_Review } from '@apiType/shop'
-import { Text, Flex, Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Textarea, SimpleGrid, useBoolean, useDisclosure } from '@chakra-ui/react'
+import { Post_Product_Review, Shop_Product, Shop_Product_Review } from '@apiType/shop'
+import { Text, Flex, Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Textarea, SimpleGrid, useBoolean, useDisclosure, IconButton, Avatar } from '@chakra-ui/react'
 import { FC, useState } from 'react'
 import ContentBox from 'src/components/shop/ContentBox'
 import ReviewItem from 'src/components/shop/ReviewItem'
+import API from 'src/function/API'
+
+
 
 const ReviewBox: FC<{ product: Shop_Product, reviews: Shop_Product_Review[] | null }> = ({ product, reviews }) => {
-
+    const [form, setForm] = useState<Post_Product_Review>({
+        productId: product.productId,
+        reviewRating: 1,
+        reviewName: "",
+        reviewDesc: "",
+        image: ""
+    })
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [countReviews, setCountReviews] = useState(4)
     const [actionText, setActionText] = useState("Show All")
 
+    const onUpdateField = (e: React.ChangeEvent<HTMLInputElement>  | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        API.post("/shop/postUserReview", {
+            productId: form.productId,
+            reviewRating: parseInt(form.reviewRating.toString()),
+            reviewName: form.reviewName,
+            reviewDesc: form.reviewDesc,
+            image: form.image,
+            reviewAt: new Date()
+        }).then(res => {console.log(res);  alert("Review Submitted! Please Reload to see your Review");onClose()}).catch(err => {console.log(err); alert("There was an Error!")})
+    }
 
     function modalWriteReview(product: Shop_Product) {
         return (
@@ -20,40 +44,40 @@ const ReviewBox: FC<{ product: Shop_Product, reviews: Shop_Product_Review[] | nu
                     <ModalHeader>Write Review</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <FormControl>
-                            <Text align="center" fontSize="xl" fontWeight="bold" pb="4">
-                                {product.productName}{" "}
-                            </Text>
+                        <Text align="center" fontSize="xl" fontWeight="bold" pb="4">
+                            {product.productName}{" "}
+                        </Text>
+                        <form onSubmit={onSubmit}>
                             <Flex gap={3} direction="column" justify="space-evenly">
-                                <HStack justify="space-around">
+                                <FormControl isRequired>
                                     <FormLabel>Choose Rating</FormLabel>
-                                    <Select>
-                                        <option value="1star">1 Star</option>
-                                        <option value="2star">2 Star</option>
-                                        <option value="3star">3 Star</option>
-                                        <option value="4star">4 Star</option>
-                                        <option value="5star">5 Star</option>
+                                    <Select name="reviewRating" value={form.reviewRating} onChange={onUpdateField}>
+                                        <option value={1}>1 Star</option>
+                                        <option value={2}>2 Star</option>
+                                        <option value={3}>3 Star</option>
+                                        <option value={4}>4 Star</option>
+                                        <option value={5}>5 Star</option>
                                     </Select>
-                                </HStack>
-                                <HStack>
+                                </FormControl>
+                                <FormControl>
                                     <FormLabel>Review Title</FormLabel>
-                                    <Input type="text"></Input>
-                                </HStack>
-                                <HStack>
+                                    <Input type="text" name="reviewName" value={form.reviewName} onChange={onUpdateField}></Input>
+                                </FormControl>
+                                <FormControl isRequired>
                                     <FormLabel>Tell us your experience</FormLabel>
-                                    <Textarea></Textarea>
-                                </HStack>
-                                <HStack>
-                                    <Text>Upload Image</Text>
-                                    <Input type="file" accept="image/*"></Input>
-                                </HStack>
+                                    <Textarea name= "reviewDesc" value = {form.reviewDesc} onChange={onUpdateField}></Textarea>
+                                </FormControl>
+                                <FormControl>
+                                    <Text>Paste Image Url</Text>
+                                    <Input type="url"  value= {form.image} name="image" onChange={onUpdateField}/>
+                                </FormControl>
+                                <Button type='submit' w="full" colorScheme="blue" mr={3}>
+                                    Submit
+                                </Button>
                             </Flex>
-                        </FormControl>
+                        </form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button w="full" colorScheme="blue" mr={3} onClick={onClose}>
-                            Submit
-                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
