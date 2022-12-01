@@ -122,6 +122,7 @@ function generateReviews(count: number, reviews: Shop_Product_Review[] | null) {
             const returnReviews = []
             for (let i = 0; i < reviews.length; i++) {
                 returnReviews.push(
+                    <div key={i}>
                     <ReviewItem
                         userName={reviews[i].user.fName + " " + reviews[i].user.lName}
                         userId={reviews[i].user.userId}
@@ -130,7 +131,7 @@ function generateReviews(count: number, reviews: Shop_Product_Review[] | null) {
                         rating={reviews[i].reviewRating}
                         image={reviews[i].image}
                         reviewDate={reviews[i].reviewAt.toString()}
-                    ></ReviewItem>)
+                    ></ReviewItem></div>)
             }
             return (
                 <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>

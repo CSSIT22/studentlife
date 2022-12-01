@@ -4,7 +4,6 @@ import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { placeHolderImg } from './content/extraData'
 import convertCurrency from './functions/usefulFunctions'
-import ThemedButton from './ThemedButton'
 
 type propsType =
     FC<{

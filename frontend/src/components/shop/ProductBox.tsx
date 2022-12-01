@@ -89,7 +89,7 @@ function slidesGenerator(product: Shop_Product | null) {
             })
             for (let i = 0; i < imgs.length; i++) {
                 slides.push(
-                    <SwiperSlide>
+                    <SwiperSlide key={imgs[i]}>
                         <Image
                             src={imgs[i]}
                             width={"auto"}

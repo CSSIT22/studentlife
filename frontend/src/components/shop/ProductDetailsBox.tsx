@@ -12,8 +12,7 @@ const ProductDetailsBox:FC<{product: Shop_Product, oRating: string | number}> = 
                 <Text fontWeight="500" fontSize="xl" color="black">
                     Product Details of {product.productName}
                 </Text>
-
-                <Text pt="3">{renderMultipleLineText(product.productDesc)}</Text>
+                {renderMultipleLineText(product.productDesc)}
                 <Flex gap={3} pt="5">
                     <Spacer />
                     <Pill bg="#a5e">
@@ -38,7 +37,7 @@ const ProductDetailsBox:FC<{product: Shop_Product, oRating: string | number}> = 
 function renderMultipleLineText(text: string) {
     return text.split("?*?").map((i, key) => {
         if (i == "" || i == " " || i == "  ") {
-            return <Box p={2}></Box>
+            return <Box key={key} p={2}></Box>
         }
         return <Text key={key} >{i}</Text>;
     })
