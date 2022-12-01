@@ -2,6 +2,7 @@ import { Shop_Coupon } from "@apiType/shop"
 import { Breadcrumb, Center, Container, Divider, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { setDataAPI } from "src/components/shop/functions/usefulFunctions"
+import ProductCouponDisplay from "src/components/shop/ProductCouponDisplay"
 import CouponDisplay from "../../../components/shop/CouponDisplay"
 import PageTitle from "../../../components/shop/PageTitle"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
@@ -13,7 +14,7 @@ const Coupons = () => {
     return (
         <ShopAppBody>
             <PageTitle title="Your Coupons" />
-            <Flex gap={5} direction="column">
+            <Flex gap={5} direction="row" wrap={"wrap"}>
                 {generateCoupons(coupons)}
             </Flex>
         </ShopAppBody>
@@ -23,20 +24,18 @@ const Coupons = () => {
 export default Coupons
 function generateCoupons(coupons: Shop_Coupon[] | null) {
     if (coupons != null && coupons.length > 0) {
-        const data = []
         let date = coupons[0].validTill.toString().split("T")[0]
-        for (let i = 0; i < coupons.length; i++) {
-            data.push(
-                <CouponDisplay
-                    couponCode={coupons[i].couponCode}
-                    discountAmount={parseFloat(coupons[i].discount)}
-                    details={coupons[i].couponDesc}
+        return coupons.map((coupon, key) =>
+            <div key={key}>
+                <ProductCouponDisplay
+                    couponCode={coupon.couponCode}
+                    discountAmount={parseFloat(coupon.discount)}
+                    details={coupon.couponDesc}
+                    minSpend={parseFloat(coupon.minimumSpend)}
                     validUntil={date + ""}
-                    minSpend={parseFloat(coupons[i].minimumSpend)}
-                ></CouponDisplay>
-            )
-        }
-        return data
+                    productId={coupon.productId}
+                    image={coupon.product.images[0].image} /></div>
+        )
     } else {
         return "You don't have any coupons"
     }

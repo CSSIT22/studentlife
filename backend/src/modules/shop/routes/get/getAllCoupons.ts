@@ -4,7 +4,15 @@ import { Request, Response } from "express"
 const getAllCoupons = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
-        const coupons: Shop_Coupon[] = await prisma.shop_Coupon.findMany()
+        const coupons: Shop_Coupon[] = await prisma.shop_Coupon.findMany({
+            include: {
+                product: {
+                    select: {
+                        images: {select: {image: true}}
+                    }
+                }
+            }
+        })
         let couponDetails = []
         for (let i = 0; i < coupons.length; i++) {
             let expDate = new Date(coupons[i].validTill.toString())

@@ -87,6 +87,11 @@ export type Shop_Coupon = {
   minimumSpend: string
   productId: number
   quota: number
+  product: {
+    images: {
+      image: string
+    }[]
+  }
 }
 
 /**
