@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import { userData } from '../data'
 import useWindowDimensions from 'src/components/group/hooks/useWindowDimensions'
 import NavCommunity from 'src/components/group/NavCommunity'
-import { SearchIcon } from '@chakra-ui/icons'
+import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons'
 import FriendInviteList from 'src/components/group/FriendInviteList'
 import { desktopStyle, mobileStyle } from 'src/components/group/styles/styles'
 
@@ -28,13 +28,13 @@ const createCommunity = () => {
     const [communityPrivacy, setCommunityPrivacy] = useState(true)//true = public, false = private
     const [communityCoverPhoto, setCommunityCoverPhoto] = useState("https://storage.googleapis.com/thistinestorage/photos/DSC_5803-Edit-2.jpg")
 
-    
+
 
     //tags 
     const [tags, setTags] = useState<any>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    
+
     useEffect(() => {
         API.get("/group/getTag/")
             .then((res) => setTags(res.data))
@@ -42,7 +42,7 @@ const createCommunity = () => {
             .finally(() => off())
     }, [])
 
-    
+
 
     const [selectedTag, setSelectedTag] = useState<any>([]);
     const [updatedTag, setUpdatedTag] = useState<any>([]);
@@ -50,10 +50,10 @@ const createCommunity = () => {
 
 
     useEffect(() => {
-            console.log(createTag)
-            console.log(updatedTag)
-            console.log(selectedTag)
-        }, [createTag])
+        console.log(createTag)
+        console.log(updatedTag)
+        console.log(selectedTag)
+    }, [createTag])
     const handleAddTag = (tag: any) => {
         if (!tag.isSelected) {
             tag.isSelected = true
@@ -108,16 +108,21 @@ const createCommunity = () => {
                     background={{ base: 'none', md: '#E67F45' }}
                     width='full'
                 >
-                    <Heading
-                        color={{ base: 'gray.600', md: 'white' }}
-                        size={{ base: 'lg', md: 'md' }}
-                        display="flex"
-                        alignItems="center"
-                        mb={4}
-                    >
-                        <Link to={"/groups"}>
-                            <IoIosArrowBack />
-                        </Link>
+                    <Flex gap='0.25' fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
+                        <Box _hover={{ textDecoration: 'underline' }}>
+                            <Link to={"/groups"}>Community</Link>
+                        </Box>
+                        <Box mt={'-0.25'}>
+                            <ChevronRightIcon />
+                        </Box>
+                        <Text>Create Community</Text>
+                    </Flex>
+                    <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={{ md: '3', base: '2' }}>
+                        <Box display={{ base: 'block', md: 'none' }} ml='-6' mb={'1'}>
+                            <Link to={"/groups/"} >
+                                <ChevronLeftIcon />
+                            </Link>
+                        </Box>
                         Create Community
                     </Heading>
                     <FormControl
@@ -344,15 +349,17 @@ const createCommunity = () => {
                     {/* </form> */}
 
                     {/* Modal for confirmation */}
-                    <Modal isOpen={isOpen} onClose={onClose}>
+                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
                         <ModalOverlay />
                         <ModalContent>
                             <ModalHeader> Are you sure you want to create the community?</ModalHeader>
                             <ModalCloseButton />
                             <ModalFooter>
-                                <Button onClick={submit} colorScheme='blue' mr={3} >
-                                    Sure
-                                </Button>
+                                <Link to={"/groups"}>
+                                    <Button onClick={submit} colorScheme='blue' mr={3} >
+                                        Sure
+                                    </Button>
+                                </Link>
                                 <Button variant='cancel'>Cancel</Button>
                             </ModalFooter>
                         </ModalContent>
@@ -364,8 +371,8 @@ const createCommunity = () => {
                         onClose={() => {
                             setIsTagBarOpen(false)
                             setUpdatedTag(selectedTag)
-                            selectedTag.forEach((item:any) => {
-                                setCreateTag((createTag : any) => [...createTag, item.tagName])
+                            selectedTag.forEach((item: any) => {
+                                setCreateTag((createTag: any) => [...createTag, item.tagName])
                             });
                         }}
                         isOpen={isTagBarOpen}>
@@ -382,7 +389,7 @@ const createCommunity = () => {
                                 flexWrap='wrap'
                                 gap='2' >
                                 {
-                                    tags.map((tag:any) =>
+                                    tags.map((tag: any) =>
                                         <Tooltip hasArrow arrowSize={5} borderRadius='xl' label={tag.tagDesc}>
                                             <Tag
                                                 key={tag.tagId}

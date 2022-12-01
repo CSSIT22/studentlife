@@ -1,5 +1,5 @@
-import { Show, Box, HStack, Button, Input, Stack, Text, Flex, Grid, useBoolean } from "@chakra-ui/react"
-import React, { Suspense, useEffect, useState } from "react"
+import { Show, Box, HStack, Button, Input, Stack, Text, Flex, Grid, useBoolean, Modal, useDisclosure, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import AppBody from "src/components/share/app/AppBody"
 import { FaSearch, FaPlus } from "react-icons/fa"
 import { TiWarning } from "react-icons/ti"
@@ -11,7 +11,8 @@ import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
 import { Link } from "react-router-dom"
 import API from "src/function/API"
 
-import { OwnCommunity, JoinedCommunity, InvitedCommunity, SuggestionsCommunity, CommunityType } from '@apiType/group'
+import { OwnCommunity, JoinedCommunity, InvitedCommunity, SuggestionsCommunity } from '@apiType/group'
+import { SearchIcon } from "@chakra-ui/icons"
 const index = () => {
     const [searchBtn, setSearchBtn] = useState(false) //for close/open seach bar
     const [searchValue, setSearchValue] = useState("") //for store search value
@@ -20,6 +21,8 @@ const index = () => {
         setSearchBtn(!searchBtn)
         setSearchValue("")
     }
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     //for mobile
     const [{ allBtn, inviteBtn, suggestBtn }, setBtn] = useState({ allBtn: true, inviteBtn: false, suggestBtn: false })
@@ -157,6 +160,7 @@ const index = () => {
         <AppBody>
             <Flex gap={2} direction={{ base: "column", md: "row" }} mb={4}>
                 <Box>
+
                     <Show below="md">
                         <HStack justify={"space-between"}>
                             <HStack gap={1} display={searchBtn ? "none" : "flex"}>
@@ -241,19 +245,46 @@ const index = () => {
                     </Show>
                     <Show above="md">
                         <Box textAlign={"center"}>
-                            <Input
+                            <Button
                                 background={"white"}
-                                color="black"
-                                boxShadow={"2xl"}
+                                boxShadow={"md"}
                                 textAlign={"center"}
                                 width={"100%"}
-                                variant={"filled"}
-                                type={"search"}
-                                value={searchValue}
-                                onChange={handleChange}
-                                placeholder="Seacrh Communities"
-                                focusBorderColor="gray.200"
-                            ></Input>
+                                onClick={onOpen}
+                            >
+                                <HStack>
+                                    <SearchIcon />
+                                    <Text>
+                                        Seacrh Communities
+                                    </Text>
+                                </HStack>
+                            </Button>
+                            <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+                                <ModalOverlay />
+                                <ModalContent>
+                                    {/* <ModalCloseButton /> */}
+                                    <ModalBody>
+                                        <HStack >
+                                            <Box textAlign={'center'} mb='1' mr='2' >
+                                                <SearchIcon color='green' />
+                                            </Box>
+                                            <Input
+                                                background={"white"}
+                                                color="black"
+                                                textAlign={"center"}
+                                                width={"100%"}
+                                                variant={"filled"}
+                                                type={"search"}
+                                                value={searchValue}
+                                                onChange={handleChange}
+                                                placeholder="Seacrh Communities"
+                                                focusBorderColor="gray.200"
+                                                onClick={onOpen}
+                                            ></Input>
+                                        </HStack>
+                                    </ModalBody>
+                                </ModalContent>
+                            </Modal>
                             <Link to={"/groups/create"}>
                                 <Button mt="2"
                                     bg="orange.400"
@@ -358,7 +389,7 @@ const index = () => {
                     </Box>
                 </Show>
             </Flex>
-        </AppBody>
+        </AppBody >
     )
 }
 
