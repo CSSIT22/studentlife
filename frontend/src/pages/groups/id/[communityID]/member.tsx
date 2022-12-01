@@ -11,12 +11,17 @@ import API from "src/function/API"
 const Member = () => {
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
+    const [tag, setTag] = useState<any>()
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
 
     useEffect(() => {
         API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
+            .then((res) => {
+                setCommunity(res.data.communityById)
+                setTag(res.data.tag)
+                console.log(res.data.tag)
+            })
             .catch((err) => on())
             .finally(() => off())
     }, [])

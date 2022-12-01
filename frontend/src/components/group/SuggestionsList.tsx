@@ -2,9 +2,14 @@ import { SuggestionsCommunity } from "@apiType/group"
 import { HStack, Box, Image, Text, Button, Flex } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
+import { Link } from "react-router-dom"
 
-const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMember, communityCoverPhoto, communityPrivacy }) => {
+
+
+
+const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMember, communityCoverPhoto, communityPrivacy ,communityId}) => {
     return (
+        <Link to={`/groups/id/${communityId}`}>
         <Box
             sx={{ transition: "transform ease 300ms" }}
             _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }}
@@ -45,11 +50,12 @@ const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMem
                         color="white"
                         size="sm"
                     >
-                        Join Community
+                        Go to Community
                     </Button>
                 </Flex>
             </Box>
         </Box>
+        </Link>
     )
 }
 

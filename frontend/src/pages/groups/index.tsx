@@ -105,7 +105,7 @@ const index = () => {
     }
     const renderSuggestCommunity = () => {
         return (
-            community?.communityList.suggestions.map((community: SuggestionsCommunity) => {
+            community?.communityList.suggestions.slice(0, 4).map((community: SuggestionsCommunity) => {
                 return (
                     <SuggestionsList
                         key={community.communityId}
@@ -113,6 +113,7 @@ const index = () => {
                         communityCoverPhoto={community.communityCoverPhoto}
                         communityMember={community.communityMember}
                         communityPrivacy={community.communityPrivacy}
+                        communityId={community.communityId}
                     />
                 )
             }))

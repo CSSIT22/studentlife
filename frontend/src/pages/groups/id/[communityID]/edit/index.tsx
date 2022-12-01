@@ -63,17 +63,11 @@ const editCommunity = () => {
     const [searchValue, setSearchValue] = useState("") //for store search value
 
 
-    let { communityID }: any = useParams()
-    const [community, setCommunity] = useState<any>()
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-
-    useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
-            .catch((err) => on())
-            .finally(() => off())
-    }, [])
+     //tags
+     const [tags, setTags] = useState(userData.Tag)
+     const [createTag, setCreateTag] = useState<any>([]);
+     const [selectedTag, setSelectedTag] = useState<any>([])
+     const [updatedTag, setUpdatedTag] = useState<any>([])
 
 
 
@@ -87,12 +81,34 @@ const editCommunity = () => {
         "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
     )
 
-    //tags
-    const [tags, setTags] = useState(userData.Tag)
-    // const [isAdded, setIsAdded] = useState(false)
-    // const [showTag, setShowTag] = useState(false)
-    const [selectedTag, setSelectedTag] = useState<any>([])
-    const [updatedTag, setUpdatedTag] = useState<any>([])
+    let { communityID }: any = useParams()
+    const [community, setCommunity] = useState<any>()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
+    useEffect(() => {
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => {
+                setCommunityName(res.data.communityById.communityName)
+                setCommunityDesc(res.data.communityById.communityDesc)
+                setCommunityPrivacy(res.data.communityById.communityPrivacy)
+                setUpdatedTag(res.data.tag)
+                setCreateTag(res.data.tag)
+            })
+            .catch((err) => on())
+            .finally(() => off())
+        API.get("/group/getTag/")
+        .then((res) => setTags(res.data))
+        .catch((err) => on())
+        .finally(() => off())
+    }, [])
+
+
+    useEffect(() => {
+        console.log(createTag)
+        console.log(updatedTag)
+        console.log(selectedTag)
+    }, [updatedTag])
 
     const handleAddTag = (tag: any) => {
         if (!tag.isSelected) {
@@ -164,12 +180,12 @@ const editCommunity = () => {
 
     //Send data to backend
     const submit = () => {
-        API.post("/group/createtest", {
+        API.post("/group/editCommunity", {
             communityName: communityName,
             communityDesc: communityDesc,
             communityPrivacy: communityPrivacy,
             communityCoverPhoto: communityCoverPhoto,
-            communityTags: updatedTag,
+            communityTags: createTag,
         })
             .then((res) => {
                 toast({
@@ -238,8 +254,9 @@ const editCommunity = () => {
                     </FormControl>
 
                     <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Tags</FormLabel>
-                    <Box
-                        onClick={() => setIsTagBarOpen(true)}
+                    <Box onClick={() => {
+                        setIsTagBarOpen(true)
+                    }}
                         sx={{
                             bg: "white",
                             color: "#848383",
@@ -446,8 +463,13 @@ const editCommunity = () => {
                         placement="bottom"
                         onClose={() => {
                             setIsTagBarOpen(false)
-                            // setShowTag(true)
-                            setUpdatedTag(selectedTag)
+                            if(selectedTag.length != 0){
+                                setUpdatedTag(selectedTag)
+                                setCreateTag([])
+                                selectedTag.forEach((item: any) => {
+                                    setCreateTag((createTag: any) => [...createTag, item.tagName])
+                                });
+                            }
                         }}
                         isOpen={isTagBarOpen}
                     >
