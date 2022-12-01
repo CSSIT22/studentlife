@@ -110,13 +110,13 @@ export default function SimpleThreeColumns() {
                     <VStack align="stretch" alignSelf={{ md: "center", base: "" }} alignItems={{ base: "center", md: "" }} ml={7}>
                         <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
                             <Avatar
-                                pt={2}
-                                mt={{ md: "-70px", base: "0" }}
+                                mt={{ md: "-80px", base: "0" }}
                                 display="flex"
                                 position="initial"
-                                float={"inline-end"}
+                                // float={"inline-end"}
                                 size={{ md: "3xl", base: "xl" }}
                                 shadow="xl"
+                                bg='orange.400'
                                 // src="https://bit.ly/code-beast"
                                 // src={`data:image/png;base64,${userData.image}`}
                                 src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + userData?.userId}

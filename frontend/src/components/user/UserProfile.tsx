@@ -51,6 +51,8 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     let history = useNavigate()
     let navigate = useNavigate()
 
+    const { isOpen: isProfileOpen, onOpen: onProfileopen, onClose: onProfileClose } = useDisclosure()
+
     const param = useParams();
     const [isFollow, setIsFollow] = useState<boolean>(false)
     const [Phone, setPhone] = useState<string>("")
@@ -146,18 +148,38 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <VStack align="stretch" alignItems="center" ml={7} mt="5">
-                        <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }}>
+                        <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }} whileHover={{ scale: 0.9 }}>
                             <Avatar
-                                pt={2}
+                                borderRadius='full'
                                 mt={{ md: "-70px", base: "0" }}
                                 display="flex"
                                 position="initial"
                                 float={"inline-end"}
                                 size={{ md: "3xl", base: "2xl" }}
                                 shadow="xl"
+                                bg='orange.400'
                                 src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user?.userId}
+                                _hover={{ cursor: "pointer" }}
+                                onClick={onProfileopen}
                             />
                         </motion.div>{" "}
+                        <Modal isOpen={isProfileOpen} onClose={onProfileClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Modal Title</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                    Wat
+                                </ModalBody>
+
+                                <ModalFooter>
+                                    <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                        Close
+                                    </Button>
+                                    <Button variant='ghost'>Secondary Action</Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                             Rating : {rating}
                         </Box>
@@ -215,7 +237,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "10", lg: "6" }}>
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
-                        <motion.div whileHover={{ scale: 0.9 }}>
+                        <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 1.2 }}>
                             <Button
                                 pl={5}
                                 width={{ xl: "7rem", lg: "5rem", base: "" }}
@@ -302,7 +324,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
 
                                 </ModalFooter>
                             </ModalContent>
-                        </Modal><motion.div whileHover={{ scale: 0.9 }}>
+                        </Modal><motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.7 }}>
                             <Button
                                 pl={5}
                                 bg="orange.600"
