@@ -57,16 +57,36 @@ const Cart = () => {
         setCouponSuccess(true)
         setErrorCoupon(false)
     }
+
+    const checkProductInCart = (productId: number) : boolean => {
+        if (cartProducts != null){
+            for (let i = 0; i < cartProducts?.length; i++){
+                if (cartProducts[i].productId == productId){
+                    return true
+                }
+            }
+            return false
+        } else {
+            return false
+        }
+        
+    }
+
     const applyCoupon = () => {
         if (userCoupons != null && userCoupons.length > 0){
             for (let i = 0; i < userCoupons.length; i++){
                 if (userCoupons[i].couponCode.toLowerCase() == couponCode.toLowerCase()){
-                    let expDate =  new Date(userCoupons[i].validTill.toString())
-                    let now = new Date()
                     if (userCoupons[i].quota > 0 ){
+                        let expDate =  new Date(userCoupons[i].validTill.toString())
+                        let now = new Date()
                         if (now < expDate ){
                             if (parseFloat(userCoupons[i].minimumSpend) <= summeryData.total){
-                                couponSuccess(parseFloat(userCoupons[i].discount))
+                                if (checkProductInCart(userCoupons[i].productId)){
+                                    couponSuccess(parseFloat(userCoupons[i].discount))
+                                    return
+                                }
+                                setErrorCoupon(true)
+                                setErrorMsg("Please put the required product in your cart before proceeding!")
                                 return
                             }
                             setErrorCoupon(true)

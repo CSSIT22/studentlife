@@ -1,5 +1,5 @@
 
-import { Shop_Product } from "@prisma/client"
+import { Shop_Product, User_Coupon } from "@prisma/client"
 import { Request, Response } from "express"
 
 const getAllProducts = async (req: Request, res: Response) => {
