@@ -6,6 +6,10 @@ const getCommunityId = async (req: Request, res: Response) => {
     const id = req.params.id
 
     try {
+
+
+
+        
         const communityById = await prisma.community.findUnique({
             where: {
                 communityId: id,

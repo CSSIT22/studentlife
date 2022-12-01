@@ -5,65 +5,80 @@ const communityTest = async (req: Request, res: Response) => {
     const body = req.body
 
     try {
-        const tag2id = await prisma.tag.findMany({
-            select: {
-                tagId: true,
-            },
-            where: {
-                tagId: {
-                    in: body.communityTag,
-                },
-            },
-        })
+        // const tag2id = await prisma.tag.findMany({
+        //     select: {
+        //         tagId: true,
+        //     },
+        //     where: {
+        //         tagId: {
+        //             in: body.communityTag,
+        //         },
+        //     },
+        // })
 
-        let isSelect = false
+        // let a: any = []
 
-        let haha = {tag2id,isSelect}
-
-        let b: any = []
-
-        let y: any = {
-            any: tag2id.map((item) => b.push(item.tagId)),
-        }
-
-        let a: any = []
-
-        let x: any = {
-            any: tag2id.map((item) => a.push({ tagid: item.tagId, communityId: body.communityId })),
-        }
+        // let x: any = {
+        //     any: tag2id.map((item) => a.push({ tagid: item.tagId, communityId: body.communityId })),
+        // }
 
 
-        const communityUser = await prisma.community_User.findMany({
-            where: {
-                userId: body.user,
-                status: true,
-            },
-        })
+        // const communityUser = await prisma.community_User.findMany({
+        //     where: {
+        //         userId: body.user,
+        //         status: true,
+        //     },
+        // })
 
-        const suggestions = await prisma.community.findMany({
-            where: {
-                communityId: { notIn: communityUser.map((item: any) => item.communityId) },
-                NOT:{communityOwnerId: body.user}
-            },
-        })
+        // const suggestions = await prisma.community.findMany({
+        //     where: {
+        //         communityId: { notIn: communityUser.map((item: any) => item.communityId) },
+        //         NOT:{communityOwnerId: body.user}
+        //     },
+        // })
 
 
-        const newTag = await prisma.community_Tag.findMany({
-            where:{
-                tagId: { notIn: a.map((item: any) => item.tagId) },
-            }
-        })
 
-        const test = await prisma.restaurant.findMany({
-            select:{
-                resName:true,
-                images:true,
-                
-            },
-            where:{}
-        })
+        // const communityById = await prisma.community.findUnique({
+        //     where: {
+        //         communityId: body.communityId,
+        //     },
+        //     include: {
+        //         tags: true,
+        //     },
+        // })
 
-        res.send(suggestions)
+
+        // const tags = await prisma.community_Tag.findMany({
+        //     select:{tagId:true},
+        //     where:{communityId:body.id}
+        // })
+
+        // let tagIn:any = []
+
+        // let x: any = {
+        //     any: tags.map((item) => tagIn.push(item.tagId)),
+        // }
+
+
+
+
+
+        // let b : any = []
+        // let y: any = {
+        //     any: tags.map((item) => a.push({tagId:item.tagId,tagName:item.tagName.trim(),tagDesc:item.tagDesc , isSelected: false })),
+        // }
+
+        // await prisma.community.update({
+        //     where: {
+        //         communityId: body.communityId,
+        //     },
+        //     data: {communityName:body.communityName}
+            
+        // })
+
+
+        res.send(req.params.id)
     } catch (err) {
         console.log(err)
         res.status(403)

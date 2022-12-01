@@ -9,8 +9,10 @@ const editCommunity = async (req: Request, res: Response) => {
         communityName: body.communityName,
         communityDesc: body.communityDesc,
         communityPrivacy: body.communityPrivacy,
-        communityPhoto: body.communityCoverPhoto,
     }
+
+    console.log("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+    console.log(id)
 
     const tag2id = await prisma.tag.findMany({
         select: {
@@ -18,7 +20,7 @@ const editCommunity = async (req: Request, res: Response) => {
         },
         where: {
             tagName: {
-                in: body.communityTag,
+                in: body.communityTags,
             },
         },
     })
@@ -26,7 +28,7 @@ const editCommunity = async (req: Request, res: Response) => {
     let a: any = []
 
     let x: any = {
-        any: tag2id.map((item) => a.push({ tagId: item.tagId, communityId: body.communityId })),//req.params.communityId
+        any: tag2id.map((item) => a.push({ tagId: item.tagId, communityId: id })),//req.params.communityId
     }
 
 
@@ -50,6 +52,7 @@ const editCommunity = async (req: Request, res: Response) => {
             data: a,
         })
 
+        console.log("success ?")
         res.status(201).send("Edit Success")
 
     } catch(err) {

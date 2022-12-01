@@ -63,11 +63,11 @@ const editCommunity = () => {
     const [searchValue, setSearchValue] = useState("") //for store search value
 
 
-     //tags
-     const [tags, setTags] = useState(userData.Tag)
-     const [createTag, setCreateTag] = useState<any>([]);
-     const [selectedTag, setSelectedTag] = useState<any>([])
-     const [updatedTag, setUpdatedTag] = useState<any>([])
+    //tags
+    const [tags, setTags] = useState(userData.Tag)
+    const [createTag, setCreateTag] = useState<any>([]);
+    const [selectedTag, setSelectedTag] = useState<any>([])
+    const [updatedTag, setUpdatedTag] = useState<any>([])
 
 
 
@@ -98,9 +98,9 @@ const editCommunity = () => {
             .catch((err) => on())
             .finally(() => off())
         API.get("/group/getTag/")
-        .then((res) => setTags(res.data))
-        .catch((err) => on())
-        .finally(() => off())
+            .then((res) => setTags(res.data))
+            .catch((err) => on())
+            .finally(() => off())
     }, [])
 
 
@@ -180,11 +180,10 @@ const editCommunity = () => {
 
     //Send data to backend
     const submit = () => {
-        API.post("/group/editCommunity", {
+        API.patch("/group/editCommunity" + communityID, {
             communityName: communityName,
             communityDesc: communityDesc,
             communityPrivacy: communityPrivacy,
-            communityCoverPhoto: communityCoverPhoto,
             communityTags: createTag,
         })
             .then((res) => {
@@ -463,7 +462,7 @@ const editCommunity = () => {
                         placement="bottom"
                         onClose={() => {
                             setIsTagBarOpen(false)
-                            if(selectedTag.length != 0){
+                            if (selectedTag.length != 0) {
                                 setUpdatedTag(selectedTag)
                                 setCreateTag([])
                                 selectedTag.forEach((item: any) => {

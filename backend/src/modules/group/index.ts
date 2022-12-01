@@ -46,7 +46,7 @@ groupRoutes.post("/createtest", (req, res) => {
 groupRoutes.post("/createCommunity", createCommunity)
 groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.get("/searchCommunity", searchCommunity)
-groupRoutes.post("/editCommunity", editCommunity)
+groupRoutes.patch("/editCommunity:id", editCommunity)
 groupRoutes.get("/getCommunity", getCommunity)
 
 groupRoutes.post("/pendingRequest", pendingRequest)
