@@ -103,7 +103,7 @@ const editCommunity = () => {
             setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
         }
     }
-    
+
     //form styles
     const desktopStyle = {
         input: {
@@ -161,7 +161,7 @@ const editCommunity = () => {
 
 
 
-    
+
     //Send data to backend
     const submit = () => {
         API.post("/group/createtest", {
@@ -210,7 +210,7 @@ const editCommunity = () => {
                 >
                     <Flex gap='0.25' fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
                         <Box _hover={{ textDecoration: 'underline' }}>
-                            <Link to={"/groups"}>Community</Link>
+                            <Link to={`/groups/id/${communityID}/`}>Community</Link>
                         </Box>
                         <Box mt={'-0.25'}>
                             <ChevronRightIcon />
@@ -219,7 +219,7 @@ const editCommunity = () => {
                     </Flex>
                     <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={{ md: '3', base: '2' }}>
                         <Box display={{ base: 'block', md: 'none' }} ml='-6' mb={'1'}>
-                            <Link to={"/groups/id/1000"} >
+                            <Link to={`/groups/id/${communityID}/`}>
                                 <ChevronLeftIcon />
                             </Link>
                         </Box>
@@ -431,9 +431,11 @@ const editCommunity = () => {
                                 Are you sure you want to save?
                             </ModalBody>
                             <ModalFooter>
-                                <Button onClick={submit} colorScheme="blue" mr={3} boxShadow='md'>
-                                    Sure
-                                </Button>
+                                <Link to={`/groups/id/${communityID}/`}>
+                                    <Button onClick={submit} colorScheme="blue" mr={3} boxShadow='md'>
+                                        Sure
+                                    </Button>
+                                </Link>
                                 <Button variant="cancel" onClick={onClose} boxShadow='md'>Cancel</Button>
                             </ModalFooter>
                         </ModalContent>
