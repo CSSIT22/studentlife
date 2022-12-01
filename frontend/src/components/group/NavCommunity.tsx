@@ -161,6 +161,7 @@ const NavCommunity: FC<{
                                         background={"orange.500"}
                                         _hover={{ background: "orange.200", cursor: "pointer" }}
                                         color={"white"}
+                                        _active={{ background: 'orange.200' }}
                                     >
                                         Invite
                                     </Button>
@@ -191,6 +192,7 @@ const NavCommunity: FC<{
                                                                     _hover={{ cursor: "default", background: "default" }}
                                                                     background={"white"}
                                                                     icon={<SearchIcon />}
+                                                                    _active={{ background: 'default' }}
                                                                 />
                                                             </Box>
                                                             <Box width={"100%"} backgroundColor={"white"} color={"black"}>
@@ -326,21 +328,21 @@ const NavCommunity: FC<{
                         </div>
                     </HStack>
 
-                <Flex mt={2} flexWrap={"wrap"} gap={1}>
-                    {tags?.map((t: any) => (
-                        <Box
-                            backgroundColor={"orange.500"}
-                            color={"white"}
-                            fontWeight={"medium"}
-                            px={3}
-                            borderRadius={"md"}
-                            fontSize="xs"
-                            key={t.tagID}
-                        >
-                            {t.tagName}
-                        </Box>
-                    ))}
-                </Flex>
+                    <Flex mt={2} flexWrap={"wrap"} gap={1}>
+                        {tags?.map((t: any) => (
+                            <Box
+                                backgroundColor={"orange.500"}
+                                color={"white"}
+                                fontWeight={"medium"}
+                                px={3}
+                                borderRadius={"md"}
+                                fontSize="xs"
+                                key={t.tagID}
+                            >
+                                {t.tagName}
+                            </Box>
+                        ))}
+                    </Flex>
 
                     <Text mt={2} fontSize="xs" padding={1}>
                         {communityDesc}
@@ -382,28 +384,28 @@ const NavCommunity: FC<{
                     </Flex>
                 </Box>
 
-            <Flex direction="column" justify={"center"} align="center" mt={3}>
-                {communityPrivacy && communityId != "" ? (
-                    <Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
-                        <HStack gap={2} p={2}>
-                            <Box height={"55px"}></Box>
-                            <div>
-                                <Box display="flex" alignItems="center" gap={1}>
-                                    <TiWarning />
-                                    <Text as="b" fontSize="sm">
-                                        This Community is Private :(
-                                    </Text>
-                                </Box>
-                                <Text fontSize="sm">Join this Community to view or participate in discussions.</Text>
-                            </div>
-                        </HStack>
-                    </Box>
-                ) : (
-                    ""
-                )}
-            </Flex>
-        </Box>
-    )
-}
+                <Flex direction="column" justify={"center"} align="center" mt={3}>
+                    {communityPrivacy && communityId != "" ? (
+                        <Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
+                            <HStack gap={2} p={2}>
+                                <Box height={"55px"}></Box>
+                                <div>
+                                    <Box display="flex" alignItems="center" gap={1}>
+                                        <TiWarning />
+                                        <Text as="b" fontSize="sm">
+                                            This Community is Private :(
+                                        </Text>
+                                    </Box>
+                                    <Text fontSize="sm">Join this Community to view or participate in discussions.</Text>
+                                </div>
+                            </HStack>
+                        </Box>
+                    ) : (
+                        ""
+                    )}
+                </Flex>
+            </Box>
+        )
+    }
 
 export default NavCommunity

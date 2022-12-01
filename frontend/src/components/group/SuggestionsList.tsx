@@ -38,7 +38,13 @@ const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMem
                             {communityMember} {communityMember == 1 ? "Member" : "Members"}
                         </Text>
                     </div>
-                    <Button _hover={{ background: "orange.200" }} background={"orange.500"} color="white" size="sm">
+                    <Button
+                        _hover={{ background: "orange.200" }}
+                        _active={{ background: 'orange.200' }}
+                        background={"orange.500"}
+                        color="white"
+                        size="sm"
+                    >
                         Join Community
                     </Button>
                 </Flex>

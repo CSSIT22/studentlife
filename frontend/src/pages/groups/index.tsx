@@ -287,13 +287,13 @@ const index = () => {
                             </Modal>
                             <Link to={"/groups/create"}>
                                 <Button mt="2"
-                                    bg="orange.400"
+                                    bg="orange.500"
                                     color="#FFFFFF"
-                                    _hover={{ background: "orange.600" }}
+                                    _hover={{ background: "orange.200" }}
                                     // variant="solid"
                                     width="95%"
                                     fontSize="sm"
-                                    _active={{ background: 'orange.600' }}>
+                                    _active={{ background: 'orange.200' }}>
                                     + Create New Community
                                 </Button>
                             </Link>
