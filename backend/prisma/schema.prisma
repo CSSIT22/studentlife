@@ -12,103 +12,107 @@ datasource db {
 
 //User Profile Module
 model User_Profile {
-  userId              String                        @id @default(uuid())
-  studentId           String                        @unique @db.Char(11)
-  fName               String
-  lName               String
-  email               String                        @unique
-  image               Bytes?
-  details             Detail?
-  majorId             String?
-  studentMajor        Major?                        @relation(fields: [majorId], references: [majorId], onDelete: SetNull)
-  roles               User_To_Role[]
-  userFollowers       Follow[]                      @relation("following")
-  userFollowing       Follow[]                      @relation("follower")
-  userReporters       User_Report[]                 @relation("reporting")
-  userReporting       User_Report[]                 @relation("reporter")
-  userBlockers        User_Blocked[]                @relation("blocking")
-  userBlocking        User_Blocked[]                @relation("blocker")
-  levels              EXP?
-  posts               Student_Post[]
-  reacted             Student_Reacted[]
-  repost              Repost[]
-  pComments           Post_Comment[]
-  pReported           Post_Report[]
-  cReported           Comment_Report[]
-  pHided              Hide_Post[]
-  cHided              Hide_Comment[]
-  notis               Noti_User?
-  sendNoti            Noti_Object[]
-  userTimetable       Timetable[]
-  tasks               Task[]
-  taskfolders         Task_Folder[]
-  groups              User_To_Group[]
-  taskTracking        Task_Track?
-  taskChecking        Task_Check[]
-  taskEditing         Task_History?
-  announcement        Announcement[]
-  userAnnouncement    Post_On_Page[]
-  userPinAnnouncement Announcement_Pin[]
-  userSeeAnnouncement Announcement_Seen[]
-  annApproved         Announcement_Approve[]
-  userChat            User_To_Room[]
-  // userSendMessage     Message[]
-  userQuote           Chat_Quote[]
-  userDating          Dating_Options?
-  userQueue           Card_Queue[]                  @relation("User")
-  frontUserQueue      Card_Queue[]                  @relation("Front User")
-  backUserQueue       Card_Queue[]                  @relation("Back User")
-  giveRate            User_Rating[]                 @relation("Receiver")
-  receiveRate         User_Rating[]                 @relation("Giver")
-  giveHeart           Heart_History[]               @relation("HReceiver")
-  receiveHeart        Heart_History[]               @relation("HGiver")
-  interests           User_Interest[]
-  datingSetting       Dating_Enroll?
-  createPoll          Activity_Poll[]
-  polls               Poll_Applicant[]
-  commuOwner          Community[]
-  community           Community_User[]
-  communityBlacklist  Community_Blacklist[]
-  sendFile            File_Info[]
-  files               User_Show_File[]
-  fileHistory         File_History[]
-  fComments           File_Comment[]
-  accessTo            Direct_Access[]
-  userBack            User_Back[]
-  banInstances        Ban_Status[]
-  wordReport          Word_Report[]
-  shortNotes          Sn_Head[]
-  voteTo              Sn_Votedetail[]
-  snComments          Sn_Comment[]
-  favSn               Sn_Fav[]
-  recentSn            Sn_Recent[]
-  accessSn            Sn_Access[]
-  transactions        Transaction[]
-  creditCards         Credit_Card[]
-  coupons             User_Coupon[]
-  carts               Shop_Cart[]
-  reviewProduct       Shop_Product_Review[]
-  likeRestaurants     Restaurant_Like_By_User[]
-  favRestaurants      Restaurant_Favorite_By_User[]
-  seenRestaurants     Restaurant_Seen_By_User[]
-  reviews             SReview_Review[]
-  reviewLikes         SReview_Review_Like[]
-  comment             SReview_Comment[]
-  commentLike         SReview_Comment_Like[]
-  suggestions         SReview_Suggestion[]
-  questions           Question[]
-  questionSetting     Question_Setting?
-  questionComments    Question_Comment[]
-  answers             Question_Answer[]
-  answerComments      Question_Answer_Comment[]
-  modvotes            Question_Modvote[]
-  shortlinkQuota      ShortLink_Quota?
-  shortlink           ShortLink[]
-  shortlinkAccess     ShortLink_Permission_User[]
-  report              Analytic_Report[]
-  userAccess          Analytic_User_Access?
-  genReportModule     Analytic_Report_Module[]
-  userReport          Analytic_User_Report[]
+  userId               String                           @id @default(uuid())
+  studentId            String                           @unique @db.Char(11)
+  fName                String
+  lName                String
+  email                String                           @unique
+  image                Bytes?
+  details              Detail?
+  majorId              String?
+  studentMajor         Major?                           @relation(fields: [majorId], references: [majorId], onDelete: SetNull)
+  roles                User_To_Role[]
+  userFollowers        Follow[]                         @relation("following")
+  userFollowing        Follow[]                         @relation("follower")
+  userReporters        User_Report[]                    @relation("reporting")
+  userReporting        User_Report[]                    @relation("reporter")
+  userBlockers         User_Blocked[]                   @relation("blocking")
+  userBlocking         User_Blocked[]                   @relation("blocker")
+  levels               EXP?
+  posts                Student_Post[]
+  reacted              Student_Reacted[]
+  repost               Repost[]
+  pComments            Post_Comment[]
+  pReported            Post_Report[]
+  cReported            Comment_Report[]
+  pHided               Hide_Post[]
+  cHided               Hide_Comment[]
+  notis                Noti_User?
+  sendNoti             Noti_Object[]
+  userTimetable        Timetable[]
+  tasks                Task[]
+  taskfolders          Task_Folder[]
+  groups               User_To_Group[]
+  taskTracking         Task_Track?
+  taskChecking         Task_Check[]
+  taskEditing          Task_History?
+  announcement         Announcement[]
+  userAnnouncement     Post_On_Page[]
+  userPinAnnouncement  Announcement_Pin[]
+  userSeeAnnouncement  Announcement_Seen[]
+  annApproved          Announcement_Approve[]
+  userChat             User_To_Room[]
+  userChatTo           Chat_Individual[]                @relation("chatting")
+  userChatFrom         Chat_Individual[]                @relation("chatter")
+  userSendMessage      Message[]
+  userQuote            Chat_Quote[]
+  userDating           Dating_Options?
+  userQueue            Card_Queue[]                     @relation("User")
+  frontUserQueue       Card_Queue[]                     @relation("Front User")
+  backUserQueue        Card_Queue[]                     @relation("Back User")
+  giveRate             User_Rating[]                    @relation("Receiver")
+  receiveRate          User_Rating[]                    @relation("Giver")
+  giveHeart            Heart_History[]                  @relation("HReceiver")
+  receiveHeart         Heart_History[]                  @relation("HGiver")
+  interests            User_Interest[]
+  datingSetting        Dating_Enroll?
+  createPoll           Activity_Poll[]
+  polls                Poll_Applicant[]
+  commuOwner           Community[]
+  community            Community_User[]
+  communityBlacklist   Community_Blacklist[]
+  sendFile             File_Info[]
+  files                User_Show_File[]
+  fileHistory          File_History[]
+  fComments            File_Comment[]
+  accessTo             Direct_Access[]
+  userBack             User_Back[]
+  banInstances         Ban_Status[]
+  wordReport           Word_Report[]
+  shortNotes           Sn_Head[]
+  voteTo               Sn_Votedetail[]
+  snComments           Sn_Comment[]
+  favSn                Sn_Fav[]
+  recentSn             Sn_Recent[]
+  accessSn             Sn_Access[]
+  transactions         Transaction[]
+  creditCards          Credit_Card[]
+  coupons              User_Coupon[]
+  carts                Shop_Cart[]
+  reviewProduct        Shop_Product_Review[]
+  likeRestaurants      Restaurant_Like_By_User[]
+  favRestaurants       Restaurant_Favorite_By_User[]
+  seenRestaurants      Restaurant_Seen_By_User[]
+  shopReview           SReview_Shop_Review[]
+  restaurantReview     SReview_Restaurant_Review[]
+  shopReviewLike       SReview_Shop_Review_Like[]
+  restaurantReviewLike SReview_Restaurant_Review_Like[]
+  comment              SReview_Comment[]
+  commentLike          SReview_Comment_Like[]
+  suggestions          SReview_Suggestion[]
+  questions            Question[]
+  questionSetting      Question_Setting?
+  questionComments     Question_Comment[]
+  answers              Question_Answer[]
+  answerComments       Question_Answer_Comment[]
+  modvotes             Question_Modvote[]
+  shortlinkQuota       ShortLink_Quota?
+  shortlink            ShortLink[]
+  shortlinkAccess      ShortLink_Permission_User[]
+  report               Analytic_Report[]
+  userAccess           Analytic_User_Access?
+  genReportModule      Analytic_Report_Module[]
+  userReport           Analytic_User_Report[]
 }
 
 model Detail {
@@ -407,12 +411,13 @@ model Timetable {
 model Event {
   eventId      String       @id @default(cuid())
   eventName    String
-  desc         String
   placeId      String?
   stTime       DateTime     @db.Timestamp(0)
   endTime      DateTime     @db.Timestamp(0)
   eventTypeId  String
+  descId       String       @unique
   hostAt       Event_Place? @relation(fields: [placeId], references: [placeId])
+  desc         String
   courseId     String?
   course       Course?      @relation(fields: [courseId], references: [courseId])
   assignmentId String?
@@ -624,9 +629,11 @@ model Chat_Room {
   chatColor      String               @db.Char(7)
   created        DateTime             @default(now()) @db.Timestamp(0)
   roomType       Room_Type
+  roomIndividual Chat_Individual?
+  roomGroup      Chat_Group?
   poll           Activity_Poll?
   haveUser       User_To_Room[]
-  // messages       Message[]
+  messages       Message[]
   quotes         Chat_Quote[]
   wordReport     Word_Report_Detail[]
 }
@@ -642,25 +649,33 @@ model User_To_Room {
   @@id([userId, roomId])
 }
 
-model Chat_Nickname {
+model Chat_Individual {
+  roomId        String       @unique
   userId        String
   anotherUserId String
-  roomId        String
-  nickname      String
+  room          Chat_Room    @relation(fields: [roomId], references: [roomId])
+  user          User_Profile @relation("chatter", fields: [userId], references: [userId])
+  chatWith      User_Profile @relation("chatting", fields: [anotherUserId], references: [userId])
 
-  @@id([userId, anotherUserId, roomId])
+  @@id([userId, anotherUserId])
 }
 
-// model Message {
-//   messageId     String        @id @default(cuid())
-//   roomId        String
-//   senderId      String?
-//   messageType   Message_Type
-//   created       DateTime      @default(now()) @db.Timestamp(0)
-//   isRead        Boolean       @default(false)
-//   messageInRoom Chat_Room     @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-//   messageSender User_Profile? @relation(fields: [senderId], references: [userId], onDelete: SetNull)
-// }
+model Chat_Group {
+  roomId   String    @unique
+  groupImg String
+  room     Chat_Room @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+}
+
+model Message {
+  messageId     String        @id @default(cuid())
+  roomId        String
+  senderId      String?
+  messageType   Message_Type
+  created       DateTime      @default(now()) @db.Timestamp(0)
+  isRead        Boolean       @default(false)
+  messageInRoom Chat_Room     @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  messageSender User_Profile? @relation(fields: [senderId], references: [userId], onDelete: SetNull)
+}
 
 model Chat_Quote {
   quoteId  Int          @id @default(autoincrement())
@@ -1395,7 +1410,7 @@ model Restaurant {
   userLike    Restaurant_Like_By_User[]
   userFav     Restaurant_Favorite_By_User[]
   userSeen    Restaurant_Seen_By_User[]
-  reviews     SReview_Review[]
+  reviews     SReview_Restaurant_Review[]
 }
 
 model Restaurant_Detail {
@@ -1465,7 +1480,7 @@ model Restaurant_Seen_By_User {
 
 //ShopReview Module
 model SReview_Shop {
-  shopId         String               @id @default(cuid())
+  shopId         String                @id @default(cuid())
   shopName       String
   shopType       String
   open           String
@@ -1473,12 +1488,12 @@ model SReview_Shop {
   phoneNo        String
   address        String
   zone           String
-  latitude       Float                @db.Real
-  longitude      Float                @db.Real
-  aveRating      Decimal              @db.Decimal(3, 2)
+  latitude       Float                 @db.Real
+  longitude      Float                 @db.Real
+  aveRating      Decimal               @db.Decimal(3, 2)
   reviewReceived Int
   images         SReview_Shop_Image[]
-  reviews        SReview_Review[]
+  reviews        SReview_Shop_Review[]
 }
 
 model SReview_Shop_Image {
@@ -1489,25 +1504,40 @@ model SReview_Shop_Image {
 }
 
 model SReview_Review {
-  reviewId     String                 @id @default(cuid())
-  resId        String                 @default("0")
-  shopId       String                 @default("0")
-  userId       String
-  reviewedAt   DateTime @default(now()) @db.Timestamp(0)
-  text         String
-  rating       Int
-  likeReceived Int @default(0)
-  images       SReview_Review_Image[]
-  reviewer     User_Profile           @relation(fields: [userId], references: [userId])
-  restaurant   Restaurant             @relation(fields: [resId], references: [resId])
-  shop         SReview_Shop           @relation(fields: [shopId], references: [shopId])
-  likes        SReview_Review_Like[]
-  comments     SReview_Comment[]
+  reviewId         String                     @id @default(cuid())
+  shopReview       SReview_Shop_Review?
+  restaurantReview SReview_Restaurant_Review?
+  images           SReview_Review_Image[]
+  comments         SReview_Comment[]
 }
 
-// model SReview_Review_To_File {
+model SReview_Shop_Review {
+  reviewId     String                     @id
+  shopId       String
+  userId       String
+  reviewedAt   DateTime                   @default(now()) @db.Timestamp(0)
+  text         String
+  rating       Int                        @default(0)
+  likeReceived Int                        @default(0)
+  review       SReview_Review             @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
+  reviewOf     SReview_Shop               @relation(fields: [shopId], references: [shopId], onDelete: Cascade)
+  reviewBy     User_Profile               @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userLike     SReview_Shop_Review_Like[]
+}
 
-// }
+model SReview_Restaurant_Review {
+  reviewId     String                           @id
+  resId        String
+  userId       String
+  reviewedAt   DateTime                         @default(now()) @db.Timestamp(0)
+  text         String
+  rating       Int                              @default(0)
+  likeReceived Int                              @default(0)
+  review       SReview_Review                   @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
+  reviewOf     Restaurant                       @relation(fields: [resId], references: [resId], onDelete: Cascade)
+  reviewBy     User_Profile                     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userLike     SReview_Restaurant_Review_Like[]
+}
 
 model SReview_Review_Image {
   imageId  Int            @id @default(autoincrement())
@@ -1528,11 +1558,20 @@ model SReview_Comment {
   userLike     SReview_Comment_Like[]
 }
 
-model SReview_Review_Like {
-  reviewId String
-  review   SReview_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
-  userId   String
-  user     User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+model SReview_Shop_Review_Like {
+  reviewId   String
+  shopReview SReview_Shop_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
+  userId     String
+  user       User_Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@id([reviewId, userId])
+}
+
+model SReview_Restaurant_Review_Like {
+  reviewId         String
+  restaurantReview SReview_Restaurant_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
+  userId           String
+  user             User_Profile              @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([reviewId, userId])
 }
