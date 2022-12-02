@@ -1,9 +1,22 @@
+// export type Notiobject = {
+//   notiObjectId: string;
+//   templateId: string;
+//   date: Date;
+//   isRead: boolean;
+//   module: string;
+//   url: string;
+//   values: string[];
+// };
 export type Notiobject = {
   notiObjectId: string;
-  templateId: string;
+  template: string;
   date: Date;
-  isRead: boolean;
   module: string;
   url: string;
-  values: string[];
+  sender: string | null;
+};
+export type NotiUser = {
+  userId: string;
+  notiSettingApp: string;
+  notiSettingEmail: string;
 };

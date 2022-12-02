@@ -10,7 +10,7 @@ const PostOnAnnouncementPage: FC<{
     sender: string
     status: boolean
     allPost: Array<any>
-    id: number
+    id: string
     onClick: Function
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
 }> = ({ topic, sender, status, allPost, setAllPost, id, onClick }) => {
