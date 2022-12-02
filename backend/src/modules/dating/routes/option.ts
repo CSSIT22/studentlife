@@ -35,23 +35,12 @@ optionRoutes.get("/getOption", verifyUser, async (req: Request, res: Response) =
                 where: {
                     userId: userId,
                 },
-            })
-            const userFacDB = await prisma.faculty_Pref.findMany({
-                where: {
-                    userId: userId,
+                include: {
+                    faculties: true,
                 },
             })
-            let allData: any = []
-            // allData.push(userOptionDB)
-            // userOptionDB.map((user: any) => {
-            //     userFacDB.map((faculty: any) => {
-            //         if (faculty.facultyPref == user.studentMajor.majorFaculty.facultyId && !facultyObtainedUser.includes(user)) {
-            //             facultyObtainedUser.push(user)
-            //         }
-            //     })
-            // })
-            // const option: any = {userOptionDB?.useAge, userOptionDB?.ageMin, userOptionDB?.ageMax, userOptionDB?.genderPref}
-            // return res.send(allData)
+
+            // console.log(userOptionDB)
             return res.send(userOptionDB)
         }
     } catch (err) {

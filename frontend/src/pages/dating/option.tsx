@@ -25,8 +25,8 @@ const DatingOption = () => {
     const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
     const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
     const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
-    let count = 1
 
+    let count = 1
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -54,9 +54,19 @@ const DatingOption = () => {
                     setUseAgeValue(selectedOption.useAge)
                     setSliderValue([selectedOption.ageMin, selectedOption.ageMax])
                     setSelected(selectedOption.genderPref)
+
+
+                    setSelectedFac(
+                        selectedOption.faculties.length === globalThis.facs.length - 1 ?
+                            globalThis.facs :
+                            selectedOption.faculties.map((item: any) => (item.facultyPref))
+                    )
+
                     globalThis.useAge = selectedOption.useAge
                     globalThis.age = [selectedOption.ageMin, selectedOption.ageMax]
                     globalThis.gender = selectedOption.genderPref
+                    globalThis.faculty = selectedOption.faculties
+                    // console.log(globalThis.faculty)
                 }
             })
             API.get("/dating/option/getFaculty").then((allFaculty) => {
@@ -161,18 +171,18 @@ const DatingOption = () => {
         globalThis.gender = selected
         globalThis.faculty = selectedFac
         //console.log(selectedFac)
-        console.log(
-            "Age min =" +
-            globalThis.age[0] +
-            " | Age max =" +
-            globalThis.age[1] +
-            " | Use age: " +
-            globalThis.useAge +
-            " | Gender : " +
-            globalThis.gender +
-            " | Selected Faculty: " +
-            globalThis.faculty
-        )
+        // console.log(
+        //     "Age min =" +
+        //     globalThis.age[0] +
+        //     " | Age max =" +
+        //     globalThis.age[1] +
+        //     " | Use age: " +
+        //     globalThis.useAge +
+        //     " | Gender : " +
+        //     globalThis.gender +
+        //     " | Selected Faculty: " +
+        //     globalThis.faculty
+        // )
         if (globalThis.faculty.length < 1) {
             toast({
                 title: "Faculty Setting Incomplete!",
@@ -201,6 +211,7 @@ const DatingOption = () => {
 
         }
     }
+
 
     return (
         <DatingAppBody>
@@ -256,7 +267,7 @@ const DatingOption = () => {
                                 faculties={faculties}
                                 selectedFac={selectedFac}
                                 setSelectedFac={setSelectedFac}
-                                // setSelectedFac={setSelectedFac2}
+                                // setSelectedFac={setSelectedFac}
                                 getCheckboxProps={getCheckboxProps}
                             />
                         </Box>

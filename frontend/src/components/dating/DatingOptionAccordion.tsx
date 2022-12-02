@@ -2,6 +2,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { FC, useEffect, useState } from "react"
 import { DatingOptionMultipleChoose } from "./DatingOptionMultipleChoose"
 import { AllFaculty } from "@apiType/dating"
+import { contacts } from './../shop/content/dummyData/contacts';
 
 declare global {
     var facs: any[]
@@ -15,19 +16,32 @@ const DatingOptionAccordion: FC<{
     getCheckboxProps: any
 }> = ({ faculties, selectedFac, setSelectedFac, getCheckboxProps }) => {
     // setSelectedFac(["All Faculty"])
+    // useEffect(() => {
+    //     setFac(setFacs)
+    //     console.log(selectedFac)
+    // }, [])
 
     function handleCheck(SF: string) {
-        for (let index = 0; index < selectedFac.length; index++) {
+        // for (let index = 0; index < selectedFac.length; index++) {
+        //     for (let index2 = 0; index2 < faculties.length; index2++) {
+        //         // console.log(selectedFac[index])
+        //         if (SF === (selectedFac[index] + "")) {
+        //             // console.log("Ma value: " + selectedFac[index])
+        //             return true
+        //         }
+        //     }
+        // }
+        // return false
+
+        for (const element of selectedFac) {
             for (let index2 = 0; index2 < faculties.length; index2++) {
                 // console.log(selectedFac[index])
-                if (SF === (selectedFac[index] + "")) {
-                    // console.log("Ma value: " + SF + true)
+                if (SF === (element + "")) {
+                    // console.log("Ma value: " + selectedFac[index])
                     return true
                 }
             }
-
         }
-        // console.log("Ma value: " + SF + false)
         return false
     }
 
@@ -89,6 +103,8 @@ const DatingOptionAccordion: FC<{
         // console.log("This :" + arr)
     }
 
+    // console.log(selectedFac)
+
     return (
         <Accordion allowToggle flex="left">
             <AccordionItem border={0}>
@@ -130,7 +146,9 @@ const DatingOptionAccordion: FC<{
                                     handleFac(e)
                                 }}
                                 // isChecked={(e: any) => { selectedFac.includes(e.target.value.facultyName) }}
-                                isChecked={handleCheck(faculty)}
+                                isChecked={
+                                    handleCheck(faculty)
+                                }
                             // isChecked={selectedFac.includes(faculty)}
                             // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
                             />

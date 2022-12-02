@@ -75,7 +75,7 @@ const DatingYourActivityBox = () => {
                                 </Text>
                             </Center>
                         </Flex>
-                        <Heading fontSize="20px" pt="10px" pb="10px">
+                        <Heading fontSize="20px" pt="10px">
                             {values.pollName}
                         </Heading>
                         {values.pollInterest.length < 1 ? <Text pb="20px"></Text> :
