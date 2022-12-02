@@ -13,7 +13,7 @@ const PaymentMethod = () => {
     return (
         <>
             <Show below="md">
-                <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
+                {/* <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
                     <Flex>
                         <Center>
                             <Stack direction={"column"}>
@@ -38,9 +38,8 @@ const PaymentMethod = () => {
                             </Box>
                         </Center>
                     </Flex>
-                </Container>
+                </Container> */}
             </Show>
-            <Hide below="md"></Hide>
 
             <Hide below="md">
                 <Container bg={"#e67f45"} maxW="90%" mt="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">

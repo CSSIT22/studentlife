@@ -1,34 +1,39 @@
 import { Text, Container, Box, Stack, Button, useMediaQuery, Hide, Show, Flex, Spacer, Center } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
 import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
 import API from "src/function/API"
 import AppBody from "../../../components/share/app/AppBody"
 import Header from "../../../components/transaction/shoptransaction/Header"
 import OrderList from "../../../components/transaction/shoptransaction/OrderList"
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom"
 import PaymentMethod from "src/components/transaction/methodpayment/PaymentMethod"
-import qrpayment from './qrpayment';
-import { Link } from 'react-router-dom';
+import qrpayment from "./qrpayment"
+import { Link } from "react-router-dom"
 
 const shopTransaction = () => {
     const param = useParams()
     const [order, setOrder] = useState("")
-    const totalPrice = 5000
-    const submit = () => {
 
+    const totalPrice = 218
+    const navigate = useNavigate()
+    const toQRpayment = () => {
+        navigate("/transaction/shoptransaction/qrpayment", { state: { total: totalPrice } })
     }
+
+    const submit = () => {}
 
     return (
         <AppBody>
             <Header name="CHECKOUT" />
 
             <Container bg={"#e67f45"} maxW="90%" my="24px" p={"3%"} borderRadius="10px" shadow={"lg"}>
-                <Stack direction={{ base: "column", lg: "row" }} justifyContent={"center"}>
-                    <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
+                <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
+                {/* <Stack direction={{ base: "column", lg: "row" }} justifyContent={"center"}>
+                   
                     <Spacer />
                     <UsePoint point={123} />
-                </Stack>
+                </Stack> */}
             </Container>
 
             <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
@@ -65,19 +70,45 @@ const shopTransaction = () => {
             </Container> */}
 
             <Show below="md">
+                <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
+                    <Flex>
+                        <Center>
+                            <Stack direction={"column"}>
+                                <Text fontSize="md" fontWeight={"bold"}>
+                                    Total payment: {totalPrice}
+                                </Text>
+                                <Text fontSize="md" fontWeight={"bold"}>
+                                    Payment Method: ....
+                                </Text>
+                            </Stack>
+                        </Center>
+                        <Spacer />
+                        <Center>
+                            <Box>
+                                <Button colorScheme="whiteAlpha" shadow={"lg"}>
+                                    <Link to="/transaction/shoptransaction/selectmethod">
+                                        <Text fontSize="sm" fontWeight={"bold"} color="black">
+                                            Select Method
+                                        </Text>
+                                    </Link>
+                                </Button>
+                            </Box>
+                        </Center>
+                    </Flex>
+                </Container>
                 <Stack direction={"row"} justifyContent="center" gap={"3%"}>
                     <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
                         <Text fontSize="lg" fontWeight={"bold"}>
                             Cancel
                         </Text>
                     </Button>
-                    <Link to="/transaction/shoptransactionqrpayment">
-                        <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
-                            <Text fontSize="lg" fontWeight={"bold"}>
-                                Comfirm
-                            </Text>
-                        </Button>
-                    </Link>
+                    {/* <Link to="/transaction/shoptransactionqrpayment"> */}
+                    <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={toQRpayment}>
+                        <Text fontSize="lg" fontWeight={"bold"}>
+                            Comfirm
+                        </Text>
+                    </Button>
+                    {/* </Link> */}
                 </Stack>
             </Show>
             <Hide below="md">
@@ -89,17 +120,17 @@ const shopTransaction = () => {
                             </Text>
                         </Box>
                         <Spacer />
-                        <Link to="/transaction/shoptransaction/qrpayment">
-                            <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={submit}>
-                                <Text fontSize="lg" fontWeight={"bold"}>
-                                    Comfirm
-                                </Text>
-                            </Button>
-                        </Link>
+                        {/* <Link to="/transaction/shoptransaction/qrpayment"> */}
+                        <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={toQRpayment}>
+                            <Text fontSize="lg" fontWeight={"bold"}>
+                                Comfirm
+                            </Text>
+                        </Button>
+                        {/* </Link> */}
                     </Flex>
                 </Container>
             </Hide>
-        </AppBody >
+        </AppBody>
     )
 }
 
