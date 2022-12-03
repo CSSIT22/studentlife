@@ -24,6 +24,7 @@ import {
     Input,
     useDisclosure,
     useBoolean,
+    useToast,
 } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { TiWarning } from "react-icons/ti"
@@ -35,6 +36,7 @@ import FriendInviteList from "./FriendInviteList"
 import { SearchIcon } from "@chakra-ui/icons"
 import { userData } from "src/pages/groups/data"
 import useWindowDimensions from "./hooks/useWindowDimensions"
+import API from "src/function/API"
 
 const NavCommunity: FC<{
     communityId: string,
@@ -43,10 +45,9 @@ const NavCommunity: FC<{
     communityPrivacy?: boolean,
     communityDesc?: string,
     tags?: any,
-
     isMember: boolean,
-    communityMembers: number,
-
+    isOwner:boolean,
+    communityMembers: number
     activeBtn?: number,
     disabled?: boolean
 }> = ({
@@ -59,6 +60,7 @@ const NavCommunity: FC<{
     communityDesc,
     tags,
     isMember,
+    isOwner,
     disabled }) => {
 
         //t
@@ -84,46 +86,40 @@ const NavCommunity: FC<{
             setModalOpen(false)
             setSureOpen(false)
         }
+        const toast = useToast()
+        const { isOpen, onOpen, onClose } = useDisclosure()
+
 
         const [community, setCommunity] = useState<any>()
         const [isError, { on }] = useBoolean()
         const [isLoading, { off }] = useBoolean(true)
 
 
-
-        // useEffect(() => {
-        //     API.get("/group/getCommunityId/" + communityId)
-        //         .then((res) => setCommunity(res.data))
-        //         .catch((err) => on())
-        //         .finally(() => off())
-        // }, [])
-
-        // if (isLoading) {
-        //     return (
-        //         // will fix the design later
-        //         <AppBody>
-        //             <Text>Loading...</Text>
-        //         </AppBody>
-        //     )
-        // }
-        // if (isError) {
-        //     // will fix the design later
-        //     return (
-        //         <AppBody>
-        //             <Box>
-        //                 <Text>Something went wrong...</Text>
-        //             </Box>
-        //         </AppBody>
-        //     )
-        // }
-
-        // const coverPhoto = community?.communityById.communityPhoto
-        // const name = community?.communityById.communityName
-        // const isPrivate = community?.communityById.communityPrivacy
-        // const tag = community?.tag
-        // const desc = community?.communityById.communityDesc
-
-
+        const join = () => {
+            API.post("/group/joinCommunity", {
+                communityId:communityId
+            }).then((res) => {
+                toast({
+                    title: "Success",
+                    description: "Community created successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            }).catch((err) => {
+                console.log(err)
+                toast({
+                    title: "Error",
+                    description: "Community creation failed",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            })
+            onClose()
+        }
 
         return (
             <Box>
@@ -136,8 +132,7 @@ const NavCommunity: FC<{
                         objectPosition: "center",
                         height: "15rem",
                     }}
-                    src={communityCoverPhoto}
-                    // src={"https://storage.googleapis.com/thistinestorage/photos/DSC_5803-Edit-2.jpg"}
+                    src={communityCoverPhoto ? communityCoverPhoto : "https://storage.googleapis.com/thistinestorage/photos/DSC_5803-Edit-2.jpg"}
                     fallbackSrc="https://via.placeholder.com/800"
                 />
                 <Box p={4} borderBottomRadius="md" backgroundColor={"white"} boxShadow={"2xl"}>
@@ -152,7 +147,7 @@ const NavCommunity: FC<{
                             </Box>
                         </div>
                         <div>
-                            {isMember ? (
+                            {(isMember || isOwner)? (
                                 <HStack>
                                     <Button
                                         disabled={disabled}
@@ -321,7 +316,7 @@ const NavCommunity: FC<{
                                     </Popover>
                                 </HStack>
                             ) : (
-                                <Button size="sm" background={"orange.500"} _hover={{ background: "orange.200" }} color={"white"}>
+                                <Button size="sm" background={"orange.500"} _hover={{ background: "orange.200" }} color={"white"} onClick={join}>
                                     Join
                                 </Button>
                             )}

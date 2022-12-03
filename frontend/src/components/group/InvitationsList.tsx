@@ -38,7 +38,7 @@ const InvitationsList: FC<InvitedCommunity> = ({
                                 <Image ml={1} borderRadius="md" boxSize="55px" src={communityCoverPhoto} alt="Cover Photo" />
                                 <div>
                                     <Box display="flex" alignItems="center" gap={1}>
-                                        {communityPrivacy ? <MdPublicOff /> : <MdPublic />}
+                                        {communityPrivacy ? <MdPublic /> : <MdPublicOff />}
                                         <Text as="b" fontSize="sm">
                                             {communityName}
                                         </Text>

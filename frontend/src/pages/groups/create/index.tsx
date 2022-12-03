@@ -478,6 +478,7 @@ const createCommunity = () => {
                                     communityName={communityName ? communityName : "Community Name"}
                                     communityPrivacy={!communityPrivacy}
                                     isMember={true}
+                                    isOwner={true}
                                     communityDesc={
                                         communityDesc
                                             ? communityDesc

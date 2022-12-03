@@ -51,7 +51,7 @@ groupRoutes.get("/getCommunity", getCommunity)
 
 groupRoutes.post("/pendingRequest", pendingRequest)
 groupRoutes.delete("/leaveCommunity", leaveCommunity)
-groupRoutes.post("/joinCommunity", joinCommunity)
+groupRoutes.post("/joinCommunity/:id", joinCommunity)
 groupRoutes.post("/acceptRequest", acceptRequest)
 groupRoutes.delete("/declineRequest", declineRequest)
 
