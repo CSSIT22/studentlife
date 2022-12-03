@@ -97,12 +97,63 @@ const NavCommunity: FC<{
 
         const join = () => {
             API.post("/group/joinCommunity/" + communityId, {
-                communityId:communityId,
-                status: communityPrivacy
+                status: !communityPrivacy
             }).then((res) => {
                 toast({
                     title: "Success",
                     description: "Community created successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            }).catch((err) => {
+                console.log(err)
+                toast({
+                    title: "Error",
+                    description: "Community creation failed",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            })
+            onClose()
+        }
+
+        const leave = () => {
+            API.delete("/group/leaveCommunity/" + communityId, {
+
+            }).then((res) => {
+                toast({
+                    title: "Success",
+                    description: "Leave community successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            }).catch((err) => {
+                console.log(err)
+                toast({
+                    title: "Error",
+                    description: "Leave Community failed",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            })
+            onClose()
+        }
+
+        const deleteCommunity = () => {
+            API.delete("/group/deleteCommunity/" + communityId, {
+
+            }).then((res) => {
+                toast({
+                    title: "Success",
+                    description: "Community delete successfully",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
@@ -277,40 +328,63 @@ const NavCommunity: FC<{
 
                                                             <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
                                                                 <FaExclamationCircle />
-                                                                <Link to={`/groups/id/${communityId}/edit`}>
-                                                                    <Text _hover={{ textDecoration: "none" }}>Delete Community</Text>
-                                                                </Link>
+                                                                
+                                                                    <Text _hover={{ textDecoration: "none",cursor: "pointer" }} onClick={onOpen} >Delete Community</Text>
+
                                                             </Box>
+
+
+                                                            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                                                            <ModalOverlay />
+                                                            <ModalContent>
+                                                                <ModalHeader> Are you sure you want to delete this community?</ModalHeader>
+                                                                <ModalCloseButton />
+                                                                <ModalFooter>
+                                                                    <Link to={"/groups"}>
+                                                                        <Button onClick={deleteCommunity} colorScheme='blue' mr={3} >
+                                                                            Sure
+                                                                        </Button>
+                                                                    </Link>
+                                                                    <Button variant='cancel'>Cancel</Button>
+                                                                </ModalFooter>
+                                                            </ModalContent>
+                                                        </Modal>
                                                         </>): ""
+                                                        
                                                     }
 
-                                                    <Box
-                                                        onClick={leaveOnClick}
-                                                        gap={1}
-                                                        _hover={{ cursor: "pointer" }}
-                                                        display="flex"
-                                                        alignItems={"center"}
-                                                    >
-                                                        <FaBan />
-                                                        <Text>Leave Community</Text>
-                                                    </Box>
-                                                    <Modal closeOnOverlayClick={false} isOpen={isLeaveOpen} onClose={leaveOnClick} isCentered>
-                                                        <ModalOverlay />
-                                                        <ModalContent>
-                                                            <ModalHeader>Leave this community!?</ModalHeader>
-                                                            <ModalCloseButton />
-                                                            <ModalBody pb={6}>Are you sure you want to leave this community?</ModalBody>
+                                                    {isOwner ? ""       :
+                                                    <>
+                                                        <Box
+                                                            onClick={onOpen}
+                                                            gap={1}
+                                                            _hover={{ cursor: "pointer" }}
+                                                            display="flex"
+                                                            alignItems={"center"}
+                                                        >
+                                                            <FaBan />
+                                                            <Text _hover={{ textDecoration: "none",cursor: "pointer" }}>Leave Community</Text>
+                                                        </Box>
 
-                                                            <ModalFooter>
-                                                                <Link to={`/groups/`}>
-                                                                    <Button colorScheme="blue" mr={3} onClick={leaveOnClick}>
-                                                                        Sure
-                                                                    </Button>
+                                                        <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                                                            <ModalOverlay />
+                                                            <ModalContent>
+                                                                <ModalHeader> Are you sure you want to leave this community?</ModalHeader>
+                                                                <ModalCloseButton />
+                                                                <ModalFooter>
+                                                                <Link to={"/groups"}>
+                                                                        <Button onClick={leave} colorScheme='blue' mr={3} >
+                                                                            Sure
+                                                                        </Button>
                                                                 </Link>
-                                                                <Button onClick={leaveOnClick}>Cancel</Button>
-                                                            </ModalFooter>
-                                                        </ModalContent>
-                                                    </Modal>
+                                                                    <Button variant='cancel'>Cancel</Button>
+                                                                </ModalFooter>
+                                                            </ModalContent>
+                                                        </Modal>
+
+                                                    </>
+                                                    }
+
                                                 </PopoverBody>
                                             </PopoverContent>
 

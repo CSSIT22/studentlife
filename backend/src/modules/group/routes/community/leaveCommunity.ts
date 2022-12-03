@@ -3,15 +3,14 @@ import { Request, Response } from "express"
 const leaveCommuntiy = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const userid = req.user?.userId
+    const target = req.params.id
 
     try {
-        await prisma.community_User.delete({
+        await prisma.community_User.deleteMany({
             where: {
-                userId_communityId: {
-                    userId: req.body.user,
-                    communityId: req.body.communityId, //req.params.communityId
+                    userId: userid,
+                    communityId: target
                 },
-            },
         })
 
         res.status(200).send("Leave Success")
