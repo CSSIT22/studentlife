@@ -9,10 +9,10 @@ const joinCommunity = async (req: Request, res: Response) => {
 
     const joinRequest: any = {
         userId: userid,
-        communityId: id,//req.params.communityId
+        communityId: id,
         roleId: "clavjs04i0004v32wxmjn3kvk",
         joined: new Date(),
-        status: body.communityPrivacy,
+        status: !body.communityPrivacy,
     }
 
     try {

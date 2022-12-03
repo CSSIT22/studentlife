@@ -96,8 +96,9 @@ const NavCommunity: FC<{
 
 
         const join = () => {
-            API.post("/group/joinCommunity", {
-                communityId:communityId
+            API.post("/group/joinCommunity/" + communityId, {
+                communityId:communityId,
+                status: communityPrivacy
             }).then((res) => {
                 toast({
                     title: "Success",
@@ -225,22 +226,8 @@ const NavCommunity: FC<{
                                                                 },
                                                             }}
                                                         >
-                                                            {/* <Flex gap={{ md: 2, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                                                                {userData.friends
-                                                                    .filter((friends) => {
-                                                                        return searchValue.toLowerCase() == ""
-                                                                            ? friends
-                                                                            : friends.userName.toLowerCase().includes(searchValue)
-                                                                    })
-                                                                    .map((i) => (
-                                                                        <FriendInviteList
-                                                                            key={i.userName}
-                                                                            userName={i.userName}
-                                                                            userProfile={i.profile}
-                                                                            isSelected={i.isSelected}
-                                                                        />
-                                                                    ))}
-                                                            </Flex> */}
+                                                            
+                                                            
                                                         </Box>
                                                     </Box>
                                                 </ModalBody>
@@ -274,14 +261,28 @@ const NavCommunity: FC<{
                                             </Button>
                                         </PopoverTrigger>
                                         <Portal>
+                                            
+                                            
                                             <PopoverContent width="180px">
                                                 <PopoverBody>
-                                                    <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
-                                                        <FaExclamationCircle />
-                                                        <Link to={`/groups/id/${communityId}/edit`}>
-                                                            <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
-                                                        </Link>
-                                                    </Box>
+                                                    {isOwner ? (
+                                                        <>
+                                                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                                                <FaExclamationCircle />
+                                                                <Link to={`/groups/id/${communityId}/edit`}>
+                                                                    <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
+                                                                </Link>
+                                                            </Box>
+
+
+                                                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                                                <FaExclamationCircle />
+                                                                <Link to={`/groups/id/${communityId}/edit`}>
+                                                                    <Text _hover={{ textDecoration: "none" }}>Delete Community</Text>
+                                                                </Link>
+                                                            </Box>
+                                                        </>): ""
+                                                    }
 
                                                     <Box
                                                         onClick={leaveOnClick}
@@ -312,6 +313,8 @@ const NavCommunity: FC<{
                                                     </Modal>
                                                 </PopoverBody>
                                             </PopoverContent>
+
+
                                         </Portal>
                                     </Popover>
                                 </HStack>
@@ -343,35 +346,35 @@ const NavCommunity: FC<{
                         {communityDesc}
                     </Text>
                     <Flex gap={2} mt={3}>
-                        <Link to={disabled ? "" : `/groups/id/${communityId}/`} relative="path">
+                        <Link to ={((!(isMember||isOwner))&&communityPrivacy) ? "" : `/groups/id/${communityId}/`} relative="path">
                             <Button
                                 backgroundColor={"white"}
                                 _hover={{ background: "default" }}
                                 size={"sm"}
                                 isActive={activeBtn == 1 && !communityPrivacy ? true : false}
-                                disabled={communityPrivacy}
+                                disabled={((!(isMember||isOwner))&&communityPrivacy)}
                             >
                                 Discussion
                             </Button>
                         </Link>
-                        <Link to={disabled ? "" : `/groups/id/${communityId}/member`} relative="path">
+                        <Link to={((!(isMember||isOwner))&&communityPrivacy) ? "" : `/groups/id/${communityId}/member`} relative="path">
                             <Button
                                 backgroundColor={"white"}
                                 _hover={{ background: "default" }}
                                 size={"sm"}
                                 isActive={activeBtn == 2 && !communityPrivacy ? true : false}
-                                disabled={communityPrivacy}
+                                disabled={((!(isMember||isOwner))&&communityPrivacy)}
                             >
                                 Member
                             </Button>
                         </Link>
-                        <Link to={disabled ? "" : `/groups/id/${communityId}/file`} relative="path">
+                        <Link to={((!(isMember||isOwner))&&communityPrivacy) ? "" : `/groups/id/${communityId}/file`} relative="path">
                             <Button
                                 backgroundColor={"white"}
                                 _hover={{ background: "default" }}
                                 size={"sm"}
                                 isActive={activeBtn == 3 && !communityPrivacy ? true : false}
-                                disabled={communityPrivacy}
+                                disabled={((!(isMember||isOwner))&&communityPrivacy)}
                             >
                                 File
                             </Button>
@@ -380,7 +383,7 @@ const NavCommunity: FC<{
                 </Box>
 
                 <Flex direction="column" justify={"center"} align="center" mt={3}>
-                    {communityPrivacy && communityId != "" ? (
+                    {((!(isMember||isOwner))&&communityPrivacy) ? (
                         <Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
                             <HStack gap={2} p={2}>
                                 <Box height={"55px"}></Box>

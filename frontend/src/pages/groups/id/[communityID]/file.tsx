@@ -38,12 +38,24 @@ const file = () => {
 
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
+    const [tag, setTag] = useState<any>()
+    const [isMember, setIsMember] = useState<any>()
+    const [isOwner, setIsOwner] = useState<any>()
+    
+    
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
 
+
     useEffect(() => {
         API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
+            .then((res) => {
+                setCommunity(res.data.communityById)
+                setTag(res.data.tag)
+                setIsMember(res.data.isMember)
+                setIsOwner(res.data.isOwner)
+                console.log(res.data)
+            })
             .catch((err) => on())
             .finally(() => off())
     }, [])
@@ -52,14 +64,14 @@ const file = () => {
         <AppBody>
             <NavCommunity
                 communityName={community?.communityName}
-                communityId={community?.communityId}
+                communityId={communityID}
                 communityCoverPhoto={community?.communityCoverPhoto}
                 communityPrivacy={community?.communityPrivacy}
-                // communityCoverPhoto={community?.communityCoverPhoto}
                 communityDesc={community?.communityDesc}
-                isMember={true}
+                isMember={isMember}
+                isOwner={isOwner}
                 communityMembers={10}
-                activeBtn={1}
+                activeBtn={3}
                 tags={tag}
             />
             <HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>

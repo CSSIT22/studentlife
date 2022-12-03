@@ -7,9 +7,9 @@ import { userData } from "../../data"
 import API from "src/function/API"
 
 const headCommunity = () => {
-    let { communityID }: any = useParams()
-
+    
     // DATA
+    let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
     const [tag, setTag] = useState<any>()
     const [isMember, setIsMember] = useState<any>()

@@ -9,18 +9,28 @@ import { useParams } from "react-router-dom"
 import API from "src/function/API"
 
 const Member = () => {
+    const [searchValue, setSearchValue] = useState("") //for store search value
+    const handleChange = (event: any) => setSearchValue(event.target.value)
+
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
     const [tag, setTag] = useState<any>()
+    const [isMember, setIsMember] = useState<any>()
+    const [isOwner, setIsOwner] = useState<any>()
+    
+    
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
+
 
     useEffect(() => {
         API.get("/group/getCommunityId/" + communityID)
             .then((res) => {
                 setCommunity(res.data.communityById)
                 setTag(res.data.tag)
-                console.log(res.data.tag)
+                setIsMember(res.data.isMember)
+                setIsOwner(res.data.isOwner)
+                console.log(res.data)
             })
             .catch((err) => on())
             .finally(() => off())
@@ -30,16 +40,17 @@ const Member = () => {
         <AppBody>
             <NavCommunity
                 communityName={community?.communityName}
-                communityId={community?.communityId}
+                communityId={communityID}
                 communityCoverPhoto={community?.communityCoverPhoto}
                 communityPrivacy={community?.communityPrivacy}
-                // communityCoverPhoto={community?.communityCoverPhoto}
                 communityDesc={community?.communityDesc}
-                isMember={true}
+                isMember={isMember}
+                isOwner={isOwner}
                 communityMembers={10}
-                activeBtn={1}
+                activeBtn={2}
                 tags={tag}
             />
+            
             <Flex direction={{ base: "column-reverse", md: "row" }} gap={2} align="flex-start" mb={4}>
                 <Flex width="100%" gap={3} direction={"column"}>
                     <MemberBox boxType="request" data={communityData} title="Request" subTitle="These people have been invited to join the goup" />
