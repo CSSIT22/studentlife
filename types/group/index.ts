@@ -44,13 +44,17 @@ export type JoinedCommunity = {
 };
 //Invited community
 export type InvitedCommunity = {
+  ownerFname?: string;
+  ownerLname?: string;
   communityId: number;
   communityName: string;
   communityMember: number;
   communityCoverPhoto: string;
-  userName: string; //inviter name
-  expired: number;
+  userName?: string; //inviter name
+  expired?: number;
   communityPrivacy: boolean;
+  joined?: Date;
+  userId?: string;
 
   communityOwnerId?: number;
   //   communityTags: number[];
