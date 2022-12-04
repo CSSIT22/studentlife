@@ -70,6 +70,9 @@ const RequestList: FC<{
                     position: 'top',
                 })
             })
+        setTimeout(() => {
+            document.location.reload()
+        }, 2000)
     }
     const joinedDate = new Date(joined || "")
     const joinedDateStr = `${joinedDate.getDate()}/${joinedDate.getMonth() + 1}/${joinedDate.getFullYear()}`
