@@ -7,15 +7,15 @@ const deleteCommunity = async (req: Request, res: Response) => {
     try {
         await prisma.community.delete({
             where: {
-                communityId: target,
+                communityId: req.body.communityId,
             },
             include: {
                 tags: true,
-                member:true,
-                blacklist:true,
-                posts:true,
-                files:true
-            }
+                member: true,
+                blacklist: true,
+                posts: true,
+                files: true,
+            },
         })
 
         res.status(200).send("Delete Success")
