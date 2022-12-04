@@ -70,6 +70,36 @@ const UserList: FC<{
         //     setIsRole(4)//Owner
         // }
         const toast = useToast()
+        const kickUser = async () => {
+            const res = await API.delete("/group/deleteCommunityMember", {
+                data: {
+                    communityId: communityId,
+                    userId: userId
+                }
+            })
+            if (res.status == 200) {
+                console.log(res.data)
+                toast({
+                    title: "Kick user successfully",
+                    status: "success",
+                    duration: 5000,
+                    position: 'top',
+                    // isClosable: true,
+                })
+                setTimeout(() => {
+                    document.location.reload()
+                }, 2000)
+            } else {
+                toast({
+                    title: "Kick user failed",
+                    status: "error",
+                    duration: 5000,
+                    position: 'top',
+                    // isClosable: true,
+                })
+            }
+        }
+
         const unbanUser = async () => {
             const res = await API.delete("/group/unbanMember", {
                 data: {
@@ -87,6 +117,10 @@ const UserList: FC<{
                     position: 'top',
                     // isClosable: true,
                 })
+                setTimeout(() => {
+                    document.location.reload()
+                }, 2000)
+
             } else {
                 toast({
                     title: "Unban user failed",
@@ -111,6 +145,10 @@ const UserList: FC<{
                     position: 'top',
                     // isClosable: true,
                 })
+                setTimeout(() => {
+                    document.location.reload()
+                }, 2000)
+
             } else {
                 toast({
                     title: "Ban user failed",
@@ -142,6 +180,7 @@ const UserList: FC<{
                     isClosable: true,
                     position: 'top',
                 })
+
             }).catch((err) => {
                 console.log(err)
                 toast({
@@ -230,6 +269,7 @@ const UserList: FC<{
                                     <Text>Report</Text>
                                 </Box>
                                 <Box
+                                    onClick={kickUser}
                                     display={checkRole === 'ADMIN' && (role === 'CO_ADMIN' || role === 'MEMBER') ||
                                         checkRole === undefined ? 'flex' : 'none'}
                                     // display={
