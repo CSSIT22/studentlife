@@ -14,10 +14,10 @@ const FileList: FC<{ fileName: string; owner: string; date: string; type: string
                         {fileName}
                     </Text>
                     <Flex ml={{ base: 2, md: 0 }} gap={{ base: 1, md: "none" }} width={"100%"} direction={"row"}>
-                        <Text fontSize={"sm"} width={{ base: "auto", md: "46%" }}>
+                        <Text fontSize={"sm"} width={{ base: "auto", md: "38%" }}>
                             {owner}
                         </Text>
-                        <Text fontSize={"sm"} display={{ base: "none", md: "block" }} width={{ base: "100%", md: "14%" }}>
+                        <Text fontSize={"sm"} display={{ base: "none", md: "block" }} width={{ base: "100%", md: "22%" }}>
                             {type}
                         </Text>
                         <Text as={"b"} display={{ base: "none", sm: "block", md: "none" }}>
