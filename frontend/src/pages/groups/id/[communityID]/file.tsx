@@ -39,13 +39,18 @@ const file = () => {
 
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
+
+    //get community form backend
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-
+    const status = 0
+    // const [community, setCommunity] = useState<any>()
     useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
-            .catch((err) => on())
+        API.get('/group/getCommunityId/' + communityID,)
+            .then((res) => {
+                setCommunity(res.data)
+                console.log(res.data)
+            }).catch((err) => on())
             .finally(() => off())
     }, [])
     if (isLoading) {
@@ -70,15 +75,17 @@ const file = () => {
         <AppBody>
             <NavCommunity
                 communityName={community?.communityName}
-                communityId={communityID}
+                communityId={community?.communityId}
                 communityCoverPhoto={community?.communityCoverPhoto}
                 communityPrivacy={community?.communityPrivacy}
-                // communityCoverPhoto={community?.communityCoverPhoto}
                 communityDesc={community?.communityDesc}
-                isMember={true}
-                communityMembers={10}
+                isMember={community?.isMember}
+                isOwner={community?.isOwner}
+                communityMembers={community?.memberCount + 1}
                 activeBtn={1}
-                tags={tag}
+                isPending={community?.isPending}
+                tags={community?.tags}
+            // tags={tag}
             />
             <Box>
                 <PrivateContent

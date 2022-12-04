@@ -10,23 +10,24 @@ import API from "src/function/API"
 import PrivateContent from "src/components/group/PrivateContent"
 import UserList from "src/components/group/UserList"
 const Member = () => {
-    const [searchValue, setSearchValue] = useState("") //for store search value
-    const handleChange = (event: any) => setSearchValue(event.target.value)
-
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
     const [tag, setTag] = useState<any>()
+    // const [isError, { on }] = useBoolean()
+    // const [isLoading, { off }] = useBoolean(true)
+
+
+    //get community form backend
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-
+    const status = 0
+    // const [community, setCommunity] = useState<any>()
     useEffect(() => {
         API.get('/group/getCommunityMember/' + communityID,)
             .then((res) => {
-                setCommunity(res.data.communityById)
-                setTag(res.data.tag)
-                console.log(res.data.tag)
-            })
-            .catch((err) => on())
+                setCommunity(res.data)
+                console.log(res.data)
+            }).catch((err) => on())
             .finally(() => off())
     }, [])
     if (isLoading) {
@@ -53,16 +54,25 @@ const Member = () => {
         <AppBody>
             <NavCommunity
                 communityName={community?.communityName}
-                communityId={communityID}
+                communityId={community?.communityId}
                 communityCoverPhoto={community?.communityCoverPhoto}
                 communityPrivacy={community?.communityPrivacy}
-                // communityCoverPhoto={community?.communityCoverPhoto}
                 communityDesc={community?.communityDesc}
-                isMember={true}
-                communityMembers={10}
-                activeBtn={1}
-                tags={tag}
+                isMember={community?.isMember}
+                isOwner={community?.isOwner}
+                isPending={community?.isPending}
+                communityMembers={community?.memberCount + 1}
+                activeBtn={2}
+                tags={community?.tags}
+
             />
+            {/* <Text>{community?.communityId}</Text> */}
+            <Box>
+                <PrivateContent
+                    communityId={community?.communityId}
+                    communityPrivacy={community?.communityPrivacy}
+                    isMember={community?.isMember} />
+            </Box>
 
             <Flex
                 width='100%'
