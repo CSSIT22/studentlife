@@ -16,11 +16,8 @@ import { AllInterests, UserCardDetail } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
 
-var countSwipe: any = []
-var countOut: any = []
-for (let i = 0; i < 50; i++) {
-    countSwipe.push(1)
-    countOut.push(1)
+declare global {
+    var countSwipe: number[], countOut: number[]
 }
 
 const RandomCardInside: FC<{
@@ -182,7 +179,9 @@ const DatingRandomCard: FC<{
     setIsRunOut: React.Dispatch<React.SetStateAction<boolean>>
     setIsError: React.Dispatch<React.SetStateAction<boolean>>
     isError: boolean
-}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters, setHasSwipe, setIsRunOut, setIsError, isError }) => {
+    countSwipe: number[]
+    countOut: number[]
+}> = ({ character, index, currentIndex, controlCross, controlHeart, childRefs, setCurrentIndex, characters, setHasSwipe, setIsRunOut, setIsError, isError, countOut, countSwipe }) => {
 
     // Mutable current index
     const currentIndexRef = useRef(currentIndex)
@@ -307,9 +306,6 @@ const DatingRandomCard: FC<{
 }
 
 const DatingRandomization = () => {
-
-
-
     const didMount = useDidMount()
     const navigate = useNavigate()
     const [characters, setCharacters] = useState<UserCardDetail[]>([])
@@ -326,9 +322,10 @@ const DatingRandomization = () => {
             count = count - 1
             API.get("/dating/discovery/getCards").then((user) => {
                 let data = user.data
-
                 setCharacters(data)
                 setNumOfChar(data.length)
+                globalThis.countSwipe = Array(50).fill(1)
+                globalThis.countOut = Array(50).fill(1)
                 API.get("/dating/discovery/getAllInterest").then((interest) => {
                     setAllInterests(interest.data)
                 })
@@ -435,6 +432,8 @@ const DatingRandomization = () => {
                                 setIsRunOut={setIsRunOut}
                                 setIsError={setIsError}
                                 isError={isError}
+                                countSwipe={globalThis.countSwipe}
+                                countOut={globalThis.countOut}
                             />
                         )) : <></>}
                 </Box>
