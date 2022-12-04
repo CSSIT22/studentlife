@@ -60,7 +60,7 @@ export type InvitedCommunity = {
 //Suggestions community
 export type SuggestionsCommunity = {
   communityName: string;
-  communityMember: number;
+  communityMember?: number;
   communityPrivacy: boolean;
   communityCoverPhoto: string;
 
