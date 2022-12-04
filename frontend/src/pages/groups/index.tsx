@@ -66,15 +66,16 @@ const index = () => {
 
     const renderOwnCommunity = () => {
         return (
-            community?.communityList.own.map((community: OwnCommunity) => {
+            community?.communityList.own.map((c: OwnCommunity) => {
                 return (
                     <CommunityList
-                        key={community.communityId}
-                        communityName={community.communityName}
+                        pendingRequest={community?.communityList?.pendingRequest.length > 0}
+                        key={c.communityId}
+                        communityName={c.communityName}
                         lastActive={'9'}
-                        communityCoverPhoto={community.communityCoverPhoto}
-                        communityPrivacy={community.communityPrivacy}
-                        communityId={community.communityId} />
+                        communityCoverPhoto={c.communityCoverPhoto}
+                        communityPrivacy={c.communityPrivacy}
+                        communityId={c.communityId} />
                 )
             }))
     }
