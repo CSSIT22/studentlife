@@ -118,35 +118,41 @@ const Member = () => {
                         <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
                             <UserList
                                 key={owner.userId}
-                                isHigherPriority={community?.isOwner}
+                                isOwner={true}
                                 userId={owner.userId}
                                 avatar={owner.image}
                                 firstName={owner.fName}
                                 lastName={owner.lName}
                                 majorId={owner.majorId}
-                                role={'owner'}
+                                role={'OWNER'}
+                                checkRole={community.userRole}
                             />
                             {community?.communityMember?.admin.map((member: any) => (
                                 <UserList
                                     key={member.user.userId}
-                                    isHigherPriority={community?.isOwner}
+                                    // isHigherPriority={false}
                                     userId={member.user.userId}
                                     avatar={member.user.image}
                                     firstName={member.user.fName}
                                     lastName={member.user.lName}
                                     majorId={member.user.majorId}
-                                    role={'member'}
+                                    role={'ADMIN'}
+                                    checkRole={community.userRole}
+                                    communityId={community?.communityId}
                                 />))}
                             {community?.communityMember?.coAdmin.map((member: any) => (
                                 <UserList
                                     key={member.user.userId}
-                                    isHigherPriority={community?.isOwner}
+                                    // isHigherPriority={false}
+
                                     userId={member.user.userId}
                                     avatar={member.user.image}
                                     firstName={member.user.fName}
                                     lastName={member.user.lName}
                                     majorId={member.user.majorId}
-                                    role={'member'}
+                                    role={'CO_ADMIN'}
+                                    checkRole={community.userRole}
+                                    communityId={community?.communityId}
                                 />))}
                         </Flex>
                         <HStack
@@ -157,8 +163,8 @@ const Member = () => {
                             </Text>
                             <Text as='p' fontSize='sm' color='white'>
                                 {
-                                    community?.memberCount - community?.pendingRequest.length > 0
-                                        ? (` · ${community?.memberCount - community?.pendingRequest.length}`)
+                                    community?.communityMember?.member.length > 0
+                                        ? (` · ${community?.communityMember?.member.length}`)
                                         : ""
                                 }
                             </Text>
@@ -167,13 +173,16 @@ const Member = () => {
                             {community?.communityMember?.member.map((member: any) => (
                                 <UserList
                                     key={member.user.userId}
-                                    isHigherPriority={community?.isOwner}
+                                    // isHigherPriority={false}
+
                                     userId={member.user.userId}
                                     avatar={member.user.image}
                                     firstName={member.user.fName}
                                     lastName={member.user.lName}
                                     majorId={member.user.majorId}
-                                    role={'member'}
+                                    role={'MEMBER'}
+                                    checkRole={community.userRole}
+                                    communityId={community?.communityId}
                                 />))}
                         </Flex>
                     </Box>

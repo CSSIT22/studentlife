@@ -14,10 +14,12 @@ import {
     Badge,
     Button,
     Stack,
+    useToast,
 } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUser, FaUserShield, FaUserLock } from "react-icons/fa"
 import { BsThreeDots } from "react-icons/bs"
+import API from "src/function/API"
 
 const UserList: FC<{
     avatar?: string;
@@ -28,6 +30,9 @@ const UserList: FC<{
     role?: string;
     userId?: string;
     isHigherPriority?: boolean;
+    checkRole?: string;
+    communityId?: string;
+    isOwner?: boolean;
 
     userProfile?: string;
     userRole?: string;
@@ -39,8 +44,11 @@ const UserList: FC<{
     majorId,
     avatar,
     role,
+    checkRole,
     userId,
     isHigherPriority,
+    communityId,
+    isOwner,
 
     userProfile,
     userName,
@@ -51,6 +59,58 @@ const UserList: FC<{
         const joinedDate = new Date(joined || "")
         const joinedDateStr = `${joinedDate.getDate()}/${joinedDate.getMonth() + 1}/${joinedDate.getFullYear()}`
         const fullName = `${firstName?.charAt(0)}${firstName?.slice(1).toLocaleLowerCase()} ${lastName?.charAt(0)}${lastName?.slice(1).toLocaleLowerCase()}`
+        // const [isRole, setIsRole] = useState(0)
+        // if (role == "ADMIN") {
+        //     setIsRole(3)
+        // } else if (role == "CO_ADMIN") {
+        //     setIsRole(2)
+        // } else if (role == "MEMBER") {
+        //     setIsRole(1)
+        // } else {
+        //     setIsRole(4)//Owner
+        // }
+        const toast = useToast()
+        const setRoles = (setRole: string) => {
+            let roleId = ''
+            setRole == "ADMIN" ? roleId = 'clavjra540000v32wccz4v12g' :
+                setRole == "CO_ADMIN" ? roleId = 'clavjrudj0002v32welorer2g' :
+                    setRole == "MEMBER" ? roleId = 'clavjs04i0004v32wxmjn3kvk' : ""
+
+            API.post("/group/setRole", {
+                userId: userId,
+                communityId: communityId,
+                roleId: roleId,
+            }).then((res) => {
+                toast({
+                    title: "Set role successfully",
+                    description: `${firstName} has been given the ${setRole} role. `,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            }).catch((err) => {
+                console.log(err)
+                toast({
+                    title: "Error",
+                    description: "Something went wrong",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            })
+            // document.location.reload()
+
+            setTimeout(() => {
+                document.location.reload()
+            }, 2000)
+
+        }
+        useEffect(() => {
+            console.log("userRole", role)
+            console.log("checkRole", checkRole)
+        }, [])
         return (
             <HStack
                 minWidth={"265px"}
@@ -75,9 +135,9 @@ const UserList: FC<{
                         <Text fontSize='sm'>{majorId}</Text>
                     </Box>
                 </HStack>
-                <Popover>
-                    <PopoverTrigger>
-                        <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
+                <Popover >
+                    <PopoverTrigger >
+                        <Box display={isOwner ? "none" : 'block'} _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
                             <BsThreeDots fontSize={"25px"} />
                         </Box>
                     </PopoverTrigger>
@@ -87,32 +147,84 @@ const UserList: FC<{
                                 <Text as="b">Manage</Text>
                             </PopoverHeader>
                             <PopoverBody >
-                                <Box display={isHigherPriority ? 'flex' : 'none'} gap={1} _hover={{ cursor: "pointer" }} alignItems={"center"}>
+                                <Box
+                                    // onClick={setRole}
+                                    display={checkRole === 'ADMIN' && (role === 'CO_ADMIN' || role === 'MEMBER') ||
+                                        checkRole === undefined ? 'flex' : 'none'}
+                                    gap={1}
+                                    _hover={{ cursor: "pointer" }}
+                                    alignItems={"center"}>
                                     <FaBan />
                                     <Text>Ban</Text>
                                 </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                <Box
+                                    gap={1}
+                                    _hover={{ cursor: "pointer" }}
+                                    display="flex"
+                                    alignItems={"center"}>
                                     <FaExclamationCircle />
                                     <Text>Report</Text>
                                 </Box>
-                                <Box display={isHigherPriority ? 'flex' : 'none'} gap={1} _hover={{ cursor: "pointer" }} alignItems={"center"}>
+                                <Box
+                                    display={checkRole === 'ADMIN' && (role === 'CO_ADMIN' || role === 'MEMBER') ||
+                                        checkRole === undefined ? 'flex' : 'none'}
+                                    // display={
+                                    //     (role === "ADMIN" || role === "CO_ADMIN" || role === "MEMBER" && checkRole === undefined) ||
+                                    //         (role === "CO_ADMIN" || role === "MEMBER" && checkRole === "ADMIN")
+                                    //         ? 'flex' : 'none'}
+                                    gap={1}
+                                    _hover={{ cursor: "pointer" }}
+                                    alignItems={"center"}>
                                     <FaHandMiddleFinger />
                                     <Text>Kick</Text>
                                 </Box>
                             </PopoverBody>
-                            <PopoverBody display={isHigherPriority ? 'block' : 'none'}>
-                                <Text as="b">Set Role</Text>
+                            <PopoverBody
+                                display={
+                                    checkRole === undefined || (checkRole === "ADMIN" && role !== 'ADMIN') ? 'block' : 'none'}
+                            >
+                                <Text
+
+                                    as="b">Set Role</Text>
                             </PopoverBody>
-                            <PopoverFooter display={isHigherPriority ? 'block' : 'none'}>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                            <PopoverFooter
+                                display={
+                                    checkRole === undefined || (checkRole === "ADMIN" && role !== 'ADMIN') ? 'block' : 'none'}
+                            >
+                                <Box
+                                    // onClick={setRoles('ADMIN')}
+                                    onClick={() => setRoles('ADMIN')}
+                                    display={checkRole === undefined && role !== 'ADMIN' ? 'flex' : 'none'}
+                                    gap={1}
+                                    _hover={{ cursor: "pointer" }}
+                                    // display="flex"
+                                    alignItems={"center"}>
                                     <FaUserLock />
                                     <Text>Set to admin</Text>
                                 </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                <Box
+                                    onClick={() => setRoles('CO_ADMIN')}
+                                    display={(checkRole === 'ADMIN' && role !== 'CO_ADMIN' || role === 'ADMIN')
+                                        || (checkRole === undefined && role !== 'CO_ADMIN')
+                                        ? 'flex' : 'none'}
+                                    // display={(checkRole === 'ADMIN' && role === 'MEMBER' || role === 'CO_ADMIN') ||
+                                    //     (checkRole === 'ADMIN' && role === 'CO_ADMIN') ||
+                                    //     checkRole === undefined ? 'flex' : 'none'}
+                                    gap={1}
+                                    _hover={{ cursor: "pointer" }}
+                                    // display="flex"
+                                    alignItems={"center"}>
                                     <FaUserShield />
                                     <Text>Set to moderator</Text>
                                 </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                <Box
+                                    onClick={() => setRoles('MEMBER')}
+                                    display={(checkRole === 'ADMIN' && role !== 'MEMBER') || (checkRole === undefined && role !== 'MEMBER') ? 'flex' : 'none'}
+                                    // display={(checkRole === 'ADMIN' && role === 'MEMBER' || role === 'CO_ADMIN') || checkRole === undefined ? 'flex' : 'none'}
+                                    gap={1}
+                                    _hover={{ cursor: "pointer" }}
+                                    // display="flex"
+                                    alignItems={"center"}>
                                     <FaUser />
                                     <Text>Set to member</Text>
                                 </Box>
