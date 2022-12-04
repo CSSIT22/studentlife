@@ -320,6 +320,7 @@ const DatingRandomization = () => {
     useEffect(() => {
         if (didMount && count == 1) {
             count = count - 1
+            window.scrollTo(0, 0)
             API.get("/dating/discovery/getCards").then((user) => {
                 let data = user.data
                 setCharacters(data)

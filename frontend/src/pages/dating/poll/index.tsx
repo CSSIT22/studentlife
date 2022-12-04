@@ -18,6 +18,7 @@ const AllActivityPoll = () => {
     useEffect(() => {
         if (didMount && count != 0) {
             count--
+            window.scrollTo(0, 0)
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 API.get("/dating/verifyEnroll/getDatingOptions")
                     .then((datingOptions) => {

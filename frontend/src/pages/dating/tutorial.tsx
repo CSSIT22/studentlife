@@ -34,9 +34,12 @@ const Tutorial = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
+    let count = 1
 
     useEffect(() => {
-        if (didMount) {
+        if (didMount && count == 1) {
+            count--
+            window.scrollTo(0, 0)
             API.get("/dating/tutorial/getUserProfile")
                 .then((userProfile) => {
                     setFName(userProfile.data.fName)

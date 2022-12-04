@@ -1,5 +1,5 @@
 import { Heading, Stack, Text, Box, Image, Flex, Center, Container } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AppBody from "./../../components/share/app/AppBody"
 import { FRIEND } from "./../../components/dating/shared/friend"
 import DatingRatingSearch from "src/components/dating/DatingRatingSearch"
@@ -8,6 +8,24 @@ import DatingRatingAllStar from "src/components/dating/DatingRatingAllStar"
 const Rating = () => {
     const [friend, setFriend] = useState(FRIEND)
     const [searchQuery, setSearchQuery] = useState("")
+    const didMount = useDidMount()
+    let count = 1
+
+    useEffect(() => {
+        if (didMount && count != 0) {
+            count--
+            window.scrollTo(0, 0)
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
 
     return (
         <AppBody>
