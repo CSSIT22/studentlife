@@ -1,4 +1,3 @@
-
 import { verifyUser } from "./../backendService/middleware/verifyUser"
 import { post } from "./../../../../types/announcement/index"
 import express from "express"
@@ -30,7 +29,8 @@ export let posts: post[] = [
         userId: "s9MVUEgDL1Oq8yrzaEL6z",
         languageId: 1000,
         annTopic: "Hello World",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "approve",
         pinStatus: false,
@@ -50,7 +50,8 @@ export let posts: post[] = [
         userId: "s9MVUEgDL1Oq8yrzaEL6z",
         languageId: 1000,
         annTopic: "Hello World1",
-        annDetail: "Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "waiting",
         pinStatus: false,
@@ -67,7 +68,8 @@ export let posts: post[] = [
         userId: "s9MVUEgDL1Oq8yrzaEL6z",
         languageId: 1000,
         annTopic: "Hello World2",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "approve",
         pinStatus: false,
@@ -84,7 +86,8 @@ export let posts: post[] = [
         userId: "s9MVUEgDL1Oq8yrzaEL6z",
         languageId: 1000,
         annTopic: "Hello World3",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "delete",
         pinStatus: false,
@@ -101,7 +104,8 @@ export let posts: post[] = [
         userId: "wFbN9qrwUbCgrEtfpIEVf",
         languageId: 1000,
         annTopic: "Hello World4",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "approve",
         pinStatus: false,
@@ -118,7 +122,8 @@ export let posts: post[] = [
         userId: "wFbN9qrwUbCgrEtfpIEVf",
         languageId: 1000,
         annTopic: "Hello World5",
-        annDetail: "Loorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Loorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "disapprove",
         pinStatus: false,
@@ -135,7 +140,8 @@ export let posts: post[] = [
         userId: "wFbN9qrwUbCgrEtfpIEVf",
         languageId: 1000,
         annTopic: "Hello World6",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "delete",
         pinStatus: false,
@@ -152,7 +158,8 @@ export let posts: post[] = [
         userId: "wFbN9qrwUbCgrEtfpIEVf",
         languageId: 1000,
         annTopic: "Hello World7",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "waiting",
         pinStatus: false,
@@ -169,7 +176,8 @@ export let posts: post[] = [
         userId: "wFbN9qrwUbCgrEtfpIEVf",
         languageId: 1000,
         annTopic: "Hello World8",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "waiting",
         pinStatus: false,
@@ -186,7 +194,8 @@ export let posts: post[] = [
         userId: "wFbN9qrwUbCgrEtfpIEVf",
         languageId: 1000,
         annTopic: "Hello World9",
-        annDetail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        annDetail:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         sender: "SAMO-SIT",
         status: "waiting",
         pinStatus: false,
@@ -215,26 +224,26 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
     const currentD = Math.round(date.getTime() / day)
     const prisma = res.prisma
 
-    try{
+    try {
         const getpostid = await prisma.announcement_Pin.findMany({
-            where:{
-                userId: req.user?.userId || ""
+            where: {
+                userId: req.user?.userId || "",
             },
-            select:{
-                postId: true
-            }
+            select: {
+                postId: true,
+            },
         })
         let allpost = []
         for (let i = 0; i < getpostid.length; i++) {
             const getpostdetail = await prisma.announcement.findMany({
-                where:{
+                where: {
                     postId: getpostid[i].postId,
                     isApprove: true,
-                    annPost:{
-                        status: "Approve"
-                    }
+                    annPost: {
+                        status: "Approve",
+                    },
                 },
-                select:{
+                select: {
                     postId: true,
                     userId: true,
                     annFilter: {
@@ -244,8 +253,8 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
                         },
                     },
                     annLanguage: {
-                        orderBy:{
-                            languageId : 'asc'
+                        orderBy: {
+                            languageId: "asc",
                         },
                         select: {
                             postId: true,
@@ -261,40 +270,36 @@ announcementRoutes.get("/getPostOnAnnouncement", async (req, res) => {
                         },
                     },
                     annExpired: true,
-                    annPin:{
-                        where:{
-                            userId: req.user?.userId
+                    annPin: {
+                        where: {
+                            userId: req.user?.userId,
                         },
-                        select:{
-                            status: true
-                        }
+                        select: {
+                            status: true,
+                        },
                     },
-                    annApprove:{
-                        select:{
-                            approveTime:true
-                        }
-                    }
-                }
-
+                    annApprove: {
+                        select: {
+                            approveTime: true,
+                        },
+                    },
+                },
             })
-            for(let i=0;i<getpostdetail.length;i++){
+            for (let i = 0; i < getpostdetail.length; i++) {
                 allpost.push(getpostdetail[i])
             }
-            
         }
         // console.log(allpost)
         // console.log(allpost[0].annPin[0].status)
         let unexpirepost = []
         for (let i = 0; i < allpost.length; i++) {
-            if(allpost[i].annExpired>date){
+            if (allpost[i].annExpired > date) {
                 unexpirepost.push(allpost[i])
             }
         }
         // console.log(unexpirepost)
         res.send(unexpirepost)
-        
-    }
-    catch(err:any){
+    } catch (err: any) {
         // res.send(err)
         res.status(400).send("Error find to post")
     }
@@ -342,7 +347,7 @@ announcementRoutes.get("/gettypetarget", getTypeTarget)
 
 announcementRoutes.get("/getotherlang", getOtherLang)
 
-announcementRoutes.get("/test", async (req,res) =>{
+announcementRoutes.get("/test", async (req, res) => {
     const prisma = res.prisma
     // const announcer = [{userId:"s9MVUEgDL1Oq8yrzaEL6z"}, {userId:"wFbN9qrwUbCgrEtfpIEVf"}]
     try {
@@ -384,7 +389,6 @@ announcementRoutes.get("/test", async (req,res) =>{
         // console.log(faculty)
         // res.send(role)
         // console.log(role);
-        
     } catch (err: any) {
         console.log(err)
         res.status(500)

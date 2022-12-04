@@ -6,24 +6,24 @@ const editRoomProp = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const chatColor = req.query.chatColor
     const roomName = req.query.roomName
-    if(roomName != null){
+    if (roomName != null) {
         await prisma.chat_Room.update({
-            where : {
-                roomId : id,
+            where: {
+                roomId: id,
             },
-            data : {
+            data: {
                 roomName: `${roomName}`,
-            }
+            },
         })
     }
-    if(chatColor != null){
+    if (chatColor != null) {
         await prisma.chat_Room.update({
-            where : {
-                roomId : id,
+            where: {
+                roomId: id,
             },
-            data : {
-                chatColor : `${chatColor}`,
-            }
+            data: {
+                chatColor: `${chatColor}`,
+            },
         })
     }
     res.redirect(`/chat/${id}`)

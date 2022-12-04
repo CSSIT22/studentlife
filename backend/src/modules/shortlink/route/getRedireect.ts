@@ -7,7 +7,8 @@ const getRedirect = async (req: Request, res: Response) => {
     console.log(req.query.shorten)
 
     // Query returns User or null
-    const getUser: ShortLink | null = await res.prisma.shortLink.findFirst({ //Select statement like a sql
+    const getUser: ShortLink | null = await res.prisma.shortLink.findFirst({
+        //Select statement like a sql
         where: {
             shortenLink: (req.query.shorten as string) || "",
         },

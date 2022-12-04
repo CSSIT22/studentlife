@@ -7,16 +7,15 @@ const editPinStatus = async (req: Request, res: Response) => {
     const pinStatus = req.body.pinStatus
     const prisma = res.prisma
 
-    try{
+    try {
         const updatepin = await prisma.announcement_Pin.updateMany({
-            where:{
+            where: {
                 userId: req.user?.userId,
-                postId: postId
+                postId: postId,
             },
-            data:{
-                status: pinStatus
-            }
-
+            data: {
+                status: pinStatus,
+            },
         })
         res.send(updatepin)
         // const updatepin = await prisma.announcement.update({
@@ -34,8 +33,7 @@ const editPinStatus = async (req: Request, res: Response) => {
         //         }
         //     }
         // })
-    }
-    catch(err: any){
+    } catch (err: any) {
         // res.send(err)
         res.status(404).send(err)
     }
