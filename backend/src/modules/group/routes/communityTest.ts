@@ -77,8 +77,28 @@ const communityTest = async (req: Request, res: Response) => {
             
         // })
 
+        
+        const Member = await prisma.community_User.findMany({
+            where:{
+                userId: body.user,
+                communityId: body.communtiy
+            }
+        })
 
-        res.send(req.params.id)
+        const isMember = Member.length == 0 ?  false : true
+
+
+        const owner = await prisma.community.findMany({
+            where:{
+                communityOwnerId : body.user,
+                communityId: body.communtiy
+            }
+        })
+        const isOwner = (owner.length == 0) ?  false : true
+
+        const hello = {isOwner}
+        res.send(hello)
+        
     } catch (err) {
         console.log(err)
         res.status(403)

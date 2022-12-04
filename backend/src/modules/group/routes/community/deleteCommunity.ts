@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 
 const deleteCommunity = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const target = req.body.communityId//req.params.communityId
+    const target = req.params.id
 
     try {
         await prisma.community.delete({

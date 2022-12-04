@@ -11,8 +11,6 @@ const editCommunity = async (req: Request, res: Response) => {
         communityPrivacy: body.communityPrivacy,
     }
 
-    console.log("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
-    console.log(id)
 
     const tag2id = await prisma.tag.findMany({
         select: {

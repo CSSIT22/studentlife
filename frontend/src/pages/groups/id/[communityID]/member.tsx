@@ -10,24 +10,23 @@ import API from "src/function/API"
 import PrivateContent from "src/components/group/PrivateContent"
 import UserList from "src/components/group/UserList"
 const Member = () => {
+    const [searchValue, setSearchValue] = useState("") //for store search value
+    const handleChange = (event: any) => setSearchValue(event.target.value)
+
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
     const [tag, setTag] = useState<any>()
-    // const [isError, { on }] = useBoolean()
-    // const [isLoading, { off }] = useBoolean(true)
-
-
-    //get community form backend
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const status = 0
-    // const [community, setCommunity] = useState<any>()
+
     useEffect(() => {
         API.get('/group/getCommunityMember/' + communityID,)
             .then((res) => {
-                setCommunity(res.data)
-                console.log(res.data)
-            }).catch((err) => on())
+                setCommunity(res.data.communityById)
+                setTag(res.data.tag)
+                console.log(res.data.tag)
+            })
+            .catch((err) => on())
             .finally(() => off())
     }, [])
     if (isLoading) {
@@ -54,131 +53,130 @@ const Member = () => {
         <AppBody>
             <NavCommunity
                 communityName={community?.communityName}
-                communityId={community?.communityId}
+                communityId={communityID}
                 communityCoverPhoto={community?.communityCoverPhoto}
                 communityPrivacy={community?.communityPrivacy}
+                // communityCoverPhoto={community?.communityCoverPhoto}
                 communityDesc={community?.communityDesc}
-                isMember={community?.isMember}
-                isOwner={community?.isOwner}
-                isPending={community?.isPending}
-                communityMembers={community?.memberCount + 1}
-                activeBtn={2}
-                tags={community?.tags}
-
+                isMember={true}
+                communityMembers={10}
+                activeBtn={1}
+                tags={tag}
             />
-            {/* <Text>{community?.communityId}</Text> */}
-            <Box>
-                <PrivateContent
-                    communityId={community?.communityId}
-                    communityPrivacy={community?.communityPrivacy}
-                    isMember={community?.isMember} />
-            </Box>
+            <Flex direction={{ base: "column-reverse", md: "row" }} gap={2} align="flex-start" mb={4}>
+                <Flex width="100%" gap={3} direction={"column"}>
+                    <MemberBox boxType="request" data={communityData} title="Request" subTitle="These people have been invited to join the goup" />
+                    <MemberBox boxType="admin" data={communityData} title="Admin" />
+                    <MemberBox boxType="moderator" data={communityData} title="Moderator" />
+                    <MemberBox boxType="member" data={communityData} title="Member" />
+                    <MemberBox boxType="blacklist" data={communityData} title="Blacklist" />
+                </Flex>
 
-            <Flex
-                width='100%'
-                mt='2'
-                direction={{ base: "column-reverse", md: "row" }}
-                gap={2}
-                justifyContent='center'
-                alignItems='center'
-                mb={4}>
-                <VStack
+                <Flex
+                    width='100%'
+                    mt='2'
+                    direction={{ base: "column-reverse", md: "row" }}
+                    gap={2}
                     justifyContent='center'
                     alignItems='center'
-                    // align='center'
-                    maxWidth='580px'
-                    width="100%"
-                    gap={3}
-                >
-                    <MemberBox
-                        displayBox={community.pendingRequest != 0 && community?.isOwner}
-                        boxType="request"
-                        pendingRequest={community.pendingRequest}
-                        title="Request"
-                        subTitle="These people have been invited to join the group" />
-
-
-                    <Box
-                        display={community?.isMember || !community?.communityPrivacy ? "block" : 'none'}
-                        boxShadow={"2xl"} width={"100%"}
-                        backgroundColor="orange.400"
-                        p={4}
-                        borderRadius="md"
+                    mb={4}>
+                    <VStack
+                        justifyContent='center'
+                        alignItems='center'
+                        // align='center'
+                        maxWidth='580px'
+                        width="100%"
+                        gap={3}
                     >
-                        <HStack align='flex-end'>
-                            <Text as="b" color={"white"}>
-                                Admins & moderators
-                            </Text>
-                            <Text as='p' fontSize='sm' color='white'>
-                                {
-                                    ` · ${community?.communityMember.admin.length + community?.communityMember.coAdmin.length + 1} `
-                                }
-                            </Text>
-                        </HStack>
-                        <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
-                            <UserList
-                                key={owner.userId}
-                                isHigherPriority={community?.isOwner}
-                                userId={owner.userId}
-                                avatar={owner.image}
-                                firstName={owner.fName}
-                                lastName={owner.lName}
-                                majorId={owner.majorId}
-                                role={'owner'}
-                            />
-                            {community?.communityMember?.admin.map((member: any) => (
+                        <MemberBox
+                            displayBox={community.pendingRequest != 0 && community?.isOwner}
+                            boxType="request"
+                            pendingRequest={community.pendingRequest}
+                            title="Request"
+                            subTitle="These people have been invited to join the group" />
+
+
+                        <Box
+                            display={community?.isMember || !community?.communityPrivacy ? "block" : 'none'}
+                            boxShadow={"2xl"} width={"100%"}
+                            backgroundColor="orange.400"
+                            p={4}
+                            borderRadius="md"
+                        >
+                            <HStack align='flex-end'>
+                                <Text as="b" color={"white"}>
+                                    Admins & moderators
+                                </Text>
+                                <Text as='p' fontSize='sm' color='white'>
+                                    {
+                                        ` · ${community?.communityMember.admin.length + community?.communityMember.coAdmin.length + 1} `
+                                    }
+                                </Text>
+                            </HStack>
+                            <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
                                 <UserList
-                                    key={member.user.userId}
+                                    key={owner.userId}
                                     isHigherPriority={community?.isOwner}
-                                    userId={member.user.userId}
-                                    avatar={member.user.image}
-                                    firstName={member.user.fName}
-                                    lastName={member.user.lName}
-                                    majorId={member.user.majorId}
-                                    role={'member'}
-                                />))}
-                            {community?.communityMember?.coAdmin.map((member: any) => (
-                                <UserList
-                                    key={member.user.userId}
-                                    isHigherPriority={community?.isOwner}
-                                    userId={member.user.userId}
-                                    avatar={member.user.image}
-                                    firstName={member.user.fName}
-                                    lastName={member.user.lName}
-                                    majorId={member.user.majorId}
-                                    role={'member'}
-                                />))}
-                        </Flex>
-                        <HStack
-                            display={community?.communityMember?.member.length > 0 ? "flex" : "none"}
-                            align='flex-end' mt={3}>
-                            <Text as="b" color={"white"}>
-                                Members
-                            </Text>
-                            <Text as='p' fontSize='sm' color='white'>
-                                {
-                                    community?.memberCount - community?.pendingRequest.length > 0
-                                        ? (` · ${community?.memberCount - community?.pendingRequest.length}`)
-                                        : ""
-                                }
-                            </Text>
-                        </HStack>
-                        <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
-                            {community?.communityMember?.member.map((member: any) => (
-                                <UserList
-                                    key={member.user.userId}
-                                    isHigherPriority={community?.isOwner}
-                                    userId={member.user.userId}
-                                    avatar={member.user.image}
-                                    firstName={member.user.fName}
-                                    lastName={member.user.lName}
-                                    majorId={member.user.majorId}
-                                    role={'member'}
-                                />))}
-                        </Flex>
-                    </Box>
-                </VStack>
-            </Flex>
+                                    userId={owner.userId}
+                                    avatar={owner.image}
+                                    firstName={owner.fName}
+                                    lastName={owner.lName}
+                                    majorId={owner.majorId}
+                                    role={'owner'}
+                                />
+                                {community?.communityMember?.admin.map((member: any) => (
+                                    <UserList
+                                        key={member.user.userId}
+                                        isHigherPriority={community?.isOwner}
+                                        userId={member.user.userId}
+                                        avatar={member.user.image}
+                                        firstName={member.user.fName}
+                                        lastName={member.user.lName}
+                                        majorId={member.user.majorId}
+                                        role={'member'}
+                                    />))}
+                                {community?.communityMember?.coAdmin.map((member: any) => (
+                                    <UserList
+                                        key={member.user.userId}
+                                        isHigherPriority={community?.isOwner}
+                                        userId={member.user.userId}
+                                        avatar={member.user.image}
+                                        firstName={member.user.fName}
+                                        lastName={member.user.lName}
+                                        majorId={member.user.majorId}
+                                        role={'member'}
+                                    />))}
+                            </Flex>
+                            <HStack
+                                display={community?.communityMember?.member.length > 0 ? "flex" : "none"}
+                                align='flex-end' mt={3}>
+                                <Text as="b" color={"white"}>
+                                    Members
+                                </Text>
+                                <Text as='p' fontSize='sm' color='white'>
+                                    {
+                                        community?.memberCount - community?.pendingRequest.length > 0
+                                            ? (` · ${community?.memberCount - community?.pendingRequest.length}`)
+                                            : ""
+                                    }
+                                </Text>
+                            </HStack>
+                            <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
+                                {community?.communityMember?.member.map((member: any) => (
+                                    <UserList
+                                        key={member.user.userId}
+                                        isHigherPriority={community?.isOwner}
+                                        userId={member.user.userId}
+                                        avatar={member.user.image}
+                                        firstName={member.user.fName}
+                                        lastName={member.user.lName}
+                                        majorId={member.user.majorId}
+                                        role={'member'}
+                                    />))}
+                            </Flex>
+                        </Box>
+                    </VStack>
+                </Flex>
         </AppBody>
     )
 }

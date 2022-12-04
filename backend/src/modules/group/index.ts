@@ -44,14 +44,14 @@ groupRoutes.post("/createtest", (req, res) => {
 })
 
 groupRoutes.post("/createCommunity", createCommunity)
-groupRoutes.delete("/deleteCommunity", deleteCommunity)
+groupRoutes.delete("/deleteCommunity/:id", deleteCommunity)
 groupRoutes.get("/searchCommunity", searchCommunity)
 groupRoutes.patch("/editCommunity:id", editCommunity)
 groupRoutes.get("/getCommunity", getCommunity)
 
 groupRoutes.post("/pendingRequest", pendingRequest)
-groupRoutes.delete("/leaveCommunity", leaveCommunity)
-groupRoutes.post("/joinCommunity", joinCommunity)
+groupRoutes.delete("/leaveCommunity/:id", leaveCommunity)
+groupRoutes.post("/joinCommunity/:id", joinCommunity)
 groupRoutes.post("/acceptRequest", acceptRequest)
 groupRoutes.delete("/declineRequest", declineRequest)
 
