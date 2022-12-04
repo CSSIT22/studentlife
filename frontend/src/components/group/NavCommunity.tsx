@@ -161,7 +161,7 @@ const NavCommunity: FC<{
                     })
                 leaveOnClick()
                 setTimeout(() => {
-                    window.location.reload()
+                    document.location.reload()
                 }, 1000)
             } else {
                 API.post("/group/pendingRequest", {
@@ -189,7 +189,7 @@ const NavCommunity: FC<{
                     })
                 leaveOnClick()
                 setTimeout(() => {
-                    window.location.reload()
+                    document.location.reload()
                 }, 1000)
             }
 
@@ -219,7 +219,7 @@ const NavCommunity: FC<{
                     })
                 })
             setTimeout(() => {
-                window.location.reload()
+                document.location.reload()
             }, 1000)
         }
         return (
