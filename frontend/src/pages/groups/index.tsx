@@ -36,7 +36,11 @@ const index = () => {
     const [community, setCommunity] = useState<any>()
     useEffect(() => {
         API.get("/group/getcommunity")
-            .then((res) => setCommunity(res.data))
+            .then((res) => {
+
+                setCommunity(res.data)
+                console.log(res.data)
+            })
             .catch((err) => on())
             .finally(() => off())
     }, [])
@@ -111,7 +115,7 @@ const index = () => {
                         key={community.communityId}
                         communityName={community.communityName}
                         communityCoverPhoto={community.communityCoverPhoto}
-                        communityMember={community.communityMember}
+                        communityMember={0}
                         communityPrivacy={community.communityPrivacy}
                         communityId={community.communityId}
                     />
