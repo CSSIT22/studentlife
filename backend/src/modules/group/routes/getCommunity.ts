@@ -34,17 +34,51 @@ const getCommunity = async (req: Request, res: Response) => {
                 communityOwnerId: userId,
             },
         })
-
+        // const pendingRequest = await prisma.community_User.findMany({
+        //     where: {
+        //         communityId: { in: communityUserInvite.map((item: any) => item.communityId) },
+        //         status: false,
+        //     },
+        //     include: {
+        //         user: true,
+        //     },
+        // })
+        const pendingRequest = await prisma.community.findMany({
+            where: {
+                communityId: { in: communityUserInvite.map((item: any) => item.communityId) },
+            },
+            include: {
+                member: {
+                    where: {
+                        userId: userId,
+                    },
+                },
+                owner: true,
+            },
+        })
+        // const memberCount = await prisma.community_User.count({
+        //     where: {
+        //         communityId: { in: communityUser.map((item: any) => item.communityId) },
+        //         status: true,
+        //     },
+        // })
         const invitations = await prisma.community.findMany({
             where: {
                 communityId: { in: communityUserInvite.map((item: any) => item.communityId) },
             },
         })
 
-        const suggestions = await prisma.community.findMany({
+        const suggest = await prisma.community.findMany({
             where: {
                 communityId: { notIn: communityUser.map((item: any) => item.communityId) },
                 NOT: { communityOwnerId: userId },
+            },
+            include: {
+                member: {
+                    where: {
+                        status: true,
+                    },
+                },
             },
         })
 
@@ -53,11 +87,13 @@ const getCommunity = async (req: Request, res: Response) => {
         // const countInvite = invitations.length
         const commuinities: any = {
             count: joinedCommunitys.length + ownCommunitys.length, //send count of joined and own community
+            userId: userId,
             communityList: {
                 joined: joinedCommunitys,
                 own: ownCommunitys,
                 invite: invitations,
-                suggestions: suggestions,
+                suggest: suggest,
+                pendingRequest: pendingRequest,
             },
             // ownCommunitys,
             // countOwn,
