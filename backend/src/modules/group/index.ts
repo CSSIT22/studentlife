@@ -60,7 +60,7 @@ groupRoutes.delete("/deleteFile", deleteFile)
 
 groupRoutes.get("/getCommunityPost", getCommunityPost)
 
-groupRoutes.get("/getCommunityMember", getCommunityMember)
+groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)
 groupRoutes.post("/banMember", banMember)
 groupRoutes.post("/setRole", setRole)
@@ -68,6 +68,6 @@ groupRoutes.delete("/unBanMember", unBanMember)
 
 groupRoutes.get("/getCommunityId/:id", getCommunityId)
 groupRoutes.get("/communityTest", communityTest)
-groupRoutes.get("/getTag",getTag)
+groupRoutes.get("/getTag", getTag)
 
 export default groupRoutes
