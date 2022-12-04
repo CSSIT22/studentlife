@@ -24,6 +24,8 @@ import {
     Input,
     useDisclosure,
     useBoolean,
+    useToast,
+    Tooltip,
 } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { TiWarning } from "react-icons/ti"
@@ -35,6 +37,7 @@ import FriendInviteList from "./FriendInviteList"
 import { SearchIcon } from "@chakra-ui/icons"
 import { userData } from "src/pages/groups/data"
 import useWindowDimensions from "./hooks/useWindowDimensions"
+import API from "src/function/API"
 
 const NavCommunity: FC<{
     communityId: string,
@@ -42,14 +45,21 @@ const NavCommunity: FC<{
     communityCoverPhoto?: string,
     communityPrivacy?: boolean,
     communityDesc?: string,
-    tags?: any,
-
-    isMember: boolean,
     communityMembers: number,
+    tags?: any,
+    role?: string,
 
+    isOwner?: boolean,
+    isMember: boolean,
     activeBtn?: number,
     disabled?: boolean
+    isPending?: boolean
+    //user data
+    userId?: string,
 }> = ({
+    isPending,
+    userId,
+    role,
     activeBtn,
     communityId,
     communityName,
@@ -58,6 +68,7 @@ const NavCommunity: FC<{
     communityMembers,
     communityDesc,
     tags,
+    isOwner,
     isMember,
     disabled }) => {
 
@@ -122,26 +133,119 @@ const NavCommunity: FC<{
         // const isPrivate = community?.communityById.communityPrivacy
         // const tag = community?.tag
         // const desc = community?.communityById.communityDesc
+        const toast = useToast()
+        const joinOnClick = () => {
+            if (!communityPrivacy) {
+                API.post("/group/joinCommunity", {
+                    communityId: communityId,
+                })
+                    .then((res) => {
+                        toast({
+                            title: "Success",
+                            description: "Joined the community",
+                            status: "success",
+                            duration: 5000,
+                            isClosable: true,
+                            position: 'top',
+                        })
+                    }).catch((err) => {
+                        console.log(err)
+                        toast({
+                            title: "Error",
+                            description: "Something went wrong",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                            position: 'top',
+                        })
+                    })
+                leaveOnClick()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
+            } else {
+                API.post("/group/pendingRequest", {
+                    communityId: communityId,
+                })
+                    .then((res) => {
+                        toast({
+                            title: "Success",
+                            description: "Your request has been sent",
+                            status: "success",
+                            duration: 5000,
+                            isClosable: true,
+                            position: 'top',
+                        })
+                    }).catch((err) => {
+                        console.log(err)
+                        toast({
+                            title: "Error",
+                            description: "Something went wrong",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                            position: 'top',
+                        })
+                    })
+                leaveOnClick()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
+            }
 
-
-
+        }
+        const handleOnLeaveCommunity = () => {
+            API.delete("/group/leaveCommunity", {
+                data: {
+                    communityId: communityId,
+                }
+            })
+                .then((res) => {
+                    toast({
+                        title: "Success",
+                        description: "Left the community",
+                        status: "success",
+                        duration: 5000,
+                        position: 'top',
+                    })
+                }).catch((err) => {
+                    console.log(err)
+                    toast({
+                        title: "Error",
+                        description: "Something went wrong",
+                        status: "error",
+                        duration: 5000,
+                        position: 'top',
+                    })
+                })
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000)
+        }
         return (
             <Box>
                 <Image
+                    borderBottomRadius={{ base: "md", sm: "none" }}
+                    marginTop={{ base: "-2rem", sm: "-5rem" }}
+                    height={{ base: "10rem", sm: "15rem" }}
                     sx={{
                         backgroundRepeat: "no-repeat",
-                        marginTop: "-5rem",
+                        // marginTop: "-5rem",
                         width: "100%",
                         objectFit: "cover",
                         objectPosition: "center",
-                        height: "15rem",
+                        // height: "15rem",
                     }}
                     src={communityCoverPhoto}
                     // src={"https://storage.googleapis.com/thistinestorage/photos/DSC_5803-Edit-2.jpg"}
                     fallbackSrc="https://via.placeholder.com/800"
                 />
-                <Box p={4} borderBottomRadius="md" backgroundColor={"white"} boxShadow={"2xl"}>
-                    <HStack justify={"space-between"}>
+                <Box
+                    p={4}
+                    borderBottomRadius="md"
+                    backgroundColor={{ base: "none", sm: "white" }}
+                    boxShadow={{ base: "none", sm: "2xl" }}>
+                    <Flex direction={{ base: 'column-reverse', xs: 'row' }} justify={"space-between"}>
                         <div>
                             <Text as="b">{communityName ? communityName : "Community Name"}</Text>
                             <Box display="flex" fontSize={"sm"} alignItems="center" gap={1}>
@@ -151,14 +255,15 @@ const NavCommunity: FC<{
                                 </Text>
                             </Box>
                         </div>
-                        <div>
+                        <Box alignSelf={{ base: "flex-end", xs: 'flex-start' }}>
                             {isMember ? (
                                 <HStack>
                                     <Button
+                                        shadow={{ base: "lg", sm: "xl" }}
                                         disabled={disabled}
                                         onClick={modalOnClick}
-                                        size="sm"
-                                        background={"orange.500"}
+                                        size={{ base: "xs", sm: "sm" }}
+                                        background='#e65300'
                                         _hover={{ background: "orange.200", cursor: "pointer" }}
                                         color={"white"}
                                         _active={{ background: 'orange.200' }}
@@ -274,14 +379,27 @@ const NavCommunity: FC<{
 
                                     <Popover>
                                         <PopoverTrigger>
-                                            <Button disabled={disabled} _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
-                                                <BsThreeDots fontSize={"25px"} />
+                                            <Button
+                                                color='white'
+                                                shadow={{ base: "lg", sm: "xl" }}
+                                                size={{ base: 'xs', sm: "sm" }}
+                                                bg='#e65300'
+                                                disabled={disabled}
+                                                _hover={{ cursor: "pointer" }}
+                                                // py={'-3rem'}
+                                                // px={4}
+                                                borderRadius="md">
+                                                <BsThreeDots
+                                                    fontSize={"20px"}
+                                                />
                                             </Button>
                                         </PopoverTrigger>
                                         <Portal>
                                             <PopoverContent width="180px">
                                                 <PopoverBody>
-                                                    <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                                                    <Box gap={1} _hover={{ cursor: "pointer" }}
+                                                        display={isOwner ? "flex" : "none"}
+                                                        alignItems={"center"}>
                                                         <FaExclamationCircle />
                                                         <Link to={`/groups/id/${communityId}/edit`}>
                                                             <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
@@ -306,9 +424,13 @@ const NavCommunity: FC<{
                                                             <ModalBody pb={6}>Are you sure you want to leave this community?</ModalBody>
 
                                                             <ModalFooter>
-                                                                <Link to={`/groups/`}>
-                                                                    <Button colorScheme="blue" mr={3} onClick={leaveOnClick}>
-                                                                        Sure
+                                                                <Link
+                                                                    to={`/groups/id/${communityId}`}
+                                                                >
+                                                                    <Button
+                                                                        colorScheme="blue" mr={3}
+                                                                        onClick={handleOnLeaveCommunity}>
+                                                                        sure
                                                                     </Button>
                                                                 </Link>
                                                                 <Button onClick={leaveOnClick}>Cancel</Button>
@@ -321,21 +443,29 @@ const NavCommunity: FC<{
                                     </Popover>
                                 </HStack>
                             ) : (
-                                <Button size="sm" background={"orange.500"} _hover={{ background: "orange.200" }} color={"white"}>
-                                    Join
-                                </Button>
+                                <Tooltip label={isPending ? 'Your request is being processed... please wait for the owner to accept it.' : ''}>
+                                    <Button
+                                        isLoading={isPending}
+                                        onClick={joinOnClick}
+                                        size="sm"
+                                        background={"orange.500"}
+                                        _hover={{ background: "orange.200" }} color={"white"}>
+                                        Join
+                                    </Button>
+                                </Tooltip>
                             )}
-                        </div>
-                    </HStack>
+                        </Box>
+                    </Flex>
 
                     <Flex mt={2} flexWrap={"wrap"} gap={1}>
                         {tags?.map((t: any) => (
                             <Box
-                                backgroundColor={"orange.500"}
-                                color={"white"}
+                                color={{ base: "black", sm: "white" }}
+                                shadow={{ base: "md", sm: "lg" }}
+                                backgroundColor={{ base: 'white', sm: "orange.500" }}
                                 fontWeight={"medium"}
                                 px={3}
-                                borderRadius={"md"}
+                                borderRadius={{ base: 'lg', sm: "md" }}
                                 fontSize="xs"
                                 key={t.tagID}
                             >
@@ -350,61 +480,54 @@ const NavCommunity: FC<{
                     <Flex gap={2} mt={3}>
                         <Link to={disabled ? "" : `/groups/id/${communityId}/`} relative="path">
                             <Button
-                                backgroundColor={"white"}
-                                _hover={{ background: "default" }}
-                                size={"sm"}
-                                isActive={activeBtn == 1 && !communityPrivacy ? true : false}
-                                disabled={communityPrivacy}
+                                shadow={{ base: "md", sm: "lg" }}
+                                _active={{ background: "#687999" }}
+                                color='white'
+                                backgroundColor='#e65300'
+                                sx={{ transition: "transform ease 300ms" }}
+                                _hover={{ background: "default", cursor: "pointer", transform: "translate(0, -3px)" }}
+                                size={{ base: "xs", sm: "sm" }}
+                                isActive={activeBtn == 1}
+                                disabled={!isMember && communityPrivacy || disabled}
                             >
                                 Discussion
                             </Button>
                         </Link>
                         <Link to={disabled ? "" : `/groups/id/${communityId}/member`} relative="path">
                             <Button
-                                backgroundColor={"white"}
-                                _hover={{ background: "default" }}
-                                size={"sm"}
-                                isActive={activeBtn == 2 && !communityPrivacy ? true : false}
-                                disabled={communityPrivacy}
+                                shadow={{ base: "md", sm: "lg" }}
+                                _active={{ background: "#687999" }}
+                                color='white'
+                                backgroundColor='#e65300'
+                                sx={{ transition: "transform ease 300ms" }}
+                                _hover={{ background: "default", cursor: "pointer", transform: "translate(0, -3px)" }}
+                                size={{ base: "xs", sm: "sm" }}
+                                isActive={activeBtn == 2}
+                                disabled={!isMember && communityPrivacy || disabled}
                             >
                                 Member
                             </Button>
                         </Link>
                         <Link to={disabled ? "" : `/groups/id/${communityId}/file`} relative="path">
                             <Button
-                                backgroundColor={"white"}
-                                _hover={{ background: "default" }}
-                                size={"sm"}
-                                isActive={activeBtn == 3 && !communityPrivacy ? true : false}
-                                disabled={communityPrivacy}
+                                shadow={{ base: "md", sm: "lg" }}
+                                _active={{ background: "#687999" }}
+                                color='white'
+                                backgroundColor='#e65300'
+                                sx={{ transition: "transform ease 300ms" }}
+                                _hover={{ background: "default", cursor: "pointer", transform: "translate(0, -3px)" }}
+                                size={{ base: "xs", sm: "sm" }}
+                                isActive={activeBtn == 3}
+                                disabled={!isMember && communityPrivacy || disabled}
                             >
                                 File
                             </Button>
                         </Link>
                     </Flex>
-                </Box>
+                </Box >
 
-                <Flex direction="column" justify={"center"} align="center" mt={3}>
-                    {communityPrivacy && communityId != "" ? (
-                        <Box borderRadius="md" backgroundColor="red.200" maxWidth={"700px"} width={"100%"}>
-                            <HStack gap={2} p={2}>
-                                <Box height={"55px"}></Box>
-                                <div>
-                                    <Box display="flex" alignItems="center" gap={1}>
-                                        <TiWarning />
-                                        <Text as="b" fontSize="sm">
-                                            This Community is Private :(
-                                        </Text>
-                                    </Box>
-                                    <Text fontSize="sm">Join this Community to view or participate in discussions.</Text>
-                                </div>
-                            </HStack>
-                        </Box>
-                    ) : (
-                        ""
-                    )}
-                </Flex>
-            </Box>
+
+            </Box >
         )
     }
 
