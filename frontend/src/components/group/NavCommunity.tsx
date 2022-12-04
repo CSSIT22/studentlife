@@ -162,7 +162,7 @@ const NavCommunity: FC<{
                 leaveOnClick()
                 setTimeout(() => {
                     document.location.reload()
-                }, 1000)
+                }, 2000)
             } else {
                 API.post("/group/pendingRequest", {
                     communityId: communityId,
@@ -190,7 +190,7 @@ const NavCommunity: FC<{
                 leaveOnClick()
                 setTimeout(() => {
                     document.location.reload()
-                }, 1000)
+                }, 2000)
             }
 
         }
@@ -220,7 +220,35 @@ const NavCommunity: FC<{
                 })
             setTimeout(() => {
                 document.location.reload()
-            }, 1000)
+            }, 2000)
+        }
+        const deleteCommunity = () => {
+            API.delete("/group/deleteCommunity", {
+                data: {
+                    communityId: communityId,
+                }
+            })
+                .then((res) => {
+                    toast({
+                        title: "Success",
+                        description: "Deleted the community",
+                        status: "success",
+                        duration: 5000,
+                        position: 'top',
+                    })
+                }).catch((err) => {
+                    console.log(err)
+                    toast({
+                        title: "Error",
+                        description: "Something went wrong",
+                        status: "error",
+                        duration: 5000,
+                        position: 'top',
+                    })
+                })
+            setTimeout(() => {
+                document.location.reload()
+            }, 2000)
         }
         return (
             <Box>
@@ -238,7 +266,8 @@ const NavCommunity: FC<{
                     }}
                     src={communityCoverPhoto}
                     // src={"https://storage.googleapis.com/thistinestorage/photos/DSC_5803-Edit-2.jpg"}
-                    fallbackSrc="https://via.placeholder.com/800"
+                    // fallbackSrc="https://via.placeholder.com/800"
+                    fallbackSrc="https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
                 />
                 <Box
                     p={4}
@@ -405,12 +434,24 @@ const NavCommunity: FC<{
                                                             <Text _hover={{ textDecoration: "none" }}>Edit Community</Text>
                                                         </Link>
                                                     </Box>
+                                                    <Box
+                                                        display={isOwner ? "flex" : "none"}
+                                                        onClick={deleteCommunity}
+                                                        gap={1}
+                                                        _hover={{ cursor: "pointer" }}
+                                                        // display="flex"
+                                                        alignItems={"center"}
+                                                    >
+                                                        <FaBan />
+                                                        <Text>Delete Community</Text>
+                                                    </Box>
 
                                                     <Box
+                                                        display={isOwner ? "none" : "flex"}
                                                         onClick={leaveOnClick}
                                                         gap={1}
                                                         _hover={{ cursor: "pointer" }}
-                                                        display="flex"
+                                                        // display="flex"
                                                         alignItems={"center"}
                                                     >
                                                         <FaBan />
