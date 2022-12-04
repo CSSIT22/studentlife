@@ -1,4 +1,4 @@
-import { Flex, Text, SimpleGrid, color, Box, useBoolean } from "@chakra-ui/react"
+import { Flex, Text, SimpleGrid, color, Box, useBoolean, HStack, VStack } from "@chakra-ui/react"
 import NavCommunity from "src/components/group/NavCommunity"
 import AppBody from "src/components/share/app/AppBody"
 import { userData } from "../../data"
@@ -7,24 +7,48 @@ import MemberBox from "src/components/group/MemberBox"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import API from "src/function/API"
-
+import PrivateContent from "src/components/group/PrivateContent"
+import UserList from "src/components/group/UserList"
 const Member = () => {
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
     const [tag, setTag] = useState<any>()
+    // const [isError, { on }] = useBoolean()
+    // const [isLoading, { off }] = useBoolean(true)
+
+
+    //get community form backend
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-
+    const status = 0
+    // const [community, setCommunity] = useState<any>()
     useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
+        API.get('/group/getCommunityMember/' + communityID,)
             .then((res) => {
-                setCommunity(res.data.communityById)
-                setTag(res.data.tag)
-                console.log(res.data.tag)
-            })
-            .catch((err) => on())
+                setCommunity(res.data)
+                console.log(res.data)
+            }).catch((err) => on())
             .finally(() => off())
     }, [])
+    if (isLoading) {
+        return (
+            // will fix the design later
+            <AppBody>
+                <Text>Loading...</Text>
+            </AppBody>
+        )
+    }
+    if (isError) {
+        // will fix the design later
+        return (
+            <AppBody>
+                <Box>
+                    <Text>There was no community found.</Text>
+                </Box>
+            </AppBody>
+        )
+    }
+    let owner = community?.communityMember?.owner
 
     return (
         <AppBody>
@@ -33,86 +57,127 @@ const Member = () => {
                 communityId={community?.communityId}
                 communityCoverPhoto={community?.communityCoverPhoto}
                 communityPrivacy={community?.communityPrivacy}
-                // communityCoverPhoto={community?.communityCoverPhoto}
                 communityDesc={community?.communityDesc}
-                isMember={true}
-                communityMembers={10}
-                activeBtn={1}
-                tags={tag}
-            />
-            <Flex direction={{ base: "column-reverse", md: "row" }} gap={2} align="flex-start" mb={4}>
-                <Flex width="100%" gap={3} direction={"column"}>
-                    <MemberBox boxType="request" data={communityData} title="Request" subTitle="These people have been invited to join the goup" />
-                    <MemberBox boxType="admin" data={communityData} title="Admin" />
-                    <MemberBox boxType="moderator" data={communityData} title="Moderator" />
-                    <MemberBox boxType="member" data={communityData} title="Member" />
-                    <MemberBox boxType="blacklist" data={communityData} title="Blacklist" />
-                </Flex>
+                isMember={community?.isMember}
+                isOwner={community?.isOwner}
+                isPending={community?.isPending}
+                communityMembers={community?.memberCount + 1}
+                activeBtn={2}
+                tags={community?.tags}
 
-                <SimpleGrid
-                    boxShadow={"2xl"}
-                    columns={{ base: 4, md: 2 }}
-                    spacing={{ base: 2, md: 1 }}
-                    maxWidth={{ base: "", md: "220px" }}
-                    width={"100%"}
-                    p={3}
-                    borderRadius={"md"}
-                    background={" white"}
-                    sx={{ borderColor: "black solid 10px" }}
+            />
+            {/* <Text>{community?.communityId}</Text> */}
+            <Box>
+                <PrivateContent
+                    communityId={community?.communityId}
+                    communityPrivacy={community?.communityPrivacy}
+                    isMember={community?.isMember} />
+            </Box>
+
+            <Flex
+                width='100%'
+                mt='2'
+                direction={{ base: "column-reverse", md: "row" }}
+                gap={2}
+                justifyContent='center'
+                alignItems='center'
+                mb={4}>
+                <VStack
+                    justifyContent='center'
+                    alignItems='center'
+                    // align='center'
+                    maxWidth='580px'
+                    width="100%"
+                    gap={3}
                 >
-                    <Text as="b" fontSize={"sm"}>
-                        All{" "}
-                    </Text>
-                    <Text backgroundColor={"orange.600"} color={"white"} borderRadius={"md"} textAlign="center" as="b" fontSize={"sm"}>
-                        {communityData.communityMembers.length}
-                    </Text>
-                    <Text mt={{ base: 0, md: 2 }} as="b" fontSize={"sm"}>
-                        Admin
-                    </Text>
-                    <Text
-                        mt={{ base: 0, md: 2 }}
-                        backgroundColor={"orange.600"}
-                        color={"white"}
-                        borderRadius={"md"}
-                        textAlign="center"
-                        as="b"
-                        fontSize={"sm"}
+                    <MemberBox
+                        displayBox={community.pendingRequest != 0 && community?.isOwner}
+                        boxType="request"
+                        pendingRequest={community.pendingRequest}
+                        title="Request"
+                        subTitle="These people have been invited to join the group" />
+
+
+                    <Box
+                        display={community?.isMember || !community?.communityPrivacy ? "block" : 'none'}
+                        boxShadow={"2xl"} width={"100%"}
+                        backgroundColor="orange.400"
+                        p={4}
+                        borderRadius="md"
                     >
-                        {communityData.communityMembers.filter((member) => member.userRole == "admin").length}
-                    </Text>
-                    <Text as="b" fontSize={"sm"}>
-                        Moderator
-                    </Text>
-                    <Text backgroundColor={"orange.600"} color={"white"} borderRadius={"md"} textAlign="center" as="b" fontSize={"sm"}>
-                        {communityData.communityMembers.filter((member) => member.userRole == "moderator").length}
-                    </Text>
-                    <Text as="b" fontSize={"sm"}>
-                        Member
-                    </Text>
-                    <Text backgroundColor={"orange.600"} color={"white"} borderRadius={"md"} textAlign="center" as="b" fontSize={"sm"}>
-                        {communityData.communityMembers.filter((member) => member.userRole == "member").length}
-                    </Text>
-                    <Text as="b" fontSize={"sm"}>
-                        Blacklist
-                    </Text>
-                    <Text backgroundColor={"orange.600"} color={"white"} borderRadius={"md"} textAlign="center" as="b" fontSize={"sm"}>
-                        {communityData.communityMembers.filter((member) => member.userRole == "blacklist").length}
-                    </Text>
-                    <Text mt={{ base: 0, md: 2 }} as="b" fontSize={"sm"}>
-                        Request
-                    </Text>
-                    <Text
-                        mt={{ base: 0, md: 2 }}
-                        backgroundColor={"orange.600"}
-                        color={"white"}
-                        borderRadius={"md"}
-                        textAlign="center"
-                        as="b"
-                        fontSize={"sm"}
-                    >
-                        {communityData.communityMembers.filter((member) => member.userRole == "request").length}
-                    </Text>
-                </SimpleGrid>
+                        <HStack align='flex-end'>
+                            <Text as="b" color={"white"}>
+                                Admins & moderators
+                            </Text>
+                            <Text as='p' fontSize='sm' color='white'>
+                                {
+                                    ` · ${community?.communityMember.admin.length + community?.communityMember.coAdmin.length + 1} `
+                                }
+                            </Text>
+                        </HStack>
+                        <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
+                            <UserList
+                                key={owner.userId}
+                                isHigherPriority={community?.isOwner}
+                                userId={owner.userId}
+                                avatar={owner.image}
+                                firstName={owner.fName}
+                                lastName={owner.lName}
+                                majorId={owner.majorId}
+                                role={'owner'}
+                            />
+                            {community?.communityMember?.admin.map((member: any) => (
+                                <UserList
+                                    key={member.user.userId}
+                                    isHigherPriority={community?.isOwner}
+                                    userId={member.user.userId}
+                                    avatar={member.user.image}
+                                    firstName={member.user.fName}
+                                    lastName={member.user.lName}
+                                    majorId={member.user.majorId}
+                                    role={'member'}
+                                />))}
+                            {community?.communityMember?.coAdmin.map((member: any) => (
+                                <UserList
+                                    key={member.user.userId}
+                                    isHigherPriority={community?.isOwner}
+                                    userId={member.user.userId}
+                                    avatar={member.user.image}
+                                    firstName={member.user.fName}
+                                    lastName={member.user.lName}
+                                    majorId={member.user.majorId}
+                                    role={'member'}
+                                />))}
+                        </Flex>
+                        <HStack
+                            display={community?.communityMember?.member.length > 0 ? "flex" : "none"}
+                            align='flex-end' mt={3}>
+                            <Text as="b" color={"white"}>
+                                Members
+                            </Text>
+                            <Text as='p' fontSize='sm' color='white'>
+                                {
+                                    community?.memberCount - community?.pendingRequest.length > 0
+                                        ? (` · ${community?.memberCount - community?.pendingRequest.length}`)
+                                        : ""
+                                }
+                            </Text>
+                        </HStack>
+                        <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
+                            {community?.communityMember?.member.map((member: any) => (
+                                <UserList
+                                    key={member.user.userId}
+                                    isHigherPriority={community?.isOwner}
+                                    userId={member.user.userId}
+                                    avatar={member.user.image}
+                                    firstName={member.user.fName}
+                                    lastName={member.user.lName}
+                                    majorId={member.user.majorId}
+                                    role={'member'}
+                                />))}
+                        </Flex>
+                    </Box>
+                </VStack>
             </Flex>
         </AppBody>
     )
