@@ -127,6 +127,15 @@ const getCommunityMember = async (req: Request, res: Response) => {
                 user: true,
             },
         })
+        const userRole = await prisma.community_User.findFirst({
+            where: {
+                communityId: communityById?.communityId,
+                userId: userId,
+            },
+            include: {
+                role: true,
+            },
+        })
         if (communityById?.communityId === id) {
             const data = {
                 communityId: communityById?.communityId,
@@ -141,6 +150,8 @@ const getCommunityMember = async (req: Request, res: Response) => {
                     communityById?.communityOwnerId === userId ||
                     communityById?.member.some((item: any) => item.userId === userId && item.status === true),
                 memberCount: communityById?.member.length,
+                userRole: userRole?.role.roleName,
+                // userRoles: userRole,
                 communityMember: {
                     owner: communityById?.owner,
                     admin: communityMember.filter((item: any) => item.roleId === "clavjra540000v32wccz4v12g"),
