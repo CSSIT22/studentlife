@@ -7,8 +7,8 @@ const joinCommunity = async (req: Request, res: Response) => {
     const userid = req.user?.userId
 
     const joinRequest: any = {
-        userId: body.user,
-        communityId: body.communityId,//req.params.communityId
+        userId: userid,
+        communityId: body.communityId, //req.params.communityId
         roleId: "clavjs04i0004v32wxmjn3kvk",
         joined: new Date(),
         status: true,
@@ -18,7 +18,7 @@ const joinCommunity = async (req: Request, res: Response) => {
         await prisma.community_User.create({
             data: joinRequest,
         })
-
+        console.log(joinRequest)
         res.status(201).send("Joining Success")
     } catch (err) {
         console.log(err)
