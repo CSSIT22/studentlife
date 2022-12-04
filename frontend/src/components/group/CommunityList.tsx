@@ -22,8 +22,11 @@ const CommunityList: FC<OwnCommunity> = ({ communityName, lastActive, communityC
                         <div>
                             <Box display="flex" alignItems="center" gap={1}>
                                 {communityPrivacy ? <MdPublicOff /> : <MdPublic />}
-                                <Text as="b" fontSize="sm">
+                                <Text display={{ base: 'block', md: 'none' }} as="b" fontSize="sm">
                                     {communityName}
+                                </Text>
+                                <Text display={{ base: 'none', md: 'block' }} as="b" fontSize="sm">
+                                    {communityName.length > 16 ? communityName.slice(0, 14) + "..." : communityName}
                                 </Text>
                             </Box>
                             <Text fontSize="sm">Last active {lastActive} days ago</Text>
