@@ -31,6 +31,7 @@ import { communityData } from "../../communityData"
 import FileList from "src/components/group/FileList"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
+import PrivateContent from "src/components/group/PrivateContent"
 const file = () => {
 
     const [searchValue, setSearchValue] = useState("") //for store search value
@@ -38,16 +39,38 @@ const file = () => {
 
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
+
+    //get community form backend
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-
+    const status = 0
+    // const [community, setCommunity] = useState<any>()
     useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
-            .catch((err) => on())
+        API.get('/group/getCommunityId/' + communityID,)
+            .then((res) => {
+                setCommunity(res.data)
+                console.log(res.data)
+            }).catch((err) => on())
             .finally(() => off())
     }, [])
-
+    if (isLoading) {
+        return (
+            // will fix the design later
+            <AppBody>
+                <Text>Loading...</Text>
+            </AppBody>
+        )
+    }
+    if (isError) {
+        // will fix the design later
+        return (
+            <AppBody>
+                <Box>
+                    <Text>There was no community found.</Text>
+                </Box>
+            </AppBody>
+        )
+    }
     return (
         <AppBody>
             <NavCommunity
@@ -55,14 +78,26 @@ const file = () => {
                 communityId={community?.communityId}
                 communityCoverPhoto={community?.communityCoverPhoto}
                 communityPrivacy={community?.communityPrivacy}
-                // communityCoverPhoto={community?.communityCoverPhoto}
                 communityDesc={community?.communityDesc}
-                isMember={true}
-                communityMembers={10}
+                isMember={community?.isMember}
+                isOwner={community?.isOwner}
+                communityMembers={community?.memberCount + 1}
                 activeBtn={1}
-                tags={tag}
+                isPending={community?.isPending}
+                tags={community?.tags}
+            // tags={tag}
             />
-            <HStack justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
+            <Box>
+                <PrivateContent
+                    isMember={community?.isMember}
+                    communityId={community?.communityId}
+                    communityPrivacy={community?.communityPrivacy}
+
+                />
+            </Box>
+            <HStack
+                display={community.isMember || !community.communityPrivacy ? "flex" : "none"}
+                mt='2' justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
                 <Text as={"b"} ml={8}>
                     Files
                 </Text>
@@ -96,15 +131,22 @@ const file = () => {
                     </Button>
                 </HStack>
             </HStack>
-            <Box mt={2} borderRadius={"md"} gap={2} boxShadow={"2xl"} backgroundColor={"white"} p={3} pl={4} pr={4} mb={4}>
+            <Box
+                display={community.isMember || !community.communityPrivacy ? "block" : "none"}
+                mt={2}
+                borderRadius={"md"}
+                gap={2}
+                boxShadow={"2xl"}
+                backgroundColor={"white"}
+                p={3} pl={4} pr={4} mb={4}>
                 <Flex display={{ base: "none", md: "flex" }} direction="row">
                     <Text as="b" width={"30%"}>
                         File name
                     </Text>
-                    <Text as="b" width={"30%"}>
+                    <Text as="b" width={"25%"}>
                         Owner
                     </Text>
-                    <Text as="b" width={"10%"}>
+                    <Text as="b" width={"15%"}>
                         Type
                     </Text>
                     <Text as="b" width={"30%"}>
