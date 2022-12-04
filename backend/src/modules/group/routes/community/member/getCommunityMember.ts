@@ -94,6 +94,11 @@ const getCommunityMember = async (req: Request, res: Response) => {
                 member: true,
                 owner: true,
                 posts: true,
+                blacklist: {
+                    include: {
+                        user: true,
+                    },
+                },
             },
         })
         const tag = await prisma.tag.findMany({
@@ -127,6 +132,12 @@ const getCommunityMember = async (req: Request, res: Response) => {
                 user: true,
             },
         })
+        const isBlacklist = await prisma.community_Blacklist.findMany({
+            where: {
+                userId: userId,
+                communityId: id,
+            },
+        })
         const userRole = await prisma.community_User.findFirst({
             where: {
                 communityId: communityById?.communityId,
@@ -157,8 +168,10 @@ const getCommunityMember = async (req: Request, res: Response) => {
                     admin: communityMember.filter((item: any) => item.roleId === "clavjra540000v32wccz4v12g"),
                     coAdmin: communityMember.filter((item: any) => item.roleId === "clavjrudj0002v32welorer2g"),
                     member: communityMember.filter((item: any) => item.roleId === "clavjs04i0004v32wxmjn3kvk" && item.status === true),
+                    blacklist: communityById?.blacklist,
                 },
                 pendingRequest: communityMember.filter((item: any) => item.status === false),
+                isBlacklist: isBlacklist.length > 0,
             }
             // res.send(data)
             res.send(data)

@@ -9,6 +9,7 @@ import { TiWarning } from "react-icons/ti"
 import Post from '../../../../components/group/Post'
 import { desktopStyle, mobileStyle } from "src/components/group/styles/styles"
 import PrivateContent from "src/components/group/PrivateContent"
+import Banned from "src/components/group/Banned"
 
 const headCommunity = () => {
     let { communityID }: any = useParams()
@@ -80,6 +81,7 @@ const headCommunity = () => {
                 activeBtn={1}
                 isPending={community?.isPending}
                 tags={community?.tags}
+                isBlacklist={community?.isBlacklist}
 
             />
             {/* <Text>{community?.communityId}</Text> */}
@@ -87,12 +89,18 @@ const headCommunity = () => {
                 <PrivateContent
                     isMember={community?.isMember}
                     communityId={community?.communityId}
-                    communityPrivacy={community?.communityPrivacy}
+                    communityPrivacy={community?.communityPrivacy && !community?.isBlacklist}
 
                 />
             </Box>
 
-            <VStack display={community?.isMember || !community?.communityPrivacy ? 'flex' : 'none'} mb='6' width='full'>
+            <Box>
+                <Banned
+                    isBlacklisted={community?.isBlacklist}
+                />
+            </Box>
+
+            <VStack display={community?.isMember || !community?.communityPrivacy && !community?.isBlacklist ? 'flex' : 'none'} mb='6' width='full'>
                 <Accordion maxW='580px' width='full' allowToggle>
                     <AccordionItem
                         bg="white"

@@ -48,6 +48,7 @@ const NavCommunity: FC<{
     communityMembers: number,
     tags?: any,
     role?: string,
+    isBlacklist?: boolean,
 
     isOwner?: boolean,
     isMember: boolean,
@@ -57,6 +58,7 @@ const NavCommunity: FC<{
     //user data
     userId?: string,
 }> = ({
+    isBlacklist,
     isPending,
     userId,
     role,
@@ -486,6 +488,7 @@ const NavCommunity: FC<{
                             ) : (
                                 <Tooltip label={isPending ? 'Your request is being processed... please wait for the owner to accept it.' : ''}>
                                     <Button
+                                        display={isBlacklist ? "none" : "block"}
                                         isLoading={isPending}
                                         onClick={joinOnClick}
                                         size="sm"
@@ -529,7 +532,7 @@ const NavCommunity: FC<{
                                 _hover={{ background: "default", cursor: "pointer", transform: "translate(0, -3px)" }}
                                 size={{ base: "xs", sm: "sm" }}
                                 isActive={activeBtn == 1}
-                                disabled={!isMember && communityPrivacy || disabled}
+                                disabled={!isMember && communityPrivacy || disabled || isBlacklist}
                             >
                                 Discussion
                             </Button>
@@ -544,7 +547,7 @@ const NavCommunity: FC<{
                                 _hover={{ background: "default", cursor: "pointer", transform: "translate(0, -3px)" }}
                                 size={{ base: "xs", sm: "sm" }}
                                 isActive={activeBtn == 2}
-                                disabled={!isMember && communityPrivacy || disabled}
+                                disabled={!isMember && communityPrivacy || disabled || isBlacklist}
                             >
                                 Member
                             </Button>
@@ -559,7 +562,7 @@ const NavCommunity: FC<{
                                 _hover={{ background: "default", cursor: "pointer", transform: "translate(0, -3px)" }}
                                 size={{ base: "xs", sm: "sm" }}
                                 isActive={activeBtn == 3}
-                                disabled={!isMember && communityPrivacy || disabled}
+                                disabled={!isMember && communityPrivacy || disabled || isBlacklist}
                             >
                                 File
                             </Button>

@@ -70,6 +70,59 @@ const UserList: FC<{
         //     setIsRole(4)//Owner
         // }
         const toast = useToast()
+        const unbanUser = async () => {
+            const res = await API.delete("/group/unbanMember", {
+                data: {
+                    communityId: communityId,
+                    userId: userId
+                }
+            })
+
+            if (res.status == 200) {
+                console.log(res.data)
+                toast({
+                    title: "Unban user success",
+                    status: "success",
+                    duration: 5000,
+                    position: 'top',
+                    // isClosable: true,
+                })
+            } else {
+                toast({
+                    title: "Unban user failed",
+                    status: "error",
+                    duration: 5000,
+                    position: 'top',
+                    // isClosable: true,
+                })
+            }
+        }
+
+        const banUser = async () => {
+            const res = await API.post("/group/banMember", {
+                communityId: communityId,
+                userId: userId
+            })
+            if (res.status == 200) {
+                toast({
+                    title: "Ban user successfully",
+                    status: "success",
+                    duration: 5000,
+                    position: 'top',
+                    // isClosable: true,
+                })
+            } else {
+                toast({
+                    title: "Ban user failed",
+                    status: "error",
+                    duration: 5000,
+                    position: 'top',
+                    // isClosable: true,
+                })
+            }
+        }
+
+
         const setRoles = (setRole: string) => {
             let roleId = ''
             setRole == "ADMIN" ? roleId = 'clavjra540000v32wccz4v12g' :
@@ -148,9 +201,11 @@ const UserList: FC<{
                             </PopoverHeader>
                             <PopoverBody >
                                 <Box
-                                    // onClick={setRole}
+                                    onClick={banUser}
                                     display={checkRole === 'ADMIN' && (role === 'CO_ADMIN' || role === 'MEMBER') ||
-                                        checkRole === undefined ? 'flex' : 'none'}
+                                        checkRole === undefined &&
+                                        (role !== 'BANNED')
+                                        ? 'flex' : 'none'}
                                     gap={1}
                                     _hover={{ cursor: "pointer" }}
                                     alignItems={"center"}>
@@ -158,9 +213,18 @@ const UserList: FC<{
                                     <Text>Ban</Text>
                                 </Box>
                                 <Box
+                                    onClick={unbanUser}
+                                    display={checkRole === undefined && role === 'BANNED' ? 'flex' : 'none'}
                                     gap={1}
                                     _hover={{ cursor: "pointer" }}
-                                    display="flex"
+                                    alignItems={"center"}>
+                                    <FaBan />
+                                    <Text>Unban</Text>
+                                </Box>
+                                <Box
+                                    gap={1}
+                                    _hover={{ cursor: "pointer" }}
+                                    display={role !== 'BANNED' ? 'flex' : 'none'}
                                     alignItems={"center"}>
                                     <FaExclamationCircle />
                                     <Text>Report</Text>
@@ -181,7 +245,8 @@ const UserList: FC<{
                             </PopoverBody>
                             <PopoverBody
                                 display={
-                                    checkRole === undefined || (checkRole === "ADMIN" && role !== 'ADMIN') ? 'block' : 'none'}
+                                    (checkRole === undefined && role !== 'BANNED') || (checkRole === "ADMIN" && role !== 'ADMIN')
+                                        ? 'block' : 'none'}
                             >
                                 <Text
 
@@ -189,7 +254,7 @@ const UserList: FC<{
                             </PopoverBody>
                             <PopoverFooter
                                 display={
-                                    checkRole === undefined || (checkRole === "ADMIN" && role !== 'ADMIN') ? 'block' : 'none'}
+                                    (checkRole === undefined && role !== 'BANNED') || (checkRole === "ADMIN" && role !== 'ADMIN') ? 'block' : 'none'}
                             >
                                 <Box
                                     // onClick={setRoles('ADMIN')}

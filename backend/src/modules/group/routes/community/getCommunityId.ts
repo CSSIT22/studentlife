@@ -25,7 +25,12 @@ const getCommunityId = async (req: Request, res: Response) => {
         //     }
         //     console.log(community)
         //     res.send(community)
-
+        const isBlacklist = await prisma.community_Blacklist.findMany({
+            where: {
+                userId: userId,
+                communityId: id,
+            },
+        })
         const communityById = await prisma.community.findUnique({
             where: {
                 communityId: id,
@@ -56,6 +61,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                     communityById?.communityOwnerId === userId ||
                     communityById?.member.some((item: any) => item.userId === userId && item.status === true),
                 memberCount: communityById?.member.length,
+                isBlacklist: isBlacklist.length > 0,
             }
             // res.send(data)
             res.send(data)

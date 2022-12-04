@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom"
 import API from "src/function/API"
 import PrivateContent from "src/components/group/PrivateContent"
 import UserList from "src/components/group/UserList"
+import Banned from "src/components/group/Banned"
 const Member = () => {
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
@@ -64,16 +65,21 @@ const Member = () => {
                 communityMembers={community?.memberCount + 1}
                 activeBtn={2}
                 tags={community?.tags}
+                isBlacklist={community?.isBlacklist}
 
             />
             {/* <Text>{community?.communityId}</Text> */}
             <Box>
                 <PrivateContent
                     communityId={community?.communityId}
-                    communityPrivacy={community?.communityPrivacy}
+                    communityPrivacy={community?.communityPrivacy && !community?.isBlacklist}
                     isMember={community?.isMember} />
             </Box>
-
+            <Box>
+                <Banned
+                    isBlacklisted={community?.isBlacklist}
+                />
+            </Box>
             <Flex
                 width='100%'
                 mt='2'
@@ -99,7 +105,7 @@ const Member = () => {
 
 
                     <Box
-                        display={community?.isMember || !community?.communityPrivacy ? "block" : 'none'}
+                        display={community?.isMember || !community?.communityPrivacy && !community?.isBlacklist ? "block" : 'none'}
                         boxShadow={"2xl"} width={"100%"}
                         backgroundColor="orange.400"
                         p={4}
@@ -186,7 +192,52 @@ const Member = () => {
                                 />))}
                         </Flex>
                     </Box>
+                    <Box
+                        // display={'none'}
+                        display={community.communityMember.blacklist != 0 && (community?.userRole === undefined || community?.userRole === 'ADMIN') && community?.isMember ? "block" : 'none'}
+                        boxShadow={"2xl"} width={"100%"}
+                        backgroundColor="orange.400"
+                        p={4}
+                        borderRadius="md"
+                    >
+                        <HStack align='flex-end'>
+                            <Text as="b" color={"white"}>
+                                Blacklist
+                            </Text>
+                            <Text as='p' fontSize='sm' color='white'>
+                                {
+                                    ` · ${community?.communityMember.blacklist.length} `
+                                }
+                            </Text>
+                        </HStack>
+                        <Flex mt={3} gap={2} direction="column" justify={"center"} align="center" width={"100%"}>
+                            {community?.communityMember?.blacklist.map((member: any) => (
+                                <UserList
+                                    key={member.user.userId}
+                                    // isHigherPriority={false}
+                                    userId={member.user.userId}
+                                    avatar={member.user.image}
+                                    firstName={member.user.fName}
+                                    lastName={member.user.lName}
+                                    majorId={member.user.majorId}
+                                    role={'BANNED'}
+                                    // checkRole={community.userRole}
+                                    communityId={community?.communityId}
+                                />))}
+                        </Flex>
+                    </Box>
                 </VStack>
+
+                {/* <VStack
+                    justifyContent='center'
+                    alignItems='center'
+                    // align='center'
+                    maxWidth='580px'
+                    width="100%"
+                    gap={3}
+                >
+
+                </VStack> */}
             </Flex>
         </AppBody>
     )

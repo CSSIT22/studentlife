@@ -32,6 +32,7 @@ import FileList from "src/components/group/FileList"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
 import PrivateContent from "src/components/group/PrivateContent"
+import Banned from "src/components/group/Banned"
 const file = () => {
 
     const [searchValue, setSearchValue] = useState("") //for store search value
@@ -85,6 +86,7 @@ const file = () => {
                 activeBtn={1}
                 isPending={community?.isPending}
                 tags={community?.tags}
+                isBlacklist={community?.isBlacklist}
             // tags={tag}
             />
             <Box>
@@ -95,8 +97,13 @@ const file = () => {
 
                 />
             </Box>
+            <Box>
+                <Banned
+                    isBlacklisted={community?.isBlacklist}
+                />
+            </Box>
             <HStack
-                display={community.isMember || !community.communityPrivacy ? "flex" : "none"}
+                display={community.isMember || !community.communityPrivacy && !community?.isBlacklist ? "flex" : "none"}
                 mt='2' justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
                 <Text as={"b"} ml={8}>
                     Files
@@ -132,7 +139,7 @@ const file = () => {
                 </HStack>
             </HStack>
             <Box
-                display={community.isMember || !community.communityPrivacy ? "block" : "none"}
+                display={community.isMember || !community.communityPrivacy && !community?.isBlacklist ? "block" : "none"}
                 mt={2}
                 borderRadius={"md"}
                 gap={2}
