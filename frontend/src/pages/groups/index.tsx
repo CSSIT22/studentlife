@@ -13,6 +13,7 @@ import API from "src/function/API"
 
 import { OwnCommunity, JoinedCommunity, InvitedCommunity, SuggestionsCommunity } from '@apiType/group'
 import { SearchIcon } from "@chakra-ui/icons"
+import PendingRequestList from "src/components/group/PendingRequestList"
 const index = () => {
     const [searchBtn, setSearchBtn] = useState(false) //for close/open seach bar
     const [searchValue, setSearchValue] = useState("") //for store search value
@@ -107,17 +108,42 @@ const index = () => {
                 )
             }))
     }
+
     const renderSuggestCommunity = () => {
         return (
-            community?.communityList.suggestions.slice(0, 4).map((community: SuggestionsCommunity) => {
+            community?.communityList.suggest
+                // .slice(0, 4)
+                .map((community: any) => {
+                    return (
+                        <SuggestionsList
+                            key={community.communityId}
+                            communityName={community.communityName}
+                            communityCoverPhoto={community.communityCoverPhoto}
+                            communityMember={community.member.length + 1}
+                            communityPrivacy={community.communityPrivacy}
+                            communityId={community.communityId}
+                        />
+                    )
+                }))
+    }
+    const renderPendingRequest = () => {
+        return (
+            community?.communityList.pendingRequest.map((community: any) => {
                 return (
-                    <SuggestionsList
+                    <PendingRequestList
                         key={community.communityId}
+                        joined={community.member[0].joined}
+                        userId={community.member[0].userId}
                         communityName={community.communityName}
                         communityCoverPhoto={community.communityCoverPhoto}
-                        communityMember={0}
-                        communityPrivacy={community.communityPrivacy}
                         communityId={community.communityId}
+                        ownerFname={community.owner.fName}
+                        ownerLname={community.owner.lName}
+                        // userName={community.member[0].joined}
+                        // expired={community.expired}
+                        communityMember={community.communityMember}
+                        communityPrivacy={community.communityPrivacy}
+                    // userName={community.userName}
                     />
                 )
             }))
@@ -338,7 +364,7 @@ const index = () => {
                 {/* <Show above="md"> */}
                 <Show>
                     <Box width={"100%"}>
-                        <Box
+                        {/* <Box
                             display={inviteBtn || isMobile
                                 && community?.communityList.invite.length != 0
                                 ? "block" : "none"}
@@ -361,10 +387,34 @@ const index = () => {
                                 These people have invited you to join the community
                             </Text>
                             {renderInvitedCommunity()}
+                        </Box> */}
+                        <Box
+                            display={inviteBtn || isMobile
+                                && community?.communityList.invite.length != 0
+                                ? "block" : "none"}
+                            shadow={{ base: 'none', md: 'md' }}
+                            background={{ md: "#E67F45", base: "" }}
+                            width="100%"
+                            pt={4}
+                            textAlign="start"
+                            pl={5}
+                            pr={5}
+                            pb={4}
+                            borderRadius='xl'
+                        >
+                            <Text
+                                as="b" color={{ md: "white", base: "none" }}>
+                                Waiting for approval
+                            </Text>
+                            <Text
+                                fontSize="sm" color={{ md: "white", base: "none" }}>
+                                You have joined a community but must wait for approval
+                            </Text>
+                            {renderPendingRequest()}
                         </Box>
                         <Box
                             display={suggestBtn || isMobile
-                                && community?.communityList.suggestions.length != 0
+                                && community?.communityList.suggest.length != 0
                                 ? "block" : "none"}
                             mt={2}
                             borderRadius="xl"
