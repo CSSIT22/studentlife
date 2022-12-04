@@ -16,6 +16,7 @@ export type editCommunity = {
 
 //Owning community
 export type OwnCommunity = {
+  pendingRequest?: boolean;
   communityName: string;
   communityPrivacy: boolean;
   communityCoverPhoto: string;
