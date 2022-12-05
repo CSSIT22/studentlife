@@ -222,3 +222,12 @@ export type Post_Product_Review = {
   reviewRating: number
   image: string
 }
+export type User_Coupon_With_Detials = (User_Coupon & {
+  coupon: Shop_Coupon & {
+      product: {
+          images: {
+              image: string;
+          }[];
+      } | null;
+  };
+})

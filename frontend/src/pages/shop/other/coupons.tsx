@@ -1,15 +1,13 @@
-import { Shop_Coupon } from "@apiType/shop"
-import { Breadcrumb, Center, Container, Divider, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react"
+import { Shop_Coupon, User_Coupon_With_Detials } from "@apiType/shop"
+import { Flex, Text } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { setDataAPI } from "src/components/shop/functions/usefulFunctions"
 import ProductCouponDisplay from "src/components/shop/ProductCouponDisplay"
-import CouponDisplay from "../../../components/shop/CouponDisplay"
 import PageTitle from "../../../components/shop/PageTitle"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
-import TitleBox from "../../../components/shop/TItleBox"
 const Coupons = () => {
-    const [coupons, setCoupons] = useState<Shop_Coupon[] | null>(null)
-    const complete = setDataAPI("shop/getAllCoupons", setCoupons)
+    const [coupons, setCoupons] = useState<User_Coupon_With_Detials[] | null>(null)
+    const complete = setDataAPI("shop/getAllUserCoupons", setCoupons)
     if (complete != true) { return <ShopAppBody>{complete}</ShopAppBody> }
     return (
         <ShopAppBody>
@@ -22,20 +20,20 @@ const Coupons = () => {
 }
 
 export default Coupons
-function generateCoupons(coupons: Shop_Coupon[] | null) {
+function generateCoupons(coupons: User_Coupon_With_Detials[] | null) {
     if (coupons != null && coupons.length > 0) {
-        let date = coupons[0].validTill.toString().split("T")[0]
-        return coupons.map((coupon, key) =>
-            <div key={key}>
+        return coupons.map((coupon, key) => {
+            let date = coupon.coupon.validTill.toString().split("T")[0]
+            return (<div key={key}>
                 <ProductCouponDisplay
                     couponCode={coupon.couponCode}
-                    discountAmount={parseFloat(coupon.discount)}
-                    details={coupon.couponDesc}
-                    minSpend={parseFloat(coupon.minimumSpend)}
+                    discountAmount={parseFloat(coupon.coupon.discount)}
+                    details={coupon.coupon.couponDesc}
+                    minSpend={parseFloat(coupon.coupon.minimumSpend)}
                     validUntil={date + ""}
-                    productId={coupon.productId}
-                    image={coupon.product.images[0].image} /></div>
-        )
+                    productId={coupon.coupon.productId}
+                    image={coupon.coupon.product.images[0].image} /></div>)
+        })
     } else {
         return "You don't have any coupons"
     }

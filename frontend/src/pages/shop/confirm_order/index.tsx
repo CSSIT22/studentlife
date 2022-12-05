@@ -15,23 +15,30 @@ const ConfirmOrder = () => {
     const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
+
     const location = useLocation()
     const couponDiscount = location.state.couponDiscount
+    const couponCode = location.state.couponCode
+
     const add = location.state.add
+
     const getData = API.get("/shop/getAllProductsInCart")
     useEffect(() => {
-        getData.then((res) => {setCartProducts(res.data)}).catch((err) => on()).finally(() => off())
+        getData.then((res) => { setCartProducts(res.data) }).catch((err) => on()).finally(() => off())
     }, [cartProducts])
+
     let st = 0, dt = 0
     cartProducts?.forEach(cartProduct => {
         st += parseFloat(cartProduct.product.productPrice) * cartProduct.quantity
         dt += parseFloat(cartProduct.product.deliveryFees)
     })
+
     const summeryData = {
         subtotal: st,
         deliveryTotal: dt,
         total: st + dt - couponDiscount
     }
+
     const shippingAddress = (
         <ContentBox bg='#fff'>
             <Flex direction='column' gap={5} p="5">
@@ -40,6 +47,16 @@ const ConfirmOrder = () => {
             </Flex>
         </ContentBox>
     )
+
+    const handleOrder = () => {
+        console.log(couponCode)
+        if (couponCode && couponCode != "") {
+            API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => console.log(res)).catch((err) => console.log(err))
+        } else {
+            API.post('/shop/postUserOrder', { totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => console.log(res)).catch((err) => console.log(err))
+        }
+
+    }
     const orderSummary = (
         <ContentBox bg="#fff">
             <Flex direction="column" gap={5} p="5">
@@ -61,9 +78,7 @@ const ConfirmOrder = () => {
                     <Text as="b">{convertCurrency(summeryData.total)}</Text>
                 </Flex>
                 <Flex justify="center" >
-                    <Link to="../shop/order_completed">
-                        <ThemedButton>PAY NOW</ThemedButton>
-                    </Link>
+                    <ThemedButton onClick={handleOrder}>PAY NOW</ThemedButton>
                 </Flex>
             </Flex>
 
@@ -93,7 +108,7 @@ const ConfirmOrder = () => {
     )
 }
 export function generateCartProducts(cartProducts: Shop_Cart[] | null) {
-    if (cartProducts != null){
+    if (cartProducts != null) {
         let products = []
         for (let i = 0; i < cartProducts.length; i++) {
             products.push(
@@ -108,9 +123,9 @@ export function generateCartProducts(cartProducts: Shop_Cart[] | null) {
                 </GridItem>
             )
         }
-    return products
+        return products
     }
-    
+
 }
 
 export default ConfirmOrder

@@ -9,7 +9,7 @@ import ContentBox from "src/components/shop/ContentBox"
 import ThemedButton from "src/components/shop/ThemedButton"
 import TitleBox from "src/components/shop/TItleBox"
 import { useEffect, useState } from "react"
-import { Shop_Cart, Shop_Coupon } from "@apiType/shop"
+import { Shop_Cart, Shop_Coupon, User_Coupon_With_Detials } from "@apiType/shop"
 import API from "src/function/API"
 
 // Cart
@@ -20,7 +20,7 @@ const Cart = () => {
     const [couponCode, setCouponCode] = useState<string>("")
     const [couponDiscount, setCouponDiscount] = useState<number>(0)
     const [errorCouponMsg, setErrorMsg] = useState("Coupon is invalid!")
-    const [userCoupons, setCoupons] = useState<Shop_Coupon[] | null>(null)
+    const [userCoupons, setCoupons] = useState<User_Coupon_With_Detials[] | null>(null)
     const [isErrorCoupon , setErrorCoupon] = useState<boolean>(false)
     const [isCouponSuccess, setCouponSuccess] = useState<boolean>(false)
 
@@ -29,7 +29,7 @@ const Cart = () => {
     const getData = API.get("/shop/getAllProductsInCart")
     useEffect(() => {
         getData.then((res) => {setCartProducts(res.data)}).catch((err) => on()).finally(() => off())
-        API.get("/shop/getAllCoupons").then(res => setCoupons(res.data)).catch(err => console.log(err))
+        API.get("/shop/getAllUserCoupons").then(res => setCoupons(res.data)).catch(err => console.log(err))
         clearCoupon()
     }, [updates])
     let st = 0, dt = 0
@@ -76,13 +76,13 @@ const Cart = () => {
         if (userCoupons != null && userCoupons.length > 0){
             for (let i = 0; i < userCoupons.length; i++){
                 if (userCoupons[i].couponCode.toLowerCase() == couponCode.toLowerCase()){
-                    if (userCoupons[i].quota > 0 ){
-                        let expDate =  new Date(userCoupons[i].validTill.toString())
+                    if (userCoupons[i].coupon.quota > 0 ){
+                        let expDate =  new Date(userCoupons[i].coupon.validTill.toString())
                         let now = new Date()
                         if (now < expDate ){
-                            if (parseFloat(userCoupons[i].minimumSpend) <= summeryData.total){
-                                if (checkProductInCart(userCoupons[i].productId)){
-                                    couponSuccess(parseFloat(userCoupons[i].discount))
+                            if (parseFloat(userCoupons[i].coupon.minimumSpend) <= summeryData.total){
+                                if (checkProductInCart(userCoupons[i].coupon.productId)){
+                                    couponSuccess(parseFloat(userCoupons[i].coupon.discount))
                                     return
                                 }
                                 setErrorCoupon(true)
@@ -154,7 +154,7 @@ const Cart = () => {
                 </Flex>
                 <Flex justify="center" >
                     <LinkBox>
-                        <Link to="../shop/checkout" state={{couponDiscount: couponDiscount}}>
+                        <Link to="../shop/checkout" state={{couponDiscount: couponDiscount, couponCode: couponCode}}>
                             <ThemedButton>CHECKOUT</ThemedButton>
                         </Link>
                     </LinkBox>

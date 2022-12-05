@@ -11,7 +11,8 @@ type formInputs = {
 }
 const ShippingAddress:FC<{
     couponDiscount: number
-}> = ({couponDiscount}) => {
+    couponCode: string
+}> = ({couponDiscount, couponCode}) => {
     const navigate = useNavigate()
     const [inputs, setInputs] = useState<formInputs>({
         al1: "",
@@ -27,7 +28,7 @@ const ShippingAddress:FC<{
       }
       const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        navigate('../shop/confirm_order', {state: {add: inputs.al1 + " \n" + inputs.al2 + "\n " + inputs.dst + ", " + inputs.pvn + ", " + inputs.ctry, couponDiscount: couponDiscount}})
+        navigate('../shop/confirm_order', {state: {add: inputs.al1 + " \n" + inputs.al2 + "\n " + inputs.dst + ", " + inputs.pvn + ", " + inputs.ctry, couponDiscount: couponDiscount, couponCode: couponCode}})
       }
     return (
         <div>
