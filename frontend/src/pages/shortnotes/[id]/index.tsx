@@ -50,7 +50,7 @@ const index = () => {
             }
         }).finally(setLoad.off)
 
-        //file()
+        file()
     }, [])
 
     const file = () => {
@@ -67,10 +67,7 @@ const index = () => {
     }
     useEffect(() => {
         ress.forEach((res: any) => {
-            console.log(ress);
-
-            API.get("/shortnotes/getEachFile", {
-                data: res,
+            API.get("/shortnotes/getEachFile/ " + res.fileId, {
 
                 responseType: "arraybuffer"
             }).then((res2) => {

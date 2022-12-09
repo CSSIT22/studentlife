@@ -11,19 +11,22 @@ const drive = axios.create({
 
 const getEachFile = async (req: Request<any>, res: Response<any>) => {
     try {
+        const fileID = req.params.id
         const file = await axios
-            .get(`https://drive.modlifes.me/${req.body.fileId}`, {
+            .get("https://drive.modlifes.me/" + fileID.trim(), {
                 headers: {
                     Authorization: "Bearer GjkhtiJ12!",
                 },
                 responseType: "arraybuffer",
             })
-            .then((res: any) => {
-                console.log(res.data)
-                if (res.data == "record not found") {
-                    res.send("No file")
+            .then((fileRes: any) => {
+                //let json = JSON.stringify(fileRes.data)
+                if (fileRes.data == "record not found") {
+                    fileRes.send("No file")
                 } else {
-                    res.send(res)
+                    const file = fileRes.data
+                    res.header("Content-Type", fileRes.headers["content-type"])
+                    res.send(file)
                 }
             })
 
