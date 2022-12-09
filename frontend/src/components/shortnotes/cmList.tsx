@@ -1,5 +1,5 @@
-import { Box, Grid, GridItem, Text, Flex, Spacer, Heading, IconButton, Menu, MenuButton, MenuItem, MenuList, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast } from "@chakra-ui/react"
-import React, { FC, useContext, useState } from "react"
+import { Box, Grid, GridItem, Text, Flex, Spacer, Heading, IconButton, Menu, MenuButton, MenuItem, MenuList, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast, Avatar } from "@chakra-ui/react"
+import React, { FC, useContext, useEffect, useState } from "react"
 import { HiDotsHorizontal } from "react-icons/hi"
 import { MdDeleteOutline } from "react-icons/md"
 import { authContext } from "src/context/AuthContext"
@@ -27,7 +27,11 @@ const cmList: FC<{
     return (
         <Box bg={"white"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
             <Flex>
-                <Heading size={"sm"} alignSelf={"center"}>{name}</Heading>
+                <Avatar
+                    size="sm"
+                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + owner}
+                ></Avatar>
+                <Heading ml={2} size={"sm"} alignSelf={"center"}>{name}</Heading>
                 <Spacer />
                 {owner == user?.userId ?
                     <Menu>
