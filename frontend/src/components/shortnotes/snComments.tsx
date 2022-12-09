@@ -37,7 +37,7 @@ const snComments = () => {
                     <Heading size={"md"} mb={1}>
                         Comments
                     </Heading>
-                    <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
+                    <Textarea h={150} mb={2} py={4} focusBorderColor="orange.500" placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
                     <Flex direction={"row"} justifyContent={"end"}>
                         <Button colorScheme={"orange"} onClick={() => {
                             (
