@@ -54,7 +54,7 @@ shortnotesRoutes.get("/getShortnoteDetail/:id", getShortnoteDetail)
 
 shortnotesRoutes.get("/getComments/:id", getComments)
 
-shortnotesRoutes.get("/getFile", getFile)
+shortnotesRoutes.get("/getFile/:id", getFile)
 
 shortnotesRoutes.get("/getEachFile/:id", getEachFile)
 

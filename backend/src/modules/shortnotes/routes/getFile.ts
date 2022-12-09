@@ -2,7 +2,6 @@ import { Request, Response } from "express"
 import { prisma } from "@prisma/client"
 import axios from "axios"
 
-
 const getFile = async (req: Request, res: Response) => {
     const prisma = res.prisma
     let x: any[] = []
@@ -12,7 +11,7 @@ const getFile = async (req: Request, res: Response) => {
             fileId: true,
         },
         where: {
-            snId: req.body.snId,
+            snId: req.params.id,
         },
     })
 
