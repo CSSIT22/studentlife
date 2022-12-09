@@ -60,8 +60,9 @@ const snComments = () => {
 
                 :
                 <VStack gap={4}>
-                    {comments.map((cm: any) => (
+                    {comments.map((cm: any, key: any) => (
                         <CmList
+                            key={key}
                             name={cm.commentor.fName + " " + cm.commentor.lName}
                             desc={cm.comment}
                             date={cm.commentedAt}

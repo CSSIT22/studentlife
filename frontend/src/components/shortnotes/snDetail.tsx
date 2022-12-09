@@ -51,7 +51,7 @@ import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import InLiList from "./inLiList"
 
-const liList: FC<{
+const snDetail: FC<{
     topic: String
     course: String
     desc: String
@@ -251,7 +251,7 @@ const liList: FC<{
                                         isClosable: true,
                                     })
                                 }}>
-                                    <LiList name={li.libName}></LiList>
+                                    <LiList key={key} name={li.libName}></LiList>
                                 </Box>
                             ))}
                         </Stack>
@@ -366,4 +366,4 @@ const liList: FC<{
     )
 }
 
-export default liList
+export default snDetail
