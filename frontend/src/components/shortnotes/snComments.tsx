@@ -8,6 +8,7 @@ import loading from "./lottie/loading.json";
 
 const snComments = () => {
     const [comments, setComments] = useState<any>([])
+    const [newComment, setNewComment] = useState<any>([])
     const param = useParams()
 
     useEffect(() => {
@@ -23,6 +24,12 @@ const snComments = () => {
         API.post("/shortnotes/postComment", {
             comment: comm,
             snId: param.id
+        }).then((res) => {
+            let x = [...newComment, res.data]
+            setNewComment(x)
+            console.log(res.data);
+            console.log(newComment);
+
         })
     }
     const toast = useToast()
@@ -55,7 +62,6 @@ const snComments = () => {
                 </Box>
             </Box>
             {cmLoad ?
-                //<Box><Lottie style={style} animationData={loading}></Lottie></Box>
                 null
 
                 :
@@ -68,6 +74,16 @@ const snComments = () => {
                             date={cm.commentedAt}
                             owner={cm.commentor.userId}
                             commentId={cm.commentId}
+                        />
+                    ))}
+                    {newComment.map((ncm: any, key: any) => (
+                        <CmList
+                            key={key}
+                            name={ncm.cmDetail.fName + " " + ncm.cmDetail.lName}
+                            desc={ncm.cm.comment}
+                            date={ncm.cm.commentedAt}
+                            owner={ncm.cm.userId}
+                            commentId={ncm.cm.commentId}
                         />
                     ))}
                 </VStack>
