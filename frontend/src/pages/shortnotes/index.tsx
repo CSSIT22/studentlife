@@ -140,7 +140,7 @@ const index = () => {
                 <Stack direction={"row"}>
                     <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
-                        <Select _focus={{ bg: '#f5f5f5' }} focusBorderColor="orange.500" variant="filled" placeholder="None">
+                        <Select _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="None">
                             <option value="option1">Name</option>
                             <option value="option2">Newest</option>
                             <option value="option2">Oldest</option>
@@ -148,7 +148,7 @@ const index = () => {
                     </VStack>
                     <VStack>
                         <Text alignSelf={"start"}>Course</Text>
-                        <Select _focus={{ bg: '#f5f5f5' }} focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
+                        <Select _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
                             {course.map((course: any, key) => (
                                 <option key={key} value={course.courseId}>{course.courseName}</option>
                             ))}
