@@ -38,6 +38,8 @@ import {
     SimpleGrid,
     VStack,
     Divider,
+    Show,
+    Hide,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineCloseCircle, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
@@ -272,8 +274,15 @@ const snDetail: FC<{
                     </Box>
                 </HStack> */}
                 <Spacer />
-                <Text fontSize={"xs"}>Posted by {owner} at {new Date(date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
             </HStack>
+
+            <Hide below="sm">
+                <Text textAlign={"right"} fontSize={"xs"}>Posted by {owner} at {new Date(date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
+            </Hide>
+            <Show below="sm">
+                <Text textAlign={"right"} fontSize={"xs"}>Posted by {owner}</Text>
+                <Text textAlign={"right"} fontSize={"xs"}>at {new Date(date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
+            </Show>
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
