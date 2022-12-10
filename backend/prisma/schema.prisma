@@ -622,14 +622,13 @@ model Announcement_Approve {
 //Chat Module
 model Chat_Room {
   roomId     String               @id @default(cuid())
-  roomName   String
   chatColor  String               @db.Char(7)
   created    DateTime             @default(now()) @db.Timestamp(0)
   roomType   Room_Type
   poll       Activity_Poll?
   haveUser   User_To_Room[]
+  group      Chat_Group?
   nick       Chat_Nickname[]
-  // messages       Message[]
   quotes     Chat_Quote[]
   wordReport Word_Report_Detail[]
 }
@@ -657,16 +656,11 @@ model Chat_Nickname {
   @@id([userId, anotherUserId, roomId])
 }
 
-// model Message {
-//   messageId     String        @id @default(cuid())
-//   roomId        String
-//   senderId      String?
-//   messageType   Message_Type
-//   created       DateTime      @default(now()) @db.Timestamp(0)
-//   isRead        Boolean       @default(false)
-//   messageInRoom Chat_Room     @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
-//   messageSender User_Profile? @relation(fields: [senderId], references: [userId], onDelete: SetNull)
-// }
+model Chat_Group {
+  roomId   String    @id
+  roomName String
+  room     Chat_Room @relation(fields: [roomId], references: [roomId])
+}
 
 model Chat_Quote {
   quoteId  Int          @id @default(autoincrement())
@@ -920,6 +914,7 @@ model File_Info {
   folders     File_In_Folder[]
   history     File_History[]
   snFile      Sn_File[]
+  reviews SReview_Review_File[]
 }
 
 model User_Show_File {
@@ -1284,7 +1279,7 @@ model Shop_Order {
   orderPlaced       DateTime             @default(now()) @db.Timestamp(0)
   orderStatus       String
   transaction       Transaction          @relation(fields: [transId], references: [transId], onDelete: Restrict)
-  useCoupon         User_Coupon?         @relation(fields: [couponCode], references: [couponCode], onDelete: SetNull)
+  useCoupon         User_Coupon?         @relation(fields: [userId, couponCode], references: [userId, couponCode])
   products          Shop_Order_Product[]
 }
 
@@ -1303,10 +1298,10 @@ model Shop_Coupon {
 
 model User_Coupon {
   userId     String
-  couponCode String       @unique
+  couponCode String
   user       User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
   coupon     Shop_Coupon  @relation(fields: [couponCode], references: [couponCode], onDelete: Cascade)
-  useCoupon  Shop_Order?
+  useCoupon  Shop_Order[]
 
   @@id([userId, couponCode])
 }
@@ -1509,11 +1504,16 @@ model SReview_Review {
   shop         SReview_Shop           @relation(fields: [shopId], references: [shopId])
   likes        SReview_Review_Like[]
   comments     SReview_Comment[]
+  files SReview_Review_File[]
 }
 
-// model SReview_Review_To_File {
-
-// }
+model SReview_Review_File {
+  reviewId String
+  review SReview_Review @relation(fields: [reviewId], references: [reviewId])
+  fileId String
+  file File_Info @relation(fields: [fileId], references: [fileId])
+  @@id([reviewId, fileId])
+}
 
 model SReview_Review_Image {
   imageId  Int            @id @default(autoincrement())
