@@ -20,3 +20,11 @@ export type NotiUser = {
   notiSettingApp: string;
   notiSettingEmail: string;
 };
+export type pushNotiType = {
+  template: string;
+  value: string[];
+  userId: string[];
+  module: string;
+  url: string;
+  sender: string;
+};
