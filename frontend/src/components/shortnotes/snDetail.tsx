@@ -165,31 +165,32 @@ const snDetail: FC<{
     //     });
 
     // }, [allFiles])
-    const downloadFile = () => {
-        allFiles.forEach((file: any) => {
-            API.get("/shortnotes/getEachFile/ " + file.fileId, {
+    const downloadFile = (fd: any) => {
+        API.get("/shortnotes/getEachFile/ " + fd, {
 
-                responseType: "arraybuffer"
-            }).then((_file) => {
-                console.log(_file.data);
-                console.log(_file.headers["content-type"]);
-                try {
-                    let fileBlob = new Blob([new Uint8Array(_file.data)], { type: _file.headers["content-type"] })
-                    const urlCreator = window.URL || window.webkitURL
-                    const blobUrl = urlCreator.createObjectURL(fileBlob)
-                    window.open(blobUrl);
-                    // const a = document.createElement("a")
-                    // a.download = file.file.fileName
-                    // a.href = blobUrl
-                    // document.body.appendChild(a)
-                    // a.click()
-                    // a.remove()
-                } catch (error) {
-                    console.log(error)
-                }
+            responseType: "arraybuffer"
+        }).then((_file) => {
+            console.log(_file.data);
+            console.log(_file.headers["content-type"]);
+            try {
+                let fileBlob = new Blob([new Uint8Array(_file.data)], { type: _file.headers["content-type"] })
+                const urlCreator = window.URL || window.webkitURL
+                const blobUrl = urlCreator.createObjectURL(fileBlob)
+                //var blobUrl = URL.createObjectURL(fileBlob);
+                window.open(blobUrl);
+                const a = document.createElement("a")
+                // a.download = file.file.fileName
+                //a.target = "_blank"
+                //a.href = blobUrl
+                // document.body.appendChild(a)
+                //a.click()
+                // a.remove()
+            } catch (error) {
+                console.log(error)
+            }
 
-            })
-        });
+        })
+
     }
     return (
         <Box>
@@ -224,18 +225,20 @@ const snDetail: FC<{
             <Heading size={"sm"} bg={"orange.500"} color={"white"} rounded={8} w={20} py={1} mb={6} textAlign={"center"} boxShadow={"xl"}>
                 {course}
             </Heading>
-            <Box mb={4}>
+            <Box mb={6}>
                 <Text>{desc}</Text>
             </Box>
-            {/* <Box mb={4}>
-                <Heading size={"md"}>Link</Heading>
-                <Text color={"blue.500"}>{link}</Text>
-                            
-            </Box> */}
             {allFiles[0] != null ?
-                <Button size={"sm"} onClick={() => {
-                    downloadFile()
-                }}>Open note</Button>
+                <>
+                    <Heading size={"sm"} mb={1}>Attached files</Heading>
+                    <VStack>
+                        {allFiles.map((file: any, key: any) => (
+                            <Flex key={key} w={"100%"} justifyContent={"start"}>
+                                <Heading as="button" size={"xs"} bg={"gray.100"} rounded={6} p={2} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => { downloadFile(file.fileId) }}>{file.file.fileName}</Heading>
+                            </Flex>
+                        ))}
+                    </VStack>
+                </>
                 :
                 null}
             <HStack>
@@ -298,18 +301,6 @@ const snDetail: FC<{
                     </DrawerHeader>
                     <DrawerBody>
                         <Stack gap={4}>
-                            {/* {li.map((li, key) => (
-                                <Box
-                                    as="button"
-                                    onClick={() => {
-                                        let x = [...liPicked, li.id]
-                                        setLiPicked(x)
-                                        console.log(liPicked)
-                                    }}
-                                >
-                                    <LiList name={li.name}></LiList>
-                                </Box>
-                            ))} */}
                             {li.map((li: any, key) => (
                                 <Box onClick={() => {
                                     addToLibrary(li.libId)

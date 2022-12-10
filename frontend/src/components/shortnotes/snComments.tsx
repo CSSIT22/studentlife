@@ -25,11 +25,11 @@ const snComments = () => {
             comment: comm,
             snId: param.id
         }).then((res) => {
+            setComm("")
             let x = [...newComment, res.data]
             setNewComment(x)
             console.log(res.data);
             console.log(newComment);
-
         })
     }
     const toast = useToast()
