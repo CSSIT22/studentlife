@@ -72,6 +72,7 @@ const snDetail: FC<{
         API.get("/shortnotes/getLibrary").then((item) => {
             setLi(item.data)
         })
+        getFile()
     }, [])
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
 
@@ -128,6 +129,68 @@ const snDetail: FC<{
         })
     }
 
+    const [allFiles, setAllFiles] = useState<any>([])
+    const [myFiles, setMyFiles] = useState<any>([])
+    let f: any[] = []
+    const getFile = () => {
+        API.get("/shortnotes/getFile/" + param.id).then((res) => {
+            setAllFiles(res.data)
+        })
+
+    }
+    // useEffect(() => {
+    //     allFiles.forEach((file: any) => {
+    //         API.get("/shortnotes/getEachFile/ " + file.fileId, {
+
+    //             responseType: "arraybuffer"
+    //         }).then((_file) => {
+    //             console.log(_file.data);
+    //             console.log(_file.headers["content-type"]);
+    //             try {
+    //                 let fileBlob = new Blob([new Uint8Array(_file.data)], { type: _file.headers["content-type"] })
+    //                 const urlCreator = window.URL || window.webkitURL
+    //                 const blobUrl = urlCreator.createObjectURL(fileBlob)
+    //                 window.open(blobUrl);
+    //                 const a = document.createElement("a")
+    //                 a.download = file.file.fileName
+    //                 a.href = blobUrl
+    //                 document.body.appendChild(a)
+    //                 a.click()
+    //                 a.remove()
+    //             } catch (error) {
+    //                 console.log(error)
+    //             }
+
+    //         })
+    //     });
+
+    // }, [allFiles])
+    const downloadFile = () => {
+        allFiles.forEach((file: any) => {
+            API.get("/shortnotes/getEachFile/ " + file.fileId, {
+
+                responseType: "arraybuffer"
+            }).then((_file) => {
+                console.log(_file.data);
+                console.log(_file.headers["content-type"]);
+                try {
+                    let fileBlob = new Blob([new Uint8Array(_file.data)], { type: _file.headers["content-type"] })
+                    const urlCreator = window.URL || window.webkitURL
+                    const blobUrl = urlCreator.createObjectURL(fileBlob)
+                    window.open(blobUrl);
+                    // const a = document.createElement("a")
+                    // a.download = file.file.fileName
+                    // a.href = blobUrl
+                    // document.body.appendChild(a)
+                    // a.click()
+                    // a.remove()
+                } catch (error) {
+                    console.log(error)
+                }
+
+            })
+        });
+    }
     return (
         <Box>
             <HStack>
@@ -164,10 +227,17 @@ const snDetail: FC<{
             <Box mb={4}>
                 <Text>{desc}</Text>
             </Box>
-            <Box mb={4}>
+            {/* <Box mb={4}>
                 <Heading size={"md"}>Link</Heading>
                 <Text color={"blue.500"}>{link}</Text>
-            </Box>
+                            
+            </Box> */}
+            {allFiles[0] != null ?
+                <Button size={"sm"} onClick={() => {
+                    downloadFile()
+                }}>Open note</Button>
+                :
+                null}
             <HStack>
                 {/* <HStack>
                     <Box as="button">

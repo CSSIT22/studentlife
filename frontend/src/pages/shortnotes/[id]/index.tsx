@@ -21,7 +21,6 @@ const index = () => {
     const style = {
         height: 96,
     };
-    const [allFiles, setAllFiles] = useState<any>([])
     const resentOnclick = () => {
         API.post("/shortnotes/postResentShortnote", {
             snId: param.id
@@ -49,33 +48,7 @@ const index = () => {
                 }
             }
         }).finally(setLoad.off)
-
-        file()
     }, [])
-
-    const file = () => {
-        API.get("/shortnotes/getFile/" + param.id).then((res) => {
-            setAllFiles(res.data)
-            console.log(res.data);
-
-        })
-
-    }
-    useEffect(() => {
-        console.log(allFiles);
-
-        allFiles.forEach((file: any) => {
-            API.get("/shortnotes/getEachFile/ " + file.fileId, {
-
-                responseType: "arraybuffer"
-            }).then((res2) => {
-                console.log(res2.data);
-
-            })
-        });
-
-    }, [allFiles])
-
 
     const blur = {
         filter: "blur(8px)"

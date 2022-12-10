@@ -9,6 +9,7 @@ const getFile = async (req: Request, res: Response) => {
     const fileId = await prisma.sn_File.findMany({
         select: {
             fileId: true,
+            file: true,
         },
         where: {
             snId: req.params.id,
