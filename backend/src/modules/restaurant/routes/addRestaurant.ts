@@ -53,8 +53,7 @@
 //                         data: [
 //                             {
 //                                 image:  "https://res.klook.com/image/upload/activities/rtihxwt41d76gj2tincn.jpg",
-                            
-                               
+
 //                             },
 //                             {
 //                                 image:   "https://partyspacedesign.com/wp-content/uploads/2020/03/PSD20Bearhouse_05.jpg",
@@ -62,7 +61,7 @@
 //                             },
 //                             {
 //                                 image:   "https://www.bkkmenu.com/files/2019/06/IMG_0441.jpg",
-                                
+
 //                             },
 //                         ],
 //                     },

@@ -6,24 +6,22 @@ import { Request, Response } from "express"
 const editstatusOnRecyclebin = async (req: Request, res: Response) => {
     const postId = req.body.postId
     const prisma = res.prisma
-    try{
+    try {
         const deleteOnDelete = await prisma.announcement_Delete.delete({
-            where:{
-                postId:postId
-            }
+            where: {
+                postId: postId,
+            },
         })
         const addOnAnnouncement_post = await prisma.announcement_Post.create({
-            data:{
-                postId:postId,
-                status:"Approve"
-            }
+            data: {
+                postId: postId,
+                status: "Approve",
+            },
         })
         res.send(addOnAnnouncement_post)
-    }catch(err){
+    } catch (err) {
         res.status(400).send(err)
     }
-
-
 
     // const isApprove = req.body.isApprove
     // const status = req.body.status
