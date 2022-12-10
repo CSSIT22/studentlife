@@ -9,7 +9,7 @@ const rsnList: FC<{
 }> = ({ topic, viewAt, lock }) => {
     return (
         <Grid templateRows={"repeat(3, 1fr)"} boxShadow={"md"} bg={"white"} rounded={8} h={100} px={2} py={2} _hover={{ bg: '#f4f4f4' }} transition='all 0.2s cubic-bezier(.08,.52,.52,1)'>
-            <Flex justifyContent={"center"}>{lock == false ? <FaLock /> : null}</Flex>
+            <Flex justifyContent={"center"}>{lock}</Flex>
             <GridItem>
                 {topic}
             </GridItem>

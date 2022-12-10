@@ -7,7 +7,7 @@ import SnList from "../../components/shortnotes/snList"
 import Li from "../../components/shortnotes/liList"
 import BtnMl from "../../components/shortnotes/btnMyLibrary"
 import BtnNs from "../../components/shortnotes/btnNewShortnote"
-import { FaLock } from "react-icons/fa"
+import { FaLock, FaLockOpen, FaUnlock } from "react-icons/fa"
 import API from "src/function/API"
 import Lottie from "lottie-react";
 import loading from "./lottie/loading.json";
@@ -42,6 +42,23 @@ const index = () => {
             //console.log(item.data)
         })
     }, [])
+
+    const [access, setAccess] = useState<any>([])
+    const [accessId, setAccessId] = useState<any[]>([])
+
+    useEffect(() => {
+        API.get("/shortnotes/getAccess").then((item) => {
+            setAccess(item.data)
+        })
+    }, [])
+    useEffect(() => {
+        access.forEach((a: any) => {
+            console.log(a.snId);
+            setAccessId((accessId: any) => [...accessId, a.snId])
+
+        })
+    }, [access])
+
     const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
     const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
     const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
@@ -103,8 +120,12 @@ const index = () => {
                                         pathname: "./" + rsn.shortNote.snId,
                                     })
                                 }}>
-                                    <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic}></Rsn>
+                                    {accessId.includes(rsn.shortNote.snId) ?
+                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaLockOpen />}></Rsn>
+                                        :
+                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaLock />}></Rsn>
 
+                                    }
                                 </Box>
                             ))}
                         </SimpleGrid>
@@ -138,7 +159,7 @@ const index = () => {
             {snLoad ? <Lottie style={style} animationData={loading}></Lottie>
                 :
                 <Collapse in={rsnIsOpen} animateOpacity>
-                    <VStack gap={2} pt={4}>
+                    <VStack gap={2} pt={4} mb={4}>
                         {coursePicked == "" ? (
                             <>
                                 {sn.map((sn: any, key) => (
@@ -153,7 +174,12 @@ const index = () => {
                                             //console.log(snPicked)
                                         }}
                                     >
-                                        <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                        {accessId.includes(sn.snId) ?
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLockOpen />} />
+                                            :
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                        }
+
                                     </Box>
                                 ))}
                             </>
@@ -171,7 +197,11 @@ const index = () => {
                                             console.log(snPicked)
                                         }}
                                     >
-                                        <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                        {accessId.includes(sn.snId) ?
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLockOpen />} />
+                                            :
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                        }
                                     </Box>
                                 ))}
                             </>
