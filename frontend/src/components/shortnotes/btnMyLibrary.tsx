@@ -238,7 +238,7 @@ const btnMyLibrary = () => {
                     <DrawerBody>
                         <VStack spacing={4}>
                             {snByLi.map((sn: any, key) => (
-                                <Box as="button" w={"100%"} boxShadow={"md"} >
+                                <Box w={"100%"} boxShadow={"md"} >
                                     <Grid templateColumns="repeat(7, 1fr)">
                                         <GridItem colSpan={6} onClick={() => {
                                             navigate({

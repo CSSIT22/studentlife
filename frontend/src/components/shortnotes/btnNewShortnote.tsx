@@ -133,7 +133,7 @@ const btnNewShortnote = () => {
                                         <FormControl isRequired>
 
                                             <FormLabel>Course</FormLabel>
-                                            <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={course} onChange={(e) => setCourse(e.target.value)} />
+                                            <Input variant="outline" placeholder="e.g. CSC220" focusBorderColor="orange.500" value={course} onChange={(e) => setCourse(e.target.value)} />
                                             <FormErrorMessage>Course is required.</FormErrorMessage>
 
                                         </FormControl>
@@ -188,8 +188,7 @@ const btnNewShortnote = () => {
                             <Box>
                                 {useRadio == "Private" ? (
                                     <Box>
-                                        Add people
-                                        <br />
+                                        <FormLabel>Add people</FormLabel>
                                         <Grid templateColumns="repeat(5, 1fr)" gap={4}>
                                             <GridItem colSpan={4}>
                                                 <Input

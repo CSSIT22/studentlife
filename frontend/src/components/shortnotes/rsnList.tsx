@@ -8,10 +8,10 @@ const rsnList: FC<{
     lock: any
 }> = ({ topic, viewAt, lock }) => {
     return (
-        <Grid templateRows={"repeat(3, 1fr)"} boxShadow={"md"} bg={"white"} rounded={8} h={100} px={2} py={2} _hover={{ bg: '#f4f4f4' }} transition='all 0.2s cubic-bezier(.08,.52,.52,1)'>
+        <Grid templateRows={"repeat(3, 1fr)"} boxShadow={"md"} bg={"white"} rounded={8} px={2} py={2} _hover={{ bg: '#f4f4f4' }} transition='all 0.2s cubic-bezier(.08,.52,.52,1)'>
             <Flex justifyContent={"center"}>{lock}</Flex>
             <GridItem>
-                {topic}
+                <Text noOfLines={1}>{topic}</Text>
             </GridItem>
             <GridItem>
                 <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"end"}>

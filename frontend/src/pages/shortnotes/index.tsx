@@ -113,7 +113,7 @@ const index = () => {
                 :
                 <SlideFade in={isOpen} offsetY='20px'>
                     <Box mt={4} mb={12}>
-                        <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 4, sm: 6 }} textAlign={"center"}>
+                        <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 4 }} textAlign={"center"}>
                             {rsn.map((rsn: any, key) => (
                                 <Box as="button" onClick={() => {
                                     navigate({
@@ -121,7 +121,7 @@ const index = () => {
                                     })
                                 }}>
                                     {accessId.includes(rsn.shortNote.snId) ?
-                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaLockOpen />}></Rsn>
+                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaUnlock />}></Rsn>
                                         :
                                         <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaLock />}></Rsn>
 
@@ -175,7 +175,7 @@ const index = () => {
                                         }}
                                     >
                                         {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLockOpen />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaUnlock />} />
                                             :
                                             <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
                                         }
@@ -198,7 +198,7 @@ const index = () => {
                                         }}
                                     >
                                         {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLockOpen />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaUnlock />} />
                                             :
                                             <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
                                         }

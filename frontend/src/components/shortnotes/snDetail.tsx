@@ -224,7 +224,7 @@ const snDetail: FC<{
                 </Menu>
             </HStack>
 
-            <Heading size={"sm"} bg={"orange.500"} color={"white"} rounded={8} w={20} py={1} mb={6} textAlign={"center"} boxShadow={"xl"}>
+            <Heading size={"sm"} bg={"orange.500"} color={"white"} rounded={6} w={20} py={1} mb={6} textAlign={"center"} boxShadow={"base"}>
                 {course}
             </Heading>
             <Box mb={6}>
@@ -236,7 +236,7 @@ const snDetail: FC<{
                     <VStack>
                         {allFiles.map((file: any, key: any) => (
                             <Flex key={key} w={"100%"} justifyContent={"start"}>
-                                <Heading as="button" size={"xs"} bg={"gray.100"} rounded={6} p={2} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => { downloadFile(file.fileId) }}>{file.file.fileName}</Heading>
+                                <Heading as="button" shadow={"base"} size={"xs"} bg={"gray.100"} rounded={6} p={2} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => { downloadFile(file.fileId) }}>{file.file.fileName}</Heading>
                             </Flex>
                         ))}
                     </VStack>
