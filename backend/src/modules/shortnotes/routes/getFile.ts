@@ -14,6 +14,11 @@ const getFile = async (req: Request, res: Response) => {
         where: {
             snId: req.params.id,
         },
+        orderBy: {
+            file: {
+                fileExpired: "asc",
+            },
+        },
     })
 
     res.json(fileId)
