@@ -64,7 +64,7 @@ const index = () => {
     }
     return (
         <AppBody>
-            {allow ? <Box><Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+            {allow ? <Box><Box p={6} bg={"white"} boxShadow={"base"} rounded={8} mb={4}>
                 <SnDetail
                     topic={shortnote.snName}
                     course={shortnote.course.courseName}
@@ -75,13 +75,13 @@ const index = () => {
                     isPublic={shortnote.isPublic}
                 />
             </Box>
-                <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6} mb={4}>
+                <Box bg={"white"} boxShadow={"base"} rounded={8} p={6} mb={4}>
                     <SnComments />
                 </Box>
             </Box>
                 :
                 <Box style={blur}>
-                    <Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+                    <Box p={6} bg={"white"} boxShadow={"base"} rounded={8} mb={4}>
                         <SnDetail
                             topic={"What do you expect to see???"}
                             course={"LOL555"}
@@ -92,7 +92,7 @@ const index = () => {
                             isPublic={shortnote.isPublic}
                         />
                     </Box>
-                    <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6} mb={4}>
+                    <Box bg={"white"} boxShadow={"base"} rounded={8} p={6} mb={4}>
                         <Box mb={4} rounded={8}>
                             <Box>
                                 <Heading size={"md"} mb={1}>
@@ -105,7 +105,7 @@ const index = () => {
                             </Box>
                         </Box>
                     </Box>
-                    <Box bg={"white"} boxShadow={"xl"} p={3} rounded={8} mb={2}>
+                    <Box bg={"white"} boxShadow={"base"} p={3} rounded={8} mb={2}>
                         <Heading py={3} size={"sm"} alignSelf={"center"}>Joshua Wong</Heading>
                         <Text>Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong </Text>
                         <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
@@ -115,7 +115,7 @@ const index = () => {
                         </Flex>
 
                     </Box>
-                    <Box bg={"white"} boxShadow={"xl"} p={3} rounded={8}>
+                    <Box bg={"white"} boxShadow={"base"} p={3} rounded={8}>
                         <Heading py={3} size={"sm"} alignSelf={"center"}>Joshua Wong</Heading>
                         <Text>Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong </Text>
                         <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
