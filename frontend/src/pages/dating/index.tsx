@@ -461,7 +461,7 @@ const DatingRandomization = () => {
         // userSelect = none => prevent users from accidentally select texts
         <DatingAppBody userSelect="none">
             <><SimpleGrid overflow={{ base: "hidden", md: "visible" }} columns={{ base: 1, md: 2 }} h={{ base: "600px", md: "530px" }}>
-                <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "auto" }}>
+                <Box className="cardContainer" overflow="hidden" w={{ md: "379px" }} h={{ base: "440px", md: "500px" }}>
                     {/* base to show shadow, reloading icon when running out of card */}
                     <DatingRandomBase numOfChar={numOfChar} hasSwipe={hasSwipe} isRunOut={isRunOut} isError={isError} />
                     {!isError ?

@@ -77,98 +77,122 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
         })
 
         const ageObtainedUser: any = []
+        const userProfileDB = await prisma.user_Profile.findMany({
+            where: {
+                NOT: {
+                    userId: {
+                        in: filterId,
+                    },
+                },
 
-        if (cardQueueUserId?.frontUserId || cardQueueUserId?.backUserId) {
-            return res.send("Success!")
-        } else {
-            const userProfileDB = await prisma.user_Profile.findMany({
-                where: {
+                details: {
                     NOT: {
-                        userId: {
-                            in: filterId,
-                        },
-                    },
-
-                    details: {
-                        NOT: {
-                            userId: reqUserId,
-                        },
-                    },
-                    datingSetting: {
-                        hasCompleteSetting: true,
+                        userId: reqUserId,
                     },
                 },
-                select: {
-                    userId: true,
-                    fName: true,
-                    lName: true,
-                    image: true,
-                    details: {
-                        select: {
-                            birth: true,
-                            sex: true,
-                        },
-                    },
-                    studentMajor: {
-                        select: {
-                            majorFaculty: true,
-                        },
-                    },
-                    interests: {
-                        select: {
-                            interestId: true,
-                        },
+                // datingSetting: {
+                //     hasCompleteSetting: true,
+                // },
+            },
+            select: {
+                userId: true,
+                fName: true,
+                lName: true,
+                image: true,
+                details: {
+                    select: {
+                        birth: true,
+                        sex: true,
                     },
                 },
-            })
+                studentMajor: {
+                    select: {
+                        majorFaculty: true,
+                    },
+                },
+                interests: {
+                    select: {
+                        interestId: true,
+                    },
+                },
+            },
+        })
 
-            userProfileDB.map((user) => {
-                if (user.details && datingOptionsDB?.useAge && datingOptionsDB?.ageMin && datingOptionsDB?.ageMax) {
-                    if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax) {
-                        ageObtainedUser.push(user)
-                    }
-                } else if (datingOptionsDB?.useAge == false && user.details?.birth) {
+        userProfileDB.map((user) => {
+            if (user.details && datingOptionsDB?.useAge && datingOptionsDB?.ageMin && datingOptionsDB?.ageMax) {
+                if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax) {
                     ageObtainedUser.push(user)
                 }
-            })
+            } else if (datingOptionsDB?.useAge == false && user.details?.birth) {
+                ageObtainedUser.push(user)
+            }
+        })
 
-            const genderObtainedUser: any = []
+        const genderObtainedUser: any = []
 
-            ageObtainedUser.map((user: any) => {
-                if (datingOptionsDB?.genderPref == "Everyone") {
-                    if (user.details.sex == "Male" || user.details.sex == "Female" || user.details.sex == "LGBTQ+") genderObtainedUser.push(user)
-                } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male") {
-                    genderObtainedUser.push(user)
-                } else if (datingOptionsDB?.genderPref == "Female" && user.details.sex == "Female") {
-                    genderObtainedUser.push(user)
-                } else if (datingOptionsDB?.genderPref == "LGBTQ+" && user.details.sex == "LGBTQ+") {
-                    genderObtainedUser.push(user)
+        ageObtainedUser.map((user: any) => {
+            if (datingOptionsDB?.genderPref == "Everyone") {
+                if (user.details.sex == "Male" || user.details.sex == "Female" || user.details.sex == "LGBTQ+") genderObtainedUser.push(user)
+            } else if (datingOptionsDB?.genderPref == "Male" && user.details.sex == "Male") {
+                genderObtainedUser.push(user)
+            } else if (datingOptionsDB?.genderPref == "Female" && user.details.sex == "Female") {
+                genderObtainedUser.push(user)
+            } else if (datingOptionsDB?.genderPref == "LGBTQ+" && user.details.sex == "LGBTQ+") {
+                genderObtainedUser.push(user)
+            }
+        })
+
+        let facultyObtainedUser: any = []
+        genderObtainedUser.map((user: any) => {
+            facultyPrefDB.map((faculty: any) => {
+                if (faculty.facultyPref == user.studentMajor.majorFaculty.facultyId && !facultyObtainedUser.includes(user)) {
+                    facultyObtainedUser.push(user)
                 }
             })
+        })
 
-            let facultyObtainedUser: any = []
-            genderObtainedUser.map((user: any) => {
-                facultyPrefDB.map((faculty: any) => {
-                    if (faculty.facultyPref == user.studentMajor.majorFaculty.facultyId && !facultyObtainedUser.includes(user)) {
-                        facultyObtainedUser.push(user)
+        var currentIndex = facultyObtainedUser.length,
+            temporaryValue,
+            randomIndex
+
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex)
+            currentIndex -= 1
+            temporaryValue = facultyObtainedUser[currentIndex]
+            facultyObtainedUser[currentIndex] = facultyObtainedUser[randomIndex]
+            facultyObtainedUser[randomIndex] = temporaryValue
+        }
+
+        facultyObtainedUser = facultyObtainedUser.slice(0, 50)
+        if(!(cardQueueUserId?.frontUserId) && facultyObtainedUser.length > 0) {
+            const frontId = facultyObtainedUser[facultyObtainedUser.length-1].userId
+            if(!cardQueueUserId?.backUserId) {
+                const data: any = {
+                    userId: reqUserId,
+                    frontUserId: frontId,
+                    backUserId: null
+                }
+                await prisma.card_Queue.create({
+                    data: data
+                })
+            }
+        }
+        if(!(cardQueueUserId?.backUserId) && facultyObtainedUser.length > 1) {
+            const backId = facultyObtainedUser[facultyObtainedUser.length-2].userId
+            if(!cardQueueUserId?.frontUserId) {
+                await prisma.card_Queue.update({
+                    where: {
+                        userId: reqUserId
+                    },
+                    data: {
+                        backUserId: facultyObtainedUser[facultyObtainedUser.length-2].userId
                     }
                 })
-            })
-
-            var currentIndex = facultyObtainedUser.length,
-                temporaryValue,
-                randomIndex
-            while (0 !== currentIndex) {
-                randomIndex = Math.floor(Math.random() * currentIndex)
-                currentIndex -= 1
-                temporaryValue = facultyObtainedUser[currentIndex]
-                facultyObtainedUser[currentIndex] = facultyObtainedUser[randomIndex]
-                facultyObtainedUser[randomIndex] = temporaryValue
             }
 
-            facultyObtainedUser = facultyObtainedUser.slice(0, 50)
-            return res.send(facultyObtainedUser)
         }
+
+        return res.send(facultyObtainedUser)
     } catch (err) {
         return res.status(404).send("User profiles not found")
     }
