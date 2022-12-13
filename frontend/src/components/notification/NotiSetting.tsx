@@ -48,7 +48,7 @@ const NotiSetting = () => {
 
                 <Text fontWeight="semibold">Email</Text>
                 <Box padding={2} paddingLeft={5}>
-                    <RadioGroup onChange={setEmailValue} value={notiUser?.notiSettingApp as string} colorScheme="orange">
+                    <RadioGroup onChange={setEmailValue} value={notiUser?.notiSettingEmail as string} colorScheme="orange">
                         <Stack>
                             <Radio spacing={4} value="ALL">
                                 All
