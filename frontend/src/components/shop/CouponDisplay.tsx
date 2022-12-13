@@ -1,4 +1,5 @@
 import { Box, Flex, Grid, GridItem, HStack, Stack, Text, useBreakpointValue } from "@chakra-ui/react"
+import { motion } from "framer-motion"
 import React, { FC } from "react"
 import ContentBox from "./ContentBox"
 import convertCurrency from "./functions/usefulFunctions"
@@ -12,7 +13,10 @@ const CouponDisplay: FC<{
 }> = ({ couponCode, discountAmount, details, validUntil, minSpend }) => {
     const isMobile = useBreakpointValue({ base: true, sm: false })
     return (
-        <ContentBox bg="#fff" sh="xl" br="3xl">
+        <motion.div initial={{scale: 0.1}} animate={{ scale: 1}} transition={{
+            default: { ease: "backOut", duration: 0.5}
+          }}>
+        <ContentBox bg="#fff" sh="xl" br="3xl" isAni={true}>
             <Grid
                 templateAreas={{
                     base: `"name name name"
@@ -38,7 +42,7 @@ const CouponDisplay: FC<{
             >
                 <GridItem overflow={"hidden"} area="name">
                     <Flex h="full" justify="center" align="center">
-                        <Text fontSize="3xl" fontWeight="800">
+                        <Text fontSize={{base: "xl", md : "3xl"}} fontWeight="800">
                             {couponCode}
                         </Text>
                     </Flex>
@@ -98,6 +102,7 @@ const CouponDisplay: FC<{
                 </GridItem>
             </Grid>
         </ContentBox>
+        </motion.div>
     )
 }
 

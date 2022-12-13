@@ -234,12 +234,14 @@ const NotiObject: FC<{
 
     function showUser() {
         //var user = USER.filter((el) => el.id == userId)
+        //console.log(something);
 
         //console.log(user)
 
         return (
             //<Avatar src={user[0].avatarImg} size={"sm"} />
             <Avatar size={"sm"} />
+
 
         )
 

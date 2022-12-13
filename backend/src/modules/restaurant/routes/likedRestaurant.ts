@@ -1,46 +1,49 @@
-import { Restaurant } from "@apiType/restaurant"
 import { Request, Response } from "express"
-import { getRestaurant, setRestaurant } from ".."
 
-const likedRestaurant = (req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
-    let likeOrNot: Restaurant | null = null
-    const newdata = getRestaurant().map((restaurant) => {
-        if (restaurant.id == id) {
-            likeOrNot = {
-                userid: restaurant.userid,
-                id: id,
-                resName: restaurant.resName,
-                amountOflike: restaurant.amountOflike,
-                open: restaurant.open,
-                close: restaurant.close,
-                phone: restaurant.phone,
-                website: restaurant.website,
-                vicinity: restaurant.vicinity,
-                status: true,
-                isFavorite: restaurant.isFavorite,
-                date: restaurant.date,
-                img: restaurant.img,
+const likedRestaurant = async(req: Request, res: Response) => {
+    const user = req.user?.userId || ""
+    const id = req.params.id
+    const like = req.body.status
+    try {
+        const prisma = res.prisma
+        const existingRestaurant = await prisma.restaurant_Like_By_User.findFirst({
+            where:{
+                userId: user,
+                resId: id
             }
-            return {
-                userid: restaurant.userid,
-                id: id,
-                resName: restaurant.resName,
-                amountOflike: restaurant.amountOflike,
-                open: restaurant.open,
-                close: restaurant.close,
-                phone: restaurant.phone,
-                website: restaurant.website,
-                vicinity: restaurant.vicinity,
-                status: true,
-                isFavorite: restaurant.isFavorite,
-                date: restaurant.date,
-                img: restaurant.img,
+        })
+        if(existingRestaurant == null){
+            const liked = await prisma.restaurant_Like_By_User.create({
+            data: {
+                userId: user,
+                resId: id,
+                isLike: like,
+                updatedAt: new Date(),
             }
+        })
+        //console.log(liked);
+        
+        res.send(liked)
+        }else{
+            const liked = await prisma.restaurant_Like_By_User.updateMany({
+                where:{
+                    userId: user,
+                    resId: id,
+                    
+                },
+                data:{
+                    isLike: like,
+                    updatedAt: new Date(),
+                    
+                }
+            })
+            res.send(liked)
         }
-        return restaurant
-    })
-    setRestaurant(newdata)
-    res.send(likeOrNot)
+        
+    } catch (error) {
+        console.log("Error");
+        
+    }
+ 
 }
 export default likedRestaurant

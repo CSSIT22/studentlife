@@ -291,14 +291,12 @@ const NotiObjectViewAll: FC<{
                                     shadow={"lg"}
                                     borderRadius="1xl"
                                     bg="#D6D6D6"> */}
-                                <Center>
-                                    <Button shadow={"lg"}
-                                        size='xs'
-                                        padding={1}
-                                        bg="#E3E3E3">
-                                        {module}
-                                    </Button>
-                                </Center>
+                                <Button shadow={"lg"}
+                                    size='xs'
+                                    padding={1}
+                                    bg="#E3E3E3">
+                                    {module}
+                                </Button>
                             </Stack>
                         </Stack>
                     </Box>

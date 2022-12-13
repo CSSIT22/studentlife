@@ -17,6 +17,7 @@ import {
     ModalOverlay,
     useToast,
     useBreakpointValue,
+    useBoolean,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
@@ -24,7 +25,9 @@ import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "reac
 import FileComment from "./FileComment"
 import { fileListContext } from "src/pages/airdrop/receive"
 import { authContext } from "src/context/AuthContext"
-import axios from "axios"
+import Lottie from "lottie-react"
+import download from "../../components/airdrop/animation/download.json"
+
 
 const FileList: FC<{
     elementid: number
@@ -58,7 +61,7 @@ const FileList: FC<{
     const initRef = useRef(null)
     const [senderImg, setSenderImg] = useState<string>("")
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const [isDownload, {off: offDownload,on:onDownload}] = useBoolean()
     const { isOpen: proOpen, onOpen: proOpenFunc, onClose: proCloseFunc } = useDisclosure()
     //modal page
     const [modalPage, setModalPage] = useState(0)
@@ -129,7 +132,11 @@ const FileList: FC<{
             <>
                 <HStack>
                     <Text fontSize={"xl"}>File Name:</Text>
-                    <Text>{modalData.fileName.split(".")[0]}</Text>
+                    <Text>
+                        {modalData.fileName.split(".")[0].length > 25
+                            ? modalData.fileName.split(".")[0].slice(0, 25) + "..."
+                            : modalData.fileName.split(".")[0]}
+                    </Text>
                 </HStack>
                 <HStack>
                     <Text fontSize={"xl"}>File Type:</Text>
@@ -175,11 +182,11 @@ const FileList: FC<{
                 <HStack>
                     <Text fontSize={"xl"}>Expired Time:</Text>
                     <Text>
-                        {modalData.fileExpired == "0"
+                        {new Date(modalData.fileExpired).getFullYear() == 2000
                             ? "Permanent"
                             : new Date(modalData.fileExpired).toLocaleString("en-US", {
-                                timeZone: "Asia/Bangkok",
-                            })}
+                                  timeZone: "Asia/Bangkok",
+                              })}
                     </Text>
                 </HStack>
             </>
@@ -220,6 +227,7 @@ const FileList: FC<{
         const downloadFile = await API.get(`/airdrop/file/download/${fid}`, {
             responseType: "arraybuffer",
         }).then((res) => {
+            onDownload()
             downloadFunc(res.data, name, res.headers["content-type"])
         })
 
@@ -239,7 +247,7 @@ const FileList: FC<{
             fileId: modalData.fileId,
             commentTxt: commentText,
         })
-            .then((res) => { })
+            .then((res) => {})
             .catch((err) => {
                 console.log(err)
                 toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
@@ -263,7 +271,16 @@ const FileList: FC<{
 
     return (
         <>
-            <img id="test" />
+                            {
+                    isDownload ? (
+                        <Box position={"absolute"} m={"auto"} w={["50%","30%","30%","30%"]} zIndex={1} top={10}>
+                        <Lottie animationData={download} onLoopComplete={()=>{
+                            offDownload()
+                        }} loop={true}
+                        ></Lottie>
+                    </Box>
+                    ) : null
+                }
             <div id={elementid.toString()}>
                 <Flex
                     direction={"row"}
@@ -282,9 +299,9 @@ const FileList: FC<{
                         <Text>{info.fileName.length > 12 ? info.fileName.slice(0, 12) + "..." : info.fileName}</Text>
                     </Hide>
 
-                    <Text fontSize={["0.76rem", "md"]}>{senderName}</Text>
+                    <Text fontSize={["0.76rem", "md"]}>{senderName && senderName?.length > 7 ? senderName?.slice(0, 7) + "..." : senderName}</Text>
 
-                    <HStack>
+                    <HStack spacing={0}>
                         <IconButton
                             aria-label="accept"
                             icon={<MdDone />}
