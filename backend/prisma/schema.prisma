@@ -139,6 +139,7 @@ model Faculty {
   facultyName     String
   major           Major[]
   shortlinkAccess ShortLink_Permission_Faculty[]
+  datingFaculty   Faculty_Pref[]
 }
 
 model Role {
@@ -721,6 +722,7 @@ model Faculty_Pref {
   userId      String
   facultyPref String
   user        Dating_Options @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  faculty     Faculty        @relation(fields: [facultyPref], references: [facultyId])
 
   @@id([userId, facultyPref])
 }
@@ -901,20 +903,20 @@ model Community_File {
 
 //Airdrop Module
 model File_Info {
-  fileId      String           @id @default(cuid())
+  fileId      String                @id @default(cuid())
   fileName    String
   fileSender  String
   sendType    String
   fileDesc    String
-  fileExpired DateTime         @db.Timestamp(0)
-  sender      User_Profile     @relation(fields: [fileSender], references: [userId], onDelete: Cascade)
+  fileExpired DateTime              @db.Timestamp(0)
+  sender      User_Profile          @relation(fields: [fileSender], references: [userId], onDelete: Cascade)
   users       User_Show_File[]
   community   Community_File?
   comments    File_Comment[]
   folders     File_In_Folder[]
   history     File_History[]
   snFile      Sn_File[]
-  reviews SReview_Review_File[]
+  reviews     SReview_Review_File[]
 }
 
 model User_Show_File {
@@ -1504,14 +1506,15 @@ model SReview_Review {
   shop         SReview_Shop           @relation(fields: [shopId], references: [shopId])
   likes        SReview_Review_Like[]
   comments     SReview_Comment[]
-  files SReview_Review_File[]
+  files        SReview_Review_File[]
 }
 
 model SReview_Review_File {
   reviewId String
-  review SReview_Review @relation(fields: [reviewId], references: [reviewId])
-  fileId String
-  file File_Info @relation(fields: [fileId], references: [fileId])
+  review   SReview_Review @relation(fields: [reviewId], references: [reviewId])
+  fileId   String
+  file     File_Info      @relation(fields: [fileId], references: [fileId])
+
   @@id([reviewId, fileId])
 }
 
