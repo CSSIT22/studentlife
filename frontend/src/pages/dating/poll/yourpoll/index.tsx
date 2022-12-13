@@ -93,7 +93,7 @@ const YourActivityPoll = () => {
                 </Box>
             </Center>
             {/* Calling all your activity poll out (Need to order by time [desc])*/}
-            <Stack pt="120px">
+            <Stack pt="120px" pb="60px">
                 <DatingYourActivityBox />
             </Stack>
             {/* Create poll button */}

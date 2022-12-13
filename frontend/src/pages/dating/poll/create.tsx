@@ -24,6 +24,7 @@ import {
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useEffect, useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
+import { AllInterests } from "@apiType/dating"
 import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
@@ -88,6 +89,11 @@ const CreateActivityPoll = () => {
                     })
             })
         }
+        API.get("/dating/create/getAllTopic").then((allInterest) => {
+            setAllInterests(allInterest.data)
+            // console.log("INTERESTING: " + allInterests)
+        })
+
     })
 
     function useDidMount() {
@@ -117,7 +123,9 @@ const CreateActivityPoll = () => {
 
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
+    // const [interests, setInterests] = useState(INTERESTS)
     const [interests, setInterests] = useState(INTERESTS)
+    const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedInterests, setSelectedInterest] = useState<number[]>([])
     const [selectedInterestsNew, setSelectedInterestNew] = useState<number[]>([])
@@ -145,9 +153,12 @@ const CreateActivityPoll = () => {
     function handleTopic() {
         globalThis.topic = []
         for (let i = 0; i < selectedInterests.length; i++) {
-            for (let j = 0; j < interests.length; j++) {
-                if (selectedInterests[i] === interests[j].interestId) {
-                    globalThis.topic.push(interests[j].interestName)
+            for (let j = 0; j < allInterests.length; j++) {
+                // for (let j = 0; j < interests.length; j++) {
+                if (selectedInterests[i] === allInterests[j].interestId) {
+                    // if (selectedInterests[i] === interests[j].interestId) {
+                    globalThis.topic.push(allInterests[j].interestName)
+                    // globalThis.topic.push(interests[j].interestName)
                     break
                 }
             }
@@ -293,7 +304,8 @@ const CreateActivityPoll = () => {
                                                 searchQuery={searchQuery}
                                                 setSearchQuery={setSearchQuery}
                                                 setInterests={setInterests}
-                                                allInterests={INTERESTS}
+                                                // allInterests={INTERESTS}
+                                                allInterests={allInterests}
                                             />
                                         </Box>
                                     </ModalHeader>
@@ -302,7 +314,8 @@ const CreateActivityPoll = () => {
                                         {/* Grid: Used for separating topic, button, and description into three areas */}
 
                                         {/* CheckboxGroup : List of tags of interest */}
-                                        {interests.map(({ interestId, interestName }) => (
+                                        {/* {interests.map(({ interestId, interestName }) => ( */}
+                                        {allInterests.map(({ interestId, interestName }) => (
                                             // DatingInterestTag component: Used for generating interactive tag
                                             <DatingInterestTag
                                                 key={interestId}

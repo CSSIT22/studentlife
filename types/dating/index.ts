@@ -13,23 +13,23 @@ export type UserCardDetail = {
   fName: string;
   lName: string;
   image: {
-    type: string,
-    data: number[],
-  }
+    type: string;
+    data: number[];
+  };
   details: {
-    birth: Date,
-    sex: string,
-  }
+    birth: Date;
+    sex: string;
+  };
   interests: {
     interestId: number;
-  }[]
+  }[];
   studentMajor: {
     majorFaculty: {
-      facultyId: string
-      facultyName: string
-    }
-  }
-}
+      facultyId: string;
+      facultyName: string;
+    };
+  };
+};
 export type AllFaculty = {
   facultyId: string;
   facultyName: string;
