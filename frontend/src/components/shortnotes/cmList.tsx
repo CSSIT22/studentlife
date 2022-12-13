@@ -59,9 +59,9 @@ const cmList: FC<{
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Delete shortnote</ModalHeader>
+                    <ModalHeader>Delete comment</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>Are you sure to delete this shortnote?</ModalBody>
+                    <ModalBody>Are you sure to delete this comment?</ModalBody>
                     <ModalFooter>
                         <Button onClick={() => {
                             deleteCm()

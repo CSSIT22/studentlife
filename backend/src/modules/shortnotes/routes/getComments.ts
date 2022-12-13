@@ -20,6 +20,9 @@ const getComments = async (req: Request, res: Response) => {
                             },
                         },
                     },
+                    orderBy: {
+                        commentedAt: "asc",
+                    },
                 },
             },
         })
