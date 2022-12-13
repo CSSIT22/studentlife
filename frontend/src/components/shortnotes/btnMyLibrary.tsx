@@ -174,6 +174,9 @@ const btnMyLibrary = () => {
 
                             )}
                         </Stack>
+                        <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
+                            <Text color={"gray.500"}>{li[0] == null && newLi[0] == null ? "No libraries here, let's add some!!" : null}</Text>
+                        </Flex>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>
@@ -192,21 +195,36 @@ const btnMyLibrary = () => {
                         <Box bg={"white"} rounded={8} p={10} w={"100%"}>
                             <VStack spacing={4}>
                                 <Heading size={"lg"}>Create new library</Heading>
-
                                 <Box w={"100%"}>
                                     <Text>Name</Text>
-                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            if (name.replaceAll(" ", "") != "") {
+                                                submit()
+                                                nliOnClose()
+                                                toast({
+                                                    title: 'Library created.',
+                                                    description: "ํYou've created a new library.",
+                                                    status: 'success',
+                                                    duration: 4000,
+                                                    isClosable: true,
+                                                })
+                                            }
+                                        }
+                                    }} />
                                 </Box>
                                 <Button colorScheme="orange" w={"100%"} onClick={() => {
-                                    submit()
-                                    nliOnClose()
-                                    toast({
-                                        title: 'Library created.',
-                                        description: "ํYou've created a new library.",
-                                        status: 'success',
-                                        duration: 4000,
-                                        isClosable: true,
-                                    })
+                                    if (name.replaceAll(" ", "") != "") {
+                                        submit()
+                                        nliOnClose()
+                                        toast({
+                                            title: 'Library created.',
+                                            description: "ํYou've created a new library.",
+                                            status: 'success',
+                                            duration: 4000,
+                                            isClosable: true,
+                                        })
+                                    }
                                 }}>
                                     Create
                                 </Button>
@@ -264,11 +282,12 @@ const btnMyLibrary = () => {
                                             </Flex>
                                         </GridItem>
                                     </Grid>
-
                                 </Box>
                             ))}
-
                         </VStack>
+                        <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
+                            <Text color={"gray.500"}>{snByLi[0] == null ? "No shortnotes here, let's add some!!" : null}</Text>
+                        </Flex>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>

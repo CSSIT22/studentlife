@@ -49,6 +49,7 @@ import {
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiOutlineCloseCircle } from "react-icons/ai"
+import { IoMdRemoveCircleOutline } from "react-icons/io"
 import { MdPostAdd } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
@@ -93,7 +94,7 @@ const btnNewShortnote = () => {
     const navigate = useNavigate()
     const param = useParams()
     const create = () => {
-        if (name == '' || course == '' || desc == '') {
+        if (name.replaceAll(" ", "") == "" || course.replaceAll(" ", "") == "" || desc.replaceAll(" ", "") == "") {
             toast({
                 position: "top",
                 title: 'Please complete the form.',
@@ -153,9 +154,9 @@ const btnNewShortnote = () => {
                     <ModalBody>
                         <Grid templateColumns="repeat(3, 1fr)">
                             <Spacer />
-                            <GridItem colSpan={1}>
+                            <GridItem>
                                 <Flex justifyContent={"center"}>
-                                    <Box w={"60%"}>
+                                    <Box w={100}>
                                         <FormControl isRequired>
 
                                             <FormLabel>Course</FormLabel>
@@ -255,7 +256,7 @@ const btnNewShortnote = () => {
                                                                 let x = people.filter((e) => e != p)
                                                                 setPeoples(x)
                                                             }}>
-                                                                <AiOutlineCloseCircle />
+                                                                <IoMdRemoveCircleOutline />
                                                             </Button>
                                                         </GridItem>
                                                     </Grid>

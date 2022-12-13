@@ -54,18 +54,31 @@ const snComments = () => {
     return (
         <Box>
             <Flex gap={1} mb={4}>
-                <Input mb={2} py={4} focusBorderColor="orange.500" variant='filled' placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
+                <Input mb={2} py={4} focusBorderColor="orange.500" variant='filled' placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        if (comm.replaceAll(" ", "") != "") {
+                            comment(),
+                                toast({
+                                    title: 'Commented',
+                                    description: "You've commented on the post. ",
+                                    status: 'success',
+                                    duration: 4000,
+                                    isClosable: true,
+                                })
+                        }
+                    }
+                }} />
                 <Button colorScheme={"orange"} onClick={() => {
-                    (
+                    if (comm.replaceAll(" ", "") != "") {
                         comment(),
-                        toast({
-                            title: 'Commented',
-                            description: "You've commented on the post. ",
-                            status: 'success',
-                            duration: 4000,
-                            isClosable: true,
-                        })
-                    )
+                            toast({
+                                title: 'Commented',
+                                description: "You've commented on the post. ",
+                                status: 'success',
+                                duration: 4000,
+                                isClosable: true,
+                            })
+                    }
                 }}><IoSend />
                 </Button>
             </Flex>
@@ -76,12 +89,15 @@ const snComments = () => {
                 <VStack gap={4}>
                     {comments.map((cm: any, key: any) => (
                         <Box bg={"gray.50"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
-                            <Flex>
+                            <Flex alignItems={"start"}>
                                 <Avatar
                                     size="sm"
-                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + cm.commentor.userId} ></Avatar>
-
-                                <Heading ml={2} size={"sm"} alignSelf={"center"}>{cm.commentor.fName + " " + cm.commentor.lName}</Heading>
+                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + cm.commentor.userId} >
+                                </Avatar>
+                                <Flex direction={"column"}>
+                                    <Heading ml={2} size={"sm"} alignSelf={"center"}>{cm.commentor.fName + " " + cm.commentor.lName}</Heading>
+                                    <Text ml={2}>{cm.comment}</Text>
+                                </Flex>
                                 <Spacer />
                                 {cm.commentor.userId == user?.userId ?
                                     <Menu>
@@ -98,10 +114,7 @@ const snComments = () => {
                                     :
                                     null
                                 }
-
                             </Flex>
-                            <Text ml={10}>{cm.comment}</Text>
-
                             <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
                                 <Text fontSize={"xs"} alignSelf={"end"}>
                                     {new Date(cm.commentedAt).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
@@ -110,13 +123,16 @@ const snComments = () => {
                         </Box >
                     ))}
                     {newComment.map((ncm: any, key: any) => (
-                        <Box bg={"white"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
-                            <Flex>
+                        <Box bg={"gray.50"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
+                            <Flex alignItems={"start"}>
                                 <Avatar
                                     size="sm"
-                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + ncm.cm.userId}
-                                ></Avatar>
-                                <Heading ml={2} size={"sm"} alignSelf={"center"}>{ncm.cmDetail.fName + " " + ncm.cmDetail.lName}</Heading>
+                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + ncm.cm.userId} >
+                                </Avatar>
+                                <Flex direction={"column"}>
+                                    <Heading ml={2} size={"sm"} alignSelf={"center"}>{ncm.cmDetail.fName + " " + ncm.cmDetail.lName}</Heading>
+                                    <Text ml={2}>{ncm.cm.comment}</Text>
+                                </Flex>
                                 <Spacer />
                                 {ncm.cm.userId == user?.userId ?
                                     <Menu>
@@ -133,9 +149,7 @@ const snComments = () => {
                                     :
                                     null
                                 }
-
                             </Flex>
-                            {ncm.cm.comment}
                             <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
                                 <Text fontSize={"xs"} alignSelf={"end"}>
                                     {new Date(ncm.cm.commentedAt).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
@@ -143,6 +157,7 @@ const snComments = () => {
                             </Flex>
                         </Box >
                     ))}
+                    <Text color={"gray.500"}>{comments[0] == null && newComment[0] == null ? "No comment yet, let's be the first!!" : null}</Text>
                 </VStack>
             }
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
