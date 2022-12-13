@@ -40,9 +40,13 @@ import {
     Divider,
     Show,
     Hide,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Textarea,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
-import { AiFillDelete, AiOutlineCloseCircle, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
+import { AiFillDelete, AiOutlineCloseCircle, AiOutlineEdit, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
 import { MdDeleteOutline } from "react-icons/md"
 import { BiDownArrow, BiLibrary, BiUpArrow } from "react-icons/bi"
 import LiList from "./liList"
@@ -52,6 +56,7 @@ import { BsCheckLg } from "react-icons/bs"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import InLiList from "./inLiList"
+import { IoMdRemoveCircleOutline } from "react-icons/io"
 
 const snDetail: FC<{
     topic: String
@@ -65,8 +70,15 @@ const snDetail: FC<{
     const user = useContext(authContext)
     const param = useParams()
 
+    const [editCourse, setEditCourse] = useState<any>(course)
+    const [editName, setEditName] = useState<any>(topic)
+    const [editDesc, setEditDesc] = useState<any>(desc)
     const [li, setLi] = useState([])
     const [access, setAccess] = useState([])
+    const { isOpen: esIsOpen, onOpen: esOnOpen, onClose: esOnClose } = useDisclosure()
+    const [deletingFile, setDeletingFile] = useState<any>([])
+    const [editFile, setEditFile] = useState<any>([])
+
     useEffect(() => {
         API.get("/shortnotes/getPeople/" + param.id).then((item) => {
             setAccess(item.data)
@@ -137,6 +149,7 @@ const snDetail: FC<{
     const getFile = () => {
         API.get("/shortnotes/getFile/" + param.id).then((res) => {
             setAllFiles(res.data)
+            setEditFile(res.data)
         })
 
     }
@@ -192,7 +205,17 @@ const snDetail: FC<{
             }
 
         })
-
+    }
+    const editShortnote = () => {
+        API.put("shortnotes/editShortnote", {
+            courseId: editCourse,
+            snName: editName,
+            snDesc: editDesc,
+            snId: param.id,
+            fileId: deletingFile
+        }).then((res) => {
+            window.location.reload()
+        })
     }
     return (
         <Box>
@@ -215,6 +238,9 @@ const snDetail: FC<{
                             }
                             <MenuItem icon={<AiOutlineUpload />} onClick={goToUpload}>
                                 Upload file
+                            </MenuItem>
+                            <MenuItem icon={<AiOutlineEdit />} onClick={esOnOpen}>
+                                Edit
                             </MenuItem>
                             <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
                                 Delete
@@ -366,7 +392,7 @@ const snDetail: FC<{
                         <Box gap={2} mt={4} mb={4}>
                             <SimpleGrid columns={2} gap={4}>
                                 {people.map((p, key) => (
-                                    <Grid templateColumns='repeat(5, 1fr)' bg={"gray.50"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
+                                    <Grid templateColumns='repeat(5, 1fr)' bg={"gray.50"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2} alignItems={"center"}>
                                         <GridItem colSpan={4}>
                                             <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
                                                 <Text>{p}</Text>
@@ -409,7 +435,7 @@ const snDetail: FC<{
                                                 let x: any = access.filter((e: any) => e != a)
                                                 setAccess(x)
                                             }}>
-                                                <AiOutlineCloseCircle />
+                                                <IoMdRemoveCircleOutline />
                                             </Button>
                                         </GridItem>
                                     </Grid>
@@ -429,6 +455,88 @@ const snDetail: FC<{
                                 isClosable: true,
                             })
                         }} w={"100%"} colorScheme={"orange"}>Done</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Modal scrollBehavior={"inside"} size={"xl"} onClose={esOnClose} isOpen={esIsOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Edit shortnote</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Grid templateColumns="repeat(3, 1fr)">
+                            <Spacer />
+                            <GridItem>
+                                <Flex justifyContent={"center"}>
+                                    <Box w={100}>
+                                        <FormControl >
+                                            <FormLabel>Course</FormLabel>
+                                            <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={editCourse} onChange={(e) => setEditCourse(e.target.value)} />
+                                            <FormErrorMessage>Course is required.</FormErrorMessage>
+                                        </FormControl>
+
+                                    </Box>
+                                </Flex>
+                            </GridItem>
+                            <Spacer />
+                            <GridItem colSpan={3}>
+                                <Box>
+                                    <FormControl >
+                                        <FormLabel>Name</FormLabel>
+                                        <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                                        <FormErrorMessage>Name is required.</FormErrorMessage>
+                                    </FormControl>
+                                </Box>
+                            </GridItem>
+                            <GridItem colSpan={3}>
+                                <Box>
+                                    <FormControl >
+
+                                        <FormLabel>Description</FormLabel>
+
+                                        <Textarea placeholder="" h={200} focusBorderColor="orange.500" value={editDesc} onChange={(e) => setEditDesc(e.target.value)} />
+                                        <FormErrorMessage>Description is required.</FormErrorMessage>
+                                    </FormControl>
+
+                                </Box>
+                            </GridItem>
+                        </Grid>
+                        {allFiles[0] != null ?
+                            <>
+                                <FormLabel>Attached files</FormLabel>
+                                <VStack>
+                                    {editFile.map((file: any, key: any) => (
+                                        <Flex key={key} w={"100%"} justifyContent={"start"}>
+                                            <Flex shadow={"base"} bg={"gray.100"} rounded={6}>
+                                                <Heading alignSelf={"center"} size={"sm"} bg={"gray.100"} p={2}  >{file.file.fileName}</Heading>
+                                                <Button variant={"ghost"} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => {
+                                                    setDeletingFile((deletingFile: any) => [...deletingFile, file.fileId])
+                                                    let x = editFile.filter((df: any) => df.fileId != file.fileId)
+                                                    setEditFile(x)
+                                                }}>
+                                                    <IoMdRemoveCircleOutline />
+                                                </Button>
+                                            </Flex>
+                                        </Flex>
+                                    ))}
+                                </VStack>
+                            </>
+                            :
+                            null}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="orange" w={"100%"} onClick={() => {
+                            toast({
+                                title: 'Shortnote editted',
+                                description: "You've editted the shortnote.",
+                                status: 'success',
+                                duration: 4000,
+                                isClosable: true,
+                            })
+                            editShortnote()
+                        }}>
+                            Done
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
