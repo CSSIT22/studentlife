@@ -15,6 +15,10 @@ import API from "src/function/API"
 import { AllInterests, UserCardDetail } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
+import { AiFillHeart, AiFillStop } from "react-icons/ai"
+import { ImCross } from "react-icons/im"
+import { GiCrossMark } from "react-icons/gi"
+import { FaKissWinkHeart, FaMeh } from "react-icons/fa"
 
 declare global {
     var countSwipe: number[], countOut: number[]
@@ -90,15 +94,21 @@ const RandomCardInside: FC<{
                         transform="rotate(330deg)"
                         borderWidth="6px"
                         borderColor="green.400"
+                        bgColor="green.400"
                         borderRadius="10px"
                         p="3"
                         mt="45px"
                         ml={{ base: "13px", md: "20px" }}
                         boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        display="flex"
                     >
-                        <Text textAlign="center" color="green.400" fontWeight="700" fontSize="36px" lineHeight="100%">
+                        <Text textAlign="center" color="green.50" fontWeight="700" fontSize="36px" lineHeight="100%">
                             LIKE
                         </Text>
+                        <Text color="green.50" fontSize="36px" pl="8px">
+                            <FaKissWinkHeart />
+                        </Text>
+
                     </Box>
                 </motion.div>
                 <motion.div
@@ -133,14 +143,19 @@ const RandomCardInside: FC<{
                         transform="rotate(30deg)"
                         borderWidth="6px"
                         borderColor="orange.400"
+                        bgColor="orange.400"
                         borderRadius="10px"
                         p="3"
                         mt="45px"
                         ml={{ md: "40px" }}
                         boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        display="flex"
                     >
-                        <Text textAlign="center" color="orange.400" fontWeight="700" fontSize="36px" lineHeight="100%">
+                        <Text textAlign="center" color="orange.50" fontWeight="700" fontSize="30px" lineHeight="100%">
                             NOPE
+                        </Text>
+                        <Text color="orange.50" fontSize="30px" pl="8px">
+                            <FaMeh />
                         </Text>
                     </Box>
                 </motion.div>
@@ -346,7 +361,7 @@ const DatingRandomization = () => {
                                 })
                                 navigate("/user")
                             }
-                            else if(getAge(detail.data.birth) < 18) {
+                            else if (getAge(detail.data.birth) < 18) {
                                 toast({
                                     title: "You don't meet the minimum age requirement!",
                                     status: "warning",
@@ -357,7 +372,7 @@ const DatingRandomization = () => {
                                 })
                                 navigate("/")
                             }
-                            else if(getAge(detail.data.birth) > 40) {
+                            else if (getAge(detail.data.birth) > 40) {
                                 toast({
                                     title: "You don't meet the maximum age requirement!",
                                     status: "warning",
@@ -402,7 +417,7 @@ const DatingRandomization = () => {
                                 navigate("/dating/interests")
                             }
                         })
-                        
+
 
                     })
             })
@@ -416,7 +431,7 @@ const DatingRandomization = () => {
                     setAllInterests(interest.data)
                 })
                 setCurrentIndex(data.length - 1)
-                
+
             }).catch((err) => setIsError(true)).finally(off)
         }
     })

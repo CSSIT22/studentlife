@@ -11,11 +11,11 @@ const DatingCreatePollButton = () => {
 
     return (
         <Link to="/dating/poll/create" style={{ textDecoration: "none" }}>
-            <Circle size={{ base: "50px", md: "75px" }} bgColor="#E65300" boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
+            <Button borderRadius="full" w={{ base: "50px", md: "75px" }} h={{ base: "50px", md: "75px" }} colorScheme="orange" boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
                 <Center>
                     {isMobile ? <BsPencil size="40px" color="white" /> : <BsPencil size="20px" color="white" />}
                 </Center>
-            </Circle>
+            </Button>
         </Link>
     )
 }
