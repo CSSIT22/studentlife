@@ -20,6 +20,7 @@ import deleteComment from "./routes/deleteComment"
 import getPeople from "./routes/getPeople"
 import deletePeople from "./routes/deletePeople"
 import getAccess from "./routes/getAccess"
+import getUser from "./routes/getUser"
 
 const shortnotesRoutes = express()
 
@@ -62,6 +63,8 @@ shortnotesRoutes.get("/getEachFile/:id", getEachFile)
 shortnotesRoutes.get("/getPeople/:id", getPeople)
 
 shortnotesRoutes.get("/getAccess", getAccess)
+
+shortnotesRoutes.get("/getUser", getUser)
 
 shortnotesRoutes.post("/postShortnote", postShortnote)
 
