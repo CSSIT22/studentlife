@@ -6,7 +6,7 @@ import { getSessionIdsByUserIds } from "../backendService/socketstore/store"
 
 const notiSocket: customeSocketPrams = (socket, prisma) => {
     socket.on("push_noti", (data: pushNotiType) => {
-        console.log(data)
+        console.log(data.userId)
         data.userId.forEach((el) => {
             let socketids = getSessionIdsByUserIds(el)
             console.log(socketids)

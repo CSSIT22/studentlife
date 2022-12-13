@@ -1,5 +1,6 @@
 import { Notiobject } from "@apiType/notification"
 import express from "express"
+import { Server as IOServer, Socket } from "socket.io"
 import getUserNotiObject from "./routes/getUserNotiObject"
 import markallasRead from "./routes/markallasRead"
 import readNotiObject from "./routes/readNotiObject"
@@ -13,8 +14,17 @@ import getValue from "./routes/getValue"
 import getUserNotiObjectbyModule from "./routes/getUserNotiObjectbyModule"
 import editNotiUserSetting from "./routes/editNotiUserSetting"
 
+let io: IOServer
+
+const setIO = (i: IOServer) => {
+    io = i
+}
 const notificationRoutes = express()
 notificationRoutes.use(express.json())
+notificationRoutes.use((req, res, next) => {
+    res.io = io
+    next()
+})
 
 notificationRoutes.get("/getusernotiobject", getUserNotiObject)
 notificationRoutes.get("/getNotiUser", getNotiUser)
@@ -25,4 +35,4 @@ notificationRoutes.post("/addnotiobject", addNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
 notificationRoutes.post("/markallasread/:module", markallasRead)
 notificationRoutes.post("/editnotiusersetting/:app/:email", editNotiUserSetting)
-export default notificationRoutes
+export { notificationRoutes, setIO }

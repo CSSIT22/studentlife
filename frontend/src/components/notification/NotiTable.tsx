@@ -22,7 +22,7 @@ import {
     AvatarBadge,
     Circle,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Modulelist from "./moduleList/Modulelist"
 import NotiList from "./main/NotiList"
 import { SettingsIcon } from "@chakra-ui/icons"
@@ -30,12 +30,14 @@ import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
-import { Notiobject } from "@apiType/notification"
+import { Notiobject, pushNotiType } from "@apiType/notification"
 import { settingApp } from "./main/mockupData/settingApp"
+import { socketContext } from "src/context/SocketContext"
 
 const NotiTable = () => {
     //reload noti
     const [reLoad, setreLoad] = useState(false)
+    const { socketIO } = useContext(socketContext)
     function load() {
         setreLoad(!reLoad)
     }
@@ -61,6 +63,20 @@ const NotiTable = () => {
     }, [reLoad])
     //console.log(userNotiObjectModule);
 
+
+    useEffect(() => {
+        socketIO.on("push_noti", (data: pushNotiType) => {
+            console.log("testtt");
+
+            // getUserNotiObjectModule.then((res) => {
+            //     setUserNotiObjectModule(res.data)
+            // })
+            setreLoad(!reLoad)
+        })
+        return () => {
+            socketIO.off("push_noti")
+        }
+    });
 
 
 
@@ -135,6 +151,8 @@ const NotiTable = () => {
             </Center>
         )
     }
+    console.log(userNotiObjectModule.length);
+
     return (
         <Box>
             <Flex padding={3} paddingBottom={0}>
@@ -156,7 +174,7 @@ const NotiTable = () => {
             </Flex>
 
             <Stack padding={4} paddingTop={2} height={{ base: "72vh", md: "50vh" }} overflow="auto">
-                {showNotiList()}
+                <NotiList module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiList>
             </Stack>
             <Center paddingTop={2}>
                 <Show above="md">

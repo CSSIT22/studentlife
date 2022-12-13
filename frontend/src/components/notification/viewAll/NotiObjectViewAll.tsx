@@ -122,120 +122,121 @@ const NotiObjectViewAll: FC<{
     let v1 = ""
     let v2 = ""
     let v3 = ""
-    function showDescription() {
-        const getvalue = API.get("/notification/getvalue")
-        //console.log(getvalue)
-        const [valueNotiObject, setValueNotiObject] = useState([])
-        useEffect(() => {
-            getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
-                setValueNotiObject(res.data)
-            })
-        }, [])
-        //console.log(valueNotiObject)
+    // function showDescription() {
 
-        valueNotiObject.forEach((item: any) => {
-            if (item.notiObjectId == id) {
-                if (v1 == "") {
-                    v1 = item.value
-                } else if (v2 == "") {
-                    v2 = item.value
-                } else if (v3 == "") {
-                    v3 = item.value
-                }
-            }
-        });
-        //console.log(v1, v2, v3)
+    //     //console.log(getvalue)
+    //     const [valueNotiObject, setValueNotiObject] = useState([])
+    //     useEffect(() => {
+    //         const getvalue = API.get("/notification/getvalue/?notiobjectId="+)
+    //         getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
+    //             setValueNotiObject(res.data)
+    //         })
+    //     }, [])
+    //     //console.log(valueNotiObject)
 
-
-        if (template == "TODO_LIST_TASK") {
-            let result1 = (TODO_LIST_TASK[0].template).replace(/v1/g, v1)
-            //console.log(result1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            //console.log(result3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "COMMUNITY_POST") {
-            let result1 = (COMMUNITY_POST[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "COMMUNITY_INVITE") {
-            let result1 = (COMMUNITY_INVITE[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "CHAT_MESSAGE") {
-            let result1 = (CHAT_MESSAGE[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "ANNOUNCEMENT_NEW") {
-            let result1 = (ANNOUNCEMENT_NEW[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "ANNOUNCEMENT_APPROVED") {
-            let result1 = (ANNOUNCEMENT_APPROVED[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "ANNOUNCEMENT_WAIT_FOR_APPROVE") {
-            let result1 = (ANNOUNCEMENT_WAIT_FOR_APPROVE[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "DATING_INTERESTED") {
-            let result1 = (DATING_INTERESTED[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "DATING_ACCEPTED") {
-            let result1 = (DATING_ACCEPTED[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "DATING_MATCH_FRIEND") {
-            let result1 = (DATING_MATCH_FRIEND[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "DATING_MATCH") {
-            let result1 = (DATING_MATCH[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "QnA_ANSWER") {
-            let result1 = (QnA_ANSWER[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "QnA_ANSWER_ANONYMOUS") {
-            let result1 = (QnA_ANSWER_ANONYMOUS[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "SCHEDULE_EVENT") {
-            let result1 = (SCHEDULE_EVENT[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "SHOP_REVIEW_COMMENT") {
-            let result1 = (SHOP_REVIEW_COMMENT[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        } else if (template == "TRANSACTION_SUCCESS") {
-            let result1 = (TRANSACTION_SUCCESS[0].template).replace(/v1/g, v1)
-            let result2 = (result1).replace(/v2/g, v2)
-            let result3 = (result2).replace(/v3/g, v3)
-            return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
-        }
+    //     valueNotiObject.forEach((item: any) => {
+    //         if (item.notiObjectId == id) {
+    //             if (v1 == "") {
+    //                 v1 = item.value
+    //             } else if (v2 == "") {
+    //                 v2 = item.value
+    //             } else if (v3 == "") {
+    //                 v3 = item.value
+    //             }
+    //         }
+    //     });
+    //     //console.log(v1, v2, v3)
 
 
+    //     if (template == "TODO_LIST_TASK") {
+    //         let result1 = (TODO_LIST_TASK[0].template).replace(/v1/g, v1)
+    //         //console.log(result1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         //console.log(result3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "COMMUNITY_POST") {
+    //         let result1 = (COMMUNITY_POST[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "COMMUNITY_INVITE") {
+    //         let result1 = (COMMUNITY_INVITE[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "CHAT_MESSAGE") {
+    //         let result1 = (CHAT_MESSAGE[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "ANNOUNCEMENT_NEW") {
+    //         let result1 = (ANNOUNCEMENT_NEW[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "ANNOUNCEMENT_APPROVED") {
+    //         let result1 = (ANNOUNCEMENT_APPROVED[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "ANNOUNCEMENT_WAIT_FOR_APPROVE") {
+    //         let result1 = (ANNOUNCEMENT_WAIT_FOR_APPROVE[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "DATING_INTERESTED") {
+    //         let result1 = (DATING_INTERESTED[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "DATING_ACCEPTED") {
+    //         let result1 = (DATING_ACCEPTED[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "DATING_MATCH_FRIEND") {
+    //         let result1 = (DATING_MATCH_FRIEND[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "DATING_MATCH") {
+    //         let result1 = (DATING_MATCH[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "QnA_ANSWER") {
+    //         let result1 = (QnA_ANSWER[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "QnA_ANSWER_ANONYMOUS") {
+    //         let result1 = (QnA_ANSWER_ANONYMOUS[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "SCHEDULE_EVENT") {
+    //         let result1 = (SCHEDULE_EVENT[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "SHOP_REVIEW_COMMENT") {
+    //         let result1 = (SHOP_REVIEW_COMMENT[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     } else if (template == "TRANSACTION_SUCCESS") {
+    //         let result1 = (TRANSACTION_SUCCESS[0].template).replace(/v1/g, v1)
+    //         let result2 = (result1).replace(/v2/g, v2)
+    //         let result3 = (result2).replace(/v3/g, v3)
+    //         return <><Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} /></>
+    //     }
 
-        // return <Text fontSize={"sm"} textAlign={"left"}> showDescription </Text>
-        // <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: description }} />
-    }
+
+
+    //     // return <Text fontSize={"sm"} textAlign={"left"}> showDescription </Text>
+    //     // <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: description }} />
+    // }
 
     function showUser() {
         // var user = USER.filter((el) => el.id == userId)
@@ -286,7 +287,7 @@ const NotiObjectViewAll: FC<{
                             </Center>
                             <Center>{showUser()}</Center>
                             <Stack direction={"row"} spacing={5} padding={5}>
-                                {showDescription()}
+                                {/* {showDescription()} */}
                                 {/* <Box as="button"
                                     shadow={"lg"}
                                     borderRadius="1xl"

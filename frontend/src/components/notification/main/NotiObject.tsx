@@ -117,10 +117,11 @@ const NotiObject: FC<{
     let v2 = ""
     let v3 = ""
     function showDescription() {
-        const getvalue = API.get("/notification/getvalue")
+
         //console.log(getvalue)
         const [valueNotiObject, setValueNotiObject] = useState([])
         useEffect(() => {
+            const getvalue = API.get("/notification/getvalue")
             getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
                 setValueNotiObject(res.data)
             })
@@ -270,7 +271,7 @@ const NotiObject: FC<{
 
                     <Stack>
                         <div>
-                            {showDescription()}
+                            {/* {showDescription()} */}
 
                         </div>
                         {showDate()}

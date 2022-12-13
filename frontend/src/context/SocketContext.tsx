@@ -25,22 +25,11 @@ const SocketContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         socketIO.on("receive-message", (s: sendMsg) => {
             console.log(s)
         })
-        socketIO.on("push_noti", (data: pushNotiType) => {
-            console.log(data + "context");
 
-            API.post("/notification/addnotiobject", {
-                template: data.template,
-                value: data.value,
-                userId: data.userId,
-                module: data.module,
-                url: data.url,
-                sender: data.sender
-            }).then((res) => console.log(res)).catch((err) => console.log(err))
-        })
         return () => {
             socketIO.off("connect")
             socketIO.off("receive-message")
-            socketIO.off("push_noti")
+
         }
     }, [])
     return <socketContext.Provider {...{ children, value: { messages, testSocket, socketIO } }} />
