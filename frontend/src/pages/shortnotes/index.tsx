@@ -53,7 +53,7 @@ const index = () => {
     }, [])
     useEffect(() => {
         access.forEach((a: any) => {
-            console.log(a.snId);
+            //console.log(a.snId);
             setAccessId((accessId: any) => [...accessId, a.snId])
 
         })
