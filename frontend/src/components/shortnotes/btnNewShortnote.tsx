@@ -47,15 +47,22 @@ import {
     FormErrorMessage,
     useToast,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { AiOutlineCloseCircle } from "react-icons/ai"
 import { MdPostAdd } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 
 const btnNewShortnote = () => {
-    const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
+    const [allUser, setAllUser] = useState<any>([])
+    useEffect(() => {
+        API.get("shortnotes/getUser").then((res) => {
+            setAllUser(res.data)
+            //console.log(res.data);
 
+        })
+    }, [])
+    const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
     const [useRadio, setRadio] = useState("Public")
     const closeSnModal = () => {
         nsOnClose()
@@ -75,9 +82,10 @@ const btnNewShortnote = () => {
         setRadio("Public")
     }
 
+    const [findName, setFindName] = useState("")
     const [pName, setpName] = useState("")
     const [people, setPeoples] = useState<string[]>([])
-
+    const [peopleName, setPeopleName] = useState<any>([])
     const [course, setCourse] = useState("")
     const [name, setName] = useState("")
     const [desc, setDesc] = useState("")
@@ -94,22 +102,40 @@ const btnNewShortnote = () => {
                 isClosable: true,
             })
         } else {
-            API.post("/shortnotes/postShortnote", {
-                courseId: course.toUpperCase(),
-                isPublic: ispublic,
-                snName: name,
-                snDesc: desc,
-                people: people
-            }).then((res) => {
-                console.log(res)
-                API.post("/shortnotes/postAccess", {
-                    snId: res.data.snId,
-                    people: people
+            let pass = true
+            let failId: any = []
+            people.forEach((p: any) => {
+                let regex = /^\d{13}$/
+                if (!regex.test(p)) {
+                    pass = false
+                    failId.push(p)
+                }
+            })
+            if (failId[0] != null) {
+                let x = failId.join(", #")
+                toast({
+                    description: 'User #' + x + ' not found, please try again.',
+                    status: 'warning',
+                    duration: 6000,
+                    isClosable: true,
                 })
-                navigate("./" + res.data.snId)
-
             }
-            )
+            if (pass) {
+                API.post("/shortnotes/postShortnote", {
+                    courseId: course.toUpperCase().replaceAll(" ", ""),
+                    isPublic: ispublic,
+                    snName: name,
+                    snDesc: desc,
+                    people: people
+                }).then((res) => {
+                    console.log(res)
+                    API.post("/shortnotes/postAccess", {
+                        snId: res.data.snId,
+                        people: people
+                    })
+                    navigate("./" + res.data.snId)
+                })
+            }
 
         }
     }
@@ -189,7 +215,7 @@ const btnNewShortnote = () => {
                                 {useRadio == "Private" ? (
                                     <Box>
                                         <FormLabel>Add people</FormLabel>
-                                        <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+                                        <Grid templateColumns="repeat(5, 1fr)" gap={2}>
                                             <GridItem colSpan={4}>
                                                 <Input
                                                     placeholder="studentID, comma seperated"
@@ -201,10 +227,10 @@ const btnNewShortnote = () => {
                                             <GridItem colSpan={1}>
                                                 <Button
                                                     colorScheme={"orange"}
-                                                    rounded={8}
+                                                    rounded={6}
                                                     w={"100%"}
                                                     onClick={() => {
-                                                        let x = pName.split(',')
+                                                        let x = pName.replaceAll(" ", "").split(',').filter((n) => n != "")
                                                         //let newPeople = [pName, ...people] //add to begin
                                                         let newPeople = x.concat(people)
                                                         setPeoples(newPeople)

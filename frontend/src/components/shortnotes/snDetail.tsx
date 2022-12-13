@@ -350,7 +350,7 @@ const snDetail: FC<{
                                     rounded={8}
                                     w={"100%"}
                                     onClick={() => {
-                                        let x = pName.split(',')
+                                        let x = pName.replaceAll(" ", "").split(',')
                                         //let newPeople = [pName, ...people] //add to begin
                                         let newPeople = x.concat(people)
                                         setPeoples(newPeople)
