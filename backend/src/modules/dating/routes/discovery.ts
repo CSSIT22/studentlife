@@ -94,9 +94,9 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                             userId: reqUserId,
                         },
                     },
-                    // datingSetting: {
-                    //     hasCompleteSetting: true,
-                    // },
+                    datingSetting: {
+                        hasCompleteSetting: true,
+                    },
                 },
                 select: {
                     userId: true,
