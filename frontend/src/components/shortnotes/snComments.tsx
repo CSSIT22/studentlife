@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Grid, Heading, Menu, MenuButton, MenuItem, MenuList, Spacer, Textarea, Text, useBoolean, useDisclosure, useToast, VStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Input, GridItem } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, Grid, Heading, Menu, MenuButton, MenuItem, MenuList, Spacer, Textarea, Text, useBoolean, useDisclosure, useToast, VStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Input, GridItem, Stack, HStack } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import API from 'src/function/API'
@@ -53,87 +53,63 @@ const snComments = () => {
     }
     return (
         <Box>
-            <Box mb={4} rounded={8}>
-                <Box>
-                    <Heading size={"md"} mb={1}>
-                        Comments
-                    </Heading>
-                    <Flex gap={1}>
-                        <Input mb={2} py={4} focusBorderColor="orange.500" variant='filled' placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
-                        <Button colorScheme={"orange"} onClick={() => {
-                            (
-                                comment(),
-                                toast({
-                                    title: 'Commented',
-                                    description: "You've commented on the post. ",
-                                    status: 'success',
-                                    duration: 4000,
-                                    isClosable: true,
-                                })
-                            )
-                        }}><IoSend />
-                        </Button>
-                    </Flex>
-                </Box>
-            </Box>
+            <Flex gap={1} mb={4}>
+                <Input mb={2} py={4} focusBorderColor="orange.500" variant='filled' placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
+                <Button colorScheme={"orange"} onClick={() => {
+                    (
+                        comment(),
+                        toast({
+                            title: 'Commented',
+                            description: "You've commented on the post. ",
+                            status: 'success',
+                            duration: 4000,
+                            isClosable: true,
+                        })
+                    )
+                }}><IoSend />
+                </Button>
+            </Flex>
             {cmLoad ?
                 null
 
                 :
                 <VStack gap={4}>
                     {comments.map((cm: any, key: any) => (
-                        <>
-                            {/* <CmList
-                            key={key}
-                            name={cm.commentor.fName + " " + cm.commentor.lName}
-                            desc={cm.comment}
-                            date={cm.commentedAt}
-                            owner={cm.commentor.userId}
-                            commentId={cm.commentId}
-                        /> */}
-                            <Box bg={"white"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
-                                <Flex>
-                                    <Avatar
-                                        size="sm"
-                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + cm.commentor.userId}
-                                    ></Avatar>
-                                    <Heading ml={2} size={"sm"} alignSelf={"center"}>{cm.commentor.fName + " " + cm.commentor.lName}</Heading>
-                                    <Spacer />
-                                    {cm.commentor.userId == user?.userId ?
-                                        <Menu>
-                                            <MenuButton><HiDotsHorizontal /></MenuButton>
-                                            <MenuList>
-                                                <MenuItem icon={<MdDeleteOutline />} onClick={() => {
-                                                    setCmId(cm.commentId)
-                                                    onOpen()
-                                                }}>
-                                                    Delete
-                                                </MenuItem>
-                                            </MenuList>
-                                        </Menu>
-                                        :
-                                        null
-                                    }
+                        <Box bg={"gray.50"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
+                            <Flex>
+                                <Avatar
+                                    size="sm"
+                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + cm.commentor.userId} ></Avatar>
 
-                                </Flex>
-                                {cm.comment}
-                                <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
-                                    <Text fontSize={"xs"} alignSelf={"end"}>
-                                        {new Date(cm.commentedAt).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
-                                    </Text>
-                                </Flex>
-                            </Box >
-                        </>
+                                <Heading ml={2} size={"sm"} alignSelf={"center"}>{cm.commentor.fName + " " + cm.commentor.lName}</Heading>
+                                <Spacer />
+                                {cm.commentor.userId == user?.userId ?
+                                    <Menu>
+                                        <MenuButton><HiDotsHorizontal /></MenuButton>
+                                        <MenuList>
+                                            <MenuItem icon={<MdDeleteOutline />} onClick={() => {
+                                                setCmId(cm.commentId)
+                                                onOpen()
+                                            }}>
+                                                Delete
+                                            </MenuItem>
+                                        </MenuList>
+                                    </Menu>
+                                    :
+                                    null
+                                }
+
+                            </Flex>
+                            <Text ml={10}>{cm.comment}</Text>
+
+                            <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
+                                <Text fontSize={"xs"} alignSelf={"end"}>
+                                    {new Date(cm.commentedAt).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
+                                </Text>
+                            </Flex>
+                        </Box >
                     ))}
                     {newComment.map((ncm: any, key: any) => (
-                        // <CmList
-                        //     key={key}
-                        //     name={ncm.cmDetail.fName + " " + ncm.cmDetail.lName}
-                        //     desc={ncm.cm.comment}
-                        //     date={ncm.cm.commentedAt}
-                        //     owner={ncm.cm.userId}
-                        //     commentId={ncm.cm.commentId}
-                        // />
                         <Box bg={"white"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
                             <Flex>
                                 <Avatar

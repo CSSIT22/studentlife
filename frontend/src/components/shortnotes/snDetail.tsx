@@ -366,7 +366,7 @@ const snDetail: FC<{
                         <Box gap={2} mt={4} mb={4}>
                             <SimpleGrid columns={2} gap={4}>
                                 {people.map((p, key) => (
-                                    <Grid templateColumns='repeat(5, 1fr)' bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
+                                    <Grid templateColumns='repeat(5, 1fr)' bg={"gray.50"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
                                         <GridItem colSpan={4}>
                                             <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
                                                 <Text>{p}</Text>
@@ -387,7 +387,7 @@ const snDetail: FC<{
                             <Heading mb={2} size={"md"}>Peoples</Heading>
                             <VStack gap={2}>
                                 {access.map((a: any, key) => (
-                                    <Grid templateColumns='repeat(7, 1fr)' bg={"white"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
+                                    <Grid templateColumns='repeat(7, 1fr)' bg={"gray.50"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
                                         <GridItem colSpan={6}>
                                             <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
                                                 <Text w={"100%"}>{a.accessBy.studentId}</Text>
