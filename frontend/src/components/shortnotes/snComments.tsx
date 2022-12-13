@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Heading, Menu, MenuButton, MenuItem, MenuList, Spacer, Textarea, Text, useBoolean, useDisclosure, useToast, VStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, Grid, Heading, Menu, MenuButton, MenuItem, MenuList, Spacer, Textarea, Text, useBoolean, useDisclosure, useToast, VStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Input, GridItem } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import API from 'src/function/API'
@@ -8,6 +8,7 @@ import loading from "./lottie/loading.json";
 import { authContext } from 'src/context/AuthContext'
 import { HiDotsHorizontal } from 'react-icons/hi'
 import { MdDeleteOutline } from 'react-icons/md'
+import { IoSend } from 'react-icons/io5'
 
 const snComments = () => {
     const [comments, setComments] = useState<any>([])
@@ -57,8 +58,8 @@ const snComments = () => {
                     <Heading size={"md"} mb={1}>
                         Comments
                     </Heading>
-                    <Textarea h={150} mb={2} py={4} focusBorderColor="orange.500" placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
-                    <Flex direction={"row"} justifyContent={"end"}>
+                    <Flex gap={1}>
+                        <Input mb={2} py={4} focusBorderColor="orange.500" variant='filled' placeholder={"What are your thoughts ?"} value={comm} onChange={(e) => setComm(e.target.value)} />
                         <Button colorScheme={"orange"} onClick={() => {
                             (
                                 comment(),
@@ -70,7 +71,8 @@ const snComments = () => {
                                     isClosable: true,
                                 })
                             )
-                        }}>Comment</Button>
+                        }}><IoSend />
+                        </Button>
                     </Flex>
                 </Box>
             </Box>
