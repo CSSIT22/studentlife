@@ -321,20 +321,54 @@ const DatingRandomization = () => {
         if (didMount && count == 1) {
             count = count - 1
             window.scrollTo(0, 0)
-            API.get("/dating/discovery/getCards").then((user) => {
-                let data = user.data
-                setCharacters(data)
-                setNumOfChar(data.length)
-                globalThis.countSwipe = Array(50).fill(1)
-                globalThis.countOut = Array(50).fill(1)
-                API.get("/dating/discovery/getAllInterest").then((interest) => {
-                    setAllInterests(interest.data)
-                })
-                setCurrentIndex(data.length - 1)
-                API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
-                    API.get("/dating/verifyEnroll/getDatingOptions")
-                        .then((datingOptions) => {
-                            if (!datingEnroll.data.hasCompleteTutorial) {
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                API.get("/dating/verifyEnroll/getDatingOptions")
+                    .then((datingOptions) => {
+                        API.get("/dating/verifyEnroll/getDetail").then((detail) => {
+                            function getAge(dateString: Date) {
+                                var today = new Date()
+                                var birthDate = new Date(dateString)
+                                var age = today.getFullYear() - birthDate.getFullYear()
+                                var m = today.getMonth() - birthDate.getMonth()
+                                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                                    age--
+                                }
+                                return age
+                            }
+                            if (!detail.data.sex || !detail.data.birth) {
+                                toast({
+                                    title: "It looks like some of your details are missing!",
+                                    status: "warning",
+                                    duration: 10000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "Please specify your \"birth date\" and \"sex\" before using Dating & Finding Friend."
+                                })
+                                navigate("/user")
+                            }
+                            else if(getAge(detail.data.birth) < 18) {
+                                toast({
+                                    title: "You don't meet the minimum age requirement!",
+                                    status: "warning",
+                                    duration: 10000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to be at least 18 years old to use Dating & Finding Friend."
+                                })
+                                navigate("/")
+                            }
+                            else if(getAge(detail.data.birth) > 40) {
+                                toast({
+                                    title: "You don't meet the maximum age requirement!",
+                                    status: "warning",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to be at most 40 years old to use Dating & Finding Friend."
+                                })
+                                navigate("/")
+                            }
+                            else if (!datingEnroll.data.hasCompleteTutorial) {
                                 toast({
                                     title: "Welcome!",
                                     status: "info",
@@ -367,9 +401,22 @@ const DatingRandomization = () => {
                                 })
                                 navigate("/dating/interests")
                             }
-
                         })
+                        
+
+                    })
+            })
+            API.get("/dating/discovery/getCards").then((user) => {
+                let data = user.data
+                setCharacters(data)
+                setNumOfChar(data.length)
+                globalThis.countSwipe = Array(50).fill(1)
+                globalThis.countOut = Array(50).fill(1)
+                API.get("/dating/discovery/getAllInterest").then((interest) => {
+                    setAllInterests(interest.data)
                 })
+                setCurrentIndex(data.length - 1)
+                
             }).catch((err) => setIsError(true)).finally(off)
         }
     })

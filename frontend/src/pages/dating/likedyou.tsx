@@ -37,40 +37,84 @@ const LikedYou = () => {
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 API.get("/dating/verifyEnroll/getDatingOptions")
                     .then((datingOptions) => {
-                        if (!datingEnroll.data.hasCompleteTutorial) {
-                            toast({
-                                title: "Welcome!",
-                                status: "info",
-                                duration: 5000,
-                                isClosable: true,
-                                position: "top",
-                                description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
-                            })
-                            navigate("/dating/tutorial");
-                        }
-                        else if (!datingOptions.data.userId) {
-                            navigate("/dating/option")
-                            toast({
-                                title: "Option Setting Incomplete!",
-                                status: "warning",
-                                duration: 5000,
-                                isClosable: true,
-                                position: "top",
-                                description: "You are required to set your option first before using Dating & Finding Friend."
-                            })
-                        }
-                        else if (!datingEnroll.data.hasCompleteSetting) {
-                            toast({
-                                title: "Interests Selection Incomplete!",
-                                status: "warning",
-                                duration: 5000,
-                                isClosable: true,
-                                position: "top",
-                                description: "You are required to skip or select your interests first before using Dating & Finding Friend."
-                            })
-                            navigate("/dating/interests")
-                        }
-
+                        API.get("/dating/verifyEnroll/getDetail").then((detail) => {
+                            function getAge(dateString: Date) {
+                                var today = new Date()
+                                var birthDate = new Date(dateString)
+                                var age = today.getFullYear() - birthDate.getFullYear()
+                                var m = today.getMonth() - birthDate.getMonth()
+                                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                                    age--
+                                }
+                                return age
+                            }
+                            if (!detail.data.sex || !detail.data.birth) {
+                                toast({
+                                    title: "It looks like some of your details are missing!",
+                                    status: "warning",
+                                    duration: 10000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "Please specify your \"birth date\" and \"sex\" before using Dating & Finding Friend."
+                                })
+                                navigate("/user")
+                            }
+                            else if(getAge(detail.data.birth) < 18) {
+                                toast({
+                                    title: "You don't meet the minimum age requirement!",
+                                    status: "warning",
+                                    duration: 10000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to be at least 18 years old to use Dating & Finding Friend."
+                                })
+                                navigate("/")
+                            }
+                            else if(getAge(detail.data.birth) > 40) {
+                                toast({
+                                    title: "You don't meet the maximum age requirement!",
+                                    status: "warning",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to be at most 40 years old to use Dating & Finding Friend."
+                                })
+                                navigate("/")
+                            }
+                            else if (!datingEnroll.data.hasCompleteTutorial) {
+                                toast({
+                                    title: "Welcome!",
+                                    status: "info",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
+                                })
+                                navigate("/dating/tutorial");
+                            }
+                            else if (!datingOptions.data.userId) {
+                                navigate("/dating/option")
+                                toast({
+                                    title: "Option Setting Incomplete!",
+                                    status: "warning",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to set your option first before using Dating & Finding Friend."
+                                })
+                            }
+                            else if (!datingEnroll.data.hasCompleteSetting) {
+                                toast({
+                                    title: "Interests Selection Incomplete!",
+                                    status: "warning",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to skip or select your interests first before using Dating & Finding Friend."
+                                })
+                                navigate("/dating/interests")
+                            }
+                        })
                     })
             })
         }
