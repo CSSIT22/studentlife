@@ -75,7 +75,7 @@ const index = () => {
                     isPublic={shortnote.isPublic}
                 />
             </Box>
-                <Box bg={"white"} boxShadow={"base"} rounded={8} p={6} mb={4}>
+                <Box bg={"white"} boxShadow={"base"} rounded={8} px={6} pt={6} mb={4}>
                     <SnComments />
                 </Box>
             </Box>
@@ -83,7 +83,7 @@ const index = () => {
                 <Box style={blur}>
                     <Box p={6} bg={"white"} boxShadow={"base"} rounded={8} mb={4}>
                         <SnDetail
-                            topic={"What do you expect to see???"}
+                            topic={"Ja ma do arai ror ja???"}
                             course={"LOL555"}
                             desc={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, voluptatem asperiores. Molestiae expedita minima ad in commodi veritatis iusto quaerat animi quis! Dolores voluptatem nesciunt porro quidem alias ut suscipit."}
                             link={"youtu.be/dQw4w9WgXcQ"}

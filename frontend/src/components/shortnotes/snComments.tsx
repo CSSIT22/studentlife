@@ -157,7 +157,7 @@ const snComments = () => {
                             </Flex>
                         </Box >
                     ))}
-                    <Text color={"gray.500"}>{comments[0] == null && newComment[0] == null ? "No comment yet, let's be the first!!" : null}</Text>
+                    <Text color={"gray.500"} mb={4}>{comments[0] == null && newComment[0] == null ? "No comment yet, let's be the first!!" : null}</Text>
                 </VStack>
             }
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
