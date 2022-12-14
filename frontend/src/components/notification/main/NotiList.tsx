@@ -78,12 +78,13 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
         }
     }
     // console.log(listDay)
-    console.log(sortedList);
-
+    //console.log(sortedList);
 
     return (
         <Box>
             {sortedList?.map((el) => {
+
+
                 return (
                     <Box key={el.notiObjectId}>
                         {showDate(new Date(el.notiObject.date))}
@@ -97,6 +98,7 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
                                 url={el.notiObject.url}
                                 onClick={onClick}
                                 sender={el.notiObject.userId}
+                                values={el.notiObject.values}
                             />
                         </Stack>
                     </Box>

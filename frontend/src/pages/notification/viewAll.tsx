@@ -1,32 +1,20 @@
 import {
     Box,
-    Button,
-    Center,
-    CloseButton,
-    filter,
     Flex,
     Spacer,
     Stack,
     Text,
-    useDisclosure,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import MarkRead from "../../components/notification/MarkRead"
-import Modulelist from "../../components/notification/moduleList/Modulelist"
+import Modulelist from "../../components/notification/Modulelist"
 import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
 import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectViewAll"
 import AppBody from "../../components/share/app/AppBody"
-import { useParams } from "react-router-dom"
+
 import API from "src/function/API"
 import { Notiobject } from "@apiType/notification"
-import { MODULES } from "../../components/notification/moduleList/moduleTest"
+
 
 const viewAll = () => {
     //reload noti
@@ -56,12 +44,12 @@ const viewAll = () => {
 
     //getUserNotiObject by Module
 
-    const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
+    const getUserNotiObjectModule = () => API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
     //console.log(getUserNotiObjectModule);
 
     const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
     useEffect(() => {
-        getUserNotiObjectModule.then((res) => {
+        getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
         })
     }, [reLoad])

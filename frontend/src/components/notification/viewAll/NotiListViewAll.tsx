@@ -4,10 +4,10 @@ import NotiObjectViewAll from "./NotiObjectViewAll"
 
 const NotiListViewAll: FC<{ selectedList: any[], module: string; onClick: Function }> = ({ selectedList, onClick, module }) => {
     //sort selectedList
-    const sortedList = selectedList.sort((a, b) => {
-        return new Date(b.notiObject.date).getTime() - new Date(a.notiObject.date).getTime()
-    })
-
+    // const sortedList = selectedList.sort((a, b) => {
+    //     return new Date(b.notiObject.date).getTime() - new Date(a.notiObject.date).getTime()
+    // })
+    const sortedList = selectedList
     // show date
     const list: any[] = []
     function showDate(date: Date) {

@@ -1,8 +1,9 @@
+import { NotiValue } from "@apiType/notification"
 import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import API from "src/function/API"
-import { MODULES } from "../moduleList/moduleTest"
+
 import { ANNOUNCEMENT_APPROVED } from "../templates/ANNOUNCEMENT_APPROVED"
 import { ANNOUNCEMENT_NEW } from "../templates/ANNOUNCEMENT_NEW"
 import { ANNOUNCEMENT_WAIT_FOR_APPROVE } from "../templates/ANNOUNCEMENT_WAIT_FOR_APPROVE"
@@ -31,7 +32,10 @@ const NotiObject: FC<{
     url: string
     onClick: Function
     sender: string
-}> = ({ id, template, isRead, date, module, url, onClick, sender }) => {
+    values: NotiValue[]
+}> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
+    //console.log(values);
+
     function showStatus() {
         if (isRead) {
             return <Circle size="0.6em" bg="gray" />
@@ -119,16 +123,17 @@ const NotiObject: FC<{
     function showDescription() {
 
         //console.log(getvalue)
-        const [valueNotiObject, setValueNotiObject] = useState([])
-        useEffect(() => {
-            const getvalue = API.get("/notification/getvalue")
-            getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
-                setValueNotiObject(res.data)
-            })
-        }, [])
-        //console.log(valueNotiObject)
+        // const [valueNotiObject, setValueNotiObject] = useState([])
+        // useEffect(() => {
+        //     const getvalue = API.get("/notification/getvalue")
+        //     getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
+        //         setValueNotiObject(res.data)
+        //     })
+        // }, [])
+        // console.log(valueNotiObject)
+        // console.log(values);
 
-        valueNotiObject.forEach((item: any) => {
+        values.forEach((item: NotiValue) => {
             if (item.notiObjectId == id) {
                 if (v1 == "") {
                     v1 = item.value
@@ -271,7 +276,7 @@ const NotiObject: FC<{
 
                     <Stack>
                         <div>
-                            {/* {showDescription()} */}
+                            {showDescription()}
 
                         </div>
                         {showDate()}

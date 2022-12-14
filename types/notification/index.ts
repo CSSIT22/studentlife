@@ -14,6 +14,7 @@ export type Notiobject = {
   module: string;
   url: string;
   sender: string | null;
+  values: string[];
 };
 export type NotiUser = {
   userId: string;
@@ -27,4 +28,9 @@ export type pushNotiType = {
   module: string;
   url: string;
   sender: string;
+};
+export type NotiValue = {
+  notiObjectId: string;
+  value: string;
+  valueId: string;
 };
