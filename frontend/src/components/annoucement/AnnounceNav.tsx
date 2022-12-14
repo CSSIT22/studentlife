@@ -5,7 +5,6 @@ import AppBody from '../share/app/AppBody'
 const AnnounceNav = (props: any) => {
     const user = useContext(authContext)
     const roles = user?.roles
-    console.log(roles);
     const roleName: string[] = []
 
     return (

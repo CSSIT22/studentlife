@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Heading, Select, Show, Spacer, Stack, Text, useBoolean } from "@chakra-ui/react"
+import { Box, Divider, Flex, Grid, GridItem, Heading, Icon, Select, Show, Spacer, Stack, Text, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
@@ -9,6 +9,9 @@ import API from "src/function/API"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
+import { IoIosCalendar } from "react-icons/io"
+import { GiHumanTarget } from "react-icons/gi"
+import Detail from "src/components/annoucement/Detail"
 
 
 const detail = () => {
@@ -35,72 +38,25 @@ const detail = () => {
     const otherLang = post.map((el) => el.annLanguage)
     const selectLang = (lang: number) => {
         const selected = otherLang[0]?.filter((el) => el.languageId == lang)
+        const sender = post.map((el) => (el.annCreator.fName + " " + el.annCreator.lName))
+        const targetType = post.map((el) => (el.annFilter.filterType))
+        const targetValue = post.map((el) => (el.annFilter.value))
+
         if (lang != 1000) {
+            const topic = selected.map((el) => (el.annTopic))
+            const detail = selected.map((el) => (el.annDetail))
+            const eventAnddate = post.map((el) => (el.annLanguage[0].annDetail.split("~")))
             return (
                 <>
-                    <Heading as="h2" size="xl">
-                        {selected?.map((el) => {
-                            return el.annTopic
-                        })}
-                    </Heading>
-                    <Box>
-                        <Text fontSize="md">
-                            Sender:{" "}
-                            {post.map((el) => {
-                                return el.annCreator.fName + " " + el.annCreator.lName
-                            })}
-                        </Text>
-                        <Text fontSize="md">
-                            To:{" "}
-                            {post.map((el) => {
-                                return el.annFilter.filterType
-                            })}{" "}
-                            {post.map((el) => {
-                                return el.annFilter.value
-                            })}
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Text fontSize="sm" align="justify">
-                            {selected?.map((el) => {
-                                return el.annDetail
-                            })}
-                        </Text>
-                    </Box>
+                    <Detail annTopic={topic[0]} filterType={targetType[0]} filterValue={targetValue[0]} annDetail={detail[0]} eventDate={new Date(eventAnddate[0][0])} sender={sender[0]} />
                 </>
             )
         } else if (lang == 1000) {
+            const topic = post.map((el) => (el.annLanguage[0].annTopic))
+            const eventAnddate = post.map((el) => (el.annLanguage[0].annDetail.split("~")))
             return (
                 <>
-                    <Heading as="h2" size="xl">
-                        {post.map((el) => {
-                            return el.annLanguage[0].annTopic
-                        })}
-                    </Heading>
-                    <Box>
-                        <Text fontSize="md">
-                            Sender:{" "}
-                            {post.map((el) => {
-                                return el.annCreator.fName + " " + el.annCreator.lName
-                            })}
-                        </Text>
-                        <Text fontSize="md">
-                            To:{" "}
-                            {post.map((el) => {
-                                return el.annFilter.filterType
-                            })}{" "}
-                            {post.map((el) => {
-                                return el.annFilter.value
-                            })}
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Text fontSize="sm" align="justify">
-                            {post.map((el) => {
-                                return el.annLanguage[0].annDetail
-                            })}
-                        </Text>
-                    </Box>
+                    <Detail annTopic={topic[0]} filterType={targetType[0]} filterValue={targetValue[0]} annDetail={eventAnddate[0][1]} eventDate={new Date(eventAnddate[0][0])} sender={sender[0]} />
                 </>
             )
         }

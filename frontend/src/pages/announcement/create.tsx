@@ -53,6 +53,7 @@ const create = () => {
     const [targetType, setTargetType] = React.useState(String)
     const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
+    const [event, setEvent] = React.useState(Date)
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [tv, settv] = useState<tgType[]>([])
@@ -104,10 +105,10 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<post_to_language2[]>([])
 
 
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, expired: Date, addMoreLang: post_to_language2[]) => {
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, event:Date,expired: Date, addMoreLang: post_to_language2[]) => {
         API.post<post>("/announcement/createpost", {
             topic: title,
-            detail: detail,
+            detail: event+"~"+detail,
             targetType: targetType,
             targetValue: targetValue,
             expiredPost: expired,
@@ -159,7 +160,7 @@ const create = () => {
                                     onSubmit={(e) => {
                                         onOpen()
                                         e.preventDefault()
-                                        addPost(topic, detail, targetType, targetValue, new Date(expired), addMoreLang)
+                                        addPost(topic, detail, targetType, targetValue,new Date(event), new Date(expired), addMoreLang)
                                     }}
                                 >
                                     <Flex alignItems={"center"}>
@@ -211,6 +212,17 @@ const create = () => {
                                                 </Select>
                                                 {selectTargetValue(targetType)}
                                             </Flex>
+                                        </FormControl>
+                                        <FormControl isRequired>
+                                            <FormLabel>Event Date</FormLabel>
+                                            <Input
+                                                placeholder="Select expired date"
+                                                size="md"
+                                                type="date"
+                                                min={disabledDates()}
+                                                onChange={(e) => setEvent(e.target.value)}
+                                                bg="white"
+                                            />
                                         </FormControl>
                                         <FormControl isRequired>
                                             <FormLabel>Expired Date</FormLabel>
