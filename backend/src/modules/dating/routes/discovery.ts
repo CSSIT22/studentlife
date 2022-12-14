@@ -180,7 +180,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             }
         }
 
-        heartHistoryDB.map((id) => {
+        heartHistoryDB.map((id: any) => {
             filterId.push(id.anotherUserId)
             if (cardQueueUserId) {
                 if (cardQueueUserId.backUserId) {
@@ -196,7 +196,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             }
         })
 
-        userBlockedDB.map((id) => {
+        userBlockedDB.map((id: any) => {
             filterId.push(id.anotherUserId)
             if (cardQueueUserId) {
                 if (cardQueueUserId.backUserId) {
@@ -264,7 +264,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             },
         })
 
-        userProfileDB.map((user) => {
+        userProfileDB.map((user: any) => {
             if (
                 user.details &&
                 datingOptionsDB?.useAge &&
@@ -545,7 +545,7 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                 userId: userId,
             },
         })
-        giveHeartDB.map((id) => {
+        giveHeartDB.map((id: any) => {
             giveHeartId.push(id.anotherUserId)
         })
 
