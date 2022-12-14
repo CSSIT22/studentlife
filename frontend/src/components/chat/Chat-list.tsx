@@ -9,9 +9,27 @@ import Nmodal from "./Nmodal"
 import API from "src/function/API"
 import { buffer_to_img } from "./function/64_to_img"
 
-// type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
+type Room = {
+    room:{
+        nick:[
+            {
+                nickname : string
+                nameWho:{
+                    image:{
+                       type : string
+                       data : string
+                    }
+                }
+            }
+        ],
+        chatColor: string,
+        roomName: string,
+        roomId: string,
+        roomType: string
+    }
+}
 const Clist: FC<any> = () => {
-    const [userRoom, setuserRoom] = useState<any>([])
+    const [userRoom, setuserRoom] = useState<Room[]>([])
     const [target, setTarget] = useState(1)
     const [search, setSearch] = useState("")
     const navigate = useNavigate()
@@ -90,23 +108,23 @@ const Clist: FC<any> = () => {
         )
     }
     
-    const renderRoom = (e: any) => {
-        if (target === 1 && e.roomType === "INDIVIDUAL") {
+    const renderRoom = (e: Room) => {
+        if (target === 1 && e.room.roomType === "INDIVIDUAL") {
             return (
-                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
+                <Flex justify={"space-between"} alignItems={"center"} key={e.room.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
                         alignItems={"center"}
-                        key={e.roomId}
+                        key={e.room.roomId}
                         marginY={3}
                         _hover={{
                             transform: "scale(1.1)",
                         }}
                         transitionDuration="300ms"
-                        onClick={() => Navigate(e.roomId)}
+                        onClick={() => Navigate(e.room.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.roomName} src={handleImg(e.roomIndividual.chatWith.image)} />
-                        <Box marginLeft={"5"}>{e.roomName} </Box>
+                        <Avatar name={e.room.nick[0].nickname} src={handleImg(e.room.nick[0].nameWho.image)} />
+                        <Box marginLeft={"5"}>{e.room.nick[0].nickname} </Box>
                     </Flex>
                     <Show above="md">
                         <Cmenu room={e} />
@@ -117,8 +135,8 @@ const Clist: FC<any> = () => {
                 </Flex>
             )
         }
-        if (target === 2 && e.roomType === "GROUP") {
-            const img = e.roomGroup?.groupImg
+        if (target === 2 && e.room.roomType === "GROUP") {
+            const img = e.room.?.groupImg
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
