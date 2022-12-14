@@ -23,10 +23,16 @@ const editstatusOnApproval = async (req: Request, res: Response) => {
                     },
                 },
             })
+            const addHours = (date: Date): Date => {
+                const result = new Date(date)
+                result.setHours(result.getHours() + 7)
+                return result
+            }
             const recordapproval = await prisma.announcement_Approve.create({
                 data: {
                     userId: req.user?.userId || "",
                     postId: postId,
+                    approveTime: addHours(new Date()),
                 },
             })
         } else if (status == "Disapprove") {

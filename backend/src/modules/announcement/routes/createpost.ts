@@ -38,6 +38,11 @@ const createPost = async (req: Request, res: Response) => {
         ll.push({ languageId: 1000, annTopic: topic, annDetail: detail })
         addmorelang.map((el: any) => ll.push({ languageId: el.languageId, annTopic: el.annTopic, annDetail: el.annDetail }))
         // console.log(ll);
+        const addHours = (date: Date): Date => {
+            const result = new Date(date)
+            result.setHours(result.getHours() + 7)
+            return result
+        }
 
         const newPost = await prisma.announcement.create({
             data: {
@@ -47,6 +52,7 @@ const createPost = async (req: Request, res: Response) => {
                 annLanguage: {
                     createMany: { data: ll },
                 },
+                annCreated: addHours(new Date()),
                 annPost: {
                     create: {},
                 },
