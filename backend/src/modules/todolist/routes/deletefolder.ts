@@ -1,14 +1,14 @@
 import { Request, Response } from "express"
 
-const deleteTask = async (req: Request, res: Response) => {
+const deleteFolder = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const body = req.body
     const userid = req.user?.userId || ""
     console.log(req.user)
     try {
-        await prisma.task.findFirst({
+        await prisma.task_Folder.findFirst({
             where: {
-                taskId: req.body.taskId,
+                folderId: req.body.folderId,
                 userId: userid,
             },
         })
@@ -17,15 +17,15 @@ const deleteTask = async (req: Request, res: Response) => {
     }
 
     try {
-        await prisma.task.delete({
+        await prisma.task_Folder.delete({
             where: {
-                taskId: req.body.taskId,
+                folderId: req.body.folderId,
             },
         })
-        res.status(200).send("Delete Task Success")
+        res.status(200).send("Delete Folder Success")
     } catch (err) {
         return res.status(400)
     }
 }
 
-export default deleteTask
+export default deleteFolder

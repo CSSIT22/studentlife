@@ -6,6 +6,9 @@ const createtask = async (req: Request, res: Response) => {
     const userid = req.user?.userId || ""
     console.log(req.user)
 
+    const users = body.userIds
+    users.push(userid)
+
     const task: any = {
         taskName: body.taskName,
         userId: userid,
@@ -18,9 +21,30 @@ const createtask = async (req: Request, res: Response) => {
     console.log(task)
 
     try {
-        const createUser = await prisma.task.create({
+        const createTask = await prisma.task.create({
             data: task,
         })
+
+        console.log(users)
+
+        for (let el in users) {
+            const taskcheck: any = {
+                taskId: createTask.taskId,
+                userId: el,
+                isCheck: false,
+            }
+
+            console.log(taskcheck)
+
+            const createTaskCheck = await prisma.task_Check.create({
+                data: taskcheck,
+                //   {
+                //     taskId: createTask.taskId,
+                //     userId: el,
+                //     isCheck: false,
+                // },
+            })
+        }
     } catch (e: any) {
         console.log(e)
 
@@ -28,7 +52,7 @@ const createtask = async (req: Request, res: Response) => {
         return
     }
 
-    return res.send("Successfully added")
+    return res.send("Successfully checked")
 }
 
 export default createtask

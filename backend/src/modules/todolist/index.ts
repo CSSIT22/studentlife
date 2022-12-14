@@ -6,7 +6,9 @@ import detailTask from "./routes/detail"
 import editTask from "./routes/editTask"
 import finishTask from "./routes/finishtask"
 import createFolder from "./routes/createfolder"
-// import createTask from "./routes/createTask"
+import deleteTask from "./routes/deleteTask"
+import deleteFolder from "./routes/deletefolder"
+import listTaskInFolder from "./routes/listtaskinfolder"
 
 const todolistRoutes = express()
 todolistRoutes.use(express.json())
@@ -21,6 +23,9 @@ todolistRoutes.post("/listtask", listTask)
 todolistRoutes.post("/listfolder", listFolder)
 todolistRoutes.post("/finishtask", finishTask)
 todolistRoutes.post("/createfolder", createFolder)
+todolistRoutes.post("/deletetask", deleteTask)
 todolistRoutes.post("/createtask", createTask)
+todolistRoutes.post("/deletefolder", deleteFolder)
+todolistRoutes.post("/listtaskinfolder", listTaskInFolder)
 
 export default todolistRoutes
