@@ -15,9 +15,6 @@ import API from "src/function/API"
 import { AllInterests, UserCardDetail } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
-import { AiFillHeart, AiFillStop } from "react-icons/ai"
-import { ImCross } from "react-icons/im"
-import { GiCrossMark } from "react-icons/gi"
 import { FaKissWinkHeart, FaMeh } from "react-icons/fa"
 
 declare global {
@@ -211,12 +208,42 @@ const DatingRandomCard: FC<{
             handleClick(index)
             setHasSwipe(true)
             if (direction === "left") {
-                API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
+                if(index == 0) {
+                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
                     .catch((err) => setIsError(true))
+                }
+                else if(characters[index-2]) {
+                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/setQueue", { frontUserId: characters[index-1].userId, backUserId: characters[index-2].userId, })
+                    .catch((err) => setIsError(true))
+                }
+                else if(characters[index-1]){
+                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
+                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index-1].userId })
+                    .catch((err) => {setIsError(true), console.log(err)})  
+                }
+                API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
+                .catch((err) => setIsError(true))
+
                 // Run the cross button animation
                 nopeText.start("click")
                 controlCross.start("hidden")
             } else if (direction === "right") {
+                if(index == 0) {
+                    console.log("1")
+                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
+                    .catch((err) => setIsError(true))
+                }
+                else if(characters[index-2]) {
+                    console.log("2")
+                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/setQueue", { frontUserId: characters[index-1].userId, backUserId: characters[index-2].userId, })
+                    .catch((err) => setIsError(true))
+                }
+                else if(characters[index-1]){
+                    console.log("3")
+                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
+                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index-1].userId })
+                    .catch((err) => {setIsError(true), console.log(err)})  
+                }
                 API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
                     .catch((err) => setIsError(true))
                 // Run the heart button animation
@@ -248,8 +275,11 @@ const DatingRandomCard: FC<{
         let frontCard = document.getElementById(index.toString()) as HTMLInputElement
         frontCard.style.pointerEvents = "none"
         let backCard = document.getElementById((index - 1).toString()) as HTMLInputElement
+        let button = document.getElementById("DatingButton") as HTMLInputElement
+        button.style.pointerEvents = "none"
         if (backCard) {
-            backCard.style.pointerEvents = "initial"
+            setTimeout(() => {backCard.style.pointerEvents = "initial"
+                                button.style.pointerEvents = "initial"}, 500)
         }
     }
 

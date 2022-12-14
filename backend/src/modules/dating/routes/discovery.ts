@@ -119,11 +119,23 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
         })
 
         userProfileDB.map((user) => {
-            if (user.details && datingOptionsDB?.useAge && datingOptionsDB?.ageMin && datingOptionsDB?.ageMax) {
+            if (
+                user.details &&
+                datingOptionsDB?.useAge &&
+                datingOptionsDB?.ageMin &&
+                datingOptionsDB?.ageMax &&
+                user.userId != cardQueueUserId?.frontUserId &&
+                user.userId != cardQueueUserId?.backUserId
+            ) {
                 if (getAge(user.details.birth) >= datingOptionsDB.ageMin && getAge(user.details.birth) <= datingOptionsDB.ageMax) {
                     ageObtainedUser.push(user)
                 }
-            } else if (datingOptionsDB?.useAge == false && user.details?.birth) {
+            } else if (
+                datingOptionsDB?.useAge == false &&
+                user.details?.birth &&
+                user.userId != cardQueueUserId?.frontUserId &&
+                user.userId != cardQueueUserId?.backUserId
+            ) {
                 ageObtainedUser.push(user)
             }
         })
@@ -163,35 +175,217 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             facultyObtainedUser[randomIndex] = temporaryValue
         }
 
-        facultyObtainedUser = facultyObtainedUser.slice(0, 50)
-        if(!(cardQueueUserId?.frontUserId) && facultyObtainedUser.length > 0) {
-            const frontId = facultyObtainedUser[facultyObtainedUser.length-1].userId
-            if(!cardQueueUserId?.backUserId) {
-                const data: any = {
-                    userId: reqUserId,
-                    frontUserId: frontId,
-                    backUserId: null
-                }
-                await prisma.card_Queue.create({
-                    data: data
-                })
+        if (!cardQueueUserId?.frontUserId && !cardQueueUserId?.backUserId) {
+            facultyObtainedUser = facultyObtainedUser.slice(0, 50)
+        } else if (!cardQueueUserId?.frontUserId || !cardQueueUserId?.backUserId) {
+            let facultyFront;
+            if(facultyObtainedUser[facultyObtainedUser.length - 1]) {
+                facultyFront = await facultyObtainedUser[facultyObtainedUser.length - 1]
             }
+
+            let facultyBack;
+            if(facultyObtainedUser[facultyObtainedUser.length - 2]) {
+                facultyBack = await facultyObtainedUser[facultyObtainedUser.length - 2]
+            }
+
+            if(facultyObtainedUser.length >= 50) {
+                facultyObtainedUser = facultyObtainedUser.slice(0, 48)
+            }        
+            else {
+                facultyObtainedUser = facultyObtainedUser.slice(0, facultyObtainedUser.length-2)
+            } 
+
+            if (cardQueueUserId?.frontUserId) {
+                if(facultyBack) {
+                    facultyObtainedUser.push(facultyBack)
+                }
+                const frontUserDB = await prisma.user_Profile.findFirst({
+                    where: {
+                        userId: cardQueueUserId.frontUserId,
+                    },
+                    select: {
+                        userId: true,
+                        fName: true,
+                        lName: true,
+                        image: true,
+                        details: {
+                            select: {
+                                birth: true,
+                                sex: true,
+                            },
+                        },
+                        studentMajor: {
+                            select: {
+                                majorFaculty: true,
+                            },
+                        },
+                        interests: {
+                            select: {
+                                interestId: true,
+                            },
+                        },
+                    },
+                })
+                facultyObtainedUser.push(frontUserDB)
+            } else if (cardQueueUserId?.backUserId) {
+                const backUserDB = await prisma.user_Profile.findFirst({
+                    where: {
+                        userId: cardQueueUserId.backUserId,
+                    },
+                    select: {
+                        userId: true,
+                        fName: true,
+                        lName: true,
+                        image: true,
+                        details: {
+                            select: {
+                                birth: true,
+                                sex: true,
+                            },
+                        },
+                        studentMajor: {
+                            select: {
+                                majorFaculty: true,
+                            },
+                        },
+                        interests: {
+                            select: {
+                                interestId: true,
+                            },
+                        },
+                    },
+                })
+                facultyObtainedUser.push(backUserDB)
+                facultyObtainedUser.push(facultyFront)
+            } 
+
+        } else {
+            facultyObtainedUser = facultyObtainedUser.slice(0, 48)
+            const backUserDB = await prisma.user_Profile.findFirst({
+                where: {
+                    userId: cardQueueUserId.backUserId,
+                },
+                select: {
+                    userId: true,
+                    fName: true,
+                    lName: true,
+                    image: true,
+                    details: {
+                        select: {
+                            birth: true,
+                            sex: true,
+                        },
+                    },
+                    studentMajor: {
+                        select: {
+                            majorFaculty: true,
+                        },
+                    },
+                    interests: {
+                        select: {
+                            interestId: true,
+                        },
+                    },
+                },
+            })
+            facultyObtainedUser.push(backUserDB)
+            const frontUserDB = await prisma.user_Profile.findFirst({
+                where: {
+                    userId: cardQueueUserId.frontUserId,
+                },
+                select: {
+                    userId: true,
+                    fName: true,
+                    lName: true,
+                    image: true,
+                    details: {
+                        select: {
+                            birth: true,
+                            sex: true,
+                        },
+                    },
+                    studentMajor: {
+                        select: {
+                            majorFaculty: true,
+                        },
+                    },
+                    interests: {
+                        select: {
+                            interestId: true,
+                        },
+                    },
+                },
+            })
+            facultyObtainedUser.push(frontUserDB)
         }
-        if(!(cardQueueUserId?.backUserId) && facultyObtainedUser.length > 1) {
-            const backId = facultyObtainedUser[facultyObtainedUser.length-2].userId
-            if(!cardQueueUserId?.frontUserId) {
+        if (!cardQueueUserId?.frontUserId && facultyObtainedUser.length > 0) {
+            const frontId = facultyObtainedUser[facultyObtainedUser.length - 1].userId
+            let backId
+            if (facultyObtainedUser[facultyObtainedUser.length - 2]?.userId) {
+                backId = facultyObtainedUser[facultyObtainedUser.length - 2].userId
+            }
+            if(cardQueueUserId?.backUserId && facultyObtainedUser.length > 0) {
+                const frontId = facultyObtainedUser[facultyObtainedUser.length - 1].userId
+                const data: any = {
+                    frontUserId: frontId,
+                }
                 await prisma.card_Queue.update({
                     where: {
                         userId: reqUserId
                     },
                     data: {
-                        backUserId: facultyObtainedUser[facultyObtainedUser.length-2].userId
+                        frontUserId: frontId
                     }
                 })
             }
-
+            else if (facultyObtainedUser.length > 1) {
+                const data: any = {
+                    userId: reqUserId,
+                    frontUserId: frontId,
+                    backUserId: backId,
+                }
+                await prisma.card_Queue.create({
+                    data: data,
+                })
+            } else if (facultyObtainedUser.length > 0) {
+                const data: any = {
+                    userId: reqUserId,
+                    frontUserId: frontId,
+                    backUserId: null,
+                }
+                await prisma.card_Queue.create({
+                    data: data,
+                })
+            }
         }
+        if (!cardQueueUserId?.backUserId && facultyObtainedUser.length > 1) {
+            const backId = facultyObtainedUser[facultyObtainedUser.length - 2].userId
+            if(cardQueueUserId?.frontUserId) {
+                await prisma.card_Queue.update({
+                    where: {
+                        userId: reqUserId,
+                    },
+                    data: {
+                        backUserId: backId,
+                    },
+                })
+            }
 
+            if (!cardQueueUserId?.frontUserId) {
+                let frontId
+                if (facultyObtainedUser[facultyObtainedUser.length - 1]) {
+                    frontId = facultyObtainedUser[facultyObtainedUser.length - 1].userId
+                }
+                await prisma.card_Queue.update({
+                    where: {
+                        userId: reqUserId,
+                    },
+                    data: {
+                        frontUserId: frontId,
+                    },
+                })
+            }
+        }
         return res.send(facultyObtainedUser)
     } catch (err) {
         return res.status(404).send("User profiles not found")
@@ -238,4 +432,72 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
         return res.status(400).send(err)
     }
 })
+
+// Set queue
+discoveryRoutes.put("/setQueue", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        await prisma.card_Queue.update({
+            where: {
+                userId: userId,
+            },
+            data: {
+                frontUserId: req.body.frontUserId,
+            },
+        })
+        if (req.body.backUserId) {
+            await prisma.card_Queue.update({
+                where: {
+                    userId: userId,
+                },
+                data: {
+                    backUserId: req.body.backUserId,
+                },
+            })
+        }
+
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send(err)
+    }
+})
+
+// Delete queue
+discoveryRoutes.delete("/deleteQueue", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        await prisma.card_Queue.delete({
+            where: {
+                userId: userId,
+            },
+        })
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send(err)
+    }
+})
+
+// update front queue
+discoveryRoutes.put("/updateFrontQueue", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        const data: any = {
+            userId: userId,
+            frontUserId: req.body.frontUserId,
+            backUserId: null,
+        }
+        await prisma.card_Queue.delete({
+            where: {
+                userId: userId,
+            },
+        })
+        await prisma.card_Queue.create({
+            data: data,
+        })
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send(err)
+    }
+})
+
 export default discoveryRoutes
