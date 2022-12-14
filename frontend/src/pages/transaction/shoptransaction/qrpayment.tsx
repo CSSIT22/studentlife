@@ -10,6 +10,18 @@ import { Link, useLocation } from "react-router-dom"
 const qrpayment = () => {
     const location = useLocation()
 
+    // time left
+    const [timeLeft, setTimeLeft] = useState(60)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeLeft(timeLeft - 1)
+            if (timeLeft === 1) {
+                window.location.replace("/transaction/shoptransaction")
+            }
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [timeLeft])
+
     const [rawData, setRawData] = React.useState("")
 
     useEffect(() => {
@@ -28,7 +40,7 @@ const qrpayment = () => {
                 <Header name="QRCode" />
 
                 <Container maxW="90%" my="10px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
-                    <QRpayment total={location.state.total} paywithin="60 sec" />
+                    <QRpayment total={location.state.total} paywithin={timeLeft} />
                 </Container>
 
                 <Container maxW="90%" my="20px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
