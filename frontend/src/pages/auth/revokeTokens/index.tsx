@@ -39,6 +39,7 @@ const index = () => {
     }
     let dateLogin = new Date()
 
+    // handle click button on revoke
     async function handleRevoke(token: string) {
         const res = await api.delete("/backendservice/revokeTokens", {
             data: {
@@ -52,6 +53,7 @@ const index = () => {
         console.log(res)
     }
 
+    // fetch user's data
     async function getTokensInfo() {
         const getTokens = await api.get("/backendservice/tokens")
         setTokens([...tokens, ...getTokens.data.tokens])
