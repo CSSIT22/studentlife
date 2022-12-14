@@ -73,6 +73,12 @@ const YouLiked = () => {
 
                     })
             })
+            API.get("/dating/youliked/getHeartHistory").then((data) => {
+                console.log(data.data)
+            })
+            API.get("/dating/youliked/getAllInterest").then((data) => {
+                console.log(data.data)
+            })
         }
     })
 
