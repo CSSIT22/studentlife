@@ -1,8 +1,10 @@
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation } from "swiper"
-import { Box, Flex, VStack, Text, Icon } from "@chakra-ui/react";
-import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
+import { Box, Flex, VStack, Text } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
+import DesktopToken from "./DesktopToken";
+import TabletToken from "./TabletToken";
+import MobileToken from "./MobileToken";
 
 const breakpoints = {
   1200: {
@@ -45,21 +47,9 @@ const RenderTokens: React.FC<{ tokens: Array<any>, handleRevoke: Function }> = (
                       Device {index + 1}
                     </Text>
                     <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"100%"}>
-                      {item.detail.deviceInfo === "desktop" && (
-                        <Flex alignItems={"center"} justifyContent={"center"}>
-                          <Icon as={MdDesktopWindows} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
-                        </Flex>
-                      )}
-                      {item.detail.deviceInfo === "tablet" && (
-                        <Flex alignItems={"center"} justifyContent={"center"}>
-                          <Icon as={MdTabletMac} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
-                        </Flex>
-                      )}
-                      {item.detail.deviceInfo === "smartphone" && (
-                        <Flex alignItems={"center"} justifyContent={"center"}>
-                          <Icon as={MdPhoneIphone} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />
-                        </Flex>
-                      )}
+                      {item.detail.deviceInfo === "desktop" && <DesktopToken />}
+                      {item.detail.deviceInfo === "tablet" && <TabletToken />}
+                      {item.detail.deviceInfo === "smartphone" && <MobileToken />}
                     </Box>
                     <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
                     <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
