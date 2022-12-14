@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 const getAllUserCoupons = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
-        const user = req.user?.userId
+        const user = "9kcmTSjNL2AgGh7b3h7FI"
         if (user != undefined){
             const userCoupons = await prisma.user_Coupon.findMany({where: {
                 userId: user
@@ -30,8 +30,8 @@ const getAllUserCoupons = async (req: Request, res: Response) => {
                     couponDetails.push(userCoupons[i])
                 }
             }
-        }
-            return res.send(userCoupons)
+        } 
+            return res.send(couponDetails)
         }
         return res.status(404).send("User not found!")
     } catch (error) {
