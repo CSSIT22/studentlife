@@ -13,22 +13,22 @@ const PageBox: FC<{
                 minHeight={"auto"}
                 {...(props.pageName != "drop"
                     ? {
-                          px: 5,
-                          py:["10%","3%"],
-                          h: ["60vh","60vh", "60vh","56vh"],
-                          flexDirection: "column",
-                          w: ["100%"],
-                          mt:["25%","13%" ,"6%", "15%"]
-                      }
+                        px: 5,
+                        py: ["10%", "3%"],
+                        h: ["60vh", "60vh", "60vh", "56vh"],
+                        flexDirection: "column",
+                        w: ["100%"],
+                        mt: ["25%", "13%", "6%", "15%"]
+                    }
                     : {
-                          px: 0,
-                          py:["10%","5%"],
-                          flexDirection: "row",
-                          justifyContent:"center",
-                          w: ["100%", "90%", "80%", "70%"],
-                          mt:["10%","13%" ,"6%", "10%"],
-                          mx:"auto"
-                      })}
+                        px: 0,
+                        py: ["10%", "5%"],
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        w: ["100%", "90%", "80%", "70%"],
+                        mt: ["10%", "13%", "6%", "10%"],
+                        mx: "auto"
+                    })}
                 shadow={"lg"}
                 border={"1px"}
                 borderColor={"gray.200"}

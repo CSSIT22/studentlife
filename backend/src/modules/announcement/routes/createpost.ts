@@ -7,58 +7,54 @@ const createPost = async (req: Request, res: Response) => {
     const id = req.user?.userId
     const { topic, detail, targetType, targetValue, expiredPost, addmorelang } = req.body
     try {
-        let filterNo:number;
-        if(targetType == "Everyone"){
+        let filterNo: number
+        if (targetType == "Everyone") {
             const newFilter = await prisma.announcement_Filter.findFirstOrThrow({
-                where:{
-                    filterType:targetType,
+                where: {
+                    filterType: targetType,
                 },
-                select:{
-                    filterId:true
-                }
+                select: {
+                    filterId: true,
+                },
             })
-            filterNo = newFilter.filterId;
+            filterNo = newFilter.filterId
             // console.log(filterNo);
-            
-            
-        }else {
+        } else {
             const newFilter = await prisma.announcement_Filter.findFirstOrThrow({
-                where:{
-                    filterType:targetType,
-                    value:targetValue 
+                where: {
+                    filterType: targetType,
+                    value: targetValue,
                 },
-                select:{
-                    filterId:true
-                }
+                select: {
+                    filterId: true,
+                },
             })
-            filterNo = newFilter.filterId;
+            filterNo = newFilter.filterId
             // console.log(filterNo);
         }
-       
+
         // console.log(req.body);
         let ll = []
-        ll.push({languageId:1000,annTopic:topic,annDetail:detail})
-        addmorelang.map((el:any) => (
-            ll.push({languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail})
-        ))
+        ll.push({ languageId: 1000, annTopic: topic, annDetail: detail })
+        addmorelang.map((el: any) => ll.push({ languageId: el.languageId, annTopic: el.annTopic, annDetail: el.annDetail }))
         // console.log(ll);
-        
+
         const newPost = await prisma.announcement.create({
             data: {
-                annExpired:expiredPost,
+                annExpired: expiredPost,
                 userId: req.user?.userId || "",
                 filterId: filterNo,
-                annLanguage:{
-                    createMany:{data:ll}
+                annLanguage: {
+                    createMany: { data: ll },
                 },
-                annPost:{
-                    create:{}
+                annPost: {
+                    create: {},
                 },
-            }
+            },
         })
         res.send(newPost)
         res.status(200)
-    }catch(err) {
+    } catch (err) {
         // console.log(err);
         res.status(400).send(err)
     }

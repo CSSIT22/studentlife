@@ -63,9 +63,9 @@ const history = () => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
     // console.log(toggle);
-    
+
     // console.log(allPost);
-    
+
 
     const tog = () => {
         settoggle(!toggle)
@@ -154,7 +154,7 @@ const history = () => {
                     return (
                         <PostOnHistory
                             topic={el.annLanguage[0].annTopic}
-                            sender={el.annCreator.fName+" "+el.annCreator.lName}
+                            sender={el.annCreator.fName + " " + el.annCreator.lName}
                             status={el.annPost.status}
                             onClick={onClick}
                             onOpen={onOpen}

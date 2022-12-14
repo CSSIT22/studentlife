@@ -27,9 +27,7 @@ const MoreLang: FC<{
 
 
     return (
-        <form onSubmit={() => {
-            addLang(parseInt(otherLang), topic, detail), setDisable(true), onDisable()
-        }}>
+        <form target="javascript:void())" >
             <Box pl={"1rem"} borderLeft="1px" borderLeftColor={"#000"} my="10">
                 <Tag
                     height={"1.5"}
@@ -62,17 +60,23 @@ const MoreLang: FC<{
                 <Text color={"red.300"} fontSize={"0.8rem"} my={"2"}>
                     Note: if you added, you can't change it anymore
                 </Text>
-               
+
                 <Button
                     type={"submit"}
                     disabled={disable}
                     bg="blue.700"
                     color="white"
+                    onClick={(e) => {
+                        if (!otherLang || !topic || !detail) {
+                            return;
+                        }
+                        addLang(parseInt(otherLang), topic, detail), setDisable(true), onDisable()
+                    }}
                 >
                     Add
                 </Button>
             </Box>
-        </form>
+        </form >
 
     )
 }

@@ -32,8 +32,7 @@ const createCommunity = async (req: Request, res: Response) => {
         communityOwnerId: userid,
         communityDesc: body.communityDesc,
         communityPrivacy: body.communityPrivacy,
-        tags: { create: tag2id }
-        
+        tags: { create: tag2id },
     }
 
     try {

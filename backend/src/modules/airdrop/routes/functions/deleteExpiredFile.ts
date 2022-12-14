@@ -1,4 +1,4 @@
-import { PrismaClient} from '@prisma/client';
+import { PrismaClient } from "@prisma/client"
 import { Request, Response } from "express"
 const axios = require("axios")
 const drive = axios.create({
@@ -11,7 +11,7 @@ const drive = axios.create({
 
 const deleteExpiredFile = async (req: Request<any>, res: Response<any>) => {
     const today = new Date()
-    //new prisma 
+    //new prisma
     const prisma = new PrismaClient()
     const expiredFile = await prisma.file_Info.findMany({
         where: {

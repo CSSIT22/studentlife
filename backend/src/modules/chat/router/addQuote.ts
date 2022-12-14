@@ -6,10 +6,10 @@ const addQuote = async (req: Request, res: Response) => {
     const user = req.user?.userId
     const quoteAdd = req.query.quoteAdd
     const quote = await prisma.chat_Quote.create({
-        data : {
-            roomId : id,
-            userId : `${user}`,
-            text : `${quoteAdd}`,
+        data: {
+            roomId: id,
+            userId: `${user}`,
+            text: `${quoteAdd}`,
         },
     })
 }
