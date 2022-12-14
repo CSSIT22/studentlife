@@ -7,7 +7,7 @@ import chatRoutes from "./modules/chat"
 import datingRoutes from "./modules/dating"
 import groupRoutes from "./modules/group"
 import backendserviceRoutes from "./modules/backendService"
-import notificationRoutes from "./modules/notification"
+import { notificationRoutes, setIO } from "./modules/notification"
 import qaRoutes from "./modules/qa"
 import restaurantRoutes from "./modules/restaurant"
 import scheduleRoutes from "./modules/schedule"
@@ -39,6 +39,7 @@ import { filterWord } from "./modules/backendService/middleware/filterWord"
 
 const PORT = 8000
 const app = express()
+app.use(express.json())
 
 const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])]
 
@@ -74,6 +75,7 @@ declare global {
         export interface Response {
             prisma: PrismaClient
             redis: typeof redisClient
+            io: IOServer
         }
     }
 }
@@ -185,5 +187,6 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     console.log("Hello")
 })
 
+setIO(io)
 server.listen(PORT, () => console.log(`running on ${PORT} !`))
 // app.listen(PORT, () => console.log(`running on ${PORT} !`))

@@ -6,12 +6,10 @@ const getCommunity = async (req: Request, res: Response) => {
 
     try {
         const communityUser = await prisma.community_User.findMany({
-
             where: {
                 userId: userId,
-                status: true
+                status: true,
             },
-            
         })
 
         const communityUserInvite = await prisma.community_User.findMany({
@@ -21,10 +19,9 @@ const getCommunity = async (req: Request, res: Response) => {
             },
             where: {
                 userId: userId,
-                status: false
+                status: false,
             },
         })
-
 
         const joinedCommunitys = await prisma.community.findMany({
             where: {
@@ -32,13 +29,11 @@ const getCommunity = async (req: Request, res: Response) => {
             },
         })
 
-
         const ownCommunitys = await prisma.community.findMany({
             where: {
                 communityOwnerId: userId,
             },
         })
-
 
         const invitations = await prisma.community.findMany({
             where: {
@@ -46,21 +41,17 @@ const getCommunity = async (req: Request, res: Response) => {
             },
         })
 
-
         const countJoined = joinedCommunitys.length
         const countOwn = ownCommunitys.length
         const countInvite = invitations.length
 
-
         const commuinities: any = {
-            
             ownCommunitys,
             countOwn,
             joinedCommunitys,
             countJoined,
             invitations,
-            countInvite
-            
+            countInvite,
         }
 
         res.send(commuinities)

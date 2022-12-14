@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import { Shop_Product } from "@prisma/client"
 
-
 const getAllProductsInCategory = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
@@ -9,10 +8,10 @@ const getAllProductsInCategory = async (req: Request, res: Response) => {
         let products: Shop_Product[] | null = await prisma.shop_Product.findMany({
             include: {
                 images: {
-                    select: {image: true}
-                }
+                    select: { image: true },
+                },
             },
-            where: {categoryId: parseInt(catId)}
+            where: { categoryId: parseInt(catId) },
         })
         res.send(products)
     } catch (error) {

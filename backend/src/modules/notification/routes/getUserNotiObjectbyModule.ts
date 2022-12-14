@@ -8,7 +8,18 @@ const getUserNotiObjectbyModule = async (req: Request, res: Response) => {
         if (req.params.module == "All" || "") {
             const userNotiObject = await prisma.user_Noti_Object.findMany({
                 where: { userId: req.user?.userId },
-                include: { notiObject: true },
+                include: {
+                    notiObject: {
+                        include: {
+                            values: true,
+                        },
+                    },
+                },
+                orderBy: [
+                    {
+                        notiObject: { date: "desc" },
+                    },
+                ],
             })
             //console.log(userNotiObject)
             return res.send(userNotiObject)
@@ -22,7 +33,18 @@ const getUserNotiObjectbyModule = async (req: Request, res: Response) => {
                         },
                     },
                 },
-                include: { notiObject: true },
+                include: {
+                    notiObject: {
+                        include: {
+                            values: true,
+                        },
+                    },
+                },
+                orderBy: [
+                    {
+                        notiObject: { date: "desc" },
+                    },
+                ],
             })
             //console.log(userNotiObject)
             return res.send(userNotiObject)

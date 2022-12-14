@@ -9,12 +9,10 @@ const deleteFavorite = (req: Request, res: Response) => {
         if (restaurant.id == id) {
             restaurant.isFavorite = false
             deleteRes = restaurant
-            
         }
         return restaurant
     })
-  
-    
+
     setRestaurant(newdata)
     res.send(deleteRes)
 }

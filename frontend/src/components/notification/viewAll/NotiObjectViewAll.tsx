@@ -1,7 +1,7 @@
 import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
-import { MODULES } from "../moduleList/moduleTest"
+
 import { USER } from "../main/mockupData/userProfile"
 import API from "src/function/API"
 import { SHOP_REVIEW_COMMENT } from "../templates/SHOP_REVIEW_COMMENT"
@@ -123,10 +123,11 @@ const NotiObjectViewAll: FC<{
     let v2 = ""
     let v3 = ""
     function showDescription() {
-        const getvalue = API.get("/notification/getvalue")
+
         //console.log(getvalue)
         const [valueNotiObject, setValueNotiObject] = useState([])
         useEffect(() => {
+            const getvalue = API.get("/notification/getvalue/?notiobjectId=" + id)
             getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
                 setValueNotiObject(res.data)
             })
@@ -286,7 +287,7 @@ const NotiObjectViewAll: FC<{
                             </Center>
                             <Center>{showUser()}</Center>
                             <Stack direction={"row"} spacing={5} padding={5}>
-                                {showDescription()}
+                                {/* {showDescription()} */}
                                 {/* <Box as="button"
                                     shadow={"lg"}
                                     borderRadius="1xl"

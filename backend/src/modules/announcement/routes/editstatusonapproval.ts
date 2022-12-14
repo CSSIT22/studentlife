@@ -11,40 +11,37 @@ const editstatusOnApproval = async (req: Request, res: Response) => {
     try {
         if (status == "Approve") {
             const editstatus = await prisma.announcement.update({
-                where:{
-                    postId: postId
+                where: {
+                    postId: postId,
                 },
-                data:{
+                data: {
                     isApprove: true,
-                    annPost:{
-                        update:{
-                            status: "Approve"
-                        }
-                    }
-                }
+                    annPost: {
+                        update: {
+                            status: "Approve",
+                        },
+                    },
+                },
             })
             const recordapproval = await prisma.announcement_Approve.create({
-                data:{
+                data: {
                     userId: req.user?.userId || "",
                     postId: postId,
-
-                }
-            })
-        }
-        else if(status == "Disapprove"){
-            const editstatus = await prisma.announcement.update({
-                where:{
-                    postId: postId
                 },
-                data:{
-                    annPost:{
-                        update:{
-                            status: "Disapprove"
-                        }
-                    }
-                }
             })
-
+        } else if (status == "Disapprove") {
+            const editstatus = await prisma.announcement.update({
+                where: {
+                    postId: postId,
+                },
+                data: {
+                    annPost: {
+                        update: {
+                            status: "Disapprove",
+                        },
+                    },
+                },
+            })
         }
     } catch (err: any) {
         // console.log(err)

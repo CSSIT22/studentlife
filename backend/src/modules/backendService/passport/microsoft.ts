@@ -3,7 +3,10 @@ import OAuth2Strategy from "passport-oauth2"
 import axios from "axios"
 import { PrismaClient } from "@prisma/client"
 import { nanoid } from "nanoid"
-
+// import fetch from "node-fetch"
+// import { RequestInfo, RequestInit } from "node-fetch"
+const fetch = require("node-fetch")
+// const fetch = (url: RequestInfo, init?: RequestInit) => import("node-fetch").then(({ default: fetch }) => fetch(url, init))
 /**
  *
  * @param prisma taking in prisma client for storing data from Microsoft to our database
@@ -36,12 +39,27 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
 
         // getting student id (onPremisesSamAccountName)
         try {
-            const { data } = await axios.get(`https://graph.microsoft.com/v1.0/users/${profile.id}?$select=onPremisesSamAccountName,department`, {
+            console.log(profile.id)
+            const d = await fetch(`https://graph.microsoft.com/v1.0/users/${profile.id}?$select=onPremisesSamAccountName,department`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "application/json",
                 },
             })
+            // const { data, request } = await axios(
+            //     `https://graph.microsoft.com/v1.0/users/${profile.id}?$select=onPremisesSamAccountName,department`,
+            //     {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //             "Content-Type": "application/json",
+            //         },
+            //         method: "get",
+            //         responseType: "json",
+            //         responseEncoding: "utf8",
+            //     }
+            // )
+            const data = await d.json()
+            // console.log("data", d2)
 
             // extract data as json from profile
             const { _json } = profile
@@ -52,7 +70,7 @@ const verify: (prisma: PrismaClient) => OAuth2Strategy.VerifyFunction =
 
             // extract firstname and lastname
             const fullname = _json.displayName.split(" ")
-
+            // throw new Error("Error ")
             // Database operations
             const student = await prisma.user_Profile.upsert({
                 where: {
