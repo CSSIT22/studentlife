@@ -1,33 +1,40 @@
-import { Breadcrumb, Center, Container, Divider, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react"
-import React from "react"
-import CouponDisplay from "../../../components/shop/CouponDisplay"
+import { Shop_Coupon, User_Coupon_With_Detials } from "@apiType/shop"
+import { Flex, Text } from "@chakra-ui/react"
+import React, { useState } from "react"
+import { setDataAPI } from "src/components/shop/functions/usefulFunctions"
+import ProductCouponDisplay from "src/components/shop/ProductCouponDisplay"
 import PageTitle from "../../../components/shop/PageTitle"
 import ShopAppBody from "../../../components/shop/ShopAppBody"
-import TitleBox from "../../../components/shop/TItleBox"
 const Coupons = () => {
+    const [coupons, setCoupons] = useState<User_Coupon_With_Detials[] | null>(null)
+    const complete = setDataAPI("shop/getAllUserCoupons", setCoupons)
+    if (complete != true) { return <ShopAppBody>{complete}</ShopAppBody> }
     return (
         <ShopAppBody>
             <PageTitle title="Your Coupons" />
-            <Flex gap={5} direction="column">
-                {generateCoupons(7)}
+            <Flex gap={5} direction="row" wrap={"wrap"}>
+                {generateCoupons(coupons)}
             </Flex>
         </ShopAppBody>
     )
 }
 
 export default Coupons
-function generateCoupons(n: number) {
-    const coupons = []
-    for (let i = 0; i < n; i++) {
-        coupons.push(
-            <CouponDisplay
-                couponCode={"Free" + (i + 10)}
-                discountAmount={50}
-                details="Buy for 500 get 50 discount"
-                validUntil="10/Sep/2023"
-                minSpend={250}
-            ></CouponDisplay>
-        )
+function generateCoupons(coupons: User_Coupon_With_Detials[] | null) {
+    if (coupons != null && coupons.length > 0) {
+        return coupons.map((coupon, key) => {
+            let date = coupon.coupon.validTill.toString().split("T")[0]
+            return (<div key={key}>
+                <ProductCouponDisplay
+                    couponCode={coupon.couponCode}
+                    discountAmount={parseFloat(coupon.coupon.discount)}
+                    details={coupon.coupon.couponDesc}
+                    minSpend={parseFloat(coupon.coupon.minimumSpend)}
+                    validUntil={date + ""}
+                    productId={coupon.coupon.productId}
+                    image={coupon.coupon.product.images[0].image} /></div>)
+        })
+    } else {
+        return "You don't have any coupons"
     }
-    return coupons
 }

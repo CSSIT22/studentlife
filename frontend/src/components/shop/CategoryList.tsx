@@ -1,40 +1,29 @@
-import { Category } from "@apiType/shop"
-import { Flex, Heading, useBoolean } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
-import API from "src/function/API"
-import { CategoryItem } from "./CategoryItem"
+import {Shop_Categories } from "@apiType/shop"
+import { Flex} from "@chakra-ui/react"
+import { useState } from "react"
+import CategoryItem  from "./CategoryItem"
+import { setDataAPI } from "./functions/usefulFunctions"
 
-// Get info from database
-const CategoryList = () => {
-    const [categoryList, setCategoryList] = useState<null | Category[]>(null)
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-    const getAllCategories = API.get("/shop/getAllCategories")
-    useEffect(() => {
-        getAllCategories
-            .then((res) => setCategoryList(res.data))
-            .catch((err) => on())
-            .finally(() => off())
-    }, [])
-    if (isError) {
-        return <Heading>There is an Error! Please Try Again Later</Heading>
-    }
-    if (isLoading) {
-        return <Heading>Loading...</Heading>
-    }
+const CategoryList = () => { 
+
+    const [categoryList, setCategoryList] = useState<null | Shop_Categories[]>(null)
+    let completed = setDataAPI("shop/getAllCategories", setCategoryList)
+    // Shows Error or Loading
+    if (completed != true) {return completed} 
+
     return (
         <Flex justify="center" align="center" p="2" wrap="wrap" gap="1rem">
-            {generateCategories(categoryList)}
+            {categoryList && generateCategories(categoryList)}
         </Flex>
     )
 }
-function generateCategories(categoryList: Category[] | null) {
-    if (categoryList != null) {
-        let dummy = categoryList.map((category) => {
-            return <CategoryItem id={category.id} name={category.name} image={category.image}></CategoryItem>
-        })
-        return dummy
-    }
+
+function generateCategories(categoryList: Shop_Categories[]) {
+    try{
+        return categoryList.map((category, key) => 
+           <div key = {key}><CategoryItem id={category.categoryId} name={category.categoryName} image={category.image}></CategoryItem></div>
+        )
+    } catch(err){console.log(err)}
 }
 //testing
 export default CategoryList
