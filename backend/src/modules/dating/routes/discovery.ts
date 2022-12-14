@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
-import { Agent } from "http"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
 
@@ -24,7 +23,6 @@ discoveryRoutes.get("/", (_, res) => {
 
 // Get all interest
 discoveryRoutes.get("/getAllInterest", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
     try {
         const allInterestsDB = await prisma.interest.findMany()
         return res.send(allInterestsDB)
@@ -34,10 +32,9 @@ discoveryRoutes.get("/getAllInterest", verifyUser, async (req: Request, res: Res
 })
 // Get card queue and join with user profile, detail, user interests and filter with event, blocked user, age, faculty, gender, schedule, follow
 discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
     try {
         const reqUserId = req.user?.userId
-        const cardQueueUserId = await prisma.card_Queue.findFirst({
+        let cardQueueUserId = await prisma.card_Queue.findFirst({
             where: {
                 userId: reqUserId,
             },
@@ -70,7 +67,28 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 
         heartHistoryDB.map((id) => {
             filterId.push(id.anotherUserId)
+            if(cardQueueUserId) {
+                if(cardQueueUserId.backUserId) {
+                    if(id.anotherUserId == cardQueueUserId.backUserId) {
+                        cardQueueUserId.backUserId = null
+                    }
+                }
+                if(cardQueueUserId.frontUserId) {
+                    if(id.anotherUserId == cardQueueUserId.frontUserId) {
+                        cardQueueUserId.frontUserId = null
+                    }       
+                }
+            }
         })
+
+        if((!(cardQueueUserId?.frontUserId) && !(cardQueueUserId?.backUserId)) && cardQueueUserId?.userId) {
+            await prisma.card_Queue.delete({
+                where: {
+                    userId: reqUserId,
+                },
+            })
+        }
+
 
         userBlockedDB.map((id) => {
             filterId.push(id.anotherUserId)
@@ -179,20 +197,20 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             facultyObtainedUser = facultyObtainedUser.slice(0, 50)
         } else if (!cardQueueUserId?.frontUserId || !cardQueueUserId?.backUserId) {
             let facultyFront;
-            if(facultyObtainedUser[facultyObtainedUser.length - 1]) {
-                facultyFront = await facultyObtainedUser[facultyObtainedUser.length - 1]
+            if(facultyObtainedUser[facultyObtainedUser.length - 0]) {
+                facultyFront = await facultyObtainedUser[facultyObtainedUser.length - 0]
             }
 
             let facultyBack;
-            if(facultyObtainedUser[facultyObtainedUser.length - 2]) {
-                facultyBack = await facultyObtainedUser[facultyObtainedUser.length - 2]
+            if(facultyObtainedUser[facultyObtainedUser.length - 1]) {
+                facultyBack = await facultyObtainedUser[facultyObtainedUser.length - 1]
             }
 
             if(facultyObtainedUser.length >= 50) {
-                facultyObtainedUser = facultyObtainedUser.slice(0, 48)
+                facultyObtainedUser = await facultyObtainedUser.slice(0, 48)
             }        
             else {
-                facultyObtainedUser = facultyObtainedUser.slice(0, facultyObtainedUser.length-2)
+                facultyObtainedUser = await facultyObtainedUser.slice(0, facultyObtainedUser.length-1)
             } 
 
             if (cardQueueUserId?.frontUserId) {
@@ -326,9 +344,6 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             }
             if(cardQueueUserId?.backUserId && facultyObtainedUser.length > 0) {
                 const frontId = facultyObtainedUser[facultyObtainedUser.length - 1].userId
-                const data: any = {
-                    frontUserId: frontId,
-                }
                 await prisma.card_Queue.update({
                     where: {
                         userId: reqUserId
