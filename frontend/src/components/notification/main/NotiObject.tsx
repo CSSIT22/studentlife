@@ -1,5 +1,5 @@
 import { NotiValue } from "@apiType/notification"
-import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
+import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text, useEditable } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import API from "src/function/API"
@@ -34,7 +34,17 @@ const NotiObject: FC<{
     sender: string
     values: NotiValue[]
 }> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
-    //console.log(values);
+
+    const [senderImg, setsenderImg] = useState([])
+
+    useEffect(() => {
+        API.get("/notification/getsenderimage/" + sender).then(
+            item => setsenderImg(item.data.image)
+        )
+    }, [])
+
+    //console.log(senderImg);
+
 
     function showStatus() {
         if (isRead) {
@@ -121,6 +131,7 @@ const NotiObject: FC<{
     let v2 = ""
     let v3 = ""
     function showDescription() {
+
 
         //console.log(getvalue)
         // const [valueNotiObject, setValueNotiObject] = useState([])
@@ -237,20 +248,28 @@ const NotiObject: FC<{
         // <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: description }} />
     }
 
-
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
+    }
     function showUser() {
-        //var user = USER.filter((el) => el.id == userId)
-        //console.log(something);
-
-        //console.log(user)
-
-        return (
-            //<Avatar src={user[0].avatarImg} size={"sm"} />
-            <Avatar size={"sm"} />
-
-
-        )
-
+        if (sender == null) {
+            return (
+                <Avatar src="./Logo_01.png" size={"sm"} />
+            )
+        } else {
+            return (
+                <Avatar src={handleImg(senderImg)} size={"sm"} />
+            )
+        }
     }
 
     function read() {
