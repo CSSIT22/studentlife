@@ -217,7 +217,6 @@ const DatingRandomCard: FC<{
                     .catch((err) => setIsError(true))
                 }
                 else if(characters[index-1]){
-                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
                     API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index-1].userId })
                     .catch((err) => {setIsError(true), console.log(err)})  
                 }
