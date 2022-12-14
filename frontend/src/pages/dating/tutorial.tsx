@@ -62,7 +62,7 @@ const Tutorial = () => {
                     })
                     navigate("/user")
                 }
-                else if(getAge(detail.data.birth) < 18) {
+                else if (getAge(detail.data.birth) < 18) {
                     toast({
                         title: "You don't meet the minimum age requirement!",
                         status: "warning",
@@ -73,7 +73,7 @@ const Tutorial = () => {
                     })
                     navigate("/")
                 }
-                else if(getAge(detail.data.birth) > 40) {
+                else if (getAge(detail.data.birth) > 40) {
                     toast({
                         title: "You don't meet the maximum age requirement!",
                         status: "warning",
@@ -130,7 +130,7 @@ const Tutorial = () => {
     function handleSubmit() {
         API.post("/dating/tutorial/setDatingEnroll")
             .then(() => checkOption())
-            .catch((err) => setIsError(true) )
+            .catch((err) => setIsError(true))
     }
 
     return (
@@ -199,8 +199,8 @@ const Tutorial = () => {
                             <Center>
                                 <Box>
                                     <Text textAlign="center" color="black" fontWeight="700"
-                                        fontSize="36px"
-                                        lineHeight="120%" pt={{ base: "10px", md: "36px" }}>Discovery</Text>
+                                        fontSize={{ base: "20px", md: "36px" }}
+                                        lineHeight="120%" pt="36px" pb={{ base: "6px", md: "0px" }}>Discover many new people!</Text>
                                     {isMobile ? <Box
                                         borderRadius="10px"
                                         mt="26px"
@@ -232,8 +232,8 @@ const Tutorial = () => {
                             <Center>
                                 <Box>
                                     <Text textAlign="center" color="black" fontWeight="700"
-                                        fontSize="36px"
-                                        lineHeight="120%" pt={{ base: "10px", md: "36px" }}>History</Text>
+                                        fontSize={{ base: "20px", md: "36px" }}
+                                        lineHeight="120%" pt="36px" pb={{ base: "6px", md: "0px" }}>Check your heart history!</Text>
                                     {isMobile ? <Box
                                         borderRadius="10px"
                                         mt="26px"
@@ -265,8 +265,8 @@ const Tutorial = () => {
                             <Center>
                                 <Box>
                                     <Text textAlign="center" color="black" fontWeight="700"
-                                        fontSize="36px"
-                                        lineHeight="120%" pt={{ base: "10px", md: "36px" }}>Matches</Text>
+                                        fontSize={{ base: "20px", md: "36px" }}
+                                        lineHeight="120%" pt="36px" pb={{ base: "6px", md: "0px" }}>Chat with your matches!</Text>
                                     {isMobile ? <Box
                                         borderRadius="10px"
                                         mt="26px"
@@ -298,8 +298,8 @@ const Tutorial = () => {
                             <Center>
                                 <Box>
                                     <Text textAlign="center" color="black" fontWeight="700"
-                                        fontSize="36px"
-                                        lineHeight="120%" pt={{ base: "10px", md: "36px" }}>Activity polls</Text>
+                                        fontSize={{ base: "20px", md: "36px" }}
+                                        lineHeight="120%" pt="36px" pb={{ base: "6px", md: "0px" }}>Apply for a group activity!</Text>
                                     {isMobile ? <Box
                                         borderRadius="10px"
                                         mt="26px"
@@ -331,8 +331,8 @@ const Tutorial = () => {
                             <Center>
                                 <Box>
                                     <Text textAlign="center" color="black" fontWeight="700"
-                                        fontSize="36px"
-                                        lineHeight="120%" pt={{ base: "10px", md: "36px" }}>Interests</Text>
+                                        fontSize={{ base: "20px", md: "36px" }}
+                                        lineHeight="120%" pt="36px" pb={{ base: "6px", md: "0px" }}>Select your interests!</Text>
                                     {isMobile ? <Box
                                         borderRadius="10px"
                                         mt="26px"
@@ -364,8 +364,8 @@ const Tutorial = () => {
                             <Center>
                                 <Box>
                                     <Text textAlign="center" color="black" fontWeight="700"
-                                        fontSize="36px"
-                                        lineHeight="120%" pt={{ base: "10px", md: "36px" }}>Option</Text>
+                                        fontSize={{ base: "20px", md: "36px" }}
+                                        lineHeight="120%" pt="36px" pb={{ base: "6px", md: "0px" }}>Set the discovery criteria!</Text>
                                     {isMobile ? <Box
                                         borderRadius="10px"
                                         mt="26px"
@@ -396,8 +396,8 @@ const Tutorial = () => {
                                 <Center>
                                     <Box>
                                         <Text textAlign="center" color="black" fontWeight="700"
-                                            fontSize="36px"
-                                            lineHeight="120%" pt={{ base: "10px", md: "36px" }}>Tutorial</Text>
+                                            fontSize={{ base: "20px", md: "36px" }}
+                                            lineHeight="120%" pt="36px" pb={{ base: "6px", md: "0px" }}>Replay the tutorial at anytime!</Text>
                                         {isMobile ? <Box
                                             borderRadius="10px"
                                             mt="26px"
@@ -418,7 +418,7 @@ const Tutorial = () => {
                                         <Center>
 
 
-                                            <Button onClick={() => { on(), handleSubmit() }} className="swiper-no-swiping" colorScheme="orange" w={{ base: "179px", md: "183px" }} h={{ base: "53px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" mt={{ base: "45px", md: "24px" }}>
+                                            <Button onClick={() => { on(), handleSubmit() }} className="swiper-no-swiping" colorScheme="orange" w={{ base: "179px", md: "183px" }} h={{ base: "53px", md: "61px" }} boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)" mt={{ base: "35px", md: "24px" }}>
                                                 <Box>
                                                     <Text fontWeight="700"
                                                         fontSize="14px"
