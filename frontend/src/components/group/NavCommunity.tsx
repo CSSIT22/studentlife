@@ -249,7 +249,7 @@ const NavCommunity: FC<{
                     })
                 })
             setTimeout(() => {
-                document.location.reload()
+                document.location.href = "http://localhost:5173/groups"
             }, 2000)
         }
         return (
