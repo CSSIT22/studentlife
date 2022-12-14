@@ -9,6 +9,7 @@ import getNotiUser from "./routes/getNotiUser"
 import addNotiObject from "./routes/addNotiObject"
 import getUserNotiObjectbyModule from "./routes/getUserNotiObjectbyModule"
 import editNotiUserSetting from "./routes/editNotiUserSetting"
+import getSenderImage from "./routes/getSenderImage"
 
 let io: IOServer
 
@@ -25,6 +26,7 @@ notificationRoutes.use((req, res, next) => {
 notificationRoutes.get("/getusernotiobject", getUserNotiObject)
 notificationRoutes.get("/getNotiUser", getNotiUser)
 notificationRoutes.get("/getusernotiobjectbymodule/:module", getUserNotiObjectbyModule)
+notificationRoutes.get("/getsenderimage/:senderId", getSenderImage)
 
 notificationRoutes.post("/addnotiobject", addNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)

@@ -30,6 +30,7 @@ import API from "src/function/API"
 import { Notiobject, pushNotiType } from "@apiType/notification"
 import { socketContext } from "src/context/SocketContext"
 import { NavBarContext } from "src/context/NavbarContext"
+import NotiObject from "./main/NotiObject"
 
 const NotiTable = () => {
 
@@ -61,7 +62,7 @@ const NotiTable = () => {
         getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
             setcountUnread(res.data.filter((el: any) => { return el.isRead != true }).length)
-            // console.log(res.data.filter((el: any) => { return el.isRead != true }).length);
+            //console.log(res.data.filter((el: any) => { return el.isRead != true }).length);
 
         })
     }, [reLoad])
@@ -80,11 +81,15 @@ const NotiTable = () => {
                                 <AvatarBadge boxSize="1em" bg="green.500" />
                             </Avatar>
                             </Center>
-                            <Stack><Text fontSize={"sm"} color="white">
+                            <Stack>
+                                {/* <Text fontSize={"sm"} color="white">
                                 <b>User123456</b> Create a post asdfkj asdf asdad
-                            </Text>
+                                </Text>
                                 <Text fontSize={"xs"} color="white">
                                     10 hours ago
+                                </Text> */}
+                                <Text fontSize={"sm"} color="white">
+                                    You got new notification.
                                 </Text>
                             </Stack>
                         </Stack>
