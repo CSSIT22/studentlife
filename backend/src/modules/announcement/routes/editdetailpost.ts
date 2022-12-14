@@ -1,4 +1,4 @@
-import { post, post_to_language } from "@apiType/announcement"
+import { checkLanguage, checkNewLanguage, existLang, post, post_to_language, post_to_language2 } from "@apiType/announcement"
 import e, { Request, Response } from "express"
 import { getPost, setPost } from ".."
 
@@ -15,9 +15,9 @@ const editDetailPost = async (req: Request, res: Response) => {
 
     // เหลือ update morelang
     try {
-        let allLang = []
+        let allLang:post_to_language2[] = []
         allLang.push({ languageId: 1000, annTopic: topic, annDetail: detail })
-        addmorelang?.map((el: any) => allLang.push({ languageId: el.languageId, annTopic: el.annTopic, annDetail: el.annDetail }))
+        addmorelang?.map((el: post_to_language2) => allLang.push({ languageId: el.languageId, annTopic: el.annTopic, annDetail: el.annDetail }))
         // console.log("HI")
         // res.send(allLang)
         // console.log(req.body)
@@ -32,7 +32,7 @@ const editDetailPost = async (req: Request, res: Response) => {
                 filterId: true,
             },
         })
-        const existLang = await prisma.post_To_Language.findMany({
+        const existLang:existLang[] = await prisma.post_To_Language.findMany({
             where: {
                 postId: postId,
             },
@@ -64,12 +64,12 @@ const editDetailPost = async (req: Request, res: Response) => {
 
         // console.log(existLang);
         const morelangExist = existLang.filter((el) => el.languageId != 1000)
-        const morelangNew = allLang.filter((el) => el.languageId != 1000)
+        const morelangNew:post_to_language2[] = allLang.filter((el) => el.languageId != 1000)
         // console.log(morelangExist)
         // console.log(morelangNew)
 
         //for old lang
-        let checkLang: { languageId: number; found: boolean }[] = []
+        let checkLang: checkLanguage[] = []
         morelangExist.forEach((el) => {
             checkLang.push({ languageId: el.languageId, found: false })
         })
@@ -87,7 +87,7 @@ const editDetailPost = async (req: Request, res: Response) => {
         })
 
         //for new lang
-        let checknewlang: { languageId: number; found: boolean; topic: string; detail: string }[] = []
+        let checknewlang: checkNewLanguage[] = []
         morelangNew.forEach((el) => {
             checknewlang.push({ languageId: el.languageId, found: false, topic: el.annTopic, detail: el.annDetail })
         })

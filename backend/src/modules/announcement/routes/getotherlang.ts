@@ -1,9 +1,7 @@
-import { prisma } from "@prisma/client"
 import { Request, Response } from "express"
 
 const getOtherLang = async (req: Request, res: Response) => {
     const prisma = res.prisma
-
     try {
         const lang = await prisma.announcement_Language.findMany({
             select: {
