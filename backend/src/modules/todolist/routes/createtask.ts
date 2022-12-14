@@ -15,6 +15,8 @@ const createtask = async (req: Request, res: Response) => {
         taskType: body.taskType,
     }
 
+    console.log(task)
+
     try {
         const createUser = await prisma.task.create({
             data: task,

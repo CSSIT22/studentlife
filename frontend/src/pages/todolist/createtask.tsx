@@ -57,6 +57,9 @@ import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 //     inputEl.value = ""
 // }
 
+// const [taskName, setTaskName] = useState("")
+// const [taskDesc, setTaskDesc] = useState("")
+
 const createtask = () => {
     const [type, setType] = useState("individual")
     console.log(type)
@@ -72,11 +75,14 @@ const createtask = () => {
                     Task Name
                 </Heading>
                 <Input placeholder="Task Name" size="md" id="taskName" />
+                {/* //value={taskName} onChange={(e) => setTaskName(e.target.value)} */}
+
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
                 <Input placeholder="Description" size="md" id="desc" />
+                {/* // value={taskDesc} onChange={(e) => setTaskDesc(e.target.value)} */}
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
