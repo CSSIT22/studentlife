@@ -30,13 +30,13 @@ const shopId = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [text, setText] = useState("")
-    
+
     const submit = () => {
 
-        API.post("/shopreview/postmyreview", { 
+        API.post("/shopreview/postmyreview", {
             text: text,
-            shopId:param.shopId,
-         }).then((res) => {
+            shopId: param.shopId,
+        }).then((res) => {
             console.log(res)
             window.location.reload()
         })
@@ -51,12 +51,12 @@ const shopId = () => {
             .then((res) => setDetail(res.data))
     }, [param])
     const [review, setReview] = useState<any>([])
-    const getReview = API.get("/shopreview/getmyreviewDb")
-    useEffect(() => {
-        getReview.then((res) => {
-            setReview(res.data)
-        })
-    }, [])
+    // const getReview = API.get("/shopreview/getmyreviewDb")
+    // useEffect(() => {
+    //     getReview.then((res) => {
+    //         setReview(res.data)
+    //     })
+    // }, [])
     const navigate = useNavigate()
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
