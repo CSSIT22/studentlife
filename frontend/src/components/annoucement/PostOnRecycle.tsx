@@ -27,6 +27,7 @@ const PostOnRecycle: FC<{
                 onClick(id, status), onOpen()
             }}
             cursor="pointer"
+            _hover={{backgroundColor:"rgb(243 244 246)"}}
         >
             <Flex alignItems={"center"}>
                 <Box>
