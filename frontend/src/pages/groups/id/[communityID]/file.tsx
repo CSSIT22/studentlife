@@ -21,12 +21,13 @@ import {
 import React, { useEffect, useState } from "react"
 import NavCommunity from "src/components/group/NavCommunity"
 import AppBody from "src/components/share/app/AppBody"
-import { BrowserRouter, BrowserRouter as Router, useParams, Link } from "react-router-dom"
+import { BrowserRouter, BrowserRouter as Router, useParams, Link, useNavigate } from "react-router-dom"
 import { userData } from "../../data"
 import { FaDownload, FaBan, FaExclamationCircle, FaHandMiddleFinger, FaSearch, FaUser, FaUserLock, FaUserShield } from "react-icons/fa"
 import FriendInviteList from "src/components/group/FriendInviteList"
 import { BsFillFileEarmarkTextFill, BsThreeDots } from "react-icons/bs"
 import { RiDeleteBinFill } from "react-icons/ri"
+import search from "src/pages/restaurant/search"
 import { communityData } from "../../communityData"
 import FileList from "src/components/group/FileList"
 import { SearchIcon } from "@chakra-ui/icons"
@@ -35,6 +36,7 @@ import PrivateContent from "src/components/group/PrivateContent"
 import Banned from "src/components/group/Banned"
 const file = () => {
 
+    const navigate = useNavigate()
     const [searchValue, setSearchValue] = useState("") //for store search value
     const handleChange = (event: any) => setSearchValue(event.target.value)
 
@@ -54,6 +56,16 @@ const file = () => {
             }).catch((err) => on())
             .finally(() => off())
     }, [])
+
+    
+    const x = btoa("?type=community&id=" + communityID)
+    const goToUpload = () => {
+        navigate({
+            pathname: "../../airdrop/upload",
+            search: x,
+        })
+    }
+
     if (isLoading) {
         return (
             // will fix the design later
@@ -133,7 +145,7 @@ const file = () => {
                         ></Input>
                     </HStack>
 
-                    <Button background={"orange.600"} _hover={{ background: "orange.200" }} color={"white"}>
+                    <Button background={"orange.600"} _hover={{ background: "orange.200" }} color={"white"} onClick={goToUpload}>
                         Upload
                     </Button>
                 </HStack>
