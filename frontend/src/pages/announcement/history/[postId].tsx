@@ -29,6 +29,7 @@ import MoreLang from "src/components/annoucement/MoreLang"
 import { postInfoTest } from "../postInfoTest"
 import MoreLangAdded from "src/components/annoucement/MoreLangAdded"
 import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const history = () => {
     const params = useParams()
@@ -263,15 +264,7 @@ const history = () => {
         })
     }
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
+        <AnnounceNav>
             {(() => {
                 if (isError) {
                     return <AnnounceError />
@@ -383,8 +376,8 @@ const history = () => {
                     )
                 }
             })()}
+        </AnnounceNav>
 
-        </AppBody>
     )
 }
 

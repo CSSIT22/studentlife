@@ -26,6 +26,7 @@ import { postInfoTest } from "../postInfoTest"
 import API from "src/function/API"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const approvalDetail = () => {
     const [isError, { on }] = useBoolean()
@@ -160,15 +161,7 @@ const approvalDetail = () => {
     }
 
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
+        <AnnounceNav>
             {(() => {
                 if (isLoading && !isError) {
                     return <AnnounceLoading />
@@ -227,8 +220,7 @@ const approvalDetail = () => {
                     }
                 }
             })()}
-
-        </AppBody>
+        </AnnounceNav>
     )
 }
 export default approvalDetail

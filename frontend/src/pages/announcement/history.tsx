@@ -12,6 +12,7 @@ import PostOnHistory from "src/components/annoucement/PostOnHistory"
 import AppBody from "src/components/share/app/AppBody"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const history = () => {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -112,15 +113,7 @@ const history = () => {
     }
 
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
+        <AnnounceNav>
             {(() => {
                 if (isLoading && !isError) {
                     return <AnnounceLoading />
@@ -154,8 +147,10 @@ const history = () => {
                     }
                 }
             })()}
+        </AnnounceNav>
 
-        </AppBody>
+
+
     )
 }
 

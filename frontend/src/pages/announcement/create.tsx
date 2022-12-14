@@ -32,6 +32,7 @@ import { addMoreLangType, post, post_to_language2, tgType } from "@apiType/annou
 import API from "src/function/API"
 import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const create = () => {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -144,15 +145,7 @@ const create = () => {
         setdisable(!disable)
     }
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
+        <AnnounceNav>
             {(() => {
                 if (isLoading && !isError) {
                     return <AnnounceLoading />
@@ -256,8 +249,8 @@ const create = () => {
                     }
                 }
             })()}
+        </AnnounceNav>
 
-        </AppBody>
     )
 }
 

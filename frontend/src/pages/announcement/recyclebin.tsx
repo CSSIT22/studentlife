@@ -11,6 +11,7 @@ import { announcement_delete, post } from "@apiType/announcement"
 import API from "src/function/API"
 import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const recyclebin = () => {
 
@@ -89,15 +90,7 @@ const recyclebin = () => {
         }
     }
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
+        <AnnounceNav>
             {(() => {
                 if (isLoading && !isError) {
                     return <AnnounceLoading />
@@ -166,8 +159,10 @@ const recyclebin = () => {
                     }
                 }
             })()}
+        </AnnounceNav>
 
-        </AppBody>
+
+
     )
 }
 

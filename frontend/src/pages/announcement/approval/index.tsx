@@ -10,6 +10,7 @@ import { announcement, post } from "@apiType/announcement"
 import API from "src/function/API"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const index = () => {
     const [allPost, setAllPost] = React.useState<announcement[]>([])
@@ -21,15 +22,7 @@ const index = () => {
     }, [])
 
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
+        <AnnounceNav>
             {(() => {
                 if (isLoading && !isError) {
                     return <AnnounceLoading />
@@ -51,8 +44,8 @@ const index = () => {
                     }
                 }
             })()}
+        </AnnounceNav>
 
-        </AppBody>
     )
 }
 
