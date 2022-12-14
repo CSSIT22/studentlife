@@ -1,5 +1,5 @@
-import { Box, Text, Flex, Stack, HStack, Icon, VStack, Button, useDisclosure, Show, Hide } from "@chakra-ui/react"
-import { Pagination, Navigation } from "swiper"
+import { Box, Text, Flex, Stack, Icon, VStack, Hide } from "@chakra-ui/react"
+import { Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import AppBody from "../../../components/share/app/AppBody"
 import "swiper/css"
@@ -7,102 +7,36 @@ import "swiper/css/pagination"
 import "swiper/css/navigation"
 import { MdPhoneIphone, MdDesktopWindows, MdTabletMac } from "react-icons/md"
 import api from "../../../function/API"
-import { FC, ReactNode, useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { authContext } from "src/context/AuthContext"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, extendTheme } from "@chakra-ui/react"
-import { useNavigate } from "react-router-dom"
-
-const Card = (props: any) => {
-    return (
-        <Box bg="white" p={4} width={"100%"} borderRadius="lg" boxShadow="lg" border="1px" borderColor="gray.300">
-            <Box>{props.icon}</Box>
-            <Box>
-                <Text fontSize={"3xl"}>{props.title}</Text>
-            </Box>
-            <Box>
-                <Text as={"b"} fontSize={"xl"}>
-                    {props.detail}
-                </Text>
-            </Box>
-        </Box>
-    )
-}
-
-const breakpoints = {
-    sm: "320px",
-    md: "768px",
-    lg: "960px",
-    xl: "1200px",
-    "2xl": "1536px",
-}
-
-const CustomModal: FC<{ modalHeader: string; token: string; isCurrentDevice: boolean; onClick: Function }> = ({
-    modalHeader,
-    token,
-    isCurrentDevice,
-    onClick,
-}) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const navigate = useNavigate()
-    return (
-        <>
-            <Button
-                onClick={() => {
-                    console.log(token)
-                    console.log(isCurrentDevice)
-                    onOpen()
-                }}
-                bg={"gray.700"}
-                color={"white"}
-                w={"100%"}
-                _hover={{ color: "black", bg: "gray.500" }}
-            >
-                Revoke
-            </Button>
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>{modalHeader}</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        {isCurrentDevice ? (
-                            <p>
-                                This is your <b>current device</b>.
-                            </p>
-                        ) : (
-                            <p>This will logout you out from selected device.</p>
-                        )}
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme={"red"} variant={"solid"} color={"white"} backgroundColor={"red.400"} mr={3} onClick={onClose}>
-                            Cancel
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                onClick(token)
-                                onClose()
-                                if (isCurrentDevice) navigate("/auth")
-                            }}
-                            colorScheme={"green"}
-                            variant={"solid"}
-                            color={"white"}
-                            backgroundColor={"green.400"}
-                        >
-                            Confirm
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
-    )
-}
-
-const theme = extendTheme({ breakpoints })
+import Card from "../../../components/backendService/Card"
+import CustomModal from "src/components/backendService/CustomModal"
 
 const index = () => {
     const user = useContext(authContext)
     const [tokens, setTokens] = useState<any[]>([])
+    const breakpoints = {
+        1200: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            navigation: true,
+        },
+        960: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+        },
+        820: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+        },
+        768: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+        },
+        390: {
+            slidesPerView: 1,
+        },
+    }
     let dateLogin = new Date()
 
     async function handleRevoke(token: string) {
@@ -162,33 +96,9 @@ const index = () => {
                 </Text>
                 <Box pt={8} px={[0, 0, 50, 100]}>
                     <Swiper
-                        breakpoints={{
-                            1200: {
-                                slidesPerView: 3,
-                                spaceBetween: 20,
-                                navigation: true,
-                            },
-                            960: {
-                                slidesPerView: 3,
-                                spaceBetween: 20,
-                            },
-                            820: {
-                                slidesPerView: 2,
-                                spaceBetween: 20,
-                            },
-                            768: {
-                                slidesPerView: 2,
-                                spaceBetween: 20,
-                            },
-                            390: {
-                                slidesPerView: 1,
-                            },
-                        }}
-                        pagination={{
-                            clickable: true,
-                        }}
+                        breakpoints={breakpoints}
+                        pagination={{ clickable: true, }}
                         modules={[Navigation]}
-                    // className="mySwiper"
                     >
                         {tokens.map((item, index) => {
                             return (
