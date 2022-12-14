@@ -93,6 +93,7 @@ const NotiListViewAll: FC<{ selectedList: any[], module: string; onClick: Functi
                                 url={el.notiObject.url}
                                 onClick={onClick}
                                 sender={el.notiObject.userId}
+                                values={el.notiObject.values}
                             />
                         </Stack>
                     </Box>

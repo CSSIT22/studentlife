@@ -2,7 +2,7 @@ export const templates = [
     {
         id: 0,
         title: "ANNOUNCEMENT_APPROVED",
-        template: "<p><b>v1</b> v2 get approved</p>" //(Post title) (doesn't/null) get approved+time[announcement_post.approve_time]
+        template: "<p><b>v1</b> v2 get approved<br><Spacer/>at v3</p>" //(Post title) (doesn't/null) get approved+time[announcement_post.approve_time]
     },
     {
         id: 1,

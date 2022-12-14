@@ -83,8 +83,6 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
     return (
         <Box>
             {sortedList?.map((el) => {
-
-
                 return (
                     <Box key={el.notiObjectId}>
                         {showDate(new Date(el.notiObject.date))}
