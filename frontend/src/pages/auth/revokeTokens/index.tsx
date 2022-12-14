@@ -152,8 +152,6 @@ const index = () => {
                     Device Statistics
                 </Text>
                 <Stack direction={["column", "row"]} p={4} justify={"space-between"}>
-                    <Card title="1" detail="Online Devices" />
-                    <Card title="1" detail="Offline Devices" />
                     <Card title={tokens.length} detail="Total Devices" />
                 </Stack>
             </Box>
@@ -190,7 +188,7 @@ const index = () => {
                             clickable: true,
                         }}
                         modules={[Navigation]}
-                        // className="mySwiper"
+                    // className="mySwiper"
                     >
                         {tokens.map((item, index) => {
                             return (
