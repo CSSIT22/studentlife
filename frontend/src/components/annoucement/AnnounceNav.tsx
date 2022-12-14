@@ -25,6 +25,7 @@ const AnnounceNav = (props: any) => {
                             ]}
                             p={{ md: "3rem" }}
                         >
+                            {props.children}
                         </AppBody>
                     )
                 } else if (roleName.includes('ANNOUNCEMENT_ANNOUNCER')) {
@@ -37,6 +38,7 @@ const AnnounceNav = (props: any) => {
                             ]}
                             p={{ md: "3rem" }}
                         >
+                            {props.children}
                         </AppBody>
                     )
                 } else {
@@ -47,6 +49,7 @@ const AnnounceNav = (props: any) => {
                             ]}
                             p={{ md: "3rem" }}
                         >
+                            {props.children}
                         </AppBody>
                     )
                 }
