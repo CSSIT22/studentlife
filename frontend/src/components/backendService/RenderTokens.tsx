@@ -29,6 +29,12 @@ const breakpoints = {
   },
 }
 
+function findTime(date: string): string {
+  const timeData = new Date(date).toString().split(" ")
+  const result = `${timeData[2]} ${timeData[1]} ${timeData[3]} At ${timeData[4]}`
+  return result
+}
+
 const RenderTokens: React.FC<{ tokens: Array<any>, handleRevoke: Function }> = ({ tokens, handleRevoke }) => {
   return (
     <>
@@ -44,15 +50,21 @@ const RenderTokens: React.FC<{ tokens: Array<any>, handleRevoke: Function }> = (
                 <Flex alignItems="center" justifyContent={"center"}>
                   <VStack alignItems="center" justifyContent={"center"} m={"6"}>
                     <Text color={"white"} fontSize={"2xl"}>
-                      Device {index + 1}
+                      {item.currentDevice ? "Current Device" : "Device" + (index + 1)}
                     </Text>
                     <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"100%"}>
                       {item.detail.deviceInfo === "desktop" && <DesktopToken />}
                       {item.detail.deviceInfo === "tablet" && <TabletToken />}
                       {item.detail.deviceInfo === "smartphone" && <MobileToken />}
                     </Box>
-                    <Text color={"white"}>Login Date: {item.detail.loginDate.substring(0, 10)}</Text>
-                    <Text color={"white"}>Expired: {item.detail.tokenExpired.substring(0, 10)}</Text>
+                    <Box>
+                      <Text color={"green"} fontWeight={"medium"}>Login Date:</Text>
+                      <Text color={"white"}>{findTime(item.detail.loginDate)}</Text>
+                    </Box>
+                    <Box>
+                      <Text color={"red"} fontWeight={"medium"}>Expired:</Text>
+                      <Text color={"white"}>{findTime(item.detail.tokenExpired)}</Text>
+                    </Box>
                     <CustomModal
                       onClick={handleRevoke}
                       modalHeader="Are you sure?"
