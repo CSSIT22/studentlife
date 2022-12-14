@@ -80,7 +80,7 @@ export default function Receivedrop<FC>() {
     return (
         <AppBody secondarynav={linkMenu}>
             <PageBox pageName="receive">
-                <Box mb={5} ml={5}>
+                <Box mb={4} ml={5}>
                     <Text fontSize={"3xl"} display={"flex"} alignItems={"center"}>
                         Receive Files
                         <Box w={["20%", "10%", "10%", "10%"]} display={"inline-flex"} ml={"1rem"}>

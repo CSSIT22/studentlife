@@ -68,7 +68,7 @@ const RatingStar: React.FC<{ size: number; icon: string; scale: number; fillColo
                     </Text>
                 </Box>
             </Stack>
-        
+
         )
     }
 )

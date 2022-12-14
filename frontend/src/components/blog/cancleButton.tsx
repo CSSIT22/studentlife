@@ -14,6 +14,7 @@ import {
     chakra,
 } from "@chakra-ui/react"
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 // const CancelButton = () => {
 //     return (
@@ -24,8 +25,14 @@ import React from "react"
 // }
 
 function CancelButton() {
+    const navigate = useNavigate()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<HTMLDivElement>(null)
+    const submit = () => {
+
+        let path = "/";
+        navigate(path);
+    }
 
     return (
         <>
@@ -44,7 +51,7 @@ function CancelButton() {
                     </AlertDialogBody>
                     <AlertDialogFooter>
                         <Button onClick={onClose}>No</Button>
-                        <Button colorScheme="red" ml={3}>
+                        <Button onClick={submit} colorScheme="red" ml={3} >
                             Yes
                         </Button>
                     </AlertDialogFooter>

@@ -18,9 +18,6 @@ const getaboutmeuser = async (req: Request, res: Response) => {
                 phone: "",
                 sex: "",
                 year: 2000,
-                // student: {
-                //     create: {},
-                // },
             },
         })
         res.json(detail)

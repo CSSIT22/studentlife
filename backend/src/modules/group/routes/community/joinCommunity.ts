@@ -8,7 +8,7 @@ const joinCommunity = async (req: Request, res: Response) => {
 
     const joinRequest: any = {
         userId: body.user,
-        communityId: body.communityId,//req.params.communityId
+        communityId: body.communityId, //req.params.communityId
         roleId: "clavjs04i0004v32wxmjn3kvk",
         joined: new Date(),
         status: true,
