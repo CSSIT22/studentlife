@@ -17,6 +17,7 @@ import postUserReview from "./routes/post/postUserReview"
 import postUserOrder from "./routes/post/postUserOrder"
 import postUserCoupon from "./routes/post/postUserCoupon"
 import getAllUserCoupons from "./routes/get/getAllUserCoupons"
+import getOrderInformation from "./routes/get/getOrderInformation"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -44,6 +45,7 @@ shopRoutes.put("/incrementCPQuantity/:productId", incrementCPQuantity)
 shopRoutes.put("/decreaseCPQuantity/:productId", decreaseCPQuantity)
 // Order routes
 shopRoutes.post("/postUserOrder", postUserOrder)
+shopRoutes.get("/getOrderInformation", getOrderInformation)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 

@@ -6,7 +6,7 @@ import PageTitle from '../../../components/shop/PageTitle'
 import convertCurrency from "../../../components/shop/functions/usefulFunctions"
 import OrderConfirmProduct from '../../../components/shop/orders/OrderConfirmProduct';
 import { DeleteIcon } from "@chakra-ui/icons"
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import ContentBox from "../../../components/shop/ContentBox"
 import ThemedButton from "../../../components/shop/ThemedButton"
 import { Shop_Cart } from '@apiType/shop';
@@ -16,6 +16,7 @@ const ConfirmOrder = () => {
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
 
+    const navigate = useNavigate()
     const location = useLocation()
     const couponDiscount = location.state.couponDiscount
     const couponCode = location.state.couponCode
@@ -49,13 +50,14 @@ const ConfirmOrder = () => {
     )
 
     const handleOrder = () => {
-        console.log(couponCode)
-        if (couponCode && couponCode != "") {
-            API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => console.log(res)).catch((err) => console.log(err))
-        } else {
-            API.post('/shop/postUserOrder', { totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => console.log(res)).catch((err) => console.log(err))
+        const navToTransaction = (data: any) => {
+            navigate('../transaction/shoptransaction', {state: {orderId: data.orderId, tranactionId: data.transId}})
         }
-
+        if (couponCode && couponCode != "") {
+            API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log('1'))
+        } else {
+            API.post('/shop/postUserOrder', { totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log('2'))
+        }
     }
     const orderSummary = (
         <ContentBox bg="#fff">

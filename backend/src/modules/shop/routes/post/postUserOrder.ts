@@ -52,7 +52,7 @@ const postUserOrder = async (req: Request, res: Response) => {
             const postedProducts = await prisma.shop_Order_Product.createMany({
                 data: orderProducts
             })
-            return res.send("Complete")
+            return res.send(orderUser)
         }
         return res.status(404).send("User not found!")
     } catch (error) {
