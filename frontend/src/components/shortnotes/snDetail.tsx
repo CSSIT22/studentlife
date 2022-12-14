@@ -78,6 +78,10 @@ const snDetail: FC<{
     const { isOpen: esIsOpen, onOpen: esOnOpen, onClose: esOnClose } = useDisclosure()
     const [deletingFile, setDeletingFile] = useState<any>([])
     const [editFile, setEditFile] = useState<any>([])
+    const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: apIsOpen, onOpen: apOnOpen, onClose: apOnClose } = useDisclosure()
+    const navigate = useNavigate()
 
     useEffect(() => {
         API.get("/shortnotes/getPeople/" + param.id).then((item) => {
@@ -88,17 +92,12 @@ const snDetail: FC<{
         })
         getFile()
     }, [])
-    const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const { isOpen: apIsOpen, onOpen: apOnOpen, onClose: apOnClose } = useDisclosure()
     useEffect(() => {
         if (!apIsOpen) {
             setPeoples([])
         }
     }, [apIsOpen])
 
-    const navigate = useNavigate()
     const x = btoa("?type=shortnote&id=" + param.id)
     const goToUpload = () => {
         navigate({
@@ -107,7 +106,7 @@ const snDetail: FC<{
         })
     }
 
-    const deleteShortnote = () => {
+    const handleDeleteSn = () => {
         API.delete("/shortnotes/deleteShortnote/" + param.id).then(() => {
             navigate({
                 pathname: "../shortnotes",
@@ -115,7 +114,7 @@ const snDetail: FC<{
         })
     }
 
-    const addToLibrary = (li: string) => {
+    const handleAddToLi = (li: string) => {
         API.post("/shortnotes/postInLibrary", {
             snId: param.id,
             libId: li
@@ -127,18 +126,45 @@ const snDetail: FC<{
     const [pName, setpName] = useState("")
     const [people, setPeoples] = useState<string[]>([])
 
-    const addPoeple = () => {
-        API.post("/shortnotes/postAccess", {
-            snId: param.id,
-            people: people
+    const handleAddPoeple = () => {
+        let failId: any = []
+        people.forEach((p: any) => {
+            let regex = /^\d{11}$/
+            if (!regex.test(p)) {
+                failId.push(p)
+            }
         })
+        if (failId[0] != null) {
+            let x = failId.join(", #")
+            toast({
+                description: 'User #' + x + ' not found, please try again.',
+                status: 'warning',
+                duration: 6000,
+                isClosable: true,
+            })
+        }
+        else {
+            API.post("/shortnotes/postAccess", {
+                snId: param.id,
+                people: people
+            })
+            apOnClose()
+            toast({
+                title: 'People added',
+                description: "You've added people to access this shortnote.",
+                status: 'success',
+                duration: 4000,
+                isClosable: true,
+            })
+        }
+
     }
 
-    const deletePoeple = (u: any) => {
+    const handleDeletePoeple = (_userId: any) => {
         API.delete("/shortnotes/deletePeople", {
             data: {
                 snId: param.id,
-                userId: u
+                userId: _userId
             }
         })
     }
@@ -317,7 +343,7 @@ const snDetail: FC<{
                     <ModalBody>Are you sure to delete this shortnote?</ModalBody>
                     <ModalFooter>
                         <Button onClick={() => {
-                            deleteShortnote()
+                            handleDeleteSn()
                             onClose()
                         }} colorScheme={"red"}>
                             Delete
@@ -338,7 +364,7 @@ const snDetail: FC<{
                         <Stack gap={4}>
                             {li.map((li: any, key) => (
                                 <Box onClick={() => {
-                                    addToLibrary(li.libId)
+                                    handleAddToLi(li.libId)
                                     toast({
                                         title: 'Shortnote added',
                                         description: "You've added the shortnote to your library.",
@@ -376,7 +402,7 @@ const snDetail: FC<{
                                     rounded={8}
                                     w={"100%"}
                                     onClick={() => {
-                                        let x = pName.replaceAll(" ", "").split(',')
+                                        let x = pName.replaceAll(" ", "").split(',').filter((n) => n != "")
                                         //let newPeople = [pName, ...people] //add to begin
                                         let newPeople = x.concat(people)
                                         setPeoples(newPeople)
@@ -410,10 +436,9 @@ const snDetail: FC<{
                                 ))}
                             </SimpleGrid>
                             <Divider my={6} />
-                            <Heading mb={2} size={"md"}>Peoples</Heading>
                             <VStack gap={2}>
                                 {access.map((a: any, key) => (
-                                    <Grid templateColumns='repeat(7, 1fr)' bg={"gray.50"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2}>
+                                    <Grid templateColumns='repeat(7, 1fr)' bg={"gray.50"} boxShadow={"base"} rounded={8} key={key} w={"100%"} p={2} alignItems={"center"}>
                                         <GridItem colSpan={6}>
                                             <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
                                                 <Text w={"100%"}>{a.accessBy.studentId}</Text>
@@ -422,7 +447,7 @@ const snDetail: FC<{
                                         </GridItem>
                                         <GridItem>
                                             <Button variant={"ghost"} onClick={() => {
-                                                deletePoeple(a.accessBy.userId)
+                                                handleDeletePoeple(a.accessBy.userId)
                                                 toast({
                                                     title: 'People deleted',
                                                     description: "You've deleted people to access this shortnote.",
@@ -445,15 +470,7 @@ const snDetail: FC<{
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={() => {
-                            addPoeple()
-                            apOnClose()
-                            toast({
-                                title: 'People added',
-                                description: "You've added people to access this shortnote.",
-                                status: 'success',
-                                duration: 4000,
-                                isClosable: true,
-                            })
+                            handleAddPoeple()
                         }} w={"100%"} colorScheme={"orange"}>Done</Button>
                     </ModalFooter>
                 </ModalContent>

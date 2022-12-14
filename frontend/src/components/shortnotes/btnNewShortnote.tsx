@@ -96,47 +96,54 @@ const btnNewShortnote = () => {
     const create = () => {
         if (name.replaceAll(" ", "") == "" || course.replaceAll(" ", "") == "" || desc.replaceAll(" ", "") == "") {
             toast({
-                position: "top",
                 title: 'Please complete the form.',
                 status: 'warning',
                 duration: 4000,
                 isClosable: true,
             })
         } else {
-            let pass = true
-            let failId: any = []
-            people.forEach((p: any) => {
-                let regex = /^\d{13}$/
-                if (!regex.test(p)) {
-                    pass = false
-                    failId.push(p)
-                }
-            })
-            if (failId[0] != null) {
-                let x = failId.join(", #")
+            if (!/^[a-zA-Z]{3}\d{3}$/.test(course)) {
                 toast({
-                    description: 'User #' + x + ' not found, please try again.',
+                    title: 'Invalid course id, please check again.',
                     status: 'warning',
                     duration: 6000,
                     isClosable: true,
                 })
-            }
-            if (pass) {
-                API.post("/shortnotes/postShortnote", {
-                    courseId: course.toUpperCase().replaceAll(" ", ""),
-                    isPublic: ispublic,
-                    snName: name,
-                    snDesc: desc,
-                    people: people
-                }).then((res) => {
-                    console.log(res)
-                    API.post("/shortnotes/postAccess", {
-                        snId: res.data.snId,
-                        people: people
-                    })
-                    navigate("./" + res.data.snId)
+            } else {
+                let failId: any = []
+                people.forEach((p: any) => {
+                    let regex = /^\d{11}$/
+                    if (!regex.test(p)) {
+                        failId.push(p)
+                    }
                 })
+                if (failId[0] != null) {
+                    let x = failId.join(", #")
+                    toast({
+                        description: 'User #' + x + ' not found, please try again.',
+                        status: 'warning',
+                        duration: 6000,
+                        isClosable: true,
+                    })
+
+                } else {
+                    API.post("/shortnotes/postShortnote", {
+                        courseId: course.toUpperCase().replaceAll(" ", ""),
+                        isPublic: ispublic,
+                        snName: name,
+                        snDesc: desc,
+                        people: people
+                    }).then((res) => {
+                        console.log(res)
+                        API.post("/shortnotes/postAccess", {
+                            snId: res.data.snId,
+                            people: people
+                        })
+                        navigate("./" + res.data.snId)
+                    })
+                }
             }
+
 
         }
     }
@@ -160,7 +167,7 @@ const btnNewShortnote = () => {
                                         <FormControl isRequired>
 
                                             <FormLabel>Course</FormLabel>
-                                            <Input variant="outline" placeholder="e.g. CSC220" focusBorderColor="orange.500" value={course} onChange={(e) => setCourse(e.target.value)} />
+                                            <Input variant="outline" placeholder="" focusBorderColor="orange.500" value={course} onChange={(e) => setCourse(e.target.value)} />
                                             <FormErrorMessage>Course is required.</FormErrorMessage>
 
                                         </FormControl>
