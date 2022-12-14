@@ -3,17 +3,30 @@ import { Request, Response } from "express"
 const createtask = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const body = req.body
-    const userid = req.user?.userId
+    const userid = req.user?.userId || ""
+    console.log(req.user)
 
-    const createTask: any = {
+    const task: any = {
         taskName: body.taskName,
-        taskId: body.taskId,
-        taskUserId: body.user,
+        userId: userid,
         taskDesc: body.taskDesc,
-        created: body.created,
-        due: body.due,
+        created: new Date(),
+        due: new Date(body.due),
         taskType: body.taskType,
     }
+
+    try {
+        const createUser = await prisma.task.create({
+            data: task,
+        })
+    } catch (e: any) {
+        console.log(e)
+
+        res.status(400).send(e.toString())
+        return
+    }
+
+    return res.send("Successfully added")
 }
 
 export default createtask
