@@ -141,7 +141,7 @@ const YourActivityPoll = () => {
                 <DatingYourActivityBox />
             </Stack>
             {/* Create poll button */}
-            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "4%",md: "2%"}} bottom={{ base: "8%",md: "3%"}}  _hover={{ color: "black" }}>
+            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px",md: "20px"}} bottom={{ base: "70px",md: "30px"}}  _hover={{ color: "black" }}>
                 <DatingCreatePollButton />
             </Box>
         </DatingAppBody>
