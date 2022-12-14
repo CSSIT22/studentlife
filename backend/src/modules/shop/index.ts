@@ -45,7 +45,7 @@ shopRoutes.put("/incrementCPQuantity/:productId", incrementCPQuantity)
 shopRoutes.put("/decreaseCPQuantity/:productId", decreaseCPQuantity)
 // Order routes
 shopRoutes.post("/postUserOrder", postUserOrder)
-shopRoutes.get("/getOrderInformation", getOrderInformation)
+shopRoutes.get("/getOrderInformation/:orderId", getOrderInformation)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 

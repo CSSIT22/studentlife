@@ -17,7 +17,7 @@ const getOrderInformation = async (req: Request, res: Response) => {
                 }
             },
             where: {
-                orderId: req.body.orderId,
+                orderId: req.params.orderId,
             }
     })
         return res.status(404).send(orderDetails)
