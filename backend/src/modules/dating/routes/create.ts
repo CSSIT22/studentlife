@@ -11,12 +11,31 @@ createAPollRoutes.get("/", (_, res) => {
 
 // Get all the poll topics
 createAPollRoutes.get("/getAllTopic", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+    try {
+        const allInterestsDB = await prisma.interest.findMany()
+        return res.send(allInterestsDB)
+    } catch (err) {
+        return res.status(404).send("Interests not found")
+    }
 })
 
 // Get favorite restaurants
 createAPollRoutes.get("/getFavRestaurants", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+    try {
+        const userId = req.user?.userId
+        if (userId == null) {
+            return res.send([])
+        } else {
+            const favResDB = await prisma.restaurant_Favorite_By_User.findMany({
+                where: {
+                    userId: userId,
+                },
+            })
+            return res.send(favResDB)
+        }
+    } catch (err) {
+        return res.status(404).send("Favorite restaurant not found")
+    }
 })
 
 // Create the poll and poll topics
