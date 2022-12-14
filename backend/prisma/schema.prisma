@@ -472,7 +472,7 @@ model Task {
   taskOfUser User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   inFolder   Task_Folder?   @relation(fields: [folderId], references: [folderId], onDelete: Cascade)
   inGroup    Task_Group?    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  checkTask  Task_Check?
+  checkTask  Task_Check[]
   edits      Task_History[]
 }
 
@@ -507,7 +507,7 @@ model Task_Track {
 }
 
 model Task_Check {
-  taskId    String       @unique
+  taskId    String      
   userId    String
   isCheck   Boolean      @default(false)
   taskCheck Task         @relation(fields: [taskId], references: [taskId], onDelete: Cascade)
