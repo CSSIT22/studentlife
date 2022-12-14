@@ -49,7 +49,7 @@ const folderpage = () => {
   // }
 
   useEffect(() => {
-    axios.get("http://localhost:8000/todolist/listfolder").then((res) => {
+    axios.post("http://localhost:8000/todolist/listfolder").then((res) => {
       setFolderList(res.data);
     })
   }, [])

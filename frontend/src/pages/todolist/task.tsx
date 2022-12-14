@@ -49,6 +49,7 @@ import { EditIcon } from "@chakra-ui/icons"
 import { DeleteIcon } from "@chakra-ui/icons"
 import { CheckIcon } from "@chakra-ui/icons"
 import axios from "axios"
+import API from "src/function/API"
 
 const task = () => {
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
@@ -59,7 +60,7 @@ const task = () => {
     const [descList, setDescList] = useState([])
     useEffect(() => {
         // fetchTaskList();
-        axios.get("http://localhost:8000/todolist/listtask").then((res) => {
+        API.post("/todolist/listtask").then((res) => {
             setDescList(res.data);
         })
     }, [])

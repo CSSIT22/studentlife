@@ -61,8 +61,29 @@ import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 // const [taskDesc, setTaskDesc] = useState("")
 
 const createtask = () => {
-    const [type, setType] = useState("individual")
-    console.log(type)
+    //const [type, setType] = useState("individual")
+    //console.log(type)
+
+    const [taskName, setTaskName] = useState("")
+    const [taskDesc, setTaskDesc] = useState("")
+    const [due, setDueDate] = useState()
+    const [time, setTime] = useState()
+    const [type, setType] = useState("")
+    const [alert, setAlert] = useState("")
+    const [folder, setFolder] = useState("")
+
+    const submit = () => {
+        API.post("/todolist/createtask", {
+            taskName: taskName,
+            taskDesc: taskDesc,
+            due: due,
+            time: time,
+            type: type,
+            alert: alert,
+            folderId: folder
+        })
+    }
+
 
     return (
         <ToDoListAppBody>
@@ -74,14 +95,14 @@ const createtask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Task Name
                 </Heading>
-                <Input placeholder="Task Name" size="md" id="taskName" />
+                <Input placeholder="Task Name" size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
                 {/* //value={taskName} onChange={(e) => setTaskName(e.target.value)} */}
 
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
-                <Input placeholder="Description" size="md" id="desc" />
+                <Input placeholder="Description" size="md" id="desc" onChange={(e) => setTaskDesc(e.target.value)} />
                 {/* // value={taskDesc} onChange={(e) => setTaskDesc(e.target.value)} */}
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
