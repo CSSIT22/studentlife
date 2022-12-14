@@ -136,31 +136,31 @@ const Clist: FC<any> = () => {
             )
         }
         if (target === 2 && e.room.roomType === "GROUP") {
-            const img = e.room.?.groupImg
-            return (
-                <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
-                    <Flex
-                        alignItems={"center"}
-                        key={e.roomId}
-                        marginY={3}
-                        _hover={{
-                            transform: "scale(1.1)",
-                        }}
-                        transitionDuration="300ms"
-                        onClick={() => Navigate(e.roomId)}
-                        w={"93%"}
-                    >
-                        <Avatar name={e.roomName} src={(img === null) ? "" : img} />
-                        <Box marginLeft={"5"}>{e.roomName} </Box>
-                    </Flex>
-                    <Show above="md">
-                        <Cmenu room={e} />
-                    </Show>
-                    <Show below="md">
-                        <DrawerExample item={e} setuserRoom={setuserRoom} userRoom={userRoom} />
-                    </Show>
-                </Flex>
-            )
+            // const img = e.room.?.groupImg
+            // return (
+            //     <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
+            //         <Flex
+            //             alignItems={"center"}
+            //             key={e.roomId}
+            //             marginY={3}
+            //             _hover={{
+            //                 transform: "scale(1.1)",
+            //             }}
+            //             transitionDuration="300ms"
+            //             onClick={() => Navigate(e.roomId)}
+            //             w={"93%"}
+            //         >
+            //             <Avatar name={e.roomName} src={(img === null) ? "" : img} />
+            //             <Box marginLeft={"5"}>{e.roomName} </Box>
+            //         </Flex>
+            //         <Show above="md">
+            //             <Cmenu room={e} />
+            //         </Show>
+            //         <Show below="md">
+            //             <DrawerExample item={e} setuserRoom={setuserRoom} userRoom={userRoom} />
+            //         </Show>
+            //     </Flex>
+            // )
         }
     }
     const renderSearch = (search: string) => {
