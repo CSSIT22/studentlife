@@ -4,16 +4,18 @@ import { nanoid } from "nanoid"
 const createRoom = async (req: Request, res: Response) => {
     const user = req.user?.userId
     const target = req.body.chatWith_id
-    const roomId = nanoid()
+    const room_Id = nanoid()
     const prisma = res.prisma
     try {
-        const user_id = await prisma.user_Profile.findUniqueOrThrow({
-            select: {
-                userId: true,
-            },
-            where: {
-                userId: user,
-            },
+        if(user === null){
+            res.status(202).send("log in first!!")
+        }
+        const user_id = await prisma.user_Profile.findFirstOrThrow({
+            select:{
+                userId:true
+            },where:{
+                userId:user
+            }
         })
         const target_name = await prisma.user_Profile.findUniqueOrThrow({
             select: {
@@ -25,25 +27,23 @@ const createRoom = async (req: Request, res: Response) => {
         })
         await prisma.chat_Room.create({
             data: {
-                //roomName: target_name.fName,
                 chatColor: "#E68E5C",
                 roomType: "INDIVIDUAL",
-                roomId: roomId,
+                roomId: room_Id,
             },
         })
-        // await prisma.chat_Individual.createMany({
-        //     data: [
-        //         {
-        //             userId: user_id.userId,
-        //             anotherUserId: target,
-        //             roomId: roomId,
-        //         },
-        //     ],
-        // })
+        await prisma.chat_Nickname.create({
+            data:{
+                userId:user_id.userId,
+                anotherUserId:target,
+                nickname:target_name.fName,
+                roomId:room_Id
+            }
+        })
         await prisma.user_To_Room.createMany({
             data: [
-                { roomId: roomId, userId: user_id.userId },
-                { roomId: roomId, userId: target },
+                { roomId: room_Id, userId: user_id.userId },
+                { roomId: room_Id, userId: target },
             ],
         })
         res.send(target_name)
