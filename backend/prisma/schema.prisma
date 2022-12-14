@@ -467,11 +467,11 @@ model Task {
   created    DateTime       @default(now()) @db.Timestamp(0)
   due        DateTime       @db.Timestamp(0)
   taskType   String
-  folderId   String
-  groupId    String
+  folderId   String?
+  groupId    String?
   taskOfUser User_Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  inFolder   Task_Folder    @relation(fields: [folderId], references: [folderId], onDelete: Cascade)
-  inGroup    Task_Group     @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  inFolder   Task_Folder?   @relation(fields: [folderId], references: [folderId], onDelete: Cascade)
+  inGroup    Task_Group?    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
   checkTask  Task_Check?
   edits      Task_History[]
 }
