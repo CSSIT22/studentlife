@@ -2,8 +2,6 @@ import {
     Box,
     Button,
     Center,
-    CloseButton,
-    filter,
     Flex,
     Show,
     Spacer,
@@ -20,10 +18,9 @@ import {
     useToast,
     Avatar,
     AvatarBadge,
-    Circle,
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
-import Modulelist from "./moduleList/Modulelist"
+import Modulelist from "./Modulelist"
 import NotiList from "./main/NotiList"
 import { SettingsIcon } from "@chakra-ui/icons"
 import MarkRead from "./MarkRead"
@@ -31,10 +28,14 @@ import { Link, useParams } from "react-router-dom"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
 import { Notiobject, pushNotiType } from "@apiType/notification"
-import { settingApp } from "./main/mockupData/settingApp"
 import { socketContext } from "src/context/SocketContext"
+import { NavBarContext } from "src/context/NavbarContext"
 
 const NotiTable = () => {
+
+    const { setcountUnread } = useContext(NavBarContext)
+
+
     //reload noti
     const [reLoad, setreLoad] = useState(false)
     const { socketIO } = useContext(socketContext)
@@ -52,21 +53,45 @@ const NotiTable = () => {
 
     //getUserNotiObject by Module
 
-    const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
+    const getUserNotiObjectModule = () => API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
     //console.log(getUserNotiObjectModule);
 
     const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
     useEffect(() => {
-        getUserNotiObjectModule.then((res) => {
+        getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
+            setcountUnread(res.data.filter((el: any) => { return el.isRead != true }).length)
+            // console.log(res.data.filter((el: any) => { return el.isRead != true }).length);
+
         })
     }, [reLoad])
     //console.log(userNotiObjectModule);
 
-
+    const toast = useToast()
     useEffect(() => {
         socketIO.on("push_noti", (data: pushNotiType) => {
-            console.log("testtt");
+            toast({
+                position: 'bottom-right',
+                render: () => (
+
+                    <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
+                        <Stack direction={"row"} spacing={3}>
+                            <Center><Avatar bg="blackAlpha.200" size={"sm"}>
+                                <AvatarBadge boxSize="1em" bg="green.500" />
+                            </Avatar>
+                            </Center>
+                            <Stack><Text fontSize={"sm"} color="white">
+                                <b>User123456</b> Create a post asdfkj asdf asdad
+                            </Text>
+                                <Text fontSize={"xs"} color="white">
+                                    10 hours ago
+                                </Text>
+                            </Stack>
+                        </Stack>
+                    </Box>
+
+                )
+            })
 
             // getUserNotiObjectModule.then((res) => {
             //     setUserNotiObjectModule(res.data)
@@ -78,49 +103,6 @@ const NotiTable = () => {
         }
     });
 
-
-
-    function showNotiList(): any {
-        return <NotiList module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiList>
-    }
-
-
-    function alert() {
-        const toast = useToast()
-        return (
-            <Button
-                onClick={() =>
-                    toast({
-                        position: 'bottom-right',
-                        render: () => (
-
-                            // <Box color='white' p={3} bg='blue.500'>
-                            //     Hello World
-                            // </Box>
-                            <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
-                                <Stack direction={"row"} spacing={3}>
-                                    <Center><Avatar bg="blackAlpha.200" size={"sm"}>
-                                        <AvatarBadge boxSize="1em" bg="green.500" />
-                                    </Avatar>
-                                    </Center>
-                                    <Stack><Text fontSize={"sm"} color="white">
-                                        <b>User123456</b> Create a post asdfkj asdf asdad
-                                    </Text>
-                                        <Text fontSize={"xs"} color="white">
-                                            10 hours ago
-                                        </Text>
-                                    </Stack>
-                                </Stack>
-                            </Box>
-
-                        )
-                    })
-                }
-            >
-                Show Noti
-            </Button>
-        )
-    }
 
     //setting
     function ShowSetting() {
@@ -151,7 +133,7 @@ const NotiTable = () => {
             </Center>
         )
     }
-    console.log(userNotiObjectModule.length);
+    //console.log(userNotiObjectModule.length);
 
     return (
         <Box>
@@ -159,16 +141,10 @@ const NotiTable = () => {
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
-                <Spacer />
-                <Box>
-                    {/* {alert()} */}
-                </Box>
-                <Spacer />
                 <Box>
                     <Stack direction={"row"}>
                         <MarkRead module={selectedModule} onClick={load} />
                         {ShowSetting()}
-
                     </Stack>
                 </Box>
             </Flex>
