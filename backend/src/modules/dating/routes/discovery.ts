@@ -65,34 +65,162 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             },
         })
 
-        heartHistoryDB.map((id) => {
-            filterId.push(id.anotherUserId)
-            if(cardQueueUserId) {
-                if(cardQueueUserId.backUserId) {
-                    if(id.anotherUserId == cardQueueUserId.backUserId) {
+        let frontUser: any
+        if (cardQueueUserId?.frontUserId) {
+            frontUser = await prisma.user_Profile.findFirst({
+                where: {
+                    userId: cardQueueUserId.frontUserId,
+                },
+                select: {
+                    userId: true,
+                    fName: true,
+                    lName: true,
+                    image: true,
+                    details: {
+                        select: {
+                            birth: true,
+                            sex: true,
+                        },
+                    },
+                    studentMajor: {
+                        select: {
+                            majorFaculty: true,
+                        },
+                    },
+                    interests: {
+                        select: {
+                            interestId: true,
+                        },
+                    },
+                },
+            })
+        }
+        let backUser: any
+        if (cardQueueUserId?.backUserId) {
+            backUser = await prisma.user_Profile.findFirst({
+                where: {
+                    userId: cardQueueUserId.backUserId,
+                },
+                select: {
+                    userId: true,
+                    fName: true,
+                    lName: true,
+                    image: true,
+                    details: {
+                        select: {
+                            birth: true,
+                            sex: true,
+                        },
+                    },
+                    studentMajor: {
+                        select: {
+                            majorFaculty: true,
+                        },
+                    },
+                    interests: {
+                        select: {
+                            interestId: true,
+                        },
+                    },
+                },
+            })
+        }
+
+        if (datingOptionsDB?.useAge) {
+            if (cardQueueUserId) {
+                if (cardQueueUserId?.frontUserId && frontUser?.details?.birth) {
+                    if (getAge(frontUser.details.birth) < datingOptionsDB.ageMin || getAge(frontUser.details.birth) > datingOptionsDB.ageMax) {
+                        cardQueueUserId.frontUserId = null
+                    }
+                }
+                if (cardQueueUserId?.backUserId && backUser?.details?.birth) {
+                    if (getAge(backUser.details.birth) < datingOptionsDB.ageMin || getAge(backUser.details.birth) > datingOptionsDB.ageMax) {
                         cardQueueUserId.backUserId = null
                     }
                 }
-                if(cardQueueUserId.frontUserId) {
-                    if(id.anotherUserId == cardQueueUserId.frontUserId) {
+            }
+        }
+        if (datingOptionsDB?.genderPref != "Everyone") {
+            if (cardQueueUserId) {
+                if (cardQueueUserId?.frontUserId && frontUser?.details?.sex) {
+                    if (frontUser.details.sex != datingOptionsDB?.genderPref) {
                         cardQueueUserId.frontUserId = null
-                    }       
+                    }
+                }
+                if (cardQueueUserId?.backUserId && backUser?.details?.sex) {
+                    if (backUser.details.sex != datingOptionsDB?.genderPref) {
+                        cardQueueUserId.backUserId = null
+                    }
+                }
+            }
+        }
+
+
+        if (facultyPrefDB) {
+            let frontTemp : boolean = false
+            let backTemp : boolean = false
+
+            facultyPrefDB.map((faculty: any) => {
+                if (cardQueueUserId?.frontUserId) {
+                    if (faculty.facultyPref == frontUser.studentMajor.majorFaculty.facultyId) {
+                        frontTemp = true
+                    }
+                }
+                if (cardQueueUserId?.backUserId) {
+                    if (faculty.facultyPref == backUser.studentMajor.majorFaculty.facultyId) {
+                        backTemp = true
+                    }
+                }
+            })
+            if(!frontTemp && cardQueueUserId) {
+                cardQueueUserId.frontUserId = null
+            }
+            if(!backTemp && cardQueueUserId) {
+                cardQueueUserId.backUserId = null
+            }
+        }
+
+        heartHistoryDB.map((id) => {
+            filterId.push(id.anotherUserId)
+            if (cardQueueUserId) {
+                if (cardQueueUserId.backUserId) {
+                    if (id.anotherUserId == cardQueueUserId.backUserId) {
+                        cardQueueUserId.backUserId = null
+                    }
+                }
+                if (cardQueueUserId.frontUserId) {
+                    if (id.anotherUserId == cardQueueUserId.frontUserId) {
+                        cardQueueUserId.frontUserId = null
+                    }
                 }
             }
         })
 
-        if((!(cardQueueUserId?.frontUserId) && !(cardQueueUserId?.backUserId)) && cardQueueUserId?.userId) {
+        userBlockedDB.map((id) => {
+            filterId.push(id.anotherUserId)
+            if (cardQueueUserId) {
+                if (cardQueueUserId.backUserId) {
+                    if (id.anotherUserId == cardQueueUserId.backUserId) {
+                        cardQueueUserId.backUserId = null
+                    }
+                }
+                if (cardQueueUserId.frontUserId) {
+                    if (id.anotherUserId == cardQueueUserId.frontUserId) {
+                        cardQueueUserId.frontUserId = null
+                    }
+                }
+            }
+        })
+
+        if ((!cardQueueUserId?.frontUserId || !cardQueueUserId?.backUserId) && cardQueueUserId?.userId) {
             await prisma.card_Queue.delete({
                 where: {
                     userId: reqUserId,
                 },
             })
+            cardQueueUserId.frontUserId = null
+            cardQueueUserId.backUserId = null
         }
-
-
-        userBlockedDB.map((id) => {
-            filterId.push(id.anotherUserId)
-        })
 
         const ageObtainedUser: any = []
         const userProfileDB = await prisma.user_Profile.findMany({
@@ -196,25 +324,24 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
         if (!cardQueueUserId?.frontUserId && !cardQueueUserId?.backUserId) {
             facultyObtainedUser = facultyObtainedUser.slice(0, 20)
         } else if (!cardQueueUserId?.frontUserId || !cardQueueUserId?.backUserId) {
-            let facultyFront;
-            if(facultyObtainedUser[facultyObtainedUser.length - 0]) {
+            let facultyFront
+            if (facultyObtainedUser[facultyObtainedUser.length - 0]) {
                 facultyFront = await facultyObtainedUser[facultyObtainedUser.length - 0]
             }
 
-            let facultyBack;
-            if(facultyObtainedUser[facultyObtainedUser.length - 1]) {
+            let facultyBack
+            if (facultyObtainedUser[facultyObtainedUser.length - 1]) {
                 facultyBack = await facultyObtainedUser[facultyObtainedUser.length - 1]
             }
 
-            if(facultyObtainedUser.length >= 20) {
+            if (facultyObtainedUser.length >= 20) {
                 facultyObtainedUser = await facultyObtainedUser.slice(0, 18)
-            }        
-            else {
-                facultyObtainedUser = await facultyObtainedUser.slice(0, facultyObtainedUser.length-1)
-            } 
+            } else {
+                facultyObtainedUser = await facultyObtainedUser.slice(0, facultyObtainedUser.length - 1)
+            }
 
             if (cardQueueUserId?.frontUserId) {
-                if(facultyBack) {
+                if (facultyBack) {
                     facultyObtainedUser.push(facultyBack)
                 }
                 const frontUserDB = await prisma.user_Profile.findFirst({
@@ -275,8 +402,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                 })
                 facultyObtainedUser.push(backUserDB)
                 facultyObtainedUser.push(facultyFront)
-            } 
-
+            }
         } else {
             facultyObtainedUser = facultyObtainedUser.slice(0, 18)
             const backUserDB = await prisma.user_Profile.findFirst({
@@ -342,18 +468,17 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             if (facultyObtainedUser[facultyObtainedUser.length - 2]?.userId) {
                 backId = facultyObtainedUser[facultyObtainedUser.length - 2].userId
             }
-            if(cardQueueUserId?.backUserId && facultyObtainedUser.length > 0) {
+            if (cardQueueUserId?.backUserId && facultyObtainedUser.length > 0) {
                 const frontId = facultyObtainedUser[facultyObtainedUser.length - 1].userId
                 await prisma.card_Queue.update({
                     where: {
-                        userId: reqUserId
+                        userId: reqUserId,
                     },
                     data: {
-                        frontUserId: frontId
-                    }
+                        frontUserId: frontId,
+                    },
                 })
-            }
-            else if (facultyObtainedUser.length > 1) {
+            } else if (facultyObtainedUser.length > 1) {
                 const data: any = {
                     userId: reqUserId,
                     frontUserId: frontId,
@@ -375,7 +500,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
         }
         if (!cardQueueUserId?.backUserId && facultyObtainedUser.length > 1) {
             const backId = facultyObtainedUser[facultyObtainedUser.length - 2].userId
-            if(cardQueueUserId?.frontUserId) {
+            if (cardQueueUserId?.frontUserId) {
                 await prisma.card_Queue.update({
                     where: {
                         userId: reqUserId,
