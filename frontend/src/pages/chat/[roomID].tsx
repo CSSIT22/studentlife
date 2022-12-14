@@ -27,24 +27,21 @@ const mockMessage = [
     { text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
 ]
 export type RoomType = {
-    room: {
-        roomIndividual: {
-            chatWith: {
-                image: {
-                    type: string
-                    data: string
-                } | null
-            }
+
+    chatColor : string,
+    roomId : string,
+    roomType : string,
+    nickname:string,
+    nameWho :{
+        image :{
+            type : string,
+            data:string,
+
         } | null
-        roomName: string
-        roomId: string
-        chatColor: string
-        roomType: string
-        roomGroup: {
-            groupImg: string
-        } | null
-    },
-    userId: string
+    }
+    group :{
+        roomName : string
+    }
 }
 
 const Room = () => {
@@ -75,29 +72,29 @@ const Room = () => {
             alert("ไม่ให้ส่งคั้บ")
         } else {
             setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
-            socketIO.emit("send-msg", { userId: Room?.userId, roomId: Room?.room.roomId, message: Text })
+            //socketIO.emit("send-msg", { userId: Room?., roomId: Room?.room.roomId, message: Text })
             setText("")
         }
     }
     function renderTitle() {
-        if (Room?.room.roomType === "INDIVIDUAL") {
-            const img = Room.room.roomIndividual?.chatWith.image
+        if (Room?.roomType === "INDIVIDUAL") {
+            const img = Room.nameWho.image
             return (
                 <Flex alignItems={"center"}>
-                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : buffer_to_img(img?.data)} />
+                    <Avatar marginLeft={4} name={Room.nickname} src={(img === null) ? "" : buffer_to_img(img?.data)} />
                     <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
-                        {Room?.room.roomName}
+                        {Room.nickname}
                     </Box>
                 </Flex>
             )
         }
         else {
-            const img = Room?.room.roomGroup?.groupImg
+            //const img = Room?.room.roomGroup?.groupImg
             return (
                 <Flex alignItems={"center"}>
-                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : img} />
+                    <Avatar marginLeft={4} name={Room?.group.roomName} src="https://picsum.photos/200/300" />
                     <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
-                        {Room?.room.roomName}
+                        {Room?.group.roomName}
                     </Box>
                 </Flex>
             )
@@ -123,7 +120,7 @@ const Room = () => {
                 >
                     <Flex
                         alignItems={"center"}
-                        bg={Room?.room.chatColor}
+                        bg={Room?.chatColor}
                         justifyContent={"space-between"}
                         width={{ base: "100%", md: "auto" }}
                         roundedTopLeft={"lg"}
@@ -147,12 +144,12 @@ const Room = () => {
 
                     <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} maxH={"65vh"}>
                         {msg.map(({ text, from, timeSent }, roomID) => (
-                            <TextBar key={roomID} message={text} timeSent={timeSent} from={from} color={Room?.room.chatColor} />
+                            <TextBar key={roomID} message={text} timeSent={timeSent} from={from} color={Room?.chatColor} />
                         ))}
                         <div ref={scroll}></div>
                     </Box>
 
-                    <Flex h={"55px"} bg={Room?.room.chatColor} justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
+                    <Flex h={"55px"} bg={Room?.chatColor} justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
                         <Plustoggle />
                         <form onSubmit={onSend}>
                             <Input
