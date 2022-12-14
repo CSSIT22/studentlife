@@ -455,8 +455,8 @@ const DatingRandomization = () => {
                 let data = user.data
                 setCharacters(data)
                 setNumOfChar(data.length)
-                globalThis.countSwipe = Array(50).fill(1)
-                globalThis.countOut = Array(50).fill(1)
+                globalThis.countSwipe = Array(20).fill(1)
+                globalThis.countOut = Array(20).fill(1)
                 API.get("/dating/discovery/getAllInterest").then((interest) => {
                     setAllInterests(interest.data)
                 })
@@ -486,7 +486,7 @@ const DatingRandomization = () => {
     // used for the tinder card
     const childRefs: React.RefObject<any>[] = useMemo(
         () =>
-            Array(50)
+            Array(20)
                 .fill(0)
                 .map(() => React.createRef()),
         []
