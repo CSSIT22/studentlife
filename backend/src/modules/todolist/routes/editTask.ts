@@ -2,12 +2,12 @@ import { Request, Response } from "express"
 
 const editTask = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const userid = req.user?.userId
+    const body = req.body
+    const userid = req.user?.userId || ""
 
     const editTask: any = {
         taskName: req.body.taskName,
         taskDesc: req.body.taskDesc,
-        created: req.body.created,
         due: req.body.due,
         taskType: req.body.taskType,
     }
@@ -19,6 +19,7 @@ const editTask = async (req: Request, res: Response) => {
             },
             data: editTask,
         })
+        return res.send("Success")
     } catch {
         res.status(404)
     }
