@@ -1,20 +1,47 @@
-import { HStack, Box, Center, useToast, Button, Text, Image, useBreakpointValue, Flex, Spacer, Grid, ButtonGroup } from "@chakra-ui/react"
+import { HStack, Box, Center, useToast, Button, Text, Image, useBreakpointValue, Flex, Spacer, Badge, useDisclosure, ModalHeader, ModalBody, ModalCloseButton, ModalContent, Modal, Heading, ModalOverlay } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingAllActivityButton from "src/components/dating/DatingAllActivityButton"
 import DatingAppliedActivityButton from "src/components/dating/DatingAppliedActivityButton"
 import DatingYourActivityButton from "src/components/dating/DatingYourActivityButton"
+import DatingYourPollSeeMore from "src/components/dating/DatingYourPollSeeMore"
 import API from "src/function/API"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import ChatImg from "../../../components/dating/pic/chat.png"
 import GroupChatImg from "../../../components/dating/pic/groupchat.png"
+import { POLL } from "src/components/dating/shared/poll"
 
 
 const YourAppliedActivityPoll = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
+    const [poll, setPoll] = useState(POLL)
+    const { isOpen, onOpen, onClose } = useDisclosure()
     let count = 1
+
+    function handlePeople(min: number, max: number) {
+        if (max === min && max === 1) {
+            return min + " person"
+        } else if (max === min && max !== 1) {
+            return min + " people"
+        } else {
+            return min + "-" + max + " people"
+        }
+    }
+
+    function handleStatus(status: string) {
+        if (status === "Accepted") {
+            return "green"
+        }
+        else if (status === "Accepting...") {
+            return "yellow"
+        }
+        else {
+            return "red"
+        }
+    }
+
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -141,123 +168,198 @@ const YourAppliedActivityPoll = () => {
                 </Box>
             </Center>
 
+            <Box mt="130px"></Box>
+
             {/* Test 1: click to see more at medium bottom + chat button */}
-            <Box backgroundColor="white"
-                boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                borderRadius="10px"
-                mb={{ base: "8px", md: "25px" }}
-                mt="130px"
-            >
-                <Flex>
-                    <Box>
-                        <Text pt="17px" pl="30px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
-                            Poll Header
-                        </Text>
-                    </Box>
-                    <Spacer />
-                    <Box>
-                        <Text mt="17px" mr="30px" lineHeight="133%" color="black" fontSize="15px">
-                            Your Poll Status
-                        </Text>
-                    </Box>
-                </Flex>
+            <Box>
+                {poll.map((values) => {
+                    return (
+                        <>
+                            <Box backgroundColor="white"
+                                boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                                borderRadius="10px"
+                                mb={{ base: "8px", md: "25px" }}
+                            >
+                                <Flex>
+                                    <Box>
+                                        <Text pt="17px" pl="30px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
+                                            {values.pollName}
+                                        </Text>
+                                    </Box>
+                                    <Spacer />
+                                    <Box>
+                                        <Badge mt='17px' mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus(values.pollStatus)}>
+                                            {values.pollStatus}
+                                        </Badge>
+                                    </Box>
+                                </Flex>
 
-                <Flex>
-                    <Box pt='6' pb='6'>
-                        {isMobile ? (
-                            <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
-                                Firstname Lastname
-                            </Text>
-                        ) : (
-                            <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
-                                Firstname L.
-                            </Text>
-                        )}
-                    </Box>
-                    <Spacer />
-                    <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
-                            <Image src={ChatImg} />
-                        </Button>
-                    </Box>
-                </Flex>
+                                <Flex>
+                                    <Box pt='6' pb='6'>
+                                        {isMobile ? (
+                                            <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
+                                                {values.creator.Fname}
+                                                &nbsp;
+                                                {values.creator.Lname}
+                                            </Text>
+                                        ) : (
+                                            <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
+                                                {values.creator.Fname}
+                                                &nbsp;
+                                                {values.creator.Lname}
+                                            </Text>
+                                        )}
+                                    </Box>
+                                    <Spacer />
+                                    <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
+                                        <Button
+                                            borderRadius="full"
+                                            w={{ base: "50px", md: "72px" }}
+                                            h={{ base: "50px", md: "72px" }}
+                                            backgroundColor="white"
+                                            border="1px solid"
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
+                                            <Image src={ChatImg} />
+                                        </Button>
+                                    </Box>
+                                </Flex>
 
-                <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px" >
-                    <Text lineHeight="133%" color="black" fontSize="15px" as='u' mb="20px" >
-                        Click to see more
-                    </Text>
-                </Box>
+                                <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px" >
+                                    <Text
+                                        lineHeight="150%"
+                                        color="black"
+                                        fontWeight="400"
+                                        fontSize={{ base: "14px", md: "16px" }}
+                                        as='u'
+                                        mb="20px"
+                                        cursor="pointer"
+                                        onClick={onOpen}
+                                    >
+                                        Click to see more
+                                    </Text>
+                                </Box>
+
+                                <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
+                                    {/* <ModalOverlay /> */}
+                                    <ModalContent>
+                                        <ModalHeader>
+                                            <Flex alignItems="center">
+                                                <Image
+                                                    borderRadius="full"
+                                                    boxSize="78px"
+                                                    objectFit="cover"
+                                                    src={values.creator.url}
+                                                    alt={values.creator.Fname + " " + values.creator.Lname} />
+                                                <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
+                                                    {values.creator.Fname}
+                                                    &nbsp;
+                                                    {values.creator.Lname}
+                                                </Text>
+                                            </Flex>
+                                        </ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody>
+                                            <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
+                                                {values.pollName}
+                                            </Heading>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
+                                                {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                Location: {values.pollPlace}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                Date: {globalThis.date}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                Time: {globalThis.time}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
+                                                Number of people: {handlePeople(values.participantMin, values.participantMax)}
+                                            </Text>
+                                        </ModalBody>
+                                    </ModalContent>
+                                </Modal>
+                            </Box>
+                        </>
+                    )
+                })}
             </Box>
 
+
             {/* Test 2: click to see more at medium bottom + group chat and chat button */}
-            <Box backgroundColor="white"
-                boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                borderRadius="10px"
-                mb={{ base: "8px", md: "25px" }}
+            <Box>
+                {poll.map((values) => {
+                    return (
+                        <Box backgroundColor="white"
+                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                            borderRadius="10px"
+                            mb={{ base: "8px", md: "25px" }}
 
-            >
-                <Flex>
-                    <Box>
-                        <Text pt="17px" pl="30px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
-                            Poll Header
-                        </Text>
-                    </Box>
-                    <Spacer />
-                    <Box>
-                        <Text mt="17px" mr="30px" lineHeight="133%" color="black" fontSize="15px">
-                            Your Poll Status
-                        </Text>
-                    </Box>
-                </Flex>
-
-                <Flex>
-                    <Box pt='6' pb='6'>
-                        {isMobile ? (
-                            <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
-                                Firstname Lastname
-                            </Text>
-                        ) : (
-                            <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
-                                Firstname L.
-                            </Text>
-                        )}
-                    </Box>
-                    <Spacer />
-                    <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
-                            mr={{ base: "12px", md: "24px" }}
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                         >
-                            <Image src={GroupChatImg} />
-                        </Button>
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
-                            <Image src={ChatImg} />
-                        </Button>
-                    </Box>
-                </Flex>
+                            <Flex>
+                                <Box>
+                                    <Text pt="17px" pl="30px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
+                                        {values.pollName}
+                                    </Text>
+                                </Box>
+                                <Spacer />
+                                <Box>
+                                    <Badge mt='17px' mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus(values.pollStatus)}>
+                                        {values.pollStatus}
+                                    </Badge>
+                                </Box>
+                            </Flex>
 
-                <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px" >
-                    <Text lineHeight="133%" color="black" fontSize="15px" as='u' mb="20px" >
-                        Click to see more
-                    </Text>
-                </Box>
+                            <Flex>
+                                <Box pt='6' pb='6'>
+                                    {isMobile ? (
+                                        <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
+                                            {values.creator.Fname}
+                                            &nbsp;
+                                            {values.creator.Lname}
+                                        </Text>
+                                    ) : (
+                                        <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
+                                            {values.creator.Fname}
+                                            &nbsp;
+                                            {values.creator.Lname}
+                                        </Text>
+                                    )}
+                                </Box>
+                                <Spacer />
+                                <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
+                                    <Button
+                                        borderRadius="full"
+                                        w={{ base: "50px", md: "72px" }}
+                                        h={{ base: "50px", md: "72px" }}
+                                        backgroundColor="white"
+                                        border="1px solid"
+                                        mr={{ base: "12px", md: "24px" }}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    >
+                                        <Image src={GroupChatImg} />
+                                    </Button>
+                                    <Button
+                                        borderRadius="full"
+                                        w={{ base: "50px", md: "72px" }}
+                                        h={{ base: "50px", md: "72px" }}
+                                        backgroundColor="white"
+                                        border="1px solid"
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
+                                        <Image src={ChatImg} />
+                                    </Button>
+                                </Box>
+                            </Flex>
+
+                            <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px" >
+                                <Text lineHeight="133%" color="black" fontSize="15px" as='u' mb="20px" >
+                                    Click to see more
+                                </Text>
+                            </Box>
+                        </Box>
+                    )
+                })}
             </Box>
         </DatingAppBody>
     )
@@ -266,3 +368,7 @@ const YourAppliedActivityPoll = () => {
 
 
 export default YourAppliedActivityPoll
+
+function handlePeople(participantMin: any, participantMax: any): import("react").ReactNode {
+    throw new Error("Function not implemented.")
+}
