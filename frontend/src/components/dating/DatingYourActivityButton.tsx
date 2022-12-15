@@ -14,6 +14,7 @@ const DatingYourActivityButton: FC<{ backgroundColor: string }> = ({ backgroundC
                 borderRadius="5px"
                 justifyContent="center"
                 alignItems="center"
+                boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
             >
                 <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
                     Your activity polls

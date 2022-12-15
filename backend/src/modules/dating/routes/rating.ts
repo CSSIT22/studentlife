@@ -25,21 +25,19 @@ ratingRoutes.get("/getUserProfile", verifyUser, async (req: Request, res: Respon
                 where: {
                     userId: userId,
                 },
-
                 select: {
-                    score: true,
                     following: {
                         select: {
                             userId: true,
                             fName: true,
                             lName: true,
                             image: true,
-
-                            // giveRate: {
-                            //     select: {
-                            //         score: true,
-                            //     },
-                            // },
+                            
+                            receiveRate: {
+                                select: {
+                                    score: true,
+                                },
+                            },
                         },
                     },
                 },

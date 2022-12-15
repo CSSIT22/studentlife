@@ -3,6 +3,8 @@ import { Timestamp } from "@redis/time-series/dist/commands"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
+// import { Room } from ".."
+import axios from "axios"
 
 const createAPollRoutes = express()
 const prisma = new PrismaClient()
@@ -84,9 +86,9 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
                 " " +
                 pollTopic
         )
-        // req.body.activityInterestId.map((topic: string) => {
-        //     pollTopic.push({ activityInterestId: topic })
-        // })
+        req.body.activityInterestId.map((topic: string) => {
+            pollTopic.push({ activityInterestId: topic })
+        })
         const pollInfo: any = {
             userId: userId,
             pollName: pollName,
@@ -97,19 +99,22 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
             participantMax: participantMax,
             isOpen: isOpen,
             // pollcreated: pollcreated,
-            pollcreated: null,
-            roomId: "293249324",
+            // pollcreated: null,
+            // roomId: "293249324",
         }
         console.log("HENLO! " + pollInfo.pollAppointAt)
         await prisma.activity_Poll.create({
-            data: pollInfo,
+            // data: { ...pollInfo },
+            data: pollInfo
         })
-        // await prisma.poll_Interest.createMany({
-        //     data: pollTopic,
-        // })
+        await prisma.poll_Interest.createMany({
+            data: pollTopic,
+        })
         // calExp(prisma, req.user?.userId || "", "DatingPoll")
         return res.send("Success")
-    } catch {
+    } catch (err) {
+        console.log(err)
+
         return res.status(400).send("Cannot set Option")
     }
 })

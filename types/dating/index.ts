@@ -56,7 +56,6 @@ export type PollDetail = {
 };
 
 export type FollowDetail = {
-  score: number;
   following: {
     userId: string;
     fName: string;
@@ -65,8 +64,8 @@ export type FollowDetail = {
       type: string;
       data: number[];
     };
-    // giveRate: {
-    //   score: number;
-    // };
+    receiveRate: {
+      score: number;
+    };
   };
 };

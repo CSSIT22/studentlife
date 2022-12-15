@@ -72,8 +72,9 @@ const Rating = () => {
             </Box>
 
             {friend.map((values) => {
+                console.log(values.following.receiveRate)
                 return (
-                    <Box>
+                    <Box >
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
                             <Flex>
                                 {values.following.image ?
@@ -98,11 +99,12 @@ const Rating = () => {
                                     </Text>
                                 </Center>
                             </Flex>
-                            <DatingRatingAllStar defaultFill={values.score} rateFor={values.following.userId} />
+                            <DatingRatingAllStar defaultFill={values.following.receiveRate.score} rateFor={values.following.userId} />
                         </Box>
                     </Box>
                 )
             })}
+            <Box pb="60px"></Box>
         </AppBody>
     )
 }
