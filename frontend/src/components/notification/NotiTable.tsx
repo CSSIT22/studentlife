@@ -27,15 +27,18 @@ import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
-import { Notiobject, pushNotiType } from "@apiType/notification"
+import { alertNoti, Notiobject, pushNotiType } from "@apiType/notification"
 import { socketContext } from "src/context/SocketContext"
 import { NavBarContext } from "src/context/NavbarContext"
 import NotiObject from "./main/NotiObject"
+import { templates } from "./templates"
+import { showDescription } from "./replaceValue"
 
 const NotiTable = () => {
 
-    const { setcountUnread } = useContext(NavBarContext)
 
+
+    const { setcountUnread } = useContext(NavBarContext)
 
     //reload noti
     const [reLoad, setreLoad] = useState(false)
@@ -70,26 +73,17 @@ const NotiTable = () => {
 
     const toast = useToast()
     useEffect(() => {
-        socketIO.on("push_noti", (data: pushNotiType) => {
+        socketIO.on("push_noti", (data: alertNoti) => {
             toast({
                 position: 'bottom-right',
                 render: () => (
 
                     <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
                         <Stack direction={"row"} spacing={3}>
-                            <Center><Avatar bg="blackAlpha.200" size={"sm"}>
-                                <AvatarBadge boxSize="1em" bg="green.500" />
-                            </Avatar>
-                            </Center>
+
                             <Stack>
-                                {/* <Text fontSize={"sm"} color="white">
-                                <b>User123456</b> Create a post asdfkj asdf asdad
-                                </Text>
-                                <Text fontSize={"xs"} color="white">
-                                    10 hours ago
-                                </Text> */}
                                 <Text fontSize={"sm"} color="white">
-                                    You got new notification.
+                                    {showDescription(data.data, data.notiObject.template)}
                                 </Text>
                             </Stack>
                         </Stack>

@@ -10,6 +10,7 @@ import addNotiObject from "./routes/addNotiObject"
 import getUserNotiObjectbyModule from "./routes/getUserNotiObjectbyModule"
 import editNotiUserSetting from "./routes/editNotiUserSetting"
 import getSenderImage from "./routes/getSenderImage"
+import getUserEmail from "./routes/getUserEmail"
 
 let io: IOServer
 
@@ -27,6 +28,7 @@ notificationRoutes.get("/getusernotiobject", getUserNotiObject)
 notificationRoutes.get("/getNotiUser", getNotiUser)
 notificationRoutes.get("/getusernotiobjectbymodule/:module", getUserNotiObjectbyModule)
 notificationRoutes.get("/getsenderimage/:senderId", getSenderImage)
+notificationRoutes.get("/getuseremail/:userId", getUserEmail)
 
 notificationRoutes.post("/addnotiobject", addNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
