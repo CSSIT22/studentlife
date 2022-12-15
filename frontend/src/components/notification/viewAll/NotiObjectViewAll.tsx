@@ -17,6 +17,18 @@ const NotiObjectViewAll: FC<{
     sender: string
     values: NotiValue[]
 }> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
+
+    const [senderImg, setsenderImg] = useState([])
+
+    useEffect(() => {
+        API.get("/notification/getsenderimage/" + sender).then(
+            item => setsenderImg(item.data.image)
+        )
+    }, [])
+
+    //console.log(senderImg);
+
+
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -147,6 +159,19 @@ const NotiObjectViewAll: FC<{
         }
     }
 
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
+    }
+
     function showUser() {
         // var user = USER.filter((el) => el.id == userId)
         // var userStatus = user[0].isOnline
@@ -165,11 +190,15 @@ const NotiObjectViewAll: FC<{
         //         </Avatar>
         //     )
         // }
-        return (
-            //<Avatar src={user[0].avatarImg} size={"sm"} />
-            <Avatar size={"sm"} />
-
-        )
+        if (sender == null) {
+            return (
+                <Avatar src="./Logo_01.png" size={"sm"} />
+            )
+        } else {
+            return (
+                <Avatar src={handleImg(senderImg)} size={"sm"} />
+            )
+        }
     }
     function read() {
         API.post("/notification/readnotiobject/" + id)

@@ -9,7 +9,7 @@ const getSenderImage = async (req: Request, res: Response) => {
             },
             where: { userId: req.params.senderId },
         })
-        console.log(senderImage)
+        // console.log(senderImage)
 
         return res.send(senderImage)
     } catch (err) {
