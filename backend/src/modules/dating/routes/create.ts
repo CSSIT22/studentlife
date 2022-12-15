@@ -86,9 +86,7 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
                 " " +
                 pollTopic
         )
-        req.body.activityInterestId.map((topic: string) => {
-            pollTopic.push({ activityInterestId: topic })
-        })
+        
         const pollInfo: any = {
             userId: userId,
             pollName: pollName,
@@ -98,19 +96,20 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
             participantMin: participantMin,
             participantMax: participantMax,
             isOpen: isOpen,
-            // pollcreated: pollcreated,
-            // pollcreated: null,
             // roomId: "293249324",
         }
         console.log("HENLO! " + pollInfo.pollAppointAt)
-        await prisma.activity_Poll.create({
+        const poll = await prisma.activity_Poll.create({
             // data: { ...pollInfo },
-            data: pollInfo
+            data: pollInfo,
+        })
+        req.body.activityInterestId.map((topic: string) => {
+            pollTopic.push({ pollId: poll.pollId, activityInterestId: topic })
         })
         await prisma.poll_Interest.createMany({
             data: pollTopic,
         })
-        // calExp(prisma, req.user?.userId || "", "DatingPoll")
+        calExp(prisma, req.user?.userId || "", "DatingPoll")
         return res.send("Success")
     } catch (err) {
         console.log(err)

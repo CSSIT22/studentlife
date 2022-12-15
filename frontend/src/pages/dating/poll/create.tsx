@@ -194,24 +194,24 @@ const CreateActivityPoll = () => {
             !isNoTime &&
             !validTime
         ) {
-            console.log(
-                "Header: " +
-                header +
-                " Tag: " +
-                selectedInterests +
-                " Description: " +
-                description +
-                " Location: " +
-                location +
-                " Date & Time: " +
-                // { d: handleDateTime() } +
-                // handleDateTime() +
-                date +
-                " Now: " +
-                new Date() +
-                " people: " +
-                sliderValue
-            )
+            // console.log(
+            //     "Header: " +
+            //     header +
+            //     " Tag: " +
+            //     selectedInterests +
+            //     " Description: " +
+            //     description +
+            //     " Location: " +
+            //     location +
+            //     " Date & Time: " +
+            //     // { d: handleDateTime() } +
+            //     // handleDateTime() +
+            //     date +
+            //     " Now: " +
+            //     new Date() +
+            //     " people: " +
+            //     sliderValue
+            // )
             API.post<PollDetail | UserInterests>("/dating/create/setPoll", {
                 pollName: header,
                 pollPlace: location,
@@ -225,14 +225,14 @@ const CreateActivityPoll = () => {
             })
                 .then(() => navigate("/dating/poll"))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request! " + err) }))
-            toast({
-                title: "Poll created.",
-                description: "You have successfully created a poll.",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "top",
-            })
+            // toast({
+            //     title: "Poll created.",
+            //     description: "You have successfully created a poll.",
+            //     status: "success",
+            //     duration: 5000,
+            //     isClosable: true,
+            //     position: "top",
+            // })
         } else {
             // Error message
             toast({

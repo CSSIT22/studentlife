@@ -33,11 +33,6 @@ ratingRoutes.get("/getUserProfile", verifyUser, async (req: Request, res: Respon
                             lName: true,
                             image: true,
                             
-                            receiveRate: {
-                                select: {
-                                    score: true,
-                                },
-                            },
                         },
                     },
                 },
