@@ -1,5 +1,5 @@
 import { HeartGiver, AllInterests } from "@apiType/dating"
-import { Box, HStack, SimpleGrid, useBoolean, useBreakpointValue, useToast } from "@chakra-ui/react"
+import { Box, HStack, SimpleGrid, Text, useBoolean, useBreakpointValue, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingCheckDesktopDetails from "src/components/dating/DatingCheckDesktopDetails"
@@ -13,6 +13,7 @@ import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import Lottie from "lottie-react"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
+import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
 
 const LikedYou = () => {
@@ -159,7 +160,7 @@ const LikedYou = () => {
     return (
         <DatingAppBody>
             {isLoading || isError ? <>
-            </> : <><Box display="flex" justifyContent="center">
+            </> : heartGiver.length == 0 ? <><Box display="flex" justifyContent="center">
                 <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
                     <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
                     <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
@@ -168,6 +169,21 @@ const LikedYou = () => {
                     </HStack>
                 </Box>
             </Box>
+                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top="30%">
+                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
+                    <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "3xl" }} lineHeight="120%" pl="18px" >
+                        Right now, you have no new likes.
+                    </Text>
+
+                </Box></> : <><Box display="flex" justifyContent="center">
+                    <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
+                        <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
+                        <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
+                            <DatingLikedYouButton backgroundColor="orange.600" />
+                            <DatingYouLikedButton backgroundColor="orange.800" />
+                        </HStack>
+                    </Box>
+                </Box>
 
                 <Box
                     display={{ base: "grid", md: "block" }}
@@ -209,25 +225,30 @@ const LikedYou = () => {
                                 {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
                             </Box>
                         ))}
-                </Box></>}
+                </Box></>
+            }
 
 
-            {(isLoading) && !isError ? (
-                <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                    <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-                </Box>
-            ) : (
-                <></>
-            )}
+            {
+                (isLoading) && !isError ? (
+                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
+                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
 
-            {isError ? (
-                <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
-                    <DatingWentWrong />
-                </Box>
-            ) : (
-                <></>
-            )}
-        </DatingAppBody>
+            {
+                isError ? (
+                    <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
+                        <DatingWentWrong />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
+        </DatingAppBody >
     )
 }
 
