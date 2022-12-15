@@ -24,6 +24,11 @@ import {
     Icon,
     Heading,
     useBoolean,
+    CheckboxGroup,
+    Stack,
+    Checkbox,
+    FormControl,
+    Radio,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
@@ -34,7 +39,7 @@ import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { friend } from "../data/friend"
 import API from "src/function/API"
-import { a } from "@react-spring/web"
+
 
 
 function detail() {
@@ -43,12 +48,12 @@ function detail() {
     const [numres, setnumres] = useState(params.detailRes)
 
     const [property, setproperty] = React.useState<any>([])
-    const [isError, {on}] = useBoolean()     
-    const [isLoading, {off}] = useBoolean(false)
-    const getdetail =  API.get("/restaurant/detail/" + params.detailRes)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(false)
+    const getdetail = API.get("/restaurant/detail/" + params.detailRes)
     useEffect(() => {
-     getdetail.then((item) => setproperty(item.data))
-           
+        getdetail.then((item) => setproperty(item.data))
+
     }, [params.detailRes])
 
     console.log(property)
@@ -79,17 +84,26 @@ function detail() {
     )
 
     let [isFavorite, setIsFavorite] = useState(Boolean)
-   
+
     useEffect(() => {
         property.map((el: any) => {
             console.log(el.userFav.length)
             if (el.userFav.length == 1) {
                 setIsFavorite(true)
-            } else { 
-                setIsFavorite(false) 
+            } else {
+                setIsFavorite(false)
             }
         })
     }, [setIsFavorite, property])
+
+    const submit = () => {
+        console.log("papoo")
+    }
+
+    friend.map((e1:any)=>{
+
+    })
+    
 
 
 
@@ -208,7 +222,7 @@ function detail() {
                                                             py={1}
                                                             onClick={onOpen}
                                                             borderWidth={2}
-                                                            borderColor="black"
+                                                            borderColor="blackAlpha.700"
                                                         >
                                                             <Icon as={SlActionRedo} fontSize="md" mr={2} />
                                                             Share
@@ -217,49 +231,56 @@ function detail() {
                                                     <PopoverContent>
                                                         <PopoverArrow />
                                                         <PopoverCloseButton />
-                                                        <PopoverHeader textAlign={"center"}>Share</PopoverHeader>
+                                                        <PopoverHeader fontWeight='semibold' textAlign={"center"}>Share</PopoverHeader>
                                                         <PopoverBody>
-                                                            <Flex>
-                                                                <Wrap spacing="30px">
-                                                                    {friend.map((f1) => {
-                                                                        return (
-                                                                            <WrapItem>
-                                                                                <Avatar as={"button"} name={f1.name} src={f1.picture} />
-                                                                            </WrapItem>
-                                                                        )
-                                                                    })}
-                                                                </Wrap>
-                                                            </Flex>
+                                                            <form action="/chat/">
+                                                                
+                                                                    <Flex>
+                                                                        <Wrap spacing="30px">
+                                                                            {friend.map((f1) => {
+                                                                                return (
+                                                                                <Radio name={f1.Id}> 
+                                                                                    <WrapItem>
+                                                                                        <Avatar name={f1.name} src={f1.picture} />
+                                                                                        <Text></Text>
+                                                                                    </WrapItem>
+                                                                                </Radio>
+                                                                                )
+                                                                            })}
+                                                                        </Wrap>
+                                                                    </Flex>
+                                                                
+                                            
+                                                                <Flex my={5}>
+                                                                    <Button
+                                                                        type="submit"
+                                                                        bg={"green.400"}
+                                                                        color="white"
+                                                                        border={1}
+                                                                        borderRadius={"10px"}
+                                                                        px={4}
+                                                                        py={2}
+                                                                        onClick={() => {submit()
+                                                                            
+                                                                        }}
+                                                                    >
+                                                                        OK
+                                                                    </Button>
+                                                                    <Spacer />
+                                                                    <Button
+                                                                        bg={"tomato"}
+                                                                        color="white"
+                                                                        border={1}
+                                                                        borderRadius={"10px"}
+                                                                        px={2}
+                                                                        py={1}
+                                                                        onClick={onClose}
+                                                                    >
+                                                                        Cancel
+                                                                    </Button>
+                                                                </Flex>
+                                                            </form>
                                                         </PopoverBody>
-                                                        <PopoverFooter>
-                                                            <Flex my={2}>
-                                                                <Box
-                                                                    as="button"
-                                                                    bg={"green.400"}
-                                                                    color="white"
-                                                                    border={1}
-                                                                    borderRadius={"5px"}
-                                                                    px={4}
-                                                                    py={2}
-                                                                    onClick={onClose}
-                                                                >
-                                                                    OK
-                                                                </Box>
-                                                                <Spacer />
-                                                                <Box
-                                                                    as="button"
-                                                                    bg={"tomato"}
-                                                                    color="white"
-                                                                    border={1}
-                                                                    borderRadius={"5px"}
-                                                                    px={2}
-                                                                    py={1}
-                                                                    onClick={onClose}
-                                                                >
-                                                                    Cancel
-                                                                </Box>
-                                                            </Flex>
-                                                        </PopoverFooter>
                                                     </PopoverContent>
                                                 </>
                                             )}
