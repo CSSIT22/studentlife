@@ -1,43 +1,20 @@
+import { FollowDetail } from "@apiType/dating"
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 
 const DatingRatingSearch: FC<{
-    setSearchQuery: Dispatch<SetStateAction<string>>
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>
     searchQuery: string
-    setFriends: React.Dispatch<
-        React.SetStateAction<
-            {
-                UserId: string
-                Fname: string
-                Lname: string
-                Gender: string
-                Age: string
-                Faculty: string
-                url: string
-                interestId: number[]
-                rate: number
-            }[]
-        >
-    >
-    FRIENDS: {
-        UserId: string
-        Fname: string
-        Lname: string
-        Gender: string
-        Age: string
-        Faculty: string
-        url: string
-        interestId: number[]
-        rate: number
-    }[]
+    setFriends: React.Dispatch<React.SetStateAction<FollowDetail[]>>
+    FRIENDS: FollowDetail[]
 }> = ({ setSearchQuery, searchQuery, setFriends, FRIENDS }) => {
     const [timer, setTimer] = useState<number | null>(null)
     const didMount = useDidMount()
 
     useEffect(() => {
         if (didMount) {
-            setFriends(() => FRIENDS.filter((arr) => arr.Fname.toLowerCase().concat(arr.Lname.toLowerCase()).includes(searchQuery.toLowerCase())))
+            setFriends(() => FRIENDS.filter((arr) => arr.following.fName.toLowerCase().concat(" " + arr.following.lName.toLowerCase()).includes(searchQuery.toLowerCase())))
         }
 
         // alert('Query: "' + searchQuery + '"')

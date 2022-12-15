@@ -41,3 +41,32 @@ export type UserOption = {
   genderPref: string;
   useAge: boolean;
 };
+
+export type PollDetail = {
+  pollId: string;
+  userId: string;
+  pollName: string;
+  pollPlace: string;
+  pollAppointAt: any;
+  pollText: string;
+  participantMin: number;
+  participantMax: number;
+  isOpen: boolean;
+  pollcreated: any;
+};
+
+export type FollowDetail = {
+  score: number;
+  following: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+    // giveRate: {
+    //   score: number;
+    // };
+  };
+};

@@ -4,9 +4,14 @@ import AppBody from "./../../components/share/app/AppBody"
 import { FRIEND } from "./../../components/dating/shared/friend"
 import DatingRatingSearch from "src/components/dating/DatingRatingSearch"
 import DatingRatingAllStar from "src/components/dating/DatingRatingAllStar"
+import API from "src/function/API"
+import { FollowDetail } from "@apiType/dating"
+import NoProfileImg from "../../components/dating/pic/noprofile.png"
 
 const Rating = () => {
-    const [friend, setFriend] = useState(FRIEND)
+    // const [friend, setFriend] = useState(FRIEND)
+    const [friend, setFriend] = useState<FollowDetail[]>([])
+    const [allFriend, setAllFriend] = useState<FollowDetail[]>([])
     const [searchQuery, setSearchQuery] = useState("")
     const didMount = useDidMount()
     let count = 1
@@ -15,8 +20,23 @@ const Rating = () => {
         if (didMount && count != 0) {
             count--
             window.scrollTo(0, 0)
+            API.get("/dating/rating/getUserProfile").then((followDB) => {
+                setFriend(followDB.data)
+                setAllFriend(followDB.data)
+            })
+                .catch((err) => console.log(err));
         }
+
     })
+    // let backgroundImage;
+    // if (friend.image) {
+    //     backgroundImage = (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character.userId
+    // }
+    // else {
+    //     backgroundImage = NoProfileImg
+    // }
+
+    // let linkto = "../../user/" + friend.userId
 
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
@@ -41,7 +61,8 @@ const Rating = () => {
                                         searchQuery={searchQuery}
                                         setSearchQuery={setSearchQuery}
                                         setFriends={setFriend}
-                                        FRIENDS={FRIEND}
+                                        // FRIENDS={FRIEND}
+                                        FRIENDS={allFriend}
                                     />
                                 </Box>
                             </Stack>
@@ -55,22 +76,29 @@ const Rating = () => {
                     <Box>
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
                             <Flex>
-                                <Image
-                                    borderRadius="full"
-                                    boxSize="78px"
-                                    objectFit="cover"
-                                    src={values.url}
-                                    alt={values.Fname + " " + values.Lname}
-                                />
+                                {values.following.image ?
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.following.userId}
+                                        alt={values.following.fName + " " + values.following.lName}
+                                    /> : <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={NoProfileImg}
+                                        alt={values.following.fName + " " + values.following.lName}
+                                    />}
                                 <Center>
                                     <Text ml="30px" fontSize="20px">
-                                        {values.Fname}
+                                        {values.following.fName}
                                         &nbsp;
-                                        {values.Lname}
+                                        {values.following.lName}
                                     </Text>
                                 </Center>
                             </Flex>
-                            <DatingRatingAllStar defaultFill={values.rate} rateFor={values.UserId} />
+                            <DatingRatingAllStar defaultFill={values.score} rateFor={values.following.userId} />
                         </Box>
                     </Box>
                 )

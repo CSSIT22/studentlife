@@ -16,7 +16,40 @@ ratingRoutes.get("/getRating", verifyUser, async (req: Request, res: Response) =
 
 // Get the user profile join with follow table
 ratingRoutes.get("/getUserProfile", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+    try {
+        const userId = req.user?.userId
+        if (userId == null) {
+            return res.send()
+        } else {
+            const followDB = await prisma.follow.findMany({
+                where: {
+                    userId: userId,
+                },
+
+                select: {
+                    score: true,
+                    following: {
+                        select: {
+                            userId: true,
+                            fName: true,
+                            lName: true,
+                            image: true,
+
+                            // giveRate: {
+                            //     select: {
+                            //         score: true,
+                            //     },
+                            // },
+                        },
+                    },
+                },
+            })
+            console.log(followDB)
+            return res.send(followDB)
+        }
+    } catch (err) {
+        return res.status(404).send("User Option not found")
+    }
 })
 
 // Set the rating

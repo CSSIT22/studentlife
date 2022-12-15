@@ -346,7 +346,7 @@ const DatingRandomization = () => {
                                 })
                                 navigate("/user")
                             }
-                            else if(getAge(detail.data.birth) < 18) {
+                            else if (getAge(detail.data.birth) < 18) {
                                 toast({
                                     title: "You don't meet the minimum age requirement!",
                                     status: "warning",
@@ -357,7 +357,7 @@ const DatingRandomization = () => {
                                 })
                                 navigate("/")
                             }
-                            else if(getAge(detail.data.birth) > 40) {
+                            else if (getAge(detail.data.birth) > 40) {
                                 toast({
                                     title: "You don't meet the maximum age requirement!",
                                     status: "warning",
@@ -402,7 +402,7 @@ const DatingRandomization = () => {
                                 navigate("/dating/interests")
                             }
                         })
-                        
+
 
                     })
             })
@@ -416,7 +416,7 @@ const DatingRandomization = () => {
                     setAllInterests(interest.data)
                 })
                 setCurrentIndex(data.length - 1)
-                
+
             }).catch((err) => setIsError(true)).finally(off)
         }
     })

@@ -54,7 +54,7 @@ const DatingOption = () => {
                         })
                         navigate("/user")
                     }
-                    else if(getAge(detail.data.birth) < 18) {
+                    else if (getAge(detail.data.birth) < 18) {
                         toast({
                             title: "You don't meet the minimum age requirement!",
                             status: "warning",
@@ -65,7 +65,7 @@ const DatingOption = () => {
                         })
                         navigate("/")
                     }
-                    else if(getAge(detail.data.birth) > 40) {
+                    else if (getAge(detail.data.birth) > 40) {
                         toast({
                             title: "You don't meet the maximum age requirement!",
                             status: "warning",
@@ -87,7 +87,7 @@ const DatingOption = () => {
                         })
                         navigate("/dating/tutorial");
                     }
-                    
+
                 })
 
             })
@@ -109,7 +109,6 @@ const DatingOption = () => {
                             globalThis.facs :
                             selectedOption.faculties.map((item: any) => (item.facultyPref))
                     )
-
                     globalThis.useAge = selectedOption.useAge
                     globalThis.age = [selectedOption.ageMin, selectedOption.ageMax]
                     globalThis.gender = selectedOption.genderPref

@@ -24,7 +24,7 @@ import {
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import { useEffect, useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
-import { AllInterests } from "@apiType/dating"
+import { AllInterests, PollDetail, UserInterests } from "@apiType/dating"
 import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
@@ -36,6 +36,7 @@ import DatingCreateDate from "src/components/dating/DatingCreateDate"
 import DatingCreateTime from "./../../../components/dating/DatingCreateTime"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
+import TagOfInterest from './../interests';
 
 declare global {
     var isDateWrong: boolean, isTimeWrong: boolean, people: number[], tag: number[], topic: string[]
@@ -52,89 +53,46 @@ const CreateActivityPoll = () => {
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 API.get("/dating/verifyEnroll/getDatingOptions")
                     .then((datingOptions) => {
-                        API.get("/dating/verifyEnroll/getDetail").then((detail) => {
-                            function getAge(dateString: Date) {
-                                var today = new Date()
-                                var birthDate = new Date(dateString)
-                                var age = today.getFullYear() - birthDate.getFullYear()
-                                var m = today.getMonth() - birthDate.getMonth()
-                                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                                    age--
-                                }
-                                return age
-                            }
-                            if (!detail.data.sex || !detail.data.birth) {
-                                toast({
-                                    title: "It looks like some of your details are missing!",
-                                    status: "warning",
-                                    duration: 10000,
-                                    isClosable: true,
-                                    position: "top",
-                                    description: "Please specify your \"birth date\" and \"sex\" before using Dating & Finding Friend."
-                                })
-                                navigate("/user")
-                            }
-                            else if(getAge(detail.data.birth) < 18) {
-                                toast({
-                                    title: "You don't meet the minimum age requirement!",
-                                    status: "warning",
-                                    duration: 10000,
-                                    isClosable: true,
-                                    position: "top",
-                                    description: "You are required to be at least 18 years old to use Dating & Finding Friend."
-                                })
-                                navigate("/")
-                            }
-                            else if(getAge(detail.data.birth) > 40) {
-                                toast({
-                                    title: "You don't meet the maximum age requirement!",
-                                    status: "warning",
-                                    duration: 5000,
-                                    isClosable: true,
-                                    position: "top",
-                                    description: "You are required to be at most 40 years old to use Dating & Finding Friend."
-                                })
-                                navigate("/")
-                            }
-                            else if (!datingEnroll.data.hasCompleteTutorial) {
-                                toast({
-                                    title: "Welcome!",
-                                    status: "info",
-                                    duration: 5000,
-                                    isClosable: true,
-                                    position: "top",
-                                    description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
-                                })
-                                navigate("/dating/tutorial");
-                            }
-                            else if (!datingOptions.data.userId) {
-                                navigate("/dating/option")
-                                toast({
-                                    title: "Option Setting Incomplete!",
-                                    status: "warning",
-                                    duration: 5000,
-                                    isClosable: true,
-                                    position: "top",
-                                    description: "You are required to set your option first before using Dating & Finding Friend."
-                                })
-                            }
-                            else if (!datingEnroll.data.hasCompleteSetting) {
-                                toast({
-                                    title: "Interests Selection Incomplete!",
-                                    status: "warning",
-                                    duration: 5000,
-                                    isClosable: true,
-                                    position: "top",
-                                    description: "You are required to skip or select your interests first before using Dating & Finding Friend."
-                                })
-                                navigate("/dating/interests")
-                            }
-                        })
+                        if (!datingEnroll.data.hasCompleteTutorial) {
+                            toast({
+                                title: "Welcome!",
+                                status: "info",
+                                duration: 5000,
+                                isClosable: true,
+                                position: "top",
+                                description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
+                            })
+                            navigate("/dating/tutorial");
+                        }
+                        else if (!datingOptions.data.userId) {
+                            navigate("/dating/option")
+                            toast({
+                                title: "Option Setting Incomplete!",
+                                status: "warning",
+                                duration: 5000,
+                                isClosable: true,
+                                position: "top",
+                                description: "You are required to set your option first before using Dating & Finding Friend."
+                            })
+                        }
+                        else if (!datingEnroll.data.hasCompleteSetting) {
+                            toast({
+                                title: "Interests Selection Incomplete!",
+                                status: "warning",
+                                duration: 5000,
+                                isClosable: true,
+                                position: "top",
+                                description: "You are required to skip or select your interests first before using Dating & Finding Friend."
+                            })
+                            navigate("/dating/interests")
+                        }
+
                     })
             })
         }
         API.get("/dating/create/getAllTopic").then((allInterest) => {
             setAllInterests(allInterest.data)
+            // setInterests(allInterest.data)
             // console.log("INTERESTING: " + allInterests)
         })
 
@@ -168,8 +126,9 @@ const CreateActivityPoll = () => {
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
     // const [interests, setInterests] = useState(INTERESTS)
-    const [interests, setInterests] = useState(INTERESTS)
+    // const [interests, setInterests] = useState(INTERESTS)
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
+    const [interests, setInterests] = useState<AllInterests[]>([])
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedInterests, setSelectedInterest] = useState<number[]>([])
     const [selectedInterestsNew, setSelectedInterestNew] = useState<number[]>([])
@@ -214,7 +173,12 @@ const CreateActivityPoll = () => {
     }
 
     function handleDateTime() {
-        const dateTime = new Date(date + " " + time)
+        // const dateTime = new Date(date + " " + time)
+        const selectDate = new Date(date)
+        const dateTime =
+            // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
+            date + "T" + time + ":00.000Z"
+        console.log(dateTime)
         return dateTime
     }
 
@@ -241,12 +205,26 @@ const CreateActivityPoll = () => {
                 location +
                 " Date & Time: " +
                 // { d: handleDateTime() } +
-                handleDateTime() +
+                // handleDateTime() +
+                date +
                 " Now: " +
                 new Date() +
                 " people: " +
                 sliderValue
             )
+            API.post<PollDetail | UserInterests>("/dating/create/setPoll", {
+                pollName: header,
+                pollPlace: location,
+                pollAppointAt: handleDateTime(),
+                pollText: description,
+                participantMin: sliderValue[0],
+                participantMax: sliderValue[1],
+                isOpen: true,
+                // pollcreated: new Date(),
+                activityInterestId: selectedInterests
+            })
+                .then(() => navigate("/dating/poll"))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request! " + err) }))
             toast({
                 title: "Poll created.",
                 description: "You have successfully created a poll.",
@@ -283,7 +261,7 @@ const CreateActivityPoll = () => {
                                 <FormLabel>Poll topics</FormLabel>
                                 <Button
                                     borderRadius={"6px"}
-                                    onClick={onOpen}
+                                    onClick={() => { onOpen(), setInterests(allInterests) }}
                                     backgroundColor="#E65300"
                                     color={"white"}
                                     size="sm"
@@ -347,6 +325,7 @@ const CreateActivityPoll = () => {
                                             <DatingInterestSearch
                                                 searchQuery={searchQuery}
                                                 setSearchQuery={setSearchQuery}
+                                                // setInterests={setInterests}
                                                 setInterests={setInterests}
                                                 // allInterests={INTERESTS}
                                                 allInterests={allInterests}
@@ -359,7 +338,7 @@ const CreateActivityPoll = () => {
 
                                         {/* CheckboxGroup : List of tags of interest */}
                                         {/* {interests.map(({ interestId, interestName }) => ( */}
-                                        {allInterests.map(({ interestId, interestName }) => (
+                                        {interests.map(({ interestId, interestName }) => (
                                             // DatingInterestTag component: Used for generating interactive tag
                                             <DatingInterestTag
                                                 key={interestId}
@@ -407,6 +386,7 @@ const CreateActivityPoll = () => {
                             ) : (
                                 <FormHelperText color="gray">
                                     You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."}
+                                    {/* You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."} */}
                                 </FormHelperText>
                             )}
                         </FormControl>

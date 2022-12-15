@@ -51,7 +51,7 @@ const TagOfInterest = () => {
                             })
                             navigate("/user")
                         }
-                        else if(getAge(detail.data.birth) < 18) {
+                        else if (getAge(detail.data.birth) < 18) {
                             toast({
                                 title: "You don't meet the minimum age requirement!",
                                 status: "warning",
@@ -62,7 +62,7 @@ const TagOfInterest = () => {
                             })
                             navigate("/")
                         }
-                        else if(getAge(detail.data.birth) > 40) {
+                        else if (getAge(detail.data.birth) > 40) {
                             toast({
                                 title: "You don't meet the maximum age requirement!",
                                 status: "warning",

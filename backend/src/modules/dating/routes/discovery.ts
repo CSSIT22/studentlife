@@ -88,7 +88,6 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                             in: filterId,
                         },
                     },
-
                     details: {
                         NOT: {
                             userId: reqUserId,
