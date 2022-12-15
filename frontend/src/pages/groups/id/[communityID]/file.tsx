@@ -95,7 +95,7 @@ const file = () => {
                 isMember={community?.isMember}
                 isOwner={community?.isOwner}
                 communityMembers={community?.memberCount + 1}
-                activeBtn={1}
+                activeBtn={3}
                 isPending={community?.isPending}
                 tags={community?.tags}
                 isBlacklist={community?.isBlacklist}
