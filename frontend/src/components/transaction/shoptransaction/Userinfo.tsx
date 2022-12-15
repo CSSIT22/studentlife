@@ -2,7 +2,10 @@ import { Avatar, Box, Center, Stack, Text, useMediaQuery } from "@chakra-ui/reac
 import React, { FC, useContext } from "react"
 import { authContext } from "src/context/AuthContext"
 
+
+
 const Userinfo: FC<{
+
     id: string
     email: string
 }> = ({ id, email }) => {

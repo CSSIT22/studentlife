@@ -2,20 +2,35 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { FC, useEffect, useState } from "react"
 import { DatingOptionMultipleChoose } from "./DatingOptionMultipleChoose"
 import { AllFaculty } from "@apiType/dating"
-import { a } from "@react-spring/web"
-import API from "src/function/API"
 
 declare global {
-    var facs: string[]
+    var facs: any[]
 }
 
 const DatingOptionAccordion: FC<{
     faculties: AllFaculty[]
-    selectedFac: any[]
+    selectedFac: AllFaculty[]
+    // setSelectedFac: React.Dispatch<React.SetStateAction<string[]>>
     setSelectedFac: React.Dispatch<React.SetStateAction<AllFaculty[]>>
     getCheckboxProps: any
 }> = ({ faculties, selectedFac, setSelectedFac, getCheckboxProps }) => {
     // setSelectedFac(["All Faculty"])
+
+    function handleCheck(SF: string) {
+        for (let index = 0; index < selectedFac.length; index++) {
+            for (let index2 = 0; index2 < faculties.length; index2++) {
+                // console.log(selectedFac[index])
+                if (SF === (selectedFac[index] + "")) {
+                    // console.log("Ma value: " + SF + true)
+                    return true
+                }
+            }
+
+        }
+        // console.log("Ma value: " + SF + false)
+        return false
+    }
+
 
     globalThis.facs = addFac([])
     function addFac(facultyA: string[]) {
@@ -23,16 +38,21 @@ const DatingOptionAccordion: FC<{
         for (const element of faculties) {
             facultyA.push(element.facultyName)
         }
-        // console.log("Fac is " + facultyA)
+        // console.log(globalThis.facs)
         return facultyA
     }
 
-    function handleFac(fac: any) {
+    function handleFac(fac: string) {
         let arr: any[] = selectedFac
-        if (fac.toString() === "All Faculty") {
+        // console.log(arr)
+        if (fac === "All Faculty") {
             if (arr.includes(fac)) {
                 setSelectedFac([])
-            } else setSelectedFac(faculties)
+            } else {
+                // setSelectedFac(faculties)
+                setSelectedFac(globalThis.facs)
+                // setSelectedFac(handleSelectFac)
+            }
             return
         }
         // console.log("This arr: " + arr)
@@ -40,26 +60,31 @@ const DatingOptionAccordion: FC<{
             arr = [...arr, fac]
             arr.sort()
             setSelectedFac([...arr])
-            //console.log("array: " + selectedFac)
+            // console.log("array: " + selectedFac)
             //console.log("This add? :" + arr.indexOf(fac))
         } else {
             // filter?
             arr = arr.filter((item) => item !== fac)
             setSelectedFac([...arr])
-
             //console.log("This remove? :" + arr.splice(arr.indexOf(fac), arr.indexOf(fac) + 1))
         }
-        let arrWithoutAllfact = faculties.filter((item: any) => item.toString() !== faculties[0].toString())
+        let arrWithoutAllfact = globalThis.facs.filter((item) => item !== "All Faculty")
+        //        let arrWithoutAllfact = faculties.filter((item) => item.facultyName !== faculties[0].facultyName)
         let isAll = true
-        arrWithoutAllfact.forEach((item: any) => {
-            if (!arr.includes(item.toString())) {
+        arrWithoutAllfact.forEach((item) => {
+            // console.log(arrWithoutAllfact)
+            if (!arr.includes(item)) {
                 isAll = false
+                // console.log(isAll)
             }
         })
         if (isAll) {
-            setSelectedFac([faculties[0], ...arr])
+            // setSelectedFac([faculties[0].facultyName, ...arr])
+            // console.log(globalThis.facs[0])
+            setSelectedFac([globalThis.facs[0], ...arr])
         } else {
-            setSelectedFac(arr.filter((item: any) => item.toString() !== faculties[0].toString()))
+            // setSelectedFac(arr.filter((item) => item !== faculties[0]))
+            setSelectedFac(arr.filter((item) => item !== globalThis.facs[0]))
         }
         // console.log("This :" + arr)
     }
@@ -105,8 +130,9 @@ const DatingOptionAccordion: FC<{
                                     handleFac(e)
                                 }}
                                 // isChecked={(e: any) => { selectedFac.includes(e.target.value.facultyName) }}
-                                isChecked={selectedFac.includes(faculty)}
-                                // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
+                                isChecked={handleCheck(faculty)}
+                            // isChecked={selectedFac.includes(faculty)}
+                            // isChecked={(e: any) => { selectedFac.includes(e.target.value) }}
                             />
                         ))}
 

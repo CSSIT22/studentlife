@@ -11,27 +11,27 @@ const PageBox: FC<{
                 backgroundColor={"white"}
                 borderRadius={"50px"}
                 minHeight={"auto"}
-                py={"5%"}
                 {...(props.pageName != "drop"
                     ? {
-                          px: 10,
-                          h: "60vh",
-                          flexDirection: "column",
-                          w: ["100%"],
-                      }
+                        px: 5,
+                        py: ["10%", "3%"],
+                        h: ["60vh", "60vh", "60vh", "56vh"],
+                        flexDirection: "column",
+                        w: ["100%"],
+                        mt: ["25%", "13%", "6%", "15%"]
+                    }
                     : {
-                          px: 0,
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          w: ["100%", "90%", "80%", "70%"],
-                      })}
-                m={"auto"}
-                mt={["25%", "15%", "5%"]}
-                shadow={"md"}
+                        px: 0,
+                        py: ["10%", "5%"],
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        w: ["100%", "90%", "80%", "70%"],
+                        mt: ["10%", "13%", "6%", "10%"],
+                        mx: "auto"
+                    })}
+                shadow={"lg"}
                 border={"1px"}
                 borderColor={"gray.200"}
-                // transition={"all 0.2s ease-in-out"}
-                // _focusWithin={{ transform: "scale(1.02)" }}
             >
                 {props.children}
             </Flex>

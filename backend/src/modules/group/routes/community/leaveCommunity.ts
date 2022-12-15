@@ -8,14 +8,15 @@ const leaveCommuntiy = async (req: Request, res: Response) => {
         await prisma.community_User.delete({
             where: {
                 userId_communityId: {
-                    userId: req.body.userId,
-                    communityId: req.body.communityId,
+                    userId: req.body.user,
+                    communityId: req.body.communityId, //req.params.communityId
                 },
             },
         })
 
         res.status(200).send("Leave Success")
     } catch (err) {
+        console.log(err)
         res.status(403)
     }
 }

@@ -49,5 +49,4 @@ shopRoutes.get("/getOrderInformation/:orderId", getOrderInformation)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 
-
 export default shopRoutes

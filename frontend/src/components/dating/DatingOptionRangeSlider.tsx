@@ -25,7 +25,7 @@ const DatingOptionRangeSlider: FC<{
 
     function handleCheck() {
         //Passing data + debug
-        globalThis.useAge = useAgeValue
+        globalThis.useAge = !useAgeValue
         // console.log(globalThis.useAge)
     }
 
@@ -36,7 +36,9 @@ const DatingOptionRangeSlider: FC<{
                 <span tabIndex={0}>
                     <Checkbox
                         colorScheme="white"
-                        defaultChecked={globalThis.useAge}
+                        defaultChecked={true}
+                        checked={useAgeValue}
+                        isChecked={useAgeValue}
                         p="30px"
                         size="lg"
                         iconSize="5lg"
@@ -54,6 +56,7 @@ const DatingOptionRangeSlider: FC<{
                 min={18}
                 max={40}
                 defaultValue={[19, 25]}
+                value={sliderValue}
                 onChange={(val) => {
                     handleAge()
                     setSliderValue(val)
@@ -77,7 +80,7 @@ const DatingOptionRangeSlider: FC<{
                     <Box color="#FFF2E5" />
                 </RangeSliderThumb>
             </RangeSlider>
-        </Center>
+        </Center >
     )
 }
 

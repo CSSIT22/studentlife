@@ -1,45 +1,31 @@
 import { Express, Request, Response } from "express"
-import { getObject, setObject } from "../index"
 import { Notiobject } from "@apiType/notification"
+import { Module } from "@prisma/client"
+
 const readNotiObject = async (req: Request, res: Response) => {
     try {
-        let readObject = null
-        if (req.params.module != "All") {
-            const newData = getObject().map((el) => {
-                if (el.isRead == false && el.module == req.params.module) {
-                    readObject = {
-                        id: el.id,
-                        date: el.date,
-                        isRead: true,
-                        module: el.module,
-                        description: el.description,
-                        link: el.link,
-                        user: el.user,
-                    }
-                    return readObject
-                }
-                return el
+        const prisma = res.prisma
+        if (req.params.module == "All") {
+            const readObject = await prisma.user_Noti_Object.updateMany({
+                where: {
+                    userId: req.user?.userId || "",
+                },
+                data: {
+                    isRead: true,
+                },
             })
-            setObject(newData)
-            res.send(readObject)
         } else {
-            const newData = getObject().map((el) => {
-                if (el.isRead == false) {
-                    readObject = {
-                        id: el.id,
-                        date: el.date,
-                        isRead: true,
-                        module: el.module,
-                        description: el.description,
-                        link: el.link,
-                        user: el.user,
-                    }
-                    return readObject
-                }
-                return el
+            const readObject = await prisma.user_Noti_Object.updateMany({
+                where: {
+                    userId: req.user?.userId || "",
+                    AND: {
+                        notiObject: { module: req.params.module as Module },
+                    },
+                },
+                data: {
+                    isRead: true,
+                },
             })
-            setObject(newData)
-            res.send(readObject)
         }
     } catch (err) {
         return res.status(400).send("error")

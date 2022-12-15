@@ -5,14 +5,14 @@ import AmountRate from "./AmountRate"
 import AmountReview from "./AmountReview"
 
 const DetailBox: FC<{ heading: String; image: String; rate: String; amo_re: String }> = ({ heading, image, rate, amo_re }) => {
-    const navigate = useNavigate()
-    const navigateShopDetail = () => {
-        navigate("/shopreview/shopdetails")
-    }
+    // const navigate = useNavigate()
+    // const navigateShopDetail = () => {
+    //     navigate("/shopreview/shopdetails")
+    // }
     return (
-        <Box onClick={navigateShopDetail} as="button" p={3} h={32} background={`url('${image}')`} shadow={"md"} rounded={"2xl"}>
+        <Box backgroundSize={"100%"} backgroundImage={`url('${image}')`} _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" as="button" p={3} h={32} width={"100%"} shadow={"md"} rounded={"2xl"}>
             <Flex>
-                <Heading overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} size="md" textAlign={"left"} color="black">
+                <Heading overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} size="md" textAlign={"left"} color="white">
                     {heading}
                 </Heading>
             </Flex>

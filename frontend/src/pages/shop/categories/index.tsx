@@ -9,4 +9,5 @@ const Categories = () => {
         </ShopAppBody>
     )
 }
+
 export default Categories
