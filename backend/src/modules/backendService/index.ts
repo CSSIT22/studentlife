@@ -12,6 +12,42 @@ const backendserviceRoutes = express()
 
 backendserviceRoutes.use(express.json())
 
+backendserviceRoutes.post("/reportword", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const { prisma } = res
+        const countWord = await prisma.word_Report.aggregate({
+            _count: {
+                word: true,
+            },
+        })
+        if (countWord._count.word >= 10) {
+            const result = await prisma.filtered_Word.create({
+                data: {
+                    word: req.body.word,
+                    // should be auto increment and generate
+                    wordReportId: Math.random() * 10000,
+                },
+            })
+        } else {
+            const result = await prisma.word_Report.create({
+                data: {
+                    word: req.body.word,
+                    userId: req.body.reportedUserId,
+                    detail: {
+                        create: {
+                            reason: req.body.reason || "",
+                            roomId: req.body.roomId,
+                        },
+                    },
+                },
+            })
+        }
+        res.status(200).json({ message: "Report Success" })
+    } catch (err: any) {
+        return res.status(400).json({ message: err })
+    }
+})
+
 backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
     const { prisma } = res
     try {
