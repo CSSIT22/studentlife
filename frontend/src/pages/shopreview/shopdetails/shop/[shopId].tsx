@@ -16,18 +16,18 @@ import API from 'src/function/API'
 // main component
 const shopId = () => {
     const [rating, setRating] = useState(0) // rating star max = 5
-    //const [text, setText] = useState("") // review description 
+    const [text, setText] = useState("") // review description 
     const [detail, setDetail] = useState<any>([]) // shop's detail fetch from backend
-   //  const [review, setReview] = useState<any>([]) // user's reviews fetch from backend
-   // const navigate = useNavigate() // navigation function for handling navigate to shop's review comment page
-   // const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
+    const [review, setReview] = useState<any>([]) // user's reviews fetch from backend
+    const navigate = useNavigate() // navigation function for handling navigate to shop's review comment page
+    const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
     let param = useParams() // get data from param
     const buttons = []
 
-    // const Navigate = (target: any) => {
-    //     navigate(`/shopreview/review/${target}`)
-    //     window.scrollTo(0, 0)
-    // }
+    const Navigate = (target: any) => {
+         navigate(`/shopreview/review/${target}`)
+         window.scrollTo(0, 0)
+     }
 
     // handle onclick
     const onClick = (idx: any) => {
@@ -40,9 +40,7 @@ const shopId = () => {
         }
     }
     window.scrollTo(0, 0)
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const [text, setText] = useState("")
     
     const submit = () => {
 
@@ -60,18 +58,13 @@ const shopId = () => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
-    const [review, setReview] = useState<any>([])
-    // const getReview = API.get("/shopreview/getmyreviewDb")
-    // useEffect(() => {
-    //     getReview.then((res) => {
-    //         setReview(res.data)
-    //     })
-    // }, [])
-    const navigate = useNavigate()
-    function Navigate(target: any) {
-        navigate(`/shopreview/review/${target}`)
-        window.scrollTo(0, 0)
-    }
+     const getReview = API.get("/shopreview/getmyreviewDb")
+    useEffect(() => {
+        getReview.then((res) => {
+            setReview(res.data)
+        })
+    }, [])
+  
     return (
         <AppBody>
             {detail.map((item: any, index: any) => (
