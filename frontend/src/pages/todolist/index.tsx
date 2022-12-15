@@ -93,6 +93,7 @@ const index = () => {
       {/* backend */}
       {
         taskList.map((el: any, index: number) => (
+
           <Box height={"5rem"} width={"100%"} p="5" mt="5"
             backgroundColor="#FFFFFF" rounded="lg" key={index} boxShadow="md">
             <Flex alignItems={"center"}>
@@ -103,7 +104,7 @@ const index = () => {
               </Link>
               <Spacer />
 
-              {el.taskCheck.isChecked ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
+              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
 
             </Flex>
           </Box>

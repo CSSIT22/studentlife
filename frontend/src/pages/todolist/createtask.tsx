@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
     Modal,
     ModalOverlay,
@@ -24,7 +24,7 @@ import {
     Link,
 } from "@chakra-ui/react"
 import API from "src/function/API"
-import { BrowserRouter as Router, Route, Link as RouteLink, Form } from "react-router-dom"
+import { BrowserRouter as Router, Route, Link as RouteLink, Form, useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 
@@ -63,26 +63,37 @@ import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 const createtask = () => {
     //const [type, setType] = useState("individual")
     //console.log(type)
-
+    const navigate = useNavigate();
     const [taskName, setTaskName] = useState("")
     const [taskDesc, setTaskDesc] = useState("")
-    const [due, setDueDate] = useState()
-    const [time, setTime] = useState()
+    const [due, setDueDate] = useState("")
+    const [time, setTime] = useState("")
     const [type, setType] = useState("")
-    const [alert, setAlert] = useState("")
+    // const [alert, setAlert] = useState("")
     const [folder, setFolder] = useState("")
+    const [folderList, setFolderList] = useState([])
 
     const submit = () => {
         API.post("/todolist/createtask", {
             taskName: taskName,
             taskDesc: taskDesc,
-            due: due,
-            time: time,
-            type: type,
-            alert: alert,
+            due: new Date(due + "T" + time + "Z"),
+            taskType: type,
+            // alert: alert,
             folderId: folder
+        }).then(() => {
+            navigate("/todolist/")
         })
     }
+
+    useEffect(() => {
+        // fetchTaskList();
+        API.post("/todolist/listfolder").then((res) => {
+            setFolderList(res.data);
+            console.log(res.data);
+        })
+    }, [])
+
 
 
     return (
@@ -109,14 +120,14 @@ const createtask = () => {
                     Due Date
                 </Heading>
                 <label>
-                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" />
+                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
                 </label>
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
                 <form>
-                    <input id="appt-time" type="time" name="appt-time" />
+                    <input id="appt-time" type="time" name="appt-time" onChange={(e) => setTime(e.target.value)} />
                 </form>
 
                 <Heading className="Type" as="h2" size="md" noOfLines={1} mt={8} mb={2}>
@@ -130,21 +141,26 @@ const createtask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Alert
                 </Heading>
-                <Select placeholder="Choose" size="md">
+                {/* <Select placeholder="Choose" size="md" onChange={(e) => console.log(e.target.value)}>
                     <option value="option1">1 day before due date</option>
-                    <option value="option1">3 days before due date</option>
-                    <option value="option1">7 days before due date</option>
-                </Select>
+                    <option value="option2">3 days before due date</option>
+                    <option value="option3">7 days before due date</option>
+                </Select> */}
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Folder
                 </Heading>
-                <Select placeholder="Choose" size="md">
+                <Select placeholder="Choose" size="md" onChange={(e) => setFolder(e.target.value)}>
+                    {
+                        folderList.map((el: any) => (
+                            <option value={el.folderId}>{el.folderName}</option>
+                        ))
+                    }
                 </Select>
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     {type == "individual" ? (
                         <Button colorScheme="teal" size="lg" id="submit" bgColor={"orange.500"}>
-                            <Link href="/todolist/task">Done</Link>
+                            <Button onClick={submit}>Done</Button>
                         </Button>
                     ) : (
                         <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
