@@ -54,7 +54,7 @@ const DatingYourPollSeeMore: FC<{
     console.log(pollInfo.pollAppointAt)
     const dateTime = new Date(pollInfo.pollAppointAt)
     const rawDateTime = delHours(dateTime)
-    const date = dateTime.getDay() + "/" + dateTime.getMonth() + "/" + dateTime.getFullYear()
+    const date = dateTime.toLocaleDateString()
     const time = handlePollTime(rawDateTime.toLocaleString())
 
     return (

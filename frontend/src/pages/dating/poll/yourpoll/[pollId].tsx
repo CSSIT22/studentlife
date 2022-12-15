@@ -293,7 +293,7 @@ const YourPoll = () => {
                                     pl={{ base: "35px", md: "0" }}
                                     pr={{ base: "35px", md: "0" }}
                                 >
-                                    Now, 2 people are interested in joining your activity.
+                                    Now, {pollInfo?.participants.length} {pollInfo?.participants.length != null && pollInfo?.participants.length != 1 ? <>people are</> : <>person is</>} interested in joining your activity.
                                 </Text>
                                 <Text
                                     fontWeight="700"
