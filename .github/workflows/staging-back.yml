@@ -1,53 +1,53 @@
-# name: ✨ Deploy to staging
+name: ✨ Deploy to staging
 
-# on:
-#   push:
-#     branches:
-#       - staging
-#       - infra-*
-#     paths:
-#       - "backend/**"
+on:
+  push:
+    branches:
+      - staging
+      # - infra-*
+    paths:
+      - "backend/**"
 
-# jobs:
-#   build:
-#     name: 🐳 build
-#     runs-on: ubuntu-latest
-#     timeout-minutes: 5
-#     steps:
-#       - name: 😊 checkout
-#         uses: actions/checkout@v2
-#       - name: login to docker
-#         uses: docker/login-action@v2
-#         with:
-#           username: ${{secrets.DOCKER_USERNAME}}
-#           password: ${{secrets.DOCKER_TOKEN}}
-#       - name: 🏗️ Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v2
+jobs:
+  build:
+    name: 🐳 build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 😊 checkout
+        uses: actions/checkout@v2
+      - name: login to docker
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_TOKEN}}
+      - name: 🏗️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-#       - name: ☁️ Build and push
-#         uses: docker/build-push-action@v2
-#         with:
-#           context: .
-#           file: ./backend/Dockerfile
-#           push: true
-#           tags: modlifes/backend:latest
+      - name: ☁️ Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./backend/Dockerfile
+          push: true
+          tags: modlifes/backend:latest
 
-#   deploy:
-#     name: 🖨️ deploy to server
-#     runs-on: ubuntu-latest
-#     environment: staging
-#     timeout-minutes: 5
-#     needs: [build]
-#     steps:
-#       - name: remote ssh
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.STAGING_SSH_HOST }}
-#           username: ${{ secrets.STAGING_SSH_USERNAME }}
-#           password: ${{ secrets.STAGING_SSH_PASSWORD }}
-#           script: |
-#             cd ${{secrets.PATH_STAGING}}
-#             docker pull modlifes/backend:latest
-#             echo '${{secrets.BACKEND_STAGING_ENV}}' > .env
-#             docker-compose up --detach backend
-#             docker system prune -af
+  deploy:
+    name: 🖨️ deploy to server
+    runs-on: ubuntu-latest
+    environment: staging
+    timeout-minutes: 5
+    needs: [build]
+    steps:
+      - name: remote ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.STAGING_SSH_HOST }}
+          username: ${{ secrets.STAGING_SSH_USERNAME }}
+          password: ${{ secrets.STAGING_SSH_PASSWORD }}
+          script: |
+            cd ${{secrets.PATH_STAGING}}
+            docker pull modlifes/backend:latest
+            echo '${{secrets.BACKEND_STAGING_ENV}}' > .env
+            docker-compose up --detach backend
+            docker system prune -af
