@@ -9,8 +9,10 @@ const DatingCheckImage: FC<{
         data: number[];
     }
 }> = ({ url, image }) => {
+
+    let link = "/user/" + url
     return (
-        <Link to="/user">
+        <Link to={link}>
             {image ? <Box
                 mt={{ base: "32px", md: "46px" }}
                 backgroundImage={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + url}
