@@ -69,16 +69,16 @@ const task = () => {
         <ToDoListAppBody>
             <Heading as="h2" size="xl" noOfLines={1} >
                 <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Button bgColor="orange.200" color={"white"} onClick={onBackOpen}>
-                        <Link href="/todolist">
+                    <Link href="/todolist">
+                        <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }}>
                             <ArrowBackIcon />
-                        </Link>
-                    </Button>
-                    <Button bgColor="orange.200" color={"white"} onClick={onEditOpen} >
-                        <Link href="/todolist/edittask">
+                        </Button>
+                    </Link>
+                    <Link href="/todolist/edittask">
+                        <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }}>
                             <EditIcon />
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 </Box>
                 CSC210 : Work 1
             </Heading>
@@ -118,10 +118,10 @@ const task = () => {
                 </Heading>
                 <Select placeholder="3 days before due date" size="md"></Select>
                 <Box display="flex" justifyContent="space-between" alignItems="center" marginY={10}>
-                    <Button onClick={onDeleteOpen} color={"white"} bgColor="orange.200" width="40px" h="40px">
+                    <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }}>
                         <DeleteIcon />
                     </Button>
-                    <Button onClick={onCheckOpen} color={"white"} bgColor="orange.200" width="40px" h="40px">
+                    <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }}>
                         <CheckIcon />
                     </Button>
                 </Box>

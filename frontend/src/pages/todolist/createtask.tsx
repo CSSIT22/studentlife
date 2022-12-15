@@ -159,11 +159,11 @@ const createtask = () => {
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     {type == "individual" ? (
-                        <Button colorScheme="teal" size="lg" id="submit" bgColor={"orange.500"}>
-                            <Button onClick={submit}>Done</Button>
+                        <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
+                            <Link onClick={submit}>Done</Link>
                         </Button>
                     ) : (
-                        <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>
+                        <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
                             <Link href="/todolist/creategroup">Next</Link>
                         </Button>
                     )}
