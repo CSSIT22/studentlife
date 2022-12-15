@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, useState } from "react"
 import AppBody from "src/components/share/app/AppBody"
 import Header from "src/components/transaction/shoptransaction/Header"
 import { Button, Container, Stack, Text } from "@chakra-ui/react"
@@ -22,13 +22,29 @@ const qrpayment = ({ }) => {
         })
     }, [])
 
+    // format number
+    const numberFormat = new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+    const formattedNumberTotalPrice = numberFormat.format(totalPrice)
+
+     // time left
+     const [timeLeft, setTimeLeft] = useState(60)
+     useEffect(() => {
+         const interval = setInterval(() => {
+             setTimeLeft(timeLeft - 1)
+             if (timeLeft === 1) {
+                 window.location.replace("/transaction/shoptransaction")
+             }
+         }, 1000)
+         return () => clearInterval(interval)
+     }, [timeLeft])
+
     return (
         <div>
             <AppBody>
                 <Header name="QRCode" />
 
                 <Container maxW="90%" my="10px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
-                    <QRpayment total={totalPrice} paywithin="60 sec" />
+                    <QRpayment total={formattedNumberTotalPrice} paywithin={timeLeft} />
                 </Container>
 
                 <Container maxW="90%" my="20px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>

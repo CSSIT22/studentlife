@@ -11,17 +11,22 @@ import { Link } from "react-router-dom"
 import { confirmOrder } from "@apiType/transaction"
 
 export function generateConfirmCartProducts(ProductsList: confirmOrder) {
-    if (ProductsList == null)
-        return null
+    if (ProductsList == null) return null
     let products = []
+
+    const numberFormat = new Intl.NumberFormat("th-TH", { style: "currency", currency: "THB" })
+
     for (let i = 0; i < ProductsList.products.length; i++) {
+        const price = parseFloat(ProductsList.products[i].product.productPrice)
+        const formattedPrice = numberFormat.format(price)
+
         products.push(
-            <GridItem bg="" borderBottom="1px" pl='2'>
+            <GridItem bg="" borderBottom="1px" pl="2">
                 <OrderList
                     imageAlt={ProductsList.products[i].product.productName}
                     imageUrl={ProductsList.products[i].product.images[0].image}
                     product={ProductsList.products[i].product.productName}
-                    price={parseFloat(ProductsList.products[i].product.productPrice)}
+                    price={formattedPrice}
                     quantity={ProductsList.products[i].quantity}
                 ></OrderList>
             </GridItem>
@@ -47,12 +52,15 @@ const shopTransaction = () => {
             .then((res) => {
                 setOrderDetails(res.data) // Sets orderDetails to the result from API
                 setTotalPrice(parseFloat(res.data.totalPrice))
-            }).catch((error) => {
-                console.log(error);
+            })
+            .catch((error) => {
+                console.log(error)
                 // Write extra code in case of error over here
             })
     }, [])
 
+    const numberFormat = new Intl.NumberFormat("th-TH", { style: "currency", currency: "THB" })
+    const formattedNumberTotalPrice = numberFormat.format(totalPrice)
 
     return (
         <AppBody>
@@ -62,9 +70,7 @@ const shopTransaction = () => {
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Order List
                 </Text>
-                <Stack direction={{ base: "row", lg: "column" }}>
-                    {generateConfirmCartProducts(orderDetails)}
-                </Stack>
+                <Stack direction={{ base: "row", lg: "column" }}>{generateConfirmCartProducts(orderDetails)}</Stack>
             </Container>
 
             <PaymentMethod />
@@ -75,7 +81,7 @@ const shopTransaction = () => {
                         <Center>
                             <Stack direction={"column"}>
                                 <Text fontSize="md" fontWeight={"bold"}>
-                                    Total payment: {totalPrice}
+                                    Total payment: {formattedNumberTotalPrice}
                                 </Text>
                                 <Text fontSize="md" fontWeight={"bold"}>
                                     Payment Method: ....
@@ -114,7 +120,7 @@ const shopTransaction = () => {
                     <Flex>
                         <Box bg="orange.50" h="50px" w={"80%"} py="9px" borderRadius="10px">
                             <Text fontSize="xl" color={"black"} pl="5%" fontWeight={"bold"}>
-                                Total payment : {totalPrice}
+                                Total payment : {formattedNumberTotalPrice}
                             </Text>
                         </Box>
                         <Spacer />
@@ -131,4 +137,3 @@ const shopTransaction = () => {
 }
 
 export default shopTransaction
-
