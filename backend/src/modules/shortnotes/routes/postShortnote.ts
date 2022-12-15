@@ -6,11 +6,17 @@ const postShortnote = async (req: Request<any>, res: Response<any>) => {
         const prisma = res.prisma
         const user: any = req.user?.userId
 
+        const findCourse = await prisma.course.findFirstOrThrow({
+            where: {
+                courseName: req.body.courseId,
+            },
+        })
+        console.log(findCourse)
         const payload: any = {
             course: {
                 connectOrCreate: {
                     where: {
-                        courseId: req.body.courseId,
+                        courseId: findCourse.courseId,
                     },
                     create: {
                         courseName: req.body.courseId,

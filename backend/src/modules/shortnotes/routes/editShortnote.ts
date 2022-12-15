@@ -6,6 +6,12 @@ const editShortnote = async (req: Request<any>, res: Response<any>) => {
         const prisma = res.prisma
         const user: any = req.user?.userId
 
+        const findCourse = await prisma.course.findFirstOrThrow({
+            where: {
+                courseName: req.body.courseId,
+            },
+        })
+
         const nsn = await prisma.sn_Head.update({
             where: {
                 snId: req.body.snId,
@@ -14,7 +20,7 @@ const editShortnote = async (req: Request<any>, res: Response<any>) => {
                 course: {
                     connectOrCreate: {
                         where: {
-                            courseId: req.body.courseId,
+                            courseId: findCourse.courseId,
                         },
                         create: {
                             courseName: req.body.courseId,

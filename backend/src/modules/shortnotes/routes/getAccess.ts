@@ -15,7 +15,7 @@ const getAccess = async (req: Request, res: Response) => {
         })
 
         res.send(ac)
-        console.log(ac)
+        //console.log(ac)
     } catch (err) {
         res.status(400).send("some error")
     }

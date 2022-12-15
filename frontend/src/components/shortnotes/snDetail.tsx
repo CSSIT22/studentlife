@@ -258,7 +258,7 @@ const snDetail: FC<{
                     isClosable: true,
                 })
                 API.put("shortnotes/editShortnote", {
-                    courseId: editCourse,
+                    courseId: editCourse.toUpperCase().replaceAll(" ", ""),
                     snName: editName,
                     snDesc: editDesc,
                     snId: param.id,
