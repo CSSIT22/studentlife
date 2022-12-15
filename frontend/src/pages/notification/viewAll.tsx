@@ -1,11 +1,15 @@
 import {
+    Avatar,
+    AvatarBadge,
     Box,
+    Center,
     Flex,
     Spacer,
     Stack,
     Text,
+    useToast,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import MarkRead from "../../components/notification/MarkRead"
 import Modulelist from "../../components/notification/Modulelist"
 import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
@@ -13,27 +17,21 @@ import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectV
 import AppBody from "../../components/share/app/AppBody"
 
 import API from "src/function/API"
-import { Notiobject } from "@apiType/notification"
+import { Notiobject, pushNotiType } from "@apiType/notification"
+import { NavBarContext } from "src/context/NavbarContext"
+import { socketContext } from "src/context/SocketContext"
 
 
 const viewAll = () => {
+
+    const { setcountUnread } = useContext(NavBarContext)
+
     //reload noti
     const [reLoad, setreLoad] = useState(false)
+    const { socketIO } = useContext(socketContext)
     function load() {
         setreLoad(!reLoad)
     }
-
-    //getNotiobjectViewAll
-    // const param = useParams()
-    // const getUserNotiObject = API.get("/notification/getusernotiobjectbymodule/" + param.id)
-    // const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    // useEffect(() => {
-    //     getUserNotiObject.then((res) => {
-    //         setUserNotiObject(res.data)
-    //     })
-    // }, [reLoad])
-    //console.log(userNotiObjectViewAll)
-    //console.log(OBJECTS)
 
     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
@@ -51,14 +49,53 @@ const viewAll = () => {
     useEffect(() => {
         getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
+            setcountUnread(res.data.filter((el: any) => { return el.isRead != true }).length)
         })
     }, [reLoad])
     //console.log(userNotiObjectModule);
 
+    const toast = useToast()
+    useEffect(() => {
+        socketIO.on("push_noti", (data: pushNotiType) => {
+            toast({
+                position: 'bottom-right',
+                render: () => (
 
-    function showNotiListViewAll(): any {
-        return <NotiListViewAll module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiListViewAll>
-    }
+                    <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
+                        <Stack direction={"row"} spacing={3}>
+                            <Center><Avatar bg="blackAlpha.200" size={"sm"}>
+                                <AvatarBadge boxSize="1em" bg="green.500" />
+                            </Avatar>
+                            </Center>
+                            <Stack>
+                                {/* <Text fontSize={"sm"} color="white">
+                                <b>User123456</b> Create a post asdfkj asdf asdad
+                                </Text>
+                                <Text fontSize={"xs"} color="white">
+                                    10 hours ago
+                                </Text> */}
+                                <Text fontSize={"sm"} color="white">
+                                    You got new notification.
+                                </Text>
+                            </Stack>
+                        </Stack>
+                    </Box>
+
+                )
+            })
+
+            // getUserNotiObjectModule.then((res) => {
+            //     setUserNotiObjectModule(res.data)
+            // })
+            setreLoad(!reLoad)
+        })
+        return () => {
+            socketIO.off("push_noti")
+        }
+    });
+
+
+
 
     return (
         <AppBody>
@@ -80,7 +117,7 @@ const viewAll = () => {
             </Flex>
             <Box borderRadius="lg" shadow={"2xl"} backgroundColor="white" padding={1} height="75vh">
                 <Stack padding={4} height="100%" overflow="auto">
-                    {showNotiListViewAll()}
+                    <NotiListViewAll module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiListViewAll>
                 </Stack>
             </Box>
         </AppBody>
