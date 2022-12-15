@@ -1,5 +1,5 @@
-import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean, Input } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean, Input, Button } from "@chakra-ui/react"
+import React, { useEffect, useMemo, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
 import Rsn from "../../components/shortnotes/rsnList"
@@ -11,6 +11,7 @@ import { FaLock, FaLockOpen, FaUnlock } from "react-icons/fa"
 import API from "src/function/API"
 import Lottie from "lottie-react";
 import loading from "./lottie/loading.json";
+
 const index = () => {
     const [sn, setSn] = useState([])
     useEffect(() => {
@@ -110,6 +111,17 @@ const index = () => {
     const style = {
         height: 100,
     };
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(10)
+    let indexOfLastSn = currentPage * postsPerPage
+    let indexOfFirstSn = indexOfLastSn - postsPerPage
+    let currentSn = sn.slice(indexOfFirstSn, indexOfLastSn)
+    let pageNumbers = []
+    for (let i = 1; i <= Math.ceil(sn.length / postsPerPage); i++) {
+        pageNumbers.push(i)
+
+    }
     return (
         <AppBody>
             {/*Recent view list section*/}
@@ -177,7 +189,7 @@ const index = () => {
                     <VStack gap={2} pt={4} mb={4}>
                         {coursePicked == "" && searchSn == "" ? (
                             <>
-                                {sn.map((sn: any, key: any) => (
+                                {currentSn.map((sn: any, key: any) => (
                                     <Box
                                         as="button"
                                         w={"100%"}
@@ -222,9 +234,18 @@ const index = () => {
                             </>
                         )}
                     </VStack>
+                    <Flex w={"100%"} justifyContent={"center"} mb={4}>
+                        <HStack >
+                            {pageNumbers.map((n: any) => (
+                                <Button onClick={() => { setCurrentPage(n) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === n && {
+                                    bg: "orange.500",
+                                    color: "white",
+                                })}>{n}</Button>
+                            ))}
+                        </HStack>
+                    </Flex>
                 </Collapse>
             }
-
         </AppBody>
     )
 }
