@@ -39,9 +39,11 @@ import { ArrowRightIcon, ChevronDownIcon } from "@chakra-ui/icons"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import axios from "axios"
 import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 const index = () => {
   const [taskList, setTaskList] = useState([])
+  const navigate = useNavigate()
 
   // const fetchTaskList = async () => {
   //     const res = await axios.get("http://localhost:8000/todolist/listtask", {
@@ -64,6 +66,10 @@ const index = () => {
       setTaskList(res.data);
       console.log(res.data);
     })
+  }
+
+  const selectTask = (taskId: string) => {
+
   }
 
   return (
@@ -95,13 +101,15 @@ const index = () => {
         taskList.map((el: any, index: number) => (
 
           <Box height={"5rem"} width={"100%"} p="5" mt="5"
-            backgroundColor="#FFFFFF" rounded="lg" key={index} boxShadow="md">
+            backgroundColor="#FFFFFF" rounded="lg" key={index} boxShadow="md" onClick={() => {
+              navigate({
+                pathname: "/todolist/task/" + el.taskId,
+              })
+            }} >
             <Flex alignItems={"center"}>
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
-              <Link href="/todolist/task"
-                _hover={{ textDecoration: "none" }}>
-                <Text fontSize={"2xl"}>{el.taskCheck.taskName}</Text>
-              </Link>
+
+              <Text fontSize={"2xl"}>{el.taskCheck.taskName}</Text>
               <Spacer />
 
               {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
