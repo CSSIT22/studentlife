@@ -7,21 +7,9 @@ import { Input } from "@chakra-ui/react"
 import DrawerExample from "./drawer"
 import Nmodal from "./Nmodal"
 import API from "src/function/API"
+import { buffer_to_img } from "./function/64_to_img"
 
 // type room = { roomID: String; roomName: String; roomtype: "individual" | "group"; img: String }[]
-
-// const mockRoom: room = [
-//     { roomID: "1324", roomName: "Neng", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "1123", roomName: "Oil", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "3333", roomName: "Gift", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "4444", roomName: "Tine", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "5555", roomName: "4Young", roomtype: "group", img: "https://picsum.photos/200/300" },
-//     { roomID: "6666", roomName: "Toddy", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "7777", roomName: "Kevin", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "8888", roomName: "Parn", roomtype: "individual", img: "https://picsum.photos/200/300" },
-//     { roomID: "9999", roomName: "Almas", roomtype: "individual", img: "https://picsum.photos/200/300" },
-// ]
-
 const Clist: FC<any> = () => {
     const [userRoom, setuserRoom] = useState<any>([])
     const [target, setTarget] = useState(1)
@@ -31,6 +19,7 @@ const Clist: FC<any> = () => {
     useEffect(() => {
         API.get("/chat").then((e) => setuserRoom(e.data))
     }, [])
+
     //function handle
     function Navigate(target: any) {
         return navigate(`/chat/${target}`)
@@ -42,6 +31,14 @@ const Clist: FC<any> = () => {
     function DeleteRoom(e: any) {
         const result = userRoom.filter((el: any) => el.roomId !== e.roomId)
         setuserRoom(result)
+    }
+    function handleImg(e : any){
+        if(e === null){
+            return ""
+        }
+        else{
+            return buffer_to_img(e.data)
+        }
     }
 
     //component FC
@@ -92,9 +89,9 @@ const Clist: FC<any> = () => {
             </Flex>
         )
     }
-
+    
     const renderRoom = (e: any) => {
-        if (target === 1 && e.roomtype === "INDIVIDUAL") {
+        if (target === 1 && e.roomType === "INDIVIDUAL") {
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
@@ -108,7 +105,7 @@ const Clist: FC<any> = () => {
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.Roomname} src={e.image} />
+                        <Avatar name={e.roomName} src={handleImg(e.roomIndividual.chatWith.image)} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
@@ -120,7 +117,8 @@ const Clist: FC<any> = () => {
                 </Flex>
             )
         }
-        if (target === 2 && e.roomtype === "GROUP") {
+        if (target === 2 && e.roomType === "GROUP") {
+            const img = e.roomGroup?.groupImg
             return (
                 <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
                     <Flex
@@ -134,7 +132,7 @@ const Clist: FC<any> = () => {
                         onClick={() => Navigate(e.roomId)}
                         w={"93%"}
                     >
-                        <Avatar name={e.Roomname} src={e.image} />
+                        <Avatar name={e.roomName} src={(img === null) ? "" : img} />
                         <Box marginLeft={"5"}>{e.roomName} </Box>
                     </Flex>
                     <Show above="md">
@@ -157,7 +155,7 @@ const Clist: FC<any> = () => {
     }
 
     return (
-        <Box minH={"550px"} background="orange.200kk" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
+        <Box minH={"78vh"} background="orange.200" width={{ base: "100%", md: "300px" }} bg={"orange.200"} rounded={"2xl"}>
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />

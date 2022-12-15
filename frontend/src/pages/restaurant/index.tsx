@@ -23,11 +23,11 @@ import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { Link, useNavigate } from "react-router-dom"
 import API from "src/function/API"
-import { Restaurant } from "@apiType/restaurant"
+import { Restaurant2 } from "@apiType/restaurant"
 function Homepage() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [count, setcount] = useState(0)
-    const [property, setproperty] = React.useState<Restaurant[]>([])
+    const [property, setproperty] = React.useState<Restaurant2[]>([])
     // const property = Restaurant.filter((e1) => {
     //     return e1.id == count
     // })
@@ -35,6 +35,7 @@ function Homepage() {
     const navigate = useNavigate()
 
     useEffect(() => {
+        navigate("/restaurant/0001")
         API.get("/restaurant/" + 0).then((item) => setproperty(item.data))
         // .catch((err) => on())
         // .finally(off)
@@ -46,14 +47,11 @@ function Homepage() {
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
-            onLoad={() => {
-                navigate("/restaurant/0")
-            }}
         >
             <Box mb={"30px"}>
                 <Searchbar />
             </Box>
-            <Box px={2} borderWidth="1px" borderRadius="lg" h={"100%"} pb={6} pt={2}>
+            {/* <Box px={2} borderWidth="1px" borderRadius="lg" h={"100%"} pb={6} pt={2}>
                 {property.map((e1) => {
                     return (
                         <>
@@ -62,7 +60,7 @@ function Homepage() {
                                     {e1.resName}{" "}
                                 </Heading>
                             </Box>
-                            <ShowImage img={e1.img} />
+                            <ShowImage img={e1.images} />
                         </>
                     )
                 })}
@@ -119,8 +117,8 @@ function Homepage() {
                             </Modal>
                         </Box>
                     </Flex>
-                </Container>
-            </Box>
+                </Container> */}
+            {/* </Box> */}
         </AppBody>
     )
 }

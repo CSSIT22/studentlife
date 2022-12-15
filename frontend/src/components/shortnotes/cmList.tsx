@@ -4,14 +4,22 @@ import React, { FC } from "react"
 const cmList: FC<{
     name: String
     desc: String
-}> = ({ name, desc }) => {
+    date: String | any
+}> = ({ name, desc, date }) => {
     return (
-        <Grid templateRows="repeat(3, 1fr)" bg={"white"} boxShadow={"base"} rounded={8} p={4}>
-            <GridItem rowSpan={1}>
+        <Grid templateRows="repeat(3, 1fr)" bg={"white"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
+            <GridItem>
                 <Heading size={"sm"}>{name}</Heading>
             </GridItem>
-            <GridItem rowSpan={2}>{desc}</GridItem>
-        </Grid>
+            <GridItem>{desc}</GridItem>
+            <GridItem >
+                <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
+                    <Text fontSize={"xs"} alignSelf={"end"}>
+                        {new Date(date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
+                    </Text>
+                </Flex>
+            </GridItem>
+        </Grid >
     )
 }
 

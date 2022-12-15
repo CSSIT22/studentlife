@@ -10,8 +10,8 @@ const ModalForEvent: FC<{
     topic: string
     detail: string
     status: string
-    allPost: Array<any>
-    setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
+    allPost: Array<any> | ""
+    setAllPost: React.Dispatch<React.SetStateAction<Array<any>>> | ""
     selectPost?: number
     onClick: Function
 }> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost, onClick }) => {
@@ -29,18 +29,18 @@ const ModalForEvent: FC<{
 
     const toggle = () => {
         onClick()
-        if (status == "approve") {
+        if (status == "Approve") {
             // setAllPost(
             //     allPost.map((el) => {
             //         if (el.postId == selectPost) {
             //             el.status = "delete"
-            //             el.expiredAfterDelete = new Date()
+            //             el.deleteAt = new Date()
             //         }
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "delete", expiredAfterDelete: expiredonrecycle })
-        } else if (status == "disapprove") {
+            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Delete", deleteAt: new Date() })
+        } else if (status == "Disapprove") {
             // setAllPost(
             //     allPost.map((el) => {
             //         if (el.postId == selectPost) {
@@ -49,8 +49,8 @@ const ModalForEvent: FC<{
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "deleted", expiredAfterDelete: expiredonrecycle })
-        } else if (status == "delete") {
+            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date() })
+        } else if (status == "Delete") {
             // setAllPost(
             //     allPost.map((el) => {
             //         if (el.postId == selectPost) {
@@ -67,7 +67,7 @@ const ModalForEvent: FC<{
     // console.log(selectPost);
 
     const checkstatus = (status: string) => {
-        if (status == "disapprove" || status == "approve") {
+        if (status == "Disapprove" || status == "Approve") {
             return (
                 <Button
                     colorScheme="blue"
@@ -81,7 +81,7 @@ const ModalForEvent: FC<{
                     Delete
                 </Button>
             )
-        } else if (status == "delete") {
+        } else if (status == "Delete") {
             return (
                 <Button
                     colorScheme="blue"
@@ -95,7 +95,7 @@ const ModalForEvent: FC<{
                     Recover
                 </Button>
             )
-        } else if (status == "waiting") {
+        } else if (status == "Waiting for Approve") {
             return (
                 <Link to={`/announcement/history/${selectPost}`}>
                     <Button

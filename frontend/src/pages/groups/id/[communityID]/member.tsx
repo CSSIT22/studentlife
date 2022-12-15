@@ -10,6 +10,7 @@ import API from "src/function/API"
 import PrivateContent from "src/components/group/PrivateContent"
 import UserList from "src/components/group/UserList"
 import Banned from "src/components/group/Banned"
+import React from "react"
 const Member = () => {
     let { communityID }: any = useParams()
     const [community, setCommunity] = useState<any>()
@@ -17,6 +18,7 @@ const Member = () => {
     // const [isError, { on }] = useBoolean()
     // const [isLoading, { off }] = useBoolean(true)
 
+    const dataChange = React.createRef(); 
 
     //get community form backend
     const [isError, { on }] = useBoolean()

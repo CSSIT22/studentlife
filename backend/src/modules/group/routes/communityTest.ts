@@ -106,5 +106,3 @@ const communityTest = async (req: Request, res: Response) => {
 }
 
 export default communityTest
-
-

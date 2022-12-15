@@ -4,29 +4,66 @@ import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioB
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingOptionRangeSlider from "../../components/dating/DatingOptionRangeSlider"
 import DatingOptionAccordion from "../../components/dating/DatingOptionAccordion"
-import { AllFaculty } from "@apiType/dating"
+import { AllFaculty, UserOption } from "@apiType/dating"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
+import React from "react"
 
 declare global {
-    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean
+    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean, firstTime: boolean, hasSetInterest: string
 }
 const DatingOption = () => {
+    const [isDisabled, setIsDisabled] = React.useState<boolean>(false)
     const didMount = useDidMount()
     const navigate = useNavigate()
 
+    globalThis.hasSetInterest = "/dating/"
+    globalThis.useAge = true //need db + condition
+    globalThis.age = [19, 25] //need db + condition
+    globalThis.gender = "Everyone" //need db + condition
+    const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
+    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
+    const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
+    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
+    let count = 1
+
     useEffect(() => {
-        if (didMount) {
+        if (didMount && count != 0) {
+            count--
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 if (!datingEnroll.data.hasCompleteTutorial) {
-                    navigate("/dating/tutorial")
+                    toast({
+                        title: "Welcome!",
+                        status: "info",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "top",
+                        description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
+                    })
+                    navigate("/dating/tutorial");
                 }
             })
-            API.get("/dating/option/getFaculty")
-                .then((allFaculty) => {
-                    setFaculties(allFaculty.data)
-                })
-                .catch((err) => console.log("It's WRONG! " + err))
+            API.get("/dating/option/getOption").then((userSelectedOption) => {
+                const selectedOption = userSelectedOption.data
+                if (userSelectedOption.data.length < 1) {
+                    globalThis.firstTime = true
+                    return;
+                }
+                else {
+                    globalThis.firstTime = false
+                    setUseAgeValue(selectedOption.useAge)
+                    setSliderValue([selectedOption.ageMin, selectedOption.ageMax])
+                    setSelected(selectedOption.genderPref)
+                    globalThis.useAge = selectedOption.useAge
+                    globalThis.age = [selectedOption.ageMin, selectedOption.ageMax]
+                    globalThis.gender = selectedOption.genderPref
+                }
+            })
+            API.get("/dating/option/getFaculty").then((allFaculty) => {
+                setFaculties(allFaculty.data)
+                // setSelectedFac()
+            })
+                .catch((err) => console.log(err));
         }
     })
 
@@ -43,9 +80,10 @@ const DatingOption = () => {
 
     // const [isError, { on }] = useBoolean()
     // const [isLoading, { off }] = useBoolean(true)
-    const options = ["Male", "Female", "Everyone"] // Gender type
+    const options = ["Male", "Female", "LGBTQ+", "Everyone"] // Gender type
     const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
     // globalThis.faculty
+
 
     // const faculties = [
     //     "All Faculty",
@@ -66,7 +104,9 @@ const DatingOption = () => {
     //For RadioBox
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "Gender",
-        defaultValue: globalThis.gender,
+        defaultValue: "Everyone",
+        // defaultValue: globalThis.gender,
+        value: selected,
         //onChange: console.log,
     })
     const group = getRootProps()
@@ -77,14 +117,10 @@ const DatingOption = () => {
         defaultValue: ["All Faculty"],
     })
 
-    globalThis.useAge = true //need db + condition
-    globalThis.age = [19, 25] //need db + condition
-    globalThis.gender = "Everyone" //need db + condition
+    // globalThis.useAge = true //need db + condition
+    // globalThis.age = [19, 25] //need db + condition
+    // globalThis.gender = "Everyone" //need db + condition
     // globalThis.faculty = ["All Faculty"] //need db + condition
-    const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
-    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
-    const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
-    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
 
     useEffect(() => {
         setSelectedFac(faculties)
@@ -93,6 +129,29 @@ const DatingOption = () => {
     function handleGender(gender: string) {
         //Passing data
         setSelected(gender)
+    }
+
+    function sendFac(SF: any[]) {
+        //console.log(SF)
+        let arr: string[] = []
+        if (SF[0] !== null && Object.keys(SF[0]).length !== 0) {
+            for (let index = 0; index < selectedFac.length; index++) {
+                for (let index2 = 0; index2 < faculties.length; index2++) {
+                    if (SF[index] === faculties[index2].facultyName) {
+                        arr.push(faculties[index2].facultyId)
+                    }
+                }
+            }
+        }
+        else {
+            //console.log("Oh no")
+            for (let index = 0; index < faculties.length; index++) {
+                arr.push(faculties[index].facultyId)
+            }
+
+        }
+        //console.log("Heh " + arr)
+        return arr
     }
 
     function handleSubmit() {
@@ -104,24 +163,43 @@ const DatingOption = () => {
         //console.log(selectedFac)
         console.log(
             "Age min =" +
-                globalThis.age[0] +
-                " | Age max =" +
-                globalThis.age[1] +
-                " | Use age: " +
-                globalThis.useAge +
-                " | Gender : " +
-                globalThis.gender +
-                " | Selected Faculty: " +
-                globalThis.faculty
+            globalThis.age[0] +
+            " | Age max =" +
+            globalThis.age[1] +
+            " | Use age: " +
+            globalThis.useAge +
+            " | Gender : " +
+            globalThis.gender +
+            " | Selected Faculty: " +
+            globalThis.faculty
         )
-        toast({
-            title: "Options are selected.",
-            description: "You have successfully submitted your options.",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-            position: "top",
-        })
+        if (globalThis.faculty.length < 1) {
+            toast({
+                title: "Faculty Setting Incomplete!",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+                description: "You are required to set your faculty Preference first."
+            })
+        }
+        // console.log("Test str " + sendFac(selectedFac))
+        if (globalThis.firstTime) {
+            API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
+                .then(() => navigate("/dating/interests"))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+        }
+        else {
+            API.put<UserOption | AllFaculty>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
+                .then(() => navigate(globalThis.hasSetInterest))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (!datingEnroll.data.hasCompleteSetting) {
+                    globalThis.hasSetInterest = "/dating/interests"
+                }
+            })
+
+        }
     }
 
     return (
@@ -178,6 +256,7 @@ const DatingOption = () => {
                                 faculties={faculties}
                                 selectedFac={selectedFac}
                                 setSelectedFac={setSelectedFac}
+                                // setSelectedFac={setSelectedFac2}
                                 getCheckboxProps={getCheckboxProps}
                             />
                         </Box>
@@ -190,7 +269,12 @@ const DatingOption = () => {
                         form="new-note"
                         borderRadius="15px"
                         colorScheme="orange"
-                        onClick={() => handleSubmit()}
+                        isDisabled={isDisabled}
+                        // DON'T FORGET TO OPEN IT
+                        onClick={() => {
+                            handleSubmit()
+                                , setIsDisabled(!isDisabled)
+                        }}
                         m="80px"
                         p="30px"
                         pr="50px"
@@ -200,7 +284,7 @@ const DatingOption = () => {
                     </Button>
                 </Center>
             </Stack>
-        </DatingAppBody>
+        </DatingAppBody >
     )
 }
 

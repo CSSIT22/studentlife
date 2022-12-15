@@ -29,21 +29,18 @@ const editCommunity = async (req: Request, res: Response) => {
         any: tag2id.map((item) => a.push({ tagId: item.tagId, communityId: id })),//req.params.communityId
     }
 
-
-
     try {
         await prisma.community.update({
             where: {
                 communityId: id,
             },
-            data: editCommunity
-            
+            data: editCommunity,
         })
 
         await prisma.community_Tag.deleteMany({
-            where:{
-                communityId:id
-            }
+            where: {
+                communityId: id,
+            },
         })
 
         await prisma.community_Tag.createMany({
@@ -52,8 +49,7 @@ const editCommunity = async (req: Request, res: Response) => {
 
         console.log("success ?")
         res.status(201).send("Edit Success")
-
-    } catch(err) {
+    } catch (err) {
         console.log(err)
         res.status(404)
     }

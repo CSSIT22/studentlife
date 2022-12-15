@@ -1,3 +1,4 @@
+import { Detail, Image1 } from "@apiType/restaurant"
 import {
     Box,
     Button,
@@ -17,23 +18,34 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react"
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import API from "src/function/API"
+import page from "src/pages/test/[id]/page"
 
 const FavoriteContent: FC<{
-    id: number
+    id: string
     resName: string
-    open: string
-    close: string
+    openTime: string
     phone: string
     website: string
     link: string
-    img: string
-}> = ({ id, resName, phone, open, close, website, link, img }) => {
-    // const DeleteFv = () => {
-    //     Restaurant[id].status = false
-    //     console.log(Restaurant[id].status)
+    img: Array<Image1>
+    load: Function
+}> = ({ id, resName, phone, openTime, website, link, img, load }) => {
+    // const [status, setstatus] = useState(true);
+    // useEffect(() => {
+    //     API.get("/restaurant/favorite?userid=" + "101")
+    //         .then((item) => setstatus(item.data))
+    // }, [status])
+
+    const deleteRes = () => {
+        API.post("restaurant/Favorite", { id: id })
+    }
+
+    // const load = () => {
+    //     setstatus(!status)
     // }
 
     return (
@@ -73,7 +85,7 @@ const FavoriteContent: FC<{
 
                     <Flex alignItems={"center"}>
                         <Box width={"30%"} ml={"1rem"}>
-                            <Image boxSize="5rem" src={img} alt="Dan Abramov" borderRadius={"10px"} />
+                            {img?.length == 0 ? null : <Image boxSize="5rem" src={img[0].image} borderRadius={"10px"} />}
                         </Box>
                         {/* </Show> */}
 
@@ -82,7 +94,7 @@ const FavoriteContent: FC<{
                                 <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                             </Text>
                             <Text fontSize={{ base: "sm", lg: "lg" }}>
-                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {openTime}
                             </Text>
                             <Text fontSize={{ base: "sm", lg: "lg" }}>
                                 <span style={{ fontWeight: "bold" }}>Phone:</span> {phone}
@@ -135,14 +147,13 @@ const FavoriteContent: FC<{
                             <Heading color={"#E65D10"} fontSize="xl">
                                 {resName}
                             </Heading>
-                            <Image boxSize={"12.5rem"} src={img} alt="Dan Abramov" borderRadius={"10px"} />
+                            {img?.length == 0 ? null : <Image boxSize={"12.5rem"} src={img[0].image} borderRadius={"10px"} />}
                         </Flex>
                         <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
                             <Text>
-                                <span style={{ fontWeight: "bold" }}>Open:</span> {open} - {close}
+                                <span style={{ fontWeight: "bold" }}>Open:</span> {openTime}
                             </Text>
                             <Text>
-                                {" "}
                                 <span style={{ fontWeight: "bold" }}>Phone Number:</span> {phone}
                             </Text>
                             <Text>

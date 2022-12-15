@@ -16,10 +16,12 @@ import {
     Stack,
     useToast,
 } from "@chakra-ui/react"
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useState } from "react"
 import { FaBan, FaExclamationCircle, FaHandMiddleFinger, FaUser, FaUserShield, FaUserLock } from "react-icons/fa"
 import { BsThreeDots } from "react-icons/bs"
 import API from "src/function/API"
+
+
 
 const UserList: FC<{
     avatar?: string;
@@ -69,6 +71,8 @@ const UserList: FC<{
         // } else {
         //     setIsRole(4)//Owner
         // }
+        
+        
         const toast = useToast()
         const kickUser = async () => {
             const res = await API.delete("/group/deleteCommunityMember", {
@@ -86,9 +90,7 @@ const UserList: FC<{
                     position: 'top',
                     // isClosable: true,
                 })
-                setTimeout(() => {
-                    document.location.reload()
-                }, 2000)
+                
             } else {
                 toast({
                     title: "Kick user failed",
@@ -117,9 +119,7 @@ const UserList: FC<{
                     position: 'top',
                     // isClosable: true,
                 })
-                setTimeout(() => {
-                    document.location.reload()
-                }, 2000)
+                
 
             } else {
                 toast({
@@ -145,9 +145,7 @@ const UserList: FC<{
                     position: 'top',
                     // isClosable: true,
                 })
-                setTimeout(() => {
-                    document.location.reload()
-                }, 2000)
+                
 
             } else {
                 toast({
@@ -194,9 +192,7 @@ const UserList: FC<{
             })
             // document.location.reload()
 
-            setTimeout(() => {
-                document.location.reload()
-            }, 2000)
+            
 
         }
         useEffect(() => {
@@ -204,6 +200,7 @@ const UserList: FC<{
             console.log("checkRole", checkRole)
         }, [])
         return (
+            
             <HStack
                 minWidth={"265px"}
                 maxWidth={"700px"}

@@ -26,7 +26,7 @@ const createCommunity = () => {
     const [communityName, setCommunityName] = useState("")
     const [communityDesc, setCommunityDesc] = useState("")
     const [communityPrivacy, setCommunityPrivacy] = useState(true)//true = public, false = private
-    const [communityCoverPhoto, setCommunityCoverPhoto] = useState("https://storage.googleapis.com/thistinestorage/photos/DSC_5803-Edit-2.jpg")
+    const [communityCoverPhoto, setCommunityCoverPhoto] = useState("https://1493660asdasda88.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg")
 
 
 
@@ -94,6 +94,8 @@ const createCommunity = () => {
         })
         onClose()
     }
+    
+
     return (
         <AppBody>
             {/* <form method='post' onSubmit={submit}> */}
@@ -245,6 +247,39 @@ const createCommunity = () => {
                             </AccordionPanel>
                         </AccordionItem>
                     </Accordion>
+
+
+
+                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
+                        Upload Community cover photo
+                    </FormLabel>
+                    <Box
+                        sx={{
+                            bg: "white",
+                            color: "#848383",
+                            shadow: "md",
+                            fontWeight: 500,
+
+                        }}
+                        fontSize={{ base: 'md', md: 'sm' }}
+                        borderRadius={{ base: 'xl', md: 'md' }}
+                        mb='2'
+                        _hover={{ bg: 'gray.50', cursor: 'pointer' }}
+                        p='2' pl='4'
+                    >
+
+                        <input type="file"
+                            id="avatar" name="avatar"
+                            accept="image/png, image/jpeg"
+                            onChange={(e: any) => {
+                                let x = URL.createObjectURL(e.target.files[0])
+                                setCommunityCoverPhoto(x)}
+                                }>
+                        </input>
+
+                    </Box>
+
+
 
                     {/* Cant get friend from another module */}
                     <FormLabel display='none' sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
@@ -484,7 +519,7 @@ const createCommunity = () => {
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    communityCoverPhoto={"https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"}
+                                    communityCoverPhoto={communityCoverPhoto}
                                     communityMembers={1}
                                     communityId={""}
                                     tags={updatedTag}

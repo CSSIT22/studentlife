@@ -1,17 +1,23 @@
-import { Flex, Box, Image, Text, useBreakpointValue, LinkBox, LinkOverlay, useDisclosure, Button, Center, Spacer } from "@chakra-ui/react"
+import { Flex, Box, Image, Text, useBreakpointValue, LinkBox, LinkOverlay, useDisclosure, Button, Center, Spacer, Avatar } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { BsStarFill } from "react-icons/bs"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
+import Pill from "./Pill"
 
 const ReviewItem: FC<{
     userName: string
-    userPhoto: string
+    userId: any
     reviewTitle: string
     reviewBody: string
     image?: string
     rating: number
     reviewDate: string
-}> = ({ userName, userPhoto, reviewTitle, reviewBody, image, rating, reviewDate }) => {
+}> = ({ userName, userId, reviewTitle, reviewBody, image, rating, reviewDate }) => {
+    let dateShow = new Date(reviewDate).toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
     function stars(count: number) {
         let starList = []
         for (let i = 0; i < count; i++) {
@@ -20,28 +26,50 @@ const ReviewItem: FC<{
         return starList
     }
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const userReviewInformation = (isStar?: boolean) => {
+        return (
+            <Flex pt="0" gap=" 24px" align="center" wrap= "wrap">
+                <Avatar name="" src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + userId}></Avatar>
+                <Flex direction={"column"}>
+                    <Text as={"b"} color="black" textAlign={"start"} size={"sm"}>
+                        {userName.toUpperCase()}
+                    </Text>
+                    <Text color="gray" size={"sm"} fontWeight="500">
+                        {dateShow}
+                    </Text>
+                </Flex>
+                {isStar == true ? starDisplay : <></>}
+            </Flex>
+        )
+    }
+    const starDisplay = (
+        <Pill ml = {{base: null, sm: "auto"}}>
+            <BsStarFill color="#fecd04" size="1.3rem"></BsStarFill>
+            <Text as={"b"} fontSize={"md"} color="white">{rating + "/5"}</Text>
+        </Pill>
+    )
+    const reviewDetails = <Flex direction="column">
+        <Text noOfLines={2} as={"b"} color={"black"} size={"sm"}>
+            {reviewBody}
+        </Text>
+        {image ? <Image mt="3" w="28" h="28" src={image} borderRadius="xl" border="2px solid" shadow="lg" alt="Review Photo" objectFit="cover"></Image> : <></>}
+    </Flex>
     return (
-        <Box onClick={onOpen} borderRadius="3xl" shadow="xl" p="7" bg="#E69C73" cursor={"pointer"}>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered size={"xl"}>
-                <ModalOverlay bg="blackAlpha.500" backdropFilter="auto" backdropBlur="2px" />
+        <Box onClick={onOpen} rounded={"2xl"} shadow="md" p="7" bg="#fff" cursor={"pointer"} _hover={{ transform: "scale(1.03)" }} _active={{ transform: "scale(1.00)" }} transitionDuration="300ms">
+            <Modal isOpen={isOpen} onClose={onClose} isCentered size={"xl"} scrollBehavior={'inside'}>
+                <ModalOverlay bg='blackAlpha.500' backdropFilter="auto" backdropBlur="2px" />
                 <ModalContent>
                     <ModalHeader>Review Details</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Flex align="center" gap="5" wrap="wrap">
-                            <Image mt="3" w="10" h="10" src={userPhoto} borderRadius="full" alt="Profile Photo"></Image>
-                            <Text fontSize="lg" color="#000" fontWeight="500">
-                                {userName}
-                                <Flex>{stars(rating)}</Flex>
-                            </Text>
-                            <Spacer />
-                            <Text>Review Posted on: {reviewDate}</Text>
-                        </Flex>
+                        {userReviewInformation(true)}
                         <Text my="5" fontSize="2xl" color="#000" fontWeight="bold">
                             {reviewTitle}
                         </Text>
-                        <Text>{reviewBody}</Text>
-                        {image ? <Image mt="3" w="3xs" h="3xs" src={image} borderRadius="lg" alt="Review Photo" objectFit="cover"></Image> : <></>}
+                        <Text fontSize="lg" fontWeight="500" color="#000">{reviewBody}</Text>
+                        <Center>
+                            {image ? <Image mt="3" w="3xs" h="3xs" src={image} border="2px solid" shadow="lg" borderRadius="3xl" alt="Review Photo" objectFit="cover"></Image> : <></>}
+                        </Center>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -50,22 +78,9 @@ const ReviewItem: FC<{
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Flex gap={3} align="center">
-                {/* <Text fontSize="xl" color="#000" fontWeight="400" noOfLines={1} lineHeight="tight">{reviewTitle}</Text> */}
-            </Flex>
-
-            <Flex pt="3" gap=" 3">
-                <Image mt="3" w="10" h="10" src={userPhoto} borderRadius="full" alt="Profile Photo"></Image>
-                <Flex direction="column">
-                    <Flex>{stars(rating)}</Flex>
-                    <Text fontSize="lg" color="#000" fontWeight="500">
-                        {userName}
-                    </Text>
-                    <Text noOfLines={2} color="#333">
-                        {reviewBody}
-                    </Text>
-                    {image ? <Image mt="3" w="3xs" h="3xs" src={image} borderRadius="lg" alt="Review Photo" objectFit="cover"></Image> : <></>}
-                </Flex>
+            <Flex direction="column" gap={4}>
+                {userReviewInformation(true)}
+                {reviewDetails}
             </Flex>
         </Box>
     )

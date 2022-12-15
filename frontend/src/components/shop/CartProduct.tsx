@@ -1,86 +1,83 @@
-import { MinusIcon, AddIcon } from "@chakra-ui/icons"
-import { useBreakpointValue, Flex, LinkBox, LinkOverlay, Hide, ButtonGroup, IconButton, Button, Box, Image } from "@chakra-ui/react"
-import React, { FC, useState } from "react"
+import { DeleteIcon } from "@chakra-ui/icons"
+import { Text, Flex, IconButton, Box, Image } from "@chakra-ui/react"
+import { motion } from "framer-motion"
+import React, { FC } from "react"
+import { Link } from "react-router-dom"
+import API from "src/function/API"
+import ContentBox from "./ContentBox"
 import convertCurrency from "./functions/usefulFunctions"
+import QtyButton from "./QtyButton"
+
+
 
 const CartProduct: FC<{
-    name: string
-    price: number
+    productId: number
     quantity: number
-    image: string
-    link: string
-    stock: number
-}> = ({ name, price, quantity, image, link, stock }) => {
-    const [inDeQuantity, setInDeQuantity] = useState(quantity)
-
-    const increase = () => {
-        setInDeQuantity((prevNum) => prevNum + 1)
+    images: { image: string }[]
+    productName: string
+    productPrice: number
+    productStock: number
+    setUpdates: React.Dispatch<React.SetStateAction<number>>
+}> = ({ productId, quantity, images, productName, productPrice, productStock, setUpdates }) => {
+    const deleteProduct = () => {
+        API.delete("/shop/deleteCartProduct/" + productId).then(res => setUpdates(prev => prev +1)).catch(err => console.log(err))
     }
-    const decrease = () => {
-        setInDeQuantity((prevNum) => prevNum - 1)
+    const displayTextStyle = {
+        fontWeight: "semibold",
+        fontSize: "lg",
+        as: "h4",
+        lineHeight: "tight",
+        noOfLines: 1,
+        overflow: "hidden"
     }
-    const isMobile = useBreakpointValue({ base: false, md: false })
+    const displayTextLink = {
+        fontWeight: "semibold",
+        fontSize: "lg",
+        as: "h4",
+        lineHeight: "tight",
+        noOfLines: 1,
+        overflow: "hidden",
+        cursor: "pointer",
+        _hover: { transform: "scale(1.1)", bg: "#eee" },
+        transitionDuration: "300ms"
+    }
+    const imageStyle = {
+        width: "8rem",
+        borderRadius: "lg",
+        border: "3px solid",
+        height: "7.2rem",
+        objectFit: "cover",
+    }
+    let displayImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
+    if (images.length > 0) displayImage = images[0].image
     return (
-        <Flex justifyContent="center" bg="#FFFFFF" borderRadius="lg" boxShadow="lg" mt={5}>
-            <input type="checkbox"></input>
-            <Box ml={2}>
-                <Flex justify={"space-evenly"} direction={"row"} wrap={"wrap"}>
-                    <LinkBox>
-                        <LinkOverlay href={link}>
-                            <Box>
-                                <Image
-                                    width={{ base: 100, xl: 135 }}
-                                    height={{ base: 100, xl: 118 }}
-                                    my="3"
-                                    src={image}
-                                    alt="product picture"
-                                    placeholder="blur"
-                                    borderRadius="5%"
-                                    objectFit="cover"
-                                />
-                            </Box>
-                        </LinkOverlay>
-                    </LinkBox>
-                    {/* <Flex wrap="wrap" align="center" justify="space-around" my="5" > */}
-                    <Box mr="auto" my="5">
-                        <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
-                            {name}
+        <motion.div initial={{scale: 0.1}} animate={{ scale: 1}} transition={{
+            default: { ease: "backOut", duration: 0.5}
+          }}>
+        <ContentBox>
+            <Flex p="5" align="center" gap={5}>
+                <Flex wrap="wrap" gap={5} justify="space-around" width="full" align="center">
+                    {/* // Image */}
+                    <Link to={"/shop/product/" + productId}>
+                        <Box borderRadius="lg" overflow="hidden" shadow="lg" cursor="pointer" _hover={{ transform: "scale(1.1)", bg: "#eee" }} transitionDuration="300ms">
+                            <Image sx={imageStyle} src={displayImage} alt="Img of Product" />
                         </Box>
-                        <Box>
-                            <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>
-                                Price: {convertCurrency(price)}
-                            </Box>
-                        </Box>
-                        <Hide breakpoint="(min-width: 400px)">
-                            <Box mr="auto">
-                                <ButtonGroup size="sm" isAttached variant="outline" px={10}>
-                                    <button disabled={inDeQuantity == 0 ? true : false} onClick={decrease}>
-                                        <IconButton aria-label="Add to friends" icon={<MinusIcon />} />
-                                    </button>
-                                    <Button>{inDeQuantity}</Button>
-                                    <button disabled={inDeQuantity == stock ? true : false} onClick={increase}>
-                                        <IconButton aria-label="Add to friends" icon={<AddIcon />} />
-                                    </button>
-                                </ButtonGroup>
-                            </Box>
-                        </Hide>
-                    </Box>
-                    <Hide breakpoint="(max-width: 400px)">
-                        <Box mr="auto" my="5" alignSelf="center">
-                            <ButtonGroup size="sm" isAttached variant="outline" px={10}>
-                                <button disabled={inDeQuantity == 0 ? true : false} onClick={decrease}>
-                                    <IconButton aria-label="Add to friends" icon={<MinusIcon />} />
-                                </button>
-                                <Button>{inDeQuantity}</Button>
-                                <button disabled={inDeQuantity == stock ? true : false} onClick={increase}>
-                                    <IconButton aria-label="Add to friends" icon={<AddIcon />} />
-                                </button>
-                            </ButtonGroup>
-                        </Box>
-                    </Hide>
+                    </Link>
+                        {/* // Text */}
+                        <Flex direction="column" justify="center">
+                            <Link to={"/shop/product/" + productId}>
+                                <Text sx={displayTextLink}>{productName}</Text>
+                            </Link>
+                            <Text sx={displayTextStyle}>Price: {convertCurrency(productPrice)}</Text>
+                        </Flex>
+                        <Flex direction="column" justify="center" align="center">
+                            <QtyButton productId={productId} quantity={quantity} stock={productStock} setUpdates = {setUpdates}></QtyButton>
+                        </Flex>
                 </Flex>
-            </Box>
-        </Flex>
+                <IconButton icon={<DeleteIcon />} onClick={deleteProduct} aria-label={"Delete"} colorScheme="red" _hover={{ transform: "scale(1.1)" }} _active={{ transform: "scale(1.0)" }} transitionDuration="300ms"></IconButton>
+            </Flex>
+        </ContentBox>
+        </motion.div>
     )
 }
 

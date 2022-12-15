@@ -27,8 +27,8 @@ const customize = () => {
         navigate("/link/permission")
     }
     const complete = () => {
-        navigate("/link/complete")
-    }
+      navigate("/link/complete")
+  }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
 
@@ -44,7 +44,7 @@ const customize = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"300px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -65,20 +65,13 @@ const customize = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} />
+                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
                                 </Center>
                             </Box>
                         </Box>
                         <Box h="70px" w={"100%"}>
                             <Center>
-                                <Editable
-                                    defaultValue="Take some chakra"
-                                    w={"75%"}
-                                    height={"60px"}
-                                    border={"4px"}
-                                    borderColor={"black"}
-                                    rounded={"md"}
-                                ></Editable>
+                            <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"}></Editable>
                             </Center>
                         </Box>
                     </VStack>
@@ -89,7 +82,7 @@ const customize = () => {
 
             <Center>
                 {" "}
-                <Box width={"80%"} height={"200px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"1%"}>
+                <Box width={"80%"} height={"200px"} background={"orange.200"} borderRadius="20px" marginTop={"1%"}>
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
@@ -102,7 +95,7 @@ const customize = () => {
                                         <AlertDialogBody>Are you sure?</AlertDialogBody>
 
                                         <AlertDialogFooter>
-                                            <Button colorScheme="green" onClick={complete} ml={3}>
+                                            <Button colorScheme='green' onClick={complete} ml={3}>
                                                 SAVE
                                             </Button>
                                             <Button ref={cancelRef} onClick={onClose} ml={3}>
@@ -138,10 +131,7 @@ const customize = () => {
                                             <Button bg={"orange.200"} w={"100%"} mt={3} onClick={password}>
                                                 Shortlink Password
                                             </Button>
-                                            <Button
-                                                bg={"pink.200"}
-                                                w={"100%"}
-                                                mt={3}
+                                            <Button bg={"pink.200"} w={"100%"} mt={3}
                                                 onClick={() =>
                                                     toast({
                                                         title: "Add Unblock features!",
@@ -150,8 +140,9 @@ const customize = () => {
                                                         duration: 3000,
                                                         isClosable: true,
                                                     })
+
                                                 }
-                                            >
+                                                    >
                                                 Shortlink Unblock
                                             </Button>
                                             <Button bg={"cyan.200"} w={"100%"} mt={3} onClick={permission}>
