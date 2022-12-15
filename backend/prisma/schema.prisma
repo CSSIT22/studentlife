@@ -168,7 +168,7 @@ model Follow {
   userId        String
   anotherUserId String
   date          DateTime     @default(now()) @db.Timestamp(0)
-  score         Int
+  score         Int          @default(0)
   follower      User_Profile @relation("follower", fields: [userId], references: [userId], onDelete: Cascade)
   following     User_Profile @relation("following", fields: [anotherUserId], references: [userId], onDelete: Cascade)
 
@@ -507,7 +507,7 @@ model Task_Track {
 }
 
 model Task_Check {
-  taskId    String      
+  taskId    String
   userId    String
   isCheck   Boolean      @default(false)
   taskCheck Task         @relation(fields: [taskId], references: [taskId], onDelete: Cascade)
