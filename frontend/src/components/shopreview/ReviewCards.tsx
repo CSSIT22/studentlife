@@ -1,37 +1,31 @@
-import { VStack, Heading, Box, Flex, Link, Avatar, Text, Center, Image } from "@chakra-ui/react"
+import { VStack, Heading, Box, Flex, Link, Avatar, Text, Center, Image, Spacer } from "@chakra-ui/react"
 import React, { FC } from "react"
 import PhotoAlbum from "react-photo-album"
 import { Autoplay } from "swiper"
+import AmountLike from "./AmountLike"
 import AmountRate from "./AmountRate"
 import AmountReview from "./AmountReview"
-const ReviewCards = () => {
-    const photos = [
-        {
-            src: "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/7a50544f-7025-484c-ab9c-b68d9a138242/Derivates/2dbce5cd-ed5d-48be-8ef5-6eb1c7b42078.jpg",
-            width: 800,
-            height: 600,
-        },
-        {
-            src: "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/7a50544f-7025-484c-ab9c-b68d9a138242/Derivates/2dbce5cd-ed5d-48be-8ef5-6eb1c7b42078.jpg",
-            width: 800,
-            height: 600,
-        },
-    ]
+const ReviewCards: FC<{ image: String; name: String; ment: String; date: String; amo_rate: String; amo_like: String }> = ({ image, name, ment, date, amo_rate, amo_like }) => {
     return (
         <Box width={""} minWidth={"full"} minHeight={"auto"} alignContent={"center"}>
-            <Avatar marginBottom={5} marginRight={5} name="Joe" src={`url('${"image"}')`} />
-            <Text as={"b"}>Joeleely</Text>
-            <PhotoAlbum layout="rows" photos={photos} />
+            <Avatar marginBottom={5} marginRight={5} name="Joe" />
+            <Text as={"b"}>{name}</Text>
+            <Image width={"auto"} height={"auto"} src={`${image}`} />
             <Box ml={2}>
                 <Heading color="white" mt={5}>
-                    <AmountRate ratting={"5"} />
+                    <Flex direction={"row"} alignItems={"flex-start"}>
+                        <Box mr={3}>
+                            <AmountRate ratting={amo_rate} />
+                        </Box>
+                        <AmountLike am_like={amo_like} />
+                    </Flex>
                 </Heading>
 
                 <Text fontSize="20px" mt={3} color={"black"}>
-                    Love this so much!!!
+                    {ment}
                 </Text>
                 <Text color={"gray"} ml={5} fontSize={"sm"}>
-                    14/11/2022
+                    {date}
                 </Text>
             </Box>
 

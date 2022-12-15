@@ -27,11 +27,10 @@ const showDetail = async (req: Request, res: Response) => {
                 }
             },
         })
-        
-    res.send([restaurant])
+
+        res.send([restaurant])
     } catch (err) {
-        console.log("Error");
-        
+        console.log("Error")
     }
     // let selectedRes: Restaurant | null = null
     // getRestaurant().forEach((res) => {

@@ -59,6 +59,7 @@ router.get(
                     },
                 },
             })
+            console.log("Login success: ", req.session.id)
             res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
             res.status(500).send("These is an error in login ")
@@ -87,7 +88,7 @@ router.get("/logout", async (req, res) => {
             return res.status(400).send("Error")
         }
         try {
-            const { prisma } = res
+            const { prisma, redis } = res
             const device1 = new UAParser(req.headers["user-agent"])
 
             await prisma.logout_Info.create({
@@ -112,6 +113,8 @@ router.get("/logout", async (req, res) => {
                     },
                 },
             })
+
+            redis.DEL(`sess:${req.session.id}`)
 
             return res.send(true)
         } catch (error) {

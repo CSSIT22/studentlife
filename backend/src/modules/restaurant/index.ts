@@ -170,7 +170,7 @@ export let restaurant: Restaurant[] = [
         ],
     },
     {
-        userid:101,
+        userid: 101,
         id: 8,
         resName: "Tenjo",
         open: "09.00",

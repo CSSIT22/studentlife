@@ -1,32 +1,49 @@
 import React from "react"
-import { Box, Button, ChakraProvider, Container, Flex, Heading, Stack, StackDivider, Text, VStack } from "@chakra-ui/react"
+import { Button, Center, Collapse, Container, Show, Text } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
-import Header from "src/components/transaction/paymentHistory/Header"
-// import PaymentHistory from "src/components/transaction/paymentHistory/PaymentHistory"
+import Header from "../../components/transaction/shoptransaction/Header"
+import PaymentHistory from "src/components/transaction/paymentHistory/PaymentHistory"
+import { Link } from 'react-router-dom';
 
 const historyTransaction = () => {
+    const [show, setShow] = React.useState(false)
+
+    const handleToggle = () => setShow(!show)
+
     return (
-        <>
-            <AppBody />
-            <Box bg="#FFF2E5" w="1280" h="3580px" p="auto">
-                <Header />
-                {/* <PaymentHistory /> */}
-            </Box>
-        </>
+        <AppBody>
+            <Header name="My Purchase" />
 
-        // {/* <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px" textAlign="center">
-        //     <div>
-        //         <h2>My Purchase</h2>
-        //     </div>
-        // </Box>
 
-        // <Box >
-        //     <Container>
-        //         There are many benefits to a joint design and development system. Not only does it bring benefits to the design team, but it also
-        //         brings benefits to engineering teams. It makes sure that our experiences have a consistent look and feel, not just in our design
-        //         specs, but in production
-        //     </Container>
-        // </Box> */}
+            <Container bg={"#e67f45"} color="white" maxW="90%" my="24px" borderRadius="10px" shadow={"lg"} py="23px">
+                <Text fontSize={{ base: "lg", lg: "xl" }} fontWeight={"bold"} mb="10px">
+                    Latest Transaction
+                </Text>
+                <PaymentHistory transID="1234567890" date="02/12/22 11:20 pm" />
+                <PaymentHistory transID="1234567890" date="02/12/22 11:20 pm" />
+                <PaymentHistory transID="1234567890" date="02/12/22 11:20 pm" />
+                <Collapse in={show}>
+                    <PaymentHistory transID="1234567890" date="02/12/22 11:20 pm" />
+                    <PaymentHistory transID="1234567890" date="02/12/22 11:20 pm" />
+                </Collapse>
+                <Center>
+                    <Button size="md" onClick={handleToggle} mt="1rem" colorScheme={"gray"} color="black">
+                        Show {show ? "Less" : "More"}
+                    </Button>
+                </Center>
+
+            </Container>
+            <Center>
+                <Link to="#">
+                    <Show below="md">
+                        <Button colorScheme="red" w={"100px"} >
+                            Back
+                        </Button>
+                    </Show>
+
+                </Link>
+            </Center>
+        </AppBody>
     )
 }
 

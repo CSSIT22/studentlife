@@ -2,7 +2,7 @@ import { Box, Button, Heading, Text } from "@chakra-ui/react"
 
 const DatingWentWrong = () => {
     return (
-        <>
+        <Box display="block">
             <Heading color="black" fontWeight="700" fontSize={{ base: "24px", md: "32px" }} lineHeight="120%" textAlign="center">
                 Something went wrong...
             </Heading>
@@ -14,7 +14,7 @@ const DatingWentWrong = () => {
                     <Text color="white">Refresh</Text>
                 </Button>
             </Box>
-        </>
+        </Box>
     )
 }
 
