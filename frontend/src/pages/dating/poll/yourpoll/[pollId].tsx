@@ -5,11 +5,13 @@ import {
     Heading,
     Image,
     Text,
+    useBoolean,
     useBreakpointValue,
     useToast,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import Lottie from "lottie-react"
 import DatingYourPollCancel from "src/components/dating/DatingYourPollCancel"
 import DatingYourPollClose from "src/components/dating/DatingYourPollClose"
 import DatingYourPollCloseAndAcceptAll from "src/components/dating/DatingYourPollCloseAndAcceptAll"
@@ -18,7 +20,11 @@ import API from "src/function/API"
 import DatingAppBody from "../../../../components/dating/DatingAppBody"
 import ChatImg from "../../../../components/dating/pic/chat.png"
 import CheckImg from "../../../../components/dating/pic/check.png"
-import { POLL } from "../../../../components/dating/shared/poll"
+import { PollInfo } from "@apiType/dating"
+import NoProfileImg from "../../../../components/dating/pic/noprofile.png"
+import DatingLoading from "../../../../components/dating/lottie/DatingLoading.json"
+import DatingWentWrong from "src/components/dating/DatingWentWrong"
+// import { POLL } from "../../../../components/dating/shared/poll"
 // import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
 
 const YourPoll = () => {
@@ -26,10 +32,11 @@ const YourPoll = () => {
     const navigate = useNavigate()
     const toast = useToast()
     let count = 1
-    const pollId = useParams()
+    const params = useParams()
+
     // const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
 
-    // const [pollInfo, setPollInfo] = useState
+    const [pollInfo, setPollInfo] = useState<PollInfo>()
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -117,9 +124,9 @@ const YourPoll = () => {
                         })
                     })
             })
-            API.get("/dating/yourpoll/getYourPoll/" + pollId).then((data) => {
-                console.log(data.data)
-            })
+            API.get("/dating/yourpoll/getYourPoll/" + params.pollId).then((data) => {
+                setPollInfo(data.data)
+            }).catch(on).finally(off)
         }
     })
 
@@ -149,8 +156,24 @@ const YourPoll = () => {
         }
     }
 
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
     return (
-        <>
+        (isError || isLoading ? <DatingAppBody>                   {isLoading && !isError ? (
+            <Box display="block" mt={{ base: "100px", md: "-200px" }}>
+                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
+            </Box>
+        ) : (
+            <></>
+        )}
+
+            {isError ?
+                <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
+                    <DatingWentWrong />
+                </Box> :
+                <></>}
+        </DatingAppBody> : <>
             <DatingAppBody>
                 <Box
                     w="100%"
@@ -163,12 +186,13 @@ const YourPoll = () => {
                 >
                     <Box h="90%" mb="35px">
                         <Text pt="17px" pl="31px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
-                            {/* {pollInfo.pollName} */}
+                            {pollInfo?.pollName}
                         </Text>
                     </Box>
-                    {/* <DatingYourPollSeeMore pollInfo={pollInfo} /> */}
+                    {pollInfo ? <DatingYourPollSeeMore pollInfo={pollInfo} /> : <></>}
+
                 </Box>
-                <Heading
+                {pollInfo?.participants.length != undefined && pollInfo.participants.length > 0 ? <Heading
                     color="black"
                     ml={{ base: "10px", md: "0px" }}
                     pb={{ base: "16px", md: "24px" }}
@@ -177,8 +201,10 @@ const YourPoll = () => {
                     lineHeight="150%"
                 >
                     People interested in joining your activity
-                </Heading>
-                <Box
+                </Heading> : <></>}
+
+
+                {pollInfo?.participants.map((participant) => (<Box
                     w="100%"
                     height={{ base: "90px", md: "100px" }}
                     backgroundColor="white"
@@ -188,23 +214,29 @@ const YourPoll = () => {
                     display="flex"
                 >
                     <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
-                        <Image
-                            borderRadius="full"
-                            boxSize={{ base: "50px", md: "78px" }}
-                            objectFit="cover"
-                            src="https://0.soompi.io/wp-content/uploads/2022/05/01080609/J-Hope2.jpg"
-                        />
+                        <Link to={"/user/" + participant.user.userId}>
+                            {participant.user.image ? <Image
+                                borderRadius="full"
+                                boxSize={{ base: "50px", md: "78px" }}
+                                objectFit="cover"
+                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + participant.user.userId}
+                            /> : <Image
+                                borderRadius="full"
+                                boxSize={{ base: "50px", md: "78px" }}
+                                objectFit="cover"
+                                src={NoProfileImg}
+                            />}
+                        </Link>
                         {isMobile ? (
                             <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
-                                Firstname Lastname
+                                {participant.user.fName} {participant.user.lName}
                             </Text>
                         ) : (
                             <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
-                                Firstname L.
+                                {participant.user.fName.length > 9 ? <>{participant.user.fName.substring(0, 6)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
                             </Text>
                         )}
                     </Box>
-
                     <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
                         <Button
                             borderRadius="full"
@@ -228,59 +260,8 @@ const YourPoll = () => {
                             <Image src={ChatImg} />
                         </Button>
                     </Box>
-                </Box>
-                <Box
-                    w="100%"
-                    height={{ base: "90px", md: "100px" }}
-                    backgroundColor="white"
-                    boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                    borderRadius="10px"
-                    mb={{ base: "8px", md: "12px" }}
-                    display="flex"
-                >
-                    <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
-                        <Image
-                            borderRadius="full"
-                            boxSize={{ base: "50px", md: "78px" }}
-                            objectFit="cover"
-                            src="https://0.soompi.io/wp-content/uploads/2022/05/01080609/J-Hope2.jpg"
-                        />
-                        {isMobile ? (
-                            <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
-                                Firstname Lastname
-                            </Text>
-                        ) : (
-                            <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
-                                Firstname L.
-                            </Text>
-                        )}
-                    </Box>
-
-                    <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
-                            mr={{ base: "12px", md: "24px" }}
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Image src={CheckImg} />
-                        </Button>
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        >
-                            <Image src={ChatImg} />
-                        </Button>
-                    </Box>
-                </Box>
-                <Box mb="275px" />
+                </Box>))}
+                <Box mt="300px" />
             </DatingAppBody>
             <Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBar">
                 <Container w="container.lg" maxW={"100%"}>
@@ -358,7 +339,7 @@ const YourPoll = () => {
                     </Box>
                 </Container>
             </Box>
-        </>
+        </>)
     )
 }
 
