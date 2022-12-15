@@ -31,5 +31,5 @@ notificationRoutes.get("/getsenderimage/:senderId", getSenderImage)
 notificationRoutes.post("/addnotiobject", addNotiObject)
 notificationRoutes.post("/readnotiobject/:notiObjectId", readNotiObject)
 notificationRoutes.post("/markallasread/:module", markallasRead)
-notificationRoutes.post("/editnotiusersetting/:app/:email", editNotiUserSetting)
+notificationRoutes.post("/editnotiusersetting/:userId/:app/:email", editNotiUserSetting)
 export { notificationRoutes, setIO }

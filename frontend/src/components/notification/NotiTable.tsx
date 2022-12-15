@@ -110,34 +110,34 @@ const NotiTable = () => {
 
 
     //setting
-    function ShowSetting() {
-        const { isOpen, onOpen, onClose } = useDisclosure()
+    // function ShowSetting() {
+    //     const { isOpen, onOpen, onClose } = useDisclosure()
 
-        return (
-            <Center>
-                <Button size={"1em"} onClick={onOpen}>
-                    <SettingsIcon color="orange.500" />
-                </Button>
-                <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>
-                            <Text align={"center"}>Notification Setting</Text>
-                        </ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <NotiSetting />
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
-                                Confirm
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </Center>
-        )
-    }
+    //     return (
+    //         <Center>
+    //             <Button size={"1em"} onClick={onOpen}>
+    //                 <SettingsIcon color="orange.500" />
+    //             </Button>
+    //             <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    //                 <ModalOverlay />
+    //                 <ModalContent>
+    //                     <ModalHeader>
+    //                         <Text align={"center"}>Notification Setting</Text>
+    //                     </ModalHeader>
+    //                     <ModalCloseButton />
+    //                     <ModalBody>
+    //                         <NotiSetting />
+    //                     </ModalBody>
+    //                     <ModalFooter>
+    //                         <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
+    //                             Confirm
+    //                         </Button>
+    //                     </ModalFooter>
+    //                 </ModalContent>
+    //             </Modal>
+    //         </Center>
+    //     )
+    // }
     //console.log(userNotiObjectModule.length);
 
     return (
@@ -147,9 +147,10 @@ const NotiTable = () => {
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
                 <Box>
-                    <Stack direction={"row"}>
+                    <Stack direction={"row"} >
                         <MarkRead module={selectedModule} onClick={load} />
-                        {ShowSetting()}
+                        {/* {ShowSetting()} */}
+                        <NotiSetting />
                     </Stack>
                 </Box>
             </Flex>
