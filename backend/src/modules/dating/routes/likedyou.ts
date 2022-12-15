@@ -23,10 +23,31 @@ likedYouRoutes.get("/getHeartHistory", verifyUser, async (req: Request, res: Res
     try {
         const reqUserId = req.user?.userId
 
+        const youLikedDB = await prisma.heart_History.findMany({
+            where: {
+                userId: reqUserId,
+            },
+        })
+
+        let youLikedUser: any = []
+        youLikedDB.map((data) => {
+            youLikedUser.push(data.anotherUserId)
+        })
+
         const heartHistoryDB = await prisma.heart_History.findMany({
             where: {
-                anotherUserId: reqUserId,
                 isSkipped: false,
+                heartReceiver: {
+                    userId: reqUserId,
+                },
+
+                heartGiver: {
+                    NOT: {
+                        userId: {
+                            in: youLikedUser,
+                        },
+                    },
+                },
             },
             select: {
                 heartGiver: {
