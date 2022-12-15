@@ -14,12 +14,12 @@ const DatingCreateLocation: FC<{
 
     const [res, setRes] = useState([])
     //Restaurant name
+
     useEffect(() => {
         API.get("/dating/create/getFavRestaurants").then((favRes) => {
             setRes(favRes.data)
         })
-
-    })
+    }, [])
     // const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
 
     const isTooLongLocation = location.length >= 100

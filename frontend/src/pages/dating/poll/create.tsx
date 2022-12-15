@@ -90,12 +90,11 @@ const CreateActivityPoll = () => {
 
                     })
             })
+            API.get("/dating/create/getAllTopic").then((allInterest) => {
+                setAllInterests(allInterest.data)
+            })
         }
-        API.get("/dating/create/getAllTopic").then((allInterest) => {
-            setAllInterests(allInterest.data)
-            // setInterests(allInterest.data)
-            // console.log("INTERESTING: " + allInterests)
-        })
+
 
     })
 
