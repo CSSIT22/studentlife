@@ -27,14 +27,14 @@ const editstatusOnApproval = async (req: Request, res: Response) => {
         // console.log(postuserid[0].annLanguage[0].annTopic)
         // console.log(postuserid[0].userId)
         if (status == "Approve") {
-            // axios.post("http://localhost:8000/notification/addnotiobject", {
-            //     template: "ANNOUNCEMENT_APPROVED",
-            //     value: [postuserid[0].annLanguage[0].annTopic, null],
-            //     userId: postuserid[0].userId,
-            //     module: "ANNOUNCEMENT",
-            //     url: "/announcement/history",
-            //     sender: id,
-            // })
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_APPROVED",
+                value: [postuserid[0].annLanguage[0].annTopic, ""],
+                userId: [postuserid[0].userId],
+                module: "ANNOUNCEMENT",
+                url: "/announcement/history",
+                sender: id,
+            })
 
 
             const editstatus = await prisma.announcement.update({
@@ -64,14 +64,14 @@ const editstatusOnApproval = async (req: Request, res: Response) => {
             })
         } else if (status == "Disapprove") {
 
-            // axios.post("http://localhost:8000/notification/addnotiobject", {
-            //     template: "ANNOUNCEMENT_APPROVED",
-            //     value: [postuserid[0].annLanguage[0].annTopic, "doesn't"],
-            //     userId: postuserid[0].userId,
-            //     module: "ANNOUNCEMENT",
-            //     url: "/announcement/history",
-            //     sender: id,
-            // })
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_APPROVED",
+                value: [postuserid[0].annLanguage[0].annTopic, "doesn't"],
+                userId: [postuserid[0].userId],
+                module: "ANNOUNCEMENT",
+                url: "/announcement/history",
+                sender: id,
+            })
 
             const editstatus = await prisma.announcement.update({
                 where: {
