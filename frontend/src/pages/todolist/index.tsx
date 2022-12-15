@@ -45,14 +45,6 @@ const index = () => {
   const [taskList, setTaskList] = useState([])
   const navigate = useNavigate()
 
-  // const fetchTaskList = async () => {
-  //     const res = await axios.get("http://localhost:8000/todolist/listtask", {
-  //         withCredentials: true,
-  //     })
-  //     console.log('data', res.data);
-  //     setTaskList(res.data);
-  // }
-
   useEffect(() => {
     // fetchTaskList();
     API.post("/todolist/listtask").then((res) => {
@@ -108,12 +100,9 @@ const index = () => {
             }} >
             <Flex alignItems={"center"}>
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
-
               <Text fontSize={"2xl"}>{el.taskCheck.taskName}</Text>
               <Spacer />
-
               {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
-
             </Flex>
           </Box>
         ))

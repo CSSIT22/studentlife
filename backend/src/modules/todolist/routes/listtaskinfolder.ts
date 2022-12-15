@@ -12,29 +12,40 @@ const listtaskinfolder = async (req: Request, res: Response) => {
             body.orderBy == "complete"
         )
     } else {
-        result = await prisma.task_Check.findMany({
-            orderBy: [
-                {
-                    taskCheck: {
-                        [body.orderBy || "taskName"]: "asc",
-                    },
-                },
-            ],
+        result = await prisma.task_Folder.findFirst({
+            // orderBy: [
+            //     {
+            //         taskCheck: {
+            //             [body.orderBy || "taskName"]: "asc",
+            //         },
+            //     },
+            // ],
+            // where: {
+            //     userId: {
+            //         equals: userid,
+            //     },
+            //     taskCheck: {
+            //         folderId: {
+            //             equals: body.folderId,
+            //         },
+            //     },
+            // },
             where: {
-                userId: {
-                    equals: userid,
-                },
-                taskCheck: {
-                    folderId: {
-                        equals: body.folderId,
-                    },
-                },
+                userId: userid,
+                folderId: body.folderId,
             },
             include: {
-                taskCheck: true,
+                tasks: {
+                    include: {
+                        checkTask: { select: { isCheck: true } },
+                    },
+                },
+                // taskCheck: true,
             },
         })
     }
+
+    console.log(result)
 
     res.json(result)
 }
