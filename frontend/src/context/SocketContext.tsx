@@ -3,11 +3,13 @@ import { authContext } from "./AuthContext"
 import io, { Socket } from "socket.io-client"
 import socket, { getToken } from "src/function/socket"
 import { sendMsg } from "src/components/chat/socketType"
+import { pushNotiType } from "@apiType/notification"
+import API from "src/function/API"
 
 type socketTypes = {
     messages: { userId: string; roomId: string; message: string }[]
     testSocket: string[],
-    socketIO : Socket<any,any>
+    socketIO: Socket<any, any>
 }
 
 export const socketContext = createContext<socketTypes>({} as any)
@@ -15,6 +17,7 @@ export const socketContext = createContext<socketTypes>({} as any)
 const SocketContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [messages, setmessages] = useState<socketTypes["messages"]>([])
     const [testSocket, setTestSocket] = useState<socketTypes["testSocket"]>([])
+
     const socketIO = socket()
     useEffect(() => {
         socketIO.on("connect", () => {
@@ -23,12 +26,13 @@ const SocketContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         socketIO.on("receive-message", (s: sendMsg) => {
             console.log(s)
         })
+
         return () => {
             socketIO.off("connect")
             socketIO.off("receive-message")
         }
     }, [])
-    return <socketContext.Provider {...{ children, value: { messages, testSocket ,socketIO} }} />
+    return <socketContext.Provider {...{ children, value: { messages, testSocket, socketIO } }} />
 }
 
 export default SocketContextProvider

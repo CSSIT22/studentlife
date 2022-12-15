@@ -8,6 +8,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom"
 import Loading from "src/components/backendService/Loading"
 import SocketContextProvider from "./SocketContext"
 import { setToken } from "src/function/socket"
+import { NavBarContext } from "./NavbarContext"
 
 export const authContext = createContext<InitUserResponse>({} as any)
 
@@ -15,6 +16,7 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
     const [user, setUser] = useState<InitUserResponse | null>()
     let location = useLocation()
     const [loading, { off, on }] = useBoolean(true)
+    const [countUnread, setcountUnread] = useState(0)
     const initUser = useCallback(async () => {
         try {
             const user = await API.get<InitUserResponse>("/user")
@@ -36,7 +38,11 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
     }
     return (
         <authContext.Provider value={user as any} {...props}>
-            <SocketContextProvider>{props.children}</SocketContextProvider>
+            <SocketContextProvider>
+                <NavBarContext.Provider value={{ countUnread, setcountUnread }}>
+                    {props.children}
+                </NavBarContext.Provider>
+            </SocketContextProvider>
         </authContext.Provider>
     )
 }
