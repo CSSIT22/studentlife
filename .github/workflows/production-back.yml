@@ -1,4 +1,4 @@
-name: ✨ Deploy to staging
+name: ✨ Deploy to Production
 
 on:
   push:
@@ -50,5 +50,5 @@ jobs:
             cd ${{secrets.PATH_PRODUCTION}}
             docker pull modlifes/p-backend:latest
             echo '${{secrets.BACKEND_PRODUCTION_ENV}}' > .env
-            docker-compose up --detach backend
+            docker-compose up --detach production-backend
             docker system prune -af
