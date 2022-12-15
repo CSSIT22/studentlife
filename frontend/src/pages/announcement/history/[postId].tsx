@@ -15,11 +15,12 @@ import {
     Show,
     useBoolean,
     Heading,
+    useToast,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import { addMoreLangType, announcement, post, post_to_language, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 import MoreLangForEdit from "src/components/annoucement/MoreLangForEdit"
@@ -50,7 +51,7 @@ const history = () => {
     const [exmoreLang, setexMoreLang] = React.useState<post_to_language2[]>([])
     const [count, setCount] = React.useState(0)
     const [disable, setdisable] = useState(false)
-    const [event, setEvent] = useState<string>()
+    const [event, setEvent] = useState<string | undefined>()
 
     const tog = () => {
         settoggle(!toggle)
@@ -59,67 +60,65 @@ const history = () => {
     let d, e: Date
     const [isError, { on }] = useBoolean()
     const [tv, settv] = useState<tgType[]>([])
+    const toast = useToast()
+    const navigate = useNavigate()
 
     async function getPost() {
         await API.get("/announcement/getdetailedit/" + params.postId).then((item) => {
             setpost(item.data)
             setTopic(item.data[0].annLanguage[0].annTopic)
-            const event_date = item.data[0].annLanguage[0].annDetail.split("~")
             setDetail((item.data[0].annLanguage[0].annDetail.split("~"))[1])
-
             setTargetType(item.data[0].annFilter.filterType)
             setTargetValue(item.data[0].annFilter.value)
-            d = new Date(item.data[0].annExpired)
 
-            // ยังdisplay event date ไม่ได้
             e = new Date((item.data[0].annLanguage[0].annDetail.split("~"))[0])
-
-            if (d.getMonth() < 10 || e.getMonth() < 10) {
-                if (d.getMonth() < 10) {
-                    const nm = "0" + (d.getMonth() + 1)
-                    if (d.getDate() < 10) {
-                        const nd = "0" + (d.getDate())
-                        setExpired(d.getFullYear() + "-" + nm + "-" + nd)
-                    } else {
-                        setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
-                    }
-                } else if (e.getMonth() < 10) {
-                    const nm2 = "0" + (e.getMonth() + 1)
-                    if (e.getDate() < 10) {
-                        const nd2 = "0" + (e.getDate())
-                        setEvent(e.getFullYear() + "-" + nm2 + "-" + nd2)
-                    } else {
-                        setEvent(e.getFullYear() + "-" + nm2 + "-" + e.getDate())
-                    }
+            if (e.getMonth() + 1 < 10) {
+                const nm2 = "0" + (e.getMonth() + 1)
+                if (e.getDate() < 10) {
+                    const nd2 = "0" + (e.getDate())
+                    setEvent(e.getFullYear() + "-" + nm2 + "-" + nd2)
+                } else {
+                    setEvent(e.getFullYear() + "-" + nm2 + "-" + e.getDate())
                 }
-            } else if (d.getDate() < 10 || e.getDate() < 10) {
+            } else if (e.getDate() < 10) {
+                const nd2 = "0" + e.getDate()
+                if (e.getMonth() + 1 < 10) {
+                    const nm2 = "0" + (e.getMonth() + 1)
+                    setEvent(e.getFullYear() + "-" + nm2 + "-" + nd2)
+                } else {
+                    setEvent(e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + nd2)
+                }
+            } else {
+                setEvent(e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + e.getDate())
+            }
+
+            d = new Date(item.data[0].annExpired)
+            if (d.getMonth() + 1 < 10) {
+                const nm = "0" + (d.getMonth() + 1)
+                if (d.getDate() < 10) {
+                    const nd = "0" + (d.getDate())
+                    setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+                } else {
+                    setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
+                }
+            } else if (d.getDate() < 10) {
                 if (d.getDate() < 10) {
                     const nd = "0" + d.getDate()
-                    if (d.getMonth() < 10 || e.getMonth() < 10) {
+                    if (d.getMonth() + 1 < 10) {
                         const nm = "0" + (d.getMonth() + 1)
                         setExpired(d.getFullYear() + "-" + nm + "-" + nd)
                     } else {
                         setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + nd)
                     }
-                } else if (e.getDate() < 10) {
-                    const nd2 = "0" + e.getDate()
-                    if (d.getMonth() < 10 || e.getMonth() < 10) {
-                        const nm2 = "0" + (e.getMonth() + 1)
-                        setEvent(d.getFullYear() + "-" + nm2 + "-" + nd2)
-                    } else {
-                        setEvent(e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + nd2)
-                    }
                 }
             } else {
                 setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
-                setEvent(e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + e.getDate())
-                
             }
 
             setexMoreLang(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
 
             setmorelanglength(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
-        }).catch(err => on())
+        }).catch(err => toast({ title: "Something went wrong", duration: 5000, status: "error", position: "top" }))
 
         await API.get("/announcement/gettypetarget").then(item => settv(item.data))
     }
@@ -143,7 +142,6 @@ const history = () => {
         detail: " The announcement request has been sent.",
         status: "edit",
     }
-
 
 
     const selectTargetValue = (tgType: string | undefined) => {
@@ -279,16 +277,18 @@ const history = () => {
     }
 
     const submit = () => {
+        const date = new Date(event+"");
         API.post<post>("/announcement/editdetailpost", {
             postid: params.postId,
             topic: topic,
-            detail: detail,
+            detail: date + "~" + detail,
             targetType: targetType,
             targetValue: targetValue,
             postat: new Date(),
             expiredpost: expired,
             addMoreLang: addMoreLang,
         })
+        navigate("/announcement/history")
     }
     return (
         <AnnounceNav>
@@ -371,6 +371,7 @@ const history = () => {
                                             min={disabledDates()}
                                             onChange={(e) => setEvent(e.target.value)}
                                             bg="white"
+                                            value={event}
                                         />
                                     </FormControl>
                                     <FormControl isRequired>
