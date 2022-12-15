@@ -56,7 +56,11 @@ function detail() {
 
     }, [params.detailRes])
 
-    console.log(property)
+    const [room, setRoom] = React.useState<any>([])
+    const getRoom = API.get("/chat")
+    useEffect(()=>{
+        getRoom.then((item)=> setRoom(item.data))
+    })
 
     if (isLoading)
         return (
@@ -96,15 +100,7 @@ function detail() {
         })
     }, [setIsFavorite, property])
 
-    const submit = () => {
-        console.log("papoo")
-    }
-
-    friend.map((e1:any)=>{
-
-    })
     
-
 
 
     const addFavorite = () => {
@@ -237,11 +233,11 @@ function detail() {
                                                                 
                                                                     <Flex>
                                                                         <Wrap spacing="30px">
-                                                                            {friend.map((f1) => {
+                                                                            {room?.map((ro:any) => {
                                                                                 return (
-                                                                                <Radio name={f1.Id}> 
+                                                                                <Radio name={ro.roomId}> 
                                                                                     <WrapItem>
-                                                                                        <Avatar name={f1.name} src={f1.picture} />
+                                                                                        <Avatar name={ro.group.roomName} src={ro.nick.nameWho.image.data} />
                                                                                         <Text></Text>
                                                                                     </WrapItem>
                                                                                 </Radio>
@@ -260,8 +256,8 @@ function detail() {
                                                                         borderRadius={"10px"}
                                                                         px={4}
                                                                         py={2}
-                                                                        onClick={() => {submit()
-                                                                            
+                                                                        onClick={() => {
+                                                                            onClose()
                                                                         }}
                                                                     >
                                                                         OK
