@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean } from "@chakra-ui/react"
+import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean, Input } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
@@ -16,6 +16,7 @@ const index = () => {
     useEffect(() => {
         API.get("/shortnotes/getShortnotes").then((item) => {
             setSn(item.data)
+            //setSsn(item.data)
             //console.log(item.data)
         }).finally(() => {
             setsnLoad.off()
@@ -74,22 +75,36 @@ const index = () => {
         setRadio("Public")
     }
 
+    const [searchSn, setSearchSn] = useState("")
+
     const [snPicked, setSnPicked] = useState("")
 
     const [coursePicked, setCoursePicked] = useState("")
 
-    const [filtered, setFiltered] = useState<any>([])
+    const [snByCourse, setSnByCourse] = useState<any>([])
+
+    // useEffect(() => {
+    //     setSnByCourse(sn.filter((items: any) => items.courseId == coursePicked)) //what to do
+    // }, [coursePicked]) // what to track
+
     useEffect(() => {
-        dataFiltered() //what to do
-    }, [coursePicked]) // what to track
+        setSsn(sn.filter((items: any) => {
+            return (
+                items.snName.toLowerCase().includes(searchSn)
+            )
+        }))
+    }, [searchSn])
+
+    useEffect(() => {
+        setSsn(sn.filter((items: any) => items.courseId == coursePicked))
+    }, [coursePicked])
+
     const picked = (e: any) => {
+        //console.log(e.target.value);
         setCoursePicked(e.target.value)
     }
-    const dataFiltered = () => {
-        setFiltered(sn.filter((items: any) => items.courseId == coursePicked))
-    }
     const navigate = useNavigate()
-
+    const [ssn, setSsn] = useState<any>([])
     const [rsnLoad, setRsnLoad] = useBoolean(true)
     const [snLoad, setsnLoad] = useBoolean(true)
     const style = {
@@ -136,11 +151,11 @@ const index = () => {
             {/*Shortnote list section*/}
             <Flex alignItems={"end"}>
                 <BtnNs />
-                <Spacer />
+                <Input variant={"filled"} focusBorderColor="orange.500" bg={"gray.50"} borderColor={"gray.200"} placeholder={"Search here."} mx={8} onChange={(e) => setSearchSn(e.target.value)}></Input>
                 <Stack direction={"row"}>
                     <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
-                        <Select _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="None">
+                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="None">
                             <option value="option1">Name</option>
                             <option value="option2">Newest</option>
                             <option value="option2">Oldest</option>
@@ -148,7 +163,7 @@ const index = () => {
                     </VStack>
                     <VStack>
                         <Text alignSelf={"start"}>Course</Text>
-                        <Select _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
+                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
                             {course.map((course: any, key) => (
                                 <option key={key} value={course.courseId}>{course.courseName}</option>
                             ))}
@@ -160,9 +175,9 @@ const index = () => {
                 :
                 <Collapse in={rsnIsOpen} animateOpacity>
                     <VStack gap={2} pt={4} mb={4}>
-                        {coursePicked == "" ? (
+                        {coursePicked == "" && searchSn == "" ? (
                             <>
-                                {sn.map((sn: any, key) => (
+                                {sn.map((sn: any, key: any) => (
                                     <Box
                                         as="button"
                                         w={"100%"}
@@ -185,7 +200,7 @@ const index = () => {
                             </>
                         ) : (
                             <>
-                                {filtered.map((sn: any, key: any) => (
+                                {ssn.map((sn: any, key: any) => (
                                     <Box
                                         as="button"
                                         w={"100%"}
