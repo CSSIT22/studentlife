@@ -12,7 +12,7 @@ const editRoomProp = async (req: Request, res: Response) => {
                 roomId: id,
             },
             data: {
-                roomName: `${roomName}`,
+                //roomName: `${roomName}`,
             },
         })
     }
