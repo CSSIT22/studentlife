@@ -142,13 +142,11 @@ const AllActivityPoll = () => {
                 <DatingAllActivityBox />
             </Stack>
             {/* Create poll button */}
-            <Box zIndex="4" position="fixed" w="100%" bottom={{ base: "70px", md: "30px" }}>
-                <Container w="container.lg" maxW={"100%"} display="inline-flex" justifyContent="right" pr={{ base: "40px", md: "60px" }}>
-                    <Box maxW="100%">
-                        <DatingCreatePollButton />
-                    </Box>
-                </Container>
+            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px",md: "20px"}} bottom={{ base: "70px",md: "30px"}}  _hover={{ color: "black" }}>
+                <DatingCreatePollButton />
             </Box>
+
+
         </DatingAppBody>
     )
 }
