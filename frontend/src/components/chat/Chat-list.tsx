@@ -10,23 +10,23 @@ import API from "src/function/API"
 import { buffer_to_img } from "./function/64_to_img"
 
 type Room = {
-    room:{
-        nick:[
+    room: {
+        nick: [
             {
-                nickname : string
-                nameWho:{
-                    image:{
-                       type : string
-                       data : string
+                nickname: string
+                nameWho: {
+                    image: {
+                        type: string
+                        data: string
                     }
                 }
             }
-        ],
-        group:{
-            roomName :string
-        },
-        chatColor: string,
-        roomId: string,
+        ]
+        group: {
+            roomName: string
+        }
+        chatColor: string
+        roomId: string
         roomType: string
     }
 }
@@ -48,35 +48,52 @@ const Clist: FC<any> = () => {
         return setSearch(e.target.value)
     }
 
-    function DeleteRoom(e: any) {
-        const result = userRoom.filter((el: any) => el.roomId !== e.roomId)
-        setuserRoom(result)
+    async function DeleteRoom(e: Room) {
+        await API.delete(`/chat/${e.room.roomId}/deleteRoom`)
+        const result = await API.get(`/chat`)
+        //const result = API.get
+        setuserRoom(result.data)
+        navigate(`/chat`)
+        // console.log(e.room.roomId);
     }
-    function handleImg(e : any){
-        if(e === null){
+    function handleImg(e: any) {
+        if (e === null) {
             return ""
-        }
-        else{
+        } else {
             return buffer_to_img(e.data)
         }
     }
 
     //component FC
 
-    const Cmenu: FC<any> = (props) => {
-        const room = props.room
-        return (
-            <Menu>
-                <MenuButton>:</MenuButton>
-                <MenuList color={"black"}>
-                    <MenuItem>Mute</MenuItem>
-                    <MenuItem onClick={() => DeleteRoom(room)}>Deteleroom</MenuItem>
-                    <MenuItem>
-                        <Nmodal />
-                    </MenuItem>
-                </MenuList>
-            </Menu>
-        )
+    const Cmenu: FC<any> = (props: any) => {
+        const room: Room = props.room
+        if (room.room.roomType === "INDIVIDUAL") {
+            return (
+                <Menu>
+                    <MenuButton>:</MenuButton>
+                    <MenuList color={"black"}>
+                        <MenuItem>Mute</MenuItem>
+                        <MenuItem onClick={() => DeleteRoom(room)}>Deteleroom</MenuItem>
+                        <MenuItem>
+                            <Nmodal />
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
+            )
+        } else {
+            return (
+                <Menu>
+                    <MenuButton>:</MenuButton>
+                    <MenuList color={"black"}>
+                        <MenuItem>Mute</MenuItem>
+                        <MenuItem>
+                            <Nmodal />
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
+            )
+        }
     }
 
     const renderButton = () => {
@@ -109,7 +126,7 @@ const Clist: FC<any> = () => {
             </Flex>
         )
     }
-    
+
     const renderRoom = (e: Room) => {
         if (target === 1 && e.room.roomType === "INDIVIDUAL") {
             return (
@@ -186,3 +203,4 @@ const Clist: FC<any> = () => {
     )
 }
 export default Clist
+

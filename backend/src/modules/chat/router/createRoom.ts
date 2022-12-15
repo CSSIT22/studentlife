@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { nanoid } from "nanoid"
+import { use } from "passport"
 
 const createRoom = async (req: Request, res: Response) => {
     const user = req.user?.userId
@@ -7,12 +8,12 @@ const createRoom = async (req: Request, res: Response) => {
     const room_Id = nanoid()
     const prisma = res.prisma
     try {
-        if(user === null){
-            res.status(202).send("log in first!!")
+        if(user === undefined){
+            res.status(401).send("log in first!!")
         }
-        const user_id = await prisma.user_Profile.findFirstOrThrow({
+        const user_find = await prisma.user_Profile.findUniqueOrThrow({
             select:{
-                userId:true
+                userId:true,fName:true
             },where:{
                 userId:user
             }
@@ -22,7 +23,7 @@ const createRoom = async (req: Request, res: Response) => {
                 fName: true,
             },
             where: {
-                userId: target,
+                userId:target
             },
         })
         await prisma.chat_Room.create({
@@ -32,21 +33,29 @@ const createRoom = async (req: Request, res: Response) => {
                 roomId: room_Id,
             },
         })
-        await prisma.chat_Nickname.create({
-            data:{
-                userId:user_id.userId,
-                anotherUserId:target,
-                nickname:target_name.fName,
-                roomId:room_Id
-            }
+        await prisma.chat_Nickname.createMany({
+            data:[
+                {
+                    userId:user_find.userId,
+                    anotherUserId:target,
+                    nickname:target_name.fName,
+                    roomId:room_Id
+                },
+                {
+                    userId:target,
+                    anotherUserId:user_find.userId,
+                    nickname:user_find.fName,
+                    roomId:room_Id
+                }
+            ]
         })
         await prisma.user_To_Room.createMany({
             data: [
-                { roomId: room_Id, userId: user_id.userId },
+                { roomId: room_Id, userId: user_find.userId },
                 { roomId: room_Id, userId: target },
             ],
         })
-        res.send(target_name)
+        res.send(target_name.fName)
     } catch (error) {
         res.status(202).send("error while createRoom" + error)
     }
