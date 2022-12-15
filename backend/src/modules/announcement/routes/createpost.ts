@@ -22,15 +22,15 @@ const createPost = async (req: Request, res: Response) => {
             approvalid.push(approval[i].userId);
         }
         // console.log(approvalid)
-        
-        // axios.post("http://localhost:8000/notification/addnotiobject",{
-        //     "template": "ANNOUNCEMENT_WAIT_FOR_APPROVE",
-        //     "value": [],
-        //     "userId": approvalid,
-        //     "module":"ANNOUNCEMENT",
-        //     "url":"/announcement/approval",
-        //     "sender":id,
-        // })
+
+        axios.post("http://localhost:8000/notification/addnotiobject",{
+            "template": "ANNOUNCEMENT_WAIT_FOR_APPROVE",
+            "value": [],
+            "userId": approvalid,
+            "module":"ANNOUNCEMENT",
+            "url":"/announcement/approval",
+            "sender":id,
+        })
 
         let filterNo: number
         if (targetType == "Everyone") {
