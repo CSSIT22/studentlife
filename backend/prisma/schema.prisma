@@ -1499,8 +1499,8 @@ model SReview_Shop_Image {
 
 model SReview_Review {
   reviewId     String                 @id @default(cuid())
-  resId        String                 @default("0")
-  shopId       String                 @default("0")
+  resId        String?                 
+  shopId       String?                 
   userId       String
   reviewedAt   DateTime               @default(now()) @db.Timestamp(0)
   text         String
@@ -1508,8 +1508,8 @@ model SReview_Review {
   likeReceived Int                    @default(0)
   images       SReview_Review_Image[]
   reviewer     User_Profile           @relation(fields: [userId], references: [userId])
-  restaurant   Restaurant             @relation(fields: [resId], references: [resId])
-  shop         SReview_Shop           @relation(fields: [shopId], references: [shopId])
+  restaurant   Restaurant?             @relation(fields: [resId], references: [resId])
+  shop         SReview_Shop?           @relation(fields: [shopId], references: [shopId])
   likes        SReview_Review_Like[]
   comments     SReview_Comment[]
   files        SReview_Review_File[]
