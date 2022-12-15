@@ -19,11 +19,11 @@ const Detail: FC<{
             <Divider orientation="horizontal" maxW="5rem" borderColor={"black"} />
             <Flex gap={"5"}>
                 <Flex alignItems={"center"}>
-                    <IoIosCalendar />
+                    <IoIosCalendar size={25}/>
                     <Text pl="2">{date}</Text>
                 </Flex>
                 <Flex alignItems="center">
-                    <GiHumanTarget />
+                    <GiHumanTarget size={25} />
                     <Text fontSize="md" pl="2">
                         {filterType}{" "}
                         {filterValue}
