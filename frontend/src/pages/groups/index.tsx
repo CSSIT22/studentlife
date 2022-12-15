@@ -66,48 +66,63 @@ const index = () => {
 
     const renderOwnCommunity = () => {
         return (
-            community?.communityList.own.map((c: OwnCommunity) => {
-                return (
-                    <CommunityList
-                        pendingRequest={community?.communityList?.pendingRequest.length > 0}
-                        key={c.communityId}
-                        communityName={c.communityName}
-                        lastActive={'9'}
-                        communityCoverPhoto={c.communityCoverPhoto}
-                        communityPrivacy={c.communityPrivacy}
-                        communityId={c.communityId} />
-                )
-            }))
+            community?.communityList.own.filter((c: OwnCommunity) => {
+                return searchValue.toLowerCase() == ""
+                    ? c
+                    : c.communityName.toLowerCase().includes(searchValue)
+            })
+                .map((c: OwnCommunity) => {
+                    return (
+                        <CommunityList
+                            pendingRequest={community?.communityList?.pendingRequest.length > 0}
+                            key={c.communityId}
+                            communityName={c.communityName}
+                            lastActive={'9'}
+                            communityCoverPhoto={c.communityCoverPhoto}
+                            communityPrivacy={c.communityPrivacy}
+                            communityId={c.communityId} />
+                    )
+                }))
     }
     const renderJoinedCommunity = () => {
         return (
-            community?.communityList.joined.map((community: JoinedCommunity) => {
-                return (
-                    <CommunityList
-                        key={community.communityId}
-                        communityName={community.communityName}
-                        lastActive={community.lastActive}
-                        communityCoverPhoto={community.communityCoverPhoto}
-                        communityPrivacy={community.communityPrivacy}
-                        communityId={community.communityId} />
-                )
-            }))
+            community?.communityList.joined.filter((c: OwnCommunity) => {
+                return searchValue.toLowerCase() == ""
+                    ? c
+                    : c.communityName.toLowerCase().includes(searchValue)
+            })
+                .map((community: JoinedCommunity) => {
+                    return (
+                        <CommunityList
+                            key={community.communityId}
+                            communityName={community.communityName}
+                            lastActive={community.lastActive}
+                            communityCoverPhoto={community.communityCoverPhoto}
+                            communityPrivacy={community.communityPrivacy}
+                            communityId={community.communityId} />
+                    )
+                }))
     }
     const renderInvitedCommunity = () => {
         return (
-            community?.communityList.invite.map((community: InvitedCommunity) => {
-                return (
-                    <InvitationsList
-                        key={community.communityId}
-                        communityName={community.communityName}
-                        communityCoverPhoto={community.communityCoverPhoto}
-                        communityId={community.communityId}
-                        expired={community.expired}
-                        communityMember={community.communityMember}
-                        communityPrivacy={community.communityPrivacy}
-                        userName={community.userName} />
-                )
-            }))
+            community?.communityList.invite.filter((c: OwnCommunity) => {
+                return searchValue.toLowerCase() == ""
+                    ? c
+                    : c.communityName.toLowerCase().includes(searchValue)
+            })
+                .map((community: InvitedCommunity) => {
+                    return (
+                        <InvitationsList
+                            key={community.communityId}
+                            communityName={community.communityName}
+                            communityCoverPhoto={community.communityCoverPhoto}
+                            communityId={community.communityId}
+                            expired={community.expired}
+                            communityMember={community.communityMember}
+                            communityPrivacy={community.communityPrivacy}
+                            userName={community.userName} />
+                    )
+                }))
     }
 
     const renderSuggestCommunity = () => {
@@ -171,7 +186,7 @@ const index = () => {
     }
     const checkCommunity = () => {
         return (
-            <Box borderRadius="md" backgroundColor="orange.100" mt={2}>
+            <Box borderRadius="md" backgroundColor="orange.500" mt={2}>
                 <Box p={2} borderRadius="md">
                     <HStack gap={2}>
                         <Box height={"55px"}></Box>
@@ -282,41 +297,25 @@ const index = () => {
                                 boxShadow={"md"}
                                 textAlign={"center"}
                                 width={"100%"}
-                                onClick={onOpen}
+
                             >
-                                <HStack>
-                                    <SearchIcon />
-                                    <Text>
-                                        Seacrh Communities
-                                    </Text>
+                                <HStack >
+                                    <Box textAlign={'center'} mb='1' mr='2' >
+                                        <SearchIcon color='green' />
+                                    </Box>
+                                    <Input
+                                        background={"white"}
+                                        color="black"
+                                        textAlign={"center"}
+                                        width={"100%"}
+                                        variant={"filled"}
+                                        type={"search"}
+                                        value={searchValue}
+                                        onChange={handleChange}
+                                        placeholder="Seacrh Communities"
+                                    ></Input>
                                 </HStack>
                             </Button>
-                            <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
-                                <ModalOverlay />
-                                <ModalContent>
-                                    {/* <ModalCloseButton /> */}
-                                    <ModalBody>
-                                        <HStack >
-                                            <Box textAlign={'center'} mb='1' mr='2' >
-                                                <SearchIcon color='green' />
-                                            </Box>
-                                            <Input
-                                                background={"white"}
-                                                color="black"
-                                                textAlign={"center"}
-                                                width={"100%"}
-                                                variant={"filled"}
-                                                type={"search"}
-                                                value={searchValue}
-                                                onChange={handleChange}
-                                                placeholder="Seacrh Communities"
-                                                focusBorderColor="gray.200"
-                                                onClick={onOpen}
-                                            ></Input>
-                                        </HStack>
-                                    </ModalBody>
-                                </ModalContent>
-                            </Modal>
                             <Link to={"/groups/create"}>
                                 <Button mt="2"
                                     bg="orange.500"
@@ -335,6 +334,7 @@ const index = () => {
                         {
                             community?.count == 0 ? checkCommunity() : <Box></Box>
                         }
+
                         <Box
                             display={community?.communityList.own.length == 0 ? "none" : "block"}
                             mt={2}
@@ -346,7 +346,12 @@ const index = () => {
                             <Text as="b" color={{ md: "white", base: "none" }}>
                                 Community you manage
                             </Text>
-                            {renderOwnCommunity()}
+                            {community?.communityList.own.filter((c: OwnCommunity) => {
+                                return searchValue.toLowerCase() == ""
+                                    ? c
+                                    : c.communityName.toLowerCase().includes(searchValue)
+                            })
+                                .length == 0 ? communityNotFound():renderOwnCommunity()}
                         </Box>
 
                         <Box mt={2} mb={3}
@@ -358,7 +363,12 @@ const index = () => {
                             <Text as="b" color={{ md: "white", base: "none" }}>
                                 Community you've joined
                             </Text>
-                            {renderJoinedCommunity()}
+                            {community?.communityList.joined.filter((c: OwnCommunity) => {
+                                return searchValue.toLowerCase() == ""
+                                    ? c
+                                    : c.communityName.toLowerCase().includes(searchValue)
+                            })
+                                .length == 0 ? communityNotFound():renderJoinedCommunity()}
                         </Box>
                     </Box>
                 </Box>

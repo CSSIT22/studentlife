@@ -117,3 +117,4 @@ const getCommunityId = async (req: Request, res: Response) => {
 }
 
 export default getCommunityId
+

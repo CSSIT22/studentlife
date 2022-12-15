@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react"
+import { Flex, Heading, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
@@ -7,7 +7,7 @@ import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
 import AppBody from "../../components/share/app/AppBody"
 import detail from "./detail/[postId]"
 import { postInfoTest } from "./postInfoTest"
-import { post } from "@apiType/announcement"
+import { announcement_delete, post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const recyclebin = () => {
@@ -45,33 +45,43 @@ const recyclebin = () => {
     //     { topic: "SIT Volunteer", sender: "SAMO-SIT", status: "delete", id: 13, expired: "45:55:11" },
     // ]
     const [toggle, settoggle] = useState(false)
-    const [allPost, setAllPost] = React.useState<post[]>([])
+    const [allPost, setAllPost] = React.useState<announcement_delete[]>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/announcement/getdeletepost")
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data))
+        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
+    // console.log(toggle);
     const click = () => {
         settoggle(!toggle)
     }
-
-    // console.log(allPost)
+    // console.log(allPost);
+    
+    if (isLoading)
+        return (
+            <AppBody>
+                <Heading>Loading</Heading>
+            </AppBody>
+        )
+    if (isError)
+        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
 
     const minute = 1000 * 60
     const hour = minute * 60
     const day = hour * 24
 
     const date = new Date()
-    // console.log(date);
-    // const d = new Date("Sat Nov 12 2022 01:39:11 GMT+0700")
-    // console.log(d)
 
     const currentD = Math.round(date.getTime() / day)
     const currentH = Math.round(date.getTime() / hour)
     const currentM = Math.round(date.getTime() / minute)
-    const showRemaining = (epd: string) => {
+    const showRemaining = (epd: Date) => {
         const expired = new Date(epd)
         const dEpd = Math.round(expired.getTime() / day)
         const diffD = dEpd - currentD
+        // console.log(expired);
+        
         if (diffD <= 3 && diffD > 0) {
             if (diffD == 1) {
                 return diffD + " day"
@@ -94,7 +104,6 @@ const recyclebin = () => {
             return ""
         }
     }
-
     return (
         <AppBody
             secondarynav={[
@@ -110,23 +119,39 @@ const recyclebin = () => {
             </Flex>
             {allPost
                 .filter((fl) => {
-                    const expired = new Date(fl.expiredAfterDelete + "")
+                    const expiredonrecycle = new Date(fl.deleteAt)
+                    let date: number = new Date(fl.deleteAt).getDate()
+                    let month: number = new Date(fl.deleteAt).getMonth()
+                    let year: number = new Date(fl.deleteAt).getFullYear()
+                    expiredonrecycle.setDate(date + 3)          
+                    // console.log(expiredonrecycle);
+                    
+
+                    const expired = new Date(expiredonrecycle)
                     const expiredPost = Math.round(expired.getTime() / day)
                     const diffD = expiredPost - currentD
+                    // console.log(diffD);
+                    
+                    
                     const hEpd = Math.round(expired.getTime() / hour)
                     const diffH = hEpd - currentH
-                    return fl.status == "delete" && (diffD > 0 || diffH > 0)
+                    
+                    
+                    return (diffD > 0 || diffH > 0)
                 })
-                .map((el) => {
-                    const r = showRemaining(el.expiredAfterDelete + "")
+                .map((el) => {        
+                    const expired = new Date(el.deleteAt)
+                    let date: number = new Date(el.deleteAt).getDate()
+                    expired.setDate(date+3)
+                    const r = showRemaining(expired)
                     return (
                         <PostOnRecycle
-                            topic={el.topic}
-                            sender={el.sender}
+                            topic={el.post.annLanguage[0].annTopic}
+                            sender={el.post.annCreator.fName+" "+el.post.annCreator.lName}
                             expired={r}
                             onClick={recoverClick}
-                            id={el.postId}
-                            status={el.status}
+                            id={el.post.postId}
+                            status={"Delete"}
                             key={el.postId}
                             onOpen={onOpen}
                         />

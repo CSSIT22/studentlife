@@ -7,7 +7,7 @@ const MasterCardInfo: FC<{
 }> = ({ name, card }) => {
     return (
         <div>
-            <Button w={"100%"} bg={"#fff2e5"} borderRadius="lg" p={"50px"} mb="10px">
+            <Button w={"100%"} bg={"#fff2e5"} borderRadius="lg" p={"50px"} mb="10px" shadow={"lg"}  >
                 <Stack>
                     <Text fontSize="md" fontWeight={"bold"} color="black">
                         Name: {name}

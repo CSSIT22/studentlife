@@ -9,6 +9,7 @@ const getCommunity = async (req: Request, res: Response) => {
             where: {
                 userId: userId,
                 status: true,
+
             },
         })
 
@@ -110,3 +111,4 @@ const getCommunity = async (req: Request, res: Response) => {
 }
 
 export default getCommunity
+

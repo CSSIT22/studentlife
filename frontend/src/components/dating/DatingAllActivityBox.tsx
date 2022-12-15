@@ -30,14 +30,14 @@ const DatingAllActivityBox = () => {
         ) : (
             // If user apply -> tost, add data to db, change button state
             (appiled(pId),
-            toast({
-                title: "Applied success",
-                description: "You have registered for the poll. Now you can chat with the poll creator.",
-                status: "success",
-                duration: 4500,
-                isClosable: true,
-                position: "top",
-            }))
+                toast({
+                    title: "Applied success",
+                    description: "You have registered for the poll. Now you can chat with the poll creator.",
+                    status: "success",
+                    duration: 4500,
+                    isClosable: true,
+                    position: "top",
+                }))
         )
     }
 
@@ -110,9 +110,7 @@ const DatingAllActivityBox = () => {
                         <Heading fontSize="20px" pt="10px">
                             {values.pollName}
                         </Heading>
-                        {values.pollInterest.length < 1 ? (
-                            <Text pb="20px"></Text>
-                        ) : (
+                        {values.pollInterest.length < 1 ? <Text pb="20px"></Text> :
                             <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
                                 <Box
                                     height="70px"
@@ -131,22 +129,14 @@ const DatingAllActivityBox = () => {
                                             borderRadius="5px"
                                             h={{ md: "28px" }}
                                         >
-                                            <Text
-                                                mt="5px"
-                                                mb="5px"
-                                                ml="15px"
-                                                mr="15px"
-                                                fontWeight="400"
-                                                fontSize={{ base: "12px", md: "16px" }}
-                                                lineHeight="150%"
-                                            >
+                                            <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
                                                 {i}
                                             </Text>
                                         </Tag>
-                                    ))}
-                                </Box>
+
+                                    ))}</Box>
                             </Box>
-                        )}
+                        }
                         <Text fontSize="16px">
                             {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
                         </Text>
@@ -210,7 +200,7 @@ const DatingAllActivityBox = () => {
                     </Box>
                 )
             })}
-        </Box>
+        </Box >
     )
 }
 

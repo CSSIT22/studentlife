@@ -1,21 +1,56 @@
-import { Heading, Box, Grid, GridItem, Button } from "@chakra-ui/react"
-import React, { useEffect } from "react"
+import { Heading, Box, Grid, GridItem, Button, useBoolean } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import FavoriteContent from "../../components/restaurant/FavoriteContent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import API from "src/function/API"
 import { key } from "localforage"
+import { Restaurant2 } from "@apiType/restaurant"
 
 function favorite() {
-    // const showfv = Restaurant.filter((e1) => e1.status === true)
+    // const showfv = Restaurant.filter((e1) => status === true)
     const params = useParams()
-    const [property, setproperty] = React.useState<any>([])
+    const [property, setproperty] = React.useState<Restaurant2[]>([])
+    const [status, setstatus] = useState(true)
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
 
     useEffect(() => {
-        API.get("/restaurant/favorite?userid=" + "101").then((item) => setproperty(item.data))
-    }, [])
+        API.get("/restaurant/favorite").then((item) => setproperty(item.data))
+        .catch((err) => on())
+        .finally(off)
+    }, [status])
 
+    const load = () => {
+        setstatus(!status)
+    }
+
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
+    )
+
+    if(isError) return (
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
+    )
+    console.log(property)
     return (
         <AppBody
             secondarynav={[
@@ -30,18 +65,23 @@ function favorite() {
                 Favorite
             </Heading>
             <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={"6"}>
-                {property.map((e1: any) => {
+                {property.map(({ restaurant }: any) => {
+                    console.log(property)
                     return (
                         <GridItem>
                             <FavoriteContent
-                                id={e1.id}
-                                resName={e1.resName}
-                                phone={e1.phone}
-                                open={e1.open}
-                                close={e1.close}
-                                website={e1.website}
-                                link={`/restaurant/detail/${e1.id}`}
-                                img={e1.img[0]}
+                                id={restaurant.resId}
+                                resName={restaurant.resName}
+                                phone={restaurant.detail?.phoneNo ?? "-"}
+                                openTime={
+                                    restaurant.openAt && restaurant.closeAt && restaurant.openAt.length > 0 && restaurant.closeAt.length > 0
+                                        ? `${restaurant.openAt[0]?.open} - ${restaurant.closeAt[0]?.close}`
+                                        : "Closed"
+                                }
+                                website={restaurant.detail?.website ?? "-"}
+                                link={`/restaurant/detail/${restaurant.resId}`}
+                                img={restaurant.images}
+                                load={load}
                             />
                         </GridItem>
                     )

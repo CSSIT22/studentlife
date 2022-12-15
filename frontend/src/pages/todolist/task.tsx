@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
     Icon,
     IconButton,
@@ -48,6 +48,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons"
 import { EditIcon } from "@chakra-ui/icons"
 import { DeleteIcon } from "@chakra-ui/icons"
 import { CheckIcon } from "@chakra-ui/icons"
+import axios from "axios"
 
 const task = () => {
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
@@ -55,17 +56,24 @@ const task = () => {
     const { isOpen: isCreateOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure()
     const { isOpen: isBackOpen, onOpen: onBackOpen, onClose: onBackClose } = useDisclosure()
     const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
+    const [descList, setDescList] = useState([])
+    useEffect(() => {
+        // fetchTaskList();
+        axios.get("http://localhost:8000/todolist/listtask").then((res) => {
+            setDescList(res.data);
+        })
+    }, [])
 
     return (
         <ToDoListAppBody>
-            <Heading as="h2" size="3xl" noOfLines={1}>
+            <Heading as="h2" size="xl" noOfLines={1} >
                 <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Button bgColor="orange.200" onClick={onBackOpen}>
-                        <Link href="/todolist/task">
+                    <Button bgColor="orange.200" color={"white"} onClick={onBackOpen}>
+                        <Link href="/todolist">
                             <ArrowBackIcon />
                         </Link>
                     </Button>
-                    <Button bgColor="orange.200" onClick={onEditOpen}>
+                    <Button bgColor="orange.200" color={"white"} onClick={onEditOpen} >
                         <Link href="/todolist/edittask">
                             <EditIcon />
                         </Link>
@@ -73,15 +81,18 @@ const task = () => {
                 </Box>
                 CSC210 : Work 1
             </Heading>
+
             <Box margin-top={10}>
                 <Heading as="h2" size="md" mt={8} mb={2}>
                     Description
                 </Heading>
                 <Text fontSize="sm">
-                    Exercise 1.1 Question 6 and 12. <br />
-                    Exercise 1.2 Question 2, 5 and 9. <br />
+                    {
+                        descList.map((el: any) => (
+                            <Text as="h2" size="md">{el.taskDesc}</Text>
+                        ))
+                    }
                 </Text>
-
                 <Heading as="h2" size="md" mt={8} mb={2}>
                     Due Date
                 </Heading>
@@ -106,10 +117,10 @@ const task = () => {
                 </Heading>
                 <Select placeholder="3 days before due date" size="md"></Select>
                 <Box display="flex" justifyContent="space-between" alignItems="center" marginY={10}>
-                    <Button onClick={onDeleteOpen} bgColor="orange.200" width="40px" h="40px">
+                    <Button onClick={onDeleteOpen} color={"white"} bgColor="orange.200" width="40px" h="40px">
                         <DeleteIcon />
                     </Button>
-                    <Button onClick={onCheckOpen} bgColor="orange.200" width="40px" h="40px">
+                    <Button onClick={onCheckOpen} color={"white"} bgColor="orange.200" width="40px" h="40px">
                         <CheckIcon />
                     </Button>
                 </Box>
@@ -162,5 +173,7 @@ const task = () => {
         </ToDoListAppBody>
     )
 }
+
+
 
 export default task

@@ -40,14 +40,12 @@ const edittask = () => {
     return (
         <ToDoListAppBody>
             <Heading as="h2" size="3xl" noOfLines={1}>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Button bgColor="orange.200">
+                <Link href="/todolist/task">
+                    <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }}>
                         {/* onClick={onBackOpen} */}
-                        <Link href="/todolist">
-                            <ArrowBackIcon />
-                        </Link>
+                        <ArrowBackIcon />
                     </Button>
-                </Box>
+                </Link>
                 Edit Task
             </Heading>
             <Box margin-top={10}>

@@ -1,5 +1,6 @@
 import { Box, Heading, VStack } from "@chakra-ui/react"
 import React from "react"
+import Post from "src/components/timeline/Post"
 import AppBody from "../../components/share/app/AppBody"
 import Feed from "../../components/timeline/Feed"
 
@@ -12,3 +13,4 @@ const index = () => {
 }
 
 export default index
+

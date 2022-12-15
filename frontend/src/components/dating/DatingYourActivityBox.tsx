@@ -78,9 +78,7 @@ const DatingYourActivityBox = () => {
                         <Heading fontSize="20px" pt="10px" pb="10px">
                             {values.pollName}
                         </Heading>
-                        {values.pollInterest.length < 1 ? (
-                            <Text pb="20px"></Text>
-                        ) : (
+                        {values.pollInterest.length < 1 ? <Text pb="20px"></Text> :
                             <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
                                 <Box
                                     height="70px"
@@ -99,22 +97,14 @@ const DatingYourActivityBox = () => {
                                             borderRadius="5px"
                                             h={{ md: "28px" }}
                                         >
-                                            <Text
-                                                mt="5px"
-                                                mb="5px"
-                                                ml="15px"
-                                                mr="15px"
-                                                fontWeight="400"
-                                                fontSize={{ base: "12px", md: "16px" }}
-                                                lineHeight="150%"
-                                            >
+                                            <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
                                                 {i}
                                             </Text>
                                         </Tag>
-                                    ))}
-                                </Box>
+
+                                    ))}</Box>
                             </Box>
-                        )}
+                        }
                         <Text fontSize="16px">
                             {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
                         </Text>
@@ -144,10 +134,11 @@ const DatingYourActivityBox = () => {
                                         <BsFillPeopleFill />
                                     </Center>
                                 </Button>
+
                             </Link>
                             <Box zIndex="2">
-                                <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
-                                    <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px">
+                                <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }} >
+                                    <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px" >
                                         <Text fontSize="12px" color="white" as="b">
                                             {/* Number of people that haven't accept need to replace 2 with data from db*/}
                                             {notApprovePeople > 99 ? "99+" : notApprovePeople}

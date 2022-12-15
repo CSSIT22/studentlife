@@ -1,5 +1,6 @@
 import React from "react"
 import { Box, Flex, Spacer, Text, Container, extendTheme } from "@chakra-ui/react"
+import Feed from "../timeline/Feed"
 
 function BlogHistory() {
     const breakpoints = {
@@ -12,30 +13,14 @@ function BlogHistory() {
 
     const theme = extendTheme({ breakpoints })
     return (
-        <Flex rounded="xl" direction="column" mt={{ base: "0", md: "4" }} mx={4} bg="white" p={2} position="initial" shadow={"lg"}>
-            <Text color="Black" p="5" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
+        <Flex rounded="xl" direction="column" mt={{ base: "2", md: "4" }} mx={4} bg={{ base: "", sm: "white" }} p={2} position="initial" shadow={{ base: "", md: "lg" }}>
+            <Text color="Black" p="3" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
                 BLOG HISTORY
             </Text>
 
-            <Container padding="2" mx={2} alignContent="center" alignSelf="center">
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog1
-                </Box>
-
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog2
-                </Box>
-
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog3
-                </Box>
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog4
-                </Box>
-                <Box rounded="lg" height="200px" my={5} bg="black" p={3} color="white" textAlign={"center"}>
-                    Blog5
-                </Box>
-            </Container>
+            <Flex padding="2" mx={{ base: "10", md: "2" }} alignContent="center" alignSelf="center">
+                <Feed />
+            </Flex>
         </Flex>
     )
 }

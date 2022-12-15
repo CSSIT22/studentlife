@@ -8,6 +8,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
     const targetType = req.body.targetType
     const targetValue = req.body.targetValue
     const prisma = res.prisma
+
     try {
         if (targetType == "Major") {
             const majorUsers = await prisma.user_Profile.findMany({
@@ -19,6 +20,15 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 },
             })
             console.log(majorUsers)
+            // res.send(majorUsers)
+            for (let i = 0; i < majorUsers.length; i++) {
+                const creatintable = await prisma.announcement_Pin.create({
+                    data: {
+                        postId: postId,
+                        userId: majorUsers[i].userId,
+                    },
+                })
+            }
         } else if (targetType == "Faculty") {
             const majors = await prisma.major.findMany({
                 where: {
@@ -28,7 +38,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     majorId: true,
                 },
             })
-            console.log(majors)
+            // console.log(majors)
             // let majorIds: string[] = []
             // for( let i =0 ; i < majors.length ;i++){
             //     majorIds[i] = majors[i].majorId
@@ -49,7 +59,15 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     allUserIds.push(majorusers[i])
                 }
             }
-            console.log(allUserIds)
+            // console.log(allUserIds)
+            for (let i = 0; i < allUserIds.length; i++) {
+                const creatintable = await prisma.announcement_Pin.create({
+                    data: {
+                        postId: postId,
+                        userId: allUserIds[i].userId,
+                    },
+                })
+            }
         } else if (targetType == "Year") {
             let year = new Date()
             const thaiYear = (year.getFullYear() + 543) % 100
@@ -84,19 +102,35 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     selectedUserIds.push(userId[i])
                 }
             }
-            console.log(selectedUserIds)
-            // console.log(allUserIds.length)
+            // console.log(selectedUserIds)
+            for (let i = 0; i < selectedUserIds.length; i++) {
+                const creatintable = await prisma.announcement_Pin.create({
+                    data: {
+                        postId: postId,
+                        userId: selectedUserIds[i].userId,
+                    },
+                })
+            }
         } else if (targetType == "Everyone") {
             const everyUserId = await prisma.user_Profile.findMany({
                 select: {
                     userId: true,
                 },
             })
-            console.log(everyUserId)
+            // console.log(everyUserId)
+            for (let i = 0; i < everyUserId.length; i++) {
+                const creatintable = await prisma.announcement_Pin.create({
+                    data: {
+                        postId: postId,
+                        userId: everyUserId[i].userId,
+                    },
+                })
+            }
+            res.send(everyUserId)
         }
     } catch (err: any) {
-        console.log(err)
-        res.status(500)
+        // console.log(err)
+        res.status(404).send("Target Group not found")
     }
 }
 

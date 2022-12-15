@@ -1,10 +1,13 @@
 import { useBoolean, } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
-import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { communityData } from "../../communityData"
+import FileList from "src/components/group/FileList"
+import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
 import NavCommunity from "src/components/group/communityPage/NavCommunity"
 import FilePage from "src/components/group/communityPage/FilePage"
+import { useEffect, useState } from "react"
 const file = () => {
     let { communityID }: any = useParams()
 

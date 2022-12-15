@@ -179,6 +179,7 @@ const editCommunity = () => {
 
 
 
+
     //Send data to backend
     const submit = () => {
         API.patch("/group/editCommunity" + communityID, {

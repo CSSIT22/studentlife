@@ -1,14 +1,37 @@
-import { Box, Button, Center, CloseButton, filter, Flex, Show, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react"
+import {
+    Box,
+    Button,
+    Center,
+    CloseButton,
+    filter,
+    Flex,
+    Show,
+    Spacer,
+    Stack,
+    Text,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useToast,
+    Avatar,
+    AvatarBadge,
+    Circle,
+} from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Modulelist from "./moduleList/Modulelist"
 import NotiList from "./main/NotiList"
 import { SettingsIcon } from "@chakra-ui/icons"
 import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
 import { Notiobject } from "@apiType/notification"
+import { settingApp } from "./main/mockupData/settingApp"
 
 const NotiTable = () => {
     //reload noti
@@ -17,33 +40,70 @@ const NotiTable = () => {
         setreLoad(!reLoad)
     }
 
-    //getNotiobject
-    const param = useParams()
-    const getUserNotiObject = API.get("/notification/getusernotiobject/" + param.id)
-    const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    useEffect(() => {
-        getUserNotiObject.then((res) => {
-            setUserNotiObject(res.data)
-        })
-    }, [reLoad])
-    //console.log(userNotiObject)
-    //console.log(OBJECTS)
 
     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
     function showSelectedModule(module: string) {
         setSelectedModule(module)
+        setreLoad(!reLoad)
     }
 
-    //creat list of selected module
-    const notiListModule: any[] = userNotiObject.filter((el) => el.module == selectedModule)
+    //getUserNotiObject by Module
+
+    const getUserNotiObjectModule = API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
+    //console.log(getUserNotiObjectModule);
+
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+    useEffect(() => {
+        getUserNotiObjectModule.then((res) => {
+            setUserNotiObjectModule(res.data)
+        })
+    }, [reLoad])
+    //console.log(userNotiObjectModule);
+
+
+
 
     function showNotiList(): any {
-        if (selectedModule == "All") {
-            return <NotiList selectedList={userNotiObject} onClick={load}></NotiList>
-        } else {
-            return <NotiList selectedList={notiListModule} onClick={load}></NotiList>
-        }
+        return <NotiList module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiList>
+    }
+
+
+    function alert() {
+        const toast = useToast()
+        return (
+            <Button
+                onClick={() =>
+                    toast({
+                        position: 'bottom-right',
+                        render: () => (
+
+                            // <Box color='white' p={3} bg='blue.500'>
+                            //     Hello World
+                            // </Box>
+                            <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
+                                <Stack direction={"row"} spacing={3}>
+                                    <Center><Avatar bg="blackAlpha.200" size={"sm"}>
+                                        <AvatarBadge boxSize="1em" bg="green.500" />
+                                    </Avatar>
+                                    </Center>
+                                    <Stack><Text fontSize={"sm"} color="white">
+                                        <b>User123456</b> Create a post asdfkj asdf asdad
+                                    </Text>
+                                        <Text fontSize={"xs"} color="white">
+                                            10 hours ago
+                                        </Text>
+                                    </Stack>
+                                </Stack>
+                            </Box>
+
+                        )
+                    })
+                }
+            >
+                Show Noti
+            </Button>
+        )
     }
 
     //setting
@@ -83,9 +143,14 @@ const NotiTable = () => {
                 </Box>
                 <Spacer />
                 <Box>
+                    {/* {alert()} */}
+                </Box>
+                <Spacer />
+                <Box>
                     <Stack direction={"row"}>
                         <MarkRead module={selectedModule} onClick={load} />
                         {ShowSetting()}
+
                     </Stack>
                 </Box>
             </Flex>
