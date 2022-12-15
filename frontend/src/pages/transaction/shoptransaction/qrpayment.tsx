@@ -4,15 +4,19 @@ import Header from "src/components/transaction/shoptransaction/Header"
 import { Button, Container, Stack, Text } from "@chakra-ui/react"
 import QRpayment from "src/components/transaction/methodpayment/QRpayment"
 import QRcode from "src/components/transaction/methodpayment/QRcode"
-import axios from "axios"
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import API from "src/function/API"
 
-const qrpayment = () => {
+const qrpayment = ({ }) => {
+    const totalPrice = useLocation().state.totalPrice
+    const tranactionId = useLocation().state.tranactionId
     const [rawData, setRawData] = React.useState("")
+    console.log(totalPrice)
 
     useEffect(() => {
-        axios.post("http://localhost:8000/transaction/payment", {
-            totalPrice: 5000
+        API.post("http://localhost:8000/transaction/QRpayment", {
+            tranactionId: { tranactionId },
+            totalPrice: { totalPrice },
         }).then(function (response) {
             setRawData(response.data.Qr)
         })
@@ -24,7 +28,7 @@ const qrpayment = () => {
                 <Header name="QRCode" />
 
                 <Container maxW="90%" my="10px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
-                    <QRpayment total={5000} paywithin="60 sec" />
+                    <QRpayment total={totalPrice} paywithin="60 sec" />
                 </Container>
 
                 <Container maxW="90%" my="20px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>

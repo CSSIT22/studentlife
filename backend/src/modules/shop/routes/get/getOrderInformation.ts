@@ -6,21 +6,21 @@ const getOrderInformation = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const orderDetails: Shop_Order | null = await prisma.shop_Order.findUnique({
             include: {
-                products : {
+                products: {
                     include: {
                         product: {
                             include: {
-                                images: true
-                            }
-                        }
-                    }
-                }
+                                images: true,
+                            },
+                        },
+                    },
+                },
             },
             where: {
                 orderId: req.params.orderId,
-            }
-    })
-        return res.status(404).send(orderDetails)
+            },
+        })
+        return res.send(orderDetails)
     } catch (error) {
         return res.status(404).send("An error has occured | " + error)
     }

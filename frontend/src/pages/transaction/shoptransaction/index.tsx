@@ -1,73 +1,73 @@
-import { Text, Container, Box, Stack, Button, useMediaQuery, Hide, Show, Flex, Spacer, Center } from "@chakra-ui/react"
+import { Text, Container, Box, Stack, Button, useMediaQuery, Hide, Show, Flex, Spacer, Center, GridItem } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import UsePoint from "src/components/transaction/shoptransaction/UsePoint"
-import Userinfo from "src/components/transaction/shoptransaction/Userinfo"
 import API from "src/function/API"
 import AppBody from "../../../components/share/app/AppBody"
 import Header from "../../../components/transaction/shoptransaction/Header"
 import OrderList from "../../../components/transaction/shoptransaction/OrderList"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import PaymentMethod from "src/components/transaction/methodpayment/PaymentMethod"
 import qrpayment from "./qrpayment"
 import { Link } from "react-router-dom"
+import { confirmOrder } from "@apiType/transaction"
+
+export function generateConfirmCartProducts(ProductsList: confirmOrder) {
+    if (ProductsList == null)
+        return null
+    let products = []
+    for (let i = 0; i < ProductsList.products.length; i++) {
+        products.push(
+            <GridItem bg="" borderBottom="1px" pl='2'>
+                <OrderList
+                    imageAlt={ProductsList.products[i].product.productName}
+                    imageUrl={ProductsList.products[i].product.images[0].image}
+                    product={ProductsList.products[i].product.productName}
+                    price={parseFloat(ProductsList.products[i].product.productPrice)}
+                    quantity={ProductsList.products[i].quantity}
+                ></OrderList>
+            </GridItem>
+        )
+    }
+    return products
+}
 
 const shopTransaction = () => {
     const param = useParams()
-    const [order, setOrder] = useState("")
+    const orderId = useLocation().state.orderId
+    const tranactionId = useLocation().state.tranactionId
+    let [totalPrice, setTotalPrice] = useState(0)
 
-    const totalPrice = 218
     const navigate = useNavigate()
     const toQRpayment = () => {
-        navigate("/transaction/shoptransaction/qrpayment", { state: { total: totalPrice } })
+        navigate("/transaction/shoptransaction/qrpayment", { state: { tranactionId: orderDetails.transId, totalPrice: orderDetails.totalPrice } })
     }
 
-    const submit = () => {}
+    const [orderDetails, setOrderDetails] = useState<any>(null)
+    useEffect(() => {
+        API.get("/shop/getOrderInformation/" + orderId)
+            .then((res) => {
+                setOrderDetails(res.data) // Sets orderDetails to the result from API
+                setTotalPrice(parseFloat(res.data.totalPrice))
+            }).catch((error) => {
+                console.log(error);
+                // Write extra code in case of error over here
+            })
+    }, [])
+
 
     return (
         <AppBody>
             <Header name="CHECKOUT" />
-
-            <Container bg={"#e67f45"} maxW="90%" my="24px" p={"3%"} borderRadius="10px" shadow={"lg"}>
-                <Userinfo id="123456789" email="mail123@kmutt.ac.th" />
-                {/* <Stack direction={{ base: "column", lg: "row" }} justifyContent={"center"}>
-                   
-                    <Spacer />
-                    <UsePoint point={123} />
-                </Stack> */}
-            </Container>
 
             <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Order List
                 </Text>
                 <Stack direction={{ base: "row", lg: "column" }}>
-                    <OrderList
-                        imageAlt=""
-                        imageUrl="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1099&q=80"
-                        product="Smartwatch"
-                        quantity={1}
-                        price={"2,500.00"}
-                    />
-                    <OrderList
-                        imageAlt=""
-                        imageUrl="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                        product="polaroid"
-                        quantity={1}
-                        price={"2,500.00"}
-                    />
+                    {generateConfirmCartProducts(orderDetails)}
                 </Stack>
             </Container>
 
             <PaymentMethod />
-
-            {/* <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
-                <Text fontSize="xl" fontWeight={"bold"}>
-                    Payment Details
-                </Text>
-                <Text fontSize={{ base: "md", lg: "lg" }}>Merchandise subtotal : 123123</Text>
-                <Text fontSize={{ base: "md", lg: "lg" }}>Point discount : 123</Text>
-                <Text fontSize={{ base: "md", lg: "lg" }}>Total : 123</Text>
-            </Container> */}
 
             <Show below="md">
                 <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
@@ -102,13 +102,11 @@ const shopTransaction = () => {
                             Cancel
                         </Text>
                     </Button>
-                    {/* <Link to="/transaction/shoptransactionqrpayment"> */}
                     <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={toQRpayment}>
                         <Text fontSize="lg" fontWeight={"bold"}>
                             Comfirm
                         </Text>
                     </Button>
-                    {/* </Link> */}
                 </Stack>
             </Show>
             <Hide below="md">
@@ -120,13 +118,11 @@ const shopTransaction = () => {
                             </Text>
                         </Box>
                         <Spacer />
-                        {/* <Link to="/transaction/shoptransaction/qrpayment"> */}
                         <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={toQRpayment}>
                             <Text fontSize="lg" fontWeight={"bold"}>
                                 Comfirm
                             </Text>
                         </Button>
-                        {/* </Link> */}
                     </Flex>
                 </Container>
             </Hide>
@@ -135,3 +131,4 @@ const shopTransaction = () => {
 }
 
 export default shopTransaction
+

@@ -1,22 +1,27 @@
 import axios from "axios"
-import { randomUUID } from "crypto"
 import { Request, Response } from "express"
-import { customAlphabet, nanoid } from "nanoid"
+import { nanoid } from "nanoid"
 
-const createPayment = async (req: Request, res: Response) => {
+const createQRPayment = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const body = req.body
-        const nanoid = customAlphabet("1234567890", 10)
-        const transId = nanoid().toUpperCase()
+        const transId = req.body.transId.toUpperCase()
+        const userID = "Wpj1j-ExAOjlYwApIodF8"
+        // const userID = req.user?.userId || ""
+        // if (userID === "") {
+        //     return res.status(401).send("User not found")
+        // }
+
         const transaction = await prisma.transaction.create({
             data: {
                 transId: transId,
-                // userId: req.user?.userId || "",
-                userId: "Wpj1j-ExAOjlYwApIodF8",
+                userId: userID,
                 totalPrice: body.totalPrice,
             },
         })
+        console.log("sadasda")
+
         axios
             .post(
                 "https://api-sandbox.partners.scb/partners/sandbox/v1/oauth/token",
@@ -72,4 +77,4 @@ const createPayment = async (req: Request, res: Response) => {
     }
 }
 
-export default createPayment
+export default createQRPayment
