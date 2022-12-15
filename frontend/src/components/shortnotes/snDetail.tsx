@@ -69,7 +69,6 @@ const snDetail: FC<{
 }> = ({ topic, course, desc, link, owner, date, isPublic }) => {
     const user = useContext(authContext)
     const param = useParams()
-
     const [editCourse, setEditCourse] = useState<any>(course)
     const [editName, setEditName] = useState<any>(topic)
     const [editDesc, setEditDesc] = useState<any>(desc)
@@ -78,9 +77,12 @@ const snDetail: FC<{
     const { isOpen: esIsOpen, onOpen: esOnOpen, onClose: esOnClose } = useDisclosure()
     const [deletingFile, setDeletingFile] = useState<any>([])
     const [editFile, setEditFile] = useState<any>([])
+    const [pName, setpName] = useState("")
+    const [people, setPeoples] = useState<string[]>([])
     const { isOpen: mliIsOpen, onOpen: mliOnOpen, onClose: mliOnClose } = useDisclosure()
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: dsIsOpen, onOpen: dsOnOpen, onClose: dsOnClose } = useDisclosure()
     const { isOpen: apIsOpen, onOpen: apOnOpen, onClose: apOnClose } = useDisclosure()
+    const { isOpen: eeIsOpen, onOpen: eeOnOpen, onClose: eeOnClose } = useDisclosure()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -123,8 +125,7 @@ const snDetail: FC<{
     const toast = useToast()
 
 
-    const [pName, setpName] = useState("")
-    const [people, setPeoples] = useState<string[]>([])
+
 
     const handleAddPoeple = () => {
         let failId: any = []
@@ -206,7 +207,7 @@ const snDetail: FC<{
     //     });
 
     // }, [allFiles])
-    const downloadFile = (fd: any) => {
+    const openFile = (fd: any) => {
         API.get("/shortnotes/getEachFile/ " + fd, {
 
             responseType: "arraybuffer"
@@ -233,16 +234,57 @@ const snDetail: FC<{
         })
     }
     const editShortnote = () => {
-        API.put("shortnotes/editShortnote", {
-            courseId: editCourse,
-            snName: editName,
-            snDesc: editDesc,
-            snId: param.id,
-            fileId: deletingFile
-        }).then((res) => {
-            window.location.reload()
-        })
+        if (editName.replaceAll(" ", "") == "" || editCourse.replaceAll(" ", "") == "" || editDesc.replaceAll(" ", "") == "") {
+            toast({
+                title: 'Please complete the form.',
+                status: 'warning',
+                duration: 4000,
+                isClosable: true,
+            })
+        } else {
+            if (!/^[a-zA-Z]{3}\d{3}$/.test(editCourse)) {
+                toast({
+                    title: 'Invalid course id, please check again.',
+                    status: 'warning',
+                    duration: 6000,
+                    isClosable: true,
+                })
+            } else {
+                toast({
+                    title: 'Shortnote editted',
+                    description: "You've editted the shortnote.",
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                })
+                API.put("shortnotes/editShortnote", {
+                    courseId: editCourse,
+                    snName: editName,
+                    snDesc: editDesc,
+                    snId: param.id,
+                    fileId: deletingFile
+                }).then((res) => {
+                    window.location.reload()
+                })
+            }
+        }
     }
+
+    const setDefaultEdit = () => {
+        setEditCourse(course)
+        setEditDesc(desc)
+        setEditName(topic)
+        setEditFile(allFiles)
+    }
+
+    const handleCloseEdit = () => {
+        if (editCourse == course && editDesc == desc && editName == topic && editFile == allFiles) {
+            esOnClose()
+        } else {
+            eeOnOpen()
+        }
+    }
+
     return (
         <Box>
             <HStack>
@@ -268,7 +310,7 @@ const snDetail: FC<{
                             <MenuItem icon={<AiOutlineEdit />} onClick={esOnOpen}>
                                 Edit
                             </MenuItem>
-                            <MenuItem icon={<MdDeleteOutline />} onClick={onOpen}>
+                            <MenuItem icon={<MdDeleteOutline />} onClick={dsOnOpen}>
                                 Delete
                             </MenuItem></> : null}
 
@@ -288,7 +330,7 @@ const snDetail: FC<{
                     <VStack>
                         {allFiles.map((file: any, key: any) => (
                             <Flex key={key} w={"100%"} justifyContent={"start"}>
-                                <Heading as="button" shadow={"base"} size={"xs"} bg={"gray.100"} rounded={6} p={2} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => { downloadFile(file.fileId) }}>{file.file.fileName}</Heading>
+                                <Heading as="button" shadow={"base"} size={"xs"} bg={"gray.100"} rounded={6} p={2} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => { openFile(file.fileId) }}>{file.file.fileName}</Heading>
                             </Flex>
                         ))}
                     </VStack>
@@ -335,7 +377,7 @@ const snDetail: FC<{
                 <Text textAlign={"right"} fontSize={"xs"}>Posted by {owner}</Text>
                 <Text textAlign={"right"} fontSize={"xs"}>at {new Date(date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}</Text>
             </Show>
-            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+            <Modal onClose={dsOnClose} isOpen={dsIsOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Delete shortnote</ModalHeader>
@@ -344,7 +386,7 @@ const snDetail: FC<{
                     <ModalFooter>
                         <Button onClick={() => {
                             handleDeleteSn()
-                            onClose()
+                            dsOnClose()
                         }} colorScheme={"red"}>
                             Delete
                         </Button>
@@ -475,7 +517,7 @@ const snDetail: FC<{
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Modal scrollBehavior={"inside"} size={"xl"} onClose={esOnClose} isOpen={esIsOpen} isCentered>
+            <Modal scrollBehavior={"inside"} size={"xl"} onClose={handleCloseEdit} isOpen={esIsOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Edit shortnote</ModalHeader>
@@ -543,16 +585,26 @@ const snDetail: FC<{
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="orange" w={"100%"} onClick={() => {
-                            toast({
-                                title: 'Shortnote editted',
-                                description: "You've editted the shortnote.",
-                                status: 'success',
-                                duration: 4000,
-                                isClosable: true,
-                            })
                             editShortnote()
                         }}>
                             Done
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Modal onClose={eeOnClose} isOpen={eeIsOpen} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Close edit shortnote.</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>Anything you have editted will be lose.</ModalBody>
+                    <ModalFooter>
+                        <Button onClick={() => {
+                            eeOnClose()
+                            esOnClose()
+                            setDefaultEdit()
+                        }} colorScheme={"orange"}>
+                            Ok
                         </Button>
                     </ModalFooter>
                 </ModalContent>

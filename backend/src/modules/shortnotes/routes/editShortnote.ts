@@ -8,10 +8,20 @@ const editShortnote = async (req: Request<any>, res: Response<any>) => {
 
         const nsn = await prisma.sn_Head.update({
             where: {
-                snId: "clbhoynry00003360x1vq64qq",
+                snId: req.body.snId,
             },
             data: {
-                courseId: req.body.courseId,
+                course: {
+                    connectOrCreate: {
+                        where: {
+                            courseId: req.body.courseId,
+                        },
+                        create: {
+                            courseName: req.body.courseId,
+                            lecturer: "unknown",
+                        },
+                    },
+                },
                 snName: req.body.snName,
                 snDesc: req.body.snDesc,
             },
