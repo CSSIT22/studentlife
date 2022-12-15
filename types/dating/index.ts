@@ -90,7 +90,7 @@ export type FollowDetail = {
       data: number[];
     };
     receiveRate: {
-      scoreGiver: number;
+      score: number;
     };
   };
 };

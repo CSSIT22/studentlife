@@ -43,6 +43,7 @@ declare global {
 }
 
 const CreateActivityPoll = () => {
+    const [clicked, setClicked] = useState(false)
     const didMount = useDidMount()
     const navigate = useNavigate()
     let count = 1
@@ -89,12 +90,11 @@ const CreateActivityPoll = () => {
 
                     })
             })
+            API.get("/dating/create/getAllTopic").then((allInterest) => {
+                setAllInterests(allInterest.data)
+            })
         }
-        API.get("/dating/create/getAllTopic").then((allInterest) => {
-            setAllInterests(allInterest.data)
-            // setInterests(allInterest.data)
-            // console.log("INTERESTING: " + allInterests)
-        })
+
 
     })
 
@@ -212,6 +212,7 @@ const CreateActivityPoll = () => {
             //     " people: " +
             //     sliderValue
             // )
+            setClicked(true)
             API.post<PollDetail | UserInterests>("/dating/create/setPoll", {
                 pollName: header,
                 pollPlace: location,
@@ -418,6 +419,7 @@ const CreateActivityPoll = () => {
                             borderRadius={"5px"}
                             colorScheme={"blue.400"}
                             bg={"#E65300"}
+                            isDisabled={clicked}
                             onClick={() => handleSubmit()}
                             mt={"25px"}
                             pt="10px"
