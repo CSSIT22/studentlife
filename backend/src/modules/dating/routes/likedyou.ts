@@ -1,9 +1,16 @@
 import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
+import calExp from "../../user/expsystem/calExp"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 
 const likedYouRoutes = express()
 const prisma = new PrismaClient()
+
+const addHours = (date: Date): Date => {
+    const result = new Date(date);
+    result.setHours(result.getHours() + 7);
+    return result;
+}
 
 likedYouRoutes.get("/", (_, res) => {
     return res.send("Dating Module People who liked you page API")
@@ -98,9 +105,46 @@ likedYouRoutes.get("/getHeartHistory", verifyUser, async (req: Request, res: Res
     }
 })
 
-// Update heart history
-likedYouRoutes.put("/updateHeartHistory", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+// Set heart history
+likedYouRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        const anotherUserId = req.body.anotherUserId
+        const isSkipped = req.body.isSkipped
+
+        const giveHeartId: any = []
+        const giveHeartDB = await prisma.heart_History.findMany({
+            where: {
+                userId: userId,
+            },
+        })
+        giveHeartDB.map((id: any) => {
+            giveHeartId.push(id.anotherUserId)
+        })
+
+        if (userId && !giveHeartId.includes(anotherUserId)) {
+            try {
+                await prisma.heart_History.create({
+                    data: {
+                        userId: userId,
+                        anotherUserId: anotherUserId,
+                        isSkipped: isSkipped,
+                        heartedAt: addHours(new Date()),
+                    },
+                })
+                if (isSkipped == true) {
+                    calExp(prisma, req.user?.userId || "", "DatingSkip")
+                } else if (isSkipped == false) {
+                    calExp(prisma, req.user?.userId || "", "DatingRate")
+                }
+            } catch (error) {
+                return res.send("Duplicates")
+            }
+        }
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send(err)
+    }
 })
 
 export default likedYouRoutes

@@ -1,21 +1,11 @@
 import {
     Box,
     Button,
-    Center,
     Container,
-    Flex,
     Heading,
     Image,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
     Text,
     useBreakpointValue,
-    useDisclosure,
     useToast,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
@@ -36,6 +26,10 @@ const YourPoll = () => {
     const navigate = useNavigate()
     const toast = useToast()
     let count = 1
+    const pollId = useParams()
+    // const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
+
+    // const [pollInfo, setPollInfo] = useState
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -65,7 +59,7 @@ const YourPoll = () => {
                                 })
                                 navigate("/user")
                             }
-                            else if(getAge(detail.data.birth) < 18) {
+                            else if (getAge(detail.data.birth) < 18) {
                                 toast({
                                     title: "You don't meet the minimum age requirement!",
                                     status: "warning",
@@ -76,7 +70,7 @@ const YourPoll = () => {
                                 })
                                 navigate("/")
                             }
-                            else if(getAge(detail.data.birth) > 40) {
+                            else if (getAge(detail.data.birth) > 40) {
                                 toast({
                                     title: "You don't meet the maximum age requirement!",
                                     status: "warning",
@@ -123,6 +117,9 @@ const YourPoll = () => {
                         })
                     })
             })
+            API.get("/dating/yourpoll/getYourPoll/" + pollId).then((data) => {
+                console.log(data.data)
+            })
         }
     })
 
@@ -135,8 +132,6 @@ const YourPoll = () => {
         return didMount
     }
 
-    const { pollId } = useParams()
-    const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
 
     const isMobile = useBreakpointValue({
         base: false,
@@ -168,10 +163,10 @@ const YourPoll = () => {
                 >
                     <Box h="90%" mb="35px">
                         <Text pt="17px" pl="31px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
-                            {pollInfo.pollName}
+                            {/* {pollInfo.pollName} */}
                         </Text>
                     </Box>
-                    <DatingYourPollSeeMore pollInfo={pollInfo} />
+                    {/* <DatingYourPollSeeMore pollInfo={pollInfo} /> */}
                 </Box>
                 <Heading
                     color="black"

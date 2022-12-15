@@ -228,17 +228,14 @@ const DatingRandomCard: FC<{
                 controlCross.start("hidden")
             } else if (direction === "right") {
                 if(index == 0) {
-                    console.log("1")
                     API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
                     .catch((err) => setIsError(true))
                 }
                 else if(characters[index-2]) {
-                    console.log("2")
                     API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/setQueue", { frontUserId: characters[index-1].userId, backUserId: characters[index-2].userId, })
                     .catch((err) => setIsError(true))
                 }
                 else if(characters[index-1]){
-                    console.log("3")
                     API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
                     API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index-1].userId })
                     .catch((err) => {setIsError(true), console.log(err)})  

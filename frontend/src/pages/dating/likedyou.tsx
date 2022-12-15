@@ -25,6 +25,7 @@ const LikedYou = () => {
     const [isLoading, { off }] = useBoolean(true)
     const [heartGiver, setHeartGiver] = useState<HeartGiver[]>([])
     const [allInterests, setAllInterests] = useState<AllInterests[]>([])
+    const [giveToUser, setGiveToUser] = useState<string[]>([])
 
     useEffect(() => {
         if (didMount && count != 0) {
@@ -138,22 +139,14 @@ const LikedYou = () => {
         md: true,
     })
 
-    const [giveToUser, setGiveToUser] = useState<
-        | {
-            UserId: string
-            isSkipped: boolean
-        }[]
-        | {
-            UserId: string
-            isSkipped: boolean
-        }[]
-    >([])
 
     function handleClick(type: string, UserId: string) {
         if (type == "skip") {
-            setGiveToUser(giveToUser?.concat({ UserId: UserId, isSkipped: true }))
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/likedyou/setHeartHistory", { anotherUserId: UserId, isSkipped: true })
+            setGiveToUser(giveToUser => [...giveToUser, UserId])
         } else if (type == "like") {
-            setGiveToUser(giveToUser?.concat({ UserId: UserId, isSkipped: false }))
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/likedyou/setHeartHistory", { anotherUserId: UserId, isSkipped: false })
+            setGiveToUser(giveToUser => [...giveToUser, UserId])
         }
     }
 
@@ -193,7 +186,7 @@ const LikedYou = () => {
                     justifyContent="center"
                     mt="120px"
                 >
-                    {heartGiver
+                    {heartGiver.filter((el) => !giveToUser?.some((f) => f == el.heartGiver.userId))
                         .map(({ heartGiver }) => (
                             <Box key={heartGiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
                                 <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">

@@ -11,7 +11,43 @@ yourPollRoutes.get("/", (_, res) => {
 
 // Get your poll and join with user profile table
 yourPollRoutes.get("/getYourPoll", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const reqUserId = req.user?.userId
+        const pollId = req.params.id
+        const activityPollDB = await prisma.activity_Poll.findFirst({
+            where: {
+                pollId: pollId,
+            },
+            select: {
+                pollId: true,
+                pollName: true,
+                pollText: true,
+                participantMin: true,
+                participantMax: true,
+                pollAppointAt: true,
+                participants: {
+                    select: {
+                        user: {
+                            select: {
+                                userId: true,
+                                fName: true,
+                                lName: true,
+                                image: true,
+                            },
+                        },
+                    },
+                },
+                interests: {
+                    select: {
+                        activityInterestId: true,
+                    },
+                },
+            },
+        })
+        return res.send(activityPollDB)
+    } catch (err) {
+        return res.status(404).send("Activity poll not found")
+    }
 })
 
 // Get poll applicants and join with user profile table
