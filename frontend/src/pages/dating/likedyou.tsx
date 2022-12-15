@@ -1,4 +1,5 @@
-import { Box, Container, HStack, SimpleGrid, useBreakpointValue, useToast } from "@chakra-ui/react"
+import { HeartGiver, AllInterests } from "@apiType/dating"
+import { Box, Container, HStack, SimpleGrid, useBoolean, useBreakpointValue, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingCheckDesktopDetails from "src/components/dating/DatingCheckDesktopDetails"
@@ -12,23 +13,16 @@ import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import { HEART_HISTORY } from "../../components/dating/shared/heart_history"
 
-interface state {
-    heart_history: {
-        UserId: string
-        Fname: string
-        Lname: string
-        Gender: string
-        Age: string
-        Faculty: string
-        url: string
-        interestId: number[]
-    }[]
-}
+
 const LikedYou = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
     let count = 1
+    const [isError, setIsError] = useState(false)
+    const [isLoading, { off }] = useBoolean(true)
+    const [heartGiver, setHeartGiver] = useState<HeartGiver[]>([])
+    const [allInterests, setAllInterests] = useState<AllInterests[]>([])
 
     useEffect(() => {
         if (didMount && count != 0) {
@@ -117,6 +111,14 @@ const LikedYou = () => {
                         })
                     })
             })
+
+            API.get("/dating/likedyou/getAllInterest").then((data) => {
+                setAllInterests(data.data)
+            }).catch((err) => setIsError(true))
+
+            API.get("/dating/likedyou/getHeartHistory").then((heart_history) => {
+                setHeartGiver(heart_history.data)
+            }).catch((err) => setIsError(true)).finally(off)
         }
     })
 
@@ -133,7 +135,6 @@ const LikedYou = () => {
         base: false,
         md: true,
     })
-    let HState = { heart_history: HEART_HISTORY }
 
     const [giveToUser, setGiveToUser] = useState<
         | {
@@ -174,14 +175,13 @@ const LikedYou = () => {
                 justifyContent="center"
                 mt="120px"
             >
-                {HState.heart_history
-                    .filter((el) => !giveToUser?.some((f) => f.UserId == el.UserId))
-                    .map(({ UserId, Fname, Lname, Gender, Age, Faculty, url, interestId }) => (
-                        <Box key={UserId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
+                {heartGiver
+                    .map(({ heartGiver }) => (
+                        <Box key={heartGiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
                             <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
                                 <Box>
-                                    <DatingCheckImage url={url} />
-                                    <DatingCheckMobileDetails isMobile={isMobile} Fname={Fname} Lname={Lname} />
+                                    <DatingCheckImage url={heartGiver.userId} image={heartGiver.image}/>
+                                    <DatingCheckMobileDetails isMobile={isMobile} Fname={heartGiver.fName} Lname={heartGiver.lName} />
 
                                     <HStack
                                         ml={{ base: "25px", md: "25px" }}
@@ -189,17 +189,18 @@ const LikedYou = () => {
                                         mt={{ base: "6px", md: "12px" }}
                                         mb={{ md: "12px" }}
                                     >
-                                        <DatingLikedYouCrossButton isMobile={isMobile} handleClick={handleClick} UserId={UserId} />
-                                        <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={UserId} />
+                                        <DatingLikedYouCrossButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
+                                        <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
                                     </HStack>
                                 </Box>
                                 <DatingCheckDesktopDetails
-                                    Fname={Fname}
-                                    Lname={Lname}
-                                    Gender={Gender}
-                                    Age={Age}
-                                    Faculty={Faculty}
-                                    interestId={interestId}
+                                    Fname={heartGiver.fName}
+                                    Lname={heartGiver.lName}
+                                    Gender={heartGiver.details.sex}
+                                    Birth={heartGiver.details.birth}
+                                    Faculty={heartGiver.studentMajor.majorFaculty.facultyName}
+                                    Interests={heartGiver.interests}
+                                    AllInterests={allInterests}
                                 />
                             </SimpleGrid>
 

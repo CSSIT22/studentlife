@@ -41,3 +41,28 @@ export type UserOption = {
   genderPref: string;
   useAge: boolean;
 };
+
+export type HeartGiver = {
+  heartGiver: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+    details: {
+      birth: Date;
+      sex: string;
+    };
+    interests: {
+      interestId: number;
+    }[];
+    studentMajor: {
+      majorFaculty: {
+        facultyId: string;
+        facultyName: string;
+      };
+    };
+  };
+};

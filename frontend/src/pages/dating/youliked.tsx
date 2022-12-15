@@ -187,7 +187,7 @@ const YouLiked = () => {
                         <Box key={UserId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
                             <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
                                 <Box>
-                                    <DatingCheckImage url={url} />
+                                    {/* <DatingCheckImage url={url} /> */}
                                     <DatingCheckMobileDetails isMobile={isMobile} Fname={Fname} Lname={Lname} />
 
                                     <HStack
@@ -200,14 +200,14 @@ const YouLiked = () => {
                                         <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={UserId} /> */}
                                     </HStack>
                                 </Box>
-                                <DatingCheckDesktopDetails
+                                {/* <DatingCheckDesktopDetails
                                     Fname={Fname}
                                     Lname={Lname}
                                     Gender={Gender}
                                     Age={Age}
                                     Faculty={Faculty}
                                     interestId={interestId}
-                                />
+                                /> */}
                             </SimpleGrid>
 
                             {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
