@@ -169,9 +169,9 @@ const LikedYou = () => {
                     </HStack>
                 </Box>
             </Box>
-                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top="30%">
+                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md:"35%"}}>
                     <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
-                    <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "3xl" }} lineHeight="120%" pl="18px" >
+                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
                         Right now, you have no new likes.
                     </Text>
 

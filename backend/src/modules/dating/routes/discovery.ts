@@ -17,6 +17,12 @@ function getAge(dateString: Date) {
     return age
 }
 
+const addHours = (date: Date): Date => {
+    const result = new Date(date);
+    result.setHours(result.getHours() + 7);
+    return result;
+  };
+
 discoveryRoutes.get("/", (_, res) => {
     return res.send("Dating Module Discovery page API")
 })
@@ -588,6 +594,7 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                         userId: userId,
                         anotherUserId: anotherUserId,
                         isSkipped: isSkipped,
+                        heartedAt: addHours(new Date()),
                     },
                 })
                 if (isSkipped == true) {
