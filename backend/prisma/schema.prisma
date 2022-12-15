@@ -791,9 +791,9 @@ model Activity_Poll {
   participantMax Int
   isOpen         Boolean
   pollcreated    DateTime         @default(now()) @db.Timestamp(0)
-  roomId         String           @unique
+  roomId         String?          @unique
   pollCreator    User_Profile?    @relation(fields: [userId], references: [userId])
-  pollIn         Chat_Room        @relation(fields: [roomId], references: [roomId])
+  pollIn         Chat_Room?        @relation(fields: [roomId], references: [roomId])
   participants   Poll_Applicant[]
   interests      Poll_Interest[]
 }
