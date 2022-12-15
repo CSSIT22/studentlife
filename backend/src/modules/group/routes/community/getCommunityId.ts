@@ -5,37 +5,33 @@ const getCommunityId = async (req: Request, res: Response) => {
     const userId = req.user?.userId
     const id = req.params.id
 
-    try{
-
-        
-
+    try {
         const communityById = await prisma.community.findUnique({
-            where:{
-                communityId:id
+            where: {
+                communityId: id,
             },
-            include:{
-                tags:true
-            }
+            include: {
+                tags: true,
+            },
         })
 
         const tag = await prisma.tag.findMany({
-            where:{
-                tagId:{ in: communityById?.tags.map((item: any) => item.tagId) },
-            }
+            where: {
+                tagId: { in: communityById?.tags.map((item: any) => item.tagId) },
+            },
         })
-        
+
         const communtiy = {
             communityById,
-            tag
+            tag,
         }
 
         console.log(communtiy)
         res.send(communtiy)
-    }catch(err){
+    } catch (err) {
         console.log(err)
         res.status(400)
     }
 }
-
 
 export default getCommunityId

@@ -8,9 +8,8 @@ const banMember = async (req: Request, res: Response) => {
     }
 
     try {
-
         const Blist = await prisma.community_Blacklist.create({
-            data:user
+            data: user,
         })
 
         res.status(200).send("Ban Success")
