@@ -15,39 +15,80 @@ import {
     Flex,
     Text,
     Container,
+    Icon,
+    useBoolean,
 } from "@chakra-ui/react"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai"
 import ShowImage from "../../components/restaurant/ShowImage"
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
-import { Restaurant } from "@apiType/restaurant"
+import { Restaurant2 } from "@apiType/restaurant"
+import  Lottie from 'lottie-react'
+import loading1 from './animation/loading1.json'
 declare global {
     var respage: number, rand: number
 }
 function LikeorNope() {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    //count Number of Nope -> 5 times then Random
     const [count, setcount] = React.useState(1)
     const params = useParams()
-    const [property, setproperty] = React.useState<Restaurant[]>([])
-
+    const [property, setproperty] = React.useState<Restaurant2[]>([])
+    const navigate = useNavigate()
+    // change params to run next restaurant
     const [res, setres] = React.useState(parseInt(params.id + ""))
-
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
+    //when like, it will store userId and resId
     const likedRestaurant = () => {
         API.post("restaurant/" + params.id, { id: params.id })
     }
 
+    //Get restaurant to show on this page
     useEffect(() => {
         API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
-        // .catch((err) => on())
-        // .finally(off)
+        .catch((err) => on()) 
+        .finally(off)
+        // API.put("restaurant/" + params.id) 
     }, [params.id])
-    // console.log(property);
-    // console.log(params.id);
+    
 
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     {/* <Heading color={"black"}>Loading</Heading> */}
+     <Box w={"100%"} h={"100%"}>
+        <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
+     <Lottie animationData={loading1} style={{scale: 1}}/>
+       </Flex>
+     </Box>
+    </AppBody>
+    )
+
+    if(isError) return (
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
+    )
+    //  console.log(property);
+     
+    
     const Nope = () => {
-        if (res < 9) {
+        if (res < 5) {
             setres(res + 1)
         } else {
             setres(0)
@@ -59,7 +100,7 @@ function LikeorNope() {
     }
 
     globalThis.respage = res
-    globalThis.rand = Math.floor(Math.random() * 10)
+    globalThis.rand = Math.floor(Math.random() * 5) + 1
     const Random = () => {
         setres(globalThis.rand)
         return onClose()
@@ -76,7 +117,7 @@ function LikeorNope() {
                 <Searchbar />
             </Box>
             <Box px={2} h={"100%"} pb={6} pt={2}>
-                {property.map((e1: any) => {
+                {property.map((e1) => {
                     return (
                         <>
                             <Box py={5} h="20px" mb={"40px"}>
@@ -84,7 +125,7 @@ function LikeorNope() {
                                     {e1.resName}{" "}
                                 </Heading>
                             </Box>
-                            <ShowImage img={e1.img} />
+                            <ShowImage img={e1.images} />
                         </>
                     )
                 })}
@@ -92,18 +133,22 @@ function LikeorNope() {
                 <Container>
                     <Flex flexDirection={"row"} justifyContent={"space-around"} justifyItems={"center"} mt={6}>
                         <Box>
-                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={likedRestaurant}>
-                                <Link to={`/restaurant/detail/${globalThis.respage}`}>
-                                    <AiOutlineLike size={"xl"} />
-                                </Link>
+                            <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={() => {
+                                likedRestaurant()
+                                navigate(`/restaurant/detail/${"000" +globalThis.respage}`)
+                            }}>
+                                <Icon as={AiOutlineLike} w={12} h={12}/>
                             </Button>
                         </Box>
 
                         <Box>
-                            <Button onClick={Nope} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
-                                <Link to={`/restaurant/${globalThis.respage == 9 ? 0 : globalThis.respage + 1}`}>
-                                    <AiOutlineDislike size={"xl"} />
-                                </Link>
+                            <Button onClick={() => {
+                                Nope()
+                                navigate(`/restaurant/${"000" + (globalThis.respage == 6 ? 1 : globalThis.respage + 1)}`)
+                                }} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
+                             
+                                   <Icon as={AiOutlineDislike} w={12} h={12}/>
+                            
                             </Button>
 
                             <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false}>
@@ -124,7 +169,7 @@ function LikeorNope() {
                                     <ModalCloseButton />
                                     <ModalFooter justifyContent={"center"} pt="60px">
                                         <Button colorScheme="blue" mr={3} onClick={Random} borderRadius={"5px"}>
-                                            <Link to={`/restaurant/detail/${rand}`}>Random</Link>
+                                            <Link to={`/restaurant/detail/${"000"+rand}`}>Random</Link>
                                         </Button>
 
                                         <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>

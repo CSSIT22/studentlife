@@ -11,7 +11,7 @@ const savelink = () => {
     }
     return (
         <AppBody>
-            <Container borderWidth="1px" padding="10" borderRadius="xl" background={"white"} gap={2} bgColor={"#D9D9D9"}>
+            <Container borderWidth="1px" padding="10" borderRadius="xl" background={"orange.200"} gap={2} bgColor={"#orange.200"}>
                 <Box
                     width={"200px"}
                     height={"40px"}
@@ -30,7 +30,7 @@ const savelink = () => {
                 <Box>
                     <br />
                     <Button
-                        bg={"orange.200"}
+                        bg={"green.400"}
                         w={"100%"}
                         rounded={"xl"}
                         onClick={() =>
@@ -49,7 +49,7 @@ const savelink = () => {
 
                 <br />
 
-                <Button width={"100%"} rounded={"xl"} bg={"orange.200"} onClick={allLink}>
+                <Button width={"100%"} rounded={"xl"} bg={"orange.400"} onClick={allLink}>
                     All Links
                 </Button>
             </Container>

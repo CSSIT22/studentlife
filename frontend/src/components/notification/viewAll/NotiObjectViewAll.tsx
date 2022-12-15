@@ -1,20 +1,34 @@
 import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
-import { MODULES } from "../moduleList/moduleTest"
+import { templates } from "../templates"
 import { USER } from "../main/mockupData/userProfile"
 import API from "src/function/API"
+import { NotiValue } from "@apiType/notification"
 
 const NotiObjectViewAll: FC<{
-    id: number
-    userId: string
-    description: string
+    id: string
+    template: string
     isRead: boolean
     date: Date
     module: string
-    link: string
+    url: string
     onClick: Function
-}> = ({ id, description, isRead, date, module, userId, link, onClick }) => {
+    sender: string
+    values: NotiValue[]
+}> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
+
+    const [senderImg, setsenderImg] = useState([])
+
+    useEffect(() => {
+        API.get("/notification/getsenderimage/" + sender).then(
+            item => setsenderImg(item.data.image)
+        )
+    }, [])
+
+    //console.log(senderImg);
+
+
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -95,30 +109,94 @@ const NotiObjectViewAll: FC<{
             )
         }
     }
+
+    let v1 = ""
+    let v2 = ""
+    let v3 = ""
     function showDescription() {
-        return (
-            <Stack direction={"row"}>
-                <Text dangerouslySetInnerHTML={{ __html: description }} /> <b>- {module}</b>{" "}
-            </Stack>
-        )
+
+        //console.log(getvalue)
+        // const [valueNotiObject, setValueNotiObject] = useState([])
+        // useEffect(() => {
+        //     const getvalue = API.get("/notification/getvalue/?notiobjectId=" + id)
+        //     getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
+        //         setValueNotiObject(res.data)
+        //     })
+        // }, [])
+        //console.log(valueNotiObject)
+
+        values.forEach((item: NotiValue) => {
+            if (item.notiObjectId == id) {
+                if (v1 == "") {
+                    v1 = item.value
+                } else if (v2 == "") {
+                    v2 = item.value
+                } else if (v3 == "") {
+                    v3 = item.value
+                }
+            }
+        });
+        //console.log(v1, v2, v3)
+
+        let count = 0;
+        let result1;
+        let result2;
+        let result3;
+        templates.forEach((item: any) => {
+            if (template == item.title) {
+                //console.log(template)
+                result1 = (templates[count].template).replace(/v1/g, v1)
+                //console.log(result1)
+                result2 = (result1).replace(/v2/g, v2)
+                result3 = (result2).replace(/v3/g, v3)
+                //console.log(result3)
+            }
+            count++;
+        })
+        //console.log(count)
+        if (result3 != null) {
+            return <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} />
+        }
+    }
+
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
     }
 
     function showUser() {
-        var user = USER.filter((el) => el.id == userId)
-        var userStatus = user[0].isOnline
-        //console.log(user)
+        // var user = USER.filter((el) => el.id == userId)
+        // var userStatus = user[0].isOnline
+        // //console.log(user)
 
-        if (userStatus) {
+        // if (userStatus) {
+        //     return (
+        //         <Avatar src={user[0].avatarImg} size={"md"}>
+        //             <AvatarBadge boxSize="1em" bg="green.500" />
+        //         </Avatar>
+        //     )
+        // } else {
+        //     return (
+        //         <Avatar src={user[0].avatarImg} size={"md"}>
+        //             <AvatarBadge boxSize="1em" bg="gray" />
+        //         </Avatar>
+        //     )
+        // }
+        if (sender == null) {
             return (
-                <Avatar src={user[0].avatarImg} size={"md"}>
-                    <AvatarBadge boxSize="1em" bg="green.500" />
-                </Avatar>
+                <Avatar src="./Logo_01.png" size={"sm"} />
             )
         } else {
             return (
-                <Avatar src={user[0].avatarImg} size={"md"}>
-                    <AvatarBadge boxSize="1em" bg="gray" />
-                </Avatar>
+                <Avatar src={handleImg(senderImg)} size={"sm"} />
             )
         }
     }
@@ -138,7 +216,7 @@ const NotiObjectViewAll: FC<{
                 read(), onClick()
             }}
         >
-            <a href={link}>
+            <a href={url}>
                 <Stack direction={"row"} spacing={12}>
                     <Box>
                         <Stack direction={"row"} spacing={12}>
@@ -146,8 +224,18 @@ const NotiObjectViewAll: FC<{
                                 {showStatus()}
                             </Center>
                             <Center>{showUser()}</Center>
-                            <Stack direction={"row"} spacing={300} padding={5}>
+                            <Stack direction={"row"} spacing={5} padding={5}>
                                 {showDescription()}
+                                {/* <Box as="button"
+                                    shadow={"lg"}
+                                    borderRadius="1xl"
+                                    bg="#D6D6D6"> */}
+                                <Button shadow={"lg"}
+                                    size='xs'
+                                    padding={1}
+                                    bg="#E3E3E3">
+                                    {module}
+                                </Button>
                             </Stack>
                         </Stack>
                     </Box>

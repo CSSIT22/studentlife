@@ -23,6 +23,7 @@ import {
     WrapItem,
     Icon,
     Heading,
+    useBoolean,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
@@ -33,32 +34,53 @@ import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { friend } from "../data/friend"
 import API from "src/function/API"
-declare global {
-    var respage: number
-}
+import { a } from "@react-spring/web"
+
 
 function detail() {
     const { onOpen } = useDisclosure()
     const params = useParams()
-    const [numres, setnumres] = useState(parseInt(params.detailRes + ""))
-    // const property = Restaurant.filter((e1) => {
-    //     return e1.id == parseInt(params.detailRes + "")
-    // })
+    const [numres, setnumres] = useState(params.detailRes)
+    
     const [property, setproperty] = React.useState<any>([])
-
-    // const addFavorite = () => {
-    //     console.log(Restaurant[numres].status)
-    //     Restaurant[numres].status = true
-    //     console.log(Restaurant[numres].status)
-    // }
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(false)
 
     useEffect(() => {
-        API.get("/restaurant/detail/" + params.detailRes).then((item) => setproperty(item.data))
+        API.get("/restaurant/detail/" + params.detailRes).
+            then((item) => setproperty(item.data))
+            // .catch((err) => on()) 
+            // .finally(off)
     }, [params.detailRes])
 
     console.log(property)
 
-    globalThis.respage = numres
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
+    )
+
+    if(isError) return (
+    <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
+    )
+   
+
 
     const [isFavorite, setIsFavorite] = useState(false)
     useEffect(() => {
@@ -67,6 +89,12 @@ function detail() {
     const setFavoriteStatus = () => {
         console.log(isFavorite)
     }
+    const addFavorite = () => {
+        API.post("/restaurant/detail/" + params.detailRes)
+    }
+    
+    console.log(property);
+    
     return (
         <AppBody
             secondarynav={[
@@ -78,11 +106,12 @@ function detail() {
             <Searchbar />
             <Center w={"full"} mt={4}>
                 {property.map((e1: any) => {
+
                     return (
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/${globalThis.respage}`}>
+                                    <Link to={`/restaurant/${numres}`}>
                                         <CloseButton my={-4} ml={-1} />
                                     </Link>
 
@@ -93,7 +122,7 @@ function detail() {
 
                                 <Grid p={{ base: 0, md: 5 }} templateRows="repeat(1, 1fr)" templateColumns="repeat(8, 1fr)" columnGap={4} rowGap={1}>
                                     <GridItem colSpan={{ base: 8, md: 4 }}>
-                                        <ShowImage img={e1.img} />
+                                        <ShowImage img={e1.images} />
 
                                         <Box
                                             px={4}
@@ -106,10 +135,10 @@ function detail() {
                                             pr={6}
                                         >
                                             <Box display="flex" verticalAlign={"AiOutlineLike"}>
-                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.amountOflike} liked
+                                                <Icon as={AiOutlineLike} fontSize="md" /> {e1.likes} liked
                                             </Box>
                                             <Spacer />
-                                            <Link to={`/restaurant/review/${globalThis.respage}`}>
+                                            <Link to={`/restaurant/review/${numres}`}>
                                                 <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
                                                     <Icon as={AiOutlineComment} fontSize="md" /> Review
                                                 </Box>
@@ -120,14 +149,14 @@ function detail() {
                                     <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }} fontWeight="600">
                                         <Box w={"full"} textAlign={"center"}>
                                             <Text color="" fontSize="md">
-                                                OPEN - CLOSE : {e1.open} - {e1.close} <br />
+                                                OPEN - CLOSE : {e1.openAt[0].open} - {e1.closeAt[0].close} <br />
                                                 <Show above="md">
                                                     <br />
                                                 </Show>
                                             </Text>
 
                                             <Text as="span" color="" fontSize="md">
-                                                STYLE : {e1.vicinity} <br />
+                                                VICINITY : {e1.detail.vicinity} <br />
                                                 <Show above="md">
                                                     <br />
                                                 </Show>
@@ -136,11 +165,11 @@ function detail() {
                                             <Text color="" fontSize="md" textTransform="uppercase">
                                                 CONTACT :
                                                 <br />
-                                                <Icon as={AiOutlinePhone} w={4} h={4} /> : <a href="tel:+{e1.phone}">{e1.phone}</a>
+                                                <Icon as={AiOutlinePhone} w={4} h={4} /> : <a href="tel:+{e1.detail.phone}">{e1.detail.phoneNo}</a>
                                                 <br /> <Icon as={AiOutlineGlobal} w={4} h={4} /> :
-                                                <Link to={e1.website}>
+                                                <a href={e1.detail.website}>
                                                     <Text as="u">Click here</Text>
-                                                </Link>
+                                                </a>
                                             </Text>
                                         </Box>
                                     </GridItem>
@@ -157,9 +186,10 @@ function detail() {
                                             onClick={() => {
                                                 setIsFavorite(!isFavorite)
                                                 setFavoriteStatus
+                                                addFavorite()
                                             }}
                                         >
-                                            {isFavorite ? <AiFillHeart size={"full"} /> : <AiOutlineHeart size={"full"} />}
+                                            {isFavorite ? <Icon as={AiFillHeart} w={12} h={12} /> : <Icon as={AiOutlineHeart}  w={12} h={12} />}
                                         </Button>
                                         <Spacer />
                                         <Popover placement="top">
@@ -235,9 +265,9 @@ function detail() {
                                         </Popover>
 
                                         <Spacer />
-                                        <Button bg={"#E65300"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
-                                            <Link to="https://www.google.co.th/maps/">GO</Link>
-                                        </Button>
+                                        <Box as={Button} to={e1.detail.location} bg={"#E65300"} width="50px" h="50px" color="white" border={1} borderRadius={"full"} p={4}>
+                                            <a href={e1.detail.location}>GO</a>
+                                        </Box>
                                     </Flex>
                                 </Box>
                             </Box>

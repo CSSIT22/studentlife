@@ -21,8 +21,8 @@ import {
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { Form, Link } from "react-router-dom"
-import EbankModal from "../methodpayment/EbankModal"
-import MasterCardModal from "../methodpayment/MasterCardModal"
+import EbankModal from "../methodpayment/Ebank"
+import MasterCardModal from "../methodpayment/MasterCard"
 
 const TransferPay = () => {
     const amount = useState("50")
