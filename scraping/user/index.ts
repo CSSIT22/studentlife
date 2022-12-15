@@ -17,7 +17,7 @@ import axios from "axios";
         `https://graph.microsoft.com/v1.0/users/${item.id}/photos/432x432/$value`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
             "Content-Type": "image/jpg",
           },
           responseType: "arraybuffer",
