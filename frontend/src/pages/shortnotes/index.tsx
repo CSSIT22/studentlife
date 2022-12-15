@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean, Input, Button } from "@chakra-ui/react"
+import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean, Input, Button, Show, Hide } from "@chakra-ui/react"
 import React, { useEffect, useMemo, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
@@ -113,7 +113,7 @@ const index = () => {
     };
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(10)
+    const [postsPerPage, setPostsPerPage] = useState(6)
     let indexOfLastSn = currentPage * postsPerPage
     let indexOfFirstSn = indexOfLastSn - postsPerPage
     let currentSn = sn.slice(indexOfFirstSn, indexOfLastSn)
@@ -125,7 +125,7 @@ const index = () => {
     return (
         <AppBody>
             {/*Recent view list section*/}
-            <HStack mt={10}>
+            <HStack mt={4}>
                 <Heading size={"sm"} alignSelf={"end"}>
                     Recent view
                 </Heading>
@@ -139,7 +139,7 @@ const index = () => {
                 </Box>
                 :
                 <SlideFade in={isOpen} offsetY='20px'>
-                    <Box mt={4} mb={12}>
+                    <Box mt={4} mb={9}>
                         <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 4 }} textAlign={"center"}>
                             {rsn.map((rsn: any, key) => (
                                 <Box as="button" onClick={() => {
@@ -163,7 +163,10 @@ const index = () => {
             {/*Shortnote list section*/}
             <Flex alignItems={"end"}>
                 <BtnNs />
-                <Input variant={"filled"} focusBorderColor="orange.500" bg={"gray.50"} borderColor={"gray.200"} placeholder={"Search here."} mx={8} onChange={(e) => setSearchSn(e.target.value)}></Input>
+                <Spacer />
+                <Show above="md">
+                    <Input variant={"filled"} focusBorderColor="orange.500" bg={"gray.50"} borderColor={"gray.200"} placeholder={"Search here."} mx={4} onChange={(e) => setSearchSn(e.target.value)}></Input>
+                </Show>
                 <Stack direction={"row"}>
                     <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
@@ -183,6 +186,11 @@ const index = () => {
                     </VStack>
                 </Stack>
             </Flex>
+            <Hide above="md">
+                <Input variant={"filled"} focusBorderColor="orange.500" bg={"gray.50"} borderColor={"gray.200"} placeholder={"Search here."} mt={4} onChange={(e) => setSearchSn(e.target.value)}></Input>
+
+            </Hide>
+
             {snLoad ? <Lottie style={style} animationData={loading}></Lottie>
                 :
                 <Collapse in={rsnIsOpen} animateOpacity>
@@ -238,6 +246,7 @@ const index = () => {
                         <HStack >
                             {pageNumbers.map((n: any) => (
                                 <Button onClick={() => { setCurrentPage(n) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === n && {
+                                    _hover: { bg: "orange.500" },
                                     bg: "orange.500",
                                     color: "white",
                                 })}>{n}</Button>
