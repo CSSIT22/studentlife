@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
 import API from "src/function/API"
 import { templates } from "../templates"
-import { USER } from "./mockupData/userProfile"
+
 
 const NotiObject: FC<{
     id: string
@@ -110,12 +110,12 @@ const NotiObject: FC<{
         }
     }
 
-    let v1 = ""
-    let v2 = ""
-    let v3 = ""
+
     function showDescription() {
 
-
+        let v1 = ""
+        let v2 = ""
+        let v3 = ""
         //console.log(getvalue)
         // const [valueNotiObject, setValueNotiObject] = useState([])
         // useEffect(() => {
@@ -205,7 +205,6 @@ const NotiObject: FC<{
             <a href={url}>
                 <Stack direction={"row"} spacing={5} padding={"1"}>
                     <Center>{showUser()}</Center>
-
                     <Stack>
                         <div>
                             {showDescription()}
@@ -223,5 +222,3 @@ const NotiObject: FC<{
 }
 
 export default NotiObject
-
-

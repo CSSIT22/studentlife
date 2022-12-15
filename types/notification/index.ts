@@ -29,6 +29,10 @@ export type pushNotiType = {
   url: string;
   sender: string;
 };
+export type alertNoti = {
+  data: NotiValue[];
+  notiObject: Notiobject;
+};
 export type NotiValue = {
   notiObjectId: string;
   value: string;
