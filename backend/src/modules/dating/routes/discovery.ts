@@ -155,10 +155,9 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             }
         }
 
-
         if (facultyPrefDB) {
-            let frontTemp : boolean = false
-            let backTemp : boolean = false
+            let frontTemp: boolean = false
+            let backTemp: boolean = false
 
             facultyPrefDB.map((faculty: any) => {
                 if (cardQueueUserId?.frontUserId) {
@@ -172,10 +171,10 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     }
                 }
             })
-            if(!frontTemp && cardQueueUserId) {
+            if (!frontTemp && cardQueueUserId) {
                 cardQueueUserId.frontUserId = null
             }
-            if(!backTemp && cardQueueUserId) {
+            if (!backTemp && cardQueueUserId) {
                 cardQueueUserId.backUserId = null
             }
         }
@@ -212,17 +211,42 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
             }
         })
 
-        if ((!cardQueueUserId?.frontUserId || !cardQueueUserId?.backUserId) && cardQueueUserId?.userId) {
+        if (!cardQueueUserId?.frontUserId && !cardQueueUserId?.backUserId && cardQueueUserId?.userId) {
             await prisma.card_Queue.delete({
                 where: {
                     userId: reqUserId,
                 },
             })
-            cardQueueUserId.frontUserId = null
-            cardQueueUserId.backUserId = null
+        } else if (cardQueueUserId?.frontUserId && !cardQueueUserId?.backUserId && cardQueueUserId?.userId) {
+            const data: any = {
+                userId: reqUserId,
+                frontUserId: cardQueueUserId.frontUserId,
+                backUserId: null,
+            }
+            await prisma.card_Queue.delete({
+                where: {
+                    userId: reqUserId,
+                },
+            })
+            await prisma.card_Queue.create({
+                data: data,
+            })
+        } else if (cardQueueUserId?.backUserId && !cardQueueUserId?.frontUserId && cardQueueUserId?.userId) {
+            const data: any = {
+                userId: reqUserId,
+                frontUserId: null,
+                backUserId: cardQueueUserId.frontUserId,
+            }
+            await prisma.card_Queue.delete({
+                where: {
+                    userId: reqUserId,
+                },
+            })
+            await prisma.card_Queue.create({
+                data: data,
+            })
         }
 
-        const ageObtainedUser: any = []
         const userProfileDB = await prisma.user_Profile.findMany({
             where: {
                 NOT: {
@@ -263,6 +287,8 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                 },
             },
         })
+
+        const ageObtainedUser: any = []
 
         userProfileDB.map((user: any) => {
             if (
@@ -324,27 +350,28 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
         if (!cardQueueUserId?.frontUserId && !cardQueueUserId?.backUserId) {
             facultyObtainedUser = facultyObtainedUser.slice(0, 20)
         } else if (!cardQueueUserId?.frontUserId || !cardQueueUserId?.backUserId) {
-            let facultyFront
-            if (facultyObtainedUser[facultyObtainedUser.length - 0]) {
-                facultyFront = await facultyObtainedUser[facultyObtainedUser.length - 0]
-            }
-
-            let facultyBack
-            if (facultyObtainedUser[facultyObtainedUser.length - 1]) {
-                facultyBack = await facultyObtainedUser[facultyObtainedUser.length - 1]
-            }
-
-            if (facultyObtainedUser.length >= 20) {
-                facultyObtainedUser = await facultyObtainedUser.slice(0, 18)
-            } else {
-                facultyObtainedUser = await facultyObtainedUser.slice(0, facultyObtainedUser.length - 1)
-            }
-
-            if (cardQueueUserId?.frontUserId) {
-                if (facultyBack) {
-                    facultyObtainedUser.push(facultyBack)
+            if (!cardQueueUserId?.frontUserId && cardQueueUserId?.backUserId) {
+                cardQueueUserId.frontUserId = cardQueueUserId.backUserId
+                cardQueueUserId.backUserId = null
+                const data: any = {
+                    userId: reqUserId,
+                    frontUserId: cardQueueUserId?.frontUserId,
+                    backUserId: null,
                 }
-                const frontUserDB = await prisma.user_Profile.findFirst({
+                if (facultyObtainedUser.length >= 20) {
+                    facultyObtainedUser = facultyObtainedUser.slice(0, 19)
+                } else {
+                    facultyObtainedUser = facultyObtainedUser.slice(0, facultyObtainedUser.length)
+                }
+                await prisma.card_Queue.delete({
+                    where: {
+                        userId: reqUserId,
+                    },
+                })
+                await prisma.card_Queue.create({
+                    data: data,
+                })
+                const front = await prisma.user_Profile.findFirst({
                     where: {
                         userId: cardQueueUserId.frontUserId,
                     },
@@ -371,11 +398,16 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                         },
                     },
                 })
-                facultyObtainedUser.push(frontUserDB)
-            } else if (cardQueueUserId?.backUserId) {
-                const backUserDB = await prisma.user_Profile.findFirst({
+                facultyObtainedUser.push(front)
+            } else if (cardQueueUserId?.frontUserId && !cardQueueUserId?.backUserId) {
+                if (facultyObtainedUser.length >= 20) {
+                    facultyObtainedUser = facultyObtainedUser.slice(0, 20)
+                } else {
+                    facultyObtainedUser = facultyObtainedUser.slice(0, facultyObtainedUser.length)
+                }
+                const front = await prisma.user_Profile.findFirst({
                     where: {
-                        userId: cardQueueUserId.backUserId,
+                        userId: cardQueueUserId.frontUserId,
                     },
                     select: {
                         userId: true,
@@ -400,8 +432,8 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                         },
                     },
                 })
-                facultyObtainedUser.push(backUserDB)
-                facultyObtainedUser.push(facultyFront)
+                facultyObtainedUser.push(front)
+
             }
         } else {
             facultyObtainedUser = facultyObtainedUser.slice(0, 18)
