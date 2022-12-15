@@ -22,4 +22,5 @@ jobs:
         run: |
           cd ./backend
           npm i
+          npm run db:gen
           npm run build
