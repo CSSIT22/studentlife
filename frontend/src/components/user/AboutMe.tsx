@@ -1,11 +1,21 @@
-import React from "react"
-import { Box, Flex, Spacer, Text, SimpleGrid, useMediaQuery, extendTheme } from "@chakra-ui/react"
+import React, { useState } from "react"
+import { Box, Flex, Spacer, Text, SimpleGrid, useMediaQuery, extendTheme, Grid, Stack } from "@chakra-ui/react"
 
-function AboutMe() {
+
+interface AboutMeProps {
+    phone: string
+    sex: string
+    hobbies: string
+    birthdate: string
+    year: number
+    address: string
+}
+
+const AboutMe: React.FC<AboutMeProps> = (props) => {
     const breakpoints = {
         sm: "320px",
         md: "768px",
-        lg: "960px",
+        lg: "1000px",
         xl: "1200px",
         "2xl": "1536px",
     }
@@ -19,13 +29,13 @@ function AboutMe() {
                 <Text color="black" p="5" fontSize={{ base: "xl", md: "2xl" }} fontWeight="600">
                     ABOUT ME
                 </Text>
-                <Box id="detail" ml={5}>
-                    <SimpleGrid columns={2} spacing={7} p={5}>
+                <Box id="detail" ml={5} p={5}>
+                    <SimpleGrid columns={{ base: 2, md: 1, lg: 2 }} spacing={7} >
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             PHONE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            09xxxxxxxx
+                            {props.phone}
                         </Text>
                         {/* <Text color="orange.700" fontSize="md" fontWeight="500">
                             AGE
@@ -37,34 +47,35 @@ function AboutMe() {
                             SEX
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            Male
+                            {props.sex}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             HOBBIES
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            Playing Soccer, Sleeping
+                            {props.hobbies}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
-                            BRITHDATE
+                            BIRTHDATE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            23/APR/2002
+                            {props.birthdate}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
-                            YEAES
+                            YEARS
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            2
-                        </Text>
-                        <Text color="orange.700" fontSize="md" fontWeight="500">
-                            Address
-                        </Text>
-                        <Text mb="5" color="black" fontSize="lg" fontWeight="700">
-                            Street: 723/106-107 Charansanitwong 53 Rd. City: Bang Phat State/province/area: Bangkok Phone number 66 0-2434-7113 Zip
-                            code 10700
+                            {props.year}
                         </Text>
                     </SimpleGrid>
+                    <Stack direction={{ base: "column", lg: "row" }} mt="5" spacing={{ md: "5", base: "2" }}>
+                        <Text color="orange.700" fontSize="md" fontWeight="500">
+                            ADDRESS
+                        </Text>
+                        <Text mb="5" color="black" fontSize="lg" fontWeight="700">
+                            {props.address}
+                        </Text></Stack>
+
                 </Box>
             </Flex>
         </div>

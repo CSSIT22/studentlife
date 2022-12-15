@@ -4,9 +4,9 @@ import { Link } from "react-router-dom"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import PostOnAnnouncementPage from "../../components/annoucement/PostOnAnnouncementPage"
 import AppBody from "../../components/share/app/AppBody"
-import { Box, Flex, SimpleGrid, Spacer } from "@chakra-ui/react"
+import { Box, Flex, Heading, SimpleGrid, Spacer, useBoolean } from "@chakra-ui/react"
 import { postInfoTest } from "./postInfoTest"
-import { post } from "@apiType/announcement"
+import { announcement, post } from "@apiType/announcement"
 import API from "src/function/API"
 
 const index = () => {
@@ -22,15 +22,25 @@ const index = () => {
 
     // console.log(postInfoTest[0].expiredOfPost);
     const [toggle, settoggle] = useState(false)
-    const [allPost, setAllPost] = React.useState<post[]>([])
+    const [allPost, setAllPost] = React.useState<announcement[]>([])
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const getDataPost = API.get("/announcement/getPostOnAnnouncement")
     useEffect(() => {
-        getDataPost.then((res) => setAllPost(res.data))
+        getDataPost.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
 
     const getpostidAndpinstatus = () => {
         settoggle(!toggle)
     }
+    if (isLoading)
+        return (
+            <AppBody>
+                <Heading>Loading</Heading>
+            </AppBody>
+        )
+    if (isError)
+        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
 
     return (
         <AppBody
@@ -50,14 +60,14 @@ const index = () => {
             </Flex>
             {allPost
                 .filter((p) => {
-                    return p.pinStatus == true
+                    return p.annPin[0].status == true
                 })
                 .map((el) => {
                     return (
                         <PostOnAnnouncementPage
-                            topic={el.topic}
-                            sender={el.sender}
-                            status={el.pinStatus}
+                            topic={el.annLanguage[0].annTopic}
+                            sender={el.annCreator.fName+" "+el.annCreator.lName}
+                            status={el.annPin[0].status}
                             allPost={allPost}
                             setAllPost={setAllPost}
                             id={el.postId}
@@ -68,14 +78,14 @@ const index = () => {
                 })}
             {allPost
                 .filter((p) => {
-                    return p.pinStatus == false
+                    return p.annPin[0].status == false
                 })
                 .map((el) => {
                     return (
                         <PostOnAnnouncementPage
-                            topic={el.topic}
-                            sender={el.sender}
-                            status={el.pinStatus}
+                            topic={el.annLanguage[0].annTopic}
+                            sender={el.annCreator.fName+" "+el.annCreator.lName}
+                            status={el.annPin[0].status}
                             allPost={allPost}
                             setAllPost={setAllPost}
                             id={el.postId}

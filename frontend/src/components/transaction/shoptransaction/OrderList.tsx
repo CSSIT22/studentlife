@@ -8,7 +8,7 @@ const OrderList: FC<{
     price: string
     quantity: number
 }> = ({ imageUrl, imageAlt, product, price, quantity }) => {
-    const [isSmallerThan768] = useMediaQuery("(max-width: 768px)")
+    const [isSmallerThan768] = useMediaQuery("(max-width: 1000px)")
 
     return (
         <div>

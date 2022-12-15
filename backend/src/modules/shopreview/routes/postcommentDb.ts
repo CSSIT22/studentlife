@@ -17,8 +17,7 @@ const postcomment = async (req: Request<any>, res: Response<any>) => {
             likeRecieved: 0,
         }
         const rev = await prisma.sReview_Comment.create({
-            data: postcomment 
-            
+            data: postcomment,
         })
         res.send(rev)
     } catch (err) {
