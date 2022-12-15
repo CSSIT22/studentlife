@@ -2,12 +2,14 @@ export const templates = [
     {
         id: 0,
         title: "ANNOUNCEMENT_APPROVED",
-        template: "<p><b>v1</b> v2 get approved<br><Spacer/>at v3</p>" //(Post title) (doesn't/null) get approved+time[announcement_post.approve_time]
+        template: "<p><b>v1</b> v2 get approved</p>" 
+        //(Post title) (doesn't/null) get approved
     },
     {
         id: 1,
         title: "ANNOUNCEMENT_NEW",
-        template: "<p><b>v1</b><br>v2</p>" //Announcement title<br>(sender)+time[announcement_post.post_at]
+        template: "<p>Announcement<br><b>v1</b></p>" 
+        //Announcement title(sender)
     },
     {
         id: 2,
@@ -32,27 +34,28 @@ export const templates = [
     {
         id: 6,
         title: "DATING_ACCEPTED",
-        template: "v1 accept you to the activity <b>v2</b>"
+        template: "<p>v1 accept you to the activity <b>v2</b></p>"
     },
     {
         id: 7,
         title: "DATING_INTERESTED",
-        template: "v1 interested in your activity <b>v2</b>"
+        template: "<p>v1 interested in your activity <b>v2</b></p>"
     },
     {
         id: 8,
         title: "DATING_MATCH_FRIEND",
-        template: "You match with <b>v1</b> and already befriend"
+        template: "<p>You match with <b>v1</b> and already befriend</p>"
     },
     {
         id: 9,
         title: "DATING_MATCH",
-        template: "You match with <b>v1</b>"
+        template: "<p>You match with <b>v1</b></p>"
     },
     {
         id: 10,
         title: "QnA_ANSWER_ANONYMOUS",
         template: "<p>Anony has answered your question <b>v1</b></p>"
+        //How about Anony Profile?
     },
     {
         id: 11,
@@ -67,7 +70,7 @@ export const templates = [
     {
         id: 13,
         title: "SHOP_REVIEW_COMMENT",
-        template: "<b>v1</b><br> v2"
+        template: "<p><b>v1</b><br> v2</p>"
     },
     {
         id: 14,
@@ -77,6 +80,35 @@ export const templates = [
     {
         id: 15,
         title: "TRANSACTION_SUCCESS",
-        template: "v1  your payment order:v2 was successful" //v1=payment time, v2=order id
+        template: "<p><b>v1</b> your payment order:v2 was successful</p>" //v1=payment time, v2=order id
+    },
+    {
+        id: 16,
+        title: "SHOP_DELIVERY",
+        template: "<p>Your order <b>v1</b>, has changed it's status to <b>v2</b></p>" 
+        //v1=order id, v2=order status
+    },
+    {
+        id: 17,
+        title: "SHOP_PLACED_ORDER",
+        template: "<p>User <b>v1</b> has placed an order with orderId <b>v2</b>. Click to see details and prepare for the order</p>" 
+        //v1=user id, v2=order id
+    },
+    {
+        id: 18,
+        title: "SHOP_NEW_COUPON",
+        template: "<p>A new coupon is now available in the shop. The coupon code is <b>v1</b>. Click to collect the coupon now</p>" 
+        //v1=coupon code
+    },
+    {
+        id: 19,
+        title: "SHOP_DELIVER_ATTEMPT",
+        template: "<p>We will try to deliver your product today</p>" 
+    },
+    {
+        id: 20,
+        title: "SHOP_RECOMMEND",
+        template: "<p>Check out this product <b>v1</b>. Click to see details</p>" 
+        //v1=product name
     }
 ]

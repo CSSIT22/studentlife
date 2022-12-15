@@ -116,7 +116,7 @@ const NotiObject: FC<{
     function showDescription() {
 
 
-        //console.log(getvalue)
+        // console.log(getvalue)
         // const [valueNotiObject, setValueNotiObject] = useState([])
         // useEffect(() => {
         //     const getvalue = API.get("/notification/getvalue")
@@ -203,7 +203,7 @@ const NotiObject: FC<{
             }}
         >
             <a href={url}>
-                <Stack direction={"row"} spacing={5} padding={"1"}>
+                <Stack direction={"row"} spacing={4} padding={"1"}>
                     <Center>{showUser()}</Center>
 
                     <Stack>
