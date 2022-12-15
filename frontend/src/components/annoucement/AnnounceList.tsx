@@ -46,7 +46,7 @@ const AnnounceList = () => {
                     const event = (el.annLanguage[0].annDetail.split("~"))[0]
                     const date = new Date(event).getDate()
                     const month = new Date(event).toLocaleString('en-us', { month: 'short' })
-                    return <Announce topic={el.annLanguage[0].annTopic} to={to} date={date+""} month={month} />
+                    return <Announce topic={el.annLanguage[0].annTopic} to={to} date={date+""} month={month} key={el.postId}/>
                 })}
             </>
 
