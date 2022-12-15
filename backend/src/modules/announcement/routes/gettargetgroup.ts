@@ -45,14 +45,14 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 })
                 majoruserid.push(majorUsers[i].userId)
             }
-            // axios.post("http://localhost:8000/notification/addnotiobject", {
-            //     template: "ANNOUNCEMENT_NEW",
-            //     value: [postuserid[0].annLanguage[0].annTopic],
-            //     userId: majoruserid,
-            //     module: "ANNOUNCEMENT",
-            //     url: "/announcement/",
-            //     sender: postuserid[0].userId,
-            // })
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: majoruserid,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
 
         } else if (targetType == "Faculty") {
             const majors = await prisma.major.findMany({
@@ -94,14 +94,15 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 })
             }
 
-            // axios.post("http://localhost:8000/notification/addnotiobject", {
-            //     template: "ANNOUNCEMENT_NEW",
-            //     value: [postuserid[0].annLanguage[0].annTopic],
-            //     userId: allUserIds,
-            //     module: "ANNOUNCEMENT",
-            //     url: "/announcement/",
-            //     sender: postuserid[0].userId,
-            // })
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: allUserIds,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
+
         } else if (targetType == "Year") {
             let year = new Date()
             const thaiYear = (year.getFullYear() + 543) % 100
@@ -145,14 +146,14 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     },
                 })
             }
-            // axios.post("http://localhost:8000/notification/addnotiobject", {
-            //     template: "ANNOUNCEMENT_NEW",
-            //     value: [postuserid[0].annLanguage[0].annTopic],
-            //     userId: selectedUserIds,
-            //     module: "ANNOUNCEMENT",
-            //     url: "/announcement/",
-            //     sender: postuserid[0].userId,
-            // })
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: selectedUserIds,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
 
         } else if (targetType == "Everyone") {
             const everyUserId = await prisma.user_Profile.findMany({
@@ -175,14 +176,14 @@ const getTargetGroup = async (req: Request, res: Response) => {
             }
             res.send(everyUserId)
 
-            // axios.post("http://localhost:8000/notification/addnotiobject", {
-            //     template: "ANNOUNCEMENT_NEW",
-            //     value: [postuserid[0].annLanguage[0].annTopic],
-            //     userId: userid,
-            //     module: "ANNOUNCEMENT",
-            //     url: "/announcement/",
-            //     sender: postuserid[0].userId,
-            // })
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: userid,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
             
         }
     } catch (err: any) {
