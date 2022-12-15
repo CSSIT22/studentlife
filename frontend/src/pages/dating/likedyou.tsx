@@ -1,4 +1,5 @@
-import { Box, Container, HStack, SimpleGrid, useBreakpointValue, useToast } from "@chakra-ui/react"
+import { HeartGiver, AllInterests } from "@apiType/dating"
+import { Box, HStack, SimpleGrid, Text, useBoolean, useBreakpointValue, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingCheckDesktopDetails from "src/components/dating/DatingCheckDesktopDetails"
@@ -10,25 +11,20 @@ import DatingLikedYouHeartButton from "src/components/dating/DatingLikedYouHeart
 import DatingYouLikedButton from "src/components/dating/DatingYouLikedButton"
 import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
-import { HEART_HISTORY } from "../../components/dating/shared/heart_history"
+import Lottie from "lottie-react"
+import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
+import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
+import DatingWentWrong from "src/components/dating/DatingWentWrong"
 
-interface state {
-    heart_history: {
-        UserId: string
-        Fname: string
-        Lname: string
-        Gender: string
-        Age: string
-        Faculty: string
-        url: string
-        interestId: number[]
-    }[]
-}
 const LikedYou = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
     let count = 1
+    const [isError, setIsError] = useState(false)
+    const [isLoading, { off }] = useBoolean(true)
+    const [heartGiver, setHeartGiver] = useState<HeartGiver[]>([])
+    const [allInterests, setAllInterests] = useState<AllInterests[]>([])
 
     useEffect(() => {
         if (didMount && count != 0) {
@@ -59,7 +55,7 @@ const LikedYou = () => {
                                 })
                                 navigate("/user")
                             }
-                            else if(getAge(detail.data.birth) < 18) {
+                            else if (getAge(detail.data.birth) < 18) {
                                 toast({
                                     title: "You don't meet the minimum age requirement!",
                                     status: "warning",
@@ -70,7 +66,7 @@ const LikedYou = () => {
                                 })
                                 navigate("/")
                             }
-                            else if(getAge(detail.data.birth) > 40) {
+                            else if (getAge(detail.data.birth) > 40) {
                                 toast({
                                     title: "You don't meet the maximum age requirement!",
                                     status: "warning",
@@ -117,6 +113,14 @@ const LikedYou = () => {
                         })
                     })
             })
+
+            API.get("/dating/likedyou/getAllInterest").then((data) => {
+                setAllInterests(data.data)
+            }).catch((err) => setIsError(true))
+
+            API.get("/dating/likedyou/getHeartHistory").then((heart_history) => {
+                setHeartGiver(heart_history.data)
+            }).catch((err) => setIsError(true)).finally(off)
         }
     })
 
@@ -133,7 +137,6 @@ const LikedYou = () => {
         base: false,
         md: true,
     })
-    let HState = { heart_history: HEART_HISTORY }
 
     const [giveToUser, setGiveToUser] = useState<
         | {
@@ -156,7 +159,8 @@ const LikedYou = () => {
 
     return (
         <DatingAppBody>
-            <Box display="flex" justifyContent="center">
+            {isLoading || isError ? <>
+            </> : heartGiver.length == 0 ? <><Box display="flex" justifyContent="center">
                 <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
                     <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
                     <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
@@ -165,49 +169,86 @@ const LikedYou = () => {
                     </HStack>
                 </Box>
             </Box>
+                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md:"35%"}}>
+                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
+                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                        Right now, you have no new likes.
+                    </Text>
 
-            <Box
-                display={{ base: "grid", md: "block" }}
-                ml={{ base: "5px", md: "0px" }}
-                gridTemplateColumns="repeat(auto-fill, 165px)"
-                gridGap="10px"
-                justifyContent="center"
-                mt="120px"
-            >
-                {HState.heart_history
-                    .filter((el) => !giveToUser?.some((f) => f.UserId == el.UserId))
-                    .map(({ UserId, Fname, Lname, Gender, Age, Faculty, url, interestId }) => (
-                        <Box key={UserId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
-                            <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
-                                <Box>
-                                    <DatingCheckImage url={url} />
-                                    <DatingCheckMobileDetails isMobile={isMobile} Fname={Fname} Lname={Lname} />
+                </Box></> : <><Box display="flex" justifyContent="center">
+                    <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
+                        <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
+                        <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
+                            <DatingLikedYouButton backgroundColor="orange.600" />
+                            <DatingYouLikedButton backgroundColor="orange.800" />
+                        </HStack>
+                    </Box>
+                </Box>
 
-                                    <HStack
-                                        ml={{ base: "25px", md: "25px" }}
-                                        gap={{ base: "15px", md: "30px" }}
-                                        mt={{ base: "6px", md: "12px" }}
-                                        mb={{ md: "12px" }}
-                                    >
-                                        <DatingLikedYouCrossButton isMobile={isMobile} handleClick={handleClick} UserId={UserId} />
-                                        <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={UserId} />
-                                    </HStack>
-                                </Box>
-                                <DatingCheckDesktopDetails
-                                    Fname={Fname}
-                                    Lname={Lname}
-                                    Gender={Gender}
-                                    Age={Age}
-                                    Faculty={Faculty}
-                                    interestId={interestId}
-                                />
-                            </SimpleGrid>
+                <Box
+                    display={{ base: "grid", md: "block" }}
+                    ml={{ base: "5px", md: "0px" }}
+                    gridTemplateColumns="repeat(auto-fill, 165px)"
+                    gridGap="10px"
+                    justifyContent="center"
+                    mt="120px"
+                >
+                    {heartGiver
+                        .map(({ heartGiver }) => (
+                            <Box key={heartGiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
+                                <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
+                                    <Box>
+                                        <DatingCheckImage url={heartGiver.userId} image={heartGiver.image} />
+                                        <DatingCheckMobileDetails isMobile={isMobile} Fname={heartGiver.fName} Lname={heartGiver.lName} />
 
-                            {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
-                        </Box>
-                    ))}
-            </Box>
-        </DatingAppBody>
+                                        <HStack
+                                            ml={{ base: "25px", md: "25px" }}
+                                            gap={{ base: "15px", md: "30px" }}
+                                            mt={{ base: "6px", md: "12px" }}
+                                            mb={{ md: "12px" }}
+                                        >
+                                            <DatingLikedYouCrossButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
+                                            <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
+                                        </HStack>
+                                    </Box>
+                                    <DatingCheckDesktopDetails
+                                        Fname={heartGiver.fName}
+                                        Lname={heartGiver.lName}
+                                        Gender={heartGiver.details.sex}
+                                        Birth={heartGiver.details.birth}
+                                        Faculty={heartGiver.studentMajor.majorFaculty.facultyName}
+                                        Interests={heartGiver.interests}
+                                        AllInterests={allInterests}
+                                    />
+                                </SimpleGrid>
+
+                                {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
+                            </Box>
+                        ))}
+                </Box></>
+            }
+
+
+            {
+                (isLoading) && !isError ? (
+                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
+                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
+
+            {
+                isError ? (
+                    <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
+                        <DatingWentWrong />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
+        </DatingAppBody >
     )
 }
 

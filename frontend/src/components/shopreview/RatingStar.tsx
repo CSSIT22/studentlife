@@ -55,6 +55,7 @@ const RatingStar: React.FC<{ size: number; icon: string; scale: number; fillColo
         }
 
         return (
+
             <Stack isInline mt={8} justify="center">
                 <input name="rating" type="hidden" value={rating} ref={ref} />
                 {buttons}
@@ -67,6 +68,7 @@ const RatingStar: React.FC<{ size: number; icon: string; scale: number; fillColo
                     </Text>
                 </Box>
             </Stack>
+
         )
     }
 )

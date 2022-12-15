@@ -1,16 +1,29 @@
+import { AllInterests } from "@apiType/dating";
 import { Box, Tag, Text } from "@chakra-ui/react"
 import { FC } from "react"
-import { INTERESTS } from "./shared/interests"
 
-const DatingCheckDetails: FC<{ Fname: string; Lname: string; Gender: string; Age: string; Faculty: string; interestId: number[] }> = ({
+const DatingCheckDetails: FC<{ Fname: string; Lname: string; Gender: string; Birth: Date; Faculty: string; Interests: {
+    interestId: number;
+}[]; AllInterests: AllInterests[]}> = ({
     Fname,
     Lname,
     Gender,
-    Age,
+    Birth,
     Faculty,
-    interestId,
+    Interests,
+    AllInterests,
 }) => {
-    const interests = INTERESTS
+    function getAge(dateString: Date) {
+        var today = new Date()
+        var birthDate = new Date(dateString)
+        var age = today.getFullYear() - birthDate.getFullYear()
+        var m = today.getMonth() - birthDate.getMonth()
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--
+        }
+        return age
+    }
+
     return (
         <Box display={{ base: "none", md: "block" }}>
             <Box display="flex">
@@ -21,7 +34,7 @@ const DatingCheckDetails: FC<{ Fname: string; Lname: string; Gender: string; Age
                     &nbsp;{Lname.substring(0, 1)}.
                 </Text>
                 <Text color="black" mt="46px" fontWeight="400" fontSize="30px" lineHeight="133%">
-                    &nbsp;&nbsp;{Gender},&nbsp;{Age}
+                    &nbsp;&nbsp;{Gender.substring(0, 1)},&nbsp;{getAge(Birth)}
                 </Text>
             </Box>
 
@@ -29,7 +42,7 @@ const DatingCheckDetails: FC<{ Fname: string; Lname: string; Gender: string; Age
                 {Faculty}
             </Text>
 
-            {interestId.map((i) => (
+            {Interests.map((i) => (
                 <Tag
                     backgroundColor="orange.400"
                     color="white"
@@ -41,7 +54,7 @@ const DatingCheckDetails: FC<{ Fname: string; Lname: string; Gender: string; Age
                 >
                     <Text mt="5px" mb="5px" ml="12px" mr="12px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
                         {/* Convert interest id to interest name */}
-                        {interests.find((interest) => interest.interestId === i)?.interestName}
+                        {AllInterests.find((interest) => interest.interestId === i.interestId)?.interestName}
                     </Text>
                 </Tag>
             ))}

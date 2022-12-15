@@ -11,11 +11,80 @@ likedYouRoutes.get("/", (_, res) => {
 
 // Get all interest
 likedYouRoutes.get("/getAllInterest", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const allInterestsDB = await prisma.interest.findMany()
+        return res.send(allInterestsDB)
+    } catch (err) {
+        return res.status(404).send("Interests not found")
+    }
 })
 // Get heart history and join with user profile, detail, user interests
 likedYouRoutes.get("/getHeartHistory", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const reqUserId = req.user?.userId
+
+        const youLikedDB = await prisma.heart_History.findMany({
+            where: {
+                userId: reqUserId,
+            },
+        })
+
+        let youLikedUser: any = []
+        youLikedDB.map((data) => {
+            youLikedUser.push(data.anotherUserId)
+        })
+
+        const heartHistoryDB = await prisma.heart_History.findMany({
+            where: {
+                isSkipped: false,
+                heartReceiver: {
+                    userId: reqUserId,
+                },
+
+                heartGiver: {
+                    NOT: {
+                        userId: {
+                            in: youLikedUser,
+                        },
+                    },
+                },
+            },
+            select: {
+                heartGiver: {
+                    select: {
+                        userId: true,
+                        fName: true,
+                        lName: true,
+                        image: true,
+                        details: {
+                            select: {
+                                birth: true,
+                                sex: true,
+                            },
+                        },
+                        studentMajor: {
+                            select: {
+                                majorFaculty: true,
+                            },
+                        },
+                        interests: {
+                            select: {
+                                interestId: true,
+                            },
+                        },
+                    },
+                },
+            },
+            orderBy: {
+                heartedAt: "desc",
+            },
+        })
+
+        console.log(heartHistoryDB)
+        return res.send(heartHistoryDB)
+    } catch (err) {
+        return res.status(404).send("Heart history not found")
+    }
 })
 
 // Update heart history
