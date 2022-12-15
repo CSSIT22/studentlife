@@ -39,7 +39,7 @@ import { useNavigate } from "react-router-dom"
 import TagOfInterest from './../interests';
 
 declare global {
-    var isDateWrong: boolean, isTimeWrong: boolean, people: number[], tag: number[], topic: string[]
+    var isDateWrong: boolean, isTimeWrong: boolean, people: number[], tag: number[], topic: string[], clicked: boolean
 }
 
 const CreateActivityPoll = () => {
@@ -48,6 +48,7 @@ const CreateActivityPoll = () => {
     let count = 1
     useEffect(() => {
         if (didMount && count != 0) {
+            globalThis.clicked = false
             count--
             window.scrollTo(0, 0)
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
@@ -212,6 +213,7 @@ const CreateActivityPoll = () => {
             //     " people: " +
             //     sliderValue
             // )
+            globalThis.clicked = true
             API.post<PollDetail | UserInterests>("/dating/create/setPoll", {
                 pollName: header,
                 pollPlace: location,
@@ -418,6 +420,7 @@ const CreateActivityPoll = () => {
                             borderRadius={"5px"}
                             colorScheme={"blue.400"}
                             bg={"#E65300"}
+                            isDisabled={globalThis.clicked}
                             onClick={() => handleSubmit()}
                             mt={"25px"}
                             pt="10px"
