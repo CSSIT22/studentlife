@@ -6,6 +6,7 @@ import getExp from "./routers/getExp"
 import getaboutmeuser from "./routers/getaboutmeuser"
 // import editaboutmeuser from "./routers/editAboutmeuser"
 import getFriendData from "./routers/getFriendData"
+import getRating from "./routers/getratinguser"
 
 import init from "./routers/init"
 
@@ -16,6 +17,8 @@ userRoutes.get("/", verifyUser, init)
 userRoutes.get("/friendprofile/:id", getFriendData)
 
 userRoutes.get("/profile/exp/:id", getExp)
+
+userRoutes.get("/profile/ratinguser/:id", getRating)
 
 userRoutes.get("/profile/:id", getProfile)
 
