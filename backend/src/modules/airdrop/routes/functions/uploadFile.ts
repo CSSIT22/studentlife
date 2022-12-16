@@ -11,12 +11,12 @@ const drive = axios.create({
     },
 })
 const uploadFile = async (req: Request<any>, res: Response<any>) => {
-    const sender:any = await req.user?.userId
+    const sender: any = await req.user?.userId
     const { prisma } = res
     const receiverBody = req.body.receiver
     //save file to drive
     const formData = new fd()
-    const fileList:any = req.files
+    const fileList: any = req.files
     fileList?.map((file: any) => {
         formData.append("upload", file.buffer, file.originalname)
     })
@@ -114,36 +114,34 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                     },
                     take: fileUpload.count,
                 })
-                
+
                 const receiverList = []
                 if (typeof receiverBody == typeof "string") {
                     receiverList.push(receiverBody)
                 } else {
-                    const receiverArr  = Object.keys(req.body.receiver).map((key) => req.body.receiver[key]);
-                    for(const item of receiverArr){
+                    const receiverArr = Object.keys(req.body.receiver).map((key) => req.body.receiver[key])
+                    for (const item of receiverArr) {
                         receiverList.push(item)
                     }
                 }
                 //recent file access
                 // recentAccess <= array of accessID
                 // insert file access to department table
-                
+
                 const payload: any = []
-                if(recentAccess.length > 1){
+                if (recentAccess.length > 1) {
                     //many file many group
-                    for(const item of recentAccess){
-                        for(const group of receiverList){
+                    for (const item of recentAccess) {
+                        for (const group of receiverList) {
                             payload.push({
                                 accessId: item.accessId,
-                                majorId: group
+                                majorId: group,
                             })
-
                         }
                     }
-
-                }else{
-                     //1 file many major & 1 file one major
-                    for(const item of receiverList){
+                } else {
+                    //1 file many major & 1 file one major
+                    for (const item of receiverList) {
                         payload.push({
                             accessId: recentAccess[0].accessId,
                             majorId: item,
@@ -181,7 +179,7 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                     })
                     receiverListId.push(receiver?.communityId)
                 } else {
-                    const receiverArr  = Object.keys(req.body.receiver).map((key) => req.body.receiver[key]);
+                    const receiverArr = Object.keys(req.body.receiver).map((key) => req.body.receiver[key])
                     for (const item of receiverArr) {
                         const receiver = await prisma.community.findFirst({
                             where: {
@@ -196,23 +194,21 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                 }
 
                 // insert file access to community table
-                const payload:any = []
+                const payload: any = []
                 // insert file access to specific table
-                if(recentAccess.length > 1){
+                if (recentAccess.length > 1) {
                     //many file many commu
-                    for(const item of recentAccess){
-                        for(const receiver of receiverListId){
+                    for (const item of recentAccess) {
+                        for (const receiver of receiverListId) {
                             payload.push({
                                 accessId: item.accessId,
-                                communityId: receiver
+                                communityId: receiver,
                             })
-
                         }
                     }
-
-                }else{
-                     //1 file many commu & 1 file one commu
-                    for(const item of receiverListId){
+                } else {
+                    //1 file many commu & 1 file one commu
+                    for (const item of receiverListId) {
                         payload.push({
                             accessId: recentAccess[0].accessId,
                             communityId: item,
@@ -244,10 +240,10 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                         where: {
                             AND: [
                                 {
-                                    fName:receiverBody.split(" ")[0],
+                                    fName: receiverBody.split(" ")[0],
                                 },
                                 {
-                                    lName:receiverBody.split(" ")[1],
+                                    lName: receiverBody.split(" ")[1],
                                 },
                             ],
                         },
@@ -257,7 +253,7 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                     })
                     receiverListId.push(receiver?.userId)
                 } else {
-                    const receiverArr  = Object.keys(req.body.receiver).map((key) => req.body.receiver[key]);
+                    const receiverArr = Object.keys(req.body.receiver).map((key) => req.body.receiver[key])
                     for (const item of receiverArr) {
                         const receiver = await prisma.user_Profile.findFirst({
                             where: {
@@ -277,23 +273,21 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                         receiverListId.push(receiver?.userId)
                     }
                 }
-                const payload:any = []
+                const payload: any = []
                 // insert file access to specific table
-                if(recentAccess.length > 1){
+                if (recentAccess.length > 1) {
                     //many file many receiver
-                    for(const item of recentAccess){
-                        for(const receiver of receiverListId){
+                    for (const item of recentAccess) {
+                        for (const receiver of receiverListId) {
                             payload.push({
                                 accessId: item.accessId,
-                                userId: receiver
+                                userId: receiver,
                             })
-
                         }
                     }
-
-                }else{
-                     //1 file many major & 1 file one major
-                    for(const item of receiverListId){
+                } else {
+                    //1 file many major & 1 file one major
+                    for (const item of receiverListId) {
                         payload.push({
                             accessId: recentAccess[0].accessId,
                             userId: item,

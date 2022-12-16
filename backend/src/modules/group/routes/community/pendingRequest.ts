@@ -6,14 +6,7 @@ const pendingRequest = async (req: Request, res: Response) => {
     const body = req.body
     const userid = req.user?.userId
 
-    
-
-    
-
-    
-
     try {
-        
         const pendingRequest: any = {
             userId: body.user,
             communityId: body.communityId, //req.params.communityId
@@ -26,11 +19,9 @@ const pendingRequest = async (req: Request, res: Response) => {
         })
 
         res.status(201).send("Request has been send")
-        
     } catch (err) {
         console.log(err)
         res.status(400)
-        
     }
 }
 

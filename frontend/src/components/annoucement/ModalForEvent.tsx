@@ -49,7 +49,7 @@ const ModalForEvent: FC<{
             //         return el
             //     })
             // )
-            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date()})
+            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date() })
         } else if (status == "Delete") {
             // setAllPost(
             //     allPost.map((el) => {

@@ -4,16 +4,16 @@ import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
 import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
-import { announcement, announcement_language} from "@apiType/announcement"
+import { announcement, announcement_language } from "@apiType/announcement"
 import API from "src/function/API"
 
 
 const detail = () => {
-    const [langInfos , setlanginfos] = useState<announcement_language[]>([])
+    const [langInfos, setlanginfos] = useState<announcement_language[]>([])
     const newData = API.get("/announcement/getotherlang")
     useEffect(() => {
         newData.then(res => setlanginfos(res.data))
-    },[])
+    }, [])
 
     const params = useParams()
     // console.log(params.postId)
@@ -148,7 +148,7 @@ const detail = () => {
                             onChange={(el) => setlang(parseInt(el.target.value + ""))}
                         >
                             {/* <option value={1000}>English</option> */}
-                            {otherLang[0]?.map((el,index) => {
+                            {otherLang[0]?.map((el, index) => {
                                 return (
                                     <option value={el.languageId} key={index} style={{ background: "#FFF", color: "#000" }}>
                                         {selectLangName(el.languageId)}

@@ -59,4 +59,14 @@ export const people = [
         name: "Poohsie",
         last: "Sudlor",
     },
+    {
+        id: 13,
+        name: "Phee",
+        last: "Howdy",
+    },
+    {
+        id: 14,
+        name: "Tonkla",
+        last: "Krit",
+    },
 ]

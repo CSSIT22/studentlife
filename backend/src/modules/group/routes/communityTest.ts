@@ -29,21 +29,18 @@ const communityTest = async (req: Request, res: Response) => {
         }
 
         const newTag = await prisma.community_Tag.findMany({
-            where:{
+            where: {
                 tagId: { notIn: a.map((item: any) => item.tagId) },
-            }
+            },
         })
 
         const test = await prisma.restaurant.findMany({
-            select:{
-                resName:true,
-                images:true,
-                
+            select: {
+                resName: true,
+                images: true,
             },
-            where:{}
+            where: {},
         })
-
-        
 
         res.status(201).send(a)
     } catch (err) {
@@ -53,5 +50,3 @@ const communityTest = async (req: Request, res: Response) => {
 }
 
 export default communityTest
-
-

@@ -5,7 +5,7 @@ const shortenLink = async (req: Request, res: Response) => {
     //async = Does not folow the steps ()
     const body = req.body // Request parameter from user
     const userId = req.user?.userId || "" //Request userID from middleware to know who is using it.
-    const customNanoid = customAlphabet ("abcdefghijklmnopqrstuvwxyz", 6) // Create custom nanoid randomizer
+    const customNanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz", 6) // Create custom nanoid randomizer
 
     console.log(req.body.originalLink)
     console.log(req.user)
@@ -14,9 +14,9 @@ const shortenLink = async (req: Request, res: Response) => {
         const result = await prisma.shortLink.create({
             //await = wait for the database
             data: {
-                userId:userId,
-                originalLink:body.originalLink,
-                shortenLink:customNanoid(),
+                userId: userId,
+                originalLink: body.originalLink,
+                shortenLink: customNanoid(),
             },
         })
         console.log(result)

@@ -46,30 +46,26 @@ const getTypeTarget = async (req: Request, res: Response) => {
         //     res.send(resultYear)
 
         // }
-        let targetvalue = [{
-            Faculty:<string[]> [
-
-            ],
-            Major: <string[]>[
-
-            ],
-            Year:<string[]>[
-
-            ]
-        }]
+        let targetvalue = [
+            {
+                Faculty: <string[]>[],
+                Major: <string[]>[],
+                Year: <string[]>[],
+            },
+        ]
         const allFac = await prisma.faculty.findMany({
             select: {
                 facultyName: true,
             },
         })
-        allFac.forEach((el) => (targetvalue[0].Faculty.push(el.facultyName)))
+        allFac.forEach((el) => targetvalue[0].Faculty.push(el.facultyName))
 
         const allMajor = await prisma.major.findMany({
             select: {
                 majorName: true,
             },
         })
-        allMajor.forEach((el) => (targetvalue[0].Major.push(el.majorName)))
+        allMajor.forEach((el) => targetvalue[0].Major.push(el.majorName))
 
         let year = new Date()
         const thaiYear = (year.getFullYear() + 543) % 100
@@ -87,15 +83,12 @@ const getTypeTarget = async (req: Request, res: Response) => {
         const uniqueYear = [...nn]
         const resultYear = []
         for (let i = 0; i < uniqueYear.length; i++) {
-            resultYear.push({year:thaiYear - parseInt(uniqueYear[i]) + 1 + ""})
+            resultYear.push({ year: thaiYear - parseInt(uniqueYear[i]) + 1 + "" })
         }
-        resultYear.forEach((el) => (targetvalue[0].Year.push(el.year)))
+        resultYear.forEach((el) => targetvalue[0].Year.push(el.year))
 
         res.send(targetvalue)
         // console.log(targetvalue);
-        
-
-        
     } catch (err) {
         res.status(404).send("Target value not found")
     }

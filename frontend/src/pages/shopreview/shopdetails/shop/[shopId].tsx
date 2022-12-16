@@ -9,24 +9,54 @@ import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
 import ReviewDetail from 'src/components/shopreview/ReviewDetail'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
+import TempUpload from 'src/components/shopreview/TempUpload'
 import API from 'src/function/API'
 
 const shopId = () => {
+    const [rating, setRating] = React.useState(0)
+    const buttons = []
+
+
+    const onClick = (idx: any) => {
+        var x = idx
+        // allow user to click first icon and set rating to zero if rating is already 1
+        if (rating === 1 && parseInt(x) === 1) {
+            setRating(0)
+        } else {
+            setRating(parseInt(x))
+        }
+    }
     window.scrollTo(0, 0)
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const [text, setText] = useState("")
+
+    const submit = () => {
+
+        API.post("/shopreview/postmyreview", {
+            text: text,
+            shopId: param.shopId,
+        }).then((res) => {
+            console.log(res)
+            window.location.reload()
+        })
+    }
+
+
     let param = useParams()
     const [detail, setDetail] = useState<any>([])
+
     useEffect(() => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
     const [review, setReview] = useState<any>([])
-    const getReview = API.get("/shopreview/getmyreviewDb")
-    useEffect(() => {
-        getReview.then((res) => {
-            setReview(res.data)
-        })
-    }, [])
+    // const getReview = API.get("/shopreview/getmyreviewDb")
+    // useEffect(() => {
+    //     getReview.then((res) => {
+    //         setReview(res.data)
+    //     })
+    // }, [])
     const navigate = useNavigate()
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
@@ -96,6 +126,7 @@ const shopId = () => {
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
                     + Addyour
                 </Heading>
+
                 {/* pop ups  */}
             </Box>
 
@@ -109,7 +140,7 @@ const shopId = () => {
 
                     <ModalBody>
                         <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
-
+                        {/* input here */}
                         <Textarea
                             colorScheme="white"
                             focusBorderColor="black"
@@ -117,7 +148,16 @@ const shopId = () => {
                             marginTop={"5"}
                             minHeight={"100px"}
                             maxHeight={"200px"}
-                        ></Textarea>
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+
+
+                        >
+                        </Textarea>
+                        <Input type={"file"} id="id" hidden multiple></Input>
+
+                        <TempUpload />
+
                         <Input type={"file"} id="id" hidden multiple></Input>
                         <Box
                             onClick={() => {
@@ -141,12 +181,15 @@ const shopId = () => {
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button bgColor={"green"} color="white">
+
+                        <Button bgColor={"green"} color="white" onClick={submit}>
                             Submit
                         </Button>
+
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
                 {review.map((item: any) => {
                     if (param.shopId === item.shopId) {
