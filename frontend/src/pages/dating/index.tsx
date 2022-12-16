@@ -16,8 +16,6 @@ import { AllInterests, UserCardDetail } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
 import { FaKissWinkHeart, FaMeh } from "react-icons/fa"
-import DatingDiscoveryWaiting from "../../components/dating/lottie/DatingDiscoveryWaiting.json"
-import Lottie from "lottie-react"
 
 declare global {
     var countSwipe: number[], countOut: number[]

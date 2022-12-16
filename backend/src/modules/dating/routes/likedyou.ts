@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import calExp from "../../user/expsystem/calExp"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
+import axios from "axios"
 
 const likedYouRoutes = express()
 const prisma = new PrismaClient()
@@ -132,9 +133,30 @@ likedYouRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: Re
                         heartedAt: addHours(new Date()),
                     },
                 })
+
+                const userProfileDB = await prisma.user_Profile.findFirst({
+                    where: {
+                        userId: userId,
+                    },
+                    select: {
+                        fName: true
+                    }
+                })
+
                 if (isSkipped == true) {
                     calExp(prisma, req.user?.userId || "", "DatingSkip")
                 } else if (isSkipped == false) {
+                    if(userProfileDB) {
+                        let fName = userProfileDB.fName
+                        axios.post("http://localhost:8000/notification/addnotiobject", {
+                            template: "DATING_MATCH",
+                            value: [fName],
+                            userId: [anotherUserId],
+                            module: "DATING",
+                            url: "/dating/match",
+                            sender: userId,
+                        })
+                    }
                     calExp(prisma, req.user?.userId || "", "DatingRate")
                 }
             } catch (error) {
