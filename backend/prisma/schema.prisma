@@ -1139,7 +1139,7 @@ model Sn_Head {
 model Sn_File {
   snId   String
   fileId String
-  sn     Sn_Head   @relation(fields: [snId], references: [snId])
+  sn     Sn_Head   @relation(fields: [snId], references: [snId], onDelete: Cascade)
   file   File_Info @relation(fields: [fileId], references: [fileId])
 
   @@id([snId, fileId])
@@ -1409,13 +1409,12 @@ model Restaurant {
 
 model Restaurant_Detail {
   resId     String     @id
-  phoneNo   String
-  website   String
+  phoneNo   String @default("-")
+  website   String @default("")
   location  String
   vicinity  String
   latitude  Float      @db.Real
   longitude Float      @db.Real
-  zone      String
   detailOf  Restaurant @relation(fields: [resId], references: [resId], onDelete: Cascade)
 }
 
