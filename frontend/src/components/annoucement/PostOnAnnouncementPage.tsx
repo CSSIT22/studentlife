@@ -1,6 +1,6 @@
 import { post } from "@apiType/announcement"
 import { Box, Flex, Grid, GridItem, Heading, Spacer, Text } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { BsPinAngle, BsPinAngleFill } from "react-icons/all"
 import { Link } from "react-router-dom"
 import API from "src/function/API"
@@ -14,6 +14,8 @@ const PostOnAnnouncementPage: FC<{
     onClick: Function
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>>
 }> = ({ topic, sender, status, allPost, setAllPost, id, onClick }) => {
+    const [stat, setStat] = useState(status);
+
     const state = (stat: boolean) => {
         if (stat) {
             return <BsPinAngleFill fontSize={"2rem"} onClick={() => toggle()} color="#E65300" />
@@ -31,6 +33,7 @@ const PostOnAnnouncementPage: FC<{
         //     })
         // )
         onClick()
+        setStat(!stat)
         API.post<post>("/announcement/editpinstatus", { postId: id, pinStatus: !status })
     }
 
@@ -49,7 +52,7 @@ const PostOnAnnouncementPage: FC<{
 
                 <GridItem h="10">
                     <Box width="100%" cursor={"pointer"}>
-                        <Flex justifyContent={"end"}>{state(status)}</Flex>
+                        <Flex justifyContent={"end"}>{state(stat)}</Flex>
                     </Box>
                 </GridItem>
             </Grid>
