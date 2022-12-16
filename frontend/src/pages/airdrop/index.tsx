@@ -40,6 +40,9 @@ import {
     useBoolean,
     useToast,
     Show,
+    SlideFade,
+    Slide,
+    ScaleFade,
 } from "@chakra-ui/react"
 
 const linkMenu = [
@@ -671,11 +674,11 @@ export default function Index<FC>() {
                                                             textAlign={"center"}
                                                             onClick={() => {
                                                                 handleDrop()
-                                                                if (isError == false) {
-                                                                    setConfirmDrop(true)
-                                                                } else {
-                                                                    setConfirmDrop(false)
-                                                                }
+                                                                // if (isError == false) {
+                                                                //     setConfirmDrop(true)
+                                                                // } else {
+                                                                //     setConfirmDrop(false)
+                                                                // }
                                                             }}
                                                         >
                                                             Confirm
