@@ -15,7 +15,7 @@ userRoutes.get("/", verifyUser, init)
 
 userRoutes.get("/friendprofile/:id", getFriendData)
 
-userRoutes.get("/profile/exp", getExp)
+userRoutes.get("/profile/exp/:id", getExp)
 
 userRoutes.get("/profile/:id", getProfile)
 
