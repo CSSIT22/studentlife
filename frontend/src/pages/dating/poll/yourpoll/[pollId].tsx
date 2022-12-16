@@ -308,7 +308,7 @@ const YourPoll = () => {
                                     Do you want to close the poll?
                                 </Text>
                                 <Box display="flex" justifyContent="center" pt={"30px"}>
-                                    <DatingYourPollClose/>
+                                    <DatingYourPollClose />
                                     <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} />
                                 </Box>
                                 <DatingYourPollCancel />
@@ -317,29 +317,29 @@ const YourPoll = () => {
                     </Box>
                 </Container>
             </Box>
-            <Box zIndex="1" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBarHidden">
-                <Container w="container.lg" maxW={"100%"}>
-                    <Box
-                        maxW="100%"
-                        bg="white"
-                        pt={{ base: "10px", md: "7px" }}
-                        borderTopRadius={{ base: "10px", md: "15px" }}
-                        backgroundColor="orange.300"
-                    >
-                        <Box display="flex" justifyContent="center" cursor="pointer" onClick={handleBottomBar}>
-                            <Box
-                                w={{ base: "84px", md: "232px" }}
-                                h={{ base: "3px", md: "5px" }}
-                                mb={{ base: "20px", md: "27px" }}
-                                backgroundColor="white"
-                                borderRadius="15px"
-                            />
+                <Box zIndex="1" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBarHidden">
+                    <Container w="container.lg" maxW={"100%"}>
+                        <Box
+                            maxW="100%"
+                            bg="white"
+                            pt={{ base: "10px", md: "7px" }}
+                            borderTopRadius={{ base: "10px", md: "15px" }}
+                            backgroundColor="orange.300"
+                        >
+                            <Box display="flex" justifyContent="center" cursor="pointer" onClick={handleBottomBar}>
+                                <Box
+                                    w={{ base: "84px", md: "232px" }}
+                                    h={{ base: "3px", md: "5px" }}
+                                    mb={{ base: "20px", md: "27px" }}
+                                    backgroundColor="white"
+                                    borderRadius="15px"
+                                />
 
-                            <Box mb={{ base: "100px", md: "30px" }} />
+                                <Box mb={{ base: "100px", md: "30px" }} />
+                            </Box>
                         </Box>
-                    </Box>
-                </Container>
-            </Box></> : <></>}
+                    </Container>
+                </Box></> : <></>}
 
         </> : <DatingAppBody><VStack maxW="100vw" minH="75vh" alignItems={"center"} justifyContent="center">
             <Box margin={10} p={5} bg="white" shadow={"lg"} rounded="xl">

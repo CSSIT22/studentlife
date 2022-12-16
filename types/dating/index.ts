@@ -89,7 +89,7 @@ export type FollowDetail = {
       type: string;
       data: number[];
     };
-    score: number;
+    // score: number;
   };
   // score: number;
   // userId: string;
@@ -103,9 +103,20 @@ export type FollowDetail = {
   // };
 };
 
-export type RateStatus = {
-  score: number;
+export type RateFollow = {
   userId: string;
+  fName: string;
+  lName: string;
+  image: {
+    type: string;
+    data: number[];
+  };
+  score: number;
+};
+
+export type RateStatus = {
+  anotherUserId: string;
+  score: number;
 };
 
 export type PollInfo = {

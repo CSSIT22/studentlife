@@ -41,9 +41,9 @@ ratingRoutes.get("/getRating", verifyUser, async (req: Request, res: Response) =
                         in: followingIds as string[],
                     },
                 },
-                include: {
-                    scoreReceiver: true,
-                },
+                // include: {
+                //     scoreReceiver: true,
+                // },
             })
 
             console.log(rating)

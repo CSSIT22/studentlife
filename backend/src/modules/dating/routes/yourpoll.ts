@@ -20,11 +20,11 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                 userId: reqUserId,
             },
             select: {
-                pollId: true
-            }
+                pollId: true,
+            },
         })
 
-        if(!(findPollDB?.pollId)) {
+        if (!findPollDB?.pollId) {
             return res.send()
         }
 
@@ -39,7 +39,7 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                         fName: true,
                         lName: true,
                         image: true,
-                    }
+                    },
                 },
                 pollId: true,
                 pollName: true,
@@ -61,16 +61,16 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                         },
                     },
                     orderBy: {
-                        registerTime: "desc"
-                    }
+                        registerTime: "desc",
+                    },
                 },
                 interests: {
                     select: {
                         interest: {
                             select: {
-                                interestName: true
-                            }
-                        }
+                                interestName: true,
+                            },
+                        },
                     },
                 },
             },
