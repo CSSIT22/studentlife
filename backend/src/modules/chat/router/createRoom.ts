@@ -25,21 +25,21 @@ const createRoom = async (req: Request, res: Response) => {
         })
         await prisma.chat_Room.create({
             data: {
-                roomName: target_name.fName,
+                //roomName: target_name.fName,
                 chatColor: "#E68E5C",
                 roomType: "INDIVIDUAL",
                 roomId: roomId,
             },
         })
-        await prisma.chat_Individual.createMany({
-            data: [
-                {
-                    userId: user_id.userId,
-                    anotherUserId: target,
-                    roomId: roomId,
-                },
-            ],
-        })
+        // await prisma.chat_Individual.createMany({
+        //     data: [
+        //         {
+        //             userId: user_id.userId,
+        //             anotherUserId: target,
+        //             roomId: roomId,
+        //         },
+        //     ],
+        // })
         await prisma.user_To_Room.createMany({
             data: [
                 { roomId: roomId, userId: user_id.userId },

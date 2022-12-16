@@ -9,7 +9,7 @@ const showReview = async (req: Request, res: Response) => {
                 images: true,
                 reviews: {
                     include: {
-                        reviewBy: true,
+                        reviewer: true,
                     },
                 },
             },
