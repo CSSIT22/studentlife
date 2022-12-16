@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client"
+import axios from "axios"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
@@ -18,10 +19,10 @@ function getAge(dateString: Date) {
 }
 
 const addHours = (date: Date): Date => {
-    const result = new Date(date);
-    result.setHours(result.getHours() + 7);
-    return result;
-  };
+    const result = new Date(date)
+    result.setHours(result.getHours() + 7)
+    return result
+}
 
 discoveryRoutes.get("/", (_, res) => {
     return res.send("Dating Module Discovery page API")
@@ -439,7 +440,6 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     },
                 })
                 facultyObtainedUser.push(front)
-
             }
         } else {
             facultyObtainedUser = facultyObtainedUser.slice(0, 18)
@@ -574,7 +574,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: Response) => {
     try {
         const userId = req.user?.userId
-        const anotherUserId = req.body.anotherUserId
+        const anotherUserId : string = req.body.anotherUserId
         const isSkipped = req.body.isSkipped
 
         const giveHeartId: any = []
@@ -582,10 +582,40 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
             where: {
                 userId: userId,
             },
+            select: {
+                anotherUserId: true,
+            }
         })
-        giveHeartDB.map((id: any) => {
-            giveHeartId.push(id.anotherUserId)
+
+        const userProfileDB = await prisma.user_Profile.findFirst({
+            where: {
+                userId: userId,
+            },
+            select: {
+                fName: true
+            }
         })
+
+        const anotherUserProfileDB = await prisma.user_Profile.findFirst({
+            where: {
+                userId: anotherUserId
+            },
+            select: {
+                fName: true,
+            }
+        })
+
+        const receiveHeartDB = await prisma.heart_History.findFirst({
+            where: {
+                userId: anotherUserId,
+                anotherUserId: userId,
+            },
+        })
+
+        giveHeartDB.map(({anotherUserId}) => {
+            giveHeartId.push(anotherUserId)
+        })
+
 
         if (userId && !giveHeartId.includes(anotherUserId)) {
             try {
@@ -601,6 +631,32 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                     calExp(prisma, req.user?.userId || "", "DatingDiscoveryLeft")
                 } else if (isSkipped == false) {
                     calExp(prisma, req.user?.userId || "", "DatingDiscoveryRight")
+                    if (receiveHeartDB) {
+                        if (receiveHeartDB?.isSkipped == false) {
+                            if (receiveHeartDB?.isSkipped == false && userProfileDB && anotherUserProfileDB) {
+                                let fName = userProfileDB.fName
+                                let anotherFName = anotherUserProfileDB.fName
+                                axios.post("http://localhost:8000/notification/addnotiobject", {
+                                    template: "DATING_MATCH",
+                                    value: [fName],
+                                    userId: [anotherUserId],
+                                    module: "DATING",
+                                    url: "/dating/match",
+                                    sender: userId,
+                                })
+                                axios.post("http://localhost:8000/notification/addnotiobject", {
+                                    template: "DATING_MATCH",
+                                    value: [anotherFName],
+                                    userId: [userId],
+                                    module: "DATING",
+                                    url: "/dating/match",
+                                    sender: anotherUserId,
+                                })
+                                console.log(fName + " " + anotherUserId + " " + userId)
+
+                            }
+                        }
+                    }
                 }
             } catch (error) {
                 return res.send("Duplicates")
