@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AppBody from 'src/components/share/app/AppBody'
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box, SimpleGrid } from "@chakra-ui/react"
@@ -11,6 +11,7 @@ import {
     EditableTextarea,
     EditablePreview,
 } from '@chakra-ui/react'
+import API from 'src/function/API'
 
 const showEvent = () => {
     const modal2 = useDisclosure()
@@ -20,20 +21,30 @@ const showEvent = () => {
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
 
-    //const [event, setEvent] = useState([])
+    const [event, setEvent] = useState<any>([])
 
-    // const getEditedData = API.post("/scheduleRoutes/editevent")
-    // useEffect(()=>{
-    //     getEditedData.then(res=>{
-    // setEvent(res.data)
+    const getData = API.get("/schedule/createEvent")
+    useEffect(()=>{
+        getData.then(res=>{
+            console.log(res.data)
+        })
+    })
+
+    const editedData = API.put("/schedule/editevent")
+    useEffect(()=>{
+        editedData.then(res=>{
+    setEvent(res.data)
     //    มีบรรทัดบนอันนี้ไม่ต้อง     console.log(res.data)
-    //     })
-    // })
+        })
+    })
 
     return (
         <AppBody>
             <IconButton aria-label="previous" icon={<ChevronLeftIcon />} onClick={() => navigate("/schedule/timetable/")} w="60px" h="62px" borderRightRadius="55" borderLeftRadius="55" />
             <br />
+            {/* {event.map((item:any) => (
+
+            ))} */}
             <Box boxShadow="md" p="6" rounded="md" bg="white" mt={"6"}>
                 <Text textAlign={["center"]} fontSize="5xl" color={"#000000"}>
                     Assignment

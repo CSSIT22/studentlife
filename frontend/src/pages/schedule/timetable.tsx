@@ -102,12 +102,19 @@ const timetable = () => {
         console.log("Date: " + dateSelect)
     }
     //this part send backend to frontend 
-    // const getData = API.get("/scheduleRoutes/createEvent")
-    // useEffect(()=>{
-    //     getData.then(res=>{
-    //         console.log(res.data)
-    //     })
-    // })
+    const createEvent = (eventId: string,
+        eventName: string,
+        startTime: Date,
+        endTime: Date,
+        startDate: Date,
+        endDate: Date,
+        eventDesc: string) => {
+        // eventType: Eventtype[]
+        API.post<Event>("/schedule/createEvent", {
+
+        })
+    }
+
     return (
         <AppBody>
             <SimpleGrid columns={[1, 6]} spacing="30px">

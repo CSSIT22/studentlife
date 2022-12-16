@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 // import { Event } from "@apiType/schedule"
-import { Event, getEvent, setEvent } from ".."
+// import { Event, getEvent, setEvent } from ".."
 
 // const editEvent = (req: Request, res: Response) => {
 //     const eventId = req.body.eventId

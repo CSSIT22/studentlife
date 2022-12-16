@@ -2,6 +2,7 @@ import { prisma } from "@prisma/client"
 import express from "express"
 import createEvent from "./routes/createEvent"
 import editEvent from "./routes/editevent"
+import getNewEvent from "./routes/getNewEvent"
 
 const scheduleRoutes = express()
 
@@ -80,68 +81,6 @@ export const setEvent = (newData: Event[]) => {
 
 scheduleRoutes.get("/editEvent", editEvent)
 scheduleRoutes.post("/createEvent", createEvent)
-
-// import editEvent from "./routes/editevent"
-// import getEditedevent from "./routes/getEditedevent"
-// import readFromDBRoutes from "./routes/readFromDB"
-
-// const scheduleRoutes = express()
-
-// scheduleRoutes.use(express.json())
-
-// scheduleRoutes.get("/",(_, res) => {
-//     return res.send("Schedule Module API")
-
-//---------------------------
-
-//event: id, name, startdate, enddate, starttime, endtime, eventtype_id, description_id
-//timetable: calendar_id, event_id, selecteddate
-//eventtype: course, assignment, activity
-//course: course, title, lecturer
-//assignment: courseid, name
-//activity: name
-
-// scheduleRoutes.get("/addnewevent/:id", (req, res) => {
-//     const id = req.params.id
-//     res.send("Hello " + id)
-// })
-
-// scheduleRoutes.get("/searchevent/:id", (req, res) => {
-//     const id = req.params.id
-//     let selectedevent: Event | null = null
-//     events.forEach((event) => {
-//         if (event.id == id) {
-//             selectedevent = event
-//         }
-//     })
-//     if (selectedevent != null) {
-//         return res.send(selectedevent)
-//     }
-//     return res.status(404).send("Event not found")
-//     res.send("Search event " + id)
-// })
-
-// scheduleRoutes.get("/getevent", (req, res) => {
-//     res.send(events)
-// })
-
-// scheduleRoutes.post("/editevent", (req, res) => {
-//     const id = req.body.id
-//     const name = req.body.name
-//     let editedEvent: Event | null = null
-//     // const description = req.body.description
-//     // const starttime = req.body.starttime
-//     // const endtime = req.body.endtime
-//     const newdata = events.map((event) => {
-//         if (event.id == id) {
-//             editedEvent = { id: id, name: name }
-//             return { id: id, name: name }
-//         }
-//         return event
-//     })
-//     // console.log(newdata)
-//     events = newdata
-//     res.send("Edit event" + editedEvent)
-// })
+scheduleRoutes.get("/getNewEvent/:eventId", getNewEvent)
 
 export default scheduleRoutes
