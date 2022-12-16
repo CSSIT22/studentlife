@@ -102,7 +102,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             birth: BirthDate,
             hobby: Hobbies,
             phone: Phone,
-            sex: Sex,
+            gender: Sex,
             year: Years,
         }).then(() => {
             history("/read")

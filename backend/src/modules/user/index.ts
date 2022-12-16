@@ -4,7 +4,7 @@ import { verifyUser } from "../backendService/middleware/verifyUser"
 import getProfile from "./routers/getProfile"
 import getExp from "./routers/getExp"
 import getaboutmeuser from "./routers/getaboutmeuser"
-// import editaboutmeuser from "./routers/editAboutmeuser"
+import editaboutmeuser from "./routers/editAboutmeuser"
 import getFriendData from "./routers/getFriendData"
 
 import init from "./routers/init"
@@ -21,6 +21,6 @@ userRoutes.get("/profile/:id", getProfile)
 
 userRoutes.get("/profile/edit/:id", verifyUser, getaboutmeuser)
 
-// userRoutes.post("/profile/edit", editaboutmeuser)
+userRoutes.post("/profile/edit", editaboutmeuser)
 
 export default userRoutes
