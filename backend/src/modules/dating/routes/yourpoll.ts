@@ -10,21 +10,45 @@ yourPollRoutes.get("/", (_, res) => {
 })
 
 // Get your poll and join with user profile table
-yourPollRoutes.get("/getYourPoll", verifyUser, async (req: Request, res: Response) => {
+yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res: Response) => {
     try {
         const reqUserId = req.user?.userId
-        const pollId = req.params.id
+        const pollId = req.params.pollId
+        const findPollDB = await prisma.activity_Poll.findFirst({
+            where: {
+                pollId: pollId,
+                userId: reqUserId,
+            },
+            select: {
+                pollId: true
+            }
+        })
+
+        if(!(findPollDB?.pollId)) {
+            return res.send()
+        }
+
         const activityPollDB = await prisma.activity_Poll.findFirst({
             where: {
                 pollId: pollId,
             },
             select: {
+                pollCreator: {
+                    select: {
+                        userId: true,
+                        fName: true,
+                        lName: true,
+                        image: true,
+                    }
+                },
                 pollId: true,
                 pollName: true,
                 pollText: true,
                 participantMin: true,
                 participantMax: true,
                 pollAppointAt: true,
+                pollPlace: true,
+                isOpen: true,
                 participants: {
                     select: {
                         user: {
@@ -36,10 +60,17 @@ yourPollRoutes.get("/getYourPoll", verifyUser, async (req: Request, res: Respons
                             },
                         },
                     },
+                    orderBy: {
+                        registerTime: "desc"
+                    }
                 },
                 interests: {
                     select: {
-                        activityInterestId: true,
+                        interest: {
+                            select: {
+                                interestName: true
+                            }
+                        }
                     },
                 },
             },
@@ -48,11 +79,6 @@ yourPollRoutes.get("/getYourPoll", verifyUser, async (req: Request, res: Respons
     } catch (err) {
         return res.status(404).send("Activity poll not found")
     }
-})
-
-// Get poll applicants and join with user profile table
-yourPollRoutes.get("/getPollApplicants", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
 })
 
 yourPollRoutes.put("/updatePollApplicants", verifyUser, async (req: Request, res: Response) => {

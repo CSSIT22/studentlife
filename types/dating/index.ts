@@ -107,3 +107,39 @@ export type RateStatus = {
   score: number;
   userId: string;
 };
+
+export type PollInfo = {
+  pollCreator: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+  };
+  pollId: string;
+  pollName: string;
+  pollText: string;
+  participantMin: number;
+  participantMax: number;
+  pollAppointAt: any;
+  pollPlace: string;
+  isOpen: boolean;
+  participants: {
+    user: {
+      userId: string;
+      fName: string;
+      lName: string;
+      image: {
+        type: string;
+        data: number[];
+      };
+    };
+  }[];
+  interests: {
+    interest: {
+      interestName: true;
+    };
+  }[];
+};
