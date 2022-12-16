@@ -214,7 +214,7 @@ const TagOfInterest = () => {
                 </Box> : <></>}
             <Box>
                 {/* CheckboxGroup : List of tags of interest */}
-                {(isLoading || isSubmitted) && !isError ? (<>
+                {(isLoading || isSubmitted) && (!isError) ? (<>
                     <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
                         <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
                     </Box>

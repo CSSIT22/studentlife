@@ -8,6 +8,9 @@ import { AllFaculty, UserOption } from "@apiType/dating"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
 import React from "react"
+import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import Lottie from "lottie-react"
+import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 
 declare global {
     var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean, firstTime: boolean, hasSetInterest: string
@@ -25,6 +28,8 @@ const DatingOption = () => {
     const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
     const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
     const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
+    const [isLoading, setIsLoading] = useState(true)
+    const [isError, { on }] = useBoolean()
 
     let count = 1
     useEffect(() => {
@@ -120,7 +125,7 @@ const DatingOption = () => {
                 setFaculties(allFaculty.data)
                 // setSelectedFac()
             })
-                .catch((err) => console.log(err));
+                .catch(on).finally(() => setIsLoading(false));
         }
     })
 
@@ -136,7 +141,6 @@ const DatingOption = () => {
     //set default value from database by using condition from here
 
     // const [isError, { on }] = useBoolean()
-    // const [isLoading, { off }] = useBoolean(true)
     const options = ["Male", "Female", "LGBTQ+", "Everyone"] // Gender type
     const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
     // globalThis.faculty
@@ -213,6 +217,7 @@ const DatingOption = () => {
 
     function handleSubmit() {
         //Submit data to database + show the alert result (debug)
+        setIsLoading(true)
         globalThis.useAge = useAgeValue
         globalThis.age = sliderValue
         globalThis.gender = selected
@@ -262,7 +267,7 @@ const DatingOption = () => {
 
     return (
         <DatingAppBody>
-            <Stack pt="5" color="black">
+            {isLoading || isError ? <></> : <Stack pt="5" color="black">
                 {/* Heading and heading description part */}
                 <Heading fontSize="36px">Option</Heading>
                 <Box>
@@ -341,7 +346,35 @@ const DatingOption = () => {
                         Done
                     </Button>
                 </Center>
-            </Stack>
+            </Stack>}
+
+            {
+                (isLoading) && !isError ? (
+                    <>
+                        <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                        </Box>
+                        <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                LOADING . . .
+                            </Text>
+                        </Box>
+                    </>
+                ) : (
+                    <></>
+                )
+            }
+
+            {
+                isError ? (
+                    <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
+                        <DatingWentWrong />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
+
         </DatingAppBody >
     )
 }

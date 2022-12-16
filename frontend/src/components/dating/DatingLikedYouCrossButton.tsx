@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/react"
 import { FC } from "react"
 import { AiOutlineStop } from "react-icons/ai"
+import { motion } from "framer-motion"
 
 const DatingLikedYouCrossButton: FC<{ isMobile: boolean | undefined; handleClick: (type: string, UserId: string) => void; UserId: string }> = ({
     isMobile,
@@ -9,7 +10,11 @@ const DatingLikedYouCrossButton: FC<{ isMobile: boolean | undefined; handleClick
 }) => {
     return (
         <Box w={{ base: "40px", md: "60px" }} h={{ base: "40px", md: "60px" }} cursor="pointer" onClick={() => handleClick("skip", UserId)}>
-            {isMobile ? <AiOutlineStop size="60px" color="black" /> : <AiOutlineStop size="40px" color="black" />}
+            {isMobile ? <motion.div
+                whileHover={{ scale: 1.2, }}
+                whileTap={{
+                    scale: 0.8,
+                }}><AiOutlineStop size="60px" color="black" /></motion.div> : <AiOutlineStop size="40px" color="black" />}
         </Box>
     )
 }

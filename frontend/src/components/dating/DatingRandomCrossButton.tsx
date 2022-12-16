@@ -25,12 +25,13 @@ const DatingRandomCrossButton: FC<{
                 swipe("left")
             }}
             whileTap={{
-                scale: 1.2,
+                scale: 1,
                 backgroundColor: "#E6702E",
                 transition: {
                     duration: 0.001,
                 },
             }}
+            whileHover={{ scale: 1.3, }}
             variants={{
                 visible: {
                     scale: [1, 1.2],

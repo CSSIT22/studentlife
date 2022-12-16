@@ -195,9 +195,16 @@ const YourPoll = () => {
 
     return (
         (isError || isLoading ? <DatingAppBody> {isLoading && !isError ? (
-            <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-            </Box>
+            <>
+                <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                    <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                </Box>
+                <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                    <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                        LOADING . . .
+                    </Text>
+                </Box>
+            </>
         ) : (
             <></>
         )}
@@ -223,18 +230,18 @@ const YourPoll = () => {
                             {pollInfo?.pollName}
                         </Text>
                     </Box>
-                    <Box display="flex" justifyContent="right" pb={{base: "10px",md: "20px"}} pr={{base: "12px", md:"0px"}}>
-                    <Button
-                        borderRadius="full"
-                        w={{ base: "50px", md: "72px" }}
-                        h={{ base: "50px", md: "72px" }}
-                        backgroundColor="white"
-                        border="1px solid"
-                        mr={{ base: "12px", md: "24px" }}
-                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                    >
-                        <Image src={GroupChatImg} />
-                    </Button>
+                    <Box display="flex" justifyContent="right" pb={{ base: "10px", md: "20px" }} pr={{ base: "12px", md: "0px" }}>
+                        <Button
+                            borderRadius="full"
+                            w={{ base: "50px", md: "72px" }}
+                            h={{ base: "50px", md: "72px" }}
+                            backgroundColor="white"
+                            border="1px solid"
+                            mr={{ base: "12px", md: "24px" }}
+                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        >
+                            <Image src={GroupChatImg} />
+                        </Button>
                     </Box>
 
                     {pollInfo ? <DatingYourPollSeeMore pollInfo={pollInfo} /> : <></>}
