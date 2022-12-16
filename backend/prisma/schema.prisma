@@ -1415,7 +1415,6 @@ model Restaurant_Detail {
   vicinity  String
   latitude  Float      @db.Real
   longitude Float      @db.Real
-  zone      String
   detailOf  Restaurant @relation(fields: [resId], references: [resId], onDelete: Cascade)
 }
 
