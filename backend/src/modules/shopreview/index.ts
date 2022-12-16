@@ -235,14 +235,14 @@ shopreviewRoutes.get("/getshop", (req, res) => {
 
 shopreviewRoutes.get("/getshopDb", getshopDb)
 shopreviewRoutes.get("/getrestDb", getrestDb)
-// shopreviewRoutes.get("/getmyreviewDb", getmyreviewDb)
-// my review for shop review
+shopreviewRoutes.get("/getmyreviewDb", getmyreviewDb)
+// review for shop review
 // shopreviewRoutes.get("/getmyreviewDb2", getmyreviewDb2)
-// my review for restaurant review
+// review for restaurant review
 shopreviewRoutes.get("/getmycommentDb", getmycommentDb)
 shopreviewRoutes.get("/getshopImageDb", getshopImage)
 shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
-shopreviewRoutes.get("/shopdetails/restaurant/:id", getresDbPls)
+shopreviewRoutes.get("/shopdetails/restaurant/:id", getrestDb)
 shopreviewRoutes.get("/getreview/:id", getreviewDb)
 shopreviewRoutes.get("/getcommentDb/:id", getcommentDb)
 shopreviewRoutes.get("/getcountRate", getcountRate)

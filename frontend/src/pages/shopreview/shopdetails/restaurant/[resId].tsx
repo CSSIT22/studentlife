@@ -16,10 +16,10 @@ const restId = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     let param = useParams()
     const [detail, setDetail2] = useState<any>([])
-    // useEffect(() => {
-    //     API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
-    //         .then((res) => setDetail2(res.data))
-    // }, [param])
+    useEffect(() => {
+        API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
+            .then((res) => setDetail2(res.data))
+    }, [param])
     const [review, setReview] = useState<any>([])
     // const getReview = API.get("/shopreview/getmyreviewDb2")
     // useEffect(() => {
@@ -110,7 +110,7 @@ const restId = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" onClick={onOpen} rating={0} />
 
                         <Textarea
                             colorScheme="white"

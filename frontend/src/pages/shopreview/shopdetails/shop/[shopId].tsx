@@ -18,9 +18,9 @@ const shopId = () => {
     const [rating, setRating] = useState(0) // rating star max = 5
     //const [text, setText] = useState("") // review description 
     const [detail, setDetail] = useState<any>([]) // shop's detail fetch from backend
-   //  const [review, setReview] = useState<any>([]) // user's reviews fetch from backend
-   // const navigate = useNavigate() // navigation function for handling navigate to shop's review comment page
-   // const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
+    //  const [review, setReview] = useState<any>([]) // user's reviews fetch from backend
+    // const navigate = useNavigate() // navigation function for handling navigate to shop's review comment page
+    // const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
     let param = useParams() // get data from param
     const buttons = []
 
@@ -43,7 +43,7 @@ const shopId = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [text, setText] = useState("")
-    
+
     const submit = () => {
 
         API.post("/shopreview/postmyreview", {
@@ -61,12 +61,12 @@ const shopId = () => {
             .then((res) => setDetail(res.data))
     }, [param])
     const [review, setReview] = useState<any>([])
-    // const getReview = API.get("/shopreview/getmyreviewDb")
-    // useEffect(() => {
-    //     getReview.then((res) => {
-    //         setReview(res.data)
-    //     })
-    // }, [])
+    const getReview = API.get("/shopreview/getmyreviewDb")
+    useEffect(() => {
+        getReview.then((res) => {
+            setReview(res.data)
+        })
+    }, [])
     const navigate = useNavigate()
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
@@ -143,10 +143,11 @@ const shopId = () => {
 
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
                 {review.map((item: any, index: any) => {
+                    console.log(item)
                     if (param.shopId === item.shopId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail key={index} image={item.reviewBy.image} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
+                                <ReviewDetail key={index} image={item.images[0]} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
                             </b>
                         )
                     }
@@ -214,7 +215,7 @@ const shopId = () => {
                 </ModalContent>
             </Modal>
             {/* End of Modal Component */}
-        </AppBody>
+        </AppBody >
     )
 }
 
