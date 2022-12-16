@@ -31,7 +31,7 @@ import { alertNoti, Notiobject, NotiObjectMudule, pushNotiType } from "@apiType/
 import { socketContext } from "src/context/SocketContext"
 import { NavBarContext } from "src/context/NavbarContext"
 import NotiObject from "./main/NotiObject"
-import { templates } from "./templates"
+import { templates } from "./functions/templates"
 import { showDescription } from "./functions/replaceValue"
 import ShowUser from "../transaction/TransactionShowUser"
 import { showUser } from "./functions/showUser"

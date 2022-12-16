@@ -1,7 +1,7 @@
 import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
-import { templates } from "../templates"
+import { templates } from "../functions/templates"
 
 import API from "src/function/API"
 import { NotiValue } from "@apiType/notification"

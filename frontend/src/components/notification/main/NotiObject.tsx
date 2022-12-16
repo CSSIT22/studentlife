@@ -3,7 +3,7 @@ import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text, u
 import React, { FC, useEffect, useState } from "react"
 import API from "src/function/API"
 import { showUser } from "../functions/showUser"
-import { templates } from "../templates"
+import { templates } from "../functions/templates"
 
 
 const NotiObject: FC<{
