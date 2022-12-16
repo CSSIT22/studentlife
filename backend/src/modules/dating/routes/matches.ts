@@ -14,14 +14,30 @@ matchesRoutes.get("/getMatches", verifyUser, async (req: Request, res: Response)
     // Put Songnapha's code here
     try {
         const reqUserId = req.user?.userId
-        const hearthistoryDB = await prisma.heart_History.findMany({
+        console.log(reqUserId)
+        const hearthistoryDB = await prisma.$queryRawUnsafe<any[]>(
+            `SELECT * FROM "Heart_History" h1
+        INNER JOIN "Heart_History" h2 ON h2."anotherUserId" = h1."userId" AND h2."userId" = h1."anotherUserId"
+        WHERE h1."userId" = $1`,
+            reqUserId
+        )
+        // return res.send(hearthistoryDB)
+
+        const userIds = hearthistoryDB.map((d) => {
+            return d.userId
+        })
+
+        const user_Profile = await prisma.user_Profile.findMany({
             where: {
-                userId: reqUserId,
-                isSkipped: false,
+                userId: {
+                    in: userIds,
+                },
             },
         })
-        return res.send(hearthistoryDB)
-    }catch (err) {
+
+        return res.send(user_Profile)
+    } catch (err) {
+        console.log(err)
         return res.status(404).send("Match not found")
     }
 })
