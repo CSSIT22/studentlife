@@ -12,6 +12,7 @@ import ShopDetailName from 'src/components/shopreview/ShopDetailName'
 
 import TempUpload from 'src/components/shopreview/TempUpload'
 import API from 'src/function/API'
+import index from 'src/pages/announcement'
 
 // main component
 const shopId = () => {
@@ -19,15 +20,16 @@ const shopId = () => {
     const [text, setText] = useState("") // review description 
     const [detail, setDetail] = useState<any>([]) // shop's detail fetch from backend
     const [review, setReview] = useState<any>([]) // user's reviews fetch from backend
+    const [files, setFiles] = useState<any>([]) // array of user's files (pictures)
     const navigate = useNavigate() // navigation function for handling navigate to shop's review comment page
     const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
     let param = useParams() // get data from param
     const buttons = []
-
+    console.log("files: ", files)
     const Navigate = (target: any) => {
-         navigate(`/shopreview/review/${target}`)
-         window.scrollTo(0, 0)
-     }
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
+    }
 
     // handle onclick
     const onClick = (idx: any) => {
@@ -41,13 +43,22 @@ const shopId = () => {
     }
     window.scrollTo(0, 0)
 
-    
-    const submit = () => {
 
-        API.post("/shopreview/postmyreview", {
-            text: text,
-            shopId: param.shopId,
-        }).then((res) => {
+    const submit = () => {
+        const form = new FormData();
+        form.append("text", text);
+        form.append("rating", rating + "");
+        form.append("shopId", param.shopId + "");
+        form.append("file", files);
+
+        API.post("/shopreview/postmyreview",
+            form,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        ).then((res) => {
             console.log(res)
             window.location.reload()
         })
@@ -58,13 +69,17 @@ const shopId = () => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
-     const getReview = API.get("/shopreview/getmyreviewDb")
+    const getReview = API.get("/shopreview/getmyreviewDb")
     useEffect(() => {
         getReview.then((res) => {
             setReview(res.data)
         })
     }, [])
-  
+
+    useEffect(() => {
+        console.log(files)
+    }, [files])
+
     return (
         <AppBody>
             {detail.map((item: any, index: any) => (
@@ -169,13 +184,30 @@ const shopId = () => {
                             maxHeight={"200px"}
                             value={text}
                             onChange={(e) => setText(e.target.value)}
-
-
                         >
                         </Textarea>
-                        <Input type={"file"} id="id" hidden multiple></Input>
+                        <Input type={"file"} id="fileInput" hidden multiple></Input>
+                        <Box
+                            onClick={() => {
+                                document.getElementById("fileInput")?.click()
+                            }}
+                            as="button"
+                            style={{
+                                position: "absolute",
+                                top: "67%",
+                                left: "7%",
+                            }}
+                        >
+                            <Image
+                                src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
+                                width={"40px"}
+                                borderRadius="full"
+                            />
+                        </Box>
+                        <TempUpload files={files} setFiles={setFiles} />
 
-                        <TempUpload />
+
+                        {/* <Input type={"file"} id="id" hidden multiple></Input>
 
                         <Input type={"file"} id="id" hidden multiple></Input>
                         <Box
@@ -193,7 +225,7 @@ const shopId = () => {
                                 marginTop={"-58px"}
                                 padding={"4px"}
                             />
-                        </Box>
+                        </Box> */}
                     </ModalBody>
 
                     <ModalFooter>
