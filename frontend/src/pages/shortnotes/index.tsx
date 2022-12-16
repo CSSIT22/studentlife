@@ -157,7 +157,6 @@ const index = () => {
     }
 
     const filteredSn = useMemo(() => {
-        let realSn = sn;
         let filteredSn = sn;
 
         if (searchSn) {
@@ -199,12 +198,8 @@ const index = () => {
                     }
                     return 0;
                 });
-            } else {
-                filteredSn = realSn
             }
-
         }
-
         return filteredSn;
     }, [sn, searchSn, coursePicked, sortType]);
 
