@@ -41,6 +41,7 @@ jobs:
     needs: [frontend-build]
     env:
       REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP_PRODUCTION }}
+      MIRROR_DIST: ${{ secrets.MIRROR_DIST }}
     steps:
       - name: 📥 Download artifacts
         uses: actions/download-artifact@v2
@@ -52,4 +53,4 @@ jobs:
           apk add openssh-client sshpass lftp
       - name: 🖨️ Upload artifacts to server
         run: |
-          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_PRODUCTION; ${{ secrets.MIRROR_DIST }}; bye"
+          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_PRODUCTION; $MIRROR_DIST; bye"
