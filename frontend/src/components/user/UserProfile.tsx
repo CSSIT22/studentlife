@@ -166,17 +166,19 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                         <Modal isOpen={isProfileOpen} onClose={onProfileClose}>
                             <ModalOverlay />
                             <ModalContent>
-                                <ModalHeader>Modal Title</ModalHeader>
+                                <ModalHeader>Change Profile Image</ModalHeader>
                                 <ModalCloseButton />
                                 <ModalBody>
-                                    Wat
+                                    <Button>
+                                        import file
+                                    </Button>
                                 </ModalBody>
 
                                 <ModalFooter>
-                                    <Button colorScheme='blue' mr={3} onClick={onClose}>
-                                        Close
+                                    <Button colorScheme='orange' mr={3} onClick={onProfileClose}>
+                                        Save
                                     </Button>
-                                    <Button variant='ghost'>Secondary Action</Button>
+                                    <Button variant='ghost' onClick={onProfileClose}>Close</Button>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
