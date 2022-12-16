@@ -8,6 +8,7 @@ import {
     useBoolean,
     useBreakpointValue,
     useToast,
+    VStack,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
@@ -160,7 +161,7 @@ const YourPoll = () => {
     const [isLoading, { off }] = useBoolean(true)
 
     return (
-        (isError || isLoading ? <DatingAppBody>                   {isLoading && !isError ? (
+        (isError || isLoading ? <DatingAppBody> {isLoading && !isError ? (
             <Box display="block" mt={{ base: "100px", md: "-200px" }}>
                 <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
             </Box>
@@ -173,7 +174,7 @@ const YourPoll = () => {
                     <DatingWentWrong />
                 </Box> :
                 <></>}
-        </DatingAppBody> : <>
+        </DatingAppBody> : pollInfo ? <>
             <DatingAppBody>
                 <Box
                     w="100%"
@@ -263,7 +264,7 @@ const YourPoll = () => {
                 </Box>))}
                 <Box mt="300px" />
             </DatingAppBody>
-            <Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBar">
+            {pollInfo.isOpen ? <><Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBar">
                 <Container w="container.lg" maxW={"100%"}>
                     <Box
                         maxW="100%"
@@ -307,8 +308,8 @@ const YourPoll = () => {
                                     Do you want to close the poll?
                                 </Text>
                                 <Box display="flex" justifyContent="center" pt={"30px"}>
-                                    <DatingYourPollClose />
-                                    <DatingYourPollCloseAndAcceptAll />
+                                    <DatingYourPollClose/>
+                                    <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} />
                                 </Box>
                                 <DatingYourPollCancel />
                             </Box>
@@ -338,8 +339,19 @@ const YourPoll = () => {
                         </Box>
                     </Box>
                 </Container>
+            </Box></> : <></>}
+
+        </> : <DatingAppBody><VStack maxW="100vw" minH="75vh" alignItems={"center"} justifyContent="center">
+            <Box margin={10} p={5} bg="white" shadow={"lg"} rounded="xl">
+                <Heading fontSize={{ base: "md", lg: "lg", xl: "2xl" }}>
+                    <Box as="span" color="orange.400">
+                        Sorry!&nbsp;
+                    </Box>
+                    We cannot find the poll you are looking for.
+                </Heading>
             </Box>
-        </>)
+
+        </VStack></DatingAppBody>)
     )
 }
 

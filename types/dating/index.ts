@@ -112,6 +112,7 @@ export type PollInfo = {
   participantMax: number;
   pollAppointAt: any;
   pollPlace: string;
+  isOpen: boolean;
   participants: {
     user: {
       userId: string;

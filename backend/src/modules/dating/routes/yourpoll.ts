@@ -12,7 +12,22 @@ yourPollRoutes.get("/", (_, res) => {
 // Get your poll and join with user profile table
 yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res: Response) => {
     try {
+        const reqUserId = req.user?.userId
         const pollId = req.params.pollId
+        const findPollDB = await prisma.activity_Poll.findFirst({
+            where: {
+                pollId: pollId,
+                userId: reqUserId,
+            },
+            select: {
+                pollId: true
+            }
+        })
+
+        if(!(findPollDB?.pollId)) {
+            return res.send()
+        }
+
         const activityPollDB = await prisma.activity_Poll.findFirst({
             where: {
                 pollId: pollId,
@@ -33,6 +48,7 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                 participantMax: true,
                 pollAppointAt: true,
                 pollPlace: true,
+                isOpen: true,
                 participants: {
                     select: {
                         user: {

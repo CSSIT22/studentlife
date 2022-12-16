@@ -13,9 +13,10 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react"
+import { FC } from "react"
 import { useNavigate } from "react-router-dom"
 
-const DatingYourPollCloseAndAcceptAll = () => {
+const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefined }> = ({ numOfParticipants }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
 
@@ -23,8 +24,19 @@ const DatingYourPollCloseAndAcceptAll = () => {
         navigate("/dating/poll/yourpoll")
     }
     return (
-        <>
+        <>{numOfParticipants != undefined ? numOfParticipants <= 0 ?
             <Button
+                colorScheme="blackAlpha"
+                w={{ base: "167px", md: "172px" }}
+                h="36px"
+                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                onClick={onOpen}
+                isDisabled
+            >
+                <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
+                    Close & accept all
+                </Text>
+            </Button> : <Button
                 colorScheme="orange"
                 w={{ base: "167px", md: "172px" }}
                 h="36px"
@@ -34,7 +46,8 @@ const DatingYourPollCloseAndAcceptAll = () => {
                 <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
                     Close & accept all
                 </Text>
-            </Button>
+            </Button> : <></>}
+
 
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
                 <ModalOverlay />
