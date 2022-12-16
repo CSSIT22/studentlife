@@ -45,6 +45,9 @@ const index = () => {
             .catch((err) => on())
             .finally(() => off())
     }, [])
+    useEffect(() => {
+        console.log(typeof community?.communityList.own[0].communityPhoto);
+    }, [community])
     if (isLoading) {
         return (
             // will fix the design later
@@ -133,7 +136,7 @@ const index = () => {
                         <SuggestionsList
                             key={community.communityId}
                             communityName={community.communityName}
-                            communityPhoto={community.communityCoverPhoto}
+                            communityPhoto={community.communityPhoto}
                             communityMember={community.member.length + 1}
                             communityPrivacy={community.communityPrivacy}
                             communityId={community.communityId}
@@ -150,7 +153,7 @@ const index = () => {
                         joined={community.member[0].joined}
                         userId={community.member[0].userId}
                         communityName={community.communityName}
-                        communityPhoto={community.communityCoverPhoto}
+                        communityPhoto={community.communityPhoto}
                         communityId={community.communityId}
                         ownerFname={community.owner.fName}
                         ownerLname={community.owner.lName}
@@ -350,7 +353,7 @@ const index = () => {
                                     ? c
                                     : c.communityName.toLowerCase().includes(searchValue)
                             })
-                                .length == 0 ? communityNotFound():renderOwnCommunity()}
+                                .length == 0 ? communityNotFound() : renderOwnCommunity()}
                         </Box>
 
                         <Box mt={2} mb={3}
@@ -367,7 +370,7 @@ const index = () => {
                                     ? c
                                     : c.communityName.toLowerCase().includes(searchValue)
                             })
-                                .length == 0 ? communityNotFound():renderJoinedCommunity()}
+                                .length == 0 ? communityNotFound() : renderJoinedCommunity()}
                         </Box>
                     </Box>
                 </Box>

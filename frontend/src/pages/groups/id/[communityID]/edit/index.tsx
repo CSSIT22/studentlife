@@ -83,25 +83,30 @@ const editCommunity = () => {
     )
 
     let { communityID }: any = useParams()
-    const [community, setCommunity] = useState<any>()
+
+
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
+    const [data, setData] = useState<any>()
 
+    const fetchCommunity = async () => {
+        try {
+            const communityResult = (await API.get("/group/getCommunityId/" + communityID)).data
+            setCommunityName(communityResult?.community.name)
+            setCommunityDesc(communityResult?.community.desc)
+            setCommunityPrivacy(communityResult?.community.privacy)
+            setCommunityCoverPhoto(communityResult?.community.photo)
+            setUpdatedTag(communityResult?.community.tags)
+            
+            console.log(communityResult)
+        } catch (err) {
+            on()
+        } finally {
+            off()
+        }
+    }
     useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
-            .then((res) => {
-                setCommunityName(res.data.communityById.communityName)
-                setCommunityDesc(res.data.communityById.communityDesc)
-                setCommunityPrivacy(res.data.communityById.communityPrivacy)
-                setUpdatedTag(res.data.tag)
-                setCreateTag(res.data.tag)
-            })
-            .catch((err) => on())
-            .finally(() => off())
-        API.get("/group/getTag/")
-            .then((res) => setTags(res.data))
-            .catch((err) => on())
-            .finally(() => off())
+        fetchCommunity()
     }, [])
 
 
@@ -120,6 +125,8 @@ const editCommunity = () => {
             setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
         }
     }
+
+
 
     //form styles
     const desktopStyle = {
@@ -273,7 +280,7 @@ const editCommunity = () => {
                     >
                         Choose Tags
                     </Box>
-                    <Collapse in={updatedTag.length != 0} animateOpacity>
+                    <Collapse in={updatedTag?.length != 0} animateOpacity>
                         <Box
                             bg="gray.200"
                             p={{ base: 4, md: 2 }}
@@ -285,7 +292,7 @@ const editCommunity = () => {
                             mt={{ base: 2, md: 0 }}
                             mb="2"
                         >
-                            {updatedTag.map((tag: any) => {
+                            {updatedTag?.map((tag: any) => {
                                 return (
                                     <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
                                         <Tag
@@ -549,7 +556,7 @@ const editCommunity = () => {
                                 <CreateEditNav
                                     disabled={true}
                                     name={communityName ? communityName : "Community Name"}
-                                    privacy={!communityPrivacy}
+                                    privacy={communityPrivacy}
 
                                     desc={
                                         communityDesc

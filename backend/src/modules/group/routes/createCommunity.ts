@@ -8,23 +8,23 @@ const createCommunity = async (req: Request, res: Response) => {
     const userid = req.user?.userId
 
     
-    
+    let selectedTag = body.communityTags?.split(',')
 
+    console.log(body.communityTags)
     const tag2id = await prisma.tag.findMany({
         select: {
             tagId: true,
         },
         where: {
             tagName: {
-                in: body.communityTags,
+                in: selectedTag,
             },
         },
         
     })
 
     let pic:any = req.files
-    console.log(pic[0])
-    console.log(pic[0].buffer)
+    
     let privacy = body.communityPrivacy == 'false' ? false : true
     
 

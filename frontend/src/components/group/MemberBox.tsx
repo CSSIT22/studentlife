@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { Box, Text, Flex } from "@chakra-ui/react"
 
 import RequestList from "./RequestList"
-import UserList from "./UserList"
+
 import { MdPending } from "react-icons/md"
 import Username from "../blog/Username"
 const MemberBox: FC<{

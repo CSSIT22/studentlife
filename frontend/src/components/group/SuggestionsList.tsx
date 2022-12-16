@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 
 
 
-const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMember, communityCoverPhoto, communityPrivacy, communityId }) => {
+const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMember, communityPhoto, communityPrivacy, communityId }) => {
     return (
         <Link to={`/groups/id/${communityId}`}>
             <Box
@@ -24,7 +24,7 @@ const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMem
                         width: "100%",
                         height: "20vh",
                         // backgroundImage: `url(${communityCoverPhoto})`,
-                        backgroundImage: communityCoverPhoto ? communityCoverPhoto : `url(https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg)`,
+                        backgroundImage: communityPhoto ? communityPhoto : `url(https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg)`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "cover",
                         backgroundPosition: "center",

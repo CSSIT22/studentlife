@@ -15,7 +15,7 @@ const NavbarCommunity: FC<{
     disabled?: boolean, //use for disable button
     name?: string,
     desc?: string,
-    photo?: string,
+    photo?: any,
     privacy?: boolean,
     tags?: [],
     memberCount?: number,
@@ -41,6 +41,9 @@ const NavbarCommunity: FC<{
         return <Box>Something went wrong...</Box>
     }
 
+
+
+    
     const toast = useToast()
     const onJoin = async () => {
         if (data?.community.privacy) {

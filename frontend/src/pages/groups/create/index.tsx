@@ -72,8 +72,11 @@ const createCommunity = () => {
         form.append("communityName", communityName);
         form.append("communityDesc", communityDesc);
         form.append("communityPrivacy", Privacy);
-        form.append("createTag", createTag);
+        form.append("communityTags", createTag);
         form.append("upload", communityCoverPhoto);
+        for (var pair of form.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
 
         API.post("/group/createCommunity", form, {
             headers: {

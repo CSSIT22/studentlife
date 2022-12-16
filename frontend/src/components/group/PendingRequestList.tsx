@@ -10,7 +10,7 @@ const PendingRequest: FC<InvitedCommunity> = ({
     ownerLname,
     communityName,
     communityMember,
-    communityCoverPhoto,
+    communityPhoto,
     communityPrivacy,
     communityId,
     userId,
@@ -82,7 +82,7 @@ const PendingRequest: FC<InvitedCommunity> = ({
                                     ml={1}
                                     borderRadius="md"
                                     boxSize="55px"
-                                    src={communityCoverPhoto}
+                                    src={communityPhoto}
                                     fallbackSrc="https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
                                     alt="Cover Photo" />
                                 <div>

@@ -6,7 +6,7 @@ import { MdPublic, MdPublicOff } from "react-icons/md"
 const InvitationsList: FC<InvitedCommunity> = ({
     communityName,
     communityMember,
-    communityCoverPhoto,
+    communityPhoto,
     communityPrivacy,
     userName, //name of the person who invited
     expired,
@@ -35,7 +35,7 @@ const InvitationsList: FC<InvitedCommunity> = ({
                     <Flex direction={{ base: "column-reverse", sm: "column-reverse", lg: "column" }}>
                         <Flex direction={{ base: "column", sm: "column", lg: "row" }} gap={2} justify="space-between">
                             <HStack>
-                                <Image ml={1} borderRadius="md" boxSize="55px" src={communityCoverPhoto} alt="Cover Photo" />
+                                <Image ml={1} borderRadius="md" boxSize="55px" src={communityPhoto} alt="Cover Photo" />
                                 <div>
                                     <Box display="flex" alignItems="center" gap={1}>
                                         {communityPrivacy ? <MdPublic /> : <MdPublicOff />}

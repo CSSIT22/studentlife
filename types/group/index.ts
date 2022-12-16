@@ -3,7 +3,7 @@ export type createCommunity = {
   communityOwnerId: any;
   communityDesc: string;
   communityPrivacy: boolean;
-  communityPhoto?: Blob;
+  communityPhoto?: any;
 };
 
 export type editCommunity = {
@@ -11,7 +11,7 @@ export type editCommunity = {
   communityName: string;
   communityDesc: string;
   communityPrivacy: boolean;
-  communityPhoto?: Blob;
+  communityPhoto?: any;
 };
 
 //Owning community
@@ -19,7 +19,7 @@ export type OwnCommunity = {
   pendingRequest?: boolean;
   communityName: string;
   communityPrivacy: boolean;
-  communityPhoto: Blob;
+  communityPhoto: any;
   communityId: string;
 
   communityOwnerId?: string;
@@ -33,7 +33,7 @@ export type OwnCommunity = {
 export type JoinedCommunity = {
   communityName: string;
   communityPrivacy: boolean;
-  communityPhoto: Blob;
+  communityPhoto: any;
   communityId: string;
 
   communityOwnerId?: number;
@@ -50,7 +50,7 @@ export type InvitedCommunity = {
   communityId: number;
   communityName: string;
   communityMember: number;
-  communityPhoto: string;
+  communityPhoto: any;
   userName?: string; //inviter name
   expired?: number;
   communityPrivacy: boolean;
