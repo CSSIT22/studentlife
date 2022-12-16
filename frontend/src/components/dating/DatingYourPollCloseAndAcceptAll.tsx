@@ -13,15 +13,20 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react"
-import { FC } from "react"
+import { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import API from "src/function/API"
+import Lottie from "lottie-react"
+import DatingLoading from "./lottie/DatingLoading.json"
 
-const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefined }> = ({ numOfParticipants }) => {
+const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefined; pollId: string }> = ({ numOfParticipants, pollId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
 
     function handleClick() {
-        navigate("/dating/poll/yourpoll")
+        setIsLoading(true)
+        API.put<{ pollId: string }>("/dating/yourpoll/closeAndAcceptAllYourPoll", { pollId: pollId }).then(() => navigate("/dating/poll/yourpoll"))
     }
     return (
         <>{numOfParticipants != undefined ? numOfParticipants <= 0 ?
@@ -52,20 +57,30 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>
-                        <Heading
-                            textAlign="center"
-                            color="black"
-                            fontWeight="700"
-                            fontSize={{ base: "30px", md: "48px" }}
-                            mt={{ base: "37px", md: "60px" }}
-                            lineHeight="133%"
-                        >
-                            Close and Accept all
-                        </Heading>
-                    </ModalHeader>
+                     <ModalHeader>
+                     {isLoading ? <></>
+                        : <><Heading
+                        textAlign="center"
+                        color="black"
+                        fontWeight="700"
+                        fontSize={{ base: "30px", md: "48px" }}
+                        mt={{ base: "37px", md: "60px" }}
+                        lineHeight="133%"
+                    >
+                        Close and Accept all
+                    </Heading></>}
+                    </ModalHeader> 
                     <ModalBody>
-                        <Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>
+                        {isLoading ? <><Box display="block"  mb={{ base: "140px", md: "180px" }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.5" }} />
+                            <Text mt="-10%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                                ACCEPTING ALL APPLICANTS...
+                            </Text>
+                            <Text mt="-15%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                                CLOSING THE POLL AND
+                            </Text>
+
+                        </Box></> : <><Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>
                             <Text textAlign="center" fontWeight="700" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%" color="black">
                                 Are you sure you want to close the poll and accept all applicant?
                             </Text>
@@ -96,7 +111,7 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
                                     </Text>
                                 </Button>
                             </ModalFooter>
-                        </Center>
+                        </Center></> }
                     </ModalBody>
                     <ModalCloseButton />
                 </ModalContent>

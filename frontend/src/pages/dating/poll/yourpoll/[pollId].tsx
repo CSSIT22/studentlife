@@ -1,4 +1,5 @@
 import {
+    Badge,
     Box,
     Button,
     Container,
@@ -141,6 +142,32 @@ const YourPoll = () => {
     }
 
 
+    const handleAccept = (userId: string) => {
+        if (pollInfo != undefined) {
+            API.put<{ userId: string, pollId: string }>("/dating/yourpoll/updatePollApplicants", { userId: userId, pollId: pollInfo.pollId })
+            let updatedPollInfo = pollInfo?.participants.map((participant) => {
+                if (participant.user.userId == userId) {
+                    return { ...participant, isAccepted: !participant.isAccepted }
+                }
+                return participant;
+            })
+
+            setPollInfo({
+                pollCreator: pollInfo.pollCreator,
+                pollId: pollInfo.pollId,
+                pollName: pollInfo.pollName,
+                pollText: pollInfo.pollText,
+                participantMin: pollInfo.participantMin,
+                participantMax: pollInfo.participantMax,
+                pollAppointAt: pollInfo.pollAppointAt,
+                pollPlace: pollInfo.pollPlace,
+                isOpen: pollInfo.isOpen,
+                interests: pollInfo.interests, participants: updatedPollInfo
+            })
+        }
+
+
+    }
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
@@ -214,7 +241,7 @@ const YourPoll = () => {
                     mb={{ base: "8px", md: "12px" }}
                     display="flex"
                 >
-                    <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
+                    <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="140%">
                         <Link to={"/user/" + participant.user.userId}>
                             {participant.user.image ? <Image
                                 borderRadius="full"
@@ -230,7 +257,7 @@ const YourPoll = () => {
                         </Link>
                         {isMobile ? (
                             <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
-                                {participant.user.fName} {participant.user.lName}
+                                {participant.user.fName.length > 20 ? <>{participant.user.fName.substring(0, 17)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
                             </Text>
                         ) : (
                             <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
@@ -238,8 +265,23 @@ const YourPoll = () => {
                             </Text>
                         )}
                     </Box>
+                    {participant.isAccepted && isMobile ? <Box display="flex" alignItems="center" h="100%"><Badge h="30px" colorScheme='green'><Text fontSize="20px">ACCEPTED</Text></Badge></Box> : <></>}
                     <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                        <Button
+                        {participant.isAccepted ? <><Button
+                            borderRadius="full"
+                            w={{ base: "50px", md: "72px" }}
+                            h={{ base: "50px", md: "72px" }}
+                            colorScheme="green"
+                            border="1px solid"
+                            borderColor="black"
+                            mr={{ base: "12px", md: "24px" }}
+                            ml={{ md: "20px" }}
+                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                            _hover={{ cursor: "not-allowed" }}
+                        >
+                            <Image src={CheckImg} />
+                        </Button></> : <Button
+                            id={participant.user.userId}
                             borderRadius="full"
                             w={{ base: "50px", md: "72px" }}
                             h={{ base: "50px", md: "72px" }}
@@ -247,9 +289,11 @@ const YourPoll = () => {
                             border="1px solid"
                             mr={{ base: "12px", md: "24px" }}
                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                            onClick={() => handleAccept(participant.user.userId)}
                         >
                             <Image src={CheckImg} />
-                        </Button>
+                        </Button>}
+
                         <Button
                             borderRadius="full"
                             w={{ base: "50px", md: "72px" }}
@@ -308,38 +352,38 @@ const YourPoll = () => {
                                     Do you want to close the poll?
                                 </Text>
                                 <Box display="flex" justifyContent="center" pt={"30px"}>
-                                    <DatingYourPollClose/>
-                                    <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} />
+                                    <DatingYourPollClose pollId={pollInfo.pollId}/>
+                                    <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} pollId={pollInfo.pollId} />
                                 </Box>
-                                <DatingYourPollCancel />
+                                <DatingYourPollCancel pollId={pollInfo.pollId} />
                             </Box>
                         </Box>
                     </Box>
                 </Container>
             </Box>
-            <Box zIndex="1" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBarHidden">
-                <Container w="container.lg" maxW={"100%"}>
-                    <Box
-                        maxW="100%"
-                        bg="white"
-                        pt={{ base: "10px", md: "7px" }}
-                        borderTopRadius={{ base: "10px", md: "15px" }}
-                        backgroundColor="orange.300"
-                    >
-                        <Box display="flex" justifyContent="center" cursor="pointer" onClick={handleBottomBar}>
-                            <Box
-                                w={{ base: "84px", md: "232px" }}
-                                h={{ base: "3px", md: "5px" }}
-                                mb={{ base: "20px", md: "27px" }}
-                                backgroundColor="white"
-                                borderRadius="15px"
-                            />
+                <Box zIndex="1" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBarHidden">
+                    <Container w="container.lg" maxW={"100%"}>
+                        <Box
+                            maxW="100%"
+                            bg="white"
+                            pt={{ base: "10px", md: "7px" }}
+                            borderTopRadius={{ base: "10px", md: "15px" }}
+                            backgroundColor="orange.300"
+                        >
+                            <Box display="flex" justifyContent="center" cursor="pointer" onClick={handleBottomBar}>
+                                <Box
+                                    w={{ base: "84px", md: "232px" }}
+                                    h={{ base: "3px", md: "5px" }}
+                                    mb={{ base: "20px", md: "27px" }}
+                                    backgroundColor="white"
+                                    borderRadius="15px"
+                                />
 
-                            <Box mb={{ base: "100px", md: "30px" }} />
+                                <Box mb={{ base: "100px", md: "30px" }} />
+                            </Box>
                         </Box>
-                    </Box>
-                </Container>
-            </Box></> : <></>}
+                    </Container>
+                </Box></> : <></>}
 
         </> : <DatingAppBody><VStack maxW="100vw" minH="75vh" alignItems={"center"} justifyContent="center">
             <Box margin={10} p={5} bg="white" shadow={"lg"} rounded="xl">
