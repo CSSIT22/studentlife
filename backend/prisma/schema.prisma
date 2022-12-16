@@ -1112,7 +1112,7 @@ model Word_Report_Detail {
 
 model Filtered_Word {
   wordReportId Int    @id @default(autoincrement())
-  word         String
+  word         String @unique
 }
 
 //ShortNotes Module
