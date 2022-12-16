@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import SuggestedFriend from "./SuggestedFriend"
 import { Postdata } from "./Postdata"
 import CreateButton from "./CreateButton"
+import AnnounceList from "../annoucement/AnnounceList"
 
 export const Feed = () => {
     const [posts, setposts] = useState<any>([])
@@ -52,8 +53,7 @@ export const Feed = () => {
                     <Heading key={item.id}>{item.name}</Heading>
                 </>
             ))} */}
-
-            <CreatingPost photoUrl={"https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"}></CreatingPost>
+            <AnnounceList />
             <FriendSuggestion></FriendSuggestion>
             <Post></Post>
             <CreateButton></CreateButton>
