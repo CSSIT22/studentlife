@@ -19,14 +19,14 @@ const shortlink = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"500px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"500px"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
                     <Box>
                         <Heading
                             width={"300px"}
                             height={"50px"}
                             marginLeft={"10%"}
                             marginTop={"-5"}
-                            background={"#f2f2f2"}
+                            background={"orange.200"}
                             borderRadius={"10px"}
                             fontSize={"xl"}
                             border={"3px solid white"}
@@ -41,7 +41,7 @@ const shortlink = () => {
                             <Box width={"100%"}>
                                
                                     <Center>
-                                        <Button bg={"white"} w={"50%"} height={"60px"} onClick={customize}>
+                                        <Button bg={"#E65300"} w={"50%"} height={"60px"} onClick={customize} textColor="white">
                                             <Text as={"b"}>SHORTLINK CUSTOMIZE</Text>
                                         </Button>
                                     </Center>
@@ -51,7 +51,7 @@ const shortlink = () => {
                         <Box h="70px">
                             <Link>
                                 <Center>
-                                    <Button bg={"white"} w={"50%"} height={"60px"} onClick={generate}>
+                                    <Button bg={"#E65300"} w={"50%"} height={"60px"} onClick={generate} textColor="white">
                                         <Text as={"b"}>SHORTLINK GENERATOR</Text>
                                     </Button>
                                 </Center>
@@ -60,7 +60,7 @@ const shortlink = () => {
                         <Box h="70px">
                             <Link>
                                 <Center>
-                                    <Button bg={"white"} w={"50%"} height={"60px"} onClick={history}>
+                                    <Button bg={"#E65300"} w={"50%"} height={"60px"} onClick={history} textColor="white">
                                         <Text as={"b"}>SHORTLINK HISTORY</Text>
                                     </Button>
                                 </Center>

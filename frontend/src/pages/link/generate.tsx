@@ -69,18 +69,19 @@ const generate = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"300px"} background={"white"} borderRadius="20px" marginTop={"10%"} >
                     <Box>
                         <Heading
                             width={"300px"}
                             height={"50px"}
                             marginLeft={"10%"}
                             marginTop={"-5"}
-                            background={"#f2f2f2"}
+                            background={"orange.200"}
                             borderRadius={"10px"}
                             fontSize={"xl"}
                             border={"3px solid white"}
                             textAlign={"center"}
+                            textColor="white"
                         >
                             SHORTLINK GENERATOR
                         </Heading>
@@ -103,6 +104,7 @@ const generate = () => {
                                     borderColor={"black"}
                                     rounded={"md"}
                                     textAlign="center"
+                                    backgroundColor={"white"}
                                 >{generated != "" ? "http://localhost:8000/shortlink/redirect?shorten=" : ""}{generated}</Editable>
                             </Center>
                         </Box>
@@ -114,17 +116,17 @@ const generate = () => {
 
             <Center>
                 {" "}
-                <Box width={"80%"} height={"200px"} background={"orange.200"} borderRadius="20px" marginTop={"1%"}>
+                <Box width={"80%"} height={"200px"} background={"white"} borderRadius="20px" marginTop={"1%"}>
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <Center>
                                 <ButtonGroup gap={2}>
-                                    <Button colorScheme="yellow" w={"100px"} height={"60px"} onClick={generateLink}>
+                                    <Button colorScheme="blue" w={"100px"} height={"60px"} onClick={generateLink} textColor="white">
                                         GENERATE
                                     </Button>
                                     <Popover>
                                         <PopoverTrigger>
-                                            <Button colorScheme="purple" w={"100px"} height={"60px"}>
+                                            <Button colorScheme="orange" w={"100px"} height={"60px"} >
                                                 ADD-ON
                                             </Button>
                                         </PopoverTrigger>
@@ -135,11 +137,11 @@ const generate = () => {
                                                 <Text as={"b"}>Select the Shortlink Add on!</Text>
                                             </PopoverHeader>
                                             <PopoverBody>
-                                                <Button bg={"orange.200"} w={"100%"} mt={3} onClick={password}>
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={password} textColor="white">
                                                     Shortlink Password
                                                 </Button>
-                                                <Button
-                                                    bg={"pink.200"}
+                                                <Button textColor="white"
+                                                    bg={"orange.600"}
                                                     w={"100%"}
                                                     mt={3}
                                                     onClick={() =>
@@ -154,7 +156,7 @@ const generate = () => {
                                                 >
                                                     Shortlink Unblock
                                                 </Button>
-                                                <Button bg={"cyan.200"} w={"100%"} mt={3} onClick={permission}>
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
                                                     Shortlink Permission
                                                 </Button>
                                             </PopoverBody>

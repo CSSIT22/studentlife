@@ -58,14 +58,14 @@ const customize = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"300px"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
                     <Box>
                         <Heading
                             width={"300px"}
                             height={"50px"}
                             marginLeft={"10%"}
                             marginTop={"-5"}
-                            background={"#f2f2f2"}
+                            background={"orange.200"}
                             borderRadius={"10px"}
                             fontSize={"xl"}
                             border={"3px solid white"}
@@ -109,7 +109,7 @@ const customize = () => {
 
             <Center>
                 {" "}
-                <Box width={"80%"} height={"200px"} background={"orange.200"} borderRadius="20px" marginTop={"1%"}>
+                <Box width={"80%"} height={"200px"} background={"white"} borderRadius="20px" marginTop={"1%"}>
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
@@ -145,7 +145,7 @@ const customize = () => {
                             <Center>
                                 <Popover>
                                     <PopoverTrigger>
-                                        <Button colorScheme="purple" w={"50%"} height={"60px"}>
+                                        <Button colorScheme="orange" w={"50%"} height={"60px"}>
                                             ADD-ON
                                         </Button>
                                     </PopoverTrigger>
@@ -156,10 +156,10 @@ const customize = () => {
                                             <Text as={"b"}>Select the Shortlink Add on!</Text>
                                         </PopoverHeader>
                                         <PopoverBody>
-                                            <Button bg={"orange.200"} w={"100%"} mt={3} onClick={password}>
+                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={password} textColor="white">
                                                 Shortlink Password
                                             </Button>
-                                            <Button bg={"pink.200"} w={"100%"} mt={3}
+                                            <Button bg={"orange.600"} w={"100%"} mt={3} textColor="white"
                                                 onClick={() =>
                                                     toast({
                                                         title: "Add Unblock features!",
@@ -173,7 +173,7 @@ const customize = () => {
                                             >
                                                 Shortlink Unblock
                                             </Button>
-                                            <Button bg={"cyan.200"} w={"100%"} mt={3} onClick={permission}>
+                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white"> 
                                                 Shortlink Permission
                                             </Button>
                                         </PopoverBody>

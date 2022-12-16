@@ -13,7 +13,7 @@ const Home = () => {
     }
     return (
         <AppBody>
-            <Container padding="2rem 0" w="100%">
+            <Container padding="2rem 0" w="100%" bg="">
                 <Box
                     position="absolute"
                     left={["100%", "100%", "40%"]}
