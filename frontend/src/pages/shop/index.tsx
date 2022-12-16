@@ -1,42 +1,23 @@
-import { useEffect, useState } from "react"
-import API from "src/function/API"
+import { useState } from "react"
 import PageTitle from "../../components/shop/PageTitle"
 import ProductList from "../../components/shop/ProductList"
 import Searchbar from "../../components/shop/SearchBar"
 import ShopAppBody from "../../components/shop/ShopAppBody"
-import { Product } from "@apiType/shop"
-import { Heading, useBoolean } from "@chakra-ui/react"
+import { Shop_Product, Shop_Product_With_Images } from "@apiType/shop"
+import { setDataAPI } from "src/components/shop/functions/usefulFunctions"
+
 const Shop = () => {
-    const [productList, setProductList] = useState<any>(null)
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-    const getAllProducts = API.get("/shop/getAllProducts")
     const [searchQuery, setSearchQuery] = useState("")
-    useEffect(() => {
-        getAllProducts
-            .then((res) => setProductList(res.data))
-            .catch((err) => on())
-            .finally(() => off())
-    }, [])
-    if (isError) {
-        return (
-            <ShopAppBody>
-                <Heading>There is an Error! Please Try Again Later</Heading>
-            </ShopAppBody>
-        )
-    }
-    if (isLoading) {
-        return (
-            <ShopAppBody>
-                <Heading>Loading...</Heading>
-            </ShopAppBody>
-        )
-    }
+    // Getting Product List
+    const [productList, setProductList] = useState<Shop_Product_With_Images[] | null>(null)
+    let completed = setDataAPI("shop/getAllProducts", setProductList)
+    // If there is any error or Loading
+    if (completed != true) return <ShopAppBody>{completed}</ShopAppBody>
 
     return (
         <ShopAppBody>
             <PageTitle title="Explore" />
-            <Searchbar productsIn={productList} setProducts={setProductList} setSearchQuery={setSearchQuery} searchQuery={searchQuery}></Searchbar>
+            <Searchbar setProducts={setProductList} setSearchQuery={setSearchQuery} searchQuery={searchQuery}></Searchbar>
             <ProductList products={productList} repeat={false} />
         </ShopAppBody>
     )
