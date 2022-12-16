@@ -1,8 +1,8 @@
-import { ChevronDownIcon, ArrowRightIcon } from "@chakra-ui/icons"
+import { ChevronDownIcon, ArrowRightIcon, DeleteIcon } from "@chakra-ui/icons"
 import { Flex, Heading, Link, Text, Spacer, Menu, MenuButton, Button, MenuList, MenuItem, Progress, Box } from "@chakra-ui/react"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import API from "src/function/API"
 
@@ -14,15 +14,18 @@ const insidefolder = () => {
 
   let { folderid } = useParams()
 
-  // useEffect(() => {
-  //   axios.post("http://localhost:8000/todolist/listfolder").then((res) => {
-  //     setFolderList(res.data);
-  //   })
-  // }, [])
+  const deleteFolder = () => {
+    API.post("/todolist/deleteFolder", { folderId: folderid }).then((res) => {
+      navigate({
+        pathname: "/todolist/folderpage",
+      })
+      console.log("complete", res.data);
+    })
+  }
 
   useEffect(() => {
     // fetchTaskList();
-    console.log("ok kub");
+    console.log("ok");
     console.log(folderid);
 
     API.post("/todolist/listtaskinfolder", {
@@ -56,6 +59,12 @@ const insidefolder = () => {
           </MenuList>
         </Menu>
       </Flex>
+
+      <Menu>
+        <MenuButton as={Button} onClick={() => deleteFolder()} rightIcon={<DeleteIcon />}>
+          Delete
+        </MenuButton>
+      </Menu>
 
       {
         taskList.map((el: any, index: number) => (
