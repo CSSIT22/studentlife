@@ -10,7 +10,7 @@ export const banned = async (req: Request, res: Response, next: NextFunction) =>
                 },
             },
         })
-        if (bannedUser?.banTo || new Date() > new Date()) {
+        if (bannedUser && bannedUser.banTo > new Date()) {
             req.logout((err) => {
                 console.log("YOU ARE BANNED FROM THE SYSTEM!")
                 return err

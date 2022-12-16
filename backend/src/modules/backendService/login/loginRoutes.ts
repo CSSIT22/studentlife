@@ -40,7 +40,7 @@ router.get(
                     },
                 },
             })
-            if (bannedUser?.banTo || new Date() > new Date()) {
+            if (bannedUser && bannedUser.banTo > new Date()) {
                 return res.redirect(`${process.env.SUCCESS_REDIRECT_URL || ""}/auth`)
             }
             console.log(req.headers["user-agent"])
