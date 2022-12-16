@@ -29,6 +29,7 @@ import {
     Checkbox,
     FormControl,
     Radio,
+    RadioGroup,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
@@ -36,9 +37,10 @@ import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
 import ShowImage from "../../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
-import { useParams, useNavigate, Link } from "react-router-dom"
+import { useParams, useNavigate, Link, Navigate } from "react-router-dom"
 import { friend } from "../data/friend"
 import API from "src/function/API"
+
 
 
 
@@ -56,11 +58,15 @@ function detail() {
 
     }, [params.detailRes])
 
-    const [room, setRoom] = React.useState<any>([])
+
+    const [room, setRoom] = React.useState("")
+    console.log(room);
+    
+
     const getRoom = API.get("/chat")
-    useEffect(()=>{
-        getRoom.then((item)=> setRoom(item.data))
-    })
+    useEffect(() => {
+        getRoom.then((item) => setRoom(item.data))
+    },[setRoom])
 
     if (isLoading)
         return (
@@ -100,13 +106,16 @@ function detail() {
         })
     }, [setIsFavorite, property])
 
-    
 
 
     const addFavorite = () => {
         API.post("/restaurant/detail/" + params.detailRes)
     }
 
+    const navigate = useNavigate()
+    const share = () => {
+        navigate(`/chat/${room}/${numres}`)
+    }
 
     return (
         <AppBody
@@ -120,7 +129,6 @@ function detail() {
             <Center w={"full"} mt={4}>
                 {property.map((e1: any) => {
 
-                    
                     return (
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
@@ -231,27 +239,29 @@ function detail() {
                                                         <PopoverCloseButton />
                                                         <PopoverHeader fontWeight='semibold' textAlign={"center"}>Share</PopoverHeader>
                                                         <PopoverBody>
-                                                            <form action="/chat/">
-                                                                
-                                                                    <Flex>
-                                                                        <Wrap spacing="30px">
-                                                                            {room?.map((ro:any) => {
-                                                                                return (
-                                                                                <Radio name={ro.roomId}> 
-                                                                                    <WrapItem>
-                                                                                        <Avatar name={ro.group.roomName} src={ro.nick.nameWho.image.data} />
-                                                                                        <Text></Text>
-                                                                                    </WrapItem>
-                                                                                </Radio>
-                                                                                )
-                                                                            })}
-                                                                        </Wrap>
-                                                                    </Flex>
-                                                                
-                                            
+                                                                <Flex>
+                                                                    <Wrap spacing="30px">
+                                                                        {/* {room?.map((ro:any) => { */}
+                                                                        {friend.map((ro: any) => {
+                                                                            return (
+                                                                                <RadioGroup onChange={setRoom} value={room}>
+                                                                                    <Radio value={ro.roomId}>
+                                                                                        <WrapItem>
+                                                                                            <Avatar name={ro.group.roomName} /*src={ro.nick.nameWho.image} */ />
+                                                                                            <Text></Text>
+                                                                                        </WrapItem>
+                                                                                    </Radio>
+                                                                                </RadioGroup>
+                                                                            )
+
+                                                                        })}
+                                                                    </Wrap>
+                                                                </Flex>
+
+
                                                                 <Flex my={5}>
                                                                     <Button
-                                                                        type="submit"
+                                                                        // type="submit"
                                                                         bg={"green.400"}
                                                                         color="white"
                                                                         border={1}
@@ -259,7 +269,7 @@ function detail() {
                                                                         px={4}
                                                                         py={2}
                                                                         onClick={() => {
-                                                                            onClose()
+                                                                            share()
                                                                         }}
                                                                     >
                                                                         OK
@@ -277,7 +287,7 @@ function detail() {
                                                                         Cancel
                                                                     </Button>
                                                                 </Flex>
-                                                            </form>
+                                                            
                                                         </PopoverBody>
                                                     </PopoverContent>
                                                 </>
