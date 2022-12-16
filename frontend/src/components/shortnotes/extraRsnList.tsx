@@ -30,7 +30,7 @@ const extraRsnList: FC<{
                 <GridItem colSpan={1} textAlign={"right"}>
                     <Flex alignItems={"center"} justifyContent={"right"} h={"100%"}>
                         <Tooltip hasArrow label='Private shortnote' placement='top' fontSize='md' bg={"orange.500"} rounded={6}>
-                            <Text fontSize={"lg"}>{lock}</Text>
+                            <Text fontSize={"2xl"}>{lock}</Text>
                         </Tooltip>
 
                     </Flex>
