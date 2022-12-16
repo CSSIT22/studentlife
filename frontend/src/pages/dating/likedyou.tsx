@@ -153,16 +153,18 @@ const LikedYou = () => {
     return (
         <DatingAppBody>
             {isLoading || isError ? <>
-            </> : giveToUser.length == heartGiver.length ? <><Box display="flex" justifyContent="center">
-                <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
-                    <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
-                    <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
-                        <DatingLikedYouButton backgroundColor="orange.600" />
-                        <DatingYouLikedButton backgroundColor="orange.800" />
-                    </HStack>
+            </> : giveToUser.length == heartGiver.length ? <>
+                <Box display="flex" justifyContent="center">
+                    <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
+                        <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
+                        <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
+                            <DatingLikedYouButton backgroundColor="orange.600" />
+                            <DatingYouLikedButton backgroundColor="orange.800" />
+                        </HStack>
+                    </Box>
                 </Box>
-            </Box>
-                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md:"35%"}}>
+
+                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
                     <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
                     <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
                         Right now, you don't have any new likes.
@@ -224,9 +226,16 @@ const LikedYou = () => {
 
             {
                 (isLoading) && !isError ? (
-                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-                    </Box>
+                    <>
+                        <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                        </Box>
+                        <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                LOADING . . .
+                            </Text>
+                        </Box>
+                    </>
                 ) : (
                     <></>
                 )

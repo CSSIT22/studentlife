@@ -26,6 +26,7 @@ import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../../../../components/dating/pic/noprofile.png"
 import DatingLoading from "../../../../components/dating/lottie/DatingLoading.json"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import GroupChatImg from "../../../../components/dating/pic/groupchat.png"
 // import { POLL } from "../../../../components/dating/shared/poll"
 // import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
 
@@ -128,7 +129,7 @@ const YourPoll = () => {
             })
             API.get("/dating/yourpoll/getYourPoll/" + params.pollId).then((data) => {
                 setPollInfo(data.data)
-            }).catch(on).finally(off)
+            }).catch(on).finally(() => setIsLoading(false))
         }
     })
 
@@ -185,11 +186,12 @@ const YourPoll = () => {
     }
 
     function handleChat(id: string) {
-        API.post<{chatWith_id: string}>("/chat/createRoom", {chatWith_id: id}).then(() => navigate("/chat/"))
+        setIsLoading(true)
+        API.post<{ chatWith_id: string }>("/chat/createRoom", { chatWith_id: id }).then(() => navigate("/chat/"))
     }
 
     const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
+    const [isLoading, setIsLoading] = useState(true)
 
     return (
         (isError || isLoading ? <DatingAppBody> {isLoading && !isError ? (
@@ -221,6 +223,20 @@ const YourPoll = () => {
                             {pollInfo?.pollName}
                         </Text>
                     </Box>
+                    <Box display="flex" justifyContent="right" pb={{base: "10px",md: "20px"}} pr={{base: "12px", md:"0px"}}>
+                    <Button
+                        borderRadius="full"
+                        w={{ base: "50px", md: "72px" }}
+                        h={{ base: "50px", md: "72px" }}
+                        backgroundColor="white"
+                        border="1px solid"
+                        mr={{ base: "12px", md: "24px" }}
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                    >
+                        <Image src={GroupChatImg} />
+                    </Button>
+                    </Box>
+
                     {pollInfo ? <DatingYourPollSeeMore pollInfo={pollInfo} /> : <></>}
 
                 </Box>
@@ -357,7 +373,7 @@ const YourPoll = () => {
                                     Do you want to close the poll?
                                 </Text>
                                 <Box display="flex" justifyContent="center" pt={"30px"}>
-                                    <DatingYourPollClose pollId={pollInfo.pollId}/>
+                                    <DatingYourPollClose pollId={pollInfo.pollId} />
                                     <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} pollId={pollInfo.pollId} />
                                 </Box>
                                 <DatingYourPollCancel pollId={pollInfo.pollId} />
