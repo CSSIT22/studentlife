@@ -33,9 +33,9 @@ const extraRsn = () => {
     const navigate = useNavigate()
     return (
         <AppBody>
-            <Heading>Recent View</Heading>
+            <Heading fontSize={"2xl"}>Recent View</Heading>
             <br></br>
-            <VStack>
+            <VStack gap={2}>
                 {recent.map((recent: any, key: any) => (
                     <Box as="button"
                         w={"100%"} onClick={() => {
