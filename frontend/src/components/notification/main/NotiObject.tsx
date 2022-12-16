@@ -5,7 +5,6 @@ import API from "src/function/API"
 import { showUser } from "../functions/showUser"
 import { templates } from "../functions/templates"
 
-
 const NotiObject: FC<{
     objectId: string
     template: string
@@ -108,15 +107,12 @@ const NotiObject: FC<{
 
     function showDescription() {
 
-<<<<<<< HEAD
 
         // console.log(getvalue)
-=======
         let v1 = ""
         let v2 = ""
         let v3 = ""
         //console.log(getvalue)
->>>>>>> 2736ae582e19f7b21f6f495527f7a8d0d5cf391d
         // const [valueNotiObject, setValueNotiObject] = useState([])
         // useEffect(() => {
         //     const getvalue = API.get("/notification/getvalue")
@@ -180,14 +176,8 @@ const NotiObject: FC<{
             }}
         >
             <a href={url}>
-<<<<<<< HEAD
                 <Stack direction={"row"} spacing={4} padding={"1"}>
-                    <Center>{showUser()}</Center>
-
-=======
-                <Stack direction={"row"} spacing={5} padding={"1"}>
                     <Center>{showUser(sender, userId, module)}</Center>
->>>>>>> 2736ae582e19f7b21f6f495527f7a8d0d5cf391d
                     <Stack>
                         <div>
                             {showDescription()}
@@ -205,3 +195,5 @@ const NotiObject: FC<{
 }
 
 export default NotiObject
+
+
