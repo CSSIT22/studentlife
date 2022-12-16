@@ -1,4 +1,4 @@
-name: 👻 Deployment Production-front
+name: 👾 Deployment Production-front
 
 on:
   push:
@@ -52,4 +52,4 @@ jobs:
           apk add openssh-client sshpass lftp
       - name: 🖨️ Upload artifacts to server
         run: |
-          lftp -e "set sftp:auto-confirm yes; open REMOTE_SFTP_PRODUCTION; ${{ secrets.MIRROR_DIST }}; bye"
+          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_PRODUCTION; ${{ secrets.MIRROR_DIST }}; bye"
