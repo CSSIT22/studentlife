@@ -107,28 +107,27 @@ const recyclebin = () => {
                                 {allPost
                                     .filter((fl) => {
                                         const expiredonrecycle = new Date(fl.deleteAt)
-                                        let date: number = new Date(fl.deleteAt).getDate()
-                                        let month: number = new Date(fl.deleteAt).getMonth()
-                                        let year: number = new Date(fl.deleteAt).getFullYear()
+                                        let hours :number = expiredonrecycle.getHours()
+                                        expiredonrecycle.setHours(hours-7)
+                                        let date: number = expiredonrecycle.getDate()
+                                        let month: number = expiredonrecycle.getMonth()
+                                        let year: number = expiredonrecycle.getFullYear()
                                         expiredonrecycle.setDate(date + 3)
-                                        // console.log(expiredonrecycle);
-
-
+                                    
                                         const expired = new Date(expiredonrecycle)
                                         const expiredPost = Math.round(expired.getTime() / day)
                                         const diffD = expiredPost - currentD
-                                        // console.log(diffD);
-
 
                                         const hEpd = Math.round(expired.getTime() / hour)
                                         const diffH = hEpd - currentH
-
-
+                                        
                                         return (diffD > 0 || diffH > 0)
                                     })
                                     .map((el) => {
                                         const expired = new Date(el.deleteAt)
-                                        let date: number = new Date(el.deleteAt).getDate()
+                                        let hours:number = expired.getHours()
+                                        expired.setHours(hours-7)
+                                        let date: number = expired.getDate()
                                         expired.setDate(date + 3)
                                         const r = showRemaining(expired)
                                         return (
