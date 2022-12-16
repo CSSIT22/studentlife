@@ -6,6 +6,7 @@ import { verifyUser } from "../middleware/verifyUser"
 import UAParser from "ua-parser-js"
 import jwt from "jsonwebtoken"
 import DeviceDetector from "node-device-detector"
+import { banned } from "../middleware/banned"
 
 const router = Router()
 
@@ -29,6 +30,7 @@ router.get(
         session: true,
     }),
     verifyUser,
+    banned,
     async (req: Request, res: Response) => {
         const { prisma } = res
         try {
