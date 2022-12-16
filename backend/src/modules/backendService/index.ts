@@ -32,7 +32,7 @@ backendserviceRoutes.post("/reportword", verifyUser, async (req: Request, res: R
             const result = await prisma.word_Report.create({
                 data: {
                     word: req.body.word,
-                    userId: req.body.reportedUserId,
+                    userId: req.user?.userId || "",
                     detail: {
                         create: {
                             reason: req.body.reason || "",
