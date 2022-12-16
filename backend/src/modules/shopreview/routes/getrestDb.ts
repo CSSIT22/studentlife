@@ -12,9 +12,9 @@ const getrestDb = async (req: Request, res: Response) => {
                     },
                 },
                 detail: {
-                    select: {
-                        zone: true,
-                    },
+                     select: {
+                         zone: true,
+                     },
                 },
             },
             where: {

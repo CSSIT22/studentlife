@@ -2,8 +2,7 @@ import { Request, Response } from "express"
 import axios from "axios"
 const showRestaurant = async (req: Request, res: Response) => {
     const id = req.params.id
-    let x;
-   const google = axios.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=restaurant&location=13.651271797671654,100.49196241529494&radius=1000&type=restaurant&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8");
+   const google = axios.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=restaurant&location=13.651215325557505,100.49407892842339&radius=1000&type=restaurant&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8");
 //   console.log((await google).data)
   
    
@@ -17,7 +16,6 @@ try {
             images: true
         }
     })
-    // console.log((await google).data);
     
     res.send([selectRes])
 } catch (error) {

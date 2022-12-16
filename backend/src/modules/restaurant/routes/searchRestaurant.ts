@@ -7,7 +7,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
     const name = req.query.name + ""
     var d = new Date()
     var dayNo = d.getDay()
-    console.log(name);
+    // console.log(name);
    
    
 //  
@@ -15,9 +15,9 @@ const searchRestaurant = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         // let resData = <any>[]
-       const search = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=13.651273593231576,100.49642879756675&query=${name}&radius=0.1&type=restaurant&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`)
+       const search = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=13.651215325557505, 100.49407892842339&query=${name}&radius=0.1&type=restaurant&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`)
        .then((res) =>   {return (res.data.results)})
-    //    console.log(search);
+       console.log(search);
        
 
 
@@ -36,7 +36,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
             )
        }))
 
-       console.log(resdata);
+    //    console.log(resdata);
        
        
         // const search1 = await prisma.restaurant.findMany({

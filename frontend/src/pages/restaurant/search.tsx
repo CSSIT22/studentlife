@@ -21,7 +21,7 @@ const search = () => {
         .finally(off)
     }, [new URLSearchParams(location.search).get("name")])
   
-    console.log(search);
+   
     
     if (isLoading) 
     return    (
@@ -77,6 +77,7 @@ const search = () => {
                                     website={e1.website}
                                     img={e1.photos}
                                     link={`/restaurant/detail/${e1.placeId}`}
+                                    resid={e1.placeId}
                                 />
                             </Link>
                         </GridItem>

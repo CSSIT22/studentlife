@@ -23,7 +23,7 @@ const ShowImage: FC<{
                             <Center>
                                 <Image
                                     borderRadius="3xl"
-                                    src={m.image}
+                                    src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${m.image}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`}
                                     width={{ base: "17rem", sm: "24rem" }}
                                     height={{ base: "23rem", sm: "19rem" }}
                                 ></Image>

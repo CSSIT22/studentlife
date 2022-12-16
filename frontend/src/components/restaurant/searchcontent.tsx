@@ -21,6 +21,7 @@ import axios from "axios"
 import React, { FC } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import { Link } from "react-router-dom"
+import API from "src/function/API"
 
 const Searchcontent: FC<{
     resName: string
@@ -29,15 +30,23 @@ const Searchcontent: FC<{
     phone: string
     website: string
     img: string
-    link: string
-}> = ({ resName, phone, open, close, website, img, link }) => {
+    link: string,
+    resid: string
+}> = ({ resName, phone, open, close, website, img, link, resid}) => {
 
-    console.log(open?.periods);
+    // console.log(open?.periods);
+
+    const likedRestaurant = () => {
+        API.post("restaurant/" + resid, { id: resid, status: true })
+    }
     
     return (
         <>
             <Show below="sm">
                 <Box width={"100%"} height={"8rem"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
+                    <Link to={link} onClick={() => {
+                        likedRestaurant()
+                    }}>
                     <Flex mb={"15px"}>
                         <Box width={"30%"} ml={"1rem"}>
                             <Image boxSize="5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`} alt="Dan Abramov" borderRadius={"10px"} />
@@ -57,11 +66,14 @@ const Searchcontent: FC<{
                             </Text>
                         </Box>
                     </Flex>
+                    </Link>
                 </Box>
             </Show>
             <Show above="sm">
                 <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"} backgroundColor={"white"}>
-                    <Link to={link}>
+                    <Link to={link} onClick={() => {
+                        likedRestaurant()
+                    }}>
                     <Flex direction={"column"} alignItems={"center"} gap={"4"}>
                         <Heading color={"#E65D10"} fontSize="xl">
                             {resName}

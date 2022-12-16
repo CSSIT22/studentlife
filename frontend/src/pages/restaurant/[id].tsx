@@ -43,7 +43,7 @@ function LikeorNope() {
     const [isLoading, {off}] = useBoolean(true)
     //when like, it will store userId and resId
     const likedRestaurant = () => {
-        API.post("restaurant/" + params.id, { id: params.id })
+        API.post("restaurant/" + params.id, { id: params.id, status: true })
     }
 
     //Get restaurant to show on this page

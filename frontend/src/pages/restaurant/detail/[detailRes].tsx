@@ -119,6 +119,8 @@ function detail() {
             <Searchbar />
             <Center w={"full"} mt={4}>
                 {property.map((e1: any) => {
+
+                    
                     return (
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
@@ -161,7 +163,7 @@ function detail() {
                                     <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }} fontWeight="600">
                                         <Box w={"full"} textAlign={"center"}>
                                             <Text color="" fontSize="md">
-                                                OPEN - CLOSE : {e1.openAt[0].open} - {e1.closeAt[0].close} <br />
+                                                OPEN - CLOSE : {e1.openAt[0]?.open == undefined ? "Unknown" : e1.openAt[0]?.open.substring(0,2) + ":" + e1.openAt[0]?.open.substring(2,4)}  {e1.closeAt[0]?.close == undefined ? "" : "-" + e1.closeAt[0]?.close.substring(0,2) + ":" + e1.closeAt[0]?.close.substring(2,4)} <br />
                                                 <Show above="md">
                                                     <br />
                                                 </Show>
