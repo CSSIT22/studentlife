@@ -281,7 +281,7 @@ const DatingRandomCard: FC<{
         }
         if (index == 0 && !isError) {
             setTimeout(() => navigate(0), 1000)
-            
+
         }
     }
 
@@ -564,9 +564,10 @@ const DatingRandomization = () => {
                     {/* Heart button */}
                     <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
                 </Box>
-                <Box display="none" pl={{ base: "18px", md: "165px" }} pt="25px" justifyContent={{ base: "center", md: "start" }} id="DatingLoading">
+                {isError? <></> : <Box display="none" pl={{ base: "18px", md: "165px" }} pt="25px" justifyContent={{ base: "center", md: "start" }} id="DatingLoading">
                     <Spinner size="xl" />
-                </Box></>
+                </Box>}
+            </>
 
 
         </DatingAppBody>
