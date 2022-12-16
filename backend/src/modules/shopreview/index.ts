@@ -260,7 +260,7 @@ shopreviewRoutes.get("/getcomment", (req, res) => {
 
 shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
 shopreviewRoutes.get("/shopdetails/restaurant/:id", getRest)
-shopreviewRoutes.post("/postmyreview", upload.array("file"), postmyreview)
+shopreviewRoutes.post("/postmyreview", upload.array("upload"), postmyreview)
 shopreviewRoutes.post("/postimage", postimage)
 
 export default shopreviewRoutes
