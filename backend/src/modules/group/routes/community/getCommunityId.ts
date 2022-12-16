@@ -36,6 +36,19 @@ const getCommunityId = async (req: Request, res: Response) => {
                         status: true,
                     },
                 },
+                files:{
+                    select:{
+                        file:{
+                            select:{
+                                fileId:true,
+                                fileName:true,
+                                fileSender:true,
+                            },
+                            
+                        }
+                        
+                    },
+                },
                 owner: {
                     select: {
                         userId: true,
@@ -106,8 +119,9 @@ const getCommunityId = async (req: Request, res: Response) => {
                 desc: community?.communityDesc,
                 privacy: community?.communityPrivacy, //true if private, false if public
                 photo: community?.communityPhoto,
-                tags: community?.tags.map((item: any) => item.tag.tagName),
+                tags: community?.tags.map((item: any) => item.tag.tagName.trim()),
                 memberCount: (community?.member.length || 0) + 1, //+1 for the owner
+                file:community?.files
             },
         })
         res.status(200).end()

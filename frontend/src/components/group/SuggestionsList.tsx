@@ -24,7 +24,7 @@ const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMem
                         width: "100%",
                         height: "20vh",
                         // backgroundImage: `url(${communityCoverPhoto})`,
-                        backgroundImage: communityPhoto ? communityPhoto : `url(https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg)`,
+                        backgroundImage: communityPhoto ? `data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(communityPhoto?.data)))}` : `url(https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg)`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "cover",
                         backgroundPosition: "center",

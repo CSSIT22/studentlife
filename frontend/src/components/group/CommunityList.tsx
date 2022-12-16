@@ -8,18 +8,7 @@ const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, lastAc
 
 
 
-    const base64String = btoa(String.fromCharCode(...new Uint8Array(communityPhoto?.data)))
-    // console.log(communityPhoto?.data)
-    // console.log(base64String)
-    // console.log(communityPhoto?.data.length);
-    useEffect(() => {
-        if (communityPhoto?.data != undefined) {
-            console.log(btoa(String.fromCharCode(...new Uint8Array(communityPhoto?.data))));
-            const data = new Blob([new Uint8Array(communityPhoto?.data)]);
-            const bURL = window.URL.createObjectURL(data)
-            window.open(bURL)
-        }
-    }, [])
+    
 
     return (
         <Link to={`/groups/id/${communityId}`}>
@@ -36,7 +25,7 @@ const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, lastAc
                 <Box p={2} borderRadius="md">
 
                     <HStack gap={2}>
-                        <Image ml={1} borderRadius="md" boxSize="55px" src={communityPhoto ? `data:image/jpg;base64,${btoa(String.fromCharCode(...new Uint8Array(communityPhoto?.data)))}` : "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"} alt="Cover Photo" />
+                        <Image ml={1} borderRadius="md" boxSize="55px" src={communityPhoto ? `data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(communityPhoto?.data)))}` : "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"} alt="Cover Photo" />
                         <div>
                             <HStack >
                                 {communityPrivacy ? <MdPublicOff /> : <MdPublic />}

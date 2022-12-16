@@ -67,7 +67,7 @@ export type SuggestionsCommunity = {
   communityName: string;
   communityMember?: number;
   communityPrivacy: boolean;
-  communityPhoto: string;
+  communityPhoto: any;
 
   communityId?: number;
   communityOwnerId?: number;
