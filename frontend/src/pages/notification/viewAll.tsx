@@ -54,48 +54,14 @@ const viewAll = () => {
     }, [reLoad])
     //console.log(userNotiObjectModule);
 
-    const toast = useToast()
     useEffect(() => {
         socketIO.on("push_noti", (data: pushNotiType) => {
-            toast({
-                position: 'bottom-right',
-                render: () => (
-
-                    <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
-                        <Stack direction={"row"} spacing={3}>
-                            <Center><Avatar bg="blackAlpha.200" size={"sm"}>
-                                <AvatarBadge boxSize="1em" bg="green.500" />
-                            </Avatar>
-                            </Center>
-                            <Stack>
-                                {/* <Text fontSize={"sm"} color="white">
-                                <b>User123456</b> Create a post asdfkj asdf asdad
-                                </Text>
-                                <Text fontSize={"xs"} color="white">
-                                    10 hours ago
-                                </Text> */}
-                                <Text fontSize={"sm"} color="white">
-                                    You got new notification.
-                                </Text>
-                            </Stack>
-                        </Stack>
-                    </Box>
-
-                )
-            })
-
-            // getUserNotiObjectModule.then((res) => {
-            //     setUserNotiObjectModule(res.data)
-            // })
             setreLoad(!reLoad)
         })
         return () => {
             socketIO.off("push_noti")
         }
     });
-
-
-
 
     return (
         <AppBody>
