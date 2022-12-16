@@ -11,6 +11,7 @@ import { FaLock, FaLockOpen, FaUnlock } from "react-icons/fa"
 import API from "src/function/API"
 import Lottie from "lottie-react";
 import loading from "./lottie/loading.json";
+import { TiLockClosed, TiLockOpen } from "react-icons/ti"
 
 const index = () => {
     const { isOpen, onToggle } = useDisclosure()
@@ -168,9 +169,9 @@ const index = () => {
                                     })
                                 }}>
                                     {accessId.includes(rsn.shortNote.snId) ?
-                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaUnlock />}></Rsn>
+                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockOpen />}></Rsn>
                                         :
-                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaLock />}></Rsn>
+                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockClosed />}></Rsn>
 
                                     }
                                 </Box>
@@ -228,21 +229,21 @@ const index = () => {
                                         }}
                                     >
                                         {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaUnlock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
                                             :
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
                                         }
 
                                     </Box>
                                 ))}
                                 <Flex w={"100%"} justifyContent={"center"} mb={4}>
                                     <HStack >
-                                        {pageNumbers.map((n: any) => (
-                                            <Button onClick={() => { setCurrentPage(n) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === n && {
+                                        {pageNumbers.map((no: any) => (
+                                            <Button onClick={() => { setCurrentPage(no) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === no && {
                                                 _hover: { bg: "orange.500" },
                                                 bg: "orange.500",
                                                 color: "white",
-                                            })}>{n}</Button>
+                                            })}>{no}</Button>
                                         ))}
                                     </HStack>
                                 </Flex>
@@ -262,9 +263,9 @@ const index = () => {
                                         }}
                                     >
                                         {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaUnlock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
                                             :
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
                                         }
                                     </Box>
                                 ))}
