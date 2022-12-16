@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean, Input, Button, Show, Hide } from "@chakra-ui/react"
+import { Box, Heading, Text, Flex, Spacer, HStack, SimpleGrid, VStack, Select, useDisclosure, Stack, Collapse, SlideFade, useBoolean, Input, Button, Show, Hide, Grid, GridItem } from "@chakra-ui/react"
 import React, { useEffect, useMemo, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import AppBody from "../../components/share/app/AppBody"
@@ -14,6 +14,7 @@ import loading from "./lottie/loading.json";
 import extraRsnList from "./e/recent"
 import { BsBoxArrowInRight } from "react-icons/bs"
 import { TiLockClosed, TiLockOpen } from "react-icons/ti"
+import { AiOutlineArrowRight, AiOutlineHistory } from "react-icons/ai"
 const index = () => {
     const { isOpen, onToggle } = useDisclosure()
     const { isOpen: rsnIsOpen, onToggle: rsnOnToggle } = useDisclosure()
@@ -112,12 +113,22 @@ const index = () => {
     // }, [coursePicked]) // what to track
 
     useEffect(() => {
-        setSsn(sn.filter((items: any) => {
-            return (
-                items.snName.toLowerCase().includes(searchSn)
-            )
-        }))
-    }, [searchSn])
+        const sortedSn = sn.sort((a: any, b: any) => {
+            if (a.snName < b.snName) {
+                return -1;
+            }
+            if (a.snName > b.snName) {
+                return 1;
+            }
+            return 0;
+        });
+        const filteredSn = sortedSn.filter((items: any) => {
+            return items.snName.toLowerCase().includes(searchSn);
+        });
+        setSsn(filteredSn);
+    }, [searchSn]);
+
+
 
     useEffect(() => {
         setSsn(sn.filter((items: any) => items.courseId == coursePicked))
@@ -148,12 +159,8 @@ const index = () => {
         <AppBody>
             {/*Recent view list section*/}
             <HStack mt={4}>
-                <Heading size={"sm"} alignSelf={"end"} onClick={() => {
-                    navigate({
-                        pathname: "./e/" + "recent",
-                    })
-                }}>
-                    <Button variant='outline' size={"sm"} _hover={{ bg: "orange.500", color: "white" }}>Recent view <Hide below="sm" /> <BsBoxArrowInRight /></Button>
+                <Heading size={"xs"} alignSelf={"end"} mb={-3}>
+                    Recent view
                 </Heading>
                 <Spacer />
                 <BtnMl />
@@ -164,26 +171,36 @@ const index = () => {
                     <Lottie style={style} animationData={loading}></Lottie>
                 </Box>
                 :
-                <SlideFade in={isOpen} offsetY='20px'>
-                    <Box mt={4} mb={9}>
-                        <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 4 }} textAlign={"center"}>
-                            {rsn.map((rsn: any, key) => (
-                                <Box as="button" onClick={() => {
-                                    navigate({
-                                        pathname: "./" + rsn.shortNote.snId,
-                                    })
-                                }}>
-                                    {accessId.includes(rsn.shortNote.snId) ?
-                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockOpen />}></Rsn>
-                                        :
-                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockClosed />}></Rsn>
+                <>
+                    <SlideFade in={isOpen} offsetY='20px'>
+                        <Box mt={4} mb={9}>
+                            <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 4 }} textAlign={"center"}>
+                                {rsn.map((rsn: any, key) => (
+                                    <Box as="button" onClick={() => {
+                                        navigate({
+                                            pathname: "./" + rsn.shortNote.snId,
+                                        })
+                                    }}>
+                                        {accessId.includes(rsn.shortNote.snId) ?
+                                            <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockOpen />}></Rsn>
+                                            :
+                                            <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockClosed />}></Rsn>
 
-                                    }
-                                </Box>
-                            ))}
-                        </SimpleGrid>
-                    </Box>
-                </SlideFade>
+                                        }
+                                    </Box>
+                                ))}
+                            </SimpleGrid>
+                            <Flex justifyContent={{ base: "center", sm: " right" }}>
+                                <Button mt={2} rightIcon={<AiOutlineArrowRight />} variant={"ghost"} size={"sm"} onClick={() => {
+                                    navigate({
+                                        pathname: "./e/" + "recent",
+                                    })
+                                }}>See more</Button>
+                            </Flex>
+
+                        </Box>
+                    </SlideFade>
+                </>
             }
 
             {/*Shortnote list section*/}
@@ -216,70 +233,71 @@ const index = () => {
 
             </Hide>
 
-            {snLoad ? <Lottie style={style} animationData={loading}></Lottie>
-                :
-                <Collapse in={rsnIsOpen} animateOpacity>
-                    <VStack gap={2} pt={4} mb={4}>
-                        {coursePicked == "" && searchSn == "" ? (
-                            <>
-                                {currentSn.map((sn: any, key: any) => (
-                                    <Box
-                                        as="button"
-                                        w={"100%"}
-                                        onClick={() => {
-                                            setSnPicked(sn.id)
-                                            navigate({
-                                                pathname: "./" + sn.snId,
-                                            })
-                                        }}
-                                    >
-                                        {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
-                                            :
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
-                                        }
+            {
+                snLoad ? <Lottie style={style} animationData={loading}></Lottie>
+                    :
+                    <Collapse in={rsnIsOpen} animateOpacity>
+                        <VStack gap={2} pt={4} mb={4}>
+                            {coursePicked == "" && searchSn == "" ? (
+                                <>
+                                    {currentSn.map((sn: any, key: any) => (
+                                        <Box
+                                            as="button"
+                                            w={"100%"}
+                                            onClick={() => {
+                                                setSnPicked(sn.id)
+                                                navigate({
+                                                    pathname: "./" + sn.snId,
+                                                })
+                                            }}
+                                        >
+                                            {accessId.includes(sn.snId) ?
+                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
+                                                :
+                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
+                                            }
 
-                                    </Box>
-                                ))}
-                                <Flex w={"100%"} justifyContent={"center"} mb={4}>
-                                    <HStack >
-                                        {pageNumbers.map((no: any) => (
-                                            <Button onClick={() => { setCurrentPage(no) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === no && {
-                                                _hover: { bg: "orange.500" },
-                                                bg: "orange.500",
-                                                color: "white",
-                                            })}>{no}</Button>
-                                        ))}
-                                    </HStack>
-                                </Flex>
-                            </>
-                        ) : (
-                            <>
-                                {ssn.map((sn: any, key: any) => (
-                                    <Box
-                                        as="button"
-                                        w={"100%"}
-                                        onClick={() => {
-                                            setSnPicked(sn.id)
-                                            navigate({
-                                                pathname: "./" + sn.snId,
-                                            })
-                                            console.log(snPicked)
-                                        }}
-                                    >
-                                        {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
-                                            :
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
-                                        }
-                                    </Box>
-                                ))}
-                            </>
-                        )}
-                    </VStack>
-                </Collapse>
+                                        </Box>
+                                    ))}
+                                    <Flex w={"100%"} justifyContent={"center"} mb={4}>
+                                        <HStack >
+                                            {pageNumbers.map((no: any) => (
+                                                <Button onClick={() => { setCurrentPage(no) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === no && {
+                                                    _hover: { bg: "orange.500" },
+                                                    bg: "orange.500",
+                                                    color: "white",
+                                                })}>{no}</Button>
+                                            ))}
+                                        </HStack>
+                                    </Flex>
+                                </>
+                            ) : (
+                                <>
+                                    {ssn.map((sn: any, key: any) => (
+                                        <Box
+                                            as="button"
+                                            w={"100%"}
+                                            onClick={() => {
+                                                setSnPicked(sn.id)
+                                                navigate({
+                                                    pathname: "./" + sn.snId,
+                                                })
+                                                console.log(snPicked)
+                                            }}
+                                        >
+                                            {accessId.includes(sn.snId) ?
+                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
+                                                :
+                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
+                                            }
+                                        </Box>
+                                    ))}
+                                </>
+                            )}
+                        </VStack>
+                    </Collapse>
             }
-        </AppBody>
+        </AppBody >
     )
 }
 

@@ -128,8 +128,8 @@ const btnMyLibrary = () => {
     const [newLi, setNewLi] = useState<any>([])
     return (
         <Box>
-            <Button colorScheme="orange" onClick={mliOnOpen}>
-                <BiLibrary /> My library
+            <Button leftIcon={<BiLibrary />} colorScheme="orange" onClick={mliOnOpen}>
+                My library
             </Button>
             <Drawer isOpen={mliIsOpen} placement="right" onClose={mliOnClose} size={"sm"}>
                 <DrawerOverlay />

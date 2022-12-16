@@ -150,8 +150,8 @@ const btnNewShortnote = () => {
     const toast = useToast()
     return (
         <Box>
-            <Button colorScheme={"orange"} onClick={nsOnOpen}>
-                <MdPostAdd /> New <Hide below="sm">shortnote</Hide>
+            <Button leftIcon={<MdPostAdd />} colorScheme={"orange"} onClick={nsOnOpen}>
+                New <Hide below="sm">shortnote</Hide>
             </Button>
             <Modal scrollBehavior={"inside"} size={"xl"} onClose={closeSnModal} isOpen={nsIsOpen} isCentered>
                 <ModalOverlay />
