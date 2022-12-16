@@ -27,7 +27,7 @@ const createCommunity = () => {
     const [communityDesc, setCommunityDesc] = useState("")
     const [communityPrivacy, setCommunityPrivacy] = useState(true)//true = public, false = private
     const [communityCoverPhoto, setCommunityCoverPhoto] = useState("https://1493660asdasda88.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg")
-
+    const [previewPhoto, setPreviewPhoto] = useState("https://1493660asdasda88.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg")
 
 
     //tags 
@@ -66,12 +66,18 @@ const createCommunity = () => {
 
     //Send data to backend
     const submit = () => {
-        API.post("/group/createCommunity", {
-            communityName: communityName,
-            communityDesc: communityDesc,
-            communityPrivacy: !communityPrivacy,
-            communityCoverPhoto: communityCoverPhoto,
-            communityTags: createTag,
+        const form = new FormData()
+        let Privacy: any = !communityPrivacy.toString();
+        form.append("communityName", communityName);
+        form.append("communityDesc", communityDesc);
+        form.append("communityPrivacy", Privacy);
+        form.append("createTag", createTag);
+        form.append("upload", communityCoverPhoto);
+
+        API.post("/group/createCommunity", form, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         }).then((res) => {
             toast({
                 title: "Success",
@@ -94,7 +100,7 @@ const createCommunity = () => {
         })
         onClose()
     }
-    
+
 
     return (
         <AppBody>
@@ -273,8 +279,11 @@ const createCommunity = () => {
                             accept="image/png, image/jpeg"
                             onChange={(e: any) => {
                                 let x = URL.createObjectURL(e.target.files[0])
-                                setCommunityCoverPhoto(x)}
-                                }>
+                                console.log(e.target.files[0] instanceof Blob)
+                                setPreviewPhoto(x)
+                                setCommunityCoverPhoto(e.target.files[0])
+                            }
+                            }>
                         </input>
 
                     </Box>
@@ -519,7 +528,7 @@ const createCommunity = () => {
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    communityCoverPhoto={communityCoverPhoto}
+                                    communityCoverPhoto={previewPhoto}
                                     communityMembers={1}
                                     communityId={""}
                                     tags={updatedTag}

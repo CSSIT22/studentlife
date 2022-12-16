@@ -4,7 +4,9 @@ import React, { FC } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { Link } from "react-router-dom"
 
-const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, lastActive, communityCoverPhoto, communityPrivacy, communityId }) => {
+const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, lastActive, communityPhoto, communityPrivacy, communityId }) => {
+    console.log(communityPhoto)
+
     return (
         <Link to={`/groups/id/${communityId}`}>
             <Box
@@ -20,7 +22,7 @@ const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, lastAc
                 <Box p={2} borderRadius="md">
 
                     <HStack gap={2}>
-                        <Image ml={1} borderRadius="md" boxSize="55px" src={communityCoverPhoto ? communityCoverPhoto : "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"} alt="Cover Photo" />
+                        <Image ml={1} borderRadius="md" boxSize="55px" src={communityPhoto ?  URL.createObjectURL(new Blob ([communityPhoto])) : "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"} alt="Cover Photo" />
                         <div>
                             <HStack >
                                 {communityPrivacy ? <MdPublicOff /> : <MdPublic />}

@@ -20,7 +20,9 @@ import setRole from "./routes/community/member/setRole"
 import unBanMember from "./routes/community/member/unBanMember"
 import getCommunityId from "./routes/community/getCommunityId"
 import getTag from "./routes/getTag"
+import multer from "multer"
 
+const upload = multer()
 const groupRoutes = express()
 groupRoutes.use(express.json())
 
@@ -43,7 +45,7 @@ groupRoutes.post("/createtest", (req, res) => {
     res.sendStatus(201)
 })
 
-groupRoutes.post("/createCommunity", createCommunity)
+groupRoutes.post("/createCommunity",upload.array("upload"), createCommunity)
 groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.get("/searchCommunity", searchCommunity)
 groupRoutes.patch("/editCommunity:id", editCommunity)

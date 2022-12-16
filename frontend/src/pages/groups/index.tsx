@@ -74,11 +74,10 @@ const index = () => {
                 .map((c: OwnCommunity) => {
                     return (
                         <CommunityList
-                            pendingRequest={community?.communityList?.pendingRequest.length > 0}
                             key={c.communityId}
                             communityName={c.communityName}
                             lastActive={'9'}
-                            communityCoverPhoto={c.communityCoverPhoto}
+                            communityPhoto={c.communityPhoto}
                             communityPrivacy={c.communityPrivacy}
                             communityId={c.communityId} />
                     )
@@ -97,7 +96,7 @@ const index = () => {
                             key={community.communityId}
                             communityName={community.communityName}
                             lastActive={community.lastActive}
-                            communityCoverPhoto={community.communityCoverPhoto}
+                            communityPhoto={community.communityPhoto}
                             communityPrivacy={community.communityPrivacy}
                             communityId={community.communityId} />
                     )
@@ -115,7 +114,7 @@ const index = () => {
                         <InvitationsList
                             key={community.communityId}
                             communityName={community.communityName}
-                            communityCoverPhoto={community.communityCoverPhoto}
+                            communityPhoto={community.communityPhoto}
                             communityId={community.communityId}
                             expired={community.expired}
                             communityMember={community.communityMember}
@@ -134,7 +133,7 @@ const index = () => {
                         <SuggestionsList
                             key={community.communityId}
                             communityName={community.communityName}
-                            communityCoverPhoto={community.communityCoverPhoto}
+                            communityPhoto={community.communityCoverPhoto}
                             communityMember={community.member.length + 1}
                             communityPrivacy={community.communityPrivacy}
                             communityId={community.communityId}
@@ -151,7 +150,7 @@ const index = () => {
                         joined={community.member[0].joined}
                         userId={community.member[0].userId}
                         communityName={community.communityName}
-                        communityCoverPhoto={community.communityCoverPhoto}
+                        communityPhoto={community.communityCoverPhoto}
                         communityId={community.communityId}
                         ownerFname={community.owner.fName}
                         ownerLname={community.owner.lName}

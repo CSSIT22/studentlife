@@ -19,7 +19,7 @@ export type OwnCommunity = {
   pendingRequest?: boolean;
   communityName: string;
   communityPrivacy: boolean;
-  communityCoverPhoto: string;
+  communityPhoto: Blob;
   communityId: string;
 
   communityOwnerId?: string;
@@ -33,7 +33,7 @@ export type OwnCommunity = {
 export type JoinedCommunity = {
   communityName: string;
   communityPrivacy: boolean;
-  communityCoverPhoto: string;
+  communityPhoto: Blob;
   communityId: string;
 
   communityOwnerId?: number;
@@ -50,7 +50,7 @@ export type InvitedCommunity = {
   communityId: number;
   communityName: string;
   communityMember: number;
-  communityCoverPhoto: string;
+  communityPhoto: string;
   userName?: string; //inviter name
   expired?: number;
   communityPrivacy: boolean;
@@ -67,7 +67,7 @@ export type SuggestionsCommunity = {
   communityName: string;
   communityMember?: number;
   communityPrivacy: boolean;
-  communityCoverPhoto: string;
+  communityPhoto: string;
 
   communityId?: number;
   communityOwnerId?: number;
