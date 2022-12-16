@@ -16,6 +16,7 @@ const getRedirect = async (req: Request, res: Response) => {
     console.log(getUser)
 
     res.redirect(getUser?.originalLink || "") //getUser could be Null, thus we use or || ""  in case it is null.
+    
 }
 
 export default getRedirect

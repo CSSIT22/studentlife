@@ -1,5 +1,5 @@
 import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack, Text, useToast, Editable } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import { Input } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -15,7 +15,19 @@ import {
     PopoverAnchor,
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
+import API from "src/function/API"
 const customize = () => {
+    // ---------------------------
+    const [custom, setcustom] = useState("");
+    const [word, setword] = useState("");
+    const [link, setLink] = useState("");
+
+    const customlinkk = async () => {
+        const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: link, shortenLink: word })
+        setcustom(response.data.result.customlink)
+    }
+
+    // ---------------------------
     const navigate = useNavigate()
     const password = () => {
         navigate("/link/password")
@@ -27,8 +39,10 @@ const customize = () => {
         navigate("/link/permission")
     }
     const complete = () => {
-      navigate("/link/complete")
-  }
+        navigate("/link/complete")
+    }
+
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
 
@@ -62,18 +76,31 @@ const customize = () => {
                     </Box>
 
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
-                        <Box h="70px">
+                        <Box h="100px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
+                                    <Input placeholder="link url:" onChange={(e) => setLink(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
+                                </Center>
+                            </Box>
+                            <Box width={"100%"} marginTop={"1%"}>
+                                {/* custom word */}
+                                {/* handle change */}
+                                <Center>
+                                    <Input placeholder="custom word:" onChange={(e) => setword(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
+                                </Center>
+                            </Box>
+                            <Box h="70px" w={"100%"} marginTop={"2%"}>
+                                <Center>
+                                    <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"}>
+                                        <a>
+                                            {custom != "" ? "http://localhost:8000/shortlink/redirect?shorten=" + word : ""}{custom}
+                                        </a>
+                                    </Editable>
                                 </Center>
                             </Box>
                         </Box>
-                        <Box h="70px" w={"100%"}>
-                            <Center>
-                            <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"}></Editable>
-                            </Center>
-                        </Box>
+
+
                     </VStack>
                 </Box>
             </Center>
@@ -107,7 +134,8 @@ const customize = () => {
                             </AlertDialog>
                             <Box width={"100%"}>
                                 <Center>
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={onOpen}>
+                                    {/* onClick={onOpen} */}
+                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={customlinkk}>
                                         SAVE
                                     </Button>
                                 </Center>
@@ -142,7 +170,7 @@ const customize = () => {
                                                     })
 
                                                 }
-                                                    >
+                                            >
                                                 Shortlink Unblock
                                             </Button>
                                             <Button bg={"cyan.200"} w={"100%"} mt={3} onClick={permission}>
