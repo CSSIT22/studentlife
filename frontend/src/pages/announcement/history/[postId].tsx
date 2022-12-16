@@ -17,7 +17,7 @@ import {
     Heading,
     useToast,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
@@ -118,7 +118,7 @@ const history = () => {
             setexMoreLang(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
 
             setmorelanglength(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
-        }).catch(err => toast({ title: "Something went wrong", duration: 5000, status: "error", position: "top" }))
+        }).catch(err => toast({ title: "Something went wrong with Loading information", duration: 5000, status: "error", position: "top" }))
 
         await API.get("/announcement/gettypetarget").then(item => settv(item.data))
     }
@@ -126,10 +126,15 @@ const history = () => {
 
 
 
+    const [formState, setFormState] = useState<
+        "unchanged" | "modified" | "saving"
+    >("unchanged");
 
     useEffect(() => {
         getPost()
     }, [toggle])
+
+
 
     const onOpen = () => {
         setIsOpen(true)
@@ -173,7 +178,46 @@ const history = () => {
             return ""
         }
     }
+    const [navi, setNav] = useState(true);
+    useEffect(() => {
+        const handler = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        if (formState == "modified") {
+            window.addEventListener("beforeunload", handler);
+            // clean it up, if the dirty state changes
+            return () => {
+                window.removeEventListener("beforeunload", handler);
+            }
+        }
 
+
+    }, [formState])
+
+    useEffect(() => {
+        const history = window.history as any;
+        var pushState = window.history.pushState;
+        history.pushState = function (state: any) {
+            if (typeof history.onpushstate == "function") {
+                history.onpushstate({ state: state });
+            }
+            // const nav = false;
+            // false cannot navigate
+
+            if (navi) {
+                return pushState.apply(history, arguments as any);
+            } else {
+                // alert("Hello")
+                // console.log("hi");
+                const cancelRef = useRef()
+            }
+        };
+
+        return () => {
+            window.history.pushState = pushState
+        }
+    }, [navi])
     const onAdd = () => {
         setAdd(add + 1)
     }
@@ -277,7 +321,7 @@ const history = () => {
     }
 
     const submit = () => {
-        const date = new Date(event+"");
+        const date = new Date(event + "");
         API.post<post>("/announcement/editdetailpost", {
             postid: params.postId,
             topic: topic,
@@ -290,6 +334,10 @@ const history = () => {
         })
         navigate("/announcement/history")
     }
+    console.log(formState);
+    console.log(navi);
+
+
     return (
         <AnnounceNav>
             {(() => {
@@ -305,6 +353,7 @@ const history = () => {
                                     // e.preventDefault()
                                     e.stopPropagation()
                                     submit()
+                                    setFormState("saving")
                                 }}
                             >
                                 <Flex alignItems={"center"}>
@@ -338,11 +387,28 @@ const history = () => {
                                     </FormControl>
                                     <FormControl isRequired>
                                         <FormLabel>Title</FormLabel>
-                                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white" />
+                                        <Input placeholder="Title" onChange={(e) => {
+                                            if (e.target.value !== "") {
+                                                setFormState("modified");
+                                                setNav(false);
+                                            } else {
+                                                setFormState("unchanged");
+                                                setNav(true)
+                                            }
+                                            setTopic(e.target.value)
+                                        }} value={topic} bg="white" />
                                     </FormControl>
                                     <FormControl isRequired>
                                         <FormLabel>Detail</FormLabel>
-                                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white" />
+                                        <Textarea placeholder="Detail" size="sm" onChange={(e) => {
+                                            if (e.target.value !== "") {
+                                                setFormState("modified");
+                                                setNav(false);
+                                            } else {
+                                                setFormState("unchanged");
+                                                setNav(true)
+                                            } setDetail(e.target.value)
+                                        }} value={detail} bg="white" rows={10} />
                                     </FormControl>
                                     <FormControl isRequired>
                                         <FormLabel>Target Group</FormLabel>
@@ -350,7 +416,15 @@ const history = () => {
                                             <Select
                                                 placeholder="Select Type"
                                                 pr={"2"}
-                                                onChange={(el) => setTargetType(el.target.value)}
+                                                onChange={(el) => {
+                                                    if (el.target.value !== "") {
+                                                        setFormState("modified");
+                                                        setNav(false);
+                                                    } else {
+                                                        setFormState("unchanged");
+                                                        setNav(true)
+                                                    } setTargetType(el.target.value)
+                                                }}
                                                 value={targetType}
                                                 bg="white"
                                             >
@@ -369,7 +443,15 @@ const history = () => {
                                             size="md"
                                             type="date"
                                             min={disabledDates()}
-                                            onChange={(e) => setEvent(e.target.value)}
+                                            onChange={(e) => {
+                                                if (e.target.value !== "") {
+                                                    setFormState("modified");
+                                                    setNav(false);
+                                                } else {
+                                                    setFormState("unchanged");
+                                                    setNav(true)
+                                                } setEvent(e.target.value)
+                                            }}
                                             bg="white"
                                             value={event}
                                         />
@@ -381,7 +463,15 @@ const history = () => {
                                             size="md"
                                             type="date"
                                             min={disabledDates()}
-                                            onChange={(e) => setExpired(e.target.value)}
+                                            onChange={(e) => {
+                                                if (e.target.value !== "") {
+                                                    setFormState("modified");
+                                                    setNav(false);
+                                                } else {
+                                                    setFormState("unchanged");
+                                                    setNav(true)
+                                                } setExpired(e.target.value)
+                                            }}
                                             value={expired}
                                             bg="white"
                                         />
