@@ -23,6 +23,7 @@ import getAccess from "./routes/getAccess"
 import getUser from "./routes/getUser"
 import editShortnote from "./routes/editShortnote"
 import deleteFile from "./routes/deleteFile"
+import getExtraRsn from "./routes/getExtraRsn"
 
 const shortnotesRoutes = express()
 
@@ -94,4 +95,5 @@ shortnotesRoutes.delete("/deletePeople", deletePeople)
 
 shortnotesRoutes.delete("/deleteFile", deleteFile)
 
+shortnotesRoutes.get("/getExtraRsn", getExtraRsn)
 export default shortnotesRoutes
