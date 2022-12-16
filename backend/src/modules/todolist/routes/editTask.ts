@@ -12,16 +12,21 @@ const editTask = async (req: Request, res: Response) => {
         taskType: req.body.taskType,
     }
 
+    if (!req.body.taskId) {
+        return res.status(400).send("Invalid body")
+    }
+
     try {
-        await prisma.task.update({
+        await prisma.task.updateMany({
             where: {
                 taskId: req.body.taskId,
             },
             data: editTask,
         })
         return res.send("Success")
-    } catch {
-        res.status(404)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send("Error")
     }
 }
 

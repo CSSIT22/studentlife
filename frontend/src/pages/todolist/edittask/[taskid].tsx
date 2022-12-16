@@ -28,9 +28,10 @@ import {
 } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import API from "src/function/API"
-import { BrowserRouter as Router, Route, Link as RouteLink, Form, useNavigate } from "react-router-dom"
+import { BrowserRouter as Router, Route, Link as RouteLink, Form, useNavigate, useParams } from "react-router-dom"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import { ArrowBackIcon } from "@chakra-ui/icons"
+import dayjs from "dayjs"
 
 // const edittask = () => {
 //     const { isOpen: isBackOpen, onOpen: onBackOpen, onClose: onBackClose } = useDisclosure()
@@ -44,17 +45,45 @@ const edittask = () => {
     const [time, setTime] = useState("")
     const [folder, setFolder] = useState("")
     const [folderList, setFolderList] = useState([])
-    const [editTask, setEditTask] = useState({})
+    const [descList, setDescList] = useState<any>({})
+
+    let { taskid } = useParams()
 
     useEffect(() => {
         // fetchTaskList();
+        API.post("/todolist/detail", { taskId: taskid }).then((res) => {
+            setDescList(res.data);
+            console.log("grrrr", res.data);
+        })
+
         API.post("/todolist/listfolder").then((res) => {
             setFolderList(res.data);
             console.log(res.data);
         })
     }, [])
 
-    console.log(type)
+    const submit = (taskId: string) => {
+        API.post("/todolist/edittask", {
+            taskId: taskId,
+            taskName: taskName,
+            taskDesc: taskDesc,
+            due: new Date(due + "T" + time + "Z"),
+            taskType: type,
+            // alert: alert,
+            folderId: folder
+        }).then(() => {
+            navigate("/todolist/")
+        })
+    }
+
+    // const editTask = (taskId: string) => {
+    //     API.post("/todolist/editTask", { taskId: taskid }).then((res) => {
+    //         console.log(res.data);
+    //     })
+    // }
+
+    // console.log(type)
+
     return (
 
         <ToDoListAppBody>
@@ -73,22 +102,26 @@ const edittask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Task Name
                 </Heading>
-                <Input placeholder="Task Name" size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
+                {/* <Text size="md">{descList.taskName}</Text> */}
+                <Input placeholder={descList.taskName} size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
-                <Input placeholder="Description" size="md" id="desc" onChange={(e) => setTaskDesc(e.target.value)} />
+                {/* <Text size="md">{descList.taskDesc}</Text> */}
+                <Input placeholder={descList.taskDesc} size="md" id="desc" onChange={(e) => setTaskDesc(e.target.value)} />
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
                 </Heading>
+                {/* <Text fontSize="md">{dayjs(descList.due).format("dddd DD MMMM YYYY")}</Text> */}
                 <label>
-                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
+                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" value={dayjs(descList.due).format("YYYY-MM-DD")} onChange={(e) => setDueDate(e.target.value)} />
                 </label>
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
+                {/* <Text fontSize="md">{dayjs(descList.due).format("HH:mm:ss")}</Text> */}
                 <form>
-                    <input id="appt-time" type="time" name="appt-time" onChange={(e) => setTime(e.target.value)} />
+                    <input id="appt-time" type="time" name="appt-time" value={dayjs(descList.due).format("HH:mm")} onChange={(e) => setTime(e.target.value)} />
                 </form>
 
                 {/* <Heading as="h2" size="md" noOfLines={1} marginY={10}>
@@ -101,7 +134,8 @@ const edittask = () => {
                 <Heading className="Type" as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Type
                 </Heading>
-                <Select placeholder="Choose" size="md" className="Type" onChange={(e) => setType(e.target.value)}>
+                {/* <Text size="md">{descList.taskType}</Text> */}
+                <Select placeholder={descList.taskType} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
                     <option value="individual">Individual</option>
                     <option value="group">Group</option>
                 </Select>
@@ -134,7 +168,9 @@ const edittask = () => {
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     {type == "individual" ? (
                         <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
-                            <Link href="/todolist/task">Done</Link>
+                            <Link onClick={() => {
+                                submit(descList.taskId)
+                            }}>Done</Link>
                         </Button>
                     ) : (
                         <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>

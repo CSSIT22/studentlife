@@ -21,9 +21,12 @@ const finishTask = async (req: Request, res: Response) => {
         return res.status(404).send("User has no permission to check task")
     }
     try {
+        const temp = await prisma.task_Check.findFirst({
+            where: { taskId: body.taskId, userId: userid },
+        })
         await prisma.task_Check.updateMany({
             where: { taskId: body.taskId, userId: userid },
-            data: { isCheck: true },
+            data: { isCheck: !temp?.isCheck },
         })
     } catch (e) {
         console.log(e)

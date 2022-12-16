@@ -138,9 +138,9 @@ const createtask = () => {
                     <option value="group">Group</option>
                 </Select>
 
-                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
+                {/* <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Alert
-                </Heading>
+                </Heading> */}
                 {/* <Select placeholder="Choose" size="md" onChange={(e) => console.log(e.target.value)}>
                     <option value="option1">1 day before due date</option>
                     <option value="option2">3 days before due date</option>

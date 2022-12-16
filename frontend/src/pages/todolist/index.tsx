@@ -112,7 +112,8 @@ const index = () => {
         <Text fontSize={"2xl"} textAlign={"center"}>
           Work Progress
         </Text>
-        <Progress marginTop={2} value={20} size="lg" colorScheme="orange" />
+        {/* {taskList.filter((el: any) => (el.isCheck == true)).length / taskList.length} */}
+        <Progress marginTop={2} value={taskList.filter((el: any) => (el.isCheck == true)).length / taskList.length * 100} size="lg" colorScheme="orange" />
       </Box>
 
     </ToDoListAppBody >
