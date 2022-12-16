@@ -13,13 +13,14 @@ import Lottie from "lottie-react";
 import loading from "./lottie/loading.json";
 import extraRsnList from "./e/extraRecent"
 import { BsBoxArrowInRight } from "react-icons/bs"
+import { TiLockClosed, TiLockOpen } from "react-icons/ti"
 const index = () => {
+    const { isOpen, onToggle } = useDisclosure()
+    const { isOpen: rsnIsOpen, onToggle: rsnOnToggle } = useDisclosure()
     const [sn, setSn] = useState([])
     useEffect(() => {
         API.get("/shortnotes/getShortnotes").then((item) => {
             setSn(item.data)
-            //setSsn(item.data)
-            //console.log(item.data)
         }).finally(() => {
             setsnLoad.off()
             onToggle()
@@ -30,7 +31,6 @@ const index = () => {
     useEffect(() => {
         API.get("/shortnotes/getResentShortnotes").then((item) => {
             setRsn(item.data)
-            //console.log(item.data)
 
         }).finally(() => {
             setRsnLoad.off()
@@ -42,7 +42,6 @@ const index = () => {
     useEffect(() => {
         API.get("/shortnotes/getCourses").then((item) => {
             setCourse(item.data)
-            //console.log(item.data)
         })
     }, [])
 
@@ -56,26 +55,49 @@ const index = () => {
     }, [])
     useEffect(() => {
         access.forEach((a: any) => {
-            //console.log(a.snId);
             setAccessId((accessId: any) => [...accessId, a.snId])
 
         })
     }, [access])
 
-    const { isOpen: mlIsOpen, onOpen: mlOnOpen, onClose: mlOnClose } = useDisclosure()
-    const { isOpen: nlIsOpen, onOpen: nlOnOpen, onClose: nlOnClose } = useDisclosure()
-    const { isOpen: nsIsOpen, onOpen: nsOnOpen, onClose: nsOnClose } = useDisclosure()
-    const { isOpen, onToggle } = useDisclosure()
-    const { isOpen: rsnIsOpen, onToggle: rsnOnToggle } = useDisclosure()
 
-    const btnRef = React.useRef()
 
-    const [useRadio, setRadio] = useState("Public")
-
-    const closeSnModal = () => {
-        nsOnClose()
-        setRadio("Public")
-    }
+    const [sortType, setSortType] = useState("")
+    useMemo(() => {
+        if (sortType == "1") {
+            sn.sort((a: any, b: any) => {
+                if (a.snName < b.snName) {
+                    return -1;
+                }
+                if (a.snName > b.snName) {
+                    return 1;
+                }
+                return 0;
+            })
+        }
+        else if (sortType == "2") {
+            sn.sort((a: any, b: any) => {
+                if (a.created < b.created) {
+                    return -1;
+                }
+                if (a.created > b.created) {
+                    return 1;
+                }
+                return 0;
+            })
+        }
+        else if (sortType == "") {
+            sn.sort((a: any, b: any) => {
+                if (a.created < b.created) {
+                    return 1;
+                }
+                if (a.created > b.created) {
+                    return -1;
+                }
+                return 0;
+            })
+        }
+    }, [sortType, sn])
 
     const [searchSn, setSearchSn] = useState("")
 
@@ -102,7 +124,6 @@ const index = () => {
     }, [coursePicked])
 
     const picked = (e: any) => {
-        //console.log(e.target.value);
         setCoursePicked(e.target.value)
     }
     const navigate = useNavigate()
@@ -153,9 +174,9 @@ const index = () => {
                                     })
                                 }}>
                                     {accessId.includes(rsn.shortNote.snId) ?
-                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaUnlock />}></Rsn>
+                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockOpen />}></Rsn>
                                         :
-                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <FaLock />}></Rsn>
+                                        <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockClosed />}></Rsn>
 
                                     }
                                 </Box>
@@ -175,10 +196,9 @@ const index = () => {
                 <Stack direction={"row"}>
                     <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
-                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="None">
-                            <option value="option1">Name</option>
-                            <option value="option2">Newest</option>
-                            <option value="option2">Oldest</option>
+                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="Newest" onChange={((e: any) => setSortType(e.target.value))}>
+                            <option value="2">Oldest</option>
+                            <option value="1">Name</option>
                         </Select>
                     </VStack>
                     <VStack>
@@ -211,17 +231,27 @@ const index = () => {
                                             navigate({
                                                 pathname: "./" + sn.snId,
                                             })
-                                            //console.log(snPicked)
                                         }}
                                     >
                                         {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaUnlock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
                                             :
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
                                         }
 
                                     </Box>
                                 ))}
+                                <Flex w={"100%"} justifyContent={"center"} mb={4}>
+                                    <HStack >
+                                        {pageNumbers.map((no: any) => (
+                                            <Button onClick={() => { setCurrentPage(no) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === no && {
+                                                _hover: { bg: "orange.500" },
+                                                bg: "orange.500",
+                                                color: "white",
+                                            })}>{no}</Button>
+                                        ))}
+                                    </HStack>
+                                </Flex>
                             </>
                         ) : (
                             <>
@@ -238,26 +268,15 @@ const index = () => {
                                         }}
                                     >
                                         {accessId.includes(sn.snId) ?
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaUnlock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
                                             :
-                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <FaLock />} />
+                                            <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
                                         }
                                     </Box>
                                 ))}
                             </>
                         )}
                     </VStack>
-                    <Flex w={"100%"} justifyContent={"center"} mb={4}>
-                        <HStack >
-                            {pageNumbers.map((n: any) => (
-                                <Button onClick={() => { setCurrentPage(n) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === n && {
-                                    _hover: { bg: "orange.500" },
-                                    bg: "orange.500",
-                                    color: "white",
-                                })}>{n}</Button>
-                            ))}
-                        </HStack>
-                    </Flex>
                 </Collapse>
             }
         </AppBody>
