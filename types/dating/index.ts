@@ -131,3 +131,28 @@ export type PollInfo = {
     };
   }[];
 };
+
+export type HeartReceiver = {
+  heartReceiver: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+    details: {
+      birth: Date;
+      sex: string;
+    };
+    interests: {
+      interestId: number;
+    }[];
+    studentMajor: {
+      majorFaculty: {
+        facultyId: string;
+        facultyName: string;
+      };
+    };
+  };
+};

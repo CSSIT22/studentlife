@@ -33,12 +33,8 @@ const YourAppliedActivityPoll = () => {
     function handleStatus(status: string) {
         if (status === "Accepted") {
             return "green"
-        }
-        else if (status === "Accepting...") {
+        } else {
             return "yellow"
-        }
-        else {
-            return "red"
         }
     }
 
@@ -71,7 +67,7 @@ const YourAppliedActivityPoll = () => {
                                 })
                                 navigate("/user")
                             }
-                            else if(getAge(detail.data.birth) < 18) {
+                            else if (getAge(detail.data.birth) < 18) {
                                 toast({
                                     title: "You don't meet the minimum age requirement!",
                                     status: "warning",
@@ -82,7 +78,7 @@ const YourAppliedActivityPoll = () => {
                                 })
                                 navigate("/")
                             }
-                            else if(getAge(detail.data.birth) > 40) {
+                            else if (getAge(detail.data.birth) > 40) {
                                 toast({
                                     title: "You don't meet the maximum age requirement!",
                                     status: "warning",
@@ -192,7 +188,9 @@ const YourAppliedActivityPoll = () => {
                                             {values.pollStatus}
                                         </Badge>
                                     </Box>
+
                                 </Flex>
+
 
                                 <Flex>
                                     <Box pt='6' pb='6'>
@@ -237,49 +235,49 @@ const YourAppliedActivityPoll = () => {
                                     >
                                         Click to see more
                                     </Text>
-                                </Box>
 
-                                <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
-                                    {/* <ModalOverlay /> */}
-                                    <ModalContent>
-                                        <ModalHeader>
-                                            <Flex alignItems="center">
-                                                <Image
-                                                    borderRadius="full"
-                                                    boxSize="78px"
-                                                    objectFit="cover"
-                                                    src={values.creator.url}
-                                                    alt={values.creator.Fname + " " + values.creator.Lname} />
-                                                <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
-                                                    {values.creator.Fname}
-                                                    &nbsp;
-                                                    {values.creator.Lname}
+                                    <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
+                                        {/* <ModalOverlay /> */}
+                                        <ModalContent>
+                                            <ModalHeader>
+                                                <Flex alignItems="center">
+                                                    <Image
+                                                        borderRadius="full"
+                                                        boxSize="78px"
+                                                        objectFit="cover"
+                                                        src={values.creator.url}
+                                                        alt={values.creator.Fname + " " + values.creator.Lname} />
+                                                    <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
+                                                        {values.creator.Fname}
+                                                        &nbsp;
+                                                        {values.creator.Lname}
+                                                    </Text>
+                                                </Flex>
+                                            </ModalHeader>
+                                            <ModalCloseButton />
+                                            <ModalBody>
+                                                <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
+                                                    {values.pollName}
+                                                </Heading>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
+                                                    {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
                                                 </Text>
-                                            </Flex>
-                                        </ModalHeader>
-                                        <ModalCloseButton />
-                                        <ModalBody>
-                                            <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
-                                                {values.pollName}
-                                            </Heading>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
-                                                {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                Location: {values.pollPlace}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                Date: {globalThis.date}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                Time: {globalThis.time}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
-                                                Number of people: {handlePeople(values.participantMin, values.participantMax)}
-                                            </Text>
-                                        </ModalBody>
-                                    </ModalContent>
-                                </Modal>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                    Location: {values.pollPlace}
+                                                </Text>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                    Date: {globalThis.date}
+                                                </Text>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                    Time: {globalThis.time}
+                                                </Text>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
+                                                    Number of people: {handlePeople(values.participantMin, values.participantMax)}
+                                                </Text>
+                                            </ModalBody>
+                                        </ModalContent>
+                                    </Modal>
+                                </Box>
                             </Box>
                         </>
                     )
@@ -353,9 +351,60 @@ const YourAppliedActivityPoll = () => {
                             </Flex>
 
                             <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px" >
-                                <Text lineHeight="133%" color="black" fontSize="15px" as='u' mb="20px" >
+                                <Text
+                                    lineHeight="150%"
+                                    color="black"
+                                    fontWeight="400"
+                                    fontSize={{ base: "14px", md: "16px" }}
+                                    as='u'
+                                    mb="20px"
+                                    cursor="pointer"
+                                    onClick={onOpen}
+                                >
                                     Click to see more
                                 </Text>
+
+                                <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
+                                        {/* <ModalOverlay /> */}
+                                        <ModalContent>
+                                            <ModalHeader>
+                                                <Flex alignItems="center">
+                                                    <Image
+                                                        borderRadius="full"
+                                                        boxSize="78px"
+                                                        objectFit="cover"
+                                                        src={values.creator.url}
+                                                        alt={values.creator.Fname + " " + values.creator.Lname} />
+                                                    <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
+                                                        {values.creator.Fname}
+                                                        &nbsp;
+                                                        {values.creator.Lname}
+                                                    </Text>
+                                                </Flex>
+                                            </ModalHeader>
+                                            <ModalCloseButton />
+                                            <ModalBody>
+                                                <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
+                                                    {values.pollName}
+                                                </Heading>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
+                                                    {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
+                                                </Text>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                    Location: {values.pollPlace}
+                                                </Text>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                    Date: {globalThis.date}
+                                                </Text>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                    Time: {globalThis.time}
+                                                </Text>
+                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
+                                                    Number of people: {handlePeople(values.participantMin, values.participantMax)}
+                                                </Text>
+                                            </ModalBody>
+                                        </ModalContent>
+                                    </Modal>
                             </Box>
                         </Box>
                     )

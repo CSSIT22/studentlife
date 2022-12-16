@@ -1,18 +1,24 @@
-import { Box, Button, GridItem, Heading, useBreakpointValue, useToast, Image, Text } from "@chakra-ui/react"
+import { Box, Button, GridItem, Heading, useBreakpointValue, useToast, Image, Text, useBoolean } from "@chakra-ui/react"
+import Lottie from "lottie-react"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import DatingWentWrong from "src/components/dating/DatingWentWrong"
 import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import ChatImg from "../../components/dating/pic/chat.png"
-import { POLL } from "src/components/dating/shared/poll"
+import NoProfileImg from "../../components/dating/pic/noprofile.png"
+import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
+import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
 
 
 const DatingMatch = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
-    const [poll, setPoll] = useState(POLL)
+    const [poll, setPoll] = useState([])
     let count = 1
+    const [isError, setIsError] = useState(false)
+    const [isLoading, { off }] = useBoolean(true)
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -42,7 +48,7 @@ const DatingMatch = () => {
                                 })
                                 navigate("/user")
                             }
-                            else if(getAge(detail.data.birth) < 18) {
+                            else if (getAge(detail.data.birth) < 18) {
                                 toast({
                                     title: "You don't meet the minimum age requirement!",
                                     status: "warning",
@@ -53,7 +59,7 @@ const DatingMatch = () => {
                                 })
                                 navigate("/")
                             }
-                            else if(getAge(detail.data.birth) > 40) {
+                            else if (getAge(detail.data.birth) > 40) {
                                 toast({
                                     title: "You don't meet the maximum age requirement!",
                                     status: "warning",
@@ -103,6 +109,14 @@ const DatingMatch = () => {
         }
     })
 
+    useEffect(() => {
+        API.get("/dating/matches/getMatches").then((data) => {
+            console.log(data.data)
+            setPoll(data.data)
+        })
+    }, [])
+
+
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
         useEffect(() => {
@@ -112,7 +126,7 @@ const DatingMatch = () => {
         return didMount
     }
     const { pollId } = useParams()
-    const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
+    // const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
 
     const isMobile = useBreakpointValue({
         base: false,
@@ -141,8 +155,15 @@ const DatingMatch = () => {
                     </Heading>
                 </GridItem>
             </Box>
+            {isLoading || isError ? <></>:
+            <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md:"35%"}}>
+                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
+                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                        Right now, you don't have any new matches.
+                    </Text>
+                </Box>}
             <Box>
-                {poll.map((values) => {
+                {poll.map((values: any) => {
                     return (
                         <Box w="100%"
                             height={{ base: "90px", md: "100px" }}
@@ -150,29 +171,40 @@ const DatingMatch = () => {
                             boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
                             borderRadius="10px"
                             mt="5px"
+                            key={values.userId}
                             mb={{ base: "8px", md: "12px" }}
                             display="flex">
 
 
                             <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
-                                <Image
-                                    borderRadius="full"
-                                    boxSize={{ base: "50px", md: "78px" }}
-                                    objectFit="cover"
-                                    src={values.creator.url}
-                                    alt={values.creator.Fname + " " + values.creator.Lname}
-                                />
+
+                                {values.image ?
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize={{ base: "50px", md: "78px" }}
+                                        objectFit="cover"
+                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
+                                        alt={values.fName + " " + values.lName}
+                                    /> : <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={NoProfileImg}
+                                        alt={values.fName + " " + values.lName}
+                                    />
+                                }
+
                                 {isMobile ? (
                                     <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
-                                        {values.creator.Fname}
+                                        {values.fName}
                                         &nbsp;
-                                        {values.creator.Lname}
+                                        {values.lName}
                                     </Text>
                                 ) : (
                                     <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
-                                        {values.creator.Fname}
+                                        {values.fName}
                                         &nbsp;
-                                        {values.creator.Lname}
+                                        {values.lName}
                                     </Text>
                                 )
                                 }
@@ -192,7 +224,25 @@ const DatingMatch = () => {
                     )
                 })}
             </Box>
+            {
+                (isLoading) && !isError ? (
+                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
+                        <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.4" }} />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
 
+            {
+                isError ? (
+                    <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
+                        <DatingWentWrong />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
         </DatingAppBody>
     )
 }
