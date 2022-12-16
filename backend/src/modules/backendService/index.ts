@@ -47,7 +47,7 @@ backendserviceRoutes.post("/reportword", verifyUser, async (req: Request, res: R
     }
 })
 
-backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
+backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
     const { prisma } = res
     try {
         const bannedUser = await res.prisma.ban_Status.upsert({
