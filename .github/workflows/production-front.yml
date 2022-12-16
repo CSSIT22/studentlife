@@ -53,4 +53,4 @@ jobs:
           apk add openssh-client sshpass lftp
       - name: 🖨️ Upload artifacts to server
         run: |
-          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_PRODUCTION; $MIRROR_DIST; bye"
+          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_PRODUCTION; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /home/pongsapuk_1619255971/production/fronted/web; bye"
