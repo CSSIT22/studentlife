@@ -1096,7 +1096,8 @@ model Word_Report {
   userId       String
   reporter     User_Profile        @relation(fields: [userId], references: [userId])
   detail       Word_Report_Detail?
-  reportedWord Filtered_Word       @relation(fields: [wordReportId], references: [wordReportId])
+
+  @@unique([word, userId])
 }
 
 model Word_Report_Detail {
@@ -1109,9 +1110,8 @@ model Word_Report_Detail {
 }
 
 model Filtered_Word {
-  wordReportId Int           @id
+  wordReportId Int           @id @default(autoincrement())
   word         String
-  wordReport   Word_Report[]
 }
 
 //ShortNotes Module
@@ -1415,7 +1415,6 @@ model Restaurant_Detail {
   vicinity  String
   latitude  Float      @db.Real
   longitude Float      @db.Real
-  zone      String
   detailOf  Restaurant @relation(fields: [resId], references: [resId], onDelete: Cascade)
 }
 
