@@ -63,7 +63,7 @@ const index = () => {
 
 
 
-    const [sortType, setSortType] = useState(null)
+    const [sortType, setSortType] = useState("")
     // useMemo(() => {
     //     if (sortType == "1") {
     //         sn.sort((a: any, b: any) => {
@@ -168,7 +168,7 @@ const index = () => {
         }
 
         if (sortType || sortType == "") {
-            if (sortType === "1") {
+            if (sortType === "") {
                 filteredSn.sort((a: any, b: any) => {
                     if (a.created > b.created) {
                         return -1;
@@ -267,8 +267,8 @@ const index = () => {
                 <Stack direction={"row"}>
                     <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
-                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="None" onChange={((e: any) => setSortType(e.target.value))}>
-                            <option value="1">Newest</option>
+                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="Newest" onChange={((e: any) => setSortType(e.target.value))}>
+                            {/* <option value="1">Newest</option> */}
                             <option value="2">Oldest</option>
                             <option value="3">Name</option>
                         </Select>
