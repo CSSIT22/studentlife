@@ -97,7 +97,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
         console.log(formData)
 
 
-        const res = await API.put("/user/profile/edit", {
+        const res = await API.put(`/user/profile/edit/${param.userID}`, {
             address: Address,
             birth: BirthDate,
             hobby: Hobbies,
