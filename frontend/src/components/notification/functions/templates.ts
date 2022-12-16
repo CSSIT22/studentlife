@@ -19,7 +19,7 @@ export const templates = [
     {
         id: 3,
         title: "CHAT_MESSAGE",
-        template: "<p>new message from v1</p>" //new message from name  //+time[Room.update_at]
+        template: "<p>new message from <b>v1</b></p>" //new message from name
     },
     {
         id: 4,
@@ -80,7 +80,7 @@ export const templates = [
     {
         id: 15,
         title: "TRANSACTION_SUCCESS",
-        template: "<p><b>v1</b> your payment order:v2 was successful</p>" //v1=payment time, v2=order id
+        template: "<p><b>v1</b> your payment orderid <b>v2</b> was successful</p>" //v1=payment time, v2=order id
     },
     {
         id: 16,
@@ -91,24 +91,24 @@ export const templates = [
     {
         id: 17,
         title: "SHOP_PLACED_ORDER",
-        template: "<p>User <b>v1</b> has placed an order with orderId <b>v2</b>. Click to see details and prepare for the order</p>" 
+        template: "<p><b>User v1 has placed an order with orderId v2.</b> <em>Click to see details and prepare for the order</em></p>" 
         //v1=user id, v2=order id
     },
     {
         id: 18,
         title: "SHOP_NEW_COUPON",
-        template: "<p>A new coupon is now available in the shop. The coupon code is <b>v1</b>. Click to collect the coupon now</p>" 
+        template: "<p><b>A new coupon is now available in the shop. The coupon code is v1.</b> <em>Click to collect the coupon now</em></p>" 
         //v1=coupon code
     },
     {
         id: 19,
-        title: "SHOP_DELIVER_ATTEMPT",
+        title: "SHOP_DELIVERY_ATTEMPT",
         template: "<p>We will try to deliver your product today</p>" 
     },
     {
         id: 20,
         title: "SHOP_RECOMMEND",
-        template: "<p>Check out this product <b>v1</b>. Click to see details</p>" 
+        template: "<p><b>Check out this product v1.</b> <em>Click to see details</em></p>" 
         //v1=product name
     }
 ]
