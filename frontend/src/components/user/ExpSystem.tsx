@@ -33,7 +33,6 @@ function ExpSystem() {
                     </Text>
                 </Stack>
 
-                <div></div>
                 <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={currentExp / 1000} />
                 <Stack direction="row" alignContent="center" ml="5" mb="5" mt={1} spacing={1}>
                     <Text color="black" fontSize="md" fontWeight="500">

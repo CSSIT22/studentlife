@@ -54,6 +54,16 @@ export default function SimpleThreeColumns() {
         majorId: "",
     })
 
+    const [rating, setRating] = useState<number>(0)
+
+    useEffect(() => {
+        async function fetch() {
+            const res = await API.get(`/profile/ratinguser/${param.userID}`)
+            setRating(res.data.rating)
+        }
+        fetch()
+
+    }, [])
 
     useEffect(() => {
         async function fetch() {
@@ -123,7 +133,7 @@ export default function SimpleThreeColumns() {
                             />
                         </motion.div>{" "}
                         <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
-                            Rating : 9999
+                            Rating : {rating}
                         </Box>
                     </VStack>
                 </GridItem>

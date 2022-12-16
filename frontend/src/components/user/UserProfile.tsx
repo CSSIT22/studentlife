@@ -76,8 +76,8 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
 
     useEffect(() => {
         async function fetch() {
-            const res = await API.get(`/user/profile/exp`)
-            setRating(res.data.exp)
+            const res = await API.get(`/profile/ratinguser/${param.userID}`)
+            setRating(res.data.rating)
         }
         fetch()
 
@@ -105,7 +105,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             gender: Sex,
             year: Years,
         }).then(() => {
-            history("/read")
+            history("/user")
         }).catch((err) => { return err })
 
         console.log(res);
