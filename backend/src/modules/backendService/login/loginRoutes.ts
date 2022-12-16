@@ -29,11 +29,20 @@ router.get(
         failureRedirect: "/auth/microsoft",
         session: true,
     }),
-    verifyUser,
-    banned,
     async (req: Request, res: Response) => {
         const { prisma } = res
         try {
+            const bannedUser = await res.prisma.ban_Status.findFirst({
+                where: {
+                    userId: req.user?.userId || "",
+                    instance: {
+                        gte: 10,
+                    },
+                },
+            })
+            if (bannedUser?.banTo || new Date() > new Date()) {
+                return res.redirect(`${process.env.SUCCESS_REDIRECT_URL || ""}/auth`)
+            }
             console.log(req.headers["user-agent"])
             const detector = new DeviceDetector({
                 clientIndexes: true,
