@@ -106,18 +106,15 @@ function showProperty() {
     }
     const eventsIndi = [
         { eventIcon: CgProfile, eventName: "View profile" },
-        // { eventIcon: RiUserSettingsLine, eventName: "Set nickname" },
         { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name"},
         { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue : 'Done'},
         { eventIcon: MdColorLens, eventName: "Change room color" },
-        { eventIcon: FaUserFriends, eventName: "Create group chat" },
         { eventIcon: MdFlag, eventName: "Report"},
     ]
     const eventsGroup = [
         { eventIcon: FaUserFriends, eventName: "Member"},
         { eventIcon: FaUserPlus, eventName: "Invite people"},
         { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name"},
-        { eventIcon: AiFillPicture, eventName: "Set room profile"},
         { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : 'Done'},
         { eventIcon: MdColorLens, eventName: "Change room color" },
         { eventIcon: FaHome, eventName: "Create community" },
