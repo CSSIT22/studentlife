@@ -54,9 +54,9 @@ const ConfirmOrder = () => {
             navigate('../transaction/shoptransaction', {state: {orderId: data.orderId, tranactionId: data.transId}})
         }
         if (couponCode && couponCode != "") {
-            API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log('1'))
+            API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log(err))
         } else {
-            API.post('/shop/postUserOrder', { totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log('2'))
+            API.post('/shop/postUserOrder', { totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log(err))
         }
     }
     const orderSummary = (
