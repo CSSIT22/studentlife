@@ -24,7 +24,6 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                 pollId: true,
             },
         })
-
         if (!findPollDB?.pollId) {
             return res.send()
         }
@@ -231,13 +230,12 @@ yourPollRoutes.put("/deleteYourPoll", verifyUser, async (req: Request, res: Resp
     try {
         const pollId = req.body.pollId
         await prisma.activity_Poll.delete({
-            where: { 
-                pollId: pollId 
+            where: {
+                pollId: pollId,
             },
         })
         return res.send("Success!")
-    }
-    catch (err) {
+    } catch (err) {
         return res.status(400).send("Cannot delete your poll")
     }
 })

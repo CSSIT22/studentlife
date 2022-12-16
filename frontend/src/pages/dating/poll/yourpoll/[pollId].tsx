@@ -184,6 +184,10 @@ const YourPoll = () => {
         }
     }
 
+    function handleChat(id: string) {
+        API.post<{chatWith_id: string}>("/chat/createRoom", {chatWith_id: id}).then(() => navigate("/chat/"))
+    }
+
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
 
@@ -301,6 +305,7 @@ const YourPoll = () => {
                             backgroundColor="white"
                             border="1px solid"
                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                            onClick={() => handleChat(participant.user.userId)}
                         >
                             <Image src={ChatImg} />
                         </Button>
