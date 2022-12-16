@@ -88,12 +88,12 @@ const myreview = () => {
                         )
                     }
                 })}
-
-                <Container mt={5} textAlign={"center"}>
-                    That's all for your review~
-                </Container>
-                <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
-                <br />
+            </SimpleGrid>
+            <Container mt={5} textAlign={"center"}>
+                That's all for your review~
+            </Container>
+            <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
+            <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myComments.map((item: any) => {
                     console.log(item)
                     if (item.commentBy.userId === user?.userId) {
