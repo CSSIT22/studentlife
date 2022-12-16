@@ -11,7 +11,7 @@ import { FaLock, FaLockOpen, FaUnlock } from "react-icons/fa"
 import API from "src/function/API"
 import Lottie from "lottie-react";
 import loading from "./lottie/loading.json";
-import extraRsnList from "./e/extraRecent"
+import extraRsnList from "./e/recent"
 import { BsBoxArrowInRight } from "react-icons/bs"
 import { TiLockClosed, TiLockOpen } from "react-icons/ti"
 const index = () => {
@@ -150,10 +150,10 @@ const index = () => {
             <HStack mt={4}>
                 <Heading size={"sm"} alignSelf={"end"} onClick={() => {
                     navigate({
-                        pathname: "./e/" + "extraRecent",
+                        pathname: "./e/" + "recent",
                     })
                 }}>
-                <Button variant='outline' size={"sm"} _hover={{bg: "orange.500", color:"white"}}>Recent view <Hide below="sm"/> <BsBoxArrowInRight /></Button>
+                    <Button variant='outline' size={"sm"} _hover={{ bg: "orange.500", color: "white" }}>Recent view <Hide below="sm" /> <BsBoxArrowInRight /></Button>
                 </Heading>
                 <Spacer />
                 <BtnMl />

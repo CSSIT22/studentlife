@@ -5,7 +5,6 @@ import API from "src/function/API"
 import AppBody from "src/components/share/app/AppBody"
 import ExtraRsnList from "src/components/shortnotes/extraRsnList"
 import { FaLock, FaLockOpen, FaUnlock } from "react-icons/fa"
-import { Header } from "@mantine/core"
 const extraRsn = () => {
     useEffect(() => {
         API.get("/shortnotes/getExtraRsn").then((item) => {
@@ -37,22 +36,22 @@ const extraRsn = () => {
             <Heading>Recent View</Heading>
             <br></br>
             <VStack>
-            {recent.map((recent: any, key: any) => (
-                <Box as="button"
-                    w={"100%"} onClick={() => {
+                {recent.map((recent: any, key: any) => (
+                    <Box as="button"
+                        w={"100%"} onClick={() => {
 
-                        navigate({
-                            pathname: "./" + recent.shortNote.snId,
-                        })
-                    }}>
-                    {accessId.includes(recent.shortNote.snId) ?
-                        <ExtraRsnList key={key} topic={recent.shortNote.snName} course={recent.shortNote.course.courseName} date={recent.viewedAt} lock={recent.shortNote.isPublic ? "" : <FaUnlock />}></ExtraRsnList>
-                        :
-                        <ExtraRsnList key={key} topic={recent.shortNote.snName} course={recent.shortNote.course.courseName} date={recent.viewedAt} lock={recent.shortNote.isPublic ? "" : <FaLock />}></ExtraRsnList>
+                            navigate({
+                                pathname: "../shortnotes/" + recent.shortNote.snId,
+                            })
+                        }}>
+                        {accessId.includes(recent.shortNote.snId) ?
+                            <ExtraRsnList key={key} topic={recent.shortNote.snName} course={recent.shortNote.course.courseName} date={recent.viewedAt} lock={recent.shortNote.isPublic ? "" : <FaUnlock />}></ExtraRsnList>
+                            :
+                            <ExtraRsnList key={key} topic={recent.shortNote.snName} course={recent.shortNote.course.courseName} date={recent.viewedAt} lock={recent.shortNote.isPublic ? "" : <FaLock />}></ExtraRsnList>
 
-                    }
-                </Box>
-            ))}
+                        }
+                    </Box>
+                ))}
             </VStack>
         </AppBody>
     )
