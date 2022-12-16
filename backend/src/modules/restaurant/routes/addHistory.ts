@@ -6,6 +6,7 @@ const addHistory = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const seen = await prisma.restaurant_Seen_By_User.create({
+            
             data: {
                 userId: user,
                 resId: resid,

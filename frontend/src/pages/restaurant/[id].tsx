@@ -51,7 +51,7 @@ function LikeorNope() {
         API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
         .catch((err) => on()) 
         .finally(off)
-        // API.put("restaurant/" + params.id) 
+        API.put("restaurant/" + params.id) 
     }, [params.id])
     
 

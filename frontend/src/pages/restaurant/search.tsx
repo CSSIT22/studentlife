@@ -17,11 +17,12 @@ const search = () => {
 
     useEffect(() => {
         API.get("/restaurant/search?name=" + new URLSearchParams(location.search).get("name")).then((item) => setsearch(item.data))
-        // .finally(off)
         .catch((err) => on())
         .finally(off)
     }, [new URLSearchParams(location.search).get("name")])
   
+    console.log(search);
+    
     if (isLoading) 
     return    (
     <AppBody
@@ -65,14 +66,17 @@ const search = () => {
                     return (
                         <GridItem>
                             <Link to={`/restaurant/detail/${e1.resId}`}>
+
+                                
                                 
                                 <Searchcontent
-                                    resName={e1.resName}
-                                    phone={e1.detail}
-                                    open={e1.openAt[0].open}
-                                    close={e1.closeAt[0].close}
-                                    website={e1.detail}
-                                    img={e1.images}
+                                    resName={e1.name}
+                                    phone={e1.phone}
+                                    open={e1.opening}
+                                    close={e1.opening}
+                                    website={e1.website}
+                                    img={e1.photos}
+                                    link={`/restaurant/detail/${e1.placeId}`}
                                 />
                             </Link>
                         </GridItem>
