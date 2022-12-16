@@ -5,7 +5,7 @@ const PageBox: FC<{
     pageName: string
     children: React.ReactNode
 }> = (props) => {
-    const [isLargeHeight] = useMediaQuery('(min-height: 950px)')
+    const [isLargeHeight] = useMediaQuery('(min-height: 1079px)')
     return (
         <>
             <Flex
