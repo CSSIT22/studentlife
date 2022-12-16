@@ -102,13 +102,8 @@ const generate = () => {
                                     border={"4px"}
                                     borderColor={"black"}
                                     rounded={"md"}
-<<<<<<< Updated upstream
                                     textAlign="center"
                                 >{generated != "" ? "http://localhost:8000/shortlink/redirect?shorten=" : ""}{generated}</Editable>
-=======
-                                    align="center"
-                                >{generated}</Editable>
->>>>>>> Stashed changes
                             </Center>
                         </Box>
                     </VStack>
