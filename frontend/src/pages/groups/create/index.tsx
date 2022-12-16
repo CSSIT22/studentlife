@@ -8,10 +8,11 @@ import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2'
 import { Link } from 'react-router-dom'
 import { userData } from '../data'
 import useWindowDimensions from 'src/components/group/hooks/useWindowDimensions'
-import NavCommunity from 'src/components/group/NavCommunity'
+import NavCommunity from "src/components/group/communityPage/NavCommunity"
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons'
 import FriendInviteList from 'src/components/group/FriendInviteList'
 import { desktopStyle, mobileStyle } from 'src/components/group/styles/styles'
+import CreateEditNav from 'src/components/group/CreateEditNav'
 
 const createCommunity = () => {
     const toast = useToast()
@@ -100,6 +101,7 @@ const createCommunity = () => {
         })
         onClose()
     }
+
 
 
     return (
@@ -517,22 +519,18 @@ const createCommunity = () => {
                                 bg='#e67f45'
                                 paddingTop='5rem'
                                 borderBottomRadius='xl'>
-                                <NavCommunity
+                                <CreateEditNav
                                     disabled={true}
-                                    communityName={communityName ? communityName : "Community Name"}
-                                    communityPrivacy={!communityPrivacy}
-                                    isMember={true}
-                                    isOwner={true}
-                                    communityDesc={
+                                    name={communityName ? communityName : "Community Name"}
+                                    privacy={!communityPrivacy}
+                                    desc={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    communityCoverPhoto={previewPhoto}
-                                    communityMembers={1}
-                                    communityId={""}
+                                    photo={previewPhoto}
+                                    memberCount={1}
                                     tags={updatedTag}
-                                // disableInvite={true}
                                 />
                             </Box>
                         </Box>

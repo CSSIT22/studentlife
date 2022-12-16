@@ -6,75 +6,113 @@ const getCommunityId = async (req: Request, res: Response) => {
     const id = req.params.id
 
     try {
-        //     const communityById = await prisma.community.findUnique({
-        //         where: {
-        //             communityId: id,
-        //         },
-        //         include: {
-        //             tags: true,
-        //         },
-        //     })
-        //     const tag = await prisma.tag.findMany({
-        //         where: {
-        //             tagId: { in: communityById?.tags.map((item: any) => item.tagId) },
-        //         },
-        //     })
-        //     const community = {
-        //         communityById,
-        //         tag,
-        //     }
-        //     console.log(community)
-        //     res.send(community)
-        const isBlacklist = await prisma.community_Blacklist.findMany({
-            where: {
-                userId: userId,
-                communityId: id,
-            },
-        })
-        const communityById = await prisma.community.findUnique({
+        const community = await prisma.community.findUnique({
             where: {
                 communityId: id,
             },
-            include: {
-                tags: true,
-                member: true,
-                owner: true,
+            select: {
+                communityName: true,
+                communityDesc: true,
+                communityPrivacy: true,
+                communityPhoto: true,
+                communityOwnerId: true,
+                communityId: true,
+                //select tags
+                tags: {
+                    select: {
+                        tag: {
+                            select: {
+                                tagName: true,
+                            },
+                        },
+                    },
+                },
                 posts: true,
+                member: {
+                    select: {
+                        userId: true,
+                    },
+                    where: {
+                        status: true,
+                    },
+                },
+                owner: {
+                    select: {
+                        userId: true,
+                    },
+                },
             },
         })
-        const tag = await prisma.tag.findMany({
+        //check if the user is a member of the community
+        const isMember =
+            (
+                await prisma.community_User.findUnique({
+                    where: {
+                        userId_communityId: {
+                            userId: userId || "",
+                            communityId: id,
+                        },
+                    },
+                })
+            )?.status === true
+        //check if the user is blacklisted from the community
+        const isBlacklisted =
+            (
+                await prisma.community_Blacklist.findUnique({
+                    where: {
+                        userId_communityId: {
+                            userId: userId || "",
+                            communityId: id,
+                        },
+                    },
+                })
+            )?.userId === userId
+        //get the role of the user and the status of the user
+        const user = await prisma.community_User.findUnique({
             where: {
-                tagId: { in: communityById?.tags.map((item: any) => item.tagId) },
+                userId_communityId: {
+                    userId: userId || "",
+                    communityId: id,
+                },
+            },
+            select: {
+                role: {
+                    select: {
+                        roleName: true,
+                    },
+                },
+                userId: true,
+                status: true,
             },
         })
-        if (communityById?.communityId === id) {
-            const data = {
-                communityId: communityById?.communityId,
-                communityName: communityById?.communityName,
-                communityDesc: communityById?.communityDesc,
-                communityPrivacy: communityById?.communityPrivacy,
-                communityPhoto: communityById?.communityPhoto,
-                tags: tag,
-                isOwner: communityById?.communityOwnerId === userId,
-                isPending: communityById?.member.some((item: any) => item.userId === userId && item.status === false),
-                isMember:
-                    communityById?.communityOwnerId === userId ||
-                    communityById?.member.some((item: any) => item.userId === userId && item.status === true),
-                memberCount: communityById?.member.length,
-                isBlacklist: isBlacklist.length > 0,
-            }
-            // res.send(data)
-            res.send(data)
-            res.sendStatus(200)
-            // console.log(data)
-            // console.log(isUserPending)
-        } else {
-            res.sendStatus(400)
-        }
-        // console.log(tag)
-    } catch (err) {
-        console.log(err)
-        res.status(400)
+
+        //The access property is true
+        //if the user is a member of the community,
+        //if the community is public
+        //if the user is the owner of the community
+        //if the user is not blacklisted
+        const access = isMember || community?.communityOwnerId === userId || (user?.role.roleName !== undefined && user?.status)
+        res.send({
+            user: {
+                id: user?.userId || community?.communityOwnerId,
+                access: access, //true if member, false if not a member
+                role: community?.communityOwnerId === userId ? "OWNER" : user?.role.roleName, //role of the user
+                status: user?.status, //true if member, false if pending, undefined if not a member
+                isBlacklisted, //true if blacklisted, false if not blacklisted, undefined if not a member
+            },
+            community: {
+                id: community?.communityId,
+                name: community?.communityName,
+                desc: community?.communityDesc,
+                privacy: community?.communityPrivacy, //true if private, false if public
+                photo: community?.communityPhoto,
+                tags: community?.tags.map((item: any) => item.tag.tagName),
+                memberCount: (community?.member.length || 0) + 1, //+1 for the owner
+            },
+        })
+        res.status(200).end()
+    } catch (error) {
+        res.status(500).send(error)
     }
 }
 

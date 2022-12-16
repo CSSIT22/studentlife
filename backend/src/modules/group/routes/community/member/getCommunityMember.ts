@@ -1,190 +1,138 @@
 import { Request, Response } from "express"
-import { send } from "process"
-import pendingRequest from "../pendingRequest"
 
 const getCommunityMember = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const body = req.body
-    const id = req.params.id
     const userId = req.user?.userId
+    const id = req.params.id
+    const access = req.params.accesss
 
     try {
-        // const communityMember = await prisma.community_User.findMany({
-        //     select: {
-        //         userId: true,
-        //     },
-        //     where: {
-        //         communityId: body.communityId,
-        //     },
-        // })
-        // const communityMember = await prisma.community_User.findMany({
-        //     where: {
-        //         communityId: body.communityId,
-        //     },
-        //     include: {
-        //         user: true,
-        //     },
-        // })
-        // const pendingRequest = await prisma.community_User.findMany({
-        //     where: {
-        //         communityId: body.communityId,
-        //         status: false,
-        //     },
-        //     include: {
-        //         user: true,
-        //     },
-        // })
-        // const members = communityMember.map((i: any) => {
-        //     return {
-        //         userId: i.user.userId,
-        //         firstName: i.user.fName,
-        //         lastName: i.user.lName,
-        //         major: i.user.majorId,
-        //         role: i.roleId,
-        //         avatar: i.user.image,
-        //     }
-        // })
-
-        // console.log(req)
-        // console.log("userRole")
-        // console.log(members, pendingRequest)
-        // res.send({ members, pendingRequest })
-        //     const members = await prisma.community_User.findMany({
-        //         where: {
-        //             communityId: communityID,
-        //         },
-        //         include: {
-        //             user: true,
-        //         },
-        //     })
-        //     const pendingRequest = await prisma.community_User.findMany({
-        //         where: {
-        //             communityId: communityID,
-        //             status: false,
-        //         },
-        //         include: {
-        //             user: true,
-        //         },
-        //     })
-        //     const ownerCommunity = await prisma.community.findUnique({
-        //         where: {
-        //             communityId: communityID,
-        //         },
-        //         include: {
-        //             owner: true,
-        //         },
-        //     })
-        //     if (ownerCommunity?.owner?.userId === userid) {
-        //         res.send({ members, pendingRequest })
-        //         res.status(200)
-        //     } else {
-        //         res.send({ members })
-        //         res.status(200)
-        //     }
-        // } catch (err) {
-        //     console.log(err)
-        //     res.status(404)
-        // }
-        const communityById = await prisma.community.findUnique({
+        const community = await prisma.community.findUnique({
             where: {
                 communityId: id,
             },
-            include: {
-                tags: true,
-                member: true,
-                owner: true,
-                posts: true,
-                blacklist: {
-                    include: {
-                        user: true,
+            select: {
+                member: {
+                    select: {
+                        user: {
+                            select: {
+                                userId: true,
+                                image: true,
+                                fName: true,
+                                lName: true,
+                                majorId: true,
+                            },
+                        },
+                    },
+                    where: {
+                        status: true,
+                    },
+                },
+                communityOwnerId: true,
+                owner: {
+                    select: {
+                        userId: true,
+                        image: true,
+                        fName: true,
+                        lName: true,
+                        majorId: true,
                     },
                 },
             },
         })
-        const tag = await prisma.tag.findMany({
+
+        const member = await prisma.community_User.findMany({
             where: {
-                tagId: { in: communityById?.tags.map((item: any) => item.tagId) },
-            },
-        })
-        // const isUserPending = await prisma.community_User.findMany({
-        //     where: {
-        //         communityId: communityById?.communityId,
-        //         userId: userId,
-        //         status: false,
-        //     },
-        // })
-        // const role = (role: string) => {
-        //     if (role === "clavjra540000v32wccz4v12g") {
-        //         return "admin"
-        //     }
-        //     if (role === "clavjrudj0002v32welorer2g") {
-        //         return "co-adminr"
-        //     }
-        //     if (role === "clavjs04i0004v32wxmjn3kvk") {
-        //         return "member"
-        //     }
-        // }
-        const communityMember = await prisma.community_User.findMany({
-            where: {
-                communityId: communityById?.communityId,
-            },
-            include: {
-                user: true,
-            },
-        })
-        const isBlacklist = await prisma.community_Blacklist.findMany({
-            where: {
-                userId: userId,
                 communityId: id,
             },
-        })
-        const userRole = await prisma.community_User.findFirst({
-            where: {
-                communityId: communityById?.communityId,
-                userId: userId,
-            },
-            include: {
-                role: true,
-            },
-        })
-        if (communityById?.communityId === id) {
-            const data = {
-                communityId: communityById?.communityId,
-                communityName: communityById?.communityName,
-                communityDesc: communityById?.communityDesc,
-                communityPrivacy: communityById?.communityPrivacy,
-                communityPhoto: communityById?.communityPhoto,
-                tags: tag,
-                isOwner: communityById?.communityOwnerId === userId,
-                isPending: communityById?.member.some((item: any) => item.userId === userId && item.status === false),
-                isMember:
-                    communityById?.communityOwnerId === userId ||
-                    communityById?.member.some((item: any) => item.userId === userId && item.status === true),
-                memberCount: communityById?.member.length,
-                userRole: userRole?.role.roleName,
-                // userRoles: userRole,
-                communityMember: {
-                    owner: communityById?.owner,
-                    admin: communityMember.filter((item: any) => item.roleId === "clavjra540000v32wccz4v12g"),
-                    coAdmin: communityMember.filter((item: any) => item.roleId === "clavjrudj0002v32welorer2g"),
-                    member: communityMember.filter((item: any) => item.roleId === "clavjs04i0004v32wxmjn3kvk" && item.status === true),
-                    blacklist: communityById?.blacklist,
+            select: {
+                role: {
+                    select: {
+                        roleName: true,
+                    },
                 },
-                pendingRequest: communityMember.filter((item: any) => item.status === false),
-                isBlacklist: isBlacklist.length > 0,
-            }
-            // res.send(data)
-            res.send(data)
-            res.sendStatus(200)
-            // console.log(data)
-            // console.log(isUserPending)
-        } else {
-            res.sendStatus(400)
-        }
-        // console.log(tag)
-    } catch (err) {
-        console.log(err)
-        res.status(400)
+                user: {
+                    select: {
+                        userId: true,
+                        image: true,
+                        fName: true,
+                        lName: true,
+                        majorId: true,
+                    },
+                },
+                joined: true,
+                status: true,
+            },
+        })
+        const blacklist = await prisma.community_Blacklist.findMany({
+            where: {
+                communityId: id,
+            },
+            select: {
+                user: {
+                    select: {
+                        userId: true,
+                        image: true,
+                        fName: true,
+                        lName: true,
+                        majorId: true,
+                    },
+                },
+            },
+        })
+
+        const list = (role: string) =>
+            member
+                .filter((member) => member.role.roleName === role && member.status === true)
+                .map((member) => {
+                    return {
+                        id: member.user.userId,
+                        image: member.user.image,
+                        name: fullName(member.user.fName, member.user.lName),
+                        majorId: member.user.majorId,
+                        role,
+                    }
+                })
+        const fullName = (fName: string, lName: string) =>
+            `${fName.charAt(0)}${fName?.slice(1).toLocaleLowerCase()} ${lName.charAt(0)}${lName.slice(1).toLocaleLowerCase()}`
+        res.send({
+            access,
+            owner: {
+                id: community?.owner?.userId,
+                image: community?.owner?.image,
+                name: fullName(community?.owner?.fName || "", community?.owner?.lName || ""),
+                majorId: community?.owner?.majorId,
+                role: "OWNER",
+            },
+            admin: list("ADMIN"),
+            coAdmin: list("CO_ADMIN"),
+            member: list("MEMBER"),
+            pending: member
+                .filter((member) => member.status == false)
+                .map((member) => {
+                    return {
+                        id: member.user.userId,
+                        image: member.user.image,
+                        name: fullName(member.user.fName, member.user.lName),
+                        majorId: member.user.majorId,
+                        role: member.role.roleName,
+                        isPending: true,
+                        joined: member.joined,
+                    }
+                }),
+            blacklist: blacklist.map((blacklist) => {
+                return {
+                    id: blacklist.user.userId,
+                    image: blacklist.user.image,
+                    name: fullName(blacklist.user.fName, blacklist.user.lName),
+                    majorId: blacklist.user.majorId,
+                    isBlacklisted: true,
+                }
+            }),
+        })
+        res.status(200).end()
+    } catch (error) {
+        res.status(500).send(error)
     }
 }
 
