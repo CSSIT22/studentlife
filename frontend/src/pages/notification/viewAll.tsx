@@ -1,11 +1,15 @@
 import {
+    Avatar,
+    AvatarBadge,
     Box,
+    Center,
     Flex,
     Spacer,
     Stack,
     Text,
+    useToast,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import MarkRead from "../../components/notification/MarkRead"
 import Modulelist from "../../components/notification/Modulelist"
 import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
@@ -13,27 +17,21 @@ import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectV
 import AppBody from "../../components/share/app/AppBody"
 
 import API from "src/function/API"
-import { Notiobject } from "@apiType/notification"
+import { Notiobject, pushNotiType } from "@apiType/notification"
+import { NavBarContext } from "src/context/NavbarContext"
+import { socketContext } from "src/context/SocketContext"
 
 
 const viewAll = () => {
+
+    const { setcountUnread } = useContext(NavBarContext)
+
     //reload noti
     const [reLoad, setreLoad] = useState(false)
+    const { socketIO } = useContext(socketContext)
     function load() {
         setreLoad(!reLoad)
     }
-
-    //getNotiobjectViewAll
-    // const param = useParams()
-    // const getUserNotiObject = API.get("/notification/getusernotiobjectbymodule/" + param.id)
-    // const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    // useEffect(() => {
-    //     getUserNotiObject.then((res) => {
-    //         setUserNotiObject(res.data)
-    //     })
-    // }, [reLoad])
-    //console.log(userNotiObjectViewAll)
-    //console.log(OBJECTS)
 
     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
@@ -51,14 +49,19 @@ const viewAll = () => {
     useEffect(() => {
         getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
+            setcountUnread(res.data.filter((el: any) => { return el.isRead != true }).length)
         })
     }, [reLoad])
     //console.log(userNotiObjectModule);
 
-
-    function showNotiListViewAll(): any {
-        return <NotiListViewAll module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiListViewAll>
-    }
+    useEffect(() => {
+        socketIO.on("push_noti", (data: pushNotiType) => {
+            setreLoad(!reLoad)
+        })
+        return () => {
+            socketIO.off("push_noti")
+        }
+    });
 
     return (
         <AppBody>
@@ -80,7 +83,7 @@ const viewAll = () => {
             </Flex>
             <Box borderRadius="lg" shadow={"2xl"} backgroundColor="white" padding={1} height="75vh">
                 <Stack padding={4} height="100%" overflow="auto">
-                    {showNotiListViewAll()}
+                    <NotiListViewAll module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiListViewAll>
                 </Stack>
             </Box>
         </AppBody>

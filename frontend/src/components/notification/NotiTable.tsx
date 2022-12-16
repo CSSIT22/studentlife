@@ -27,15 +27,20 @@ import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
-import { Notiobject, pushNotiType } from "@apiType/notification"
+import { alertNoti, Notiobject, NotiObjectMudule, pushNotiType } from "@apiType/notification"
 import { socketContext } from "src/context/SocketContext"
 import { NavBarContext } from "src/context/NavbarContext"
 import NotiObject from "./main/NotiObject"
+import { templates } from "./functions/templates"
+import { showDescription } from "./functions/replaceValue"
+import ShowUser from "../transaction/TransactionShowUser"
+import { showUser } from "./functions/showUser"
 
 const NotiTable = () => {
 
-    const { setcountUnread } = useContext(NavBarContext)
 
+
+    const { setcountUnread } = useContext(NavBarContext)
 
     //reload noti
     const [reLoad, setreLoad] = useState(false)
@@ -55,9 +60,9 @@ const NotiTable = () => {
     //getUserNotiObject by Module
 
     const getUserNotiObjectModule = () => API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
-    //console.log(getUserNotiObjectModule);
 
-    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<NotiObjectMudule[]>([])
     useEffect(() => {
         getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
@@ -66,37 +71,27 @@ const NotiTable = () => {
 
         })
     }, [reLoad])
-    //console.log(userNotiObjectModule);
 
     const toast = useToast()
     useEffect(() => {
-        socketIO.on("push_noti", (data: pushNotiType) => {
+        socketIO.on("push_noti", (data: alertNoti) => {
             toast({
                 position: 'bottom-right',
                 render: () => (
-
                     <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
                         <Stack direction={"row"} spacing={3}>
-                            <Center><Avatar bg="blackAlpha.200" size={"sm"}>
-                                <AvatarBadge boxSize="1em" bg="green.500" />
-                            </Avatar>
-                            </Center>
-                            <Stack>
-                                {/* <Text fontSize={"sm"} color="white">
-                                <b>User123456</b> Create a post asdfkj asdf asdad
-                                </Text>
-                                <Text fontSize={"xs"} color="white">
-                                    10 hours ago
-                                </Text> */}
-                                <Text fontSize={"sm"} color="white">
-                                    You got new notification.
-                                </Text>
-                            </Stack>
+
+                            {showUser(data.notiObject.userId, userNotiObjectModule[0].userId, data.notiObject.module)}
+                            <Text fontSize={"sm"} color="white">
+                                {showDescription(data.data, data.notiObject.template)}
+                            </Text>
+
                         </Stack>
                     </Box>
 
                 )
             })
+
 
             // getUserNotiObjectModule.then((res) => {
             //     setUserNotiObjectModule(res.data)
@@ -109,37 +104,6 @@ const NotiTable = () => {
     });
 
 
-    //setting
-    function ShowSetting() {
-        const { isOpen, onOpen, onClose } = useDisclosure()
-
-        return (
-            <Center>
-                <Button size={"1em"} onClick={onOpen}>
-                    <SettingsIcon color="orange.500" />
-                </Button>
-                <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>
-                            <Text align={"center"}>Notification Setting</Text>
-                        </ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <NotiSetting />
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
-                                Confirm
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </Center>
-        )
-    }
-    //console.log(userNotiObjectModule.length);
-
     return (
         <Box>
             <Flex padding={3} paddingBottom={0}>
@@ -147,9 +111,10 @@ const NotiTable = () => {
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
                 <Box>
-                    <Stack direction={"row"}>
+                    <Stack direction={"row"} >
                         <MarkRead module={selectedModule} onClick={load} />
-                        {ShowSetting()}
+                        {/* {ShowSetting()} */}
+                        <NotiSetting />
                     </Stack>
                 </Box>
             </Flex>

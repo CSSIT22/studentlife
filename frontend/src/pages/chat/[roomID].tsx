@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Hide, HStack, Input, Textarea } from "@chakra-ui/react"
+import { Avatar, Box, Button, calc, Flex, Hide, HStack, Input, Textarea } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
@@ -117,7 +117,7 @@ const Room = () => {
                     marginLeft={{ base: 0, md: 5 }}
                     width={{ base: "80vw", md: "300px" }}
                     justifyContent={"space-between"}
-                    height={"75vh"}
+                    height={{base : "65vh",md:"78vh"}}
                     flexDirection={"column"}
                 // maxH={'5000px'}
                 >
@@ -158,7 +158,7 @@ const Room = () => {
                             <Input
                                 marginLeft={5}
                                 isInvalid
-                                width={{base:"100%",md:"sm"}}
+                                width={{base:"40vw",md:"sm"}}
                                 size={"md"}
                                 placeholder="Type something"
                                 _placeholder={{ color: "#ffffff" }}

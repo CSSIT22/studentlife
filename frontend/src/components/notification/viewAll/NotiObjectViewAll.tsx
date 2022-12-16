@@ -1,8 +1,8 @@
 import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { FaDumpsterFire } from "react-icons/fa"
-import { templates } from "../templates"
-import { USER } from "../main/mockupData/userProfile"
+import { templates } from "../functions/templates"
+
 import API from "src/function/API"
 import { NotiValue } from "@apiType/notification"
 
@@ -17,6 +17,18 @@ const NotiObjectViewAll: FC<{
     sender: string
     values: NotiValue[]
 }> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
+
+    const [senderImg, setsenderImg] = useState([])
+
+    useEffect(() => {
+        API.get("/notification/getsenderimage/" + sender).then(
+            item => setsenderImg(item.data.image)
+        )
+    }, [])
+
+    //console.log(senderImg);
+
+
     function showStatus() {
         if (isRead) {
             return <Circle size="0.7rem" bg="blackAlpha.400" />
@@ -103,15 +115,6 @@ const NotiObjectViewAll: FC<{
     let v3 = ""
     function showDescription() {
 
-        //console.log(getvalue)
-        // const [valueNotiObject, setValueNotiObject] = useState([])
-        // useEffect(() => {
-        //     const getvalue = API.get("/notification/getvalue/?notiobjectId=" + id)
-        //     getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
-        //         setValueNotiObject(res.data)
-        //     })
-        // }, [])
-        //console.log(valueNotiObject)
 
         values.forEach((item: NotiValue) => {
             if (item.notiObjectId == id) {
@@ -147,29 +150,29 @@ const NotiObjectViewAll: FC<{
         }
     }
 
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
+    }
+
     function showUser() {
-        // var user = USER.filter((el) => el.id == userId)
-        // var userStatus = user[0].isOnline
-        // //console.log(user)
-
-        // if (userStatus) {
-        //     return (
-        //         <Avatar src={user[0].avatarImg} size={"md"}>
-        //             <AvatarBadge boxSize="1em" bg="green.500" />
-        //         </Avatar>
-        //     )
-        // } else {
-        //     return (
-        //         <Avatar src={user[0].avatarImg} size={"md"}>
-        //             <AvatarBadge boxSize="1em" bg="gray" />
-        //         </Avatar>
-        //     )
-        // }
-        return (
-            //<Avatar src={user[0].avatarImg} size={"sm"} />
-            <Avatar size={"sm"} />
-
-        )
+        if (sender == null) {
+            return (
+                <Avatar src="./Logo_01.png" size={"md"} />
+            )
+        } else {
+            return (
+                <Avatar src={handleImg(senderImg)} size={"md"} />
+            )
+        }
     }
     function read() {
         API.post("/notification/readnotiobject/" + id)
@@ -197,10 +200,7 @@ const NotiObjectViewAll: FC<{
                             <Center>{showUser()}</Center>
                             <Stack direction={"row"} spacing={5} padding={5}>
                                 {showDescription()}
-                                {/* <Box as="button"
-                                    shadow={"lg"}
-                                    borderRadius="1xl"
-                                    bg="#D6D6D6"> */}
+
                                 <Button shadow={"lg"}
                                     size='xs'
                                     padding={1}

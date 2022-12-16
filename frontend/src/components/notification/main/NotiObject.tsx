@@ -1,13 +1,13 @@
 import { NotiValue } from "@apiType/notification"
 import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text, useEditable } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
-import { FaDumpsterFire } from "react-icons/fa"
 import API from "src/function/API"
-import { templates } from "../templates"
-import { USER } from "./mockupData/userProfile"
+import { showUser } from "../functions/showUser"
+import { templates } from "../functions/templates"
+
 
 const NotiObject: FC<{
-    id: string
+    objectId: string
     template: string
     date: Date
     isRead: boolean
@@ -16,15 +16,10 @@ const NotiObject: FC<{
     onClick: Function
     sender: string
     values: NotiValue[]
-}> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
+    userId: string
+}> = ({ userId, objectId, template, isRead, date, module, url, onClick, sender, values }) => {
 
-    const [senderImg, setsenderImg] = useState([])
 
-    useEffect(() => {
-        API.get("/notification/getsenderimage/" + sender).then(
-            item => setsenderImg(item.data.image)
-        )
-    }, [])
 
     //console.log(senderImg);
 
@@ -45,12 +40,12 @@ const NotiObject: FC<{
         const day = hour * 24
         const year = day * 365
 
-        let sendDay = Math.round(date.getTime() / day)
+        let sendDay = Math.floor(date.getTime() / day)
         // console.log(sendDay)
-        let currentDay = Math.round(current.getTime() / day)
+        let currentDay = Math.floor(current.getTime() / day)
         // console.log(currentDay)
         let diffDay = currentDay - sendDay
-        // console.log(diffDay)
+        //console.log(diffDay)
         if (diffDay == 0) {
             let sendMinutes = Math.floor(date.getTime() / minute)
             let currentMinutes = Math.floor(current.getTime() / minute)
@@ -110,13 +105,18 @@ const NotiObject: FC<{
         }
     }
 
-    let v1 = ""
-    let v2 = ""
-    let v3 = ""
+
     function showDescription() {
 
+<<<<<<< HEAD
 
         // console.log(getvalue)
+=======
+        let v1 = ""
+        let v2 = ""
+        let v3 = ""
+        //console.log(getvalue)
+>>>>>>> 2736ae582e19f7b21f6f495527f7a8d0d5cf391d
         // const [valueNotiObject, setValueNotiObject] = useState([])
         // useEffect(() => {
         //     const getvalue = API.get("/notification/getvalue")
@@ -128,7 +128,7 @@ const NotiObject: FC<{
         // console.log(values);
 
         values.forEach((item: NotiValue) => {
-            if (item.notiObjectId == id) {
+            if (item.notiObjectId == objectId) {
                 if (v1 == "") {
                     v1 = item.value
                 } else if (v2 == "") {
@@ -161,32 +161,9 @@ const NotiObject: FC<{
         }
     }
 
-    function buffer_to_img(data: any) {
-        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
-        return `data:image/png;base64,${base64String}`
-    }
-    function handleImg(e: any) {
-        if (e === null) {
-            return ""
-        }
-        else {
-            return buffer_to_img(e.data)
-        }
-    }
-    function showUser() {
-        if (sender == null) {
-            return (
-                <Avatar src="./Logo_01.png" size={"sm"} />
-            )
-        } else {
-            return (
-                <Avatar src={handleImg(senderImg)} size={"sm"} />
-            )
-        }
-    }
 
     function read() {
-        API.post("/notification/readnotiobject/" + id)
+        API.post("/notification/readnotiobject/" + objectId)
     }
 
     return (
@@ -203,9 +180,14 @@ const NotiObject: FC<{
             }}
         >
             <a href={url}>
+<<<<<<< HEAD
                 <Stack direction={"row"} spacing={4} padding={"1"}>
                     <Center>{showUser()}</Center>
 
+=======
+                <Stack direction={"row"} spacing={5} padding={"1"}>
+                    <Center>{showUser(sender, userId, module)}</Center>
+>>>>>>> 2736ae582e19f7b21f6f495527f7a8d0d5cf391d
                     <Stack>
                         <div>
                             {showDescription()}
@@ -223,5 +205,3 @@ const NotiObject: FC<{
 }
 
 export default NotiObject
-
-
