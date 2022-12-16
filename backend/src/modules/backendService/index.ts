@@ -24,8 +24,7 @@ backendserviceRoutes.post("/reportword", verifyUser, async (req: Request, res: R
             const result = await prisma.filtered_Word.create({
                 data: {
                     word: req.body.word,
-                    // should be auto increment and generate
-                    wordReportId: Math.random() * 10000,
+                    wordReportId: countWord._count.word + 1,
                 },
             })
         } else {
