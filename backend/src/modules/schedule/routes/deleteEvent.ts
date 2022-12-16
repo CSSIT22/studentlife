@@ -18,9 +18,9 @@ const deleteEvent = async (req: Request, res: Response) => {
     }
 
     try {
-        await prisma.task.delete({
+        await prisma.event.delete({
             where: {
-                taskId: req.body.taskId,
+                eventId: req.body.eventId,
             },
         })
         res.status(200).send("Delete Event Success")
