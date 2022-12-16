@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import UserProfile from "../../components/user/UserProfile"
 import AboutMe from "../../components/user/AboutMe"
 import BlogHistory from "../../components/user/BlogHistory"
@@ -5,6 +6,9 @@ import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
 import { Box, extendTheme, Flex, Grid, GridItem } from "@chakra-ui/react"
 import { useState } from "react"
+import { useParams } from "react-router-dom"
+import API from "src/function/API"
+
 
 
 
@@ -18,6 +22,8 @@ interface AboutMeForm {
 }
 
 function index() {
+    const { id } = useParams();
+
     const [aboutmeForm, setAboutmeForm] = useState<AboutMeForm>({
         phone: "089XXXXXXX",
         sex: "Male",
@@ -33,6 +39,17 @@ function index() {
         xl: "1200px",
         "2xl": "1536px",
     }
+
+
+    useEffect(() => {
+        async function fetch() {
+            const res = await API.get(`/profile/edit/${id}`)
+            setAboutmeForm(res.data)
+            console.log(res.data);
+        }
+        
+        fetch()
+    }, [])
 
     const handleSubmit = (data: AboutMeForm) => {
         setAboutmeForm(data)
