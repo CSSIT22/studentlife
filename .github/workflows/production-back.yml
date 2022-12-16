@@ -3,11 +3,10 @@ name: ✨ Deploy to Production
 on:
   push:
     branches:
-      # - staging
       - infra-*
       - main
-    # paths:
-    #   - "backend/**"
+    paths:
+      - "backend/**"
 
 jobs:
   build:
