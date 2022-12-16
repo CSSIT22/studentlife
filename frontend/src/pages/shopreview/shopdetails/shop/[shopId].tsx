@@ -59,7 +59,9 @@ const shopId = () => {
         form.append("text", text);
         form.append("rating", rating + "");
         form.append("shopId", param.shopId + "");
-        form.append("file", files);
+        files.map((item: any) => {
+            form.append("upload", item.file)
+        })
 
         API.post("/shopreview/postmyreview",
             form,

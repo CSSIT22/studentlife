@@ -11,8 +11,9 @@ const drive = axios.create({
     },
 })
 
-const postmyreview = async (req: Request<any>, res: Response<any>) => {
+const postmyreview = async (req: Request<any>, res: Response<any> | any) => {
     try {
+
         const prisma = res.prisma
         // const user = useContext(authContext)
         const user = req.user?.userId
@@ -24,9 +25,15 @@ const postmyreview = async (req: Request<any>, res: Response<any>) => {
             // resId: req.body.resId || null,
             userId: user,
             text: req.body.text,
-            rating: req.body.rating,
+            rating: parseInt(req.body.rating),
             likeReceived: 0,
         }
+
+        const rev = await prisma.sReview_Review.create({
+            data: {
+                ...postmyreview,
+            },
+        })
         const formData = new fd()
         const fileList: any = req.files
         fileList?.map((file: any) => {
@@ -60,38 +67,42 @@ const postmyreview = async (req: Request<any>, res: Response<any>) => {
                     fileId: resFileId[indexId].Id,
                     fileName: item.originalname,
                     fileSender: user + "",
-                    sendType: "",
+                    sendType: "shopreview",
                     fileDesc: "",
-                    fileExpired: newDate,
+                    fileExpired: new Date(),
                 })
             })
             // store file info
             const fileUpload = await prisma.file_Info
-                .createMany(
-                    {
-                        data: payload,
-                    }
-                       
-                ).then((res: any) => {
-                   
+                .createMany({
+                    data: payload,
                 })
+                .then((res: any) => {})
                 .catch((err: any) => {
                     console.log(err)
                 })
-                
-               
+            const payload2: any = []
 
-            const rev = await prisma.sReview_Review.create({
-                data: {
-                    ...postmyreview,
-                },
+            const rId = rev.reviewId
+            resFileId.map((item: any) => {
+                payload2.push({
+                    reviewId: rId,
+                    fileId: item.Id,
+                })
             })
+            const linkId = await prisma.SReview_Review_File 
+                .createMany({
+                    data: payload2,
+                })
+                .then((res: any) => {})
+                .catch((err: any) => {
+                    console.log(err)
+                })
             res.send(rev)
         } catch (err) {
             console.log(err)
             res.send("some error")
         }
-        console.log(req.body)
     } catch (err) {}
 }
 export default postmyreview
