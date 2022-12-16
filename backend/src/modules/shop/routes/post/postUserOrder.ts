@@ -43,7 +43,6 @@ const postUserOrder = async (req: Request, res: Response) => {
                         totalPrice: req.body.totalPrice,
                         totalDeliveryFees: req.body.totalDeliveryFees,
                         shipping: req.body.shipping,
-                        orderPlaced: new Date(new Date().toLocaleString()),
                         orderStatus: req.body.orderStatus
                     }
                 })
@@ -55,7 +54,6 @@ const postUserOrder = async (req: Request, res: Response) => {
                         totalPrice: req.body.totalPrice,
                         totalDeliveryFees: req.body.totalDeliveryFees,
                         shipping: req.body.shipping,
-                        orderPlaced: new Date(new Date().toLocaleString()),
                         orderStatus: req.body.orderStatus
                     }
                 })
