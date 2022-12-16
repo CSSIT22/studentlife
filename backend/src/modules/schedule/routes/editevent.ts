@@ -1,4 +1,33 @@
 import { Request, Response } from "express"
+
+const editEvent = async (req: Request, res: Response) => {
+    const prisma = res.prisma
+    const body = req.body
+    const userid = req.user?.userId || ""
+
+    const editEvent: any = {
+        eventName: req.body.eventName,
+        stTime: req.body.stTime,
+        endTime: req.body.endTime,
+        desc: req.body.eventDesc,
+        eventType: req.body.Eventtype,
+    }
+
+    try {
+        await prisma.event.update({
+            where: {
+                eventId: req.body.eventId,
+            },
+            data: editEvent,
+        })
+        return res.send("Success")
+    } catch {
+        res.status(404)
+    }
+}
+
+export default editEvent
+
 // import { Event } from "@apiType/schedule"
 // import { Event, getEvent, setEvent } from ".."
 
@@ -24,31 +53,3 @@ import { Request, Response } from "express"
 //     setEvent(newData)
 //     res.send(editedEvent)
 // }
-
-const editEvent = async (req: Request, res: Response) => {
-    const prisma = res.prisma
-    const userid = req.user?.userId
-
-    const editEvent: any = {
-        eventName: req.body.eventName,
-        startTime: req.body.startTime,
-        endTime: req.body.endTime,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        eventDesc: req.body.eventDesc,
-        eventType: req.body.Eventtype,
-    }
-
-    try {
-        await prisma.event.update({
-            where: {
-                eventId: req.body.eventId,
-            },
-            data: editEvent,
-        })
-    } catch {
-        res.status(404)
-    }
-}
-
-export default editEvent
