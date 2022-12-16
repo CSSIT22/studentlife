@@ -29,12 +29,26 @@ export type pushNotiType = {
   url: string;
   sender: string;
 };
+export type NotiobjectSocket = {
+  date: Date;
+  module: string;
+  notiObjectId: string;
+  template: string;
+  url: string;
+  userId: string; //sender
+};
 export type alertNoti = {
   data: NotiValue[];
-  notiObject: Notiobject;
+  notiObject: NotiobjectSocket;
 };
 export type NotiValue = {
   notiObjectId: string;
   value: string;
   valueId: string;
+};
+export type NotiObjectMudule = {
+  notiObjectId: string;
+  userId: string;
+  isRead: boolean;
+  notiObject: Notiobject;
 };

@@ -27,12 +27,14 @@ import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
-import { alertNoti, Notiobject, pushNotiType } from "@apiType/notification"
+import { alertNoti, Notiobject, NotiObjectMudule, pushNotiType } from "@apiType/notification"
 import { socketContext } from "src/context/SocketContext"
 import { NavBarContext } from "src/context/NavbarContext"
 import NotiObject from "./main/NotiObject"
 import { templates } from "./templates"
-import { showDescription } from "./replaceValue"
+import { showDescription } from "./functions/replaceValue"
+import ShowUser from "../transaction/TransactionShowUser"
+import { showUser } from "./functions/showUser"
 
 const NotiTable = () => {
 
@@ -60,7 +62,7 @@ const NotiTable = () => {
     const getUserNotiObjectModule = () => API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
 
 
-    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<NotiObjectMudule[]>([])
     useEffect(() => {
         getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
@@ -69,7 +71,6 @@ const NotiTable = () => {
 
         })
     }, [reLoad])
-    // console.log(userNotiObjectModule);
 
     const toast = useToast()
     useEffect(() => {
@@ -77,20 +78,20 @@ const NotiTable = () => {
             toast({
                 position: 'bottom-right',
                 render: () => (
-
                     <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
                         <Stack direction={"row"} spacing={3}>
 
-                            <Stack>
-                                <Text fontSize={"sm"} color="white">
-                                    {showDescription(data.data, data.notiObject.template)}
-                                </Text>
-                            </Stack>
+                            {showUser(data.notiObject.userId, userNotiObjectModule[0].userId, data.notiObject.module)}
+                            <Text fontSize={"sm"} color="white">
+                                {showDescription(data.data, data.notiObject.template)}
+                            </Text>
+
                         </Stack>
                     </Box>
 
                 )
             })
+
 
             // getUserNotiObjectModule.then((res) => {
             //     setUserNotiObjectModule(res.data)

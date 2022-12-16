@@ -1,6 +1,6 @@
 import { NotiValue } from "@apiType/notification"
 import { Text } from "@chakra-ui/react"
-import { templates } from "./templates"
+import { templates } from "../templates"
 
 export function showDescription(values: NotiValue[], template: string) {
     let v1 = ""

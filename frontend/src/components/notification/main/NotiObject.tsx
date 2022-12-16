@@ -2,6 +2,7 @@ import { NotiValue } from "@apiType/notification"
 import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text, useEditable } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import API from "src/function/API"
+import { showUser } from "../functions/showUser"
 import { templates } from "../templates"
 
 
@@ -18,13 +19,7 @@ const NotiObject: FC<{
     userId: string
 }> = ({ userId, objectId, template, isRead, date, module, url, onClick, sender, values }) => {
 
-    const [senderImg, setsenderImg] = useState([])
 
-    useEffect(() => {
-        API.get("/notification/getsenderimage/" + sender).then(
-            item => setsenderImg(item.data.image)
-        )
-    }, [])
 
     //console.log(senderImg);
 
@@ -161,29 +156,6 @@ const NotiObject: FC<{
         }
     }
 
-    function buffer_to_img(data: any) {
-        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
-        return `data:image/png;base64,${base64String}`
-    }
-    function handleImg(e: any) {
-        if (e === null) {
-            return ""
-        }
-        else {
-            return buffer_to_img(e.data)
-        }
-    }
-    function showUser() {
-        if (sender == userId) {
-            return (
-                <Avatar src="Logo_01.png" bgColor="orange.500" name={module} size={"sm"} />
-            )
-        } else {
-            return (
-                <Avatar src={handleImg(senderImg)} size={"sm"} />
-            )
-        }
-    }
 
     function read() {
         API.post("/notification/readnotiobject/" + objectId)
@@ -204,7 +176,7 @@ const NotiObject: FC<{
         >
             <a href={url}>
                 <Stack direction={"row"} spacing={5} padding={"1"}>
-                    <Center>{showUser()}</Center>
+                    <Center>{showUser(sender, userId, module)}</Center>
                     <Stack>
                         <div>
                             {showDescription()}
