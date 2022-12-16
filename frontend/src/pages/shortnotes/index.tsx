@@ -146,7 +146,7 @@ const index = () => {
     };
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(6)
+    const [postsPerPage, setPostsPerPage] = useState(5)
     let indexOfLastSn = currentPage * postsPerPage
     let indexOfFirstSn = indexOfLastSn - postsPerPage
     let currentSn = sn.slice(indexOfFirstSn, indexOfLastSn)
@@ -166,7 +166,7 @@ const index = () => {
                 <BtnMl />
             </HStack>
             {rsnLoad ?
-                <Box h={152}>
+                <Box h={180}>
 
                     <Lottie style={style} animationData={loading}></Lottie>
                 </Box>
@@ -190,14 +190,17 @@ const index = () => {
                                     </Box>
                                 ))}
                             </SimpleGrid>
-                            <Flex justifyContent={{ base: "center", sm: " right" }}>
-                                <Button mt={2} rightIcon={<AiOutlineArrowRight />} variant={"ghost"} size={"sm"} onClick={() => {
-                                    navigate({
-                                        pathname: "./e/" + "recent",
-                                    })
-                                }}>See more</Button>
-                            </Flex>
-
+                            {rsn.length == 3 ?
+                                <Flex justifyContent={{ base: "center", sm: " right" }}>
+                                    <Button mt={2} rightIcon={<AiOutlineArrowRight />} variant={"ghost"} size={"sm"} onClick={() => {
+                                        navigate({
+                                            pathname: "./e/" + "recent",
+                                        })
+                                    }}>See more</Button>
+                                </Flex>
+                                :
+                                null
+                            }
                         </Box>
                     </SlideFade>
                 </>
