@@ -7,30 +7,33 @@ const createEvent = async (req: Request, res: Response) => {
     const body = req.body
 
     // Event is the table from db
-
-    const createEvent = await prisma.event.create({
-        data: {
-            eventId: body.eventId,
-            eventName: body.eventName,
-            stTime: new Date("2022-01-01 " + body.startTime),
-            endTime: new Date("2022-01-01 " + body.endTime),
-            desc: body.eventDesc,
-            eventTypeId: body.eventType,
-            descId: body.descId,
-            hostAt: {
-                connectOrCreate: {
-                    create: {
-                        placeId: body.placeId,
-                        building: "test",
-                        room: "123",
-                    },
-                    where: {
-                        placeId: body.placeId,
+    try {
+        const createEvent = await prisma.event.create({
+            data: {
+                eventName: body.eventName,
+                stTime: new Date("2022-01-01 " + body.startTime),
+                endTime: new Date("2022-01-01 " + body.endTime),
+                desc: body.eventDesc,
+                eventTypeId: body.eventType,
+                // descId: body.descId,
+                hostAt: {
+                    connectOrCreate: {
+                        create: {
+                            placeId: body.placeId,
+                            building: "test",
+                            room: "123",
+                        },
+                        where: {
+                            placeId: body.placeId,
+                        },
                     },
                 },
             },
-        },
-    })
+        })
+        res.send(createEvent)
+    } catch (err) {
+        res.send(err)
+    }
 
     // const createEvent: any = {
     //     eventId: body.eventId,
@@ -42,8 +45,6 @@ const createEvent = async (req: Request, res: Response) => {
     //     eventDesc: body.eventDesc,
     //     eventType: body.eventType,
     // }
-
-    res.send(createEvent)
 }
 
 export default createEvent
