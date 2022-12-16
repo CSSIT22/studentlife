@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Heading, Select, Show, Spacer, Stack, Text, useBoolean } from "@chakra-ui/react"
+import { Box, Divider, Flex, Grid, GridItem, Heading, Icon, Select, Show, Spacer, Stack, Text, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
@@ -6,161 +6,110 @@ import AppBody from "../../../components/share/app/AppBody"
 import { postInfoTest } from "../postInfoTest"
 import { announcement, announcement_language } from "@apiType/announcement"
 import API from "src/function/API"
+import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
+import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
+import { IoIosCalendar } from "react-icons/io"
+import { GiHumanTarget } from "react-icons/gi"
+import Detail from "src/components/annoucement/Detail"
 
 
 const detail = () => {
+    const params = useParams()
     const [langInfos, setlanginfos] = useState<announcement_language[]>([])
+    const getData = API.get("/announcement/getdetailedit/" + params.postId)
     const newData = API.get("/announcement/getotherlang")
+
     useEffect(() => {
         newData.then(res => setlanginfos(res.data))
+        getData.then((item) => setpost(item.data)).catch((err) => on()).finally(off)
     }, [])
 
-    const params = useParams()
-    // console.log(params.postId)
-    // const post = postInfoTest.filter((el) => {
-    //     return el.postId == parseInt(params.postId + "")
-    // })
+
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [post, setpost] = useState<announcement[]>([])
-    const getData = API.get("/announcement/getdetailedit/" + params.postId)
-
-    useEffect(() => {
-        getData.then((item) => setpost(item.data)).catch((err) => on()).finally(off)
-        // console.log(post)
-        // console.log("hello")
-    }, [])
-    if (isError)
-        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
-
 
     const selectLangName = (lang_id: number) => {
         const lang = langInfos.filter((el) => el.languageId == lang_id)
         return lang[0].language
     }
     const [lang, setlang] = useState<number>(1000)
-    // console.log(lang);
     const otherLang = post.map((el) => el.annLanguage)
-    // console.log(otherLang);
     const selectLang = (lang: number) => {
         const selected = otherLang[0]?.filter((el) => el.languageId == lang)
-        // console.log(selected);
+        const sender = post.map((el) => (el.annCreator.fName + " " + el.annCreator.lName))
+        const targetType = post.map((el) => (el.annFilter.filterType))
+        const targetValue = post.map((el) => (el.annFilter.value))
 
         if (lang != 1000) {
+            const topic = selected.map((el) => (el.annTopic))
+            const detail = selected.map((el) => (el.annDetail))
+            const eventAnddate = post.map((el) => (el.annLanguage[0].annDetail.split("~")))
             return (
                 <>
-                    <Heading as="h2" size="xl">
-                        {selected?.map((el) => {
-                            return el.annTopic
-                        })}
-                    </Heading>
-                    <Box>
-                        <Text fontSize="md">
-                            Sender:{" "}
-                            {post.map((el) => {
-                                return el.annCreator.fName + " " + el.annCreator.lName
-                            })}
-                        </Text>
-                        <Text fontSize="md">
-                            To:{" "}
-                            {post.map((el) => {
-                                return el.annFilter.filterType
-                            })}{" "}
-                            {post.map((el) => {
-                                return el.annFilter.value
-                            })}
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Text fontSize="sm" align="justify">
-                            {selected?.map((el) => {
-                                return el.annDetail
-                            })}
-                        </Text>
-                    </Box>
+                    <Detail annTopic={topic[0]} filterType={targetType[0]} filterValue={targetValue[0]} annDetail={detail[0]} eventDate={new Date(eventAnddate[0][0])} sender={sender[0]} />
                 </>
             )
         } else if (lang == 1000) {
+            const topic = post.map((el) => (el.annLanguage[0].annTopic))
+            const eventAnddate = post.map((el) => (el.annLanguage[0].annDetail.split("~")))
             return (
                 <>
-                    <Heading as="h2" size="xl">
-                        {post.map((el) => {
-                            return el.annLanguage[0].annTopic
-                        })}
-                    </Heading>
-                    <Box>
-                        <Text fontSize="md">
-                            Sender:{" "}
-                            {post.map((el) => {
-                                return el.annCreator.fName + " " + el.annCreator.lName
-                            })}
-                        </Text>
-                        <Text fontSize="md">
-                            To:{" "}
-                            {post.map((el) => {
-                                return el.annFilter.filterType
-                            })}{" "}
-                            {post.map((el) => {
-                                return el.annFilter.value
-                            })}
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Text fontSize="sm" align="justify">
-                            {post.map((el) => {
-                                return el.annLanguage[0].annDetail
-                            })}
-                        </Text>
-                    </Box>
+                    <Detail annTopic={topic[0]} filterType={targetType[0]} filterValue={targetValue[0]} annDetail={eventAnddate[0][1]} eventDate={new Date(eventAnddate[0][0])} sender={sender[0]} />
                 </>
             )
         }
     }
 
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
-            <Flex alignItems={"center"}>
-                <Show below="lg">
-                    <Text as={"b"} fontSize="xl">
-                        <Link to="/announcement">
-                            <GrClose />
-                        </Link>
-                    </Text>
-                </Show>
-                {/* <Spacer /> */}
-            </Flex>
+        <AnnounceNav>
+            {(() => {
+                if (isLoading && !isError) {
+                    return <AnnounceLoading />
+                } else {
+                    if (isError) {
+                        return <AnnounceError />
+                    } else {
+                        return (
+                            <>
+                                <Flex alignItems={"center"}>
+                                    <Show below="lg">
+                                        <Text as={"b"} fontSize="xl">
+                                            <Link to="/announcement">
+                                                <GrClose />
+                                            </Link>
+                                        </Text>
+                                    </Show>
+                                </Flex>
 
-            <Stack spacing={3} p="5">
-                <Grid templateColumns={{ base: "1fr 1fr", lg: "1fr 3fr" }} my={5}>
-                    <GridItem>
-                        <Select
-                            placeholder="select language"
-                            bg="blue.600"
-                            color={"white"}
-                            onChange={(el) => setlang(parseInt(el.target.value + ""))}
-                        >
-                            {/* <option value={1000}>English</option> */}
-                            {otherLang[0]?.map((el, index) => {
-                                return (
-                                    <option value={el.languageId} key={index} style={{ background: "#FFF", color: "#000" }}>
-                                        {selectLangName(el.languageId)}
-                                    </option>
-                                )
-                            })}
-                        </Select>
-                    </GridItem>
-                </Grid>
-                {selectLang(lang)}
-            </Stack>
-        </AppBody>
+                                <Stack spacing={3} p="5">
+                                    <Grid templateColumns={{ base: "1fr 1fr", lg: "1fr 3fr" }} my={5}>
+                                        <GridItem>
+                                            <Select
+                                                placeholder="select language"
+                                                bg="blue.600"
+                                                color={"white"}
+                                                onChange={(el) => setlang(parseInt(el.target.value + ""))}
+                                            >
+                                                {otherLang[0]?.map((el, index) => {
+                                                    return (
+                                                        <option value={el.languageId} key={index} style={{ background: "#FFF", color: "#000" }}>
+                                                            {selectLangName(el.languageId)}
+                                                        </option>
+                                                    )
+                                                })}
+                                            </Select>
+                                        </GridItem>
+                                    </Grid>
+                                    {selectLang(lang)}
+                                </Stack>
+                            </>
+                        )
+                    }
+                }
+            })()}
+        </AnnounceNav>
     )
 }
 

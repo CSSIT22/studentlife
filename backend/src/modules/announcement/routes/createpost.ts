@@ -1,3 +1,4 @@
+import  axios  from 'axios';
 import { post } from "@apiType/announcement"
 import { Request, Response } from "express"
 import { getPost, setPost } from ".."
@@ -7,6 +8,30 @@ const createPost = async (req: Request, res: Response) => {
     const id = req.user?.userId
     const { topic, detail, targetType, targetValue, expiredPost, addmorelang } = req.body
     try {
+        // claxt4vk80000suv9drqmx48w
+        let approvalid = []
+        const approval = await prisma.user_To_Role.findMany({
+            where:{
+                roleId: "claxt4vk80000suv9drqmx48w"
+            },
+            select:{
+                userId: true
+            }
+        })
+        for (let i = 0; i < approval.length; i++) {
+            approvalid.push(approval[i].userId);
+        }
+        // console.log(approvalid)
+
+        axios.post("http://localhost:8000/notification/addnotiobject",{
+            "template": "ANNOUNCEMENT_WAIT_FOR_APPROVE",
+            "value": [],
+            "userId": approvalid,
+            "module":"ANNOUNCEMENT",
+            "url":"/announcement/approval",
+            "sender":id,
+        })
+
         let filterNo: number
         if (targetType == "Everyone") {
             const newFilter = await prisma.announcement_Filter.findFirstOrThrow({
@@ -38,6 +63,11 @@ const createPost = async (req: Request, res: Response) => {
         ll.push({ languageId: 1000, annTopic: topic, annDetail: detail })
         addmorelang.map((el: any) => ll.push({ languageId: el.languageId, annTopic: el.annTopic, annDetail: el.annDetail }))
         // console.log(ll);
+        const addHours = (date: Date): Date => {
+            const result = new Date(date)
+            result.setHours(result.getHours() + 7)
+            return result
+        }
 
         const newPost = await prisma.announcement.create({
             data: {
@@ -47,6 +77,7 @@ const createPost = async (req: Request, res: Response) => {
                 annLanguage: {
                     createMany: { data: ll },
                 },
+                annCreated: addHours(new Date()),
                 annPost: {
                     create: {},
                 },

@@ -14,10 +14,15 @@ const editstatusOnHistory = async (req: Request, res: Response) => {
                     postId: postId,
                 },
             })
+            const addHours = (date: Date): Date => {
+                const result = new Date(date);
+                result.setHours(result.getHours() + 7);
+                return result;
+              };
             const insertToDelete = await prisma.announcement_Delete.create({
                 data: {
                     postId: postId,
-                    deleteAt: deleteAt,
+                    deleteAt: addHours(deleteAt),
                 },
             })
             res.send(insertToDelete)

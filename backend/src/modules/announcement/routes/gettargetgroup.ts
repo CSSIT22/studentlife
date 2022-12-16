@@ -1,6 +1,7 @@
 import { post } from "./../../../../../types/announcement/index"
 import { getPost } from "./../index"
 import { Request, Response } from "express"
+import axios from "axios"
 
 const getTargetGroup = async (req: Request, res: Response) => {
     // const postid = parseInt(req.params.id+"")
@@ -10,6 +11,19 @@ const getTargetGroup = async (req: Request, res: Response) => {
     const prisma = res.prisma
 
     try {
+        const postuserid = await prisma.announcement.findMany({
+            where:{
+                postId: postId
+            },
+            select:{
+                userId:true,
+                annLanguage: {
+                    select:{
+                        annTopic: true
+                    }
+                }
+            }
+        })
         if (targetType == "Major") {
             const majorUsers = await prisma.user_Profile.findMany({
                 where: {
@@ -19,8 +33,9 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     userId: true,
                 },
             })
-            console.log(majorUsers)
+            // console.log(majorUsers)
             // res.send(majorUsers)
+            let majoruserid = []
             for (let i = 0; i < majorUsers.length; i++) {
                 const creatintable = await prisma.announcement_Pin.create({
                     data: {
@@ -28,7 +43,17 @@ const getTargetGroup = async (req: Request, res: Response) => {
                         userId: majorUsers[i].userId,
                     },
                 })
+                majoruserid.push(majorUsers[i].userId)
             }
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: majoruserid,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
+
         } else if (targetType == "Faculty") {
             const majors = await prisma.major.findMany({
                 where: {
@@ -56,7 +81,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     },
                 })
                 for (let i = 0; i < majorusers.length; i++) {
-                    allUserIds.push(majorusers[i])
+                    allUserIds.push(majorusers[i].userId)
                 }
             }
             // console.log(allUserIds)
@@ -64,10 +89,20 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 const creatintable = await prisma.announcement_Pin.create({
                     data: {
                         postId: postId,
-                        userId: allUserIds[i].userId,
+                        userId: allUserIds[i],
                     },
                 })
             }
+
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: allUserIds,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
+
         } else if (targetType == "Year") {
             let year = new Date()
             const thaiYear = (year.getFullYear() + 543) % 100
@@ -99,7 +134,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     },
                 })
                 for (let i = 0; i < userId.length; i++) {
-                    selectedUserIds.push(userId[i])
+                    selectedUserIds.push(userId[i].userId)
                 }
             }
             // console.log(selectedUserIds)
@@ -107,16 +142,29 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 const creatintable = await prisma.announcement_Pin.create({
                     data: {
                         postId: postId,
-                        userId: selectedUserIds[i].userId,
+                        userId: selectedUserIds[i],
                     },
                 })
             }
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: selectedUserIds,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
+
         } else if (targetType == "Everyone") {
             const everyUserId = await prisma.user_Profile.findMany({
                 select: {
                     userId: true,
                 },
             })
+            let userid = []
+            for (let i = 0; i < everyUserId.length; i++) {
+                userid.push(everyUserId[i].userId);
+            }
             // console.log(everyUserId)
             for (let i = 0; i < everyUserId.length; i++) {
                 const creatintable = await prisma.announcement_Pin.create({
@@ -127,6 +175,16 @@ const getTargetGroup = async (req: Request, res: Response) => {
                 })
             }
             res.send(everyUserId)
+
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "ANNOUNCEMENT_NEW",
+                value: [postuserid[0].annLanguage[0].annTopic],
+                userId: userid,
+                module: "ANNOUNCEMENT",
+                url: "/announcement/",
+                sender: postuserid[0].userId,
+            })
+            
         }
     } catch (err: any) {
         // console.log(err)
