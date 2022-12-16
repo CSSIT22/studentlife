@@ -16,6 +16,7 @@ import {
     Flex,
     Text,
     Link,
+    useToast,
 } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
@@ -41,7 +42,7 @@ const task = () => {
 
     let { taskid } = useParams()
 
-
+    const toast = useToast()
     // console.log(location.task);
 
     useEffect(() => {
@@ -98,27 +99,27 @@ const task = () => {
             </Heading>
             <Box margin-top={10}>
                 <Heading as="h2" size="xl" noOfLines={1} >
-                    {descList.taskName}
+                    {descList.taskCheck?.taskName}
                 </Heading>
                 <Heading as="h2" size="md" mt={8} mb={2}>
                     Description
                 </Heading>
                 <Text fontSize="sm">
-                    <Text as="h2" size="md">{descList.taskDesc}</Text>
+                    <Text as="h2" size="md">{descList.taskCheck?.taskDesc}</Text>
                 </Text>
                 <Heading as="h2" size="md" mt={8} mb={2}>
                     Due Date
                 </Heading>
                 {/* <Input placeholder="Select Date and Time" size="md" type="datetime-local" /> */}
-                <Text fontSize="sm">{dayjs(descList.due).format("dddd d MMMM YYYY")}</Text>
+                <Text fontSize="sm">{dayjs(descList.taskCheck?.due).format("dddd d MMMM YYYY")}</Text>
                 <Heading as="h2" size="md" mt={8} mb={2}>
                     Time
                 </Heading>
-                <Text fontSize="sm">{dayjs(descList.due).format("HH:mm:ss")}</Text>
+                <Text fontSize="sm">{dayjs(descList.taskCheck?.due).format("HH:mm:ss")}</Text>
                 <Heading as="h2" size="md" mt={8} mb={2}>
                     Type
                 </Heading>
-                <Text fontSize="sm">{descList.taskType}</Text>
+                <Text fontSize="sm">{descList.taskCheck?.taskType}</Text>
                 <Box display="flex" justifyContent="space-between" alignItems="center" marginY={10}>
                     <Button onClick={onDeleteOpen} color={"white"} bgColor="orange.200" width="40px" h="40px">
                         <DeleteIcon />
@@ -149,6 +150,13 @@ const task = () => {
                         <Button colorScheme="green" mr={3} onClick={() => {
                             onDeleteClose()
                             deleteTask(descList.taskId)
+                            toast({
+                                title: 'Task Deleted.',
+                                description: "Task " + descList.taskName + " deleted successfully.",
+                                status: 'success',
+                                duration: 9000,
+                                isClosable: true,
+                            })
 
                         }}>
                             Yes
@@ -175,6 +183,26 @@ const task = () => {
                         <Button colorScheme="green" mr={3} onClick={() => {
                             onCheckClose()
                             finishTask(descList.taskId)
+                            console.log(descList)
+                            if (descList.isCheck == false) {
+
+                                toast({
+                                    title: 'Task Checked.',
+                                    description: "Task " + descList.taskName + " has been checked successfully.",
+                                    status: 'success',
+                                    duration: 9000,
+                                    isClosable: true,
+                                })
+                            } else {
+                                toast({
+                                    title: 'Task Unchecked.',
+                                    description: "Task " + descList.taskName + " has been unchecked successfully.",
+                                    status: 'success',
+                                    duration: 9000,
+                                    isClosable: true,
+                                })
+                            }
+
                         }}>
                             Yes
                         </Button>

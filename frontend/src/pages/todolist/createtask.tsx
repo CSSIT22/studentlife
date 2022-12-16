@@ -22,6 +22,9 @@ import {
     Flex,
     Text,
     Link,
+    FormControl,
+    FormErrorMessage,
+    useToast,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import { BrowserRouter as Router, Route, Link as RouteLink, Form, useNavigate } from "react-router-dom"
@@ -73,17 +76,25 @@ const createtask = () => {
     const [folder, setFolder] = useState("")
     const [folderList, setFolderList] = useState([])
 
+    const isError = taskName === ''
+
+    const toast = useToast()
     const submit = () => {
-        API.post("/todolist/createtask", {
-            taskName: taskName,
-            taskDesc: taskDesc,
-            due: new Date(due + "T" + time + "Z"),
-            taskType: type,
-            // alert: alert,
-            folderId: folder
-        }).then(() => {
-            navigate("/todolist/")
-        })
+        if (taskName == '') {
+            console.log("");
+        } else {
+            API.post("/todolist/createtask", {
+                taskName: taskName,
+                taskDesc: taskDesc,
+                due: new Date(due + "T" + time + "Z"),
+                taskType: type,
+                // alert: alert,
+                folderId: folder
+            }).then(() => {
+                navigate("/todolist/")
+            })
+        }
+
     }
 
     useEffect(() => {
@@ -103,12 +114,18 @@ const createtask = () => {
             </Heading>
 
             <Box margin-top={10}>
-                <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
-                    Task Name
-                </Heading>
-                <Input placeholder="Task Name" size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
-                {/* //value={taskName} onChange={(e) => setTaskName(e.target.value)} */}
-
+                <FormControl isRequired isInvalid={isError}>
+                    <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
+                        Task Name
+                    </Heading>
+                    <Input placeholder="Task Name" size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
+                    {/* //value={taskName} onChange={(e) => setTaskName(e.target.value)} */}
+                    {!isError ? (
+                        <></>
+                    ) : (
+                        <FormErrorMessage>Task Name is required.</FormErrorMessage>
+                    )}
+                </FormControl>
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
@@ -160,8 +177,20 @@ const createtask = () => {
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     {type == "individual" ? (
                         <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
-                            <Link onClick={submit}>Done</Link>
+                            <Link onClick={() => {
+                                submit()
+                                toast({
+                                    title: 'Task Created.',
+                                    description: "Task " + taskName + " created successfully.",
+                                    status: 'success',
+                                    duration: 9000,
+                                    isClosable: true,
+                                })
+                            }}>Done</Link>
                         </Button>
+
+
+
                     ) : (
                         <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
                             <Link href="/todolist/creategroup">Next</Link>

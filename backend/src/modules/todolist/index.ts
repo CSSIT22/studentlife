@@ -10,6 +10,7 @@ import deleteTask from "./routes/deleteTask"
 import deleteFolder from "./routes/deletefolder"
 import listTaskInFolder from "./routes/listtaskinfolder"
 import tasktoFolder from "./routes/tasktofolder"
+import listNameFromId from "./routes/listnamefromid"
 // import createTask from "./routes/createTask"
 
 const todolistRoutes = express()
@@ -30,5 +31,6 @@ todolistRoutes.post("/createtask", createTask)
 todolistRoutes.post("/deletefolder", deleteFolder)
 todolistRoutes.post("/listtaskinfolder", listTaskInFolder)
 todolistRoutes.post("/tasktofolder", tasktoFolder)
+todolistRoutes.post("/listnamefromid", listNameFromId)
 
 export default todolistRoutes

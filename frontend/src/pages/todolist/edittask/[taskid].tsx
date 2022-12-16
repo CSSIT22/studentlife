@@ -112,16 +112,18 @@ const edittask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
                 </Heading>
-                {/* <Text fontSize="md">{dayjs(descList.due).format("dddd DD MMMM YYYY")}</Text> */}
+                <Text fontSize="md">{dayjs(descList.due).format("dddd DD MMMM YYYY")}</Text>
+                {/* value={dayjs(descList.due).format("YYYY-MM-DD")} */}
                 <label>
-                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" value={dayjs(descList.due).format("YYYY-MM-DD")} onChange={(e) => setDueDate(e.target.value)} />
+                    <input type="date" name="bday" placeholder={dayjs(descList.due).format("YYYY-MM-DD")} required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
                 </label>
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
-                {/* <Text fontSize="md">{dayjs(descList.due).format("HH:mm:ss")}</Text> */}
+                <Text fontSize="md">{dayjs(descList.due).format("HH:mm:ss")}</Text>
+                {/* value={dayjs(descList.due).format("HH:mm")} */}
                 <form>
-                    <input id="appt-time" type="time" name="appt-time" value={dayjs(descList.due).format("HH:mm")} onChange={(e) => setTime(e.target.value)} />
+                    <input id="appt-time" type="time" name="appt-time" onChange={(e) => setTime(e.target.value)} />
                 </form>
 
                 {/* <Heading as="h2" size="md" noOfLines={1} marginY={10}>

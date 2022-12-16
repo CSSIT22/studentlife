@@ -16,10 +16,13 @@ const detailTask = async (req: Request, res: Response) => {
         return res.status(400).send("User has no permission")
     }
 
-    const user = await prisma.task.findFirst({
+    const user = await prisma.task_Check.findFirst({
         where: {
             taskId: body.taskId,
-            // userId: userid,
+            userId: userid,
+        },
+        include: {
+            taskCheck: true,
         },
     })
     return res.json(user)

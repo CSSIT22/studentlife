@@ -28,6 +28,7 @@ import { AddIcon } from "@chakra-ui/icons"
 import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import { useControllableProp, useControllableState } from "@chakra-ui/react"
+import API from "src/function/API"
 
 // const [isControlled, value] = useControllableProp(propValue, stateValue){
 // function Example() {
@@ -42,6 +43,14 @@ import { useControllableProp, useControllableState } from "@chakra-ui/react"
 //     </div>
 //   )
 // }}
+const [userList, setUserList] = useState([])
+
+
+const fetchData = () => {
+    API.post("http://localhost:8000/todolist/listnamefromid").then((res) => {
+        setUserList(res.data);
+    })
+}
 
 const creategroup = () => {
     const [members, setMembers] = useState([
