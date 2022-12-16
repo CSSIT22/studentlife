@@ -41,6 +41,11 @@ const editDetailPost = async (req: Request, res: Response) => {
                 languageId: true,
             },
         })
+        const addHours = (date: Date): Date => {
+            const result = new Date(date)
+            result.setHours(result.getHours() + 7)
+            return result
+        }
         // update ENG
         const updateL = await prisma.post_To_Language.update({
             where: {
@@ -55,7 +60,7 @@ const editDetailPost = async (req: Request, res: Response) => {
                 post: {
                     update: {
                         annExpired: new Date(expiredpost),
-                        annCreated: new Date(),
+                        annCreated: addHours(new Date()),
                         filterId: newTargetUser?.filterId,
                     },
                 },
