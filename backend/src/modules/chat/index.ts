@@ -12,6 +12,8 @@ import getMember from "./router/getMember"
 import deleteRoom from "./router/deleteRoom"
 import createGroup from "./router/createGroup"
 import editGroupProp from "./router/editGroupProp"
+import leaveGroup from "./router/leaveGroup"
+import joinGroup from "./router/joinGroup"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -28,9 +30,13 @@ chatRoutes.post("/createRoom", createRoom)
 
 chatRoutes.post("/createGroup",createGroup)
 
+chatRoutes.post("/joinGroup",joinGroup)
+
 chatRoutes.get("/:id", room_prop)
 
 chatRoutes.delete("/:id/deleteRoom",deleteRoom)
+
+chatRoutes.delete("/:id/leaveGroup",leaveGroup)
 
 chatRoutes.get("/:id/getQuote", getQuote)
 
