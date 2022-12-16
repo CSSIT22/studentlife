@@ -58,7 +58,7 @@ const NotiTable = () => {
     //getUserNotiObject by Module
 
     const getUserNotiObjectModule = () => API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
-    //console.log(getUserNotiObjectModule);
+
 
     const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
     useEffect(() => {
@@ -69,7 +69,7 @@ const NotiTable = () => {
 
         })
     }, [reLoad])
-    //console.log(userNotiObjectModule);
+    // console.log(userNotiObjectModule);
 
     const toast = useToast()
     useEffect(() => {
@@ -102,37 +102,6 @@ const NotiTable = () => {
         }
     });
 
-
-    //setting
-    // function ShowSetting() {
-    //     const { isOpen, onOpen, onClose } = useDisclosure()
-
-    //     return (
-    //         <Center>
-    //             <Button size={"1em"} onClick={onOpen}>
-    //                 <SettingsIcon color="orange.500" />
-    //             </Button>
-    //             <Modal isOpen={isOpen} onClose={onClose} isCentered>
-    //                 <ModalOverlay />
-    //                 <ModalContent>
-    //                     <ModalHeader>
-    //                         <Text align={"center"}>Notification Setting</Text>
-    //                     </ModalHeader>
-    //                     <ModalCloseButton />
-    //                     <ModalBody>
-    //                         <NotiSetting />
-    //                     </ModalBody>
-    //                     <ModalFooter>
-    //                         <Button bg="orange.500" color="white" width={"100%"} onClick={onClose}>
-    //                             Confirm
-    //                         </Button>
-    //                     </ModalFooter>
-    //                 </ModalContent>
-    //             </Modal>
-    //         </Center>
-    //     )
-    // }
-    //console.log(userNotiObjectModule.length);
 
     return (
         <Box>

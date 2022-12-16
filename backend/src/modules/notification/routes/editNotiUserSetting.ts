@@ -11,7 +11,7 @@ const editNotiUserSetting = async (req: Request, res: Response) => {
                 notiSettingEmail: req.params.email as Noti_Type,
             },
         })
-        console.log(req.user?.userId)
+        //console.log(req.user?.userId)
         return res.send(notiUser)
     } catch (err) {
         //console.log(err)

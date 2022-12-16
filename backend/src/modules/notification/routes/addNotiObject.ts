@@ -101,9 +101,9 @@ const addNotiObject = async (req: Request, res: Response) => {
                     })
 
                     let info = await transporter.sendMail({
-                        from: "modLifes <noreply@modlifes.me>",
+                        from: "ModLifes <noreply@modlifes.me>",
                         to: userEmail.user.email,
-                        subject: "new noti",
+                        subject: "notification from " + notiObject.module,
                         html: showDescription(req.body.value, notiObject.template),
                     })
                 } catch (err) {}

@@ -23,8 +23,8 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
         const hour = minute * 60
         const day = hour * 24
 
-        let sendDay = Math.round(date.getTime() / day)
-        let today = Math.round(current.getTime() / day)
+        let sendDay = Math.floor(date.getTime() / day)
+        let today = Math.floor(current.getTime() / day)
 
         if (sendDay == today) {
             if (!listDay.includes("today")) {
@@ -88,7 +88,7 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
                         {showDate(new Date(el.notiObject.date))}
                         <Stack spacing={3}>
                             <NotiObject
-                                id={el.notiObject.notiObjectId}
+                                objectId={el.notiObject.notiObjectId}
                                 template={el.notiObject.template}
                                 date={new Date(el.notiObject.date)}
                                 isRead={el.isRead}
@@ -97,6 +97,7 @@ const NotiList: FC<{ selectedList: any[], module: string; onClick: Function }> =
                                 onClick={onClick}
                                 sender={el.notiObject.userId}
                                 values={el.notiObject.values}
+                                userId={el.userId}
                             />
                         </Stack>
                     </Box>

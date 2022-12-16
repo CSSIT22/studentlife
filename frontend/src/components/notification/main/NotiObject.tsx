@@ -1,13 +1,12 @@
 import { NotiValue } from "@apiType/notification"
 import { Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text, useEditable } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
-import { FaDumpsterFire } from "react-icons/fa"
 import API from "src/function/API"
 import { templates } from "../templates"
 
 
 const NotiObject: FC<{
-    id: string
+    objectId: string
     template: string
     date: Date
     isRead: boolean
@@ -16,7 +15,8 @@ const NotiObject: FC<{
     onClick: Function
     sender: string
     values: NotiValue[]
-}> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
+    userId: string
+}> = ({ userId, objectId, template, isRead, date, module, url, onClick, sender, values }) => {
 
     const [senderImg, setsenderImg] = useState([])
 
@@ -45,12 +45,12 @@ const NotiObject: FC<{
         const day = hour * 24
         const year = day * 365
 
-        let sendDay = Math.round(date.getTime() / day)
+        let sendDay = Math.floor(date.getTime() / day)
         // console.log(sendDay)
-        let currentDay = Math.round(current.getTime() / day)
+        let currentDay = Math.floor(current.getTime() / day)
         // console.log(currentDay)
         let diffDay = currentDay - sendDay
-        // console.log(diffDay)
+        //console.log(diffDay)
         if (diffDay == 0) {
             let sendMinutes = Math.floor(date.getTime() / minute)
             let currentMinutes = Math.floor(current.getTime() / minute)
@@ -128,7 +128,7 @@ const NotiObject: FC<{
         // console.log(values);
 
         values.forEach((item: NotiValue) => {
-            if (item.notiObjectId == id) {
+            if (item.notiObjectId == objectId) {
                 if (v1 == "") {
                     v1 = item.value
                 } else if (v2 == "") {
@@ -174,9 +174,9 @@ const NotiObject: FC<{
         }
     }
     function showUser() {
-        if (sender == null) {
+        if (sender == userId) {
             return (
-                <Avatar src="./Logo_01.png" size={"sm"} />
+                <Avatar src="Logo_01.png" bgColor="orange.500" name={module} size={"sm"} />
             )
         } else {
             return (
@@ -186,7 +186,7 @@ const NotiObject: FC<{
     }
 
     function read() {
-        API.post("/notification/readnotiobject/" + id)
+        API.post("/notification/readnotiobject/" + objectId)
     }
 
     return (
