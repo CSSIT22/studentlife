@@ -1,4 +1,4 @@
-import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Text, useBoolean, useToast } from "@chakra-ui/react"
+import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Skeleton, Spinner, Text, useBoolean, useToast } from "@chakra-ui/react"
 import DatingAppBody from "src/components/dating/DatingAppBody"
 import React, { useState, useMemo, useRef, FC, RefObject, useEffect } from "react"
 import { AnimationControls, useAnimation } from "framer-motion"
@@ -16,6 +16,8 @@ import { AllInterests, UserCardDetail } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingRandomOutOfCard from "src/components/dating/DatingRandomOutOfCard"
 import { FaKissWinkHeart, FaMeh } from "react-icons/fa"
+import DatingDiscoveryWaiting from "../../components/dating/lottie/DatingDiscoveryWaiting.json"
+import Lottie from "lottie-react"
 
 declare global {
     var countSwipe: number[], countOut: number[]
@@ -205,43 +207,48 @@ const DatingRandomCard: FC<{
         if (countSwipe[index] == 1) {
             countSwipe[index]--
             console.log(idToDelete + " " + index)
-            handleClick(index)
             setHasSwipe(true)
+            let frontCard = document.getElementById(index.toString()) as HTMLInputElement
+            frontCard.style.pointerEvents = "none"
+            let button = document.getElementById("DatingButton") as HTMLInputElement
+            button.style.display = "none"
+            let loading = document.getElementById("DatingLoading") as HTMLInputElement
+            loading.style.display = "flex"
+
             if (direction === "left") {
-                if(index == 0) {
-                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
-                    .catch((err) => setIsError(true))
+                if (index == 0) {
+                    API.delete<{ frontUserId: string, backUserId: string }>("/dating/discovery/deleteQueue")
+                        .catch((err) => setIsError(true))
                 }
-                else if(characters[index-2]) {
-                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/setQueue", { frontUserId: characters[index-1].userId, backUserId: characters[index-2].userId, })
-                    .catch((err) => setIsError(true))
+                else if (characters[index - 2]) {
+                    API.put<{ frontUserId: string, backUserId: string }>("/dating/discovery/setQueue", { frontUserId: characters[index - 1].userId, backUserId: characters[index - 2].userId, })
+                        .catch((err) => setIsError(true))
                 }
-                else if(characters[index-1]){
-                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index-1].userId })
-                    .catch((err) => {setIsError(true), console.log(err)})  
+                else if (characters[index - 1]) {
+                    API.put<{ frontUserId: string, backUserId: string }>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index - 1].userId })
+                        .catch((err) => setIsError(true))
                 }
                 API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: true })
-                .catch((err) => setIsError(true))
+                    .catch((err) => setIsError(true)).finally((() => handleClick(index)))
 
                 // Run the cross button animation
                 nopeText.start("click")
                 controlCross.start("hidden")
             } else if (direction === "right") {
-                if(index == 0) {
-                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
-                    .catch((err) => setIsError(true))
+                if (index == 0) {
+                    API.delete<{ frontUserId: string, backUserId: string }>("/dating/discovery/deleteQueue")
+                        .catch((err) => setIsError(true))
                 }
-                else if(characters[index-2]) {
-                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/setQueue", { frontUserId: characters[index-1].userId, backUserId: characters[index-2].userId, })
-                    .catch((err) => setIsError(true))
+                else if (characters[index - 2]) {
+                    API.put<{ frontUserId: string, backUserId: string }>("/dating/discovery/setQueue", { frontUserId: characters[index - 1].userId, backUserId: characters[index - 2].userId, })
+                        .catch((err) => setIsError(true))
                 }
-                else if(characters[index-1]){
-                    API.delete<{frontUserId: string, backUserId: string}>("/dating/discovery/deleteQueue")
-                    API.put<{frontUserId: string, backUserId: string}>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index-1].userId })
-                    .catch((err) => {setIsError(true), console.log(err)})  
+                else if (characters[index - 1]) {
+                    API.put<{ frontUserId: string, backUserId: string }>("/dating/discovery/updateFrontQueue", { frontUserId: characters[index - 1].userId })
+                        .catch((err) => { setIsError(true) })
                 }
                 API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/discovery/setHeartHistory", { anotherUserId: idToDelete, isSkipped: false })
-                    .catch((err) => setIsError(true))
+                    .catch((err) => setIsError(true)).finally((() => handleClick(index)))
                 // Run the heart button animation
                 likeText.start("click")
                 controlHeart.start("hidden")
@@ -253,6 +260,7 @@ const DatingRandomCard: FC<{
         }
     }
 
+
     const outOfFrame = (name: string, idx: number) => {
         if (countOut[index] == 1) {
             countOut[index]--
@@ -261,21 +269,21 @@ const DatingRandomCard: FC<{
             let frontCard = document.getElementById(idx.toString()) as HTMLInputElement
             frontCard.style.display = "none"
             // Reload the page when running out of card
-            if (idx == 0 && !isError) {
-                navigate(0)
-            }
         }
     }
 
     const handleClick = (index: number) => {
-        let frontCard = document.getElementById(index.toString()) as HTMLInputElement
-        frontCard.style.pointerEvents = "none"
         let backCard = document.getElementById((index - 1).toString()) as HTMLInputElement
         let button = document.getElementById("DatingButton") as HTMLInputElement
-        button.style.pointerEvents = "none"
+        let loading = document.getElementById("DatingLoading") as HTMLInputElement
         if (backCard) {
-            setTimeout(() => {backCard.style.pointerEvents = "initial"
-                                button.style.pointerEvents = "initial"}, 500)
+            backCard.style.pointerEvents = "initial"
+            button.style.display = "flex"
+            loading.style.display = "none"
+        }
+        if (index == 0 && !isError) {
+            setTimeout(() => navigate(0), 1000)
+            
         }
     }
 
@@ -526,6 +534,7 @@ const DatingRandomization = () => {
                             />
                         )) : <></>}
                 </Box>
+
                 {!isLoading && !isError &&
                     characters[currentIndex] != null ? (
                     <Box>
@@ -556,7 +565,11 @@ const DatingRandomization = () => {
                     <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
                     {/* Heart button */}
                     <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
+                </Box>
+                <Box display="none" pl={{ base: "18px", md: "165px" }} pt="25px" justifyContent={{ base: "center", md: "start" }} id="DatingLoading">
+                    <Spinner size="xl" />
                 </Box></>
+
 
         </DatingAppBody>
     )
