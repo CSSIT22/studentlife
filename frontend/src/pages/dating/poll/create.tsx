@@ -287,6 +287,7 @@ const CreateActivityPoll = () => {
                                 onEsc={onClose}
                                 scrollBehavior="inside"
                                 closeOnOverlayClick={false}
+                                autoFocus={false}
                             >
                                 <ModalOverlay backdropBlur={"base"} />
                                 <ModalContent>

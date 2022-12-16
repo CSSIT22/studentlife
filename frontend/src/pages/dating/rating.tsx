@@ -10,6 +10,7 @@ import NoProfileImg from "../../components/dating/pic/noprofile.png"
 
 const Rating = () => {
     // const [friend, setFriend] = useState(FRIEND)
+    const [friends, setFriends] = useState<FollowDetail[]>([])
     const [friend, setFriend] = useState<FollowDetail[]>([])
     const [allFriend, setAllFriend] = useState<FollowDetail[]>([])
     const [searchQuery, setSearchQuery] = useState("")
@@ -25,6 +26,11 @@ const Rating = () => {
                 setAllFriend(followDB.data)
             })
                 .catch((err) => console.log(err));
+            API.get("/dating/rating/getRating").then((rating) => {
+                console.log(rating.data)
+
+            })
+                .catch((err) => console.log(err));
         }
 
     })
@@ -37,6 +43,15 @@ const Rating = () => {
     // }
 
     // let linkto = "../../user/" + friend.userId
+
+    function handleFollow() {
+        for (let i = 0; i < friend.length; i++) {
+            for (let j = 0; j < friend.length; j++) {
+                friend
+
+            }
+        }
+    }
 
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
@@ -72,7 +87,7 @@ const Rating = () => {
             </Box>
 
             {friend.map((values) => {
-                console.log(values.following.receiveRate)
+                console.log(values.following)
                 return (
                     <Box >
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
@@ -99,7 +114,7 @@ const Rating = () => {
                                     </Text>
                                 </Center>
                             </Flex>
-                            <DatingRatingAllStar defaultFill={values.following.receiveRate.score} rateFor={values.following.userId} />
+                            <DatingRatingAllStar defaultFill={values.following.score} rateFor={values.following.userId} />
                         </Box>
                     </Box>
                 )

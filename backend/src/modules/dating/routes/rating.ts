@@ -11,7 +11,47 @@ ratingRoutes.get("/", (_, res) => {
 
 // Get the previous rating
 ratingRoutes.get("/getRating", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+    try {
+        const userId = req.user?.userId
+        if (userId == null) {
+            return res.send()
+        } else {
+            const followDB = await prisma.follow.findMany({
+                where: {
+                    userId: userId,
+                },
+                select: {
+                    following: {
+                        select: {
+                            userId: true,
+                            fName: true,
+                            lName: true,
+                            image: true,
+                        },
+                    },
+                },
+            })
+
+            const followingIds = followDB.map((el) => el.following.userId)
+
+            const rating = await prisma.user_Rating.findMany({
+                where: {
+                    userId: userId,
+                    anotherUserId: {
+                        in: followingIds as string[],
+                    },
+                },
+                include: {
+                    scoreReceiver: true,
+                },
+            })
+
+            console.log(rating)
+            return res.send(rating)
+        }
+    } catch (err) {
+        return res.status(404).send("User Option not found")
+    }
 })
 
 // Get the user profile join with follow table
@@ -32,16 +72,25 @@ ratingRoutes.get("/getUserProfile", verifyUser, async (req: Request, res: Respon
                             fName: true,
                             lName: true,
                             image: true,
-                            receiveRate: {
-                                select: {
-                                    score: true,
-                                },
-                            },
                         },
                     },
                 },
             })
-            console.log(followDB)
+
+            // const followingIds = followDB.map((el) => el.following.userId)
+
+            // const rating = await prisma.user_Rating.findMany({
+            //     where: {
+            //         userId: userId,
+            //         anotherUserId: {
+            //             in: followingIds as string[],
+            //         },
+            //     },
+            //     include: {
+            //         scoreReceiver: true,
+            //     },
+            // })
+            // return res.send(rating)
             return res.send(followDB)
         }
     } catch (err) {

@@ -89,8 +89,21 @@ export type FollowDetail = {
       type: string;
       data: number[];
     };
-    receiveRate: {
-      score: number;
-    };
+    score: number;
   };
+  // score: number;
+  // userId: string;
+  // scoreReceiver: {
+  //   fName: string;
+  //   lName: string;
+  //   image: {
+  //     type: string;
+  //     data: number[];
+  //   };
+  // };
+};
+
+export type RateStatus = {
+  score: number;
+  userId: string;
 };
