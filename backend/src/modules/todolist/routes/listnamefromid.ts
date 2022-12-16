@@ -5,9 +5,9 @@ const listNameFromId = async (req: Request, res: Response) => {
     const body = req.body
     const userid = req.user?.userId || ""
 
-    const user = await prisma.user_Profile.findMany({
+    const user = await prisma.user_Profile.findFirst({
         where: {
-            userId: userid,
+            userId: body.userId,
         },
     })
     return res.json(user)
