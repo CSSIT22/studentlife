@@ -65,7 +65,7 @@ const editCommunity = () => {
 
 
     //tags
-    const [tags, setTags] = useState(userData.Tag)
+    const [tags, setTags] = useState<any>([])
     const [createTag, setCreateTag] = useState<any>([]);
     const [selectedTag, setSelectedTag] = useState<any>([])
     const [updatedTag, setUpdatedTag] = useState<any>([])
@@ -96,9 +96,14 @@ const editCommunity = () => {
             setCommunityDesc(communityResult?.community.desc)
             setCommunityPrivacy(communityResult?.community.privacy)
             setCommunityCoverPhoto(communityResult?.community.photo)
+
             setUpdatedTag(communityResult?.community.tags)
+            setCreateTag(communityResult?.community.tags)
+            setTags((await API.get("/group/getTag/")).data)
+            
             
             console.log(communityResult)
+            console.log(updatedTag)
         } catch (err) {
             on()
         } finally {
@@ -111,9 +116,11 @@ const editCommunity = () => {
 
 
     useEffect(() => {
-        console.log(createTag)
-        console.log(updatedTag)
-        console.log(selectedTag)
+        // console.log(createTag)
+         console.log(updatedTag)
+        // console.log(selectedTag)
+       
+
     }, [updatedTag])
 
     const handleAddTag = (tag: any) => {
@@ -122,11 +129,14 @@ const editCommunity = () => {
             setSelectedTag([...selectedTag, tag])
         } else {
             tag.isSelected = false
-            setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
+            setSelectedTag(selectedTag.filter((item: any) => item.tagId !== tag.tagId))
         }
     }
 
+    const [previewPhoto, setPreviewPhoto] = useState("")
 
+    //program confuse with data at data:image but patial accept
+    const imgbase64 = `data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(communityCoverPhoto?.data)))}`
 
     //form styles
     const desktopStyle = {
@@ -294,9 +304,9 @@ const editCommunity = () => {
                         >
                             {updatedTag?.map((tag: any) => {
                                 return (
-                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
+                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tag.tagDesc}>
                                         <Tag
-                                            key={tag.tagID}
+                                            key={tag.tagId}
                                             shadow="lg"
                                             fontSize={{ base: "md", md: "xs" }}
                                             borderRadius="full"
@@ -306,7 +316,7 @@ const editCommunity = () => {
                                             py={{ base: 2, md: 1 }}
                                             fontWeight="bold"
                                         >
-                                            {tag.tagName}
+                                            {tag.tag.tagName}
                                         </Tag>
                                     </Tooltip>
                                 )
@@ -349,6 +359,40 @@ const editCommunity = () => {
                             </AccordionPanel>
                         </AccordionItem>
                     </Accordion>
+
+
+                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
+                        Upload Community cover photo
+                    </FormLabel>
+                    <Box
+                        sx={{
+                            bg: "white",
+                            color: "#848383",
+                            shadow: "md",
+                            fontWeight: 500,
+
+                        }}
+                        fontSize={{ base: 'md', md: 'sm' }}
+                        borderRadius={{ base: 'xl', md: 'md' }}
+                        mb='2'
+                        _hover={{ bg: 'gray.50', cursor: 'pointer' }}
+                        p='2' pl='4'
+                    >
+
+                        <input type="file"
+                            id="avatar" name="avatar"
+                            accept="image/png, image/jpeg"
+                            onChange={(e: any) => {
+                                let x = URL.createObjectURL(e.target.files[0])
+                                
+                                setPreviewPhoto(x)
+                                setCommunityCoverPhoto(e.target.files[0])
+                            }
+                            }>
+                        </input>
+
+                    </Box>
+
 
                     {/* Cant get friend from another module */}
                     <FormLabel display="none" sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
@@ -484,10 +528,10 @@ const editCommunity = () => {
                         <DrawerOverlay />
                         <DrawerContent mx={{ base: "5", md: "10%", lg: "20%" }} width="auto" backgroundColor="#e67f45" borderTopRadius="3rem" pb="20">
                             <DrawerBody pt="6" display="flex" flexWrap="wrap" gap="2">
-                                {tags.map((tag) => (
+                                {tags.map((tag:any) => (
                                     <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
                                         <Tag
-                                            key={tag.tagID}
+                                            key={tag.tagId}
                                             _hover={{ cursor: "pointer" }}
                                             shadow="lg"
                                             borderRadius="full"
@@ -563,7 +607,7 @@ const editCommunity = () => {
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    photo={communityCoverPhoto}
+                                    photo={previewPhoto ? previewPhoto : imgbase64}
                                     memberCount={1}
                                     tags={updatedTag}
                                 />

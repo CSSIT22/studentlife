@@ -12,7 +12,7 @@ const NavbarCommunity: FC<{
     disabled?: boolean, //use for disable button
     name?: string,
     desc?: string,
-    photo?: string,
+    photo?: any,
     privacy?: boolean,
     tags?: [],
     memberCount?: number,
@@ -43,6 +43,8 @@ const NavbarCommunity: FC<{
         }
     ]
 
+    let url = photo instanceof String;
+    
     return (
         <Box
         >
@@ -104,7 +106,7 @@ const NavbarCommunity: FC<{
                             key={tag.Id}
 
                         >
-                            {tag.tagName}
+                            {tag.tag?.tagName === undefined ? tag?.tagName : tag.tag?.tagName}
                         </Box>
                     ))}
                 </Wrap>

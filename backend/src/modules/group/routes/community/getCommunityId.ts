@@ -20,11 +20,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 //select tags
                 tags: {
                     select: {
-                        tag: {
-                            select: {
-                                tagName: true,
-                            },
-                        },
+                        tag: true
                     },
                 },
                 posts: true,
@@ -119,7 +115,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 desc: community?.communityDesc,
                 privacy: community?.communityPrivacy, //true if private, false if public
                 photo: community?.communityPhoto,
-                tags: community?.tags.map((item: any) => item.tag.tagName.trim()),
+                tags: community?.tags,
                 memberCount: (community?.member.length || 0) + 1, //+1 for the owner
                 file:community?.files
             },

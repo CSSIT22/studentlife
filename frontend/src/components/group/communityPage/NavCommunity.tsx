@@ -17,7 +17,7 @@ const NavbarCommunity: FC<{
     desc?: string,
     photo?: any,
     privacy?: boolean,
-    tags?: [],
+    tags?: any,
     memberCount?: number,
 
     //User
@@ -184,7 +184,7 @@ const NavbarCommunity: FC<{
         <Box
         >
             <Image
-                src={`data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(data.community.photo?.data)))}`}
+                src={photo instanceof Blob ? `data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(data.community.photo?.data)))}`: photo}
                 fallbackSrc="https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
                 marginTop={{ base: "-2rem", sm: "-5rem" }}
                 height={{ base: "11rem", sm: "15rem" }}
@@ -237,10 +237,10 @@ const NavbarCommunity: FC<{
                             px={3}
                             borderRadius={{ base: 'lg', sm: "md" }}
                             fontSize="xs"
-                            key={tag}
+                            key={tag.tagId}
 
                         >
-                            {tag}
+                            {tag.tag.tagName}
                         </Box>
                     ))}
                 </Wrap>
