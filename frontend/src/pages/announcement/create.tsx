@@ -159,7 +159,7 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<post_to_language2[]>([])
 
 
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, event: Date, expired: Date, addMoreLang: post_to_language2[]) => {
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, event: string, expired: Date, addMoreLang: post_to_language2[]) => {
         API.post<post>("/announcement/createpost", {
             topic: title,
             detail: event + "~" + detail,
@@ -169,7 +169,9 @@ const create = () => {
             addmorelang: addMoreLang,
         })
     }
-
+    
+    
+    
     const addLang = (lang: number, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
@@ -199,6 +201,7 @@ const create = () => {
     const onDisable = () => {
         setdisable(!disable)
     }
+    const navigate = useNavigate()
     return (
         <AnnounceNav>
             {(() => {
@@ -214,7 +217,7 @@ const create = () => {
                                     onSubmit={(e) => {
                                         onOpen()
                                         e.preventDefault()
-                                        addPost(topic, detail, targetType, targetValue, new Date(event), new Date(expired), addMoreLang)
+                                        addPost(topic, detail, targetType, targetValue, event, new Date(expired), addMoreLang)
                                         setFormState("saving")
                                     }}
                                 >

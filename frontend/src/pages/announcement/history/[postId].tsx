@@ -321,22 +321,18 @@ const history = () => {
     }
 
     const submit = () => {
-        const date = new Date(event + "");
         API.post<post>("/announcement/editdetailpost", {
             postid: params.postId,
             topic: topic,
-            detail: date + "~" + detail,
+            detail: event + "~" + detail,
             targetType: targetType,
             targetValue: targetValue,
             postat: new Date(),
             expiredpost: expired,
             addMoreLang: addMoreLang,
         })
-        navigate("/announcement/history")
     }
-    console.log(formState);
-    console.log(navi);
-
+    
 
     return (
         <AnnounceNav>
@@ -350,8 +346,8 @@ const history = () => {
                                 onSubmit={(e) => {
                                     tog()
                                     onOpen()
-                                    // e.preventDefault()
-                                    e.stopPropagation()
+                                    e.preventDefault()
+                                    // e.stopPropagation()
                                     submit()
                                     setFormState("saving")
                                 }}
