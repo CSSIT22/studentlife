@@ -50,7 +50,7 @@ const RenderTokens: React.FC<{ tokens: Array<any>, handleRevoke: Function }> = (
                 <Flex alignItems="center" justifyContent={"center"}>
                   <VStack alignItems="center" justifyContent={"center"} m={"6"}>
                     <Text color={"white"} fontSize={"2xl"}>
-                      {item.currentDevice ? "Current Device" : "Device" + (index + 1)}
+                      {item.currentDevice ? "Current Device" : "Device " + (index + 1)}
                     </Text>
                     <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"100%"}>
                       {item.detail.deviceInfo === "desktop" && <DesktopToken />}
