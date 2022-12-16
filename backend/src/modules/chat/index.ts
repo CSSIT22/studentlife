@@ -19,7 +19,7 @@ chatRoutes.use(express.json())
 
 chatRoutes.get("/", getRoom)
 
-chatRoutes.get("/spotifySearch",spotify)
+chatRoutes.get("/spotifySearch", spotify)
 
 chatRoutes.post("/createRoom", createRoom)
 

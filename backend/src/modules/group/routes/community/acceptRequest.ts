@@ -19,7 +19,7 @@ const acceptRequest = async (req: Request, res: Response) => {
             data: invite,
         })
         res.status(200).send("Request has been accept")
-    } catch (err){
+    } catch (err) {
         console.log(err)
         res.status(403)
     }

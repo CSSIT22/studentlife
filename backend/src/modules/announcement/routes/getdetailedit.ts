@@ -23,8 +23,8 @@ const getDetailEdit = async (req: Request, res: Response) => {
                     },
                 },
                 annLanguage: {
-                    orderBy:{
-                        languageId : 'asc'
+                    orderBy: {
+                        languageId: "asc",
                     },
                     select: {
                         postId: true,
@@ -39,14 +39,13 @@ const getDetailEdit = async (req: Request, res: Response) => {
                         lName: true,
                     },
                 },
-                annExpired: true
+                annExpired: true,
             },
         })
         res.send(getdetail)
         // console.log(getdetail)
         // console.log(getdetail[0].annCreator)
         // console.log(getdetail[0].annLanguage)
-
     } catch (err: any) {
         // console.log(err)
         res.status(404).send("Can not get detail")
