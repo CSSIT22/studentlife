@@ -69,7 +69,9 @@ backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, 
                 instance: 0,
             },
         })
+        res.status(200).json({ message: "ban report successs" })
     } catch (error) {
+        console.log(error)
         return res.status(400).json({ message: error })
     }
 })
