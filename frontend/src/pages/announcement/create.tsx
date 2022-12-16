@@ -44,7 +44,7 @@ import MoreLang from "../../components/annoucement/MoreLang"
 import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 const create = () => {
@@ -75,10 +75,10 @@ const create = () => {
         "unchanged" | "modified" | "saving"
     >("unchanged");
 
-  
+
     useEffect(() => {
         value.then((res) => settv(res.data)).catch(err => on()).finally(off)
-    
+
         const handler = (event: BeforeUnloadEvent) => {
             event.preventDefault();
             event.returnValue = "";
@@ -138,7 +138,7 @@ const create = () => {
                 return pushState.apply(history, arguments as any);
             } else {
                 // alert("Hello")
-                const cancelRef = useRef() 
+                const cancelRef = useRef()
             }
         };
 
@@ -169,9 +169,9 @@ const create = () => {
             addmorelang: addMoreLang,
         })
     }
-    
-    
-    
+
+
+
     const addLang = (lang: number, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }

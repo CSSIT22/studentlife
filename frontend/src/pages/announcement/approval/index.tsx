@@ -9,7 +9,7 @@ import { postInfoTest } from "../postInfoTest"
 import { announcement, post } from "@apiType/announcement"
 import API from "src/function/API"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const index = () => {

@@ -1,7 +1,7 @@
 import { Flex, Heading, Box } from '@chakra-ui/react'
 import Lottie from 'lottie-react'
 import React from 'react'
-import annError from './Error.json'
+import annError from './lotties/Error.json'
 
 const AnnounceError = () => {
     return (

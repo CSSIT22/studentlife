@@ -9,7 +9,7 @@ import detail from "./detail/[postId]"
 import { postInfoTest } from "./postInfoTest"
 import { announcement_delete, post } from "@apiType/announcement"
 import API from "src/function/API"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
@@ -107,26 +107,26 @@ const recyclebin = () => {
                                 {allPost
                                     .filter((fl) => {
                                         const expiredonrecycle = new Date(fl.deleteAt)
-                                        let hours :number = expiredonrecycle.getHours()
-                                        expiredonrecycle.setHours(hours-7)
+                                        let hours: number = expiredonrecycle.getHours()
+                                        expiredonrecycle.setHours(hours - 7)
                                         let date: number = expiredonrecycle.getDate()
                                         let month: number = expiredonrecycle.getMonth()
                                         let year: number = expiredonrecycle.getFullYear()
                                         expiredonrecycle.setDate(date + 3)
-                                    
+
                                         const expired = new Date(expiredonrecycle)
                                         const expiredPost = Math.round(expired.getTime() / day)
                                         const diffD = expiredPost - currentD
 
                                         const hEpd = Math.round(expired.getTime() / hour)
                                         const diffH = hEpd - currentH
-                                        
+
                                         return (diffD > 0 || diffH > 0)
                                     })
                                     .map((el) => {
                                         const expired = new Date(el.deleteAt)
-                                        let hours:number = expired.getHours()
-                                        expired.setHours(hours-7)
+                                        let hours: number = expired.getHours()
+                                        expired.setHours(hours - 7)
                                         let date: number = expired.getDate()
                                         expired.setDate(date + 3)
                                         const r = showRemaining(expired)

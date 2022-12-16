@@ -8,7 +8,7 @@ import { Box, Flex, Heading, SimpleGrid, Spacer, useBoolean } from "@chakra-ui/r
 import { postInfoTest } from "./postInfoTest"
 import { announcement, post } from "@apiType/announcement"
 import API from "src/function/API"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 

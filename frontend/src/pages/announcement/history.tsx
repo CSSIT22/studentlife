@@ -11,7 +11,7 @@ import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import PostOnHistory from "src/components/annoucement/PostOnHistory"
 import AppBody from "src/components/share/app/AppBody"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const history = () => {

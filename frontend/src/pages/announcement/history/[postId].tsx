@@ -29,7 +29,7 @@ import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import MoreLang from "src/components/annoucement/MoreLang"
 import { postInfoTest } from "../postInfoTest"
 import MoreLangAdded from "src/components/annoucement/MoreLangAdded"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const history = () => {
@@ -332,7 +332,7 @@ const history = () => {
             addMoreLang: addMoreLang,
         })
     }
-    
+
 
     return (
         <AnnounceNav>

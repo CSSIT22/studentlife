@@ -25,7 +25,7 @@ import { post, announcement_language, post_to_language, announcement } from "@ap
 import { postInfoTest } from "../postInfoTest"
 import API from "src/function/API"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 import Detail from "src/components/annoucement/Detail"
 
