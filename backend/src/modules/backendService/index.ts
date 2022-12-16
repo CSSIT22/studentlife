@@ -2,11 +2,8 @@ import { Request, Response } from "express"
 import express from "express"
 import { nanoid } from "nanoid"
 import { verifyUser } from "./middleware/verifyUser"
-import UAParser from "ua-parser-js"
 import DeviceDetector from "node-device-detector"
-import { banned } from "./middleware/banned"
 import { reportRequest } from "@apiType/backendService"
-import { filterWord } from "./middleware/filterWord"
 
 const backendserviceRoutes = express()
 
@@ -48,7 +45,6 @@ backendserviceRoutes.post("/reportword", verifyUser, async (req: Request, res: R
 })
 
 backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
-    const { prisma } = res
     try {
         const bannedUser = await res.prisma.ban_Status.upsert({
             where: {
@@ -75,9 +71,9 @@ backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, 
         return res.status(400).json({ message: error })
     }
 })
-backendserviceRoutes.get("/test", filterWord, (req, res) => {
-    res.send("you passed the filter word")
-})
+// backendserviceRoutes.get("/test", filterWord, (req, res) => {
+//     res.send("you passed the filter word")
+// })
 
 backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
@@ -97,7 +93,7 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
                 currentDevice: item.token === req.session.id,
             })
         })
-        console.log(response)
+        // console.log(response)
         return res.status(200).json({ tokens: response })
     } catch (err: any) {
         return res.status(400).json({ message: err })
@@ -114,13 +110,12 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
     })
     const userAgent = req.headers["user-agent"] || ""
     const detectedResult = detector.detect(userAgent)
-    console.log(detectedResult)
+    // console.log(detectedResult)
 
     const selectedDeviceToken = req.body.token
     const currentUserDeviceToken = req.session.id
     const isLogoutCurrentDevice = selectedDeviceToken === currentUserDeviceToken
 
-    const device = new UAParser(req.headers["user-agent"])
     const { token, userId } = req.body
     const logoutId = nanoid()
     const logoutDate = new Date()
@@ -156,7 +151,7 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
 
         redis.DEL(`sess:${token}`)
 
-        console.log(logoutResult)
+        // console.log(logoutResult)
 
         res.status(200).json({ token: token })
     } catch (err: any) {
