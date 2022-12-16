@@ -1,6 +1,9 @@
 import { Shop_Cart, Shop_Order, Shop_Order_Product } from "@prisma/client"
 import { Request, Response } from "express"
-
+// Remove from user coupons
+// Reduce Coupon Quota
+// If possible add previously used coupon check in getuserCoupons by checking with Shop_order at user_Id and coupon_Id
+// Reduce product stock
 const postUserOrder = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
@@ -22,7 +25,7 @@ const postUserOrder = async (req: Request, res: Response) => {
                         totalPrice: req.body.totalPrice,
                         totalDeliveryFees: req.body.totalDeliveryFees,
                         shipping: req.body.shipping,
-                        orderPlaced: req.body.orderPlaced,
+                        orderPlaced: new Date().toLocaleString(),
                         orderStatus: req.body.orderStatus
                     }
                 })
