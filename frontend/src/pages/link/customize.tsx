@@ -79,19 +79,19 @@ const customize = () => {
                         <Box h="100px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" onChange={(e) => setLink(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
+                                    <Input placeholder="link url:" onChange={(e) => setLink(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"}  textColor="black"/>
                                 </Center>
                             </Box>
                             <Box width={"100%"} marginTop={"1%"}>
                                 {/* custom word */}
                                 {/* handle change */}
                                 <Center>
-                                    <Input placeholder="custom word:" onChange={(e) => setword(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
+                                    <Input placeholder="custom word:" onChange={(e) => setword(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"}  textColor="black"/>
                                 </Center>
                             </Box>
                             <Box h="70px" w={"100%"} marginTop={"2%"}>
                                 <Center>
-                                    <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"}>
+                                    <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"}  textColor="black">
                                         <a>
                                             {custom != "" ? "http://localhost:8000/shortlink/redirect?shorten=" + word : ""}{custom}
                                         </a>
