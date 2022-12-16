@@ -11,17 +11,18 @@ const savelink = () => {
     }
     return (
         <AppBody>
-            <Container borderWidth="1px" padding="10" borderRadius="xl" background={"orange.200"} gap={2} bgColor={"#orange.200"}>
+            <Container borderWidth="1px" padding="10" borderRadius="xl" background={"white"} gap={2} >
                 <Box
                     width={"200px"}
                     height={"40px"}
                     marginLeft={"-30"}
                     marginTop={"-50"}
-                    background={"#f2f2f2"}
+                    background={"orange.200"}
                     borderRadius={"10px"}
                     fontSize={"md"}
                     border={"3px solid white"}
                     textAlign={"center"}
+                    textColor="white"
                 >
                     <Text as={"b"}>SAVELINK FEATURE</Text>
                 </Box>

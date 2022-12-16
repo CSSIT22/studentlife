@@ -9,16 +9,17 @@ const allLink = () => {
                     height={"40px"}
                     marginLeft={"-30"}
                     marginTop={"-50"}
-                    background={"#f2f2f2"}
+                    background={"orange.200"}
                     borderRadius={"10px"}
                     fontSize={"md"}
                     border={"3px solid white"}
                     textAlign={"center"}
+                    textColor="white"
                 >
                     <Text as={"b"}>ALL-LINK</Text>
                 </Box>
                 <br />
-                <Box bgColor={"orange.200"} p="10rem" borderRadius="15"></Box>
+                <Box bgColor={"white"} p="10rem" borderRadius="15"></Box>
             </Container>
         </AppBody>
     )

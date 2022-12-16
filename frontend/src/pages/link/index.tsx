@@ -23,6 +23,7 @@ const Home = () => {
                     borderRadius="10"
                     shadow={"lg"}
                     background={"orange.200"}
+                    textColor="white"
                 >
                     <Text as={"b"}>LINK FEATURE</Text>
                 </Box>
