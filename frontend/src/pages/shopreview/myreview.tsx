@@ -57,20 +57,19 @@ const myreview = () => {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
                                 <Myreview
-                                    image={
-                                        item.images[0]
-                                    }
+                                    image={item.images[0]}
                                     name={String(user?.fName) + " " + String(user?.lName)}
                                     ment={item.text}
                                     date={String(item.reviewedAt).substring(0, 10)}
                                     am_like={item.likeReceived}
                                     ratting={item.rating}
+                                    shopName="shopname"
                                 />
                             </b>
                         )
                     }
                 })}
-                {myReviews2.map((item: any) => {
+                {/* {myReviews2.map((item: any) => {
                     if (item.userId === user?.userId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
@@ -87,7 +86,7 @@ const myreview = () => {
                             </b>
                         )
                     }
-                })}
+                })} */}
             </SimpleGrid>
             <Container mt={5} textAlign={"center"}>
                 That's all for your review~

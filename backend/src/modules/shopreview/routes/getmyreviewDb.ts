@@ -8,6 +8,11 @@ const getmyreviewDb = async (req: Request, res: Response) => {
             select: {
                 reviewId: true,
                 shopId: true,
+                shop: {
+                    select: {
+                        shopName: true,
+                    },
+                },
                 resId: true,
                 likeReceived: true,
                 rating: true,
