@@ -6,6 +6,10 @@ import postCreatingText from "./routes/postCreatingText"
 
 import searchPost from "./routes/searchPost"
 
+
+const multer = require("multer")
+const upload = multer({})
+
 const blogRoutes = express()
 
 blogRoutes.use(express.json())
@@ -73,7 +77,16 @@ blogRoutes.get("/search/:postId", searchPost)
 
 blogRoutes.post("/postCreating", postCreating)
 
-blogRoutes.post("/postCreatingX", postCreatingText)
+blogRoutes.post("/postCreatingX", upload.array("upload"), postCreatingText)
+
+// blogRoutes.post("/uploadfileintopost", upLoadFile)
+
+///image and video uploade
+
+blogRoutes.post("/upload", upload.array("image", 1), function (req, res, next) {
+    // req.files is array of `photos` files
+    // req.body will contain the text fields, if there were any
+})
 
 // blogRoutes.post("/searchCreate/:userId", searchCreate)
 

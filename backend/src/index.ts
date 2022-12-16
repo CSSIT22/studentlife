@@ -182,7 +182,7 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     })
     // console.log(store)
 
-    console.log(socket.handshake.headers)
+    // console.log(socket.handshake.headers)
     console.log("Hello")
 })
 

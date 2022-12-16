@@ -86,6 +86,7 @@ const Home = () => {
                         text={post.body}
                     />}
                     {/* <PostImage image="" /> */}
+                    <PostImage image={""}/>
                     <Center>
                         <Box marginTop={"6"} display="flex" gap={10}>
                             <Box>

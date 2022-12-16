@@ -22,9 +22,11 @@ import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import User from "../../link/data/user"
 
+
 const Create = () => {
     const param = useParams()
     const [text, setText] = useState<any>("")
+    const [files, setFiles] = useState<any>([])
     // const [post, setPost] = useState<any>("")
     const navigate = useNavigate()
     const user = useContext(authContext)
@@ -35,10 +37,18 @@ const Create = () => {
     //         /**ตรงนี้ๆ */
     //     })
     // })
+    
     const submit = () => {
-        API.post<any>("/blog/postCreatingX", {
-            body: text
-        })
+        const form = new FormData();
+        form.append("text", text);
+        form.append("upload", files);
+        API.post<any>("/blog/postCreatingX",
+            form, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        )
             .then((res) => navigate("/"))
     }
 
@@ -66,7 +76,7 @@ const Create = () => {
                     <TextAreaPost onChange={e => setText(e.target.value)} />
 
                     <Center>
-                        <ImageInsert />
+                        <ImageInsert children files={files} setFiles={setFiles} />
                         <Spacer />
                         <VideoInsert />
                     </Center>
