@@ -89,6 +89,7 @@ model User_Profile {
   creditCards         Credit_Card[]
   coupons             User_Coupon[]
   carts               Shop_Cart[]
+  shopContact         Shop_Contact?
   reviewProduct       Shop_Product_Review[]
   likeRestaurants     Restaurant_Like_By_User[]
   favRestaurants      Restaurant_Favorite_By_User[]
@@ -1111,7 +1112,7 @@ model Word_Report_Detail {
 
 model Filtered_Word {
   wordReportId Int    @id @default(autoincrement())
-  word         String
+  word         String @unique
 }
 
 //ShortNotes Module
@@ -1280,7 +1281,7 @@ model Shop_Order {
   orderId           String               @id @default(cuid())
   userId            String
   transId           String               @unique
-  couponCode        String?              @unique
+  couponCode        String?
   totalPrice        Decimal              @db.Decimal(9, 2)
   totalDeliveryFees Decimal              @db.Decimal(9, 2)
   shipping          String
@@ -1348,7 +1349,9 @@ model Shop_Contact {
   phoneNo       String
   address       String
   lineId        String
+  userId        String?        @unique
   products      Shop_Product[]
+  user          User_Profile?  @relation(fields: [userId], references: [userId])
 }
 
 model Shop_Product_Images {
@@ -1415,6 +1418,7 @@ model Restaurant_Detail {
   vicinity  String
   latitude  Float      @db.Real
   longitude Float      @db.Real
+  zone      String     @default("")
   detailOf  Restaurant @relation(fields: [resId], references: [resId], onDelete: Cascade)
 }
 

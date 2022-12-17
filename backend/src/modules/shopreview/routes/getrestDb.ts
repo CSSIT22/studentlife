@@ -11,11 +11,11 @@ const getrestDb = async (req: Request, res: Response) => {
                         image: true,
                     },
                 },
-                // detail: {
-                //     select: {
-                //         zone: true,
-                //     },
-                // },
+                detail: {
+                    select: {
+                        // zone: true,
+                    },
+                },
             },
             where: {
                 resId: id,

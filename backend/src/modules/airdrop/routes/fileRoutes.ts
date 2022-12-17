@@ -8,24 +8,13 @@ import commentFile from "./functions/commentFile"
 import uploadOther from "./functions/uploadOther"
 import { extname } from "path"
 import getHistory from "./functions/getHistory"
+import getFile from "./functions/getFile"
 import deleteExpiredFile from "./functions/deleteExpiredFile"
 
 const path = require("path")
 const fs = require("fs")
 const multer = require("multer")
-//config destionation here
-const storage = multer.diskStorage({
-    destination: function (req: any, file: any, cb: any) {
-        const fileType = req.body.type
-        fs.mkdir(path.join(__dirname, "../files/" + fileType.toLowerCase()), { recursive: true }, (err: any) => {
-            if (err) throw err
-            cb(null, path.join(__dirname, "../files" + "/" + fileType))
-        })
-    },
-    filename: function (req: any, file: any, cb: any) {
-        cb(null, req.user?.userId + file.originalname + extname(file.originalname))
-    },
-})
+
 // const upload = multer({ storage: storage })
 const upload = multer()
 
@@ -44,6 +33,7 @@ fileRoutes.post("/upload", verifyUser, upload.array("upload"), uploadFile)
 fileRoutes.post("/uploadother", verifyUser, upload.array("upload"), uploadOther)
 fileRoutes.post("/hidefile", hideFile)
 fileRoutes.post("/comment", commentFile)
+fileRoutes.get("/getfile/:fileid", getFile)
 fileRoutes.get("/gethistory", verifyUser, getHistory)
 
 //check expired file every 5 minutes

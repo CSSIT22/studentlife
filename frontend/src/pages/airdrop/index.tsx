@@ -40,6 +40,9 @@ import {
     useBoolean,
     useToast,
     Show,
+    SlideFade,
+    Slide,
+    ScaleFade,
 } from "@chakra-ui/react"
 
 const linkMenu = [
@@ -247,7 +250,7 @@ export default function Index<FC>() {
         if (isError) {
             toast({
                 title: "Error",
-                description: "Please Log In Before Using",
+                description: "Something went wrong",
                 status: "error",
                 duration: 5000,
                 isClosable: true,
@@ -368,7 +371,7 @@ export default function Index<FC>() {
                                             <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                                                 <HiUpload fontSize={"84px"} />
                                                 <Text fontSize={"2xl"}>Drop the file</Text>
-                                                <Text fontSize={"md"}>Maximum file size can be up to 200MB</Text>
+                                                <Text fontSize={"md"}>Maximum file size can be up to 100MB</Text>
                                             </Flex>
                                         ) : null}
                                     </Dropzone>
@@ -671,11 +674,11 @@ export default function Index<FC>() {
                                                             textAlign={"center"}
                                                             onClick={() => {
                                                                 handleDrop()
-                                                                if (isError == false) {
-                                                                    setConfirmDrop(true)
-                                                                } else {
-                                                                    setConfirmDrop(false)
-                                                                }
+                                                                // if (isError == false) {
+                                                                //     setConfirmDrop(true)
+                                                                // } else {
+                                                                //     setConfirmDrop(false)
+                                                                // }
                                                             }}
                                                         >
                                                             Confirm
