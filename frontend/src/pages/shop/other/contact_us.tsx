@@ -17,7 +17,7 @@ const ContactUs = () => {
                             {phoneNo("+(66) 92 197 9782")}
                             {phoneNo("+(66) 82 353 6704")}
                         </Flex>
-                        <Flex direction="column" justify="center" p="4">
+                        <Flex direction="column" justify="center" gap="4" p="4">
                             {phoneNo("Line Id: khush")}
                             {phoneNo("Line Id: oiemagique")}
                         </Flex>
