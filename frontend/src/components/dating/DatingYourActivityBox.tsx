@@ -1,20 +1,20 @@
-import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text, useBoolean } from "@chakra-ui/react"
+import React, { FC, useEffect, useState } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
 import { Link, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
+import { motion } from "framer-motion"
 
 declare global {
     var date: string, time: string
 }
 
 // Component of your activity page
-const DatingYourActivityBox = () => {
+const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
     // const [poll, setPoll] = useState(POLL)
-    const [poll, setPoll] = useState<PollInfo | any>()
     const params = useParams()
     const didMount = useDidMount()
 
@@ -26,17 +26,6 @@ const DatingYourActivityBox = () => {
 
         return didMount
     }
-
-    let count = 1
-    useEffect(() => {
-        if (didMount && count != 0) {
-            count--
-            API.get("/dating/youractivitypoll/getYourPolls").then((data) => {
-                setPoll(data.data)
-                // console.log("Poll data " + poll);
-            }).catch((err) => console.log(err));
-        }
-    })
 
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
@@ -86,102 +75,124 @@ const DatingYourActivityBox = () => {
                 globalThis.date = handlePollDate(values.pollAppointAt)
                 globalThis.time = hanlePollTime(values.pollAppointAt)
                 return (
-                    <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
-                        <Flex>
-                            <Image
-                                borderRadius="full"
-                                boxSize="78px"
-                                objectFit="cover"
-                                src={values.pollCreator.image ?
-                                    (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
-                                    :
-                                    NoProfileImg
-                                }
-                            />
-                            <Center>
-                                <Text ml="30px" fontSize="20px">
-                                    {values.pollCreator.fName}
-                                    &nbsp;
-                                    {values.pollCreator.lName}
-                                </Text>
-                            </Center>
-                        </Flex>
-                        <Heading fontSize="20px" pt="10px">
-                            {values.pollName}
-                        </Heading>
-                        {values.interests.length < 1 ? <Text pb="20px"></Text> :
-                            <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
-                                <Box
-                                    height="70px"
-                                    //pt="5px"
-                                    overflowX={{ base: "auto", md: "visible" }}
-                                    whiteSpace={{ base: "nowrap", md: "initial" }}
-                                    style={{ WebkitOverflowScrolling: "touch" }}
-                                >
-                                    {values.interests.map((i) => (
-                                        <Tag
-                                            backgroundColor="orange.400"
-                                            color="white"
-                                            mr="1"
-                                            mb="1"
-                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                            borderRadius="5px"
-                                            h={{ md: "28px" }}
-                                        >
-                                            <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
-                                                {i.interest.interestName}
-                                            </Text>
-                                        </Tag>
-
-                                    ))}</Box>
-                            </Box>
-                        }
-                        <Text fontSize="16px">
-                            {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
-                        </Text>
-                        <Text fontSize="16px">Location: {values.pollPlace}</Text>
-
-                        <Text fontSize="16px">Date: {globalThis.date}</Text>
-                        <Text fontSize="16px">Time: {globalThis.time}</Text>
-                        <Text fontSize="16px">Number of people: {handlePeople(values.participantMin, values.participantMax)}</Text>
-                        <Flex justifyContent="end">
-                            <Center>
-                                {/* Need data from database and need condition checking for people/person*/}
-                                <Text fontSize="16px">{values.participants.length} people have applied</Text>
-                            </Center>
-
-                            <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
-                                <Button
-                                    display="flex-end"
-                                    type="submit"
-                                    form="new-note"
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
+                            <Flex>
+                                <Image
                                     borderRadius="full"
-                                    colorScheme="orange"
-                                    m="10px"
-                                    p="5px"
-                                    mt="10px"
-                                >
-                                    <Center>
-                                        <BsFillPeopleFill />
-                                    </Center>
-                                </Button>
+                                    boxSize="78px"
+                                    objectFit="cover"
+                                    src={values.pollCreator.image ?
+                                        (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
+                                        :
+                                        NoProfileImg
+                                    }
+                                />
+                                <Center>
+                                    <Text ml="30px" fontSize="20px">
+                                        {values.pollCreator.fName}
+                                        &nbsp;
+                                        {values.pollCreator.lName}
+                                    </Text>
+                                </Center>
+                            </Flex>
+                            <Heading fontSize="20px" pt="10px">
+                                {values.pollName}
+                            </Heading>
+                            {values.interests.length < 1 ? <Text pb="20px"></Text> :
+                                <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
+                                    <Box
+                                        height="70px"
+                                        //pt="5px"
+                                        overflowX={{ base: "auto", md: "visible" }}
+                                        whiteSpace={{ base: "nowrap", md: "initial" }}
+                                        style={{ WebkitOverflowScrolling: "touch" }}
+                                    >
+                                        {values.interests.map((i) => (
+                                            <Tag
+                                                backgroundColor="orange.400"
+                                                color="white"
+                                                mr="1"
+                                                mb="1"
+                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                                borderRadius="5px"
+                                                h={{ md: "28px" }}
+                                            >
+                                                <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
+                                                    {i.interest.interestName}
+                                                </Text>
+                                            </Tag>
 
-                            </Link>
-                            <Box zIndex="2">
-                                <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }} >
-                                    <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px" >
-                                        <Text fontSize="12px" color="white" as="b">
-                                            {values.participants.filter(i => i.isAccepted).length > 99 ? "99+" : values.participants.filter(i => i.isAccepted).length}
-                                            {/* Number of people that haven't accept need to replace 2 with data from db*/}
-                                            {/* {2 > 99 ? "99+" : 2} */}
-                                        </Text>
-                                    </Circle>
-                                </Link>
-                            </Box>
-                        </Flex>
-                    </Box>
+                                        ))}</Box>
+                                </Box>
+                            }
+                            <Text fontSize="16px">
+                                {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
+                            </Text>
+                            <Text fontSize="16px">Location: {values.pollPlace}</Text>
+
+                            <Text fontSize="16px">Date: {globalThis.date}</Text>
+                            <Text fontSize="16px">Time: {globalThis.time}</Text>
+                            <Text fontSize="16px">Number of people: {handlePeople(values.participantMin, values.participantMax)}</Text>
+                            <Flex justifyContent="end">
+                                <Center>
+                                    {/* Need data from database and need condition checking for people/person*/}
+                                    <Text fontSize="16px">{values.participants.length} people have applied</Text>
+                                </Center>
+
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    style={{ display: "flex" }}
+                                    whileTap={{ scale: 1 }}
+                                    whileHover={{ scale: 1.2, }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 360,
+                                        damping: 20,
+                                    }}
+                                >
+                                    <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
+                                        <Button
+                                            display="flex-end"
+                                            type="submit"
+                                            form="new-note"
+                                            borderRadius="full"
+                                            colorScheme="orange"
+                                            m="10px"
+                                            p="5px"
+                                            mt="10px"
+                                        >
+                                            <Center>
+                                                <BsFillPeopleFill />
+                                            </Center>
+                                        </Button>
+
+                                    </Link>
+                                    <Box zIndex="2">
+                                        <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }} >
+                                            <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px" >
+                                                <Text fontSize="12px" color="white" as="b">
+                                                    {values.participants.filter(i => i.isAccepted).length > 99 ? "99+" : values.participants.filter(i => i.isAccepted).length}
+                                                    {/* Number of people that haven't accept need to replace 2 with data from db*/}
+                                                    {/* {2 > 99 ? "99+" : 2} */}
+                                                </Text>
+                                            </Circle>
+                                        </Link>
+                                    </Box>
+                                </motion.div>
+                            </Flex>
+                        </Box></motion.div>
                 )
             }) : <></>}
+
         </Box>
     )
 }
