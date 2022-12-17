@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import axios from "axios"
 import express, { Request, Response } from "express"
+import calExp from "../../user/expsystem/calExp"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 
 const yourPollRoutes = express()
@@ -117,6 +118,8 @@ yourPollRoutes.put("/updatePollApplicants", verifyUser, async (req: Request, res
             },
         })
 
+        calExp(prisma, req.user?.userId || "", "DatingPollJoinActivity")
+
         if (fName && pollName && userId && reqUserId) {
             axios.post("http://localhost:8000/notification/addnotiobject", {
                 template: "DATING_ACCEPTED",
@@ -208,6 +211,10 @@ yourPollRoutes.put("/closeAndAcceptAllYourPoll", verifyUser, async (req: Request
                 isAccepted: true,
             },
         })
+
+        for(let i = 0; i < unacceptedUserId.length; i++) {
+            await calExp(prisma, req.user?.userId || "", "DatingPollJoinActivity")
+        }
 
         if (fName && pollName && reqUserId) {
             axios.post("http://localhost:8000/notification/addnotiobject", {
