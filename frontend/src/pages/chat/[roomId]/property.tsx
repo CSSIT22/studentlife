@@ -38,16 +38,19 @@ function showProperty() {
     const [eventNames, setEventName] = React.useState("")
     const [eventButtons, setEventButton] = React.useState("")
     const [Room, setRoom] = React.useState<RoomType>()
-
+    const [userChatWith, setUserChatWith] = React.useState<any>([])
+    
     let param = useParams()
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/user/${Room?.roomId}`)
+        return navigate(`/user/${userChatWith.anotherUserId}`)
     }
 
     useEffect(() => {
         API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data)
+        )
+        API.get(`/chat/${param.roomId}/getUserID`).then((e) => setUserChatWith(e.data)
         )
     }, [param])
 
@@ -121,8 +124,6 @@ function showProperty() {
         { eventIcon: MdFlag, eventName: "Report" },
         { eventIcon: FaDoorOpen, eventName: "Leave group" },
     ]
-
-    // console.log(Room);
 
     return (
         <>

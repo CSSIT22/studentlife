@@ -20,6 +20,7 @@ const getMember = async (req: Request, res: Response) => {
             select:{
                 user:{
                     select:{
+                        userId :true,
                         image:true,
                         fName:true
                     }

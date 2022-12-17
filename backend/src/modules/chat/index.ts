@@ -14,6 +14,7 @@ import createGroup from "./router/createGroup"
 import editGroupProp from "./router/editGroupProp"
 import leaveGroup from "./router/leaveGroup"
 import joinGroup from "./router/joinGroup"
+import getUserIDChatWith from "./router/getUserIDChatWith"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -41,6 +42,8 @@ chatRoutes.delete("/:id/leaveGroup",leaveGroup)
 chatRoutes.get("/:id/getQuote", getQuote)
 
 chatRoutes.get("/:id/getMember", getMember)
+
+chatRoutes.get("/:id/getUserID", getUserIDChatWith)
 
 chatRoutes.put("/:id", editRoomProp)
 
