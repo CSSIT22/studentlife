@@ -36,8 +36,5 @@ datingRoutes.use("/appliedpoll", appliedPollRoutes)
 datingRoutes.use("/tutorial", tutorialRoutes)
 datingRoutes.use("/rating", ratingRoutes)
 datingRoutes.use("/verifyEnroll", verifyEnrollRoutes)
-// Danger zone (These routes will be removed later.)
-datingRoutes.use("/readDB", readDBRoutes)
-datingRoutes.use("/resetDB", resetDBRoutes)
 
 export default datingRoutes
