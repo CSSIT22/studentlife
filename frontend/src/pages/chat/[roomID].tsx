@@ -41,6 +41,18 @@ export type RoomType = {
     group: {
         roomName: string
     }
+    userId : string
+}
+export type message = {
+    _id : string
+    roomId : string
+    messageType : [
+        string
+    ]
+    created : string
+    message :string
+    senderId : string
+
 }
 
 const Room = () => {
@@ -48,7 +60,7 @@ const Room = () => {
     const { socketIO } = useContext(socketContext)
     const [isMute, setIsMute] = useState(false)
     const [Text, setText] = useState("")
-    const [msg, setmsg] = useState(mockMessage)
+    const [msg, setmsg] = useState<message[]>([])
     const [Room, setRoom] = useState<RoomType>()
     const scroll = useRef<null | HTMLDivElement>(null)
     const [isLoading, { off }] = useBoolean(true)
@@ -56,7 +68,7 @@ const Room = () => {
     useEffect(() => {
         API.get(`chat/${param.roomID}`)
             .then((e) => setRoom(e.data))
-            .finally(() => off())
+        API.get(`chat/${param.roomID}/getMessage`).then((e)=>setmsg(e.data)).finally(()=>off())
     }, [param])
 
     useEffect(() => {
@@ -73,7 +85,7 @@ const Room = () => {
         if (Text == "") {
             alert("ไม่ให้ส่งคั้บ")
         } else {
-            setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
+            API.post(`chat/${param.roomID}/postMessage`,{type :"TEXT" ,message:Text}).then(()=> API.get(`chat/${param.roomID}/getMessage`).then((e)=>setmsg(e.data)))
             //socketIO.emit("send-msg", { userId: Room?., roomId: Room?.room.roomId, message: Text })
             setText("")
         }
@@ -168,9 +180,11 @@ const Room = () => {
                     </Flex>
 
                     <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} maxH={"65vh"}>
-                        {msg.map(({ text, from, timeSent }, roomID) => (
-                            <TextBar key={roomID} message={text} timeSent={timeSent} from={from} color={Room?.chatColor} />
-                        ))}
+                        {
+                            msg.map((e)=>{
+                               return  <TextBar key={e._id} message={e.message} timeSent={e.created} from={e.senderId} color ={Room.chatColor}  myId={Room.userId}/>
+                            })
+                        }
                         <div ref={scroll}></div>
                     </Box>
 

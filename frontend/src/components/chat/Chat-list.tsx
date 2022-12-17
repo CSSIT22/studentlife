@@ -54,7 +54,7 @@ const Clist: FC<any> = () => {
         //const result = API.get
         setuserRoom(result.data)
         navigate(`/chat`)
-        // console.log(e.room.roomId);
+        // console.log(e.room.roomIsd SAd);
     }
     function handleImg(e: any) {
         if (e === null) {

@@ -1,10 +1,10 @@
-name: 👻 Deployment staging-front
+name: 👾 Deployment Production-front
 
 on:
   push:
     branches:
-      - staging
       # - infra-*
+      - main
     paths:
       - "frontend/**"
 
@@ -14,7 +14,7 @@ jobs:
     runs-on: [self-hosted, linux, x64]
     timeout-minutes: 5
     container: node:16-alpine
-    environment: staging
+    environment: develop
     steps:
       - name: 🎤 Checkout
         uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
           cd ./frontend
           npm i
           touch .env
-          echo '${{secrets.FRONTEND_STAGING_ENV}}' > .env
+          echo '${{secrets.FRONTEND_PRODUCTION_ENV}}' > .env
           npm run build
       - name: 🆙 Upload artifact
         uses: actions/upload-artifact@v2
@@ -35,13 +35,13 @@ jobs:
   upload:
     name: 🍱 Preview Server Uploading
     runs-on: [self-hosted, linux, x64]
+    environment: develop
     timeout-minutes: 2
     container: alpine
     needs: [frontend-build]
     env:
-      REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP }}
-      # REMOTE_SSH_ARGS: ${{ secrets.REMOTE_SSH_ARGS }}
-      # REMOTE_SSH_PASSWORD: ${{ secrets.REMOTE_SSH_PASSWORD }}
+      REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP_PRODUCTION }}
+      MIRROR_DIST: ${{ secrets.MIRROR_DIST }}
     steps:
       - name: 📥 Download artifacts
         uses: actions/download-artifact@v2
@@ -53,4 +53,4 @@ jobs:
           apk add openssh-client sshpass lftp
       - name: 🖨️ Upload artifacts to server
         run: |
-          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /home/pongsapuk_1619255971/staging/web; bye"
+          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; $MIRROR_DIST; bye"
