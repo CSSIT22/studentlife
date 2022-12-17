@@ -1587,15 +1587,16 @@ model Question_Setting {
 }
 
 model Question_Tag {
-  tagKey Int                  @id
+  tagKey Int
   qId    String
   tagOf  Question             @relation(fields: [qId], references: [qId], onDelete: Cascade)
   tagIs  Question_Default_Tag @relation(fields: [tagKey], references: [tagKey], onDelete: Cascade)
+
+  @@id([tagKey, qId])
 }
 
 model Question_Default_Tag {
-  tagKey  Int           @id @default(autoincrement())
-  tagId   Int
+  tagKey  Int            @id @default(autoincrement())
   tagName String
   tag     Question_Tag[]
 }
