@@ -116,10 +116,14 @@ const recyclebin = () => {
 
                                         const expired = new Date(expiredonrecycle)
                                         const expiredPost = Math.round(expired.getTime() / day)
-                                        const diffD = expiredPost - currentD
+                                        const diffD = expiredPost - currentD                                        
 
                                         const hEpd = Math.round(expired.getTime() / hour)
                                         const diffH = hEpd - currentH
+                                        if(diffH < 0){                                            
+                                            API.post("/announcement/deleteexpiredpost", {postId:fl.post.postId})
+                                           
+                                        }
 
                                         return (diffD > 0 || diffH > 0)
                                     })

@@ -18,6 +18,7 @@ import getTypeTarget from "./routes/gettypetarget"
 import getLang from "./routes/getotherlang"
 import getOtherLang from "./routes/getotherlang"
 import { timeStamp } from "console"
+import deleteExpiredPost from "./routes/deleteexpiredpost"
 
 const announcementRoutes = express()
 
@@ -340,6 +341,8 @@ announcementRoutes.post("/editstatusonrecycle", editstatusOnRecyclebin)
 announcementRoutes.post("/editstatusonhistory", editstatusOnHistory)
 
 announcementRoutes.post("/editdetailpost", editDetailPost)
+
+announcementRoutes.post("/deleteexpiredpost", deleteExpiredPost)
 
 announcementRoutes.post("/createpost", createPost)
 
