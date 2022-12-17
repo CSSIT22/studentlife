@@ -10,10 +10,32 @@ const drive = axios.create({
     },
 })
 
-const postCreatingText = async (req: Request, res: Response) => {
+const postCreatingText = async (req: Request, res: Response | any) => {
     console.log(req.body)
     const formData = new fd()
     const fileList: any = req.files
+
+    let postId = ""
+
+    const prisma = res.prisma
+    const body = req.body
+    if (req.body != null) {
+        const post = await prisma.student_Post
+            .create({
+                data: {
+                    userId: req.user?.userId || "",
+                    body: req.body.text,
+                },
+            })
+
+            .then((res: any) => {
+                postId = res.postId
+            })
+            .catch((err: any) => {
+                console.log(err)
+            })
+    }
+
     fileList?.map((file: any) => {
         formData.append("upload", file.buffer, file.originalname)
     })
@@ -21,33 +43,27 @@ const postCreatingText = async (req: Request, res: Response) => {
         Id: string
         Name: string
     }[] = []
-    const saveFile = await drive
-        .post("/", formData)
-        .then((res: any) => {
-            resFileId = res.data
-            console.log("File ID from drive:" + resFileId[0].Id)
+    if (fileList.length > 0) {
+        const saveFile = await drive
+            .post("/", formData)
+            .then((res: any) => {
+                resFileId = res.data
+                console.log("File ID from drive:" + resFileId[0].Id)
+            })
+            .catch((err: any) => {
+                console.log(err)
+            })
+        const fileId = resFileId[0].Id
+
+        const file_contain = await prisma.file_Container.create({
+            data: {
+                fileId: fileId || "",
+                postId: postId,
+                fileAddress: "https://staging-api.modlifes.me/airdrop/file/getfile/" + fileId || "",
+            },
         })
-        .catch((err: any) => {
-            console.log(err)
-        })
-    const fileId = resFileId[0].Id
-    const prisma = res.prisma
-    const body = req.body
-    const post = await prisma.student_Post.create({
-        data: {
-            userId: req.user?.userId || "",
-            body: req.body.text,
-        },
-    })
-    
-    const image_contain = await prisma.image_Container.create({
-        data: {
-            imgId: fileId ,
-            postId: post.postId,
-            imageAddress: "https://staging-api.modlifes.me/airdrop/file/getfile/" + fileId,
-        },
-    })
-    res.json({post, image_contain})
+    }
+    res.json({ status: "upload sucessfully" })
 }
 
 export default postCreatingText

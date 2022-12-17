@@ -1,4 +1,4 @@
-import { Center, Flex, Spacer, Box, Button, Textarea } from "@chakra-ui/react"
+import { Center, Flex, Spacer, Box, Button, Textarea, useToast } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import CancelButton from "../../../components/blog/cancleButton"
 import CommentButton from "../../../components/blog/CommentButton"
@@ -37,19 +37,33 @@ const Create = () => {
     //         /**ตรงนี้ๆ */
     //     })
     // })
+    const toast = useToast()
 
     const submit = () => {
-        const form = new FormData();
-        form.append("text", text);
-        form.append("upload", files);
-        API.post<any>("/blog/postCreatingX",
-            form, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
+        if (text && files) {
+            const form = new FormData();
+            form.append("text", text);
+            form.append("upload", files);
+            API.post<any>("/blog/postCreatingX",
+                form, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             }
+            )
+                .then((res) => 
+                navigate("/"))
+        } else {
+            toast({
+                title: "Can't still post yet",
+                description: "You have to either have text or image or video in your post.",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+
+
         }
-        )
-            .then((res) => navigate("/"))
     }
 
     return (
