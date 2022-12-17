@@ -16,17 +16,17 @@ const restId = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     let param = useParams()
     const [detail, setDetail2] = useState<any>([])
-    useEffect(() => {
-        API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
-            .then((res) => setDetail2(res.data))
-    }, [param])
+    // useEffect(() => {
+    //     API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
+    //         .then((res) => setDetail2(res.data))
+    // }, [param])
     const [review, setReview] = useState<any>([])
-    const getReview = API.get("/shopreview/getmyreviewDb2")
-    useEffect(() => {
-        getReview.then((res) => {
-            setReview(res.data)
-        })
-    }, [])
+    // const getReview = API.get("/shopreview/getmyreviewDb2")
+    // useEffect(() => {
+    //     getReview.then((res) => {
+    //         setReview(res.data)
+    //     })
+    // }, [])
     const navigate = useNavigate()
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
