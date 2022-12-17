@@ -24,8 +24,8 @@ const ShowImage: FC<{
                                 <Image
                                     borderRadius="3xl"
                                     src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${m.image}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`}
-                                    width={{ base: "17rem", sm: "24rem" }}
-                                    height={{ base: "23rem", sm: "19rem" }}
+                                    width={{ base: "19rem", sm: "36rem" }}
+                                    height={{ base: "17rem", sm: "28rem" }}
                                 ></Image>
                             </Center>
                         </SwiperSlide>
