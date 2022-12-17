@@ -35,10 +35,14 @@ import { authContext } from "src/context/AuthContext"
 import NotiTable from "src/components/notification/NotiTable"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
+import { NavBarContext } from "src/context/NavbarContext"
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
     const navigate = useNavigate()
+
+    const { countUnread } = useContext(NavBarContext)
+
     return (
         <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
@@ -53,7 +57,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                             <Popover>
                                 <PopoverTrigger>
                                     <Button variant={"unstyled"}>
-                                        <NavBarWithNoti label="Notification" notiCount={1} Icon={AiFillBell} />
+                                        <NavBarWithNoti label="Notification" notiCount={countUnread} Icon={AiFillBell} />
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent>

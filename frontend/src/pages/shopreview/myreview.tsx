@@ -11,26 +11,26 @@ import Comments from "src/components/shopreview/Comments"
 
 const myreview = () => {
     const [myReviews, setMyReview] = useState<any>([])
-    const getMyReview = API.get("/shopreview/getmyreviewDb")
-    useEffect(() => {
-        getMyReview.then((res) => {
-            setMyReview(res.data)
-        })
-    }, [])
+    // const getMyReview = API.get("/shopreview/getmyreviewDb")
+    // useEffect(() => {
+    //     getMyReview.then((res) => {
+    //         setMyReview(res.data)
+    //     })
+    // }, [])
     const [myReviews2, setMyReview2] = useState<any>([])
-    const getMyReview2 = API.get("/shopreview/getmyreviewDb2")
-    useEffect(() => {
-        getMyReview2.then((res) => {
-            setMyReview2(res.data)
-        })
-    }, [])
+    // const getMyReview2 = API.get("/shopreview/getmyreviewDb2")
+    // useEffect(() => {
+    //     getMyReview2.then((res) => {
+    //         setMyReview2(res.data)
+    //     })
+    // }, [])
     const [myComments, setMyComment] = useState<any>([])
-    const getMyComment = API.get("/shopreview/getmycommentDb")
-    useEffect(() => {
-        getMyComment.then((res) => {
-            setMyComment(res.data)
-        })
-    }, [])
+    // const getMyComment = API.get("/shopreview/getmycommentDb")
+    // useEffect(() => {
+    //     getMyComment.then((res) => {
+    //         setMyComment(res.data)
+    //     })
+    // }, [])
 
     const user = useContext(authContext)
     const navigate = useNavigate()

@@ -4,36 +4,42 @@ const getRoom = async (req: Request, res: Response) => {
     try {
         const user = req.user?.userId
         const prisma = res.prisma
-        const Room_list = await prisma.user_To_Room.findMany({
-            select: {
-                room: {
-                    select: {
-                        roomIndividual: {
-                            select: {
-                                chatWith: {
-                                    select: {
-                                        image: true,
-                                    },
-                                },
-                            },
-                        },
-                        roomId: true,
-                        chatColor: true,
-                        roomType: true,
-                        roomName: true,
-                        roomGroup: {
-                            select: {
-                                groupImg: true,
-                            },
-                        },
-                    },
-                },
-            },
-            where: {
-                userId: user,
-            },
+        const room_individual = await prisma.user_To_Room.findMany({
+           select:{
+            room:{
+                select:{
+                    nick:{
+                        select:{
+                            anotherUserId:true,
+                            userId:true,
+                            nickname:true,
+                            nameWho:{
+                                select:{
+                                    image:true
+                                }
+                            }
+                        },where:{
+                            userId : user
+                        }
+                    },chatColor:true , roomType:true
+                }
+            }
+           },where:{
+            userId:user,room:{
+                roomType:"INDIVIDUAL"
+            }
+           }
         })
-        res.send(Room_list.map((e) => e.room))
+        const room_group = await prisma.user_To_Room.findMany({
+            select:{
+             room:true
+            },where:{
+             userId:user,room:{
+                 roomType:"GROUP"
+             }
+            }
+         })
+        res.send([...room_individual,...room_group])
     } catch {
         res.status(400).send("Error can't find room")
     }
