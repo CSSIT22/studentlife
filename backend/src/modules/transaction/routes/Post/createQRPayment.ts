@@ -10,13 +10,6 @@ const createQRPayment = async (req: Request, res: Response) => {
         // const userID = "Wpj1j-ExAOjlYwApIodF8"
         const userID = req.user?.userId || ""
 
-        // const transaction = await prisma.transaction.create({
-        //     data: {
-        //         transId: transid,
-        //         userId: userID,
-        //         totalPrice: body.totalPrice,
-        //     },
-        // })
         axios
             .post(
                 "https://api-sandbox.partners.scb/partners/sandbox/v1/oauth/token",

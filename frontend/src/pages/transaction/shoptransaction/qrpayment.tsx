@@ -25,17 +25,17 @@ const qrpayment = ({ }) => {
     const numberFormat = new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
     const formattedNumberTotalPrice = numberFormat.format(totalPrice)
 
-     // time left
-     const [timeLeft, setTimeLeft] = useState(60)
-     useEffect(() => {
-         const interval = setInterval(() => {
-             setTimeLeft(timeLeft - 1)
-             if (timeLeft === 1) {
-                 window.location.replace("/shop/cart")
-             }
-         }, 1000)
-         return () => clearInterval(interval)
-     }, [timeLeft])
+    // time left
+    const [timeLeft, setTimeLeft] = useState(120)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeLeft(timeLeft - 1)
+            if (timeLeft === 1) {
+                window.location.replace("/shop/cart")
+            }
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [timeLeft])
 
     return (
         <div>
@@ -49,15 +49,6 @@ const qrpayment = ({ }) => {
                 <Container maxW="90%" my="20px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
                     <QRcode qrurl={"https://chart.googleapis.com/chart?cht=qr&chs=512x512&chl=" + rawData} />
                 </Container>
-                {/* <Stack direction={"row"} justifyContent="center" gap={"3%"}>
-                    <Link to="/transaction/shoptransaction">
-                        <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
-                            <Text fontSize="lg" fontWeight={"bold"}>
-                                Back
-                            </Text>
-                        </Button>
-                    </Link>
-                </Stack> */}
             </AppBody>
         </div>
     )
