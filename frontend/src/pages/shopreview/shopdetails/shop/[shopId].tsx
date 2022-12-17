@@ -62,6 +62,7 @@ const shopId = () => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
+
     const [review, setReview] = useState<any>([])
     const getReview = API.get("/shopreview/getmyreviewDb")
     useEffect(() => {
@@ -136,7 +137,14 @@ const shopId = () => {
             {detail.map((item: any, index: any) => (
                 <LocationShop key={index} location={item.address} phoneNumber={item.phoneNo} />
             ))}
-            <Rate />
+            <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
+                <Rate ratting={"5"} background={"#FF3939"} amo_rate={"3k"} />
+                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={"2"} />
+                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={"1"} />
+                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={"55"} />
+                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={"80"} />
+                <Rate ratting={"0"} background={"#838383"} amo_rate={"26"} />
+            </SimpleGrid>
 
             <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>

@@ -62,6 +62,10 @@ const Myreview: FC<{ shopName: String; image: String; name: String; ment: String
     const navigateReview = () => {
         navigate("/shopreview/review")
     }
+    function Navigate(target: any) {
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
+    }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<HTMLButtonElement>(null);
     const inputField = React.useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -92,12 +96,12 @@ const Myreview: FC<{ shopName: String; image: String; name: String; ment: String
                     {isHovering && <Popover placement="bottom">
                         <PopoverTrigger>
                             {/* on this way  */}
-                            <Box as="button">
+                            <Box onClick={(e: any) => { e.stopPropagation() }} as="button">
                                 <Image width={15} src="https://cdn1.iconfinder.com/data/icons/web-and-user-interface-21/512/30-512.png"></Image>
                             </Box>
 
                         </PopoverTrigger>
-                        <PopoverContent width={"100px"}>
+                        <PopoverContent onClick={(e: any) => { e.stopPropagation() }} width={"100px"}>
                             {/* <PopoverCloseButton /> */}
                             <PopoverHeader textAlign={"center"}>
                                 <EditReview />

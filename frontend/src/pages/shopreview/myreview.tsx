@@ -31,7 +31,6 @@ const myreview = () => {
             setMyComment(res.data)
         })
     }, [])
-
     const user = useContext(authContext)
     const navigate = useNavigate()
     const navigateHome = () => {
