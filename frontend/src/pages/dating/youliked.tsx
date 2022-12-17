@@ -233,9 +233,16 @@ const YouLiked = () => {
 
             {
                 (isLoading) && !isError ? (
-                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-                    </Box>
+                    <>
+                        <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                        </Box>
+                        <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                LOADING . . .
+                            </Text>
+                        </Box>
+                    </>
                 ) : (
                     <></>
                 )

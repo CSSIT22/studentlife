@@ -26,6 +26,8 @@ import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../../../../components/dating/pic/noprofile.png"
 import DatingLoading from "../../../../components/dating/lottie/DatingLoading.json"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import GroupChatImg from "../../../../components/dating/pic/groupchat.png"
+import { motion } from "framer-motion"
 // import { POLL } from "../../../../components/dating/shared/poll"
 // import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
 
@@ -128,7 +130,7 @@ const YourPoll = () => {
             })
             API.get("/dating/yourpoll/getYourPoll/" + params.pollId).then((data) => {
                 setPollInfo(data.data)
-            }).catch(on).finally(off)
+            }).catch(on).finally(() => setIsLoading(false))
         }
     })
 
@@ -185,17 +187,25 @@ const YourPoll = () => {
     }
 
     function handleChat(id: string) {
-        API.post<{chatWith_id: string}>("/chat/createRoom", {chatWith_id: id}).then(() => navigate("/chat/"))
+        setIsLoading(true)
+        API.post<{ chatWith_id: string }>("/chat/createRoom", { chatWith_id: id }).then(() => navigate("/chat/"))
     }
 
     const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
+    const [isLoading, setIsLoading] = useState(true)
 
     return (
         (isError || isLoading ? <DatingAppBody> {isLoading && !isError ? (
-            <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-            </Box>
+            <>
+                <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                    <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                </Box>
+                <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                    <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                        LOADING . . .
+                    </Text>
+                </Box>
+            </>
         ) : (
             <></>
         )}
@@ -221,6 +231,31 @@ const YourPoll = () => {
                             {pollInfo?.pollName}
                         </Text>
                     </Box>
+                    <Box display="flex" justifyContent="right" pb={{ base: "10px", md: "20px" }} pr={{ base: "12px", md: "0px" }}>
+                        <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                            onClick={() => navigate("/chat/")}
+                        >
+                            <Button
+                                borderRadius="full"
+                                w={{ base: "50px", md: "72px" }}
+                                h={{ base: "50px", md: "72px" }}
+                                backgroundColor="white"
+                                border="1px solid"
+                                mr={{ base: "12px", md: "24px" }}
+                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                            >
+                                <Image src={GroupChatImg} />
+                            </Button>
+                        </motion.div>
+                    </Box>
+
                     {pollInfo ? <DatingYourPollSeeMore pollInfo={pollInfo} /> : <></>}
 
                 </Box>
@@ -246,19 +281,30 @@ const YourPoll = () => {
                     display="flex"
                 >
                     <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="140%">
-                        <Link to={"/user/" + participant.user.userId}>
-                            {participant.user.image ? <Image
-                                borderRadius="full"
-                                boxSize={{ base: "50px", md: "78px" }}
-                                objectFit="cover"
-                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + participant.user.userId}
-                            /> : <Image
-                                borderRadius="full"
-                                boxSize={{ base: "50px", md: "78px" }}
-                                objectFit="cover"
-                                src={NoProfileImg}
-                            />}
-                        </Link>
+                        <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                        >
+                            <Link to={"/user/" + participant.user.userId}>
+                                {participant.user.image ?
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize={{ base: "50px", md: "78px" }}
+                                        objectFit="cover"
+                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + participant.user.userId}
+                                    /> : <Image
+                                        borderRadius="full"
+                                        boxSize={{ base: "50px", md: "78px" }}
+                                        objectFit="cover"
+                                        src={NoProfileImg}
+                                    />}
+                            </Link>
+                        </motion.div>
                         {isMobile ? (
                             <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
                                 {participant.user.fName.length > 20 ? <>{participant.user.fName.substring(0, 17)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
@@ -284,7 +330,15 @@ const YourPoll = () => {
                             _hover={{ cursor: "not-allowed" }}
                         >
                             <Image src={CheckImg} />
-                        </Button></> : <Button
+                        </Button></> : <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                        ><Button
                             id={participant.user.userId}
                             borderRadius="full"
                             w={{ base: "50px", md: "72px" }}
@@ -295,21 +349,31 @@ const YourPoll = () => {
                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                             onClick={() => handleAccept(participant.user.userId)}
                         >
-                            <Image src={CheckImg} />
-                        </Button>}
+                                <Image src={CheckImg} />
+                            </Button></motion.div>}
 
-                        <Button
+                        <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                            onClick={() => handleChat(participant.user.userId)}
+                        ><Button
                             borderRadius="full"
                             w={{ base: "50px", md: "72px" }}
                             h={{ base: "50px", md: "72px" }}
                             backgroundColor="white"
                             border="1px solid"
                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                            onClick={() => handleChat(participant.user.userId)}
                         >
-                            <Image src={ChatImg} />
-                        </Button>
+                                <Image src={ChatImg} />
+                            </Button>
+                        </motion.div>
                     </Box>
+
                 </Box>))}
                 <Box mt="300px" />
             </DatingAppBody>
@@ -357,7 +421,7 @@ const YourPoll = () => {
                                     Do you want to close the poll?
                                 </Text>
                                 <Box display="flex" justifyContent="center" pt={"30px"}>
-                                    <DatingYourPollClose pollId={pollInfo.pollId}/>
+                                    <DatingYourPollClose pollId={pollInfo.pollId} />
                                     <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} pollId={pollInfo.pollId} />
                                 </Box>
                                 <DatingYourPollCancel pollId={pollInfo.pollId} />

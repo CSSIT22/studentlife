@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 import Lottie from "lottie-react"
 import DatingLoading from "./lottie/DatingLoading.json"
+import { motion } from "framer-motion"
 
 const DatingYourPollCancel: FC<{ pollId: string }> = ({ pollId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -31,17 +32,28 @@ const DatingYourPollCancel: FC<{ pollId: string }> = ({ pollId }) => {
     return (
         <>
             <Box display="flex" justifyContent="center" pt={{ base: "5px", md: "20px" }} pb={{ base: "80px", md: "25px" }}>
-                <Button
-                    colorScheme="orange"
-                    w={{ base: "167px", md: "380px" }}
-                    h="36px"
-                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                <motion.div
+                    initial={
+                        { cursor: "pointer" }
+                    }
+                    whileHover={{ scale: 1.1, }}
+                    whileTap={{
+                        scale: 0.9,
+                    }}
                     onClick={onOpen}
                 >
-                    <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
-                        Cancel the activity
-                    </Text>
-                </Button>
+                    <Button
+                        colorScheme="orange"
+                        w={{ base: "167px", md: "380px" }}
+                        h="36px"
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        onClick={onOpen}
+                    >
+                        <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
+                            Cancel the activity
+                        </Text>
+                    </Button>
+                </motion.div>
             </Box>
 
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
@@ -60,10 +72,10 @@ const DatingYourPollCancel: FC<{ pollId: string }> = ({ pollId }) => {
                         </Heading>}
                     </ModalHeader>
                     <ModalBody>
-                        {isLoading ? <><Box display="block"  mb={{ base: "140px", md: "180px" }}>
-                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.5" }} />
+                        {isLoading ? <><Box display="block" mb={{ base: "140px", md: "180px" }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.8" }} />
                             <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                                DELETING THE POLL...
+                                DELETING THE POLL&nbsp;.&nbsp;.&nbsp;.
                             </Text>
 
                         </Box></> : <><Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>

@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 import Lottie from "lottie-react"
 import DatingLoading from "./lottie/DatingLoading.json"
+import { motion } from "framer-motion"
 
 const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -30,6 +31,15 @@ const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
     }
     return (
         <>
+                    <motion.div
+                initial={
+                    { cursor: "pointer" }
+                }
+                whileHover={{ scale: 1.1, }}
+                whileTap={{
+                    scale: 0.9,
+                }}
+                >
             <Button
                 colorScheme="orange"
                 w={{ base: "167px", md: "172px" }}
@@ -42,6 +52,7 @@ const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
                     Close now
                 </Text>
             </Button>
+            </motion.div>
 
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
                 <ModalOverlay />
@@ -60,9 +71,9 @@ const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
                     </ModalHeader>
                     <ModalBody>
                         {isLoading ? <><Box display="block"  mb={{ base: "140px", md: "180px" }}>
-                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.5" }} />
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.8" }} />
                             <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                                CLOSING THE POLL...
+                                CLOSING THE POLL&nbsp;.&nbsp;.&nbsp;.
                             </Text>
 
                         </Box></> : <><Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>
