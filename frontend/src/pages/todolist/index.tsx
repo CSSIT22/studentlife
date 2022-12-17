@@ -38,24 +38,31 @@ import AppBody from "src/components/share/app/AppBody"
 import { ArrowRightIcon, ChevronDownIcon } from "@chakra-ui/icons"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import axios from "axios"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 const index = () => {
   const [taskList, setTaskList] = useState([])
-
-  // const fetchTaskList = async () => {
-  //     const res = await axios.get("http://localhost:8000/todolist/listtask", {
-  //         withCredentials: true,
-  //     })
-  //     console.log('data', res.data);
-  //     setTaskList(res.data);
-  // }
+  const navigate = useNavigate()
 
   useEffect(() => {
     // fetchTaskList();
-    axios.get("http://localhost:8000/todolist/listtask").then((res) => {
+    API.post("/todolist/listtask").then((res) => {
       setTaskList(res.data);
+      console.log(res.data);
     })
   }, [])
+
+  const sort = (sortName: string) => {
+    API.post("/todolist/listtask", { orderBy: sortName }).then((res) => {
+      setTaskList(res.data);
+      console.log(res.data);
+    })
+  }
+
+  const selectTask = (taskId: string) => {
+
+  }
 
   return (
     <ToDoListAppBody>
@@ -73,30 +80,37 @@ const index = () => {
               _hover={{ textDecoration: "none" }}>Folder</Link>
           </Button>
           <MenuList>
-            <MenuItem>Due Date</MenuItem>
-            <MenuItem>A-Z</MenuItem>
-            <MenuItem>Complete</MenuItem>
-            <MenuItem>Incomplete</MenuItem>
+            <MenuItem onClick={() => sort("due")}>Due Date</MenuItem>
+            <MenuItem onClick={() => sort("taskName")}>A-Z</MenuItem>
+            <MenuItem onClick={() => sort("taskType")}>Type</MenuItem>
+            <MenuItem onClick={() => sort("complete")}>Complete</MenuItem>
+            <MenuItem onClick={() => sort("incomplete")}>Incomplete</MenuItem>
+
           </MenuList>
         </Menu>
       </Flex>
 
       {/* backend */}
       {
-        taskList.map((el: any) => (
-          <Box height={"5rem"} width={"100%"} p="5" mt="5"
-            backgroundColor="#FFFFFF" rounded="lg" key={el.taskId} boxShadow="md">
+        taskList.map((el: any, index: number) => (
+
+          <Box height={"6rem"} width={"100%"} p="5" mt="5"
+            backgroundColor="#FFFFFF" rounded="lg" key={index} boxShadow="md" onClick={() => {
+              navigate({
+                pathname: "/todolist/task/" + el.taskId,
+              })
+            }} >
             <Flex alignItems={"center"}>
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
-              <Link href="/todolist/task"
-                _hover={{ textDecoration: "none" }}>
-                <Text fontSize={"2xl"}>{el.taskName}</Text>
-              </Link>
+              <Text fontSize={"2xl"}>{el.taskCheck.taskName}</Text>
               <Spacer />
-              <Box textAlign={"right"} as="b" pr={"1rem"} color="green">
-                {el.isChecked && "Finished"}
-              </Box>
+
+              <Spacer />
+              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
+
             </Flex>
+            <Box marginLeft={"7"} marginTop="0.5" color="gray">Type : {el.taskCheck.taskType}</Box>
+
           </Box>
         ))
       }
@@ -105,7 +119,8 @@ const index = () => {
         <Text fontSize={"2xl"} textAlign={"center"}>
           Work Progress
         </Text>
-        <Progress marginTop={2} value={20} size="lg" colorScheme="orange" />
+        {/* {taskList.filter((el: any) => (el.isCheck == true)).length / taskList.length} */}
+        <Progress marginTop={2} value={taskList.filter((el: any) => (el.isCheck == true)).length / taskList.length * 100} size="lg" colorScheme="orange" />
       </Box>
 
     </ToDoListAppBody >

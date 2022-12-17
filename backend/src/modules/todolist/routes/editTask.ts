@@ -2,25 +2,31 @@ import { Request, Response } from "express"
 
 const editTask = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const userid = req.user?.userId
+    const body = req.body
+    const userid = req.user?.userId || ""
 
     const editTask: any = {
         taskName: req.body.taskName,
         taskDesc: req.body.taskDesc,
-        created: req.body.created,
         due: req.body.due,
         taskType: req.body.taskType,
     }
 
+    if (!req.body.taskId) {
+        return res.status(400).send("Invalid body")
+    }
+
     try {
-        await prisma.task.update({
+        await prisma.task.updateMany({
             where: {
                 taskId: req.body.taskId,
             },
             data: editTask,
         })
-    } catch {
-        res.status(404)
+        return res.send("Success")
+    } catch (err) {
+        console.log(err)
+        res.status(404).send("Error")
     }
 }
 
