@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { VStack, Flex, Heading, Box, Text, Progress, Stack } from "@chakra-ui/react"
 import API from "src/function/API"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 
 
