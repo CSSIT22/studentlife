@@ -8,11 +8,14 @@ import { useParams } from "react-router-dom"
 function ExpSystem() {
     const param = useParams();
     const [currentExp, setCurrentExp] = useState<number>(0)
+    const [level, setlevel] = useState<number>(0)
+
 
     useEffect(() => {
         async function fetch() {
             const res = await API.get(`/user/profile/exp/${param.userID}`)
             setCurrentExp(res.data.exp)
+            setlevel(res.data.level)
         }
         fetch()
     }, [])
@@ -28,7 +31,7 @@ function ExpSystem() {
                         LV.
                     </Text>
                     <Text color="black" fontWeight="500"  >
-                        {Math.floor(currentExp / 100)}
+                        {level}
                     </Text>
                 </Stack>
 
