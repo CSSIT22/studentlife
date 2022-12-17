@@ -123,6 +123,7 @@ ratingRoutes.post("/setRating", verifyUser, async (req: Request, res: Response) 
             data: setRate,
         })
         calExp(prisma, req.user?.userId || "", "DatingRate")
+        return res.send("OK")
     } catch {
         return res.status(400).send("Cannot set Rating")
     }
@@ -149,6 +150,7 @@ ratingRoutes.put("/updateRating", verifyUser, async (req: Request, res: Response
         await prisma.user_Rating.create({
             data: setRate,
         })
+        return res.send("OK")
     } catch {
         return res.status(400).send("Cannot update Rating")
     }
@@ -170,6 +172,7 @@ ratingRoutes.put("/deleteRating", verifyUser, async (req: Request, res: Response
                 },
             })
         }
+        return res.send("OK")
     } catch {
         return res.status(400).send("Cannot delete Rating")
     }

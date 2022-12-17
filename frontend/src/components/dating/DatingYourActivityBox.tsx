@@ -171,7 +171,7 @@ const DatingYourActivityBox = () => {
                                 <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }} >
                                     <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px" >
                                         <Text fontSize="12px" color="white" as="b">
-                                            {values.participants.filter(i => i.isAccepted).length}
+                                            {values.participants.filter(i => i.isAccepted).length > 99 ? "99+" : values.participants.filter(i => i.isAccepted).length}
                                             {/* Number of people that haven't accept need to replace 2 with data from db*/}
                                             {/* {2 > 99 ? "99+" : 2} */}
                                         </Text>
