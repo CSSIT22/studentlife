@@ -20,13 +20,6 @@ const selectmethod = () => {
                                 </Text>
                             </Button>
                         </Link>
-                        <Link to="/transaction/shoptransaction/selectEbanking">
-                            <Button w={"100%"} bg={"#e67f45"} borderRadius="lg" p={"20px"} mb="20px" h={"50px"} shadow={"lg"}>
-                                <Text fontSize="md" fontWeight={"bold"} color="white">
-                                    EBanking
-                                </Text>
-                            </Button>
-                        </Link>
                         <Link to="/transaction/shoptransaction">
                             <Button w={"100%"} bg={"#e67f45"} borderRadius="lg" p={"20px"} mb="20px" h={"50px"} shadow={"lg"}>
                                 <Text fontSize="md" fontWeight={"bold"} color="white">

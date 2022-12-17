@@ -26,12 +26,12 @@ const qrpayment = ({ }) => {
     const formattedNumberTotalPrice = numberFormat.format(totalPrice)
 
      // time left
-     const [timeLeft, setTimeLeft] = useState(60)
+     const [timeLeft, setTimeLeft] = useState(10)
      useEffect(() => {
          const interval = setInterval(() => {
              setTimeLeft(timeLeft - 1)
              if (timeLeft === 1) {
-                 window.location.replace("/transaction/shoptransaction")
+                 window.location.replace("/shop/cart")
              }
          }, 1000)
          return () => clearInterval(interval)
