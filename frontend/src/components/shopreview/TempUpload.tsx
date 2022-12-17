@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, FC } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import PageBox from "../../components/airdrop/pageBox"
 import SetDropBox from "../../components/airdrop/setDropBox"
@@ -34,10 +34,10 @@ import {
 import { Dropzone, FileItem } from "@dropzone-ui/react"
 
 const openModal = () => { }
-export default function Index() {
+const TempUpload: FC<{ files: any, setFiles: Function }> = ({ files, setFiles }) => {
 
     // state for file upload
-    const [files, setFiles] = useState([])
+    // const [files, setFiles] = useState([])
     //state for click drop
     const [clickDrop, setClickDrop] = useState(false)
 
@@ -56,15 +56,16 @@ export default function Index() {
         receiver: "",
         description: "",
     })
-    //fucntion
+
+    // function
     const updateFile = (file: any) => {
         setFiles(file)
-        console.log(file)
+        // console.log(file)
     }
     const updateFile2 = (file: any) => {
-        console.log(file)
+        // console.log(file)
         const arr: any = Object.keys(file).map((key) => file[key]);
-        console.log(arr)
+        // console.log(arr)
 
 
         const newArr: any = []
@@ -118,8 +119,8 @@ export default function Index() {
 
                 >
                     <AiFillCamera size={"80%"}
-                      
-                        
+
+
                         align-items="center"
                         display="flex"
                         enableBackground={1} color="black"
@@ -151,11 +152,8 @@ export default function Index() {
                 >
                     {/* <Input type={"file"} id="id" multiple ></Input> */}
 
-                    {files?.map((file: any) => (
-                        <>
-                            <FileItem {...file} preview />
-                        </>
-
+                    {files?.map((file: any, index: any) => (
+                        <FileItem key={index} {...file} preview />
                     ))}
                     {files?.length == 0 ? (
                         <>
@@ -282,3 +280,5 @@ export default function Index() {
         </>
     )
 }
+
+export default TempUpload
