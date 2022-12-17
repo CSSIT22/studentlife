@@ -83,13 +83,13 @@ const FavoriteContent: FC<{
                         )}
                     </Popover>
 
-                    <Flex alignItems={"center"}>
-                        <Box width={"30%"} ml={"1rem"}>
-                            {img?.length == 0 ? null : <Image boxSize="5rem" src={img[0].image} borderRadius={"10px"} />}
+                    <Flex alignItems={"center"} maxWidth="100%">
+                        <Box w={"8rem"}>
+                            {img?.length == 0 ? null : <Image boxSize="5rem" src={img[0].image} borderRadius={"10px"} width="100%" height="100%"/>}
                         </Box>
                         {/* </Show> */}
 
-                        <Box width={"60%"} color={"black"}>
+                        <Box width={"60%"} color={"black"} pl={"5"}>
                             <Text fontSize={{ base: "sm", lg: "lg" }}>
                                 <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                             </Text>

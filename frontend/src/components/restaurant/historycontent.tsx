@@ -22,7 +22,7 @@ import { AiOutlineClose } from "react-icons/ai"
 
 const Historycontent: FC<{
     resName: string
-    date: Date
+    date: String
     status: boolean
     img: Array<Image1>
 }> = ({ resName, date, status, img }) => {

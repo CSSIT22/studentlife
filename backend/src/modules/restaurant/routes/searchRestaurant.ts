@@ -63,7 +63,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
         res.send(resdata)
     }
     catch(error){
-       
+        res.status(400)
     }
 
     // getRestaurant().forEach((res) => {

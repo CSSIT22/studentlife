@@ -9,7 +9,9 @@ const addFavorite = async (req: Request, res: Response) => {
             data: { resId: resId, userId: userId },
         })
         res.send(addUserFav)
-    } catch (error) {}
+    } catch (error) {
+        res.status(400)
+    }
     //  let addResToFavor: Restaurant | null = null
     //  const newdata = getRestaurant().map((restaurant) => {
     //     if (restaurant.id == id) {

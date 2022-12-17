@@ -20,7 +20,7 @@ try {
     res.send([selectRes])
 } catch (error) {
     console.log("Show Error");
-    
+    res.status(400)
 }
 }
 export default showRestaurant

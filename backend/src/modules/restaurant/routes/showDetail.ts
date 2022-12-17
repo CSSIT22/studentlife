@@ -31,6 +31,7 @@ const showDetail = async (req: Request, res: Response) => {
         res.send([restaurant])
     } catch (err) {
         console.log("Error")
+        res.status(400)
     }
     // let selectedRes: Restaurant | null = null
     // getRestaurant().forEach((res) => {

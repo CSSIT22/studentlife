@@ -16,6 +16,8 @@ const showReview = async (req: Request, res: Response) => {
         })
 
         res.send([restaurant])
-    } catch (err) {}
+    } catch (err) {
+        res.status(400)
+    }
 }
 export default showReview
