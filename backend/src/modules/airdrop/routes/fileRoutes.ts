@@ -5,8 +5,10 @@ import uploadFile from "./functions/uploadFile"
 import downloadFile from "./functions/downloadFile"
 import hideFile from "./functions/hideFile"
 import commentFile from "./functions/commentFile"
+import uploadOther from "./functions/uploadOther"
 import { extname } from "path"
 import getHistory from "./functions/getHistory"
+import deleteExpiredFile from "./functions/deleteExpiredFile"
 
 const path = require("path")
 const fs = require("fs")
@@ -38,13 +40,13 @@ fileRoutes.get("/", async (req: Request, res: Response) => {
 fileRoutes.get("/getallfile", verifyUser, getAllFile)
 fileRoutes.get("/comment", getHistory)
 fileRoutes.get("/download/:fileid", downloadFile)
-fileRoutes.post("/upload", upload.array("upload"), uploadFile)
-// fileRoutes.post("/upload", verifyUser, upload.array("files"), uploadFile)
+fileRoutes.post("/upload", verifyUser, upload.array("upload"), uploadFile)
+fileRoutes.post("/uploadother", verifyUser, upload.array("upload"), uploadOther)
 fileRoutes.post("/hidefile", hideFile)
 fileRoutes.post("/comment", commentFile)
-fileRoutes.get("/gethistory", getHistory)
+fileRoutes.get("/gethistory", verifyUser, getHistory)
 
 //check expired file every 5 minutes
-// setInterval(deleteExpiredFile, 300000)
+// setInterval(deleteExpiredFile, 5000)
 
 export default fileRoutes

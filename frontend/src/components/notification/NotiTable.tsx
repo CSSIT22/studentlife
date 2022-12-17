@@ -1,50 +1,113 @@
-import { Box, Button, Center, CloseButton, filter, Flex, Show, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
-import Modulelist from "./moduleList/Modulelist"
+import {
+    Box,
+    Button,
+    Center,
+    Flex,
+    Show,
+    Spacer,
+    Stack,
+    Text,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useToast,
+    Avatar,
+    AvatarBadge,
+} from "@chakra-ui/react"
+import React, { useContext, useEffect, useState } from "react"
+import Modulelist from "./Modulelist"
 import NotiList from "./main/NotiList"
 import { SettingsIcon } from "@chakra-ui/icons"
 import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import NotiSetting from "./NotiSetting"
 import API from "src/function/API"
-import { Notiobject } from "@apiType/notification"
+import { Notiobject, pushNotiType } from "@apiType/notification"
+import { socketContext } from "src/context/SocketContext"
+import { NavBarContext } from "src/context/NavbarContext"
+import NotiObject from "./main/NotiObject"
 
 const NotiTable = () => {
+
+    const { setcountUnread } = useContext(NavBarContext)
+
+
     //reload noti
     const [reLoad, setreLoad] = useState(false)
+    const { socketIO } = useContext(socketContext)
     function load() {
         setreLoad(!reLoad)
     }
 
-    //getNotiobject
-    const param = useParams()
-    const getUserNotiObject = API.get("/notification/getusernotiobject/" + param.id)
-    const [userNotiObject, setUserNotiObject] = useState<Notiobject[]>([])
-    useEffect(() => {
-        getUserNotiObject.then((res) => {
-            setUserNotiObject(res.data)
-        })
-    }, [reLoad])
-    //console.log(userNotiObject)
-    //console.log(OBJECTS)
 
     //select module
     const [selectedModule, setSelectedModule] = React.useState("All")
     function showSelectedModule(module: string) {
         setSelectedModule(module)
+        setreLoad(!reLoad)
     }
 
-    //creat list of selected module
-    const notiListModule: any[] = userNotiObject.filter((el) => el.module == selectedModule)
+    //getUserNotiObject by Module
 
-    function showNotiList(): any {
-        if (selectedModule == "All") {
-            return <NotiList selectedList={userNotiObject} onClick={load}></NotiList>
-        } else {
-            return <NotiList selectedList={notiListModule} onClick={load}></NotiList>
+    const getUserNotiObjectModule = () => API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
+    //console.log(getUserNotiObjectModule);
+
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+    useEffect(() => {
+        getUserNotiObjectModule().then((res) => {
+            setUserNotiObjectModule(res.data)
+            setcountUnread(res.data.filter((el: any) => { return el.isRead != true }).length)
+            //console.log(res.data.filter((el: any) => { return el.isRead != true }).length);
+
+        })
+    }, [reLoad])
+    //console.log(userNotiObjectModule);
+
+    const toast = useToast()
+    useEffect(() => {
+        socketIO.on("push_noti", (data: pushNotiType) => {
+            toast({
+                position: 'bottom-right',
+                render: () => (
+
+                    <Box shadow={"lg"} borderRadius="2xl" bg="orange.300" padding={3}>
+                        <Stack direction={"row"} spacing={3}>
+                            <Center><Avatar bg="blackAlpha.200" size={"sm"}>
+                                <AvatarBadge boxSize="1em" bg="green.500" />
+                            </Avatar>
+                            </Center>
+                            <Stack>
+                                {/* <Text fontSize={"sm"} color="white">
+                                <b>User123456</b> Create a post asdfkj asdf asdad
+                                </Text>
+                                <Text fontSize={"xs"} color="white">
+                                    10 hours ago
+                                </Text> */}
+                                <Text fontSize={"sm"} color="white">
+                                    You got new notification.
+                                </Text>
+                            </Stack>
+                        </Stack>
+                    </Box>
+
+                )
+            })
+
+            // getUserNotiObjectModule.then((res) => {
+            //     setUserNotiObjectModule(res.data)
+            // })
+            setreLoad(!reLoad)
+        })
+        return () => {
+            socketIO.off("push_noti")
         }
-    }
+    });
+
 
     //setting
     function ShowSetting() {
@@ -75,13 +138,14 @@ const NotiTable = () => {
             </Center>
         )
     }
+    //console.log(userNotiObjectModule.length);
+
     return (
         <Box>
             <Flex padding={3} paddingBottom={0}>
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
-                <Spacer />
                 <Box>
                     <Stack direction={"row"}>
                         <MarkRead module={selectedModule} onClick={load} />
@@ -91,7 +155,7 @@ const NotiTable = () => {
             </Flex>
 
             <Stack padding={4} paddingTop={2} height={{ base: "72vh", md: "50vh" }} overflow="auto">
-                {showNotiList()}
+                <NotiList module={selectedModule} selectedList={userNotiObjectModule} onClick={load}></NotiList>
             </Stack>
             <Center paddingTop={2}>
                 <Show above="md">

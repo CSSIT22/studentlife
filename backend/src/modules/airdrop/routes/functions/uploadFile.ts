@@ -1,6 +1,6 @@
 import { Access_Type } from "@prisma/client"
-import axios, { Axios } from "axios"
-import fs from "fs"
+import { Request, Response } from "express"
+import axios from "axios"
 const fd = require("form-data")
 
 const drive = axios.create({
@@ -10,15 +10,14 @@ const drive = axios.create({
         "Content-Type": " multipart/form-data",
     },
 })
-
-const uploadFile = async (req: Request | any | string, res: Response | any) => {
-    const sender = await req.user?.userId
+const uploadFile = async (req: Request<any>, res: Response<any>) => {
+    const sender: any = await req.user?.userId
     const { prisma } = res
-
+    const receiverBody = req.body.receiver
     //save file to drive
     const formData = new fd()
-    const fileList = req.files
-    fileList.map((file: any) => {
+    const fileList: any = req.files
+    fileList?.map((file: any) => {
         formData.append("upload", file.buffer, file.originalname)
     })
     let resFileId: {
@@ -101,7 +100,6 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
         //handle multiple receiver
         if (req.body.receiver != null && req.body.receiver != "everyone") {
             if (req.body.type == "Department") {
-                //get recent file access
                 const recentAccess = await prisma.file_Access.findMany({
                     orderBy: {
                         accessId: "desc",
@@ -116,24 +114,40 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     },
                     take: fileUpload.count,
                 })
-                const receiverListId: string[] = [] //departmentid
-                if (req.body.receiver != typeof Array) {
-                    receiverListId.push(req.body.receiver)
+
+                const receiverList = []
+                if (typeof receiverBody == typeof "string") {
+                    receiverList.push(receiverBody)
                 } else {
-                    receiverListId.push(...req.body.receiver)
+                    const receiverArr = Object.keys(req.body.receiver).map((key) => req.body.receiver[key])
+                    for (const item of receiverArr) {
+                        receiverList.push(item)
+                    }
                 }
                 //recent file access
                 // recentAccess <= array of accessID
                 // insert file access to department table
-                let i = 0
+
                 const payload: any = []
-                receiverListId.map((item: string) => {
-                    payload.push({
-                        accessId: recentAccess[i].accessId,
-                        majorId: item,
-                    })
-                    i++
-                })
+                if (recentAccess.length > 1) {
+                    //many file many group
+                    for (const item of recentAccess) {
+                        for (const group of receiverList) {
+                            payload.push({
+                                accessId: item.accessId,
+                                majorId: group,
+                            })
+                        }
+                    }
+                } else {
+                    //1 file many major & 1 file one major
+                    for (const item of receiverList) {
+                        payload.push({
+                            accessId: recentAccess[0].accessId,
+                            majorId: item,
+                        })
+                    }
+                }
                 const departmentAccess = await prisma.major_Access.createMany({
                     data: payload,
                 })
@@ -154,7 +168,7 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     take: fileUpload.count,
                 })
                 const receiverListId = []
-                if (req.body.receiver != typeof Array) {
+                if (typeof receiverBody == typeof "string") {
                     const receiver = await prisma.community.findFirst({
                         where: {
                             communityName: req.body.receiver,
@@ -165,7 +179,8 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     })
                     receiverListId.push(receiver?.communityId)
                 } else {
-                    for (const item of req.body.receiver) {
+                    const receiverArr = Object.keys(req.body.receiver).map((key) => req.body.receiver[key])
+                    for (const item of receiverArr) {
                         const receiver = await prisma.community.findFirst({
                             where: {
                                 communityName: item,
@@ -179,15 +194,27 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                 }
 
                 // insert file access to community table
-                let i = 0
                 const payload: any = []
-                receiverListId.map((item: string) => {
-                    payload.push({
-                        accessId: recentAccess[i].accessId,
-                        communityId: item,
-                    })
-                    i++
-                })
+                // insert file access to specific table
+                if (recentAccess.length > 1) {
+                    //many file many commu
+                    for (const item of recentAccess) {
+                        for (const receiver of receiverListId) {
+                            payload.push({
+                                accessId: item.accessId,
+                                communityId: receiver,
+                            })
+                        }
+                    }
+                } else {
+                    //1 file many commu & 1 file one commu
+                    for (const item of receiverListId) {
+                        payload.push({
+                            accessId: recentAccess[0].accessId,
+                            communityId: item,
+                        })
+                    }
+                }
                 const communityAccess = await prisma.community_Access.createMany({
                     data: payload,
                 })
@@ -208,15 +235,15 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     take: fileUpload.count,
                 })
                 const receiverListId = []
-                if (req.body.receiver != typeof Array) {
+                if (typeof receiverBody == typeof "string") {
                     const receiver = await prisma.user_Profile.findFirst({
                         where: {
                             AND: [
                                 {
-                                    fName: req.body.receiver.split(" ")[0],
+                                    fName: receiverBody.split(" ")[0],
                                 },
                                 {
-                                    lName: req.body.receiver.split(" ")[1],
+                                    lName: receiverBody.split(" ")[1],
                                 },
                             ],
                         },
@@ -226,7 +253,8 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                     })
                     receiverListId.push(receiver?.userId)
                 } else {
-                    for (const item of req.body.receiver) {
+                    const receiverArr = Object.keys(req.body.receiver).map((key) => req.body.receiver[key])
+                    for (const item of receiverArr) {
                         const receiver = await prisma.user_Profile.findFirst({
                             where: {
                                 AND: [
@@ -245,24 +273,36 @@ const uploadFile = async (req: Request | any | string, res: Response | any) => {
                         receiverListId.push(receiver?.userId)
                     }
                 }
-
-                // insert file access to specific table
-                let i = 0
                 const payload: any = []
-                receiverListId.map((item: string) => {
-                    payload.push({
-                        accessId: recentAccess[i].accessId,
-                        userId: item,
-                    })
-                    i++
-                })
+                // insert file access to specific table
+                if (recentAccess.length > 1) {
+                    //many file many receiver
+                    for (const item of recentAccess) {
+                        for (const receiver of receiverListId) {
+                            payload.push({
+                                accessId: item.accessId,
+                                userId: receiver,
+                            })
+                        }
+                    }
+                } else {
+                    //1 file many major & 1 file one major
+                    for (const item of receiverListId) {
+                        payload.push({
+                            accessId: recentAccess[0].accessId,
+                            userId: item,
+                        })
+                    }
+                }
                 const departmentAccess = await prisma.direct_Access.createMany({
                     data: payload,
                 })
             }
+            res.status(200).json({ message: "Upload success" })
         }
     } catch (err) {
         console.log(err)
+        res.status(500).json({ message: "Upload failed" })
     }
 }
 export default uploadFile

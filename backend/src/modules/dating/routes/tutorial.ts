@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
+import calExp from "../../user/expsystem/calExp"
 
 const tutorialRoutes = express()
 const prisma = new PrismaClient()
@@ -48,8 +49,8 @@ tutorialRoutes.post("/setDatingEnroll", verifyUser, async (req: Request, res: Re
                 },
             })
             if (!findUser) {
-                const dating_EnrollDB = await prisma.dating_Enroll.create({ data: payload })
-                console.log(dating_EnrollDB)
+                await prisma.dating_Enroll.create({ data: payload })
+                calExp(prisma, req.user?.userId || "", "DatingTuT")
                 return res.send("Success!")
             } else {
                 return res.send("Success!")

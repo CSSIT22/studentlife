@@ -19,7 +19,7 @@ const incrementCPQuantity = async (req: Request, res: Response) => {
                 // Add code to handle changes in stock
                 if (newQuantity > currentStock) {
                     newQuantity = currentStock
-                } 
+                }
                 const updateCartProduct = await prisma.shop_Cart.update({
                     where: { userId_productId: { userId, productId } },
                     data: {

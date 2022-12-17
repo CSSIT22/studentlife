@@ -55,5 +55,4 @@ shopRoutes.put("/setOrderStatus", setOrderStatus)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 
-
 export default shopRoutes

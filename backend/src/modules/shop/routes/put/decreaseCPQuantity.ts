@@ -19,10 +19,10 @@ const decreaseCPQuantity = async (req: Request, res: Response) => {
                 // Add code to handle changes in stock
                 if (newQuantity > currentStock) {
                     newQuantity = currentStock
-                } else if (newQuantity < 1 && currentStock > 0){
+                } else if (newQuantity < 1 && currentStock > 0) {
                     newQuantity = 1
-                } else if (currentStock < 1){
-                    throw new Error("The stock is not enough");
+                } else if (currentStock < 1) {
+                    throw new Error("The stock is not enough")
                 }
                 const updateCartProduct = await prisma.shop_Cart.update({
                     where: { userId_productId: { userId, productId } },
