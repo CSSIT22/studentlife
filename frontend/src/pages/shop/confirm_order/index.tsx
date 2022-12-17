@@ -51,7 +51,7 @@ const ConfirmOrder = () => {
 
     const handleOrder = () => {
         const navToTransaction = (data: any) => {
-            navigate('../transaction/shoptransaction', {state: {orderId: data.orderId, tranactionId: data.transId}})
+            navigate('../transaction/shoptransaction', { state: { orderId: data.orderId, tranactionId: data.transId } })
         }
         if (couponCode && couponCode != "") {
             API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log(err))
@@ -111,21 +111,17 @@ const ConfirmOrder = () => {
 }
 export function generateCartProducts(cartProducts: Shop_Cart[] | null) {
     if (cartProducts != null) {
-        let products = []
-        for (let i = 0; i < cartProducts.length; i++) {
-            products.push(
-                <GridItem bg="" borderBottom="1px" pl='2'>
-                    <OrderConfirmProduct
-                        id={cartProducts[i].productId}
-                        name={cartProducts[i].product.productName}
-                        price={parseFloat(cartProducts[i].product.productPrice)}
-                        quantity={cartProducts[i].quantity}
-                        image={cartProducts[i].product.images[0].image}
-                    ></OrderConfirmProduct>
-                </GridItem>
-            )
-        }
-        return products
+        return cartProducts.map((product, key) => (
+            <GridItem key={key} bg="" borderBottom="1px" pl='2'>
+                <OrderConfirmProduct
+                    id={product.productId}
+                    name={product.product.productName}
+                    price={parseFloat(product.product.productPrice)}
+                    quantity={product.quantity}
+                    image={product.product.images[0].image}
+                ></OrderConfirmProduct>
+            </GridItem>
+        ))
     }
 
 }

@@ -242,20 +242,25 @@ export type Shop_OrderInformation = {
   shipping: string;
   orderPlaced: Date;
   orderStatus: string;
-  products: {
-    productId: number;
-    categoryId: number | null;
-    contactId: number;
-    productName: string;
-    productDesc: string;
-    productColor: string;
-    productSize: string;
-    productPrice: string;
-    productStock: number;
-    brandName: string;
-    deliveryFees: string;
-    images: {
-      image: string;
-    }[];
-  }[];
+  products:
+    | (Shop_Order_Product & {
+        product: Shop_Product_With_Images;
+      })[]
+    | null;
+};
+
+export type Shop_Order_Details_Show = {
+  orderId: string;
+  userId: string;
+  transId: string;
+  couponCode: string;
+  totalPrice: string;
+  totalDeliveryFees: string;
+  shipping: string;
+  orderPlaced: Date;
+  orderStatus: string;
+  products:
+    | (Shop_Order_Product & {
+        product: Shop_Product_With_Images;
+      })[];
 };

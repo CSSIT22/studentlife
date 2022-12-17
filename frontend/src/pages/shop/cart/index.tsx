@@ -187,21 +187,18 @@ function generateCartProducts(cartProducts: Shop_Cart[] | null, setUpdates: Reac
     try {
         
         if (cartProducts != null && cartProducts.length > 0) {
-            let cart = []
-            for (let i = 0; i < cartProducts.length; i++) {
-                cart.push(
-                    <CartProduct
-                        productId={cartProducts[i].productId}
-                        quantity={cartProducts[i].quantity}
-                        images={cartProducts[i].product.images} 
-                        productName={cartProducts[i].product.productName} 
-                        productPrice={parseFloat(cartProducts[i].product.productPrice)} 
-                        productStock={cartProducts[i].product.productStock}
+            return cartProducts.map((cartProduct, key) => (
+                <CartProduct
+                        key = {key}
+                        productId={cartProduct.productId}
+                        quantity={cartProduct.quantity}
+                        images={cartProduct.product.images} 
+                        productName={cartProduct.product.productName} 
+                        productPrice={parseFloat(cartProduct.product.productPrice)} 
+                        productStock={cartProduct.product.productStock}
                         setUpdates = {setUpdates}                        
                         />
-                )
-            }
-            return cart
+            ))
         }
     } catch (error) {
         return (<> An Error has Occured! Please Try Again Later</>)

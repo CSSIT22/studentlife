@@ -28,14 +28,14 @@ const ContactUs = () => {
                     <Flex p="6" direction="column" gap="3">
                         <Text>Please send us the following information if you want to sell a product on our platform:</Text>
                         <UnorderedList>
-                            {contactInfo.map((contact) => (
-                                <ListItem>{contact}</ListItem>
+                            {contactInfo.map((contact, key) => (
+                                <ListItem key={key}>{contact}</ListItem>
                             ))}
                         </UnorderedList>
                         <Text>And your product information:</Text>
                         <UnorderedList>
-                            {productInfo.map((productL) => (
-                                <ListItem>{productL}</ListItem>
+                            {productInfo.map((productL, key) => (
+                                <ListItem key= {key}>{productL}</ListItem>
                             ))}
                         </UnorderedList>
                         <Text>If you have any questions, feel free to contact us.</Text>
