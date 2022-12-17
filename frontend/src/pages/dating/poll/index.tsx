@@ -151,11 +151,11 @@ const AllActivityPoll = () => {
             </Center>
             {/* Calling all activity poll out (Need to order by time)*/}
             <Stack pt="150px" pb="60px">
-                <DatingAllActivityBox poll={poll}/>
+                <DatingAllActivityBox poll={poll} userId={userId}/>
             </Stack>
             {/* Create poll button */}
             <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px", md: "20px" }} bottom={{ base: "70px", md: "30px" }} _hover={{ color: "black" }}>
-                <DatingCreatePollButton userId={userId} />
+                <DatingCreatePollButton />
             </Box>
 
 

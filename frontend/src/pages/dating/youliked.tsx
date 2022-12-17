@@ -282,7 +282,7 @@ const YouLiked = () => {
                                 }}
                             >
                                 <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
-                                    LOADING . . .
+                                    LOADING
                                 </Text>
                             </motion.div>
                         </Box>
