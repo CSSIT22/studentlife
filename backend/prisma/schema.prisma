@@ -223,7 +223,7 @@ model Student_Post {
   score           Int               @default(0)
   seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  images          Image_Container[]
+  files           File_Container[]
   studentsReacted Student_Reacted[]
   studentsComment Post_Comment[]
   rePost          Repost[]
@@ -232,11 +232,12 @@ model Student_Post {
   communityPost   Community_Post?
 }
 
-model Image_Container {
-  imgId        String       @id @default(cuid())
+model File_Container {
+  fileId       String       @id @default(cuid())
   postId       String
-  imageAddress String
-  postImage    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  fileAddress  String
+  fileUploaded DateTime     @default(now()) @db.Timestamp(0)
+  postFile     Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Student_Reacted {
