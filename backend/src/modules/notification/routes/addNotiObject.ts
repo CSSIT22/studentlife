@@ -1,7 +1,12 @@
 import { Request, Response } from "express"
 import { nanoid } from "nanoid"
+import { pushNotiType } from "@apiType/notification"
+import { Module, Template } from "@prisma/client"
+
+import { Server } from "socket.io"
+import { getSessionIdsByUserIds } from "../../backendService/socketstore/store"
 const addNotiObject = async (req: Request, res: Response) => {
-    const body = req.body
+    const body = req.body as pushNotiType
     const objectId = nanoid()
 
     try {
@@ -9,9 +14,9 @@ const addNotiObject = async (req: Request, res: Response) => {
         const notiObject = await prisma.noti_Object.create({
             data: {
                 notiObjectId: objectId,
-                template: body.template,
+                template: body.template as Template,
                 date: new Date(),
-                module: body.module,
+                module: body.module as Module,
                 url: body.url || "",
                 userId: body.sender || "",
             },
@@ -59,6 +64,18 @@ const addNotiObject = async (req: Request, res: Response) => {
         const userNotiObject = await prisma.user_Noti_Object.createMany({
             data: user,
         })
+
+        setTimeout(() => {
+            body.userId.forEach((el) => {
+                let socketids = getSessionIdsByUserIds(el)
+                console.log(socketids)
+
+                for (let id of socketids) {
+                    ;(res.io as Server).to(id).emit("push_noti", data)
+                }
+            })
+        }, 1000)
+
         return res.send(notiObject)
     } catch (err) {
         //console.log(err)
