@@ -66,7 +66,7 @@ const Room = () => {
     }, [msg])
 
     useEffect(()=>{
-        socketIO.on("receive-message", (s: any) => {
+        socketIO.on(`receive-message-${param.roomID}`, (s: any) => {
            setmsg(s)
         })
         return ()=>{

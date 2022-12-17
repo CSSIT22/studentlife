@@ -19,7 +19,7 @@ const chatSocket: customeSocketPrams = (socket, prisma) => {
         })
         const sesstion_ids = getSessionIdsByUserIds(ids.map((e)=>e.userId))
         for(let session of sesstion_ids){
-            socket.to(session).emit("receive-message",Message)
+            socket.to(session).emit(`receive-message-${data.room_id}`,Message)
         }
     })
 }
