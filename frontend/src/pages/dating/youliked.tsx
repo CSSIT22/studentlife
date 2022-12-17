@@ -14,6 +14,7 @@ import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYo
 import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import { HEART_HISTORY } from "../../components/dating/shared/heart_history"
+import { motion } from "framer-motion"
 
 interface state {
     heart_history: {
@@ -177,11 +178,19 @@ const YouLiked = () => {
                 </Box>
 
                 <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
-                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
-                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                        Right now, you don't have any new likes.
-                    </Text>
-                </Box></> : <>
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
+                        <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                            Right now, you don't have any new likes.
+                        </Text>
+                    </motion.div>
 
                 <Box display="flex" justifyContent="center">
                     <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
@@ -203,42 +212,84 @@ const YouLiked = () => {
                 >
                     {heartGiver.filter((el) => !giveToUser?.some((f) => el.heartReceiver.userId))
                         .map(({ heartReceiver }) => (
-                            <Box key={heartReceiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
-                                <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
-                                    <Box>
-                                        <DatingCheckImage url={heartReceiver.userId} image={heartReceiver.image} />
-                                        <DatingCheckMobileDetails isMobile={isMobile} Fname={heartReceiver.fName} Lname={heartReceiver.lName} />
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}
+                            >
+                                <Box key={heartReceiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
+                                    <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
+                                        <Box>
+                                            <DatingCheckImage url={heartReceiver.userId} image={heartReceiver.image} />
+                                            <DatingCheckMobileDetails isMobile={isMobile} Fname={heartReceiver.fName} Lname={heartReceiver.lName} />
 
-                                        <HStack
-                                            ml={{ base: "25px", md: "25px" }}
-                                            gap={{ base: "15px", md: "30px" }}
-                                            mt={{ base: "6px", md: "12px" }}
-                                            mb={{ md: "12px" }}
-                                        >
-                                        </HStack>
-                                    </Box>
-                                    <DatingCheckDesktopDetails
-                                        Fname={heartReceiver.fName}
-                                        Lname={heartReceiver.lName}
-                                        Gender={heartReceiver.details.sex}
-                                        Birth={heartReceiver.details.birth}
-                                        Faculty={heartReceiver.studentMajor.majorFaculty.facultyName}
-                                        Interests={heartReceiver.interests}
-                                        AllInterests={allInterests}
-                                    />
-                                </SimpleGrid>
+                                            <HStack
+                                                ml={{ base: "25px", md: "25px" }}
+                                                gap={{ base: "15px", md: "30px" }}
+                                                mt={{ base: "6px", md: "12px" }}
+                                                mb={{ md: "12px" }}
+                                            >
+                                            </HStack>
+                                        </Box>
+                                        <DatingCheckDesktopDetails
+                                            Fname={heartReceiver.fName}
+                                            Lname={heartReceiver.lName}
+                                            Gender={heartReceiver.details.sex}
+                                            Birth={heartReceiver.details.birth}
+                                            Faculty={heartReceiver.studentMajor.majorFaculty.facultyName}
+                                            Interests={heartReceiver.interests}
+                                            AllInterests={allInterests}
+                                        />
+                                    </SimpleGrid>
 
-                                {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
-                            </Box>
+                                    {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
+                                </Box>
+                            </motion.div>
                         ))}
                 </Box></>
             }
 
             {
                 (isLoading) && !isError ? (
-                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-                    </Box>
+                    <>
+                        <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                            </motion.div>
+                        </Box>
+                        <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: `0.25em`
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: `0em`,
+                                    transition: {
+                                        duration: 1,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }
+                                }}
+                            >
+                                <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                    LOADING
+                                </Text>
+                            </motion.div>
+                        </Box>
+
+                    </>
                 ) : (
                     <></>
                 )
@@ -253,7 +304,7 @@ const YouLiked = () => {
                     <></>
                 )
             }
-        </DatingAppBody>
+        </DatingAppBody >
     )
 }
 

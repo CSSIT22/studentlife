@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 import API from 'src/function/API'
 import { useNavigate } from 'react-router-dom'
 import DatingWentWrong from 'src/components/dating/DatingWentWrong'
+import { motion } from "framer-motion"
+
 
 const FirstPageNextButton = (props: any) => {
     const swiper = useSwiper();
@@ -95,6 +97,8 @@ const Tutorial = () => {
         }
     })
 
+    const letters = Array.from("LOADING . . .");
+
     function checkOption() {
         API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
             API.get("/dating/verifyEnroll/getDatingOptions")
@@ -136,56 +140,98 @@ const Tutorial = () => {
     return (
         <DatingAppBody>
             <Box>
-                {(isSubmitted || isLoading) && !isError ? <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                    <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-                </Box> :
+                {(isSubmitted || isLoading) && !isError ? <>
+                    <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 20,
+                            }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                        </motion.div>
+                    </Box>
+
+                    <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                        <motion.div
+                            initial={{
+                                opacity: 0,
+                                y: `0.25em`
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: `0em`,
+                                transition: {
+                                    duration: 1,
+                                    ease: [0.2, 0.65, 0.3, 0.9],
+                                }
+                            }}
+                        >
+                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                LOADING
+                            </Text>
+                        </motion.div>
+                    </Box>
+
+                </> :
                     !isError ? <Swiper id="tutorial" pagination={true} modules={[Pagination]} className="mySwiper">
                         <SwiperSlide>
                             <Center>
-                                <Box>
-                                    <Text textAlign="center" fontWeight="700"
-                                        fontSize={{ base: "30px", md: "36px" }}
-                                        lineHeight="133%" color="black" pt={{ base: "39.5px", md: "53px" }} >Hello!</Text>
-                                    {
-                                        isMobile ?
-                                            (<Text textAlign="center" fontWeight="700"
-                                                fontSize="36px"
-                                                lineHeight="133%" color="orange.600" pt="33px" >{fName}&nbsp;{lName}</Text>) :
-                                            (<><Text textAlign="center" fontWeight="700"
-                                                fontSize="30px"
-                                                lineHeight="133%" color="orange.600" pt="39.5px">{fName}</Text>
-                                                <Text textAlign="center" fontWeight="700"
-                                                    fontSize="30px"
-                                                    lineHeight="133%" color="orange.600" >{lName}</Text></>)
-                                    }
-                                    {
-                                        isMobile ?
-                                            (<><Text textAlign="center" fontWeight="700"
-                                                fontSize="36px"
-                                                lineHeight="133%" color="black" pt="33px" >Welcome to</Text>
-                                                <Text textAlign="center" fontWeight="700"
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 360,
+                                        damping: 20,
+                                    }}>
+                                    <Box>
+                                        <Text textAlign="center" fontWeight="700"
+                                            fontSize={{ base: "30px", md: "36px" }}
+                                            lineHeight="133%" color="black" pt={{ base: "39.5px", md: "53px" }} >Hello!</Text>
+                                        {
+                                            isMobile ?
+                                                (<Text textAlign="center" fontWeight="700"
                                                     fontSize="36px"
-                                                    lineHeight="133%" color="black" >Dating & Finding Friend</Text></>) :
-                                            (<><Text textAlign="center" fontWeight="700"
-                                                fontSize="30px"
-                                                lineHeight="133%" color="black" pt="39.5px">Welcome to</Text>
-                                                <Text textAlign="center" fontWeight="700"
+                                                    lineHeight="133%" color="orange.600" pt="33px" >{fName}&nbsp;{lName}</Text>) :
+                                                (<><Text textAlign="center" fontWeight="700"
                                                     fontSize="30px"
-                                                    lineHeight="133%" color="black" >Dating</Text>
-                                                <Text textAlign="center" fontWeight="700"
+                                                    lineHeight="133%" color="orange.600" pt="39.5px">{fName}</Text>
+                                                    <Text textAlign="center" fontWeight="700"
+                                                        fontSize="30px"
+                                                        lineHeight="133%" color="orange.600" >{lName}</Text></>)
+                                        }
+                                        {
+                                            isMobile ?
+                                                (<><Text textAlign="center" fontWeight="700"
+                                                    fontSize="36px"
+                                                    lineHeight="133%" color="black" pt="33px" >Welcome to</Text>
+                                                    <Text textAlign="center" fontWeight="700"
+                                                        fontSize="36px"
+                                                        lineHeight="133%" color="black" >Dating & Finding Friend</Text></>) :
+                                                (<><Text textAlign="center" fontWeight="700"
                                                     fontSize="30px"
-                                                    lineHeight="133%" color="black" >&</Text>
-                                                <Text textAlign="center" fontWeight="700"
-                                                    fontSize="30px"
-                                                    lineHeight="133%" color="black" >Finding Friend</Text></>)
-                                    }
-                                    <Box display="flex" justifyContent="center" pt={{ base: "32px", md: "80px" }} pb="178px">
-                                        <FirstPageNextButton>
-                                            <Text fontWeight="700"
-                                                fontSize={{ base: "20px", md: "25px" }}
-                                                lineHeight="120%" color="white">Next</Text></FirstPageNextButton>
+                                                    lineHeight="133%" color="black" pt="39.5px">Welcome to</Text>
+                                                    <Text textAlign="center" fontWeight="700"
+                                                        fontSize="30px"
+                                                        lineHeight="133%" color="black" >Dating</Text>
+                                                    <Text textAlign="center" fontWeight="700"
+                                                        fontSize="30px"
+                                                        lineHeight="133%" color="black" >&</Text>
+                                                    <Text textAlign="center" fontWeight="700"
+                                                        fontSize="30px"
+                                                        lineHeight="133%" color="black" >Finding Friend</Text></>)
+                                        }
+                                        <Box display="flex" justifyContent="center" pt={{ base: "32px", md: "80px" }} pb="178px">
+                                            <FirstPageNextButton>
+                                                <Text fontWeight="700"
+                                                    fontSize={{ base: "20px", md: "25px" }}
+                                                    lineHeight="120%" color="white">Next</Text></FirstPageNextButton>
+                                        </Box>
                                     </Box>
-                                </Box>
+                                </motion.div>
                             </Center>
                         </SwiperSlide>
                         <SwiperSlide>

@@ -19,6 +19,17 @@ import { HiOutlineMusicNote } from "react-icons/hi"
 import { MdAttachMoney, MdFastfood } from "react-icons/md"
 import { RiMenuFoldLine } from "react-icons/ri"
 import { useNavigate, useParams } from "react-router-dom"
+import {BiGroup} from "react-icons/bi"
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+  } from '@chakra-ui/react'
+import GroupFrom from "./groupform"
 
 function Plustoggle() {
     let param = useParams()
@@ -29,6 +40,34 @@ function Plustoggle() {
     function Navigate() {
         return navigate(`/chat/${param.roomID}/property`)
     }
+    //pop up
+
+    // function GroupFrom() {
+    //     const { isOpen, onOpen, onClose } = useDisclosure()
+    //     return (
+    //       <>
+    //         <Button onClick={onOpen}>Open Modal</Button>
+    
+    //         <Modal isOpen={isOpen} onClose={onClose}>
+    //           <ModalOverlay />
+    //           <ModalContent>
+    //             <ModalHeader>Modal Title</ModalHeader>
+    //             <ModalCloseButton />
+    //             <ModalBody>
+    //               Test
+    //             </ModalBody>
+      
+    //             <ModalFooter>
+    //               <Button colorScheme='blue' mr={3} onClick={onClose}>
+    //                 Close
+    //               </Button>
+    //               <Button variant='ghost'>Secondary Action</Button>
+    //             </ModalFooter>
+    //           </ModalContent>
+    //         </Modal>
+    //       </>
+    //     )
+    //   }
 
     return (
         <>
@@ -52,17 +91,7 @@ function Plustoggle() {
                             >
                                 <MdFastfood size={"40px"} />
                             </Button>
-                            <Button
-                                borderRadius="md"
-                                bg="peachpuff"
-                                color="orange.700"
-                                px={5}
-                                h={"80%"}
-                                _active={{ background: "transparent" }}
-                                _hover={{ background: "transparent", transform: "scale(1.2)" }}
-                            >
-                                <MdAttachMoney size={"40px"} />
-                            </Button>
+                            <GroupFrom />
                             <Button
                                 borderRadius="md"
                                 bg="peachpuff"

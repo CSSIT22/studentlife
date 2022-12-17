@@ -57,7 +57,6 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
     const pollNow = await prisma.activity_Poll.findMany()
     try {
         const userId: string | undefined = req.user?.userId
-        //IDK IF IT WORK OR NOT LOL
         const pollName: string = req.body.pollName
         const pollPlace: string = req.body.pollPlace
         // const pollAppointAt: any = req.body.pollAppointAt
@@ -86,7 +85,7 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
                 " " +
                 pollTopic
         )
-        
+
         const pollInfo: any = {
             userId: userId,
             pollName: pollName,
@@ -98,7 +97,7 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
             isOpen: isOpen,
             // roomId: "293249324",
         }
-        console.log("HENLO! " + pollInfo.pollAppointAt)
+        // console.log("HENLO! " + pollInfo.pollAppointAt)
         const poll = await prisma.activity_Poll.create({
             // data: { ...pollInfo },
             data: pollInfo,

@@ -26,6 +26,9 @@ import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../../../../components/dating/pic/noprofile.png"
 import DatingLoading from "../../../../components/dating/lottie/DatingLoading.json"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import GroupChatImg from "../../../../components/dating/pic/groupchat.png"
+import { motion } from "framer-motion"
+
 // import { POLL } from "../../../../components/dating/shared/poll"
 // import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
 
@@ -128,7 +131,7 @@ const YourPoll = () => {
             })
             API.get("/dating/yourpoll/getYourPoll/" + params.pollId).then((data) => {
                 setPollInfo(data.data)
-            }).catch(on).finally(off)
+            }).catch(on).finally(() => setIsLoading(false))
         }
     })
 
@@ -184,14 +187,50 @@ const YourPoll = () => {
         }
     }
 
+    function handleChat(id: string) {
+        setIsLoading(true)
+        API.post<{ chatWith_id: string }>("/chat/createRoom", { chatWith_id: id }).then(() => navigate("/chat/"))
+    }
+
     const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
+    const [isLoading, setIsLoading] = useState(true)
 
     return (
         (isError || isLoading ? <DatingAppBody> {isLoading && !isError ? (
-            <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-            </Box>
+            <>
+                <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                    </motion.div>
+                </Box>
+                <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                            y: `0.25em`
+                        }}
+                        animate={{
+                            opacity: 1,
+                            y: `0em`,
+                            transition: {
+                                duration: 1,
+                                ease: [0.2, 0.65, 0.3, 0.9],
+                            }
+                        }}
+                    >
+                        <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                            LOADING
+                        </Text>
+                    </motion.div>
+                </Box>
+            </>
         ) : (
             <></>
         )}
@@ -203,111 +242,197 @@ const YourPoll = () => {
                 <></>}
         </DatingAppBody> : pollInfo ? <>
             <DatingAppBody>
-                <Box
-                    w="100%"
-                    minHeight={{ base: "95px", md: "129px" }}
-                    backgroundColor="white"
-                    boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                    mb={{ base: "40px", md: "50px" }}
-                    borderRadius="10px"
-                    mt="40px"
-                >
-                    <Box h="90%" mb="35px">
-                        <Text pt="17px" pl="31px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
-                            {pollInfo?.pollName}
-                        </Text>
-                    </Box>
-                    {pollInfo ? <DatingYourPollSeeMore pollInfo={pollInfo} /> : <></>}
-
-                </Box>
-                {pollInfo?.participants.length != undefined && pollInfo.participants.length > 0 ? <Heading
-                    color="black"
-                    ml={{ base: "10px", md: "0px" }}
-                    pb={{ base: "16px", md: "24px" }}
-                    fontWeight="700"
-                    fontSize={{ base: "25px", md: "26px" }}
-                    lineHeight="150%"
-                >
-                    People interested in joining your activity
-                </Heading> : <></>}
-
-
-                {pollInfo?.participants.map((participant) => (<Box
-                    w="100%"
-                    height={{ base: "90px", md: "100px" }}
-                    backgroundColor="white"
-                    boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                    borderRadius="10px"
-                    mb={{ base: "8px", md: "12px" }}
-                    display="flex"
-                >
-                    <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="140%">
-                        <Link to={"/user/" + participant.user.userId}>
-                            {participant.user.image ? <Image
-                                borderRadius="full"
-                                boxSize={{ base: "50px", md: "78px" }}
-                                objectFit="cover"
-                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + participant.user.userId}
-                            /> : <Image
-                                borderRadius="full"
-                                boxSize={{ base: "50px", md: "78px" }}
-                                objectFit="cover"
-                                src={NoProfileImg}
-                            />}
-                        </Link>
-                        {isMobile ? (
-                            <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
-                                {participant.user.fName.length > 20 ? <>{participant.user.fName.substring(0, 17)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 360,
+                        damping: 20,
+                    }}>
+                    <Box
+                        w="100%"
+                        minHeight={{ base: "95px", md: "129px" }}
+                        backgroundColor="white"
+                        boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                        mb={{ base: "40px", md: "50px" }}
+                        borderRadius="10px"
+                        mt="40px"
+                    >
+                        <Box h="90%" mb="35px">
+                            <Text pt="17px" pl="31px" pr="31px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "26px" }} lineHeight="120%">
+                                {pollInfo?.pollName}
                             </Text>
-                        ) : (
-                            <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
-                                {participant.user.fName.length > 9 ? <>{participant.user.fName.substring(0, 6)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
-                            </Text>
-                        )}
+                        </Box>
+                        <Box display="flex" justifyContent="right" pb={{ base: "10px", md: "20px" }} pr={{ base: "12px", md: "0px" }}>
+                            <motion.div
+                                initial={
+                                    { cursor: "pointer" }
+                                }
+                                whileHover={{ scale: 1.2, }}
+                                whileTap={{
+                                    scale: 0.8,
+                                }}
+                                onClick={() => navigate("/chat/")}
+                            >
+                                <Button
+                                    borderRadius="full"
+                                    w={{ base: "50px", md: "72px" }}
+                                    h={{ base: "50px", md: "72px" }}
+                                    backgroundColor="white"
+                                    border="1px solid"
+                                    mr={{ base: "12px", md: "24px" }}
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                >
+                                    <Image src={GroupChatImg} />
+                                </Button>
+                            </motion.div>
+                        </Box>
+                        {pollInfo ? <DatingYourPollSeeMore pollInfo={pollInfo} /> : <></>}
                     </Box>
-                    {participant.isAccepted && isMobile ? <Box display="flex" alignItems="center" h="100%"><Badge h="30px" colorScheme='green'><Text fontSize="20px">ACCEPTED</Text></Badge></Box> : <></>}
-                    <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                        {participant.isAccepted ? <><Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            colorScheme="green"
-                            border="1px solid"
-                            borderColor="black"
-                            mr={{ base: "12px", md: "24px" }}
-                            ml={{ md: "20px" }}
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                            _hover={{ cursor: "not-allowed" }}
-                        >
-                            <Image src={CheckImg} />
-                        </Button></> : <Button
-                            id={participant.user.userId}
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
-                            mr={{ base: "12px", md: "24px" }}
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                            onClick={() => handleAccept(participant.user.userId)}
-                        >
-                            <Image src={CheckImg} />
-                        </Button>}
+                </motion.div>
+                {pollInfo?.participants.length != undefined && pollInfo.participants.length > 0 ? <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 360,
+                        damping: 20,
+                    }}><Heading
+                        color="black"
+                        ml={{ base: "10px", md: "0px" }}
+                        pb={{ base: "16px", md: "24px" }}
+                        fontWeight="700"
+                        fontSize={{ base: "25px", md: "26px" }}
+                        lineHeight="150%"
+                    >
+                        People interested in joining your activity
+                    </Heading></motion.div> : <></>}
 
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
+
+                {pollInfo?.participants.map((participant) => (
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Box
+                            w="100%"
+                            height={{ base: "90px", md: "100px" }}
                             backgroundColor="white"
-                            border="1px solid"
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                            borderRadius="10px"
+                            mb={{ base: "8px", md: "12px" }}
+                            display="flex"
                         >
-                            <Image src={ChatImg} />
-                        </Button>
-                    </Box>
-                </Box>))}
+                            <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="140%">
+                                <motion.div
+                                    initial={
+                                        { cursor: "pointer" }
+                                    }
+                                    whileHover={{ scale: 1.2, }}
+                                    whileTap={{
+                                        scale: 0.8,
+                                    }}
+                                >
+                                    <Link to={"/user/" + participant.user.userId}>
+                                        {participant.user.image ?
+                                            <Image
+                                                borderRadius="full"
+                                                boxSize={{ base: "50px", md: "78px" }}
+                                                objectFit="cover"
+                                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + participant.user.userId}
+                                            /> : <Image
+                                                borderRadius="full"
+                                                boxSize={{ base: "50px", md: "78px" }}
+                                                objectFit="cover"
+                                                src={NoProfileImg}
+                                            />}
+                                    </Link>
+                                </motion.div>
+                                {isMobile ? (
+                                    <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
+                                        {participant.user.fName.length > 20 ? <>{participant.user.fName.substring(0, 17)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
+                                    </Text>
+                                ) : (
+                                    <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
+                                        {participant.user.fName.length > 9 ? <>{participant.user.fName.substring(0, 6)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
+                                    </Text>
+                                )}
+                            </Box>
+                            {participant.isAccepted && isMobile ? <Box display="flex" alignItems="center" h="100%">                        <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}><Badge h="30px" colorScheme='green'><Text fontSize="20px">ACCEPTED</Text></Badge></motion.div></Box> : <></>}
+                            <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
+                                {participant.isAccepted ? <><Button
+                                    borderRadius="full"
+                                    w={{ base: "50px", md: "72px" }}
+                                    h={{ base: "50px", md: "72px" }}
+                                    colorScheme="green"
+                                    border="1px solid"
+                                    borderColor="black"
+                                    mr={{ base: "12px", md: "24px" }}
+                                    ml={{ md: "20px" }}
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    _hover={{ cursor: "not-allowed" }}
+                                >
+                                    <Image src={CheckImg} />
+                                </Button></> : <motion.div
+                                    initial={
+                                        { cursor: "pointer" }
+                                    }
+                                    whileHover={{ scale: 1.2, }}
+                                    whileTap={{
+                                        scale: 0.8,
+                                    }}
+                                ><Button
+                                    id={participant.user.userId}
+                                    borderRadius="full"
+                                    w={{ base: "50px", md: "72px" }}
+                                    h={{ base: "50px", md: "72px" }}
+                                    backgroundColor="white"
+                                    border="1px solid"
+                                    mr={{ base: "12px", md: "24px" }}
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    onClick={() => handleAccept(participant.user.userId)}
+                                >
+                                        <Image src={CheckImg} />
+                                    </Button></motion.div>}
+
+                                <motion.div
+                                    initial={
+                                        { cursor: "pointer" }
+                                    }
+                                    whileHover={{ scale: 1.2, }}
+                                    whileTap={{
+                                        scale: 0.8,
+                                    }}
+                                    onClick={() => handleChat(participant.user.userId)}
+                                ><Button
+                                    borderRadius="full"
+                                    w={{ base: "50px", md: "72px" }}
+                                    h={{ base: "50px", md: "72px" }}
+                                    backgroundColor="white"
+                                    border="1px solid"
+                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                >
+                                        <Image src={ChatImg} />
+                                    </Button>
+                                </motion.div>
+                            </Box>
+
+                        </Box></motion.div>))}
                 <Box mt="300px" />
             </DatingAppBody>
+
             {pollInfo.isOpen ? <><Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" bottom={0} id="bottomBar">
                 <Container w="container.lg" maxW={"100%"}>
                     <Box
@@ -329,33 +454,79 @@ const YourPoll = () => {
 
                         <Box>
                             <Box>
-                                <Text
-                                    fontWeight="700"
-                                    fontSize="20px"
-                                    lineHeight="120%"
-                                    color="white"
-                                    textAlign="center"
-                                    pl={{ base: "35px", md: "0" }}
-                                    pr={{ base: "35px", md: "0" }}
-                                >
-                                    Now, {pollInfo?.participants.length} {pollInfo?.participants.length != null && pollInfo?.participants.length != 1 ? <>people are</> : <>person is</>} interested in joining your activity.
-                                </Text>
-                                <Text
-                                    fontWeight="700"
-                                    fontSize="20px"
-                                    lineHeight="120%"
-                                    color="white"
-                                    textAlign="center"
-                                    pl={{ base: "35px", md: "0" }}
-                                    pr={{ base: "35px", md: "0" }}
-                                >
-                                    Do you want to close the poll?
-                                </Text>
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 360,
+                                        damping: 20,
+                                    }}>
+                                    <Text
+                                        fontWeight="700"
+                                        fontSize="20px"
+                                        lineHeight="120%"
+                                        color="white"
+                                        textAlign="center"
+                                        pl={{ base: "35px", md: "0" }}
+                                        pr={{ base: "35px", md: "0" }}
+                                    >
+                                        Now, {pollInfo?.participants.length} {pollInfo?.participants.length != null && pollInfo?.participants.length != 1 ? <>people are</> : <>person is</>} interested in joining your activity.
+
+                                    </Text>
+                                </motion.div>
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 360,
+                                        damping: 20,
+                                    }}>
+                                    <Text
+                                        fontWeight="700"
+                                        fontSize="20px"
+                                        lineHeight="120%"
+                                        color="white"
+                                        textAlign="center"
+                                        pl={{ base: "35px", md: "0" }}
+                                        pr={{ base: "35px", md: "0" }}
+                                    >
+                                        Do you want to close the poll?
+                                    </Text>
+                                </motion.div>
                                 <Box display="flex" justifyContent="center" pt={"30px"}>
-                                    <DatingYourPollClose pollId={pollInfo.pollId}/>
-                                    <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} pollId={pollInfo.pollId} />
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}>
+                                        <DatingYourPollClose pollId={pollInfo.pollId} />
+                                    </motion.div>
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}>
+                                        <DatingYourPollCloseAndAcceptAll numOfParticipants={pollInfo?.participants.length} pollId={pollInfo.pollId} />
+                                    </motion.div>
                                 </Box>
-                                <DatingYourPollCancel pollId={pollInfo.pollId} />
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 360,
+                                        damping: 20,
+                                    }}>
+                                    <DatingYourPollCancel pollId={pollInfo.pollId} />
+                                </motion.div>
                             </Box>
                         </Box>
                     </Box>

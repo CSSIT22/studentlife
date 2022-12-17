@@ -89,8 +89,20 @@ export type FollowDetail = {
       type: string;
       data: number[];
     };
-    receiveRate: {
-      score: number;
+  };
+};
+
+export type RateFollow = {
+  anotherUserId: string;
+  score: number;
+  userId: string;
+  scoreReceiver: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
     };
   };
 };
@@ -114,7 +126,7 @@ export type PollInfo = {
   pollPlace: string;
   isOpen: boolean;
   participants: {
-    isAccepted: boolean,
+    isAccepted: boolean;
     user: {
       userId: string;
       fName: string;
@@ -155,4 +167,55 @@ export type HeartReceiver = {
       };
     };
   };
+};
+
+export type Rating = {
+  userId: string;
+  anotherUserId: string;
+  rate: number;
+};
+
+export type Polls = {
+  userId: string;
+  pollCreator: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+  };
+  pollId: string;
+  pollName: string;
+  pollText: string;
+  participantMin: number;
+  participantMax: number;
+  pollAppointAt: any;
+  pollPlace: string;
+  isOpen: boolean;
+  participants: {
+    isAccepted: boolean;
+    user: {
+      userId: string;
+      fName: string;
+      lName: string;
+      image: {
+        type: string;
+        data: number[];
+      };
+    };
+  }[];
+  interests: {
+    interest: {
+      interestName: true;
+    };
+  }[];
+};
+
+export type ApplyPoll = {
+  userId: string;
+  pollId: string;
+  isAccepted: boolean;
+  registerTime: Date;
 };

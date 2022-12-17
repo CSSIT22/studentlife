@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import e, { Request, Response } from "express"
 
 const getMember = async (req: Request, res: Response) => {
     try {
@@ -6,17 +6,28 @@ const getMember = async (req: Request, res: Response) => {
         const id = req.params.id
 
         const member = await prisma.user_To_Room.findMany({
-            where: {
-                roomId: id,
+            // where: {
+            //     roomId: id,
+            // },
+            // include: {
+            //     user: {
+            //         select: {
+            //             fName: true,
+            //             image: true,
+            //         },
+            //     },
+            // },
+            select:{
+                user:{
+                    select:{
+                        image:true,
+                        fName:true
+                    }
+                }
             },
-            include: {
-                user: {
-                    select: {
-                        fName: true,
-                        image: true,
-                    },
-                },
-            },
+            where:{
+                roomId : id
+            }
         })
         res.send(member)
     } catch {

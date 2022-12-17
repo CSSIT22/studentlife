@@ -16,7 +16,6 @@ import { useRef } from "react"
 
 type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
 
-
 const mockMessage = [
     { text: "Hi,how are you doing?", from: "others", timeSent: "20:10" },
     { text: "I'm doing good, hbu?", from: "me", timeSent: "20:11" },
@@ -27,24 +26,19 @@ const mockMessage = [
     { text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
 ]
 export type RoomType = {
-    room: {
-        roomIndividual: {
-            chatWith: {
-                image: {
-                    type: string
-                    data: string
-                } | null
-            }
+    chatColor: string
+    roomId: string
+    roomType: string
+    nickname: string
+    nameWho: {
+        image: {
+            type: string
+            data: string
         } | null
+    }
+    group: {
         roomName: string
-        roomId: string
-        chatColor: string
-        roomType: string
-        roomGroup: {
-            groupImg: string
-        } | null
-    },
-    userId: string
+    }
 }
 
 const Room = () => {
@@ -54,14 +48,14 @@ const Room = () => {
     const [Text, setText] = useState("")
     const [msg, setmsg] = useState(mockMessage)
     const [Room, setRoom] = useState<RoomType>()
-    const scroll = useRef<null | HTMLDivElement>(null);
+    const scroll = useRef<null | HTMLDivElement>(null)
     //fetch API
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
     }, [param])
 
     useEffect(() => {
-        scroll.current?.scrollIntoView();
+        scroll.current?.scrollIntoView()
     }, [msg])
 
     //function
@@ -75,112 +69,130 @@ const Room = () => {
             alert("ไม่ให้ส่งคั้บ")
         } else {
             setmsg([...msg, { text: Text, from: "me", timeSent: "21:11" }])
-            socketIO.emit("send-msg", { userId: Room?.userId, roomId: Room?.room.roomId, message: Text })
+            //socketIO.emit("send-msg", { userId: Room?., roomId: Room?.room.roomId, message: Text })
             setText("")
         }
     }
     function renderTitle() {
-        if (Room?.room.roomType === "INDIVIDUAL") {
-            const img = Room.room.roomIndividual?.chatWith.image
+        if (Room?.roomType === "INDIVIDUAL") {
+            const img = Room.nameWho.image
             return (
                 <Flex alignItems={"center"}>
-                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : buffer_to_img(img?.data)} />
+                    <Avatar marginLeft={4} name={Room.nickname} src={img === null ? "" : buffer_to_img(img?.data)} />
                     <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
-                        {Room?.room.roomName}
+                        {Room.nickname}
+                    </Box>
+                </Flex>
+            )
+        } else {
+            //const img = Room?.room.roomGroup?.groupImg
+            return (
+                <Flex alignItems={"center"}>
+                    <Avatar marginLeft={4} name={Room?.group.roomName} src="https://picsum.photos/200/300" />
+                    <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
+                        {Room?.group.roomName}
                     </Box>
                 </Flex>
             )
         }
-        else {
-            const img = Room?.room.roomGroup?.groupImg
-            return (
-                <Flex alignItems={"center"}>
-                    <Avatar marginLeft={4} name={Room?.room.roomName} src={(img === null) ? "" : img} />
-                    <Box fontSize={"2xl"} fontWeight={"bold"} marginLeft={5} color={"#ffff"}>
-                        {Room?.room.roomName}
-                    </Box>
-                </Flex>
-            )
-        }
-
     }
 
-    return (
-        <AppBody>
-            <HStack>
-                <Hide below="md">
-                    <Clist />
-                </Hide>
-                <Flex
-                    flex={1}
-                    bg="#FFF2E6"
-                    marginLeft={{ base: 0, md: 5 }}
-                    width={{ base: "80vw", md: "300px" }}
-                    justifyContent={"space-between"}
-                    height={{base : "65vh",md:"78vh"}}
-                    flexDirection={"column"}
-                // maxH={'5000px'}
-                >
+    if (Room === undefined) {
+        return (
+            <AppBody>
+                <HStack>
+                    <Hide below="md">
+                        <Clist />
+                    </Hide>
+                    <Flex flex={"1"} justifyContent={"center"} alignItems={"center"}>
+                        <Box fontSize={"2xl"} fontWeight={"bold"}>Not found room </Box>
+                    </Flex>
+                </HStack>
+            </AppBody>
+        )
+    } else {
+        return (
+            <AppBody>
+                <HStack>
+                    <Hide below="md">
+                        <Clist />
+                    </Hide>
                     <Flex
-                        alignItems={"center"}
-                        bg={Room?.room.chatColor}
+                        flex={1}
+                        bg="#FFF2E6"
+                        marginLeft={{ base: 0, md: 5 }}
+                        width={{ base: "80vw", md: "300px" }}
                         justifyContent={"space-between"}
-                        width={{ base: "100%", md: "auto" }}
-                        roundedTopLeft={"lg"}
-                        roundedTopRight={"lg"}
-                        py={2}
+                        height={{ base: "65vh", md: "78vh" }}
+                        flexDirection={"column"}
+                        // maxH={'5000px'}
                     >
-                        <Flex alignItems={"center"}>
-                            {renderTitle()}
-                        </Flex>
-                        <Flex marginRight={4}>
-                            <Box marginX={5}>
-                                <Box cursor={"pointer"} onClick={() => setIsMute(!isMute)}>
-                                    {isMute ? <BsBellSlash color="" fontSize={"2rem"} /> : <BsBell fontSize={"2rem"} />}
+                        <Flex
+                            alignItems={"center"}
+                            bg={Room?.chatColor}
+                            justifyContent={"space-between"}
+                            width={{ base: "100%", md: "auto" }}
+                            roundedTopLeft={"lg"}
+                            roundedTopRight={"lg"}
+                            py={2}
+                        >
+                            <Flex alignItems={"center"}>{renderTitle()}</Flex>
+                            <Flex marginRight={4}>
+                                <Box marginX={5}>
+                                    <Box cursor={"pointer"} onClick={() => setIsMute(!isMute)}>
+                                        {isMute ? <BsBellSlash color="" fontSize={"2rem"} /> : <BsBell fontSize={"2rem"} />}
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Box>
-                                <AiFillThunderbolt cursor={"pointer"} size={35} />
-                            </Box>
+                                <Box>
+                                    <AiFillThunderbolt cursor={"pointer"} size={35} />
+                                </Box>
+                            </Flex>
+                        </Flex>
+
+                        <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} maxH={"65vh"}>
+                            {msg.map(({ text, from, timeSent }, roomID) => (
+                                <TextBar key={roomID} message={text} timeSent={timeSent} from={from} color={Room?.chatColor} />
+                            ))}
+                            <div ref={scroll}></div>
+                        </Box>
+
+                        <Flex
+                            h={"55px"}
+                            bg={Room?.chatColor}
+                            justifyContent={"space-between"}
+                            alignItems={"center"}
+                            width={{ base: "100%", md: "auto" }}
+                        >
+                            <Plustoggle />
+                            <form onSubmit={onSend}>
+                                <Input
+                                    marginLeft={5}
+                                    isInvalid
+                                    width={{ base: "40vw", md: "sm" }}
+                                    size={"md"}
+                                    placeholder="Type something"
+                                    _placeholder={{ color: "#ffffff" }}
+                                    type={"text"}
+                                    focusBorderColor="#606070"
+                                    errorBorderColor="#ffffff"
+                                    onChange={(e) => onType(e)}
+                                    value={Text}
+                                />
+                            </form>
+                            <Flex alignItems={"center"}>
+                                <Box cursor={"pointer"} marginRight={4}>
+                                    <BiSticker size={30} />
+                                </Box>
+                                <Button cursor={"pointer"} marginRight={4} onClick={onSend} disabled={Text == "" ? true : false} variant={"unstyled"}>
+                                    <FiSend size={30} />
+                                </Button>
+                            </Flex>
                         </Flex>
                     </Flex>
-
-                    <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} maxH={"65vh"}>
-                        {msg.map(({ text, from, timeSent }, roomID) => (
-                            <TextBar key={roomID} message={text} timeSent={timeSent} from={from} color={Room?.room.chatColor} />
-                        ))}
-                        <div ref={scroll}></div>
-                    </Box>
-
-                    <Flex h={"55px"} bg={Room?.room.chatColor} justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
-                        <Plustoggle />
-                        <form onSubmit={onSend}>
-                            <Input
-                                marginLeft={5}
-                                isInvalid
-                                width={{base:"40vw",md:"sm"}}
-                                size={"md"}
-                                placeholder="Type something"
-                                _placeholder={{ color: "#ffffff" }}
-                                type={"text"}
-                                focusBorderColor="#606070"
-                                errorBorderColor="#ffffff"
-                                onChange={(e) => onType(e)}
-                                value={Text}
-                            />
-                        </form>
-                        <Flex alignItems={"center"} >
-                            <Box cursor={"pointer"} marginRight={4}>
-                                <BiSticker size={30} />
-                            </Box>
-                            <Button cursor={"pointer"} marginRight={4} onClick={onSend} disabled={(Text == "") ? true : false} variant={'unstyled'} >
-                                <FiSend size={30} />
-                            </Button>
-                        </Flex>
-                    </Flex>
-                </Flex>
-            </HStack>
-        </AppBody>
-    )
+                </HStack>
+            </AppBody>
+        )
+    }
 }
 export default Room
+

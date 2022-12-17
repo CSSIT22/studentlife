@@ -15,6 +15,7 @@ import Lottie from "lottie-react"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import { motion } from "framer-motion"
 
 const LikedYou = () => {
     const didMount = useDidMount()
@@ -153,20 +154,32 @@ const LikedYou = () => {
     return (
         <DatingAppBody>
             {isLoading || isError ? <>
-            </> : giveToUser.length == heartGiver.length ? <><Box display="flex" justifyContent="center">
-                <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
-                    <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
-                    <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
-                        <DatingLikedYouButton backgroundColor="orange.600" />
-                        <DatingYouLikedButton backgroundColor="orange.800" />
-                    </HStack>
+            </> : giveToUser.length == heartGiver.length ? <>
+                <Box display="flex" justifyContent="center">
+                    <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
+                        <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
+                        <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
+                            <DatingLikedYouButton backgroundColor="orange.600" />
+                            <DatingYouLikedButton backgroundColor="orange.800" />
+                        </HStack>
+                    </Box>
                 </Box>
-            </Box>
-                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md:"35%"}}>
-                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
-                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                        Right now, you don't have any new likes.
-                    </Text>
+
+
+                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
+                        <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                            Right now, you don't have any new likes.
+                        </Text>
+                    </motion.div>
 
                 </Box></> : <><Box display="flex" justifyContent="center">
                     <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
@@ -178,55 +191,95 @@ const LikedYou = () => {
                     </Box>
                 </Box>
 
-                <Box
-                    display={{ base: "grid", md: "block" }}
-                    ml={{ base: "5px", md: "0px" }}
-                    gridTemplateColumns="repeat(auto-fill, 165px)"
-                    gridGap="10px"
-                    justifyContent="center"
-                    mt="120px"
-                >
-                    {heartGiver.filter((el) => !giveToUser?.some((f) => f == el.heartGiver.userId))
-                        .map(({ heartGiver }) => (
-                            <Box key={heartGiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
-                                <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
-                                    <Box>
-                                        <DatingCheckImage url={heartGiver.userId} image={heartGiver.image} />
-                                        <DatingCheckMobileDetails isMobile={isMobile} Fname={heartGiver.fName} Lname={heartGiver.lName} />
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 360,
+                        damping: 20,
+                    }}>
+                    <Box
+                        display={{ base: "grid", md: "block" }}
+                        ml={{ base: "5px", md: "0px" }}
+                        gridTemplateColumns="repeat(auto-fill, 165px)"
+                        gridGap="10px"
+                        justifyContent="center"
+                        mt="120px"
+                    >
+                        {heartGiver.filter((el) => !giveToUser?.some((f) => f == el.heartGiver.userId))
+                            .map(({ heartGiver }) => (
+                                <Box key={heartGiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
+                                    <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
+                                        <Box>
+                                            <DatingCheckImage url={heartGiver.userId} image={heartGiver.image} />
+                                            <DatingCheckMobileDetails isMobile={isMobile} Fname={heartGiver.fName} Lname={heartGiver.lName} />
 
-                                        <HStack
-                                            ml={{ base: "25px", md: "25px" }}
-                                            gap={{ base: "15px", md: "30px" }}
-                                            mt={{ base: "6px", md: "12px" }}
-                                            mb={{ md: "12px" }}
-                                        >
-                                            <DatingLikedYouCrossButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
-                                            <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
-                                        </HStack>
-                                    </Box>
-                                    <DatingCheckDesktopDetails
-                                        Fname={heartGiver.fName}
-                                        Lname={heartGiver.lName}
-                                        Gender={heartGiver.details.sex}
-                                        Birth={heartGiver.details.birth}
-                                        Faculty={heartGiver.studentMajor.majorFaculty.facultyName}
-                                        Interests={heartGiver.interests}
-                                        AllInterests={allInterests}
-                                    />
-                                </SimpleGrid>
+                                            <HStack
+                                                ml={{ base: "25px", md: "25px" }}
+                                                gap={{ base: "15px", md: "30px" }}
+                                                mt={{ base: "6px", md: "12px" }}
+                                                mb={{ md: "12px" }}
+                                            >
+                                                <DatingLikedYouCrossButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
+                                                <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
+                                            </HStack>
+                                        </Box>
+                                        <DatingCheckDesktopDetails
+                                            Fname={heartGiver.fName}
+                                            Lname={heartGiver.lName}
+                                            Gender={heartGiver.details.sex}
+                                            Birth={heartGiver.details.birth}
+                                            Faculty={heartGiver.studentMajor.majorFaculty.facultyName}
+                                            Interests={heartGiver.interests}
+                                            AllInterests={allInterests}
+                                        />
+                                    </SimpleGrid>
 
-                                {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
-                            </Box>
-                        ))}
-                </Box></>
+                                    {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
+                                </Box>
+
+                            ))}
+                    </Box></motion.div></>
             }
 
 
             {
                 (isLoading) && !isError ? (
-                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.4" }} />
-                    </Box>
+                    <>
+                        <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                            </motion.div>
+                        </Box>
+                        <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: `0.25em`
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: `0em`,
+                                    transition: {
+                                        duration: 1,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }
+                                }}
+                            >
+                                <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                    LOADING
+                                </Text>
+                            </motion.div>
+                        </Box>
+                    </>
                 ) : (
                     <></>
                 )

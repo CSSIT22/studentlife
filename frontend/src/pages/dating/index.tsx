@@ -558,13 +558,31 @@ const DatingRandomization = () => {
                     <DatingRandomOutOfCard numOfChar={numOfChar} isError={isError} currentIndex={currentIndex} isLoading={isLoading} />
                 )}
             </SimpleGrid>
+
                 <Box display="flex" pl={{ base: "18px", md: "55px" }} justifyContent={{ base: "center", md: "start" }} id="DatingButton">
                     {/* Cross button */}
-                    <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} />
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <DatingRandomCrossButton controlCross={controlCross} swipe={swipe} /></motion.div>
                     {/* Heart button */}
-                    <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} />
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <DatingRandomHeartButton controlHeart={controlHeart} swipe={swipe} /></motion.div>
                 </Box>
-                {isError? <></> : <Box display="none" pl={{ base: "18px", md: "165px" }} pt="25px" justifyContent={{ base: "center", md: "start" }} id="DatingLoading">
+
+                {isError ? <></> : <Box display="none" pl={{ base: "18px", md: "165px" }} pt="25px" justifyContent={{ base: "center", md: "start" }} id="DatingLoading">
                     <Spinner size="xl" />
                 </Box>}
             </>

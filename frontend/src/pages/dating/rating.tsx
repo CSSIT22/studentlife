@@ -5,47 +5,38 @@ import { FRIEND } from "./../../components/dating/shared/friend"
 import DatingRatingSearch from "src/components/dating/DatingRatingSearch"
 import DatingRatingAllStar from "src/components/dating/DatingRatingAllStar"
 import API from "src/function/API"
-import { FollowDetail } from "@apiType/dating"
+import { FollowDetail, RateFollow } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
+
 
 const Rating = () => {
     // const [friend, setFriend] = useState(FRIEND)
-    const [friend, setFriend] = useState<FollowDetail[]>([])
-    const [allFriend, setAllFriend] = useState<FollowDetail[]>([])
+    // const [followRate, setFollowRate] = useState<RateFollow[]>([])
+    const [rate, setRate] = useState<RateFollow[]>([])
+    const [allRate, setAllRate] = useState<RateFollow[]>([])
+    // const [friend, setFriend] = useState<FollowDetail[]>([])
+    // const [allFriend, setAllFriend] = useState<FollowDetail[]>([])
     const [searchQuery, setSearchQuery] = useState("")
-    const didMount = useDidMount()
+    // const didMount = useDidMount()
     let count = 1
 
     useEffect(() => {
-        if (didMount && count != 0) {
+        if (count != 0) {
             count--
             window.scrollTo(0, 0)
-            API.get("/dating/rating/getUserProfile").then((followDB) => {
-                setFriend(followDB.data)
-                setAllFriend(followDB.data)
+            // API.get("/dating/rating/getUserProfile").then((followDB) => {
+            //     setFriend(followDB.data)
+            //     setAllFriend(followDB.data)
+            // })
+            //     .catch((err) => console.log(err));
+            API.get("/dating/rating/getRating").then((rating) => {
+                setRate(rating.data)
+                setAllRate(rating.data)
             })
                 .catch((err) => console.log(err));
         }
 
-    })
-    // let backgroundImage;
-    // if (friend.image) {
-    //     backgroundImage = (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + character.userId
-    // }
-    // else {
-    //     backgroundImage = NoProfileImg
-    // }
-
-    // let linkto = "../../user/" + friend.userId
-
-    function useDidMount() {
-        const [didMount, setDidMount] = useState(true)
-        useEffect(() => {
-            setDidMount(false)
-        }, [])
-
-        return didMount
-    }
+    }, [])
 
     return (
         <AppBody>
@@ -60,9 +51,10 @@ const Rating = () => {
                                     <DatingRatingSearch
                                         searchQuery={searchQuery}
                                         setSearchQuery={setSearchQuery}
-                                        setFriends={setFriend}
-                                        // FRIENDS={FRIEND}
-                                        FRIENDS={allFriend}
+                                        // setFriends={setFriend}
+                                        // FRIENDS={allFriend}
+                                        setFriends={setRate}
+                                        FRIENDS={allRate}
                                     />
                                 </Box>
                             </Stack>
@@ -71,41 +63,78 @@ const Rating = () => {
                 </Box>
             </Box>
 
-            {friend.map((values) => {
-                console.log(values.following.receiveRate)
+            {rate.map((values) => {
+                // console.log("Check value " + values.fName)
                 return (
                     <Box >
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
                             <Flex>
-                                {values.following.image ?
+                                {values.scoreReceiver.image ?
                                     <Image
                                         borderRadius="full"
                                         boxSize="78px"
                                         objectFit="cover"
-                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.following.userId}
-                                        alt={values.following.fName + " " + values.following.lName}
+                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.anotherUserId}
+                                        alt={values.scoreReceiver.fName + " " + values.scoreReceiver.lName}
                                     /> : <Image
                                         borderRadius="full"
                                         boxSize="78px"
                                         objectFit="cover"
                                         src={NoProfileImg}
-                                        alt={values.following.fName + " " + values.following.lName}
+                                        alt={values.scoreReceiver.fName + " " + values.scoreReceiver.lName}
                                     />}
                                 <Center>
                                     <Text ml="30px" fontSize="20px">
-                                        {values.following.fName}
+                                        {values.scoreReceiver.fName}
                                         &nbsp;
-                                        {values.following.lName}
+                                        {values.scoreReceiver.lName}
                                     </Text>
                                 </Center>
                             </Flex>
-                            <DatingRatingAllStar defaultFill={values.following.receiveRate.score} rateFor={values.following.userId} />
+                            <DatingRatingAllStar defaultFill={values.score} rateFor={values.anotherUserId} />
                         </Box>
                     </Box>
                 )
             })}
-            <Box pb="60px"></Box>
-        </AppBody>
+
+
+            {/* {globalThis.followR.map((values) => {
+                console.log("Check value " + values)
+                return (
+                    <Box >
+                        <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
+                            <Flex>
+                                {values.image ?
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
+                                        alt={values.fName + " " + values.lName}
+                                    /> : <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={NoProfileImg}
+                                        alt={values.fName + " " + values.lName}
+                                    />}
+                                <Center>
+                                    <Text ml="30px" fontSize="20px">
+                                        {values.fName}
+                                        &nbsp;
+                                        {values.lName}
+                                    </Text>
+                                </Center>
+                            </Flex>
+                            {/* Need defaultFill from database 
+            <DatingRatingAllStar defaultFill={2} rateFor={values.userId} />
+        </Box>
+                    </Box >
+                )
+            })} * /}
+    <Box Box pb = "60px" ></Box >
+    */}
+        </AppBody >
     )
 }
 
