@@ -1,24 +1,32 @@
-import { Flex, Text, SimpleGrid, color, Box } from "@chakra-ui/react"
+import { Flex, Text, SimpleGrid, color, Box, useBoolean } from "@chakra-ui/react"
 import NavCommunity from "src/components/group/NavCommunity"
 import AppBody from "src/components/share/app/AppBody"
 import { userData } from "../../data"
 import { communityData } from "../../communityData"
 import MemberBox from "src/components/group/MemberBox"
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import API from "src/function/API"
 
 const Member = () => {
+    let { communityID }: any = useParams()
+    const [community, setCommunity] = useState<any>()
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
+    useEffect(() => {
+        API.get("/group/getCommunityId/" + communityID)
+            .then((res) => setCommunity(res.data))
+            .catch((err) => on())
+            .finally(() => off())
+    }, [])
+
     return (
         <AppBody>
             <NavCommunity
-                communityName="Passakorn group"
-                isPrivate={false}
+                communityID  = {communityID}
                 isMember={true}
-                description={
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto laborum cumque nemo veniam amet fugiat beatae, quo magni eum voluptatem eligendi nesciunt numquam odio autem ex quaerat totam. At, facilis."
-                }
-                coverPhoto="https://picsum.photos/id/400/800"
                 members={10}
-                communityID={1000}
-                tags={userData.Tag}
                 activeBtn={2}
             />
             <Flex direction={{ base: "column-reverse", md: "row" }} gap={2} align="flex-start" mb={4}>

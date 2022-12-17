@@ -7,21 +7,39 @@ import AppBody from "../../components/share/app/AppBody"
 import { useNavigate } from "react-router-dom"
 import { authContext } from "src/context/AuthContext"
 import API from "src/function/API"
+import Comments from "src/components/shopreview/Comments"
 
 const myreview = () => {
     const [myReviews, setMyReview] = useState<any>([])
-    const getMyReview = API.get("/shopreview/getmyreview")
+    const getMyReview = API.get("/shopreview/getmyreviewDb")
     useEffect(() => {
         getMyReview.then((res) => {
             setMyReview(res.data)
         })
     }, [])
-   
+    const [myReviews2, setMyReview2] = useState<any>([])
+    // const getMyReview2 = API.get("/shopreview/getmyreviewDb2")
+    // useEffect(() => {
+    //     getMyReview2.then((res) => {
+    //         setMyReview2(res.data)
+    //     })
+    // }, [])
+    const [myComments, setMyComment] = useState<any>([])
+    const getMyComment = API.get("/shopreview/getmycommentDb")
+    useEffect(() => {
+        getMyComment.then((res) => {
+            setMyComment(res.data)
+        })
+    }, [])
 
     const user = useContext(authContext)
     const navigate = useNavigate()
     const navigateHome = () => {
         navigate("/shopreview")
+    }
+    function Navigate(target: any) {
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
     }
 
     return (
@@ -34,37 +52,58 @@ const myreview = () => {
             </Flex>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myReviews.map((item: any) => {
-                    if (item.userId === user?.userId) {
+                    console.log(item)
+                    if (item.reviewer.userId === user?.userId) {
                         return (
-                            <Myreview
-                                image={
-                                    "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                                }
-                                name={String(user?.fName) + " " + String(user?.lName)}
-                                ment={item.text}
-                                date={item.reviewdAt}
-                                am_like={item.likeReceived}
-                                ratting={item.rating}
-                            />
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <Myreview
+                                    image={item.images[0]}
+                                    name={String(user?.fName) + " " + String(user?.lName)}
+                                    ment={item.text}
+                                    date={String(item.reviewedAt).substring(0, 10)}
+                                    am_like={item.likeReceived}
+                                    ratting={item.rating}
+                                    shopName="shopname"
+                                />
+                            </b>
                         )
                     }
-                    // else {
-                    //     return <Text>Now you don't have any review.</Text>
-                    // }
                 })}
-                <Myreview
-                    image={
-                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
+                {/* {myReviews2.map((item: any) => {
+                    if (item.userId === user?.userId) {
+                        return (
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <Myreview
+                                    image={
+                                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
+                                    }
+                                    name={String(user?.fName) + " " + String(user?.lName)}
+                                    ment={item.text}
+                                    date={String(item.reviewedAt).substring(0, 10)}
+                                    am_like={item.likeReceived}
+                                    ratting={item.rating}
+                                />
+                            </b>
+                        )
                     }
-                    name={String(user?.fName) + " " + String(user?.lName)}
-                    ment={"Love this so much!!!"}
-                    date={"2577/12/27"}
-                    am_like={"8"}
-                    ratting={"5"}
-                />
+                })} */}
+            </SimpleGrid>
+            <Container mt={5} textAlign={"center"}>
+                That's all for your review~
+            </Container>
+            <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
+            <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
+                {myComments.map((item: any) => {
+                    console.log(item)
+                    if (item.commentBy.userId === user?.userId) {
+                        return (
+                            <Comments image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={item.commentedAt} />
+                        )
+                    }
+                })}
             </SimpleGrid>
             <Container my={5} textAlign={"center"}>
-                That's all~
+                That's all for your comment~
             </Container>
         </AppBody>
     )

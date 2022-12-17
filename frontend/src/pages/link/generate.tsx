@@ -13,7 +13,7 @@ import {
     useToast,
     Editable,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import { Input } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -29,6 +29,9 @@ import {
     PopoverAnchor,
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import API from "src/function/API"
+
 const generate = () => {
     const navigate = useNavigate()
     const password = () => {
@@ -45,7 +48,15 @@ const generate = () => {
     }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
+    const [link, setLink] = useState("")
+    const [generated, setGenerated] = useState("")
     const toast = useToast()
+
+    const generateLink = async () => {
+        const response = await API.post("http://localhost:8000/shortlink/generate", { originalLink: link }) //axios will call Http
+        setGenerated(response.data.result.shortenLink)
+        // console.log(response.data)
+    }
 
     const breakpoints = {
         sm: "320px",
@@ -58,7 +69,7 @@ const generate = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"300px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -79,20 +90,20 @@ const generate = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} />
+                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} backgroundColor={"white"}/>
                                 </Center>
                             </Box>
                         </Box>
                         <Box h="70px" w={"100%"}>
                             <Center>
-                                <Editable
-                                    defaultValue="Take some chakra"
+                                <Editable 
                                     w={"75%"}
                                     height={"60px"}
                                     border={"4px"}
                                     borderColor={"black"}
                                     rounded={"md"}
-                                ></Editable>
+                                    textAlign="center"
+                                >{generated != "" ? "http://localhost:8000/shortlink/redirect?shorten=" : ""}{generated}</Editable>
                             </Center>
                         </Box>
                     </VStack>
@@ -103,12 +114,12 @@ const generate = () => {
 
             <Center>
                 {" "}
-                <Box width={"80%"} height={"200px"} background={"#D9D9D9"} borderRadius="20px" marginTop={"1%"}>
+                <Box width={"80%"} height={"200px"} background={"orange.200"} borderRadius="20px" marginTop={"1%"}>
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <Center>
                                 <ButtonGroup gap={2}>
-                                    <Button colorScheme="yellow" w={"100px"} height={"60px"}>
+                                    <Button colorScheme="yellow" w={"100px"} height={"60px"} onClick={generateLink}>
                                         GENERATE
                                     </Button>
                                     <Popover>

@@ -1,6 +1,25 @@
-import { Box, Button, Center, Flex, Stack, Textarea, useBreakpointValue } from "@chakra-ui/react"
+import { Box, Button, Center, color, Flex, Input, Stack, Textarea, useBreakpointValue } from "@chakra-ui/react"
 import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react"
-const CommentBar = () => {
+import API from "src/function/API"
+import { useParams } from 'react-router-dom'
+const CommentBar: any = (autoFocus = false) => {
+
+    const [Text, setText] = useState<any>("")
+
+    let param = useParams()
+    const onComment = () => {
+        API.post<any>("/shopreview/postcomment", {
+            CommentText: Text,
+            commentId: param.commentId
+        }).then((res) => {
+            console.log(res)
+            window.location.reload()
+        })
+
+    }
+    function handleSubmit(c: any) {
+        c.preventDefault()
+    }
     return (
         <Center>
             <Box
@@ -13,14 +32,20 @@ const CommentBar = () => {
                 p={2}
                 border={"1px solid rgba(0, 0, 0, 0.1)"}
             >
-                <Stack direction="row" alignItems="center">
-                    <Flex>
-                        <Box mb={5} height={"20px"}>
-                            <Textarea rows={1} cols={150} placeholder="Type your comment" />
-                        </Box>
-                    </Flex>
-
-                    <Button colorScheme="teal" size={"lg"} width={"60"} mt={2} mr={2}>
+                <Stack direction="row" alignItems="center" onSubmit={handleSubmit}>
+                    <Box mb={5} height={"20px"} width={{ base: "500%" }}>
+                        <Center>
+                            <Input
+                                width={"100%"}
+                                placeholder="Type your comment"
+                                autoFocus={autoFocus}
+                                value={Text}
+                                type={"text"}
+                                onChange={e => setText(e.target.value)}
+                            /></Center>
+                    </Box>
+                    <Button colorScheme="orange" size={"lg"} width={{ base: "50%", lg: "80%" }} mt={2} mr={2}
+                        cursor={"pointer"} onClick={onComment}>
                         Comment
                     </Button>
                 </Stack>
@@ -29,3 +54,4 @@ const CommentBar = () => {
     )
 }
 export default CommentBar
+

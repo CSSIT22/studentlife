@@ -1,9 +1,26 @@
 import express from "express"
+import getRest from "./routes/getres"
 import getShop from "./routes/getshop"
+import getshopImage from "./routes/getshopImage"
+import getshopTry from "./routes/getshopDb"
+import getshopDb from "./routes/getshopDb"
+import getrestDb from "./routes/getrestDb"
+import getmyreviewDb from "./routes/getmyreviewDb"
+import getmyreviewDb2 from "./routes/getmyreviewDb2"
+import postcomment from "./routes/postcommentDb"
+import getmycommentDb from "./routes/getmycommentDb"
+import getreviewDb from "./routes/getreviewDb"
+import getcommentDb from "./routes/getcommentDb"
+import getresDbPls from "./routes/getresDbPls"
+import getcountRate from "./routes/getcountRate"
+import postmyreview from "./routes/postMyreview"
+import postimage from "./routes/postImage"
 
 const shopreviewRoutes = express()
 
 shopreviewRoutes.use(express.json())
+const multer = require("multer")
+const upload = multer()
 export type Shop = {
     shopId: String
     name: String
@@ -176,6 +193,41 @@ export let Shop_Review: Review[] = [
     },
 ]
 
+export type Comment = {
+    commentId: String
+    likeReceived: String
+    userId: String
+    text: String
+    shopId: String
+    commentAt: String
+}
+export let Comments: Comment[] = [
+    {
+        commentId: "1",
+        likeReceived: "4",
+        userId: "EvVintMSeelruxFce0vH3",
+        text: "+1",
+        shopId: "2",
+        commentAt: "2067/1/18",
+    },
+    {
+        commentId: "2",
+        likeReceived: "7",
+        userId: "EvVintMSeelruxFce0vH3",
+        text: "+2",
+        shopId: "6",
+        commentAt: "2077/2/25",
+    },
+    {
+        commentId: "3",
+        likeReceived: "45",
+        userId: "7",
+        text: "+1",
+        shopId: "4",
+        commentAt: "2047/12/10",
+    },
+]
+
 export const getAllShop = () => shops
 
 export const getAllRestaurant = () => restaurants
@@ -184,14 +236,31 @@ shopreviewRoutes.get("/getshop", (req, res) => {
     res.send(shops)
 })
 
-shopreviewRoutes.get("/getmyreview", (req, res) => {
-    res.send(Shop_Review)
-})
+shopreviewRoutes.get("/getshopDb", getshopDb)
+shopreviewRoutes.get("/getrestDb", getrestDb)
+shopreviewRoutes.get("/getmyreviewDb", getmyreviewDb)
+// review for shop review
+// shopreviewRoutes.get("/getmyreviewDb2", getmyreviewDb2)
+// review for restaurant review
+shopreviewRoutes.get("/getmycommentDb", getmycommentDb)
+shopreviewRoutes.get("/getshopImageDb", getshopImage)
+shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
+shopreviewRoutes.get("/shopdetails/restaurant/:id", getrestDb)
+shopreviewRoutes.get("/getreview/:id", getreviewDb)
+shopreviewRoutes.get("/getcommentDb/:id", getcommentDb)
+shopreviewRoutes.get("/getcountRate", getcountRate)
 
 shopreviewRoutes.get("/getrestaurant", (req, res) => {
     res.send(restaurants)
 })
 
-shopreviewRoutes.get("/getshop/:id", getShop)
+shopreviewRoutes.get("/getcomment", (req, res) => {
+    res.send(Comments)
+})
+
+shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
+shopreviewRoutes.get("/shopdetails/restaurant/:id", getRest)
+shopreviewRoutes.post("/postmyreview", upload.array("upload"), postmyreview)
+shopreviewRoutes.post("/postimage", postimage)
 
 export default shopreviewRoutes

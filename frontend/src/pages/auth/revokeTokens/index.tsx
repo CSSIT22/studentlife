@@ -201,7 +201,7 @@ const index = () => {
                                                 <Text color={"white"} fontSize={"2xl"}>
                                                     Device {index + 1}
                                                 </Text>
-                                                <Box bg={"white"} borderRadius={"full"} w={["100%", "100%", "100%", "100%"]} h={"100%"}>
+                                                <Box bg={"white"} borderRadius={"full"} w={"100%"} h={"100%"}>
                                                     {item.detail.deviceInfo === "desktop" && (
                                                         <Flex alignItems={"center"} justifyContent={"center"}>
                                                             <Icon as={MdDesktopWindows} w="50%" h="166" justifySelf={"center"} alignSelf={"center"} />

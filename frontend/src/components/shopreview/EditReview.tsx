@@ -22,12 +22,12 @@ const EditReview = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        {/* <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" onClick={undefined} rating={0} /> */}
 
                         <Textarea
                             colorScheme="white"
                             focusBorderColor="black"
-                            placeholder="Add review"
+                            placeholder="Add Review"
                             marginTop={"5"}
                             minHeight={"100px"}
                             maxHeight={"200px"}
@@ -55,8 +55,8 @@ const EditReview = () => {
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button bgColor={"green"} color="white">
-                            Submit
+                        <Button colorScheme={"green"} color="white">
+                            Save
                         </Button>
                     </ModalFooter>
                 </ModalContent>

@@ -23,7 +23,7 @@ export function DatingOptionMultipleChoose(props: any) {
             {...htmlProps}
             onClick={(e: any) => {
                 props.handelClick(props.value)
-                console.log("Original : " + props.value)
+                // console.log("Original : " + props.value)
             }}
         >
             <Flex alignItems="center" justifyContent="center" border="2px solid" borderColor="#E65300" w={4} h={4} {...getCheckboxProps()}>

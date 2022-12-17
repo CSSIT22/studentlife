@@ -44,6 +44,7 @@ const Zone: FC<{
                         <Flex mb={3} direction={"row"} justifyContent={"center"}>
                             <SelectZone handleSetZones={handleSetZones} name={"หน้ามอ"} />
                             <SelectZone handleSetZones={handleSetZones} name={"หลังมอ"} />
+                            <SelectZone handleSetZones={handleSetZones} name={"Library"} />
                         </Flex>
                         <br></br>
                     </PopoverBody>
