@@ -4,7 +4,7 @@ import CancelButton from "../../../components/blog/cancleButton"
 import CommentButton from "../../../components/blog/CommentButton"
 import EmojiReaction from "../../../components/blog/EmojiReaction"
 import Optionbutton from "../../../components/blog/Optionbutton"
-import PostImage from "../../../components/blog/PostImage"
+import PostImage from "../../../components/blog/PostFile"
 import PostText from "../../../components/blog/PostText"
 import PostType_modal from "../../../components/blog/PostType_modal"
 import Profile from "../../../components/blog/Profile"
@@ -16,15 +16,17 @@ import { CiYoutube, CiImageOn } from "react-icons/ci"
 import TextAreaPost from "../../../components/blog/TextAreaPost"
 import ImageInsert from "../../../components/blog/ImageInsert"
 import VideoInsert from "../../../components/blog/VideoInsert"
-import PostButton from "../../../components/annoucement/PostButton"
+import PostButton from "../../../components/blog/PostButton"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import User from "../../link/data/user"
 
+
 const Create = () => {
     const param = useParams()
     const [text, setText] = useState<any>("")
+    const [files, setFiles] = useState<any>([])
     // const [post, setPost] = useState<any>("")
     const navigate = useNavigate()
     const user = useContext(authContext)
@@ -35,10 +37,18 @@ const Create = () => {
     //         /**ตรงนี้ๆ */
     //     })
     // })
+
     const submit = () => {
-        API.post<any>("/blog/postCreatingX", {
-            body: text
-        })
+        const form = new FormData();
+        form.append("text", text);
+        form.append("upload", files);
+        API.post<any>("/blog/postCreatingX",
+            form, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        )
             .then((res) => navigate("/"))
     }
 
@@ -66,9 +76,9 @@ const Create = () => {
                     <TextAreaPost onChange={e => setText(e.target.value)} />
 
                     <Center>
-                        <ImageInsert />
+                        <ImageInsert children files={files} setFiles={setFiles} />
                         <Spacer />
-                        <VideoInsert />
+                        <VideoInsert children files={files} setFiles={setFiles} />
                     </Center>
                     <Center>
                         <Box marginTop={"6"}>

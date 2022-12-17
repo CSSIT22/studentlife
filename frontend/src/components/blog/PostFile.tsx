@@ -1,19 +1,19 @@
 import { Center, Box, Image } from "@chakra-ui/react"
 import React, { FC } from "react"
 
-const PostImage: FC<{
-    image: string
-}> = ({ image }) => {
+const PostFile: FC<{
+    file: string
+}> = ({ file }) => {
     return (
         <Box marginTop={4}>
             <Center>
-                <Image src={`${image}`} alt="PostImage" objectFit={"cover"} boxSize="500px" />
+                <Image src={`${file}`} alt="PostImage" objectFit={"cover"} boxSize="500px" />
             </Center>
         </Box>
     )
 }
 
-export default PostImage
+export default PostFile
 
 // Modal project (Still unfinish)
 

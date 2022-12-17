@@ -27,7 +27,7 @@ import { AiFillAccountBook } from "react-icons/ai"
 import Profile from "../../../components/blog/Profile"
 import Optionbutton from "../../../components/blog/Optionbutton"
 import PostText from "../../../components/blog/PostText"
-import PostImage from "../../../components/blog/PostImage"
+import PostFile from "../../../components/blog/PostFile"
 import EmojiReaction from "../../../components/blog/EmojiReaction"
 import CommentButton from "../../../components/blog/CommentButton"
 import RemodButton from "../../../components/blog/RemodButton"
@@ -42,6 +42,7 @@ import { useParams } from "react-router-dom"
 const Home = () => {
 
     const param = useParams()
+    // const [file, setFile,] = useState<any>(null)
     const [post, setPost,] = useState<any>(null)
     // const getData = API.get("/blog/searchPost/" + param.postId)
     useEffect(() => {
@@ -86,6 +87,10 @@ const Home = () => {
                         text={post.body}
                     />}
                     {/* <PostImage image="" /> */}
+                    {post &&
+                        <PostFile file={post.imageAddress}
+                        />}
+
                     <Center>
                         <Box marginTop={"6"} display="flex" gap={10}>
                             <Box>
