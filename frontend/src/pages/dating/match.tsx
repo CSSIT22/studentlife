@@ -9,6 +9,8 @@ import ChatImg from "../../components/dating/pic/chat.png"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
+import { HeartReceiver } from "@apiType/dating"
+import { motion } from "framer-motion"
 
 
 const DatingMatch = () => {
@@ -17,6 +19,7 @@ const DatingMatch = () => {
     const toast = useToast()
     const [poll, setPoll] = useState([])
     let count = 1
+    const [heartGiver, setHeartGiver] = useState<HeartReceiver[]>([])
     const [isError, setIsError] = useState(false)
     const [isLoading, { off }] = useBoolean(true)
     useEffect(() => {
@@ -113,7 +116,7 @@ const DatingMatch = () => {
         API.get("/dating/matches/getMatches").then((data) => {
             console.log(data.data)
             setPoll(data.data)
-        })
+        }).catch(() => setIsError(true)).finally(off)
     }, [])
 
 
@@ -144,95 +147,206 @@ const DatingMatch = () => {
         }
     }
 
+    function goToProfile(userId: string) {
+        navigate("/user/" + userId)
+    }
+
+    const [giveToUser, setGiveToUser] = useState<
+        | {
+            UserId: string
+            isSkipped: boolean
+        }[]
+        | {
+            UserId: string
+            isSkipped: boolean
+        }[]
+    >([])
+
+    console.log(poll);
+
 
     return (
         <DatingAppBody>
-            <Box mb="20px">
-                {/* // Big Heading */}
-                <GridItem pt="5" pl="2" area={"topic"} >
-                    <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
-                        You are match with
-                    </Heading>
-                </GridItem>
-            </Box>
-            {isLoading || isError ? <></>:
-            <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md:"35%"}}>
-                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
-                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                        Right now, you don't have any new matches.
-                    </Text>
-                </Box>}
-            <Box>
-                {poll.map((values: any) => {
-                    return (
-                        <Box w="100%"
-                            height={{ base: "90px", md: "100px" }}
-                            backgroundColor="white"
-                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                            borderRadius="10px"
-                            mt="5px"
-                            key={values.userId}
-                            mb={{ base: "8px", md: "12px" }}
-                            display="flex">
+            {isLoading || isError ? <></> : <>
+                <Box mb="20px">
+                    <GridItem pt="5" pl="2" area={"topic"} >
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 20,
+                            }}>
+                            <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
+                                You are match with
+                            </Heading>
+                        </motion.div>
+                    </GridItem>
+                </Box>
 
-
-                            <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
-
-                                {values.image ?
-                                    <Image
-                                        borderRadius="full"
-                                        boxSize={{ base: "50px", md: "78px" }}
-                                        objectFit="cover"
-                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
-                                        alt={values.fName + " " + values.lName}
-                                    /> : <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={NoProfileImg}
-                                        alt={values.fName + " " + values.lName}
-                                    />
-                                }
-
-                                {isMobile ? (
-                                    <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
-                                        {values.fName}
-                                        &nbsp;
-                                        {values.lName}
-                                    </Text>
-                                ) : (
-                                    <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
-                                        {values.fName}
-                                        &nbsp;
-                                        {values.lName}
-                                    </Text>
-                                )
-                                }
-                            </Box>
-                            <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                                <Button
-                                    borderRadius="full"
-                                    w={{ base: "50px", md: "72px" }}
-                                    h={{ base: "50px", md: "72px" }}
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 360,
+                        damping: 20,
+                    }}>
+                    <Box>
+                        {poll.map((values: any) => {
+                            return (
+                                <Box w="100%"
+                                    height={{ base: "90px", md: "100px" }}
                                     backgroundColor="white"
-                                    border="1px solid"
-                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
-                                    <Image src={ChatImg} />
-                                </Button>
-                            </Box>
-                        </Box>
-                    )
-                })}
-            </Box>
-            {
-                (isLoading) && !isError ? (
-                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                        <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.4" }} />
-                    </Box>
-                ) : (
-                    <></>
-                )
+                                    boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                                    borderRadius="10px"
+                                    mt="5px"
+                                    key={values.userId}
+                                    mb={{ base: "8px", md: "12px" }}
+                                    display="flex"
+                                // cursor="pointer"
+                                // onClick={() => goToProfile(values.userId)}
+                                >
+
+
+
+                                    <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
+                                        <motion.div
+                                            initial={
+                                                { cursor: "pointer" }
+                                            }
+                                            whileHover={{ scale: 1.2, }}
+                                            whileTap={{
+                                                scale: 0.8,
+                                            }}
+                                        >
+                                            {values.image ?
+                                                <Image
+                                                    borderRadius="full"
+                                                    boxSize={{ base: "50px", md: "78px" }}
+                                                    objectFit="cover"
+                                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
+                                                    alt={values.fName + " " + values.lName}
+                                                    cursor="pointer"
+                                                    onClick={() => goToProfile(values.userId)}
+                                                /> : <Image
+                                                    borderRadius="full"
+                                                    boxSize="78px"
+                                                    objectFit="cover"
+                                                    src={NoProfileImg}
+                                                    alt={values.fName + " " + values.lName}
+                                                    cursor="pointer"
+                                                    onClick={() => goToProfile(values.userId)}
+                                                />
+                                            }
+                                        </motion.div>
+                                        {isMobile ? (
+                                            <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
+                                                {values.fName}
+                                                &nbsp;
+                                                {values.lName}
+                                            </Text>
+                                        ) : (
+                                            <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
+                                                {values.fName}
+                                                &nbsp;
+                                                {values.lName}
+                                            </Text>
+                                        )
+                                        }
+                                    </Box>
+                                    <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
+                                        <motion.div
+                                            initial={
+                                                { cursor: "pointer" }
+                                            }
+                                            whileHover={{ scale: 1.2, }}
+                                            whileTap={{
+                                                scale: 0.8,
+                                            }}
+                                        >
+                                            <Button
+                                                borderRadius="full"
+                                                w={{ base: "50px", md: "72px" }}
+                                                h={{ base: "50px", md: "72px" }}
+                                                backgroundColor="white"
+                                                border="1px solid"
+                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
+                                                <Image src={ChatImg} />
+                                            </Button>
+                                        </motion.div>
+                                    </Box>
+                                </Box>
+                            )
+                        })}
+                    </Box></motion.div></>}
+
+
+            {!(isLoading || isError) && poll.length == 0 &&
+                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "25%" }}>
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} /></motion.div>
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                            Right now, you don't have any new matches.
+                        </Text></motion.div>
+                </Box>
             }
+
+
+            {(isLoading) && !isError ? (
+                <>
+                    <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 20,
+                            }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                        </motion.div>
+                    </Box>
+                    <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                        <motion.div
+                            initial={{
+                                opacity: 0,
+                                y: `0.25em`
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: `0em`,
+                                transition: {
+                                    duration: 1,
+                                    ease: [0.2, 0.65, 0.3, 0.9],
+                                }
+                            }}
+                        >
+                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                LOADING
+                            </Text>
+                        </motion.div>
+                    </Box>
+                </>
+            ) : (
+                <></>
+            )}
 
             {
                 isError ? (

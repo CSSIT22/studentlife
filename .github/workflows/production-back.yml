@@ -1,10 +1,10 @@
-name: ✨ Deploy to staging
+name: 🎅 Deploy to Production
 
 on:
   push:
     branches:
-      - staging
       # - infra-*
+      - main
     paths:
       - "backend/**"
 
@@ -30,24 +30,24 @@ jobs:
           context: .
           file: ./backend/Dockerfile
           push: true
-          tags: modlifes/backend:latest
+          tags: modlifes/p-backend:latest
 
   deploy:
     name: 🖨️ deploy to server
     runs-on: ubuntu-latest
-    environment: staging
+    environment: develop
     timeout-minutes: 5
     needs: [build]
     steps:
       - name: remote ssh
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.STAGING_SSH_HOST }}
-          username: ${{ secrets.STAGING_SSH_USERNAME }}
-          password: ${{ secrets.STAGING_SSH_PASSWORD }}
+          host: ${{ secrets.PRODUCTION_SSH_HOST }}
+          username: ${{ secrets.PRODUCTION_SSH_USERNAME }}
+          password: ${{ secrets.PRODUCTION_SSH_PASSWORD }}
           script: |
-            cd ${{secrets.PATH_STAGING}}
-            docker pull modlifes/backend:latest
-            echo '${{secrets.BACKEND_STAGING_ENV}}' > .env
-            docker-compose up --detach backend
+            cd ${{secrets.PATH_PRODUCTION}}
+            docker pull modlifes/p-backend:latest
+            echo '${{secrets.BACKEND_PRODUCTION_ENV}}' > .env
+            docker-compose up --detach production-backend
             docker system prune -af

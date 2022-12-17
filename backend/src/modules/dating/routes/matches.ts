@@ -18,7 +18,7 @@ matchesRoutes.get("/getMatches", verifyUser, async (req: Request, res: Response)
         const hearthistoryDB = await prisma.$queryRawUnsafe<any[]>(
             `SELECT * FROM "Heart_History" h1
         INNER JOIN "Heart_History" h2 ON h2."anotherUserId" = h1."userId" AND h2."userId" = h1."anotherUserId"
-        WHERE h1."userId" = $1`,
+        WHERE h1."userId" = $1 AND h1."isSkipped" = false AND h2."isSkipped" = false`,
             reqUserId
         )
         // return res.send(hearthistoryDB)

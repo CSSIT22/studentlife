@@ -46,13 +46,14 @@ import EditReview from "./EditReview"
 import RatingStar from "./RatingStar"
 import ShopName from "./ShopName"
 
-const Myreview: FC<{ image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
+const Myreview: FC<{ shopName: String; image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
     image,
     name,
     ment,
     date,
     am_like,
     ratting,
+    shopName,
 }) => {
     const [show, setShow] = React.useState(false)
     const handleToggle = () => setShow(!show)
@@ -174,7 +175,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                     ></img>
                     { }
                 </Box>
-                <ShopName name="ข้าวมันไก่ป้าตุ๊ก" />
+                <ShopName name={shopName} />
                 <AmountLike am_like={am_like} />
                 {/* ดีงข้อมูลมาจาก database */}
                 <AmountRate ratting={ratting} />
