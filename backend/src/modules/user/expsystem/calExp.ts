@@ -52,7 +52,7 @@ export const calExp = async (prisma: PrismaClient, userId: string, exp: expType)
                 },
                 create: {
                     userId: userId,
-                    level: 0,
+                    level: 1,
                 },
             })
         } else {
