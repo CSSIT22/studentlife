@@ -5,7 +5,8 @@ const getFile = async (req: Request | any, res: Response | any) => {
     const user = await req.user?.userId
     const fileID = req.params.fileid
     //forward file to front
-    const getFileFromService = await axios
+    try{
+        const getFileFromService = await axios
         .get(`https://drive.modlifes.me/${fileID}`, {
             headers: {
                 Authorization: "Bearer GjkhtiJ12!",
@@ -16,6 +17,15 @@ const getFile = async (req: Request | any, res: Response | any) => {
             const file = fileRes.data
             res.header("Content-Type", fileRes.headers["content-type"])
             res.send(file)
+        }).catch((err:any)=>{
+            if(err){
+                console.log("file not found")
+            }
         })
+    }catch(err){
+        console.log(err);
+        
+    }
+
 }
 export default getFile
