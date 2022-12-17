@@ -70,7 +70,7 @@ const Room = () => {
            setmsg(s)
         })
         return ()=>{
-            socketIO.off("receive-message")
+            socketIO.off(`receive-message-${param.rooomID}`)
         }
     },[])
 
