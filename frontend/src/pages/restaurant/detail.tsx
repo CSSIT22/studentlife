@@ -40,7 +40,9 @@ import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom"
 import { friend } from "./data/friend"
 import API from "src/function/API"
-
+import Lottie from 'lottie-react'
+import loading1 from './animation/loading1.json'
+import notloading2 from './animation/notloading2.json'
 
 
 
@@ -112,7 +114,11 @@ function detail() {
                     { name: "My History", to: "/restaurant/history" },
                 ]}
             >
-                <Heading color={"black"}>Loading</Heading>
+                <Box w={"100%"} h={"100%"}>
+                    <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
+                        <Lottie animationData={loading1} style={{ scale: 1 }} />
+                    </Flex>
+                </Box>
             </AppBody>
         )
 
@@ -124,11 +130,16 @@ function detail() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Heading color={"red"}> There is an Error</Heading>
+
+            <Box width="100%" height="100%">
+                <Flex justifyContent={"center"} alignItems={"center"} width="100%" height="100%" mt={"8rem"}>
+                    <Lottie animationData={notloading2} style={{ scale: 1 }} />
+                </Flex>
+            </Box>
         </AppBody>
     )
     // console.log(parseInt(new URLSearchParams(location.search).get("id") + "") + 1 > parseInt(new URLSearchParams(location.search).get("total") + "") - 1 ? 0 : parseInt(new URLSearchParams(location.search).get("id") + "") + 1);
-    
+
     return (
         <AppBody
             secondarynav={[
@@ -145,9 +156,9 @@ function detail() {
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    
-                                        <CloseButton my={-4} ml={-1} onClick={() => nextres()}/>
-                                   
+
+                                    <CloseButton my={-4} ml={-1} onClick={() => nextres()} />
+
 
                                     <Heading textAlign={"center"} fontWeight="bold" color={"#E65300"}>
                                         {e1.resName}
