@@ -1,5 +1,5 @@
 import { post } from "@apiType/announcement"
-import { Box, Flex, Grid, GridItem, Heading, Spacer, Text } from "@chakra-ui/react"
+import { Box, Flex, Grid, GridItem, Heading, Spacer, Text, useBreakpointValue } from "@chakra-ui/react"
 import React, { FC, useState } from "react"
 import { BsPinAngle, BsPinAngleFill } from "react-icons/all"
 import { Link } from "react-router-dom"
@@ -28,17 +28,36 @@ const PostOnAnnouncementPage: FC<{
         setStat(!stat)
         API.post<post>("/announcement/editpinstatus", { postId: id, pinStatus: !status })
     }
-
+    const isMobile = useBreakpointValue({
+        base: false,
+        md: true
+    })
     return (
         <Box height={"5rem"} width={"100%"} p="5" mt="5" backgroundColor="white" rounded="lg" shadow={"md"} _hover={{ backgroundColor: "rgb(243 244 246)" }}
         >
             <Grid templateColumns="8fr 1fr" gap={4}>
                 <GridItem h="10">
                     <Link to={`/announcement/detail/${id}`}>
-                        <Box>
-                            <Heading size={"sm"}>{topic}</Heading>
-                            <Text fontSize={"xs"}>{sender}</Text>
-                        </Box>
+                        <>
+                            {(() => {
+                                if (!isMobile) {
+                                    return (
+                                        <Box>
+                                            <Heading size={"sm"} overflow={"hidden"} whiteSpace="nowrap" textOverflow="ellipsis" width="250px" >{topic}</Heading>
+                                            <Text fontSize={"xs"}>{sender}</Text>
+                                        </Box>
+                                    )
+                                } else {
+                                    return (
+                                        <Flex flexDirection={"column"} justifyContent="center" height={"100%"}>
+                                            <Heading size={"sm"} >{topic}</Heading>
+                                            <Text fontSize={"xs"}>{sender}</Text>
+                                        </Flex>
+                                    )
+                                }
+                            })()}
+                        </>
+
                     </Link>
                 </GridItem>
 
