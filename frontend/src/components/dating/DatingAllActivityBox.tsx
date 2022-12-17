@@ -7,7 +7,7 @@ import { useToast } from "@chakra-ui/react"
 // import { INTERESTS } from "./shared/interests"
 import API from "src/function/API"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
-import { Polls } from "@apiType/dating"
+import { ApplyPoll, Polls } from "@apiType/dating"
 
 
 declare global {
@@ -18,17 +18,21 @@ declare global {
 const DatingAllActivityBox = () => {
     const params = useParams()
     // const [poll, setPoll] = useState(POLL)
-    const [poll, setPoll] = useState<Polls[]>()
-    // const [interests, setInterests] = useState(INTERESTS)
-    const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
+    const [poll, setPoll] = useState<Polls[]>([])
+    const [userId, setUserId] = useState<string>("")
+    // const [interests, setInterests] = useuseState<string>("")State(INTERESTS)
+    // const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
     let count = 1
     useEffect(() => {
         if (count != 0) {
             count--
             API.get("/dating/allpoll/getAllPoll").then((data) => {
                 setPoll(data.data)
-                console.log("Poll data " + data.data);
-                console.log("Poll raw data " + data.data[0].pollName);
+                // console.log("Poll data " + data.data);
+                // console.log("Poll raw data " + data.data[0].userId);
+            }).catch((err) => console.log(err));
+            API.get("/dating/allpoll/getAllPollUserId").then((data) => {
+                setUserId(data.data)
             }).catch((err) => console.log(err));
         }
     }, [])
@@ -42,19 +46,24 @@ const DatingAllActivityBox = () => {
 
     const toast = useToast()
     function handleApply(pId: string, apState: boolean) {
+        const now = new Date()
+        now.setHours(now.getHours() + 7);
+        // console.log(pId + " s: " + apState)
         apState ? (
             <></>
         ) : (
             // If user apply -> tost, add data to db, change button state
-            (appiled(pId),
-                toast({
-                    title: "Applied success",
-                    description: "You have registered for the poll. Now you can chat with the poll creator.",
-                    status: "success",
-                    duration: 4500,
-                    isClosable: true,
-                    position: "top",
-                }))
+            API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now })
+                .catch((err) => console.log(err))
+            // (appiled(pId),
+            //     toast({
+            //         title: "Applied success",
+            //         description: "You have registered for the poll. Now you can chat with the poll creator.",
+            //         status: "success",
+            //         duration: 4500,
+            //         isClosable: true,
+            //         position: "top",
+            //     }))
         )
     }
 
@@ -82,14 +91,14 @@ const DatingAllActivityBox = () => {
     }
 
     // Check for applied poll (Need data from database)
-    function isApply(pId: string) {
-        for (let i = 0; i < pollApplicant.length; i++) {
-            if (pId === pollApplicant[i].poll_id) {
-                return true
-            }
-        }
-        return false
-    }
+    // function isApply(pId: string) {
+    //     for (const element of poll) {
+    //         if (pId === element.pollId) {
+    //             return true
+    //         }
+    //     }
+    //     return false
+    // }
 
     // Make the number of people into correct grammar
     function handlePeople(min: number, max: number) {
@@ -107,6 +116,7 @@ const DatingAllActivityBox = () => {
             {poll ?
                 poll.map((values: Polls) => {
                     // For set the apply state only
+                    // const [applyState, setApplyState] = useState(isApply(values.pollId))
                     globalThis.date = handlePollDate(values.pollAppointAt)
                     globalThis.time = hanlePollTime(values.pollAppointAt)
                     return (
@@ -175,49 +185,67 @@ const DatingAllActivityBox = () => {
                             </Text>
                             <Flex justifyContent="end">
                                 {/* Check if poll open or close to display different button */}
-                                {/* {values.isOpen ? (
-                                    If the poll have been applied user can click to navigate to appiledpoll page
-                                    <Link to={applyState ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
+                                {values.pollCreator.userId !== userId ?
+                                    (values.isOpen ? (
+                                        // If the poll have been applied user can click to navigate to appiledpoll page
+                                        <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
+                                            <Box
+                                                display="flex"
+                                                cursor="pointer"
+                                                w="150px"
+                                                m="10px"
+                                                mt="20px"
+                                                pr="40px"
+                                                pl="40px"
+                                                backgroundColor={values.participants.length != 0 ? "#B24000" : "#E65300"}
+                                                borderRadius="5px"
+                                                justifyContent="center"
+                                                alignItems="center"
+                                                onClick={() => {
+                                                    handleApply(values.pollId, values.participants.length != 0)
+                                                    // , setApplyState(true)
+                                                }}
+                                            >
+                                                <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                    {values.participants.length != 0 ? "Applied" : "Apply"}
+                                                </Text>
+                                            </Box>
+                                        </Link>
+                                    ) : (
                                         <Box
                                             display="flex"
                                             cursor="pointer"
                                             w="150px"
                                             m="10px"
-                                            mt="20px"
+                                            mt="30px"
                                             pr="40px"
                                             pl="40px"
-                                            backgroundColor={applyState ? "#B24000" : "#E65300"}
+                                            backgroundColor={"grey"}
                                             borderRadius="5px"
                                             justifyContent="center"
                                             alignItems="center"
-                                            onClick={() => {
-                                                handleApply(values.pollId, applyState), setApplyState(true)
-                                            }}
                                         >
                                             <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                {applyState ? "Applied" : "Apply"}
+                                                Closed
                                             </Text>
                                         </Box>
-                                    </Link>
-                                ) : (
-                                    <Box
+                                    )
+                                    ) : (<Box
                                         display="flex"
-                                        cursor="pointer"
-                                        w="150px"
+                                        w="300px"
                                         m="10px"
                                         mt="30px"
-                                        pr="40px"
-                                        pl="40px"
-                                        backgroundColor={"grey"}
-                                        borderRadius="5px"
+                                        pr="-20px"
+                                        pl="140px"
                                         justifyContent="center"
                                         alignItems="center"
+                                        color="gray.600"
                                     >
-                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                            Closed
+                                        <Text fontWeight="500" fontSize="20px" lineHeight="120%" textAlign="center" >
+                                            This is your poll.
                                         </Text>
-                                    </Box>
-                                )} */}
+                                    </Box>)
+                                }
                             </Flex>
                         </Box>
                     )

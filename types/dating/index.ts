@@ -176,6 +176,7 @@ export type Rating = {
 };
 
 export type Polls = {
+  userId: string;
   pollCreator: {
     userId: string;
     fName: string;
@@ -210,4 +211,11 @@ export type Polls = {
       interestName: true;
     };
   }[];
+};
+
+export type ApplyPoll = {
+  userId: string;
+  pollId: string;
+  isAccepted: boolean;
+  registerTime: Date;
 };

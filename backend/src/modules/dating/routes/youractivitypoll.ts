@@ -66,7 +66,7 @@ yourActivityPollRoutes.get("/getYourPolls", verifyUser, async (req: Request, res
                         },
                     },
                     orderBy: {
-                        registerTime: "desc",
+                        registerTime: "asc",
                     },
                 },
                 interests: {
