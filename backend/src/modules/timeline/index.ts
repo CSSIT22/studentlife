@@ -3,6 +3,7 @@ import express from "express"
 import editedPost from "./routes/editspost"
 import getPostList from "./routes/getPostList"
 import getReacted from "./routes/getReacted"
+import getStudentPost from "./routes/getStudentPost"
 import getUserName from "./routes/getUserName"
 import searchPost from "./routes/searchpost"
 
@@ -92,6 +93,8 @@ timelineRoutes.get("/getPostList", getPostList)
 timelineRoutes.get("/getUserName", getUserName)
 
 timelineRoutes.get("/getReacted", getReacted)
+
+timelineRoutes.get("/getStudentPost", getStudentPost)
 
 timelineRoutes.post("/editspost", editedPost)
 

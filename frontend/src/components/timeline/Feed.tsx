@@ -16,41 +16,42 @@ import AnnounceList from "../annoucement/AnnounceList"
 export const Feed = () => {
     const [posts, setposts] = useState<any>([])
     // const getData = API.get("/timeline/getposts") old mockup data
-    const getPost = API.get("/timeline/getPostList") // data from database
+    // const getPost = API.get("/timeline/getPostList") // data from database
+    const getPost = API.get("/timeline/getStudentPost")
     useEffect(() => {
         getPost.then(res => {
             setposts(res.data)
-            console.log(res.data)
         })
     }, [])
+    console.log(posts)
 
     return (
         <VStack>
             <AnnounceList />
             <FriendSuggestion></FriendSuggestion>
             <CreateButton></CreateButton>
-            {posts.map((item: any, index: any) => (
+            {posts.map((postDt: any, index: any) => (
                 <div key={index}>
-                    {item.posts.map((detail: any, n: number) => (
+                    {postDt.posts?.map((userProDt: any, n: number) => (
                         <Box marginTop={"2"} p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} overflow="hidden" fontWeight="semibold">
                             <HStack>
-                                <Avatar size="md" name={item?.fname} src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item?.userId} />
+                                <Avatar size="md" name={userProDt?.fName} src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + postDt?.userId} />
                                 <VStack spacing="0.5" align={"-moz-initial"}>
-                                    <Text align="left">{item?.fName} {item?.lName}</Text>
+                                    <Text align="left">{userProDt?.fName} {userProDt?.lName}</Text>
                                     <Text align="left" color="gray.500" fontWeight="semibold" fontSize="xs">
-                                        {detail.lastEdit}
+                                        {postDt.lastEdit}
                                     </Text>
                                 </VStack>
                             </HStack>
-                            <Container p="1" fontWeight="normal" key={n}>
-                                {detail.body}
+                            <Container p="1" fontWeight="normal">
+                                {postDt.body}
 
-                                <Image src={item.media} alt="" p="1" fit={"cover"} />
+                                <Image src={userProDt.media} alt="" p="1" fit={"cover"} />
                             </Container>
                             <HStack spacing="0.5">
                                 <Icon as={AiFillLike} color="#E65300"></Icon>
                                 <Text p="1" fontSize="xs">
-                                    {item.likes} {item.comments} {item.shares}
+                                    {postDt.likes} {postDt.comments} {postDt.shares}
                                 </Text>
                                 <Icon as={AiOutlineShareAlt}></Icon>
                             </HStack>
