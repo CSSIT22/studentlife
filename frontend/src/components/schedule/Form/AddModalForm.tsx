@@ -70,107 +70,123 @@ const AddModalForm = () => {
     }
     return (
         <>
-            <Box>
-                <FormControl isRequired>
+           
+               <FormControl isRequired>
+                <FormLabel color="black">
+                    <Text fontSize={{ base: "20px", md: "24px" }}>Event name</Text>
+                </FormLabel>
+                <Input
+                    id="name"
+                    type="text"
+                    value={event}
+                    onChange={(e) => handleInputEventChange(e)}
+                    maxLength={100}
+                    isRequired
+                    placeholder="What's your event?"
+                    boxShadow="md"
+                    bgColor="white"
+                />
+            </FormControl>
+
+            <FormControl mt={4}>
+                <FormLabel color="black">
+                    <Text fontSize={{ base: "20px", md: "24px" }}>Description</Text>
+                </FormLabel>
+                <Textarea
+                    id="description"
+                    isRequired
+                    value={description}
+                    onChange={handleInputDescriptionChange}
+                    placeholder="Description"
+                    size="md"
+                    boxShadow="md"
+
+                />
+            </FormControl>
+
+            <Box display={{ md: "flex" }} >
+                <FormControl mt={4} pr="4">
                     <FormLabel color="black">
-                        <Text fontSize={{ base: "20px", md: "24px" }}>Event name</Text>
+                        <Text fontSize={{ base: "20px", md: "24px" }}>Start Time</Text>
                     </FormLabel>
-                    <Input
-                        id="name"
-                        type="text"
-                        value={event}
-                        onChange={(e) => handleInputEventChange(e)}
-                        maxLength={100}
-                        isRequired
-                        placeholder="What's your event?"
-                    />
+                    <Input placeholder="Select time" size="xs"
+                        id="time"
+                        type="datetime-local"
+                        value={time}
+                        onChange={(e) => { handleInputTimeChange(e) }}
+                        boxShadow="md" />
                 </FormControl>
 
-                <FormControl mt={4}>
-                    <FormLabel color="black">
-                        <Text fontSize={{ base: "20px", md: "24px" }}>Description</Text>
+                <FormControl mt={4} pr="4">
+                    <FormLabel color="black" >
+                        <Text fontSize={{ base: "20px", md: "24px" }}>End Time</Text>
                     </FormLabel>
-                    <Textarea
-                        id="description"
-                        isRequired
-                        value={description}
-                        onChange={handleInputDescriptionChange}
-                        placeholder="Description"
-                        size="md"
+                    <Input placeholder="Select time"
+                        size="xs"
+                        type="datetime-local"
+                        onChange={(e) => { handleInputEndTimeChange(e) }} 
+                        boxShadow="md"/>
 
-                    />
                 </FormControl>
 
-                <Flex>
-                    <FormControl mt={4}>
-                        <FormLabel color="black">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>Start Time</Text>
-                        </FormLabel>
-                        <Input placeholder="Select time" size="xs"
-                            id="time"
-                            type="datetime-local"
-                            value={time}
-                            onChange={(e) => { handleInputTimeChange(e) }} />
-                    </FormControl>
-
-                    <FormControl mt={4}>
-                        <FormLabel color="black">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>End Time</Text>
-                        </FormLabel>
-                        <Input placeholder="Select time"
-                            size="xs"
-                            type="datetime-local"
-                            onChange={(e) => { handleInputEndTimeChange(e) }} />
-                            
-                    </FormControl>
-                    
-                    <FormControl mt={4}>
-                        <FormLabel color="black">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>Event Type</Text>
-                        </FormLabel>
-                        <Select placeholder="Select Event Type" width="151px" height="32px" onChange={(e) => { handleSelectType(e) }}>
+                <FormControl mt={4} >
+                    <FormLabel color="black">
+                        <Text fontSize={{ base: "20px", md: "24px" }}>Event Type</Text>
+                    </FormLabel>
+                    <Box>
+                        <Select placeholder="Select Event Type"
+                            boxShadow="md"
+                            onChange={(e) => { handleSelectType(e) }}
+                            size='sm'>
                             <option value="Course">Course</option>
                             <option value="Assignment">Assignment</option>
                             <option value="Activity">Activity</option>
                         </Select>
-                    </FormControl>
-                </Flex>
-                <FormControl mt={4}>
-                    <FormLabel color="black">
-                        <Text fontSize={{ base: "20px", md: "24px"}}>Location</Text>
-                    </FormLabel>
-                    <Input
-                        id="location"
-                        type="text"
-                        value={location}
-                        onChange={(e) => {
-                            setLocationInput("")
-                            handleInputLocationChange(e)
-                        }}
-                        maxLength={100}
-                        isRequired
-                        placeholder="Place/ Platform"
-                    />
-                </FormControl>
+                    </Box>
 
-                <FormControl display="flex" alignItems="center">
-                    <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)} />
-                    <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4}>
-                        Notification
-                    </FormLabel>
                 </FormControl>
-                <HStack mt={5} w="100%" justifyContent={"flex-end"}>
-                    <Button
-                        colorScheme="blue"
-                        width="239px"
-                        height="40px"
-                        bg="#E65300"
-                        type="submit"
-                        onClick={handleSubmit}>
-                        Add
-                    </Button>
-                </HStack>
             </Box>
+
+
+            <FormControl mt={4}>
+                <FormLabel color="black">
+                    <Text fontSize={{ base: "20px", md: "24px" }}>Location</Text>
+                </FormLabel>
+                <Input
+                    id="location"
+                    type="text"
+                    value={location}
+                    onChange={(e) => {
+                        setLocationInput("")
+                        handleInputLocationChange(e)
+                    }}
+                    maxLength={100}
+                    isRequired
+                    placeholder="Place/ Platform"
+                    boxShadow="md"
+                />
+            </FormControl>
+
+            <FormControl display="flex" alignItems="center">
+                <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)} />
+                <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4}>
+                    Notification
+                </FormLabel>
+            </FormControl>
+            <HStack mt={5} w="100%" justifyContent={"flex-end"}>
+                <Button
+                    colorScheme="blue"
+                    width="239px"
+                    height="40px"
+                    bg="#E65300"
+                    type="submit"
+                    onClick={handleSubmit}>
+                    Add
+                </Button>
+            </HStack> 
+            
+            
+
 
         </>
     )

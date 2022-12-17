@@ -10,12 +10,13 @@ const AddEventModal: FC<{
         base: true,
         md: false,
     })
-    return (
+    return ( 
         <Modal id="addButton" 
         initialFocusRef={initialRef} 
         finalFocusRef={finalRef} 
         isOpen={modal1.isOpen} 
         onClose={modal1.onClose} size="full">
+            
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>

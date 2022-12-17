@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, Text } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, Text, Button, HStack, Box } from '@chakra-ui/react'
 import React from 'react'
 
 export const editEventForm = () => {
@@ -9,45 +9,56 @@ export const editEventForm = () => {
                 <FormLabel color="black">
                     <Text fontSize="24px">Event name</Text>
                 </FormLabel>
-                <Input placeholder="Meeting with PM" />
+                <Input placeholder="Meeting with PM" boxShadow="md"/>
             </FormControl>
 
             <FormControl mt={4}>
                 <FormLabel color="black">
                     <Text fontSize="24px">Description</Text>
                 </FormLabel>
-                <Textarea placeholder="Detail about event" size="md" />
+                <Textarea placeholder="Detail about event" size="md" boxShadow="md"/>
             </FormControl>
 
-            <Flex>
-                <FormControl mt={4}>
+            <Box display={{ md: "flex"}}>
+                <FormControl mt={4} pr="4">
                     <FormLabel color="black">
                         <Text fontSize="24px">Start Time</Text>
                     </FormLabel>
-                    <Input placeholder="Select time" size="xs" type="time" />
+                    <Input placeholder="Select time" 
+                    size="xs" 
+                    type="datetime-local" 
+                    boxShadow="md"/>
                 </FormControl>
 
-                <FormControl mt={4}>
+                <FormControl mt={4} pr="4">
                     <FormLabel color="black">
                         <Text fontSize="24px">End Time</Text>
                     </FormLabel>
-                    <Input placeholder="Select time" size="xs" type="time" />
+                    <Input placeholder="Select time" 
+                    size="xs" 
+                    type="datetime-local"
+                    boxShadow="md" />
                 </FormControl>
 
                 <FormControl mt={4}>
                     <FormLabel color="black">
                         <Text fontSize="24px">Event Type</Text>
                     </FormLabel>
-                    <Select placeholder="Select Event Type" width="151px" height="32px">
+                    <Select placeholder="Select Event Type" 
+                    size="sm"
+                    boxShadow="md">
                         <option>Course</option>
                         <option>Assignment</option>
                         <option>Activity</option>
                     </Select>
                 </FormControl>
-            </Flex>
+            </Box>
+                
+           
             <FormControl mt={4}>
                 <FormLabel color="black">Location</FormLabel>
-                <Input placeholder="Place/ Platform" />
+                <Input placeholder="Place/ Platform"
+                boxShadow="md" />
             </FormControl>
 
             <FormControl display="flex" alignItems="center">
@@ -56,6 +67,11 @@ export const editEventForm = () => {
                     Notification
                 </FormLabel>
             </FormControl>
+            <HStack mt={5} w="100%" justifyContent={"flex-end"}>
+            <Button colorScheme="blue" width="239px" height="40px" bg="#E1AB20">
+                        Edit
+                    </Button>
+                </HStack>
         </>
     )
 }

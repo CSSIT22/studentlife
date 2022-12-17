@@ -1,25 +1,31 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, ModalFooter, Button, Text } from '@chakra-ui/react'
+import { ChevronLeftIcon } from '@chakra-ui/icons'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, ModalFooter, Button, Text, useBreakpointValue, Box } from '@chakra-ui/react'
 import React, { FC } from 'react'
 import EditEventForm from '../Form/editEventForm'
 
 const editEventModal: FC<{
     modal2: any
 }> = ({ modal2 }) => {
+    const isMobile = useBreakpointValue({
+        base: true,
+        md: false,
+    })
     return (
-        <Modal id="editEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="xl">
+        <Modal id="editEvent" isOpen={modal2.isOpen} onClose={modal2.onClose} size="full">
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader color="black">
-                    <Text fontSize="3xl">Edit Event</Text>
+                    {isMobile ? <Box onClick={modal2.onClose}><ChevronLeftIcon /></Box> : <></>}
+                    <Text fontSize="3xl" fontWeight='bold'>
+                        Edit Event
+                    </Text>
                 </ModalHeader>
-                <ModalCloseButton />
+                {isMobile ? <></> : <ModalCloseButton />}
                 <ModalBody>
-                <EditEventForm />
+                    <EditEventForm />
                 </ModalBody>
                 <ModalFooter>
-                    <Button colorScheme="blue" width="239px" height="40px" bg="#E1AB20">
-                        Edit
-                    </Button>
+
                 </ModalFooter>
             </ModalContent>
         </Modal>
