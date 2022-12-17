@@ -1,11 +1,15 @@
-import { Avatar, Box, Center, Container, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react"
+import { Avatar, Flex, Box, Center, Container, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillLike, AiOutlineShareAlt } from "react-icons/ai"
 import API from "src/function/API"
 import AppBody from "../share/app/AppBody"
 import Feed from "./Feed"
 import { Postdata } from "./Postdata"
-
+import EmojiReaction from "../blog/EmojiReaction"
+import CommentButton from "../blog/CommentButton"
+import RemodButton from "../blog/RemodButton"
+import Optionbutton from "../blog/Optionbutton"
+import EmojiFeelingTelling from "../blog/EmojiFeelingTelling"
 // export type PostProps = { // <= Previous way to get Post properties
 //     id: string
 //     name: string
@@ -28,10 +32,11 @@ export const Post = (/*props: PostProps*/) => {
     let sortedScore = Postdata.sort((a, b) => (a.score > b.score ? -1 : 1))
 
     const renderPost = sortedScore.map((item) =>
-        <VStack p="1"> // if we're not using VStack & p="3" here, our posts will have no padding between each of them.. โพสต์ติดกันไม่มีช่องว่าง
-            <Box p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} overflow="hidden" fontWeight="semibold">
+        <VStack p="3"> // if we're not using VStack & p="3" here, our posts will have no padding between each of them.. โพสต์ติดกันไม่มีช่องว่าง
+            <Box width={"100%"} padding={5} background={"white"} rounded={"lg"} shadow={"lg"}>
                 <Text align="right"> score: {item.score} </Text>
-                <HStack>
+                <Flex justifyContent="flex-end" marginTop={"10px"}><Optionbutton /></Flex>
+                <HStack marginTop={"-60px"}>
                     <Avatar size="md" name={item.name} src={item.avatar} />
                     <VStack spacing="0.5" align={"-moz-initial"}>
                         <Text align="left">{item.name}</Text>
@@ -44,13 +49,22 @@ export const Post = (/*props: PostProps*/) => {
                     {item.message}
                     <Image src={item.media} alt="" p="1" fit={"cover"} />
                 </Container>
-                <HStack spacing="0.5">
-                    <Icon as={AiFillLike} color="#E65300"></Icon>
-                    <Text p="1" fontSize="xs">
-                        {item.likes} {item.comments} {item.shares}
-                    </Text>
-                    <Icon as={AiOutlineShareAlt}></Icon>
-                </HStack>
+                <Center>
+                    <Box marginTop={"6"} display="flex" gap={10}>
+                        <Box>
+                            <EmojiReaction />
+                        </Box>
+                        <Box>
+                            <EmojiFeelingTelling number={item.likes} emotion=" LIKES" />
+                        </Box>
+                        <Box>
+                            <CommentButton />
+                        </Box>
+                        <Box>
+                            <RemodButton />
+                        </Box>
+                    </Box>
+                </Center>
             </Box>
         </VStack>
     )
