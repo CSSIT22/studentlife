@@ -16,14 +16,23 @@ appliedPollRoutes.get("/getAppliedPolls", verifyUser, async (req: Request, res: 
     try {
         const poll = await prisma.poll_Applicant.findMany({
             where: {
-                userId: req.user?.userId
-            },include: {
-                poll: {include: {
-                    pollCreator: true
-                }}
-            }
+                userId: req.user?.userId,
+            },
+            include: {
+                poll: {
+                    include: {
+                        pollCreator: true,
+                        participants: true,
+                        interests: {
+                            include: {
+                                interest: true,
+                            },
+                        },
+                    },
+                },
+            },
         })
-        return res.send(poll)
+        return res.send(poll.map((i) => ({ ...i, poll: { ...i.poll, interests: i.poll.interests.map((j) => ({ interest: j.interest })) } })))
 
         const userName = await prisma.user_Profile.findMany()
         return res.send(userName)
@@ -32,7 +41,6 @@ appliedPollRoutes.get("/getAppliedPolls", verifyUser, async (req: Request, res: 
         const statusPoll = await prisma.poll_Applicant.findMany()
         return res.send(statusPoll)
         res.send(statusPoll)
-
     } catch (err) {
         return res.status(500).send("Applied poll not found")
     }

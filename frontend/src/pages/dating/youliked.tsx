@@ -231,15 +231,12 @@ const YouLiked = () => {
                     </Box>
                 </Center>
 
-<<<<<<< Updated upstream
-=======
 
                 {isMobile ? (
                 <Box mt="80px"></Box>
             ) : (
                 <Box mt="10px"></Box>
             )}
->>>>>>> Stashed changes
 
                 <Box
                     display={{ base: "grid", md: "block" }}

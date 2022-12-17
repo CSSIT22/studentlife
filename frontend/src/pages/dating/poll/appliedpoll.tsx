@@ -34,17 +34,16 @@ import ChatImg from "../../../components/dating/pic/chat.png"
 import GroupChatImg from "../../../components/dating/pic/groupchat.png"
 import { POLL } from "src/components/dating/shared/poll"
 import { motion } from "framer-motion"
-<<<<<<< Updated upstream
+import ModalPoll from "src/components/dating/DatingYourPollSeeMore"
 import DatingLoading from "../../../components/dating/lottie/DatingLoading.json"
-=======
->>>>>>> Stashed changes
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import { PollInfo } from "@apiType/dating"
 
 const YourAppliedActivityPoll = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
-    const [poll, setPoll] = useState<typeof POLL>([])
+    const [poll, setPoll] = useState<PollInfo[]>([])
     const { isOpen, onOpen, onClose } = useDisclosure()
     let count = 1
     const [isLoading, setIsLoading] = useState(true)
@@ -154,21 +153,36 @@ const YourAppliedActivityPoll = () => {
 
     useEffect(() => {
         API.get("/dating/appliedpoll/getAppliedPolls").then((data) => {
+            // setInfo(data.data)
             setPoll(
+
                 data.data.map((item: any) => ({
                     ...item,
                     ...item.poll,
-                    creator: {
-                        ...item.poll.pollCreator,
-                        Fname: item.poll.pollCreator.fName,
-                        Lname: item.poll.pollCreator.lName,
-                        url: (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item.poll.pollCreator.userId
-                    },
-                    pollStatus: item.isAccepted ? "Accepted" : "Pending...",
+                    pollStatus: item.isAccepted ? "Accepted" : "Pending..."
+
+                    // creator: {
+                    //     ...item.poll.pollCreator,
+                    //     Fname: item.poll.pollCreator.fName,
+                    //     Lname: item.poll.pollCreator.lName,
+                    //     img: {
+                    //         type: item.poll.pollCreator.type,
+                    //         data: item.poll.pollCreator.data
+                    //     },
+                    //     url: (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item.poll.pollCreator.userId
+                    // },
+                    // participants: [
+                    //     ...item.poll.participants,
+                    // ],
+                    // interests: [
+                    //     ...item.poll.interests
+                    // ],
+                    // pollStatus: item.isAccepted ? "Accepted" : "Pending...",
                 }))
             )
         }).catch(on).finally(() => setIsLoading(false))
     }, [])
+    console.log(poll)
 
     const isMobile = useBreakpointValue({
         base: false,
@@ -188,46 +202,51 @@ const YourAppliedActivityPoll = () => {
         navigate("/user/" + userId)
     }
 
+    function handleChat(id: string) {
+        setIsLoading(true)
+        API.post<{ chatWith_id: string }>("/chat/createRoom", { chatWith_id: id }).then(() => navigate("/chat/"))
+    }
+
     return (
         <DatingAppBody>
             {isLoading && !isError ? (
-            <>
-                <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 360,
-                            damping: 20,
-                        }}>
-                        <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
-                    </motion.div>
-                </Box>
-                <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
-                    <motion.div
-                        initial={{
-                            opacity: 0,
-                            y: `0.25em`
-                        }}
-                        animate={{
-                            opacity: 1,
-                            y: `0em`,
-                            transition: {
-                                duration: 1,
-                                ease: [0.2, 0.65, 0.3, 0.9],
-                            }
-                        }}
-                    >
-                        <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
-                            LOADING
-                        </Text>
-                    </motion.div>
-                </Box>
-            </>
-        ) : (
-            <></>
-        )}
+                <>
+                    <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 20,
+                            }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                        </motion.div>
+                    </Box>
+                    <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                        <motion.div
+                            initial={{
+                                opacity: 0,
+                                y: `0.25em`
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: `0em`,
+                                transition: {
+                                    duration: 1,
+                                    ease: [0.2, 0.65, 0.3, 0.9],
+                                }
+                            }}
+                        >
+                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                LOADING
+                            </Text>
+                        </motion.div>
+                    </Box>
+                </>
+            ) : (
+                <></>
+            )}
 
             {isError ?
                 <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
@@ -256,11 +275,12 @@ const YourAppliedActivityPoll = () => {
                 </Box>
             </Center>
 
-<<<<<<< Updated upstream
                 <Box mt="130px"></Box>
                 {/* Test 2: click to see more at medium bottom + group chat and chat button */}
                 <Box>
                     {poll.map((values) => {
+                        console.log("v", values);
+
                         return (
                             <Box
                                 backgroundColor="white"
@@ -284,8 +304,8 @@ const YourAppliedActivityPoll = () => {
                                     </Box>
                                     <Spacer />
                                     <Box>
-                                        <Badge mt="17px" mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus(values.pollStatus)}>
-                                            {values.pollStatus}
+                                        <Badge mt="17px" mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus((values as any).pollStatus)}>
+                                            {(values as any).pollStatus}
                                         </Badge>
                                     </Box>
                                 </Flex>
@@ -294,21 +314,30 @@ const YourAppliedActivityPoll = () => {
                                     <Box pt="6" pb="6">
                                         {isMobile ? (
                                             <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
-                                                {values.creator.Fname}
+                                                {values?.pollCreator?.fName}
                                                 &nbsp;
-                                                {values.creator.Lname}
+                                                {values?.pollCreator?.lName}
                                             </Text>
                                         ) : (
                                             <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
-                                                {values.creator.Fname}
+                                                {values?.pollCreator?.fName}
                                                 &nbsp;
-                                                {values.creator.Lname}
+                                                {values?.pollCreator?.lName}
                                             </Text>
                                         )}
                                     </Box>
                                     <Spacer />
                                     <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                                        {values.pollStatus == "Accepted" ? <Button
+                                        {(values as any).pollStatus == "Accepted" ? <motion.div
+                                            initial={
+                                                { cursor: "pointer" }
+                                            }
+                                            whileHover={{ scale: 1.2, }}
+                                            whileTap={{
+                                                scale: 0.8,
+                                            }}
+                                            onClick={() => navigate("/chat/")}
+                                        ><Button
                                             borderRadius="full"
                                             w={{ base: "50px", md: "72px" }}
                                             h={{ base: "50px", md: "72px" }}
@@ -317,9 +346,18 @@ const YourAppliedActivityPoll = () => {
                                             mr={{ base: "12px", md: "24px" }}
                                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                         >
-                                            <Image src={GroupChatImg} />
-                                        </Button> : <></>}
-                                        <Button
+                                                <Image src={GroupChatImg} />
+                                            </Button></motion.div> : <></>}
+                                        <motion.div
+                                            initial={
+                                                { cursor: "pointer" }
+                                            }
+                                            whileHover={{ scale: 1.2, }}
+                                            whileTap={{
+                                                scale: 0.8,
+                                            }}
+                                            onClick={() => navigate("/chat/")}
+                                        ><Button
                                             borderRadius="full"
                                             w={{ base: "50px", md: "72px" }}
                                             h={{ base: "50px", md: "72px" }}
@@ -327,13 +365,13 @@ const YourAppliedActivityPoll = () => {
                                             border="1px solid"
                                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                         >
-                                            <Image src={ChatImg} />
-                                        </Button>
+                                                <Image src={ChatImg} />
+                                            </Button></motion.div>
                                     </Box>
                                 </Flex>
 
-                                <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px">
-                                    <Text
+                                <Box display="flex" w="100%" justifyContent="right" pt="10px" mr="30px">
+                                    {/* <Text
                                         lineHeight="150%"
                                         color="black"
                                         fontWeight="400"
@@ -344,194 +382,15 @@ const YourAppliedActivityPoll = () => {
                                         onClick={onOpen}
                                     >
                                         Click to see more
-                                    </Text>
+                                    </Text> */}
 
-                                    <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
-                                        {/* <ModalOverlay /> */}
-                                        <ModalContent>
-                                            <ModalHeader>
-                                                <Flex alignItems="center">
-                                                    <Image
-                                                        borderRadius="full"
-                                                        boxSize="78px"
-                                                        objectFit="cover"
-                                                        src={values.creator.url}
-                                                        alt={values.creator.Fname + " " + values.creator.Lname}
-                                                    />
-                                                    <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
-                                                        {values.creator.Fname}
-                                                        &nbsp;
-                                                        {values.creator.Lname}
-                                                    </Text>
-                                                </Flex>
-                                            </ModalHeader>
-                                            <ModalCloseButton />
-                                            <ModalBody>
-                                                <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
-                                                    {values.pollName}
-                                                </Heading>
-                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
-                                                    {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
-                                                </Text>
-                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                    Location: {values.pollPlace}
-                                                </Text>
-                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                    Date: {globalThis.date}
-                                                </Text>
-                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                    Time: {globalThis.time}
-                                                </Text>
-                                                <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
-                                                    Number of people: {handlePeople(values.participantMin, values.participantMax)}
-                                                </Text>
-                                            </ModalBody>
-                                        </ModalContent>
-                                    </Modal>
+                                    {values && <ModalPoll pollInfo={values} />}
                                 </Box>
                             </Box>
                         )
                     })}
-                </Box></>}
-=======
-            <Box mt="130px"></Box>
-
-            {/* Test 2: click to see more at medium bottom + group chat and chat button */}
-            <Box>
-                {poll.map((values) => {
-                    return (
-                        <Box
-                            backgroundColor="white"
-                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                            borderRadius="10px"
-                            mb={{ base: "8px", md: "25px" }}
-                        >
-                            <Flex>
-                                <Box>
-                                    <Text
-                                        pt="17px"
-                                        pl="30px"
-                                        pr="31px"
-                                        color="black"
-                                        fontWeight="700"
-                                        fontSize={{ base: "20px", md: "26px" }}
-                                        lineHeight="120%"
-                                    >
-                                        {values.pollName}
-                                    </Text>
-                                </Box>
-                                <Spacer />
-                                <Box>
-                                    <Badge mt="17px" mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus(values.pollStatus)}>
-                                        {values.pollStatus}
-                                    </Badge>
-                                </Box>
-                            </Flex>
-
-                            <Flex>
-                                <Box pt="6" pb="6">
-                                    {isMobile ? (
-                                        <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
-                                            {values.creator.Fname}
-                                            &nbsp;
-                                            {values.creator.Lname}
-                                        </Text>
-                                    ) : (
-                                        <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
-                                            {values.creator.Fname}
-                                            &nbsp;
-                                            {values.creator.Lname}
-                                        </Text>
-                                    )}
-                                </Box>
-                                <Spacer />
-                                <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                                    {values.pollStatus == "Accepted" ? <Button
-                                        borderRadius="full"
-                                        w={{ base: "50px", md: "72px" }}
-                                        h={{ base: "50px", md: "72px" }}
-                                        backgroundColor="white"
-                                        border="1px solid"
-                                        mr={{ base: "12px", md: "24px" }}
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    >
-                                        <Image src={GroupChatImg} />
-                                    </Button> : <></>}
-                                    <Button
-                                        borderRadius="full"
-                                        w={{ base: "50px", md: "72px" }}
-                                        h={{ base: "50px", md: "72px" }}
-                                        backgroundColor="white"
-                                        border="1px solid"
-                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    >
-                                        <Image src={ChatImg} />
-                                    </Button>
-                                </Box>
-                            </Flex>
-
-                            <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px">
-                                <Text
-                                    lineHeight="150%"
-                                    color="black"
-                                    fontWeight="400"
-                                    fontSize={{ base: "14px", md: "16px" }}
-                                    as="u"
-                                    mb="20px"
-                                    cursor="pointer"
-                                    onClick={onOpen}
-                                >
-                                    Click to see more
-                                </Text>
-
-                                <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
-                                    {/* <ModalOverlay /> */}
-                                    <ModalContent>
-                                        <ModalHeader>
-                                            <Flex alignItems="center">
-                                                <Image
-                                                    borderRadius="full"
-                                                    boxSize="78px"
-                                                    objectFit="cover"
-                                                    src={values.creator.url}
-                                                    alt={values.creator.Fname + " " + values.creator.Lname}
-                                                />
-                                                <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
-                                                    {values.creator.Fname}
-                                                    &nbsp;
-                                                    {values.creator.Lname}
-                                                </Text>
-                                            </Flex>
-                                        </ModalHeader>
-                                        <ModalCloseButton />
-                                        <ModalBody>
-                                            <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
-                                                {values.pollName}
-                                            </Heading>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
-                                                {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                Location: {values.pollPlace}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                Date: {globalThis.date}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
-                                                Time: {globalThis.time}
-                                            </Text>
-                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
-                                                Number of people: {handlePeople(values.participantMin, values.participantMax)}
-                                            </Text>
-                                        </ModalBody>
-                                    </ModalContent>
-                                </Modal>
-                            </Box>
-                        </Box>
-                    )
-                })}
-            </Box>
->>>>>>> Stashed changes
+                </Box>
+            </>}
         </DatingAppBody>
     )
 }

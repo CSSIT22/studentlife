@@ -167,9 +167,26 @@ const DatingMatch = () => {
 
     return (
         <DatingAppBody>
-            {isLoading || isError ? <></> : <>
-                <Box mb="20px">
-                    <GridItem pt="5" pl="2" area={"topic"} >
+            {isLoading || isError ? <></> :
+                <>
+                    <Box mb="20px">
+                        <GridItem pt="5" pl="2" area={"topic"} >
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
+                                    You are match with
+                                </Heading>
+                            </motion.div>
+                        </GridItem>
+                    </Box>
+
+                    <Box>
                         <motion.div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
@@ -178,128 +195,99 @@ const DatingMatch = () => {
                                 stiffness: 360,
                                 damping: 20,
                             }}>
-                            <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
-                                You are match with
-                            </Heading>
+                            <Box>
+                                {poll.map((values: any) => {
+                                    return (
+                                        <Box w="100%"
+                                            height={{ base: "90px", md: "100px" }}
+                                            backgroundColor="white"
+                                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                                            borderRadius="10px"
+                                            mt="5px"
+                                            key={values.userId}
+                                            mb={{ base: "8px", md: "12px" }}
+                                            display="flex"
+                                        // cursor="pointer"
+                                        // onClick={() => goToProfile(values.userId)}
+                                        >
+
+
+
+                                            <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
+                                                <motion.div
+                                                    initial={
+                                                        { cursor: "pointer" }
+                                                    }
+                                                    whileHover={{ scale: 1.2, }}
+                                                    whileTap={{
+                                                        scale: 0.8,
+                                                    }}
+                                                >
+                                                    {values.image ?
+                                                        <Image
+                                                            borderRadius="full"
+                                                            boxSize={{ base: "50px", md: "78px" }}
+                                                            objectFit="cover"
+                                                            src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
+                                                            alt={values.fName + " " + values.lName}
+                                                            cursor="pointer"
+                                                            onClick={() => goToProfile(values.userId)}
+                                                        /> : <Image
+                                                            borderRadius="full"
+                                                            boxSize="78px"
+                                                            objectFit="cover"
+                                                            src={NoProfileImg}
+                                                            alt={values.fName + " " + values.lName}
+                                                            cursor="pointer"
+                                                            onClick={() => goToProfile(values.userId)}
+                                                        />
+                                                    }
+                                                </motion.div>
+                                                {isMobile ? (
+                                                    <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
+                                                        {values.fName}
+                                                        &nbsp;
+                                                        {values.lName}
+                                                    </Text>
+                                                ) : (
+                                                    <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
+                                                        {values.fName}
+                                                        &nbsp;
+                                                        {values.lName}
+                                                    </Text>
+                                                )
+                                                }
+                                            </Box>
+                                            <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
+                                                <motion.div
+                                                    initial={
+                                                        { cursor: "pointer" }
+                                                    }
+                                                    whileHover={{ scale: 1.2, }}
+                                                    whileTap={{
+                                                        scale: 0.8,
+                                                    }}
+                                                    onClick={() => navigate("/chat/")}
+                                                >
+                                                    <Button
+                                                        borderRadius="full"
+                                                        w={{ base: "50px", md: "72px" }}
+                                                        h={{ base: "50px", md: "72px" }}
+                                                        backgroundColor="white"
+                                                        border="1px solid"
+                                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
+
+                                                        <Image src={ChatImg} />
+                                                    </Button>
+                                                </motion.div>
+                                            </Box>
+                                        </Box>
+                                    )
+                                })}
+                            </Box>
                         </motion.div>
-                    </GridItem>
-                </Box>
-<<<<<<< Updated upstream
-=======
-
-            <Box>
-                {poll.map((values: any) => {
-                    return (
-                        <Box w="100%"
-                            height={{ base: "90px", md: "100px" }}
-                            backgroundColor="white"
-                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                            borderRadius="10px"
-                            mt="5px"
-                            key={values.userId}
-                            mb={{ base: "8px", md: "12px" }}
-                            display="flex"
-                            // cursor="pointer"
-                            // onClick={() => goToProfile(values.userId)}
-                            >
->>>>>>> Stashed changes
-
-                <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{
-                        type: "spring",
-                        stiffness: 360,
-                        damping: 20,
-                    }}>
-                    <Box>
-                        {poll.map((values: any) => {
-                            return (
-                                <Box w="100%"
-                                    height={{ base: "90px", md: "100px" }}
-                                    backgroundColor="white"
-                                    boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                                    borderRadius="10px"
-                                    mt="5px"
-                                    key={values.userId}
-                                    mb={{ base: "8px", md: "12px" }}
-                                    display="flex"
-                                // cursor="pointer"
-                                // onClick={() => goToProfile(values.userId)}
-                                >
-
-
-
-                                    <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
-                                        <motion.div
-                                            initial={
-                                                { cursor: "pointer" }
-                                            }
-                                            whileHover={{ scale: 1.2, }}
-                                            whileTap={{
-                                                scale: 0.8,
-                                            }}
-                                        >
-                                            {values.image ?
-                                                <Image
-                                                    borderRadius="full"
-                                                    boxSize={{ base: "50px", md: "78px" }}
-                                                    objectFit="cover"
-                                                    src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
-                                                    alt={values.fName + " " + values.lName}
-                                                    cursor="pointer"
-                                                    onClick={() => goToProfile(values.userId)}
-                                                /> : <Image
-                                                    borderRadius="full"
-                                                    boxSize="78px"
-                                                    objectFit="cover"
-                                                    src={NoProfileImg}
-                                                    alt={values.fName + " " + values.lName}
-                                                    cursor="pointer"
-                                                    onClick={() => goToProfile(values.userId)}
-                                                />
-                                            }
-                                        </motion.div>
-                                        {isMobile ? (
-                                            <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
-                                                {values.fName}
-                                                &nbsp;
-                                                {values.lName}
-                                            </Text>
-                                        ) : (
-                                            <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
-                                                {values.fName}
-                                                &nbsp;
-                                                {values.lName}
-                                            </Text>
-                                        )
-                                        }
-                                    </Box>
-                                    <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                                        <motion.div
-                                            initial={
-                                                { cursor: "pointer" }
-                                            }
-                                            whileHover={{ scale: 1.2, }}
-                                            whileTap={{
-                                                scale: 0.8,
-                                            }}
-                                        >
-                                            <Button
-                                                borderRadius="full"
-                                                w={{ base: "50px", md: "72px" }}
-                                                h={{ base: "50px", md: "72px" }}
-                                                backgroundColor="white"
-                                                border="1px solid"
-                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
-                                                <Image src={ChatImg} />
-                                            </Button>
-                                        </motion.div>
-                                    </Box>
-                                </Box>
-                            )
-                        })}
-                    </Box></motion.div></>}
+                    </Box>
+                </>}
 
 
             {!(isLoading || isError) && poll.length == 0 &&
