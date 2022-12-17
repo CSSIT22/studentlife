@@ -1,5 +1,5 @@
 import { AllInterests, HeartReceiver } from "@apiType/dating"
-import { Box, HStack, SimpleGrid, useBoolean, useBreakpointValue, useToast, Text } from "@chakra-ui/react"
+import { Box, HStack, SimpleGrid, useBoolean, useBreakpointValue, useToast, Text, Center } from "@chakra-ui/react"
 import Lottie from "lottie-react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -38,6 +38,7 @@ const YouLiked = () => {
     const [isLoading, { off }] = useBoolean(true)
     const [heartGiver, setHeartGiver] = useState<HeartReceiver[]>([])
     const [allInterests, setAllInterests] = useState<AllInterests[]>([])
+    const [allHeartGiver, setAllHeartGiver] = useState<HeartReceiver[]>([])
     // const [giveToUser, setGiveToUser] = useState<string[]>([])
 
     useEffect(() => {
@@ -128,7 +129,9 @@ const YouLiked = () => {
                     })
             })
             API.get("/dating/youliked/getHeartHistory").then((heart_history) => {
-                setHeartGiver(heart_history.data)
+                setAllHeartGiver(heart_history.data)
+                const data = heart_history.data
+                setHeartGiver(data.slice(0, 20))
             }).catch((err) => setIsError(true)).finally(off)
 
             API.get("/dating/youliked/getAllInterest").then((data) => {
@@ -145,6 +148,13 @@ const YouLiked = () => {
 
         return didMount
     }
+
+    window.addEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            if (heartGiver.length != allHeartGiver.length)
+                setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 20))
+        }
+    })
 
     const isMobile = useBreakpointValue({
         base: false,
@@ -166,15 +176,26 @@ const YouLiked = () => {
     return (
         <DatingAppBody>
             {isLoading || isError ? <>
-            </> : giveToUser.length == heartGiver.length ? <><Box display="flex" justifyContent="center">
-                <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
-                    <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
-                    <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
+            </> : giveToUser.length == heartGiver.length ? <><Center>
+                <Box
+                    mt={{ base: "-20px", md: "7px" }}
+                    pr="500px"
+                    pl="500px"
+                    pt={{ base: "-20px", md: "20px" }}
+                    zIndex="4"
+                    pb="30px"
+                    position="fixed"
+                    top={{ base: 20, md: 150 }}
+                    justifyContent="center"
+                    bg="#FFF2E5"
+                >
+                    <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
                         <DatingLikedYouButton backgroundColor="orange.800" />
                         <DatingYouLikedButton backgroundColor="orange.600" />
                     </HStack>
                 </Box>
-            </Box>
+            </Center><Box display="flex" justifyContent="center">
+                </Box>
                 <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
                     <motion.div
                         initial={{ scale: 0 }}
@@ -190,15 +211,26 @@ const YouLiked = () => {
                         </Text>
                     </motion.div>
 
-                </Box></> : <><Box display="flex" justifyContent="center">
-                    <Box bg="#FFF2E6" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} id="bottomBar">
-                        <Box maxW="100%" pt={{ base: "40px", md: "7px" }}></Box>
-                        <HStack gap={{ base: "20px", md: "100px" }} display="flex" justifyContent="center" pt={{ base: "40px", md: "30px" }} pb="30px">
+                </Box></> : <><Center>
+                    <Box
+                        mt={{ base: "-20px", md: "7px" }}
+                        pr="500px"
+                        pl="500px"
+                        pt={{ base: "-20px", md: "20px" }}
+                        zIndex="4"
+                        pb="30px"
+                        position="fixed"
+                        top={{ base: 20, md: 150 }}
+                        justifyContent="center"
+                        bg="#FFF2E5"
+                    >
+                        <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
                             <DatingLikedYouButton backgroundColor="orange.800" />
                             <DatingYouLikedButton backgroundColor="orange.600" />
                         </HStack>
                     </Box>
-                </Box>
+                </Center>
+
 
                 <Box
                     display={{ base: "grid", md: "block" }}

@@ -47,8 +47,7 @@ const DatingCheckDetails: FC<{
 
                 {Interests.map((i) => (
                     <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
+                        initial={{ scale: 1 }}
                         style={{ display: "inline-block" }}
                         whileTap={{ scale: 1 }}
                         whileHover={{ scale: 1.2, }}
