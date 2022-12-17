@@ -31,7 +31,12 @@ const index = () => {
     // fetch user's data
     async function getTokensInfo() {
         const getTokens = await api.get("/backendservice/tokens")
-        setTokens([...tokens, ...getTokens.data.tokens])
+        let tokenArr = getTokens.data.tokens
+        const currentDeviceTokenIndex = tokenArr.findIndex((item: { currentDevice: boolean }) => item.currentDevice)
+        const currentDeviceToken = tokenArr[currentDeviceTokenIndex]
+        tokenArr.splice(currentDeviceTokenIndex, 1)
+        tokenArr.unshift(currentDeviceToken)
+        setTokens(tokenArr)
         dateLogin = tokens.filter((item) => item.currentDevice)[0].detail.loginDate
     }
 
