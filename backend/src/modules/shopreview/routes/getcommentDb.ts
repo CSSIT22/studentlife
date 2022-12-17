@@ -20,6 +20,9 @@ const getmycommentDb = async (req: Request, res: Response) => {
             where: {
                 reviewId: id,
             },
+            orderBy: {
+                commentedAt: "desc",
+            },
         })
         res.send(mycomment)
     } catch {

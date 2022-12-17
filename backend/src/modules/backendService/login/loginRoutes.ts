@@ -1,9 +1,7 @@
 import { Router } from "express"
 import passport from "passport"
 import { NextFunction, Request, Response } from "express"
-import UserAgent from "user-agents"
 import { verifyUser } from "../middleware/verifyUser"
-import UAParser from "ua-parser-js"
 import jwt from "jsonwebtoken"
 import DeviceDetector from "node-device-detector"
 
@@ -28,10 +26,20 @@ router.get(
         failureRedirect: "/auth/microsoft",
         session: true,
     }),
-    verifyUser,
     async (req: Request, res: Response) => {
         const { prisma } = res
         try {
+            const bannedUser = await res.prisma.ban_Status.findFirst({
+                where: {
+                    userId: req.user?.userId || "",
+                    instance: {
+                        gte: 10,
+                    },
+                },
+            })
+            if (bannedUser && bannedUser.banTo > new Date()) {
+                return res.redirect(`${process.env.SUCCESS_REDIRECT_URL || ""}/auth`)
+            }
             console.log(req.headers["user-agent"])
             const detector = new DeviceDetector({
                 clientIndexes: true,
@@ -59,7 +67,7 @@ router.get(
                     },
                 },
             })
-            console.log("Login success: ", req.session.id)
+            // console.log("Login success: ", req.session.id)
             res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
         } catch (error) {
             res.status(500).send("These is an error in login ")
@@ -67,9 +75,9 @@ router.get(
         }
     }
 )
-router.get("/showtoken", (req, res) => {
-    res.send(req.session.id)
-})
+// router.get("/showtoken", (req, res) => {
+//     res.send(req.session.id)
+// })
 router.get("/logout", async (req, res) => {
     const userid = req.user?.userId || ""
     const sessid = req.sessionID
@@ -81,7 +89,7 @@ router.get("/logout", async (req, res) => {
     })
     const userAgent = req.headers["user-agent"] || ""
     const detectedResult = detector.detect(userAgent)
-    console.log(detectedResult)
+    // console.log(detectedResult)
 
     req.logOut({}, async (err) => {
         if (err) {
@@ -89,7 +97,6 @@ router.get("/logout", async (req, res) => {
         }
         try {
             const { prisma, redis } = res
-            const device1 = new UAParser(req.headers["user-agent"])
 
             await prisma.logout_Info.create({
                 data: {
