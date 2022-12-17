@@ -106,7 +106,12 @@ const index = () => {
               <Spacer />
 
               <Spacer />
-              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
+              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box>
+                :
+                new Date(el.taskCheck?.due) < new Date() ?
+                  <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Failed</Box> :
+                  <Box textAlign={"right"} as="b" pr={"1rem"} color="gray">Not Finished</Box>
+              }
 
             </Flex>
             <Box marginLeft={"7"} marginTop="0.5" color="gray">Type : {el.taskCheck.taskType}</Box>

@@ -27,6 +27,7 @@ const insidefolder = () => {
       setTaskList(res.data.tasks);
       // console.log("success", res.data);
       console.log(taskList);
+      console.log("data");
 
     })
   }, [])
@@ -127,7 +128,8 @@ const insidefolder = () => {
         </Box>
       ))
       }
-    </ToDoListAppBody > 
+    </ToDoListAppBody >
+  )
 }
 
 export default insidefolder

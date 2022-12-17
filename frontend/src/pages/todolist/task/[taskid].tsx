@@ -135,7 +135,7 @@ const task = () => {
                     Due Date
                 </Heading>
                 {/* <Input placeholder="Select Date and Time" size="md" type="datetime-local" /> */}
-                <Text fontSize="sm">{dayjs(descList.taskCheck?.due).format("dddd d MMMM YYYY")}</Text>
+                <Text fontSize="sm">{dayjs(descList.taskCheck?.due).format("dddd DD MMMM YYYY")}</Text>
                 <Heading as="h2" size="md" mt={8} mb={2}>
                     Time
                 </Heading>
