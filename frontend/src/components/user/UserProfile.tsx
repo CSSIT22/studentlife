@@ -24,7 +24,7 @@ import {
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
-import { useNavigate, useParams } from "react-router-dom"
+import { json, useNavigate, useParams } from "react-router-dom"
 
 interface AboutMeProps {
     phone: string
@@ -62,25 +62,20 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const [Years, setYears] = useState<number>(0)
     const [Address, setAddress] = useState<string>("")
 
-    // useEffect(() => {
-    //     async function fetch(){
-    //         API.get(`/user/profile/edit/${param.userID}`).then((res) => {
-    //             console.log(res)
-    //         })
-    //     }
-
-    //     fetch();
-    // }, [])
-
     const [rating, setRating] = useState<number>(0)
 
+    const mafa = async () => {
+        const data = await API.get(`/user/profile/${user.userId}`, { responseType: "json" })
+        console.log(data)
+
+    }
     useEffect(() => {
         async function fetch() {
             const res = await API.get(`/profile/ratinguser/${param.userID}`)
             setRating(res.data.rating)
         }
         fetch()
-
+        mafa()
     }, [])
     const postData = async () => {
         const formData = {

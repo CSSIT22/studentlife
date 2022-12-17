@@ -92,14 +92,6 @@ function index() {
                 </Grid>
             </Box>
         </>
-
-        // <>
-        //     <AppBody />
-        //     <UserProfile />
-        //     <ExpSystem />
-        //     <AboutMe />
-        //     <BlogHistory />
-        // </>
     )
 }
 
