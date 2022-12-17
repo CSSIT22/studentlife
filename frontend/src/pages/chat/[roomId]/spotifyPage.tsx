@@ -84,7 +84,7 @@ function SpotifyPage() {
     function renderCard(props: any) {
         const { srcs, data,link } = props
         return (
-            <Card maxW="md" bg={"#f1f1f2"} variant={'outline'} height='200px' overflow={'hidden'} onClick={()=>window.open(link)}>
+            <Card maxW="md" bg={"#f1f1f2"} height='200px' overflow={'hidden'} onClick={()=>window.open(link)}>
                 <CardBody>
                     <Image
                         src={srcs}
