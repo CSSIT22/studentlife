@@ -2,7 +2,6 @@ import { allFaculty, allMajor, allStudentId, yearType } from "@apiType/announcem
 import { Request, Response } from "express"
 
 const getTypeTarget = async (req: Request, res: Response) => {
-    // const type = req.body.type
     const prisma = res.prisma
     try {
         let targetvalue = [
@@ -46,8 +45,7 @@ const getTypeTarget = async (req: Request, res: Response) => {
         }
         resultYear.forEach((el) => targetvalue[0].Year.push(el.year))
 
-        res.send(targetvalue)
-        // console.log(targetvalue);
+        res.status(200).send(targetvalue)
     } catch (err) {
         res.status(404).send("Target value not found")
     }

@@ -1,7 +1,4 @@
-import { post } from "@apiType/announcement"
 import { Request, Response } from "express"
-import { getPost, setPost } from ".."
-
 const editstatusOnHistory = async (req: Request, res: Response) => {
     const postId = req.body.postId
     const status = req.body.status
@@ -33,6 +30,7 @@ const editstatusOnHistory = async (req: Request, res: Response) => {
                 },
             })
         }
+        res.status(200).send("Edit status on HISTORY success")
     } catch (err) {
         res.status(400).send(err)
     }

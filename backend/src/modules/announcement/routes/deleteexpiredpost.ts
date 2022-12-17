@@ -9,6 +9,7 @@ const deleteExpiredPost = async (req: Request, res: Response) => {
                 postId: postId,
             },
         })
+        res.status(200).send("Delete success!")
     } catch (err) {
         res.status(400).send(err)
     }

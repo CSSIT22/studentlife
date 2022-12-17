@@ -1,5 +1,4 @@
 import { post } from "./../../../../../types/announcement/index"
-import { getPost } from "./../index"
 import { Request, Response } from "express"
 import axios from "axios"
 
@@ -33,8 +32,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     userId: true,
                 },
             })
-            // console.log(majorUsers)
-            // res.send(majorUsers)
+            res.status(200).send(majorUsers)
             let majoruserid = []
             for (let i = 0; i < majorUsers.length; i++) {
                 const creatintable = await prisma.announcement_Pin.create({
@@ -63,14 +61,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     majorId: true,
                 },
             })
-            // console.log(majors)
-            // let majorIds: string[] = []
-            // for( let i =0 ; i < majors.length ;i++){
-            //     majorIds[i] = majors[i].majorId
-            // }
-            // console.log(majorIds)
             let allUserIds = []
-
             for (let i = 0; i < majors.length; i++) {
                 const majorusers = await prisma.user_Profile.findMany({
                     where: {
@@ -84,7 +75,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     allUserIds.push(majorusers[i].userId)
                 }
             }
-            // console.log(allUserIds)
+            res.status(200).send(allUserIds)
             for (let i = 0; i < allUserIds.length; i++) {
                 const creatintable = await prisma.announcement_Pin.create({
                     data: {
@@ -106,23 +97,18 @@ const getTargetGroup = async (req: Request, res: Response) => {
         } else if (targetType == "Year") {
             let year = new Date()
             const thaiYear = (year.getFullYear() + 543) % 100
-            // console.log(thaiYear)
             const key = thaiYear - parseInt(targetValue) + 1
-            // console.log(key)
             const allStudentId = await prisma.user_Profile.findMany({
                 select: {
                     studentId: true,
                 },
             })
-            // console.log(allStudentId)
-            // console.log(allStudentId[0].studentId.substring(0,2))
             const selectStudentId = []
             for (let i = 0; i < allStudentId.length; i++) {
                 if (parseInt(allStudentId[i].studentId.substring(0, 2)) == key) {
                     selectStudentId.push(allStudentId[i])
                 }
             }
-            // console.log(selectStudentId.length)
             let selectedUserIds = []
             for (let i = 0; i < selectStudentId.length; i++) {
                 const userId = await prisma.user_Profile.findMany({
@@ -137,7 +123,6 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     selectedUserIds.push(userId[i].userId)
                 }
             }
-            // console.log(selectedUserIds)
             for (let i = 0; i < selectedUserIds.length; i++) {
                 const creatintable = await prisma.announcement_Pin.create({
                     data: {
@@ -146,6 +131,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     },
                 })
             }
+            res.status(200).send(selectedUserIds)
             axios.post("http://localhost:8000/notification/addnotiobject", {
                 template: "ANNOUNCEMENT_NEW",
                 value: [postuserid[0].annLanguage[0].annTopic],
@@ -161,11 +147,12 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     userId: true,
                 },
             })
+            res.status(200).send(everyUserId)
+
             let userid = []
             for (let i = 0; i < everyUserId.length; i++) {
                 userid.push(everyUserId[i].userId);
             }
-            // console.log(everyUserId)
             for (let i = 0; i < everyUserId.length; i++) {
                 const creatintable = await prisma.announcement_Pin.create({
                     data: {
@@ -174,8 +161,6 @@ const getTargetGroup = async (req: Request, res: Response) => {
                     },
                 })
             }
-            res.send(everyUserId)
-
             axios.post("http://localhost:8000/notification/addnotiobject", {
                 template: "ANNOUNCEMENT_NEW",
                 value: [postuserid[0].annLanguage[0].annTopic],
@@ -186,8 +171,7 @@ const getTargetGroup = async (req: Request, res: Response) => {
             })
             
         }
-    } catch (err: any) {
-        // console.log(err)
+    } catch (err) {
         res.status(404).send("Target Group not found")
     }
 }
