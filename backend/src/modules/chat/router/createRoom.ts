@@ -8,9 +8,6 @@ const createRoom = async (req: Request, res: Response) => {
     const room_Id = nanoid()
     const prisma = res.prisma
     try {
-        if(user === undefined){
-            res.status(401).send("log in first!!")
-        }
         const user_find = await prisma.user_Profile.findUniqueOrThrow({
             select:{
                 userId:true,fName:true

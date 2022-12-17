@@ -13,7 +13,7 @@ const getrestDb = async (req: Request, res: Response) => {
                 },
                 detail: {
                     select: {
-                        zone: true,
+                       // zone: true,
                     },
                 },
             },
