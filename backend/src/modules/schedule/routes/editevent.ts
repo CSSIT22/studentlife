@@ -1,4 +1,6 @@
 import { Request, Response } from "express"
+import getNewEvent from "./getNewEvent"
+import { getEvent, setEvent, Event, events } from "../index"
 
 const editEvent = async (req: Request, res: Response) => {
     const prisma = res.prisma
@@ -7,10 +9,22 @@ const editEvent = async (req: Request, res: Response) => {
 
     const editEvent: any = {
         eventName: req.body.eventName,
-        stTime: req.body.startTime,
+        stTime: req.body.stTIme,
         endTime: req.body.endTime,
-        desc: req.body.eventDesc,
-        eventTypeId: req.body.eventType,
+        desc: req.body.desc,
+        eventTypeId: req.body.eventTypeId,
+        hostAt: {
+            connectOrCreate: {
+                create: {
+                    placeId: body.placeId,
+                    building: "test",
+                    room: "123",
+                },
+                where: {
+                    placeId: body.placeId,
+                },
+            },
+        },
     }
 
     try {
@@ -24,6 +38,34 @@ const editEvent = async (req: Request, res: Response) => {
     } catch {
         res.status(404)
     }
+
+    //******************************************************************************/
+
+    // const eventId = req.body.eventId
+    // const eventName = req.body.eventName
+    // const stTime = req.body.stTime
+    // const endTime = req.body.endTime
+    // const desc = req.body.desc
+    // const eventTypeId = req.body.eventTypeId
+
+    // let editEvent: Event | null = null
+    // const newdata = getEvent().map((event) => {
+    //     if (eventId == eventId) {
+    //         editEvent = {
+    //             eventId: eventId,
+    //             eventName: eventName,
+    //             stTime: stTime,
+    //             endTime: endTime,
+    //             desc: desc,
+    //             eventTypeId: eventTypeId,
+    //         }
+    //         return {}
+    //     }
+    //     return event
+    // })
+    // setEvent(newdata)
+
+    // res.send(editEvent)
 }
 
 export default editEvent

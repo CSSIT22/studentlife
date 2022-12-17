@@ -35,12 +35,12 @@ scheduleRoutes.use(express.json())
 export type Event = {
     eventId: string
     eventName: string
-    startTime: Date
+    stTime: Date
     endTime: Date
-    startDate: Date
-    endDate: Date
-    eventDesc: string
-    eventType: Eventtype[]
+    // startDate: Date
+    // endDate: Date
+    desc: string
+    eventTypeId: Eventtype[]
 }
 
 export type Eventtype = {
@@ -59,16 +59,12 @@ export let events: Event[] = [
         // userId: "dswd484982sdx4waK",
         eventId: "asdwadsdf",
         eventName: "Meeting with PM",
-        eventDesc: "Go with PM to discuss blaaaaaaaaaaaaaaaaa",
-        startTime: new Date(),
+        desc: "Go with PM to discuss blaaaaaaaaaaaaaaaaa",
+        stTime: new Date(),
         endTime: new Date(),
-        startDate: new Date(), //createDate
-        endDate: new Date(),
-        eventType: [
-            { id: "1", name: "Course" },
-            { id: "2", name: "Assignment" },
-            { id: "3", name: "Activity" },
-        ],
+        // startDate: new Date(), //createDate
+        // endDate: new Date(),
+        eventTypeId: [{ id: "1", name: "Course" }],
     },
 ]
 

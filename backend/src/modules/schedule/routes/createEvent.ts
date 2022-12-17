@@ -8,8 +8,8 @@ const createEvent = async (req: Request, res: Response) => {
 
     // Event is the table from db
     try {
-        console.log(body);
-        
+        console.log(body)
+
         const createEvent = await prisma.event.create({
             data: {
                 eventName: body.eventName,
@@ -39,8 +39,6 @@ const createEvent = async (req: Request, res: Response) => {
 
         res.status(500).send(err)
     }
-
-    
 }
 
 export default createEvent
