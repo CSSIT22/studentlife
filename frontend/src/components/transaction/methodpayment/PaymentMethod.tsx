@@ -7,13 +7,13 @@ const PaymentMethod = () => {
 
     return (
         <>
-            <Hide below="md">
+            {/* <Hide below="md"> */}
                 <Container bg={"#e67f45"} maxW="90%" mt="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
-                    <Flex mb={"20px"} gap="50px">
+                    <Flex mb={"20px"} gap="20px" direction="row">
                         <Text fontSize="lg" fontWeight={"bold"}>
-                            Payment Method
+                            Payment Method 
                         </Text>
-                        <Spacer />
+                        {/* <Spacer /> */}
                         <Button colorScheme="whiteAlpha" shadow={"lg"} onClick={() => setBtn({ mastercard: true, qrcode: false })}>
                             <Text fontSize="lg" fontWeight={"bold"} color="black">
                                 MasterCard
@@ -35,7 +35,7 @@ const PaymentMethod = () => {
                         <></>
                     )}
                 </Container>
-            </Hide>
+            {/* </Hide> */}
         </>
     )
 }

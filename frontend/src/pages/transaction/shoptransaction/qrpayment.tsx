@@ -26,7 +26,7 @@ const qrpayment = ({ }) => {
     const formattedNumberTotalPrice = numberFormat.format(totalPrice)
 
      // time left
-     const [timeLeft, setTimeLeft] = useState(10)
+     const [timeLeft, setTimeLeft] = useState(60)
      useEffect(() => {
          const interval = setInterval(() => {
              setTimeLeft(timeLeft - 1)
@@ -49,7 +49,7 @@ const qrpayment = ({ }) => {
                 <Container maxW="90%" my="20px" p={"20px"} bg="#fff2e5" color={"black"} borderRadius="10px" shadow={"lg"}>
                     <QRcode qrurl={"https://chart.googleapis.com/chart?cht=qr&chs=512x512&chl=" + rawData} />
                 </Container>
-                <Stack direction={"row"} justifyContent="center" gap={"3%"}>
+                {/* <Stack direction={"row"} justifyContent="center" gap={"3%"}>
                     <Link to="/transaction/shoptransaction">
                         <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
                             <Text fontSize="lg" fontWeight={"bold"}>
@@ -57,7 +57,7 @@ const qrpayment = ({ }) => {
                             </Text>
                         </Button>
                     </Link>
-                </Stack>
+                </Stack> */}
             </AppBody>
         </div>
     )

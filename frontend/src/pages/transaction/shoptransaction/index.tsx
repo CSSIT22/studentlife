@@ -74,46 +74,23 @@ const shopTransaction = () => {
             </Container>
 
             <PaymentMethod />
-
             <Show below="md">
                 <Container bg={"#e67f45"} maxW="90%" my="24px" p={"2%"} borderRadius="10px" shadow={"lg"} color="white">
-                    <Flex>
-                        <Center>
-                            <Stack direction={"column"}>
-                                <Text fontSize="md" fontWeight={"bold"}>
-                                    Total payment: {formattedNumberTotalPrice}
-                                </Text>
-                                <Text fontSize="md" fontWeight={"bold"}>
-                                    Payment Method: ....
-                                </Text>
-                            </Stack>
-                        </Center>
-                        <Spacer />
-                        <Center>
-                            <Box>
-                                <Button colorScheme="whiteAlpha" shadow={"lg"}>
-                                    <Link to="/transaction/shoptransaction/selectmethod">
-                                        <Text fontSize="sm" fontWeight={"bold"} color="black">
-                                            Select Method
-                                        </Text>
-                                    </Link>
-                                </Button>
-                            </Box>
-                        </Center>
-                    </Flex>
+                    <Center>
+                        <Stack direction={"column"}>
+                            <Text fontSize="md" fontWeight={"bold"}>
+                                Total payment: {formattedNumberTotalPrice}
+                            </Text>
+                        </Stack>
+                    </Center>
                 </Container>
-                <Stack direction={"row"} justifyContent="center" gap={"3%"}>
-                    <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
-                        <Text fontSize="lg" fontWeight={"bold"}>
-                            Cancel
-                        </Text>
-                    </Button>
+                <Center>
                     <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg" onClick={toQRpayment}>
                         <Text fontSize="lg" fontWeight={"bold"}>
                             Comfirm
                         </Text>
                     </Button>
-                </Stack>
+                </Center>
             </Show>
             <Hide below="md">
                 <Container bg={"#e67f45"} maxW="100%" my="24px" p={"2%"} color="white">

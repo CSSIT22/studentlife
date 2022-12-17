@@ -28,13 +28,13 @@ const selectmethod = () => {
                             </Button>
                         </Link>
                     </Container>
-                    <Center>
+                    {/* <Center>
                         <Link to="/transaction/shoptransaction">
                             <Button colorScheme="red" w={"100px"}>
                                 Back
                             </Button>
                         </Link>
-                    </Center>
+                    </Center> */}
                 </Show>
             </AppBody>
         </div>
