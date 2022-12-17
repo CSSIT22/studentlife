@@ -25,7 +25,7 @@ const index = () => {
         if (res.data.isLogoutCurrentDevice) {
             await api.get("auth/logout")
         } else setTokens([...tokens.filter((item) => item.token !== res.data.token)])
-        console.log(res)
+        // console.log(res)
     }
 
     // fetch user's data
@@ -44,7 +44,7 @@ const index = () => {
         getTokensInfo()
     }, [])
 
-    console.log(tokens)
+    // console.log(tokens)
 
     return (
         <AppBody>
