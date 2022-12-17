@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { message } from "mongoose/message";
+import { message } from "../../../../mongoose/message";
 
 const postMessage = async(req : Request,res : Response)=>{
     const user = req.user?.userId
@@ -7,8 +7,10 @@ const postMessage = async(req : Request,res : Response)=>{
     const type = req.body.type
     const msg = req.body.message
     try {
-        await message.create({roomId:room_id,senderId:user,messageType:type})
+        await message.create({roomId:room_id,senderId:user,messageType:type,message:msg})
+        res.send("post message sucessfull")
     } catch (error) {
-        res.send(error)
+        res.send(error).status(200)
     }
 }
+export default postMessage

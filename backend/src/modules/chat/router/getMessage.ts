@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { message } from "mongoose/message";
+import { message } from "../../../../mongoose/message";
 
 const getMessage = async(req : Request,res : Response)=>{
     const user = req.user?.userId
@@ -8,8 +8,9 @@ const getMessage = async(req : Request,res : Response)=>{
         const Message = await message.find({
             roomId:room_id
         })
-        res.json(Message)
+        res.send(Message)
     } catch (error) {
         res.status(200).send(error)
     }
 }
+export default getMessage
