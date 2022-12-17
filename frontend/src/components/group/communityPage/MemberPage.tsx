@@ -47,7 +47,7 @@ const MemberPage: FC<{
             subTitle: "These people have requested to join the community",
             data: member?.pending,
             length: member?.pending.length,
-            conditions: checkId == "OWNER" || checkId == "ADMIN"
+            conditions: checkRole == "OWNER" || checkRole == "ADMIN"
         },
         {
             //Render admin and coAdmin for all
@@ -71,14 +71,50 @@ const MemberPage: FC<{
             subTitle: "These people are banned from the community",
             data: member?.blacklist,
             length: member?.blacklist.length,
-            conditions: checkId == "OWNER" || checkId == "ADMIN"
+            conditions: checkRole == "OWNER" || checkRole == "ADMIN"
         },
 
     ]
+    const lengthMap = [
+        {
+            title: "All members",
+            length: member?.member.length + member?.admin.length + member?.coAdmin.length + 1,
+            conditions: true
+        },
+        {
+            title: "Admins",
+            length: member?.admin.length,
+            conditions: true
+        },
+        {
+            title: "Moderators",
+            length: member?.coAdmin.length,
+            conditions: true
+        },
+        {
+            title: "Members",
+            length: member?.member.length,
+            conditions: true
+        },
+        {
+            title: "Requests",
+            length: member?.pending.length,
+            conditions: checkRole == "OWNER" || checkRole == "ADMIN"
+        },
+        {
+            title: "Blacklists",
+            length: member?.blacklist.length,
+            conditions: checkRole == "OWNER" || checkRole == "ADMIN"
+        },
+
+    ]
+    {
+        console.log("checkId:", checkId)
+    }
 
 
     return (
-        <Center>
+        <HStack position='relative' px={{ base: 'none', md: '1rem', lg: '3rem' }} >
             <VStack mb='4' width='100%' maxW='760px'>
                 {
                     //Map role
@@ -139,7 +175,53 @@ const MemberPage: FC<{
                     })
                 }
             </VStack >
-        </Center>
+            <VStack
+                align='flex-start'
+                position="sticky"
+                top='8rem'
+                z-index='1'
+                alignSelf='flex-start'
+                width='full'
+                maxW={{ base: 'none', md: '260' }}
+                bg='white'
+                borderRadius='md'
+                p='4'
+                shadow='md'
+                display={{ base: 'none', md: 'block' }}
+            >
+                {
+                    //Map length of each role
+                    lengthMap?.filter((role: any) => role.conditions)
+                        .map((role: any) => {
+                            return (
+
+                                <HStack
+                                    key={role.title}
+                                    align='center'
+                                    justify='space-between'
+                                >
+                                    <Text
+                                        fontSize='md' as='b'
+                                        fontWeight='600'>
+                                        {role.title}
+                                    </Text>
+                                    <Text
+                                        bg='orange.400'
+                                        py='0.5'
+                                        px='2'
+                                        borderRadius='md'
+                                        color='white'
+                                        as='b'
+                                        fontSize='xs'
+                                        lineHeight='5' >
+                                        {role.length}
+                                    </Text>
+                                </HStack>
+                            )
+                        })
+                }
+            </VStack>
+        </HStack>
     )
 }
 
