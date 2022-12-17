@@ -65,7 +65,7 @@ const addNotiObject = async (req: Request, res: Response) => {
                 await prisma.noti_User.create({
                     data: {
                         userId: userId,
-                        notiSettingEmail: "ALL",
+                        notiSettingEmail: "IGNORE",
                         notiSettingApp: "ALL",
                     },
                 })
