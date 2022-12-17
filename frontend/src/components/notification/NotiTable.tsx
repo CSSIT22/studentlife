@@ -110,6 +110,7 @@ const NotiTable = () => {
                 <Box>
                     <Modulelist onClick={showSelectedModule} selectedModule={selectedModule} />
                 </Box>
+                <Spacer />
                 <Box>
                     <Stack direction={"row"} >
                         <MarkRead module={selectedModule} onClick={load} />

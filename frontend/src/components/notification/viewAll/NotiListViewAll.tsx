@@ -33,7 +33,7 @@ const NotiListViewAll: FC<{ selectedList: any[], module: string; onClick: Functi
                 if (!listDay.includes("today")) {
                     listDay.push("today")
                     return (
-                        <Text fontSize={"sm"} padding={2}>
+                        <Text as='b' fontSize={"sm"} padding={2}>
                             Today
                         </Text>
                     )
@@ -44,7 +44,7 @@ const NotiListViewAll: FC<{ selectedList: any[], module: string; onClick: Functi
                 if (!listDay.includes("yesterday")) {
                     listDay.push("yesterday")
                     return (
-                        <Text fontSize={"sm"} padding={2}>
+                        <Text as='b' fontSize={"sm"} padding={2}>
                             Yesterday
                         </Text>
                     )
@@ -71,7 +71,7 @@ const NotiListViewAll: FC<{ selectedList: any[], module: string; onClick: Functi
                 if (!listDay.includes(month + " " + date.getDate() + ", " + date.getFullYear())) {
                     listDay.push(month + " " + date.getDate() + ", " + date.getFullYear())
                     return (
-                        <Text padding={2} fontSize={"sm"} as="b">
+                        <Text as='b' padding={2} fontSize={"sm"} >
                             {month + " " + date.getDate() + ", " + date.getFullYear()}
                         </Text>
                     )

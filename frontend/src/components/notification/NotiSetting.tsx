@@ -57,13 +57,17 @@ const NotiSetting = () => {
                                     <RadioGroup onChange={setAppValue} colorScheme="orange" value={appValue} defaultValue={notiUser?.notiSettingApp as string}>
                                         <Stack>
                                             <Radio spacing={4} value="ALL">
-                                                All
+                                                <Stack direction={"row"}>
+                                                    <Text>All </Text>
+                                                    <Text color="gray.400">: notify me for all updates</Text>
+                                                </Stack>
                                             </Radio>
-                                            <Radio spacing={4} value="MENTION">
-                                                Mention
-                                            </Radio>
+
                                             <Radio spacing={4} value="IGNORE">
-                                                Ignore
+                                                <Stack direction={"row"}>
+                                                    <Text>Ignore</Text>
+                                                    <Text color="gray.400">: Don’t be notified</Text>
+                                                </Stack>
                                             </Radio>
                                         </Stack>
                                     </RadioGroup>
@@ -74,13 +78,17 @@ const NotiSetting = () => {
                                     <RadioGroup onChange={setEmailValue} colorScheme="orange" value={emailValue} defaultValue={notiUser?.notiSettingEmail as string}>
                                         <Stack>
                                             <Radio spacing={4} value="ALL">
-                                                All
+                                                <Stack direction={"row"}>
+                                                    <Text>All </Text>
+                                                    <Text color="gray.400">: notify me for all updates</Text>
+                                                </Stack>
                                             </Radio>
-                                            <Radio spacing={4} value="MENTION">
-                                                Mention
-                                            </Radio>
+
                                             <Radio spacing={4} value="IGNORE">
-                                                Ignore
+                                                <Stack direction={"row"}>
+                                                    <Text>Ignore</Text>
+                                                    <Text color="gray.400">: Don’t be notified</Text>
+                                                </Stack>
                                             </Radio>
                                         </Stack>
 
