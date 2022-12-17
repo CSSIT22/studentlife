@@ -1,5 +1,5 @@
 import { Box, Button, Center, Flex, Heading, Image, Spacer, Tag, Text } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 // import { POLL } from "./shared/poll"
 import { Link, useParams } from "react-router-dom"
 import { POLL_APPLICANT } from "./shared/poll_applicant"
@@ -15,25 +15,17 @@ declare global {
 }
 
 // Component of all activity page
-const DatingAllActivityBox = () => {
+const DatingAllActivityBox:FC<{poll: Polls[]; userId: string}> = ({poll, userId}) => {
     const params = useParams()
     // const [poll, setPoll] = useState(POLL)
-    const [poll, setPoll] = useState<Polls[]>([])
-    const [userId, setUserId] = useState<string>("")
+
     // const [interests, setInterests] = useuseState<string>("")State(INTERESTS)
     // const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
     let count = 1
     useEffect(() => {
         if (count != 0) {
             count--
-            API.get("/dating/allpoll/getAllPoll").then((data) => {
-                setPoll(data.data)
-                // console.log("Poll data " + data.data);
-                // console.log("Poll raw data " + data.data[0].userId);
-            }).catch((err) => console.log(err));
-            API.get("/dating/allpoll/getAllPollUserId").then((data) => {
-                setUserId(data.data)
-            }).catch((err) => console.log(err));
+
         }
     }, [])
 
