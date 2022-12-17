@@ -4,6 +4,11 @@ import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 
 const DatingYouLikedButton: FC<{ backgroundColor: string }> = ({ backgroundColor }) => {
+
+    function handleClick() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     return (
         <motion.div
         initial={
@@ -12,7 +17,8 @@ const DatingYouLikedButton: FC<{ backgroundColor: string }> = ({ backgroundColor
         whileHover={{ scale: 1.1, }}
         whileTap={{
             scale: 0.9,
-        }}>
+        }}
+        onClick={handleClick}>
         <Link to="/dating/youliked" style={{ textDecoration: "none" }}>
             <Box
                 display="flex"

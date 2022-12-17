@@ -15,7 +15,11 @@ const DatingLikedYouHeartButton: FC<{ isMobile: boolean | undefined; handleClick
                 whileTap={{
                     scale: 0.8,
                 }}
-            ><AiOutlineHeart size="60px" color="black" /></motion.div> : <AiOutlineHeart size="40px" color="black" />}
+            ><AiOutlineHeart size="60px" color="black" /></motion.div> : <motion.div
+                whileHover={{ scale: 1.2, }}
+                whileTap={{
+                    scale: 0.8,
+                }}><AiOutlineHeart size="40px" color="black" /></motion.div>}
         </Box>
     )
 }

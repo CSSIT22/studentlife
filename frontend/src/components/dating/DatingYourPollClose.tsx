@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 import Lottie from "lottie-react"
 import DatingLoading from "./lottie/DatingLoading.json"
+import { motion } from "framer-motion"
 
 const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -30,6 +31,15 @@ const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
     }
     return (
         <>
+                    <motion.div
+                initial={
+                    { cursor: "pointer" }
+                }
+                whileHover={{ scale: 1.1, }}
+                whileTap={{
+                    scale: 0.9,
+                }}
+                >
             <Button
                 colorScheme="orange"
                 w={{ base: "167px", md: "172px" }}
@@ -42,6 +52,7 @@ const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
                     Close now
                 </Text>
             </Button>
+            </motion.div>
 
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
                 <ModalOverlay />

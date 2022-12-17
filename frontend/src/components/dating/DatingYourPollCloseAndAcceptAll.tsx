@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 import Lottie from "lottie-react"
 import DatingLoading from "./lottie/DatingLoading.json"
+import { motion } from "framer-motion"
 
 const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefined; pollId: string }> = ({ numOfParticipants, pollId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -30,18 +31,36 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
     }
     return (
         <>{numOfParticipants != undefined ? numOfParticipants <= 0 ?
+            <motion.div
+            initial={
+                { cursor: "pointer" }
+            }
+            whileHover={{ scale: 1.1, }}
+            whileTap={{
+                scale: 0.9,
+            }}
+            onClick={onOpen}
+        >
             <Button
                 colorScheme="blackAlpha"
                 w={{ base: "167px", md: "172px" }}
                 h="36px"
                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                onClick={onOpen}
+
                 isDisabled
             >
                 <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
                     Close & accept all
                 </Text>
-            </Button> : <Button
+            </Button></motion.div> : <motion.div
+            initial={
+                { cursor: "pointer" }
+            }
+            whileHover={{ scale: 1.1, }}
+            whileTap={{
+                scale: 0.9,
+            }}
+        ><Button
                 colorScheme="orange"
                 w={{ base: "167px", md: "172px" }}
                 h="36px"
@@ -51,7 +70,7 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
                 <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
                     Close & accept all
                 </Text>
-            </Button> : <></>}
+            </Button></motion.div> : <></>}
 
 
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">

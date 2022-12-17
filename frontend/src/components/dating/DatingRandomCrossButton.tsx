@@ -31,7 +31,7 @@ const DatingRandomCrossButton: FC<{
                     duration: 0.001,
                 },
             }}
-            whileHover={{ scale: 1.3, }}
+            whileHover={{ scale: 1.2, }}
             variants={{
                 visible: {
                     scale: [1, 1.2],

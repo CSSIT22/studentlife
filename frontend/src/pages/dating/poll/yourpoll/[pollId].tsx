@@ -27,6 +27,7 @@ import NoProfileImg from "../../../../components/dating/pic/noprofile.png"
 import DatingLoading from "../../../../components/dating/lottie/DatingLoading.json"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
 import GroupChatImg from "../../../../components/dating/pic/groupchat.png"
+import { motion } from "framer-motion"
 // import { POLL } from "../../../../components/dating/shared/poll"
 // import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
 
@@ -231,17 +232,28 @@ const YourPoll = () => {
                         </Text>
                     </Box>
                     <Box display="flex" justifyContent="right" pb={{ base: "10px", md: "20px" }} pr={{ base: "12px", md: "0px" }}>
-                        <Button
-                            borderRadius="full"
-                            w={{ base: "50px", md: "72px" }}
-                            h={{ base: "50px", md: "72px" }}
-                            backgroundColor="white"
-                            border="1px solid"
-                            mr={{ base: "12px", md: "24px" }}
-                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                            onClick={() => navigate("/chat/")}
                         >
-                            <Image src={GroupChatImg} />
-                        </Button>
+                            <Button
+                                borderRadius="full"
+                                w={{ base: "50px", md: "72px" }}
+                                h={{ base: "50px", md: "72px" }}
+                                backgroundColor="white"
+                                border="1px solid"
+                                mr={{ base: "12px", md: "24px" }}
+                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                            >
+                                <Image src={GroupChatImg} />
+                            </Button>
+                        </motion.div>
                     </Box>
 
                     {pollInfo ? <DatingYourPollSeeMore pollInfo={pollInfo} /> : <></>}
@@ -269,19 +281,30 @@ const YourPoll = () => {
                     display="flex"
                 >
                     <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="140%">
-                        <Link to={"/user/" + participant.user.userId}>
-                            {participant.user.image ? <Image
-                                borderRadius="full"
-                                boxSize={{ base: "50px", md: "78px" }}
-                                objectFit="cover"
-                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + participant.user.userId}
-                            /> : <Image
-                                borderRadius="full"
-                                boxSize={{ base: "50px", md: "78px" }}
-                                objectFit="cover"
-                                src={NoProfileImg}
-                            />}
-                        </Link>
+                        <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                        >
+                            <Link to={"/user/" + participant.user.userId}>
+                                {participant.user.image ?
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize={{ base: "50px", md: "78px" }}
+                                        objectFit="cover"
+                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + participant.user.userId}
+                                    /> : <Image
+                                        borderRadius="full"
+                                        boxSize={{ base: "50px", md: "78px" }}
+                                        objectFit="cover"
+                                        src={NoProfileImg}
+                                    />}
+                            </Link>
+                        </motion.div>
                         {isMobile ? (
                             <Text ml="24px" fontWeight="700" fontSize="24px" lineHeight="133%" color="black">
                                 {participant.user.fName.length > 20 ? <>{participant.user.fName.substring(0, 17)}... {participant.user.lName.substring(0, 1)}.</> : <>{participant.user.fName} {participant.user.lName.substring(0, 1)}.</>}
@@ -307,7 +330,15 @@ const YourPoll = () => {
                             _hover={{ cursor: "not-allowed" }}
                         >
                             <Image src={CheckImg} />
-                        </Button></> : <Button
+                        </Button></> : <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                        ><Button
                             id={participant.user.userId}
                             borderRadius="full"
                             w={{ base: "50px", md: "72px" }}
@@ -318,21 +349,31 @@ const YourPoll = () => {
                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                             onClick={() => handleAccept(participant.user.userId)}
                         >
-                            <Image src={CheckImg} />
-                        </Button>}
+                                <Image src={CheckImg} />
+                            </Button></motion.div>}
 
-                        <Button
+                        <motion.div
+                            initial={
+                                { cursor: "pointer" }
+                            }
+                            whileHover={{ scale: 1.2, }}
+                            whileTap={{
+                                scale: 0.8,
+                            }}
+                            onClick={() => handleChat(participant.user.userId)}
+                        ><Button
                             borderRadius="full"
                             w={{ base: "50px", md: "72px" }}
                             h={{ base: "50px", md: "72px" }}
                             backgroundColor="white"
                             border="1px solid"
                             boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                            onClick={() => handleChat(participant.user.userId)}
                         >
-                            <Image src={ChatImg} />
-                        </Button>
+                                <Image src={ChatImg} />
+                            </Button>
+                        </motion.div>
                     </Box>
+
                 </Box>))}
                 <Box mt="300px" />
             </DatingAppBody>

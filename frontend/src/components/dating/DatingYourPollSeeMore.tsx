@@ -17,6 +17,7 @@ import { FC } from "react"
 import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../dating/pic/noprofile.png"
 import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
 
 const DatingYourPollSeeMore: FC<{
     pollInfo: PollInfo;
@@ -59,21 +60,33 @@ const DatingYourPollSeeMore: FC<{
 
     return (
         <>
+
             <Box h="10%" display="flex" justifyContent="end" alignItems="end">
-                <Text
-                    mb="17px"
-                    mr="31px"
-                    fontWeight="400"
-                    fontSize={{ base: "14px", md: "16px" }}
-                    lineHeight="150%"
-                    textDecorationLine="underline"
-                    color="black"
-                    cursor="pointer"
-                    onClick={onOpen}
+                <motion.div
+                    initial={
+                        { cursor: "pointer" }
+                    }
+                    whileHover={{ scale: 1.1, }}
+                    whileTap={{
+                        scale: 0.9,
+                    }}
                 >
-                    Click to see more
-                </Text>
+                    <Text
+                        mb="17px"
+                        mr="31px"
+                        fontWeight="400"
+                        fontSize={{ base: "14px", md: "16px" }}
+                        lineHeight="150%"
+                        textDecorationLine="underline"
+                        color="black"
+                        cursor="pointer"
+                        onClick={onOpen}
+                    >
+                        Click to see more
+                    </Text>
+                </motion.div>
             </Box>
+
 
             <Modal autoFocus={false} isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
                 <ModalOverlay />
