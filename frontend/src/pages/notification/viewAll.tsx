@@ -15,9 +15,13 @@ import Modulelist from "../../components/notification/Modulelist"
 import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
 import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectViewAll"
 import AppBody from "../../components/share/app/AppBody"
+import { showDescription } from "../../components/notification/functions/replaceValue"
+import ShowUser from "../../components/transaction/TransactionShowUser"
+import { showUser } from "../../components/notification/functions/showUser"
+
 
 import API from "src/function/API"
-import { Notiobject, pushNotiType } from "@apiType/notification"
+import { alertNoti, Notiobject, NotiObjectMudule, pushNotiType } from "@apiType/notification"
 import { NavBarContext } from "src/context/NavbarContext"
 import { socketContext } from "src/context/SocketContext"
 
@@ -45,7 +49,7 @@ const viewAll = () => {
     const getUserNotiObjectModule = () => API.get("/notification/getusernotiobjectbymodule/" + selectedModule)
     //console.log(getUserNotiObjectModule);
 
-    const [userNotiObjectModule, setUserNotiObjectModule] = useState<Notiobject[]>([])
+    const [userNotiObjectModule, setUserNotiObjectModule] = useState<NotiObjectMudule[]>([])
     useEffect(() => {
         getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
