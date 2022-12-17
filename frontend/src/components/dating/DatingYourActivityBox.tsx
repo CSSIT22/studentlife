@@ -1,8 +1,11 @@
 import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
+import API from "src/function/API"
+import { PollInfo } from "@apiType/dating"
+import NoProfileImg from "../../components/dating/pic/noprofile.png"
 
 declare global {
     var date: string, time: string
@@ -10,7 +13,30 @@ declare global {
 
 // Component of your activity page
 const DatingYourActivityBox = () => {
-    const [poll, setPoll] = useState(POLL)
+    // const [poll, setPoll] = useState(POLL)
+    const [poll, setPoll] = useState<PollInfo | any>()
+    const params = useParams()
+    const didMount = useDidMount()
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
+    let count = 1
+    useEffect(() => {
+        if (didMount && count != 0) {
+            count--
+            API.get("/dating/youractivitypoll/getYourPolls").then((data) => {
+                setPoll(data.data)
+                console.log("Poll data " + poll);
+            }).catch((err) => console.log(err));
+        }
+    })
 
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
@@ -50,11 +76,11 @@ const DatingYourActivityBox = () => {
 
     return (
         <Box borderRadius="10px" color="black">
-            {poll.map((values) => {
+            {poll ? poll.map((values: PollInfo) => {
                 // Need number of apply people from database
-                const [applyPeople, setApplyPeople] = useState(2)
+                // const [applyPeople, setApplyPeople] = useState(2)
                 // Need number of people who haven't approve in database
-                const [notApprovePeople, setNotApprovePeople] = useState(2)
+                // const [notApprovePeople, setNotApprovePeople] = useState(2)
                 globalThis.date = handlePollDate(values.pollAppointAt)
                 globalThis.time = hanlePollTime(values.pollAppointAt)
                 return (
@@ -64,21 +90,24 @@ const DatingYourActivityBox = () => {
                                 borderRadius="full"
                                 boxSize="78px"
                                 objectFit="cover"
-                                src={values.creator.url}
-                                alt={values.creator.Fname + " " + values.creator.Lname}
+                                src={values.pollCreator.image ?
+                                    (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
+                                    :
+                                    NoProfileImg
+                                }
                             />
                             <Center>
                                 <Text ml="30px" fontSize="20px">
-                                    {values.creator.Fname}
+                                    {values.pollCreator.fName}
                                     &nbsp;
-                                    {values.creator.Lname}
+                                    {values.pollCreator.lName}
                                 </Text>
                             </Center>
                         </Flex>
                         <Heading fontSize="20px" pt="10px">
                             {values.pollName}
                         </Heading>
-                        {values.pollInterest.length < 1 ? <Text pb="20px"></Text> :
+                        {values.interests.length < 1 ? <Text pb="20px"></Text> :
                             <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
                                 <Box
                                     height="70px"
@@ -87,7 +116,7 @@ const DatingYourActivityBox = () => {
                                     whiteSpace={{ base: "nowrap", md: "initial" }}
                                     style={{ WebkitOverflowScrolling: "touch" }}
                                 >
-                                    {values.pollInterest.map((i) => (
+                                    {values.interests.map((i) => (
                                         <Tag
                                             backgroundColor="orange.400"
                                             color="white"
@@ -98,7 +127,7 @@ const DatingYourActivityBox = () => {
                                             h={{ md: "28px" }}
                                         >
                                             <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
-                                                {i}
+                                                {i.interest.interestName}
                                             </Text>
                                         </Tag>
 
@@ -116,7 +145,7 @@ const DatingYourActivityBox = () => {
                         <Flex justifyContent="end">
                             <Center>
                                 {/* Need data from database and need condition checking for people/person*/}
-                                <Text fontSize="16px">{applyPeople} people have applied</Text>
+                                <Text fontSize="16px">{values.participants.length} people have applied</Text>
                             </Center>
 
                             <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }}>
@@ -140,8 +169,9 @@ const DatingYourActivityBox = () => {
                                 <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }} >
                                     <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px" >
                                         <Text fontSize="12px" color="white" as="b">
+                                            {values.participants.filter(i => i.isAccepted).length}
                                             {/* Number of people that haven't accept need to replace 2 with data from db*/}
-                                            {notApprovePeople > 99 ? "99+" : notApprovePeople}
+                                            {/* {2 > 99 ? "99+" : 2} */}
                                         </Text>
                                     </Circle>
                                 </Link>
@@ -149,7 +179,7 @@ const DatingYourActivityBox = () => {
                         </Flex>
                     </Box>
                 )
-            })}
+            }) : <></>}
         </Box>
     )
 }

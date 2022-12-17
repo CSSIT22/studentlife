@@ -135,7 +135,7 @@ optionRoutes.put("/updateOption", verifyUser, async (req: Request, res: Response
         //     },
         //     data: setPref,
         // })
-        console.log(req.body.facultyPref)
+        // console.log(req.body.facultyPref)
         await prisma.faculty_Pref.createMany({
             data: facultyPrefs,
         })

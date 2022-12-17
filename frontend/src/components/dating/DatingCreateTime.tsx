@@ -1,5 +1,5 @@
 import { FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from "@chakra-ui/react"
-import React, { useState, FC } from "react"
+import React, { useState, FC, useEffect } from "react"
 
 const DatingCreateTime: FC<{
     getTime: any
@@ -14,6 +14,9 @@ const DatingCreateTime: FC<{
     const isNoTime = time === undefined || time === null
     let isValidTime = !isNoTime && !timePass // Use for check all Date validate
 
+    useEffect(() => {
+        selectDate
+    })
     function isInTimePast(d: any, t: string) {
         const today = new Date()
         const chosenDate = new Date(d)

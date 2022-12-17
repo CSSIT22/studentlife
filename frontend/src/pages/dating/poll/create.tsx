@@ -94,9 +94,9 @@ const CreateActivityPoll = () => {
                 setAllInterests(allInterest.data)
             })
         }
+        date
 
-
-    })
+    }, [])
 
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
@@ -213,6 +213,7 @@ const CreateActivityPoll = () => {
             //     sliderValue
             // )
             setClicked(true)
+            // handleChat(header)
             API.post<PollDetail | UserInterests>("/dating/create/setPoll", {
                 pollName: header,
                 pollPlace: location,
@@ -226,6 +227,7 @@ const CreateActivityPoll = () => {
             })
                 .then(() => navigate("/dating/poll"))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request! " + err) }))
+
             // toast({
             //     title: "Poll created.",
             //     description: "You have successfully created a poll.",
@@ -245,6 +247,9 @@ const CreateActivityPoll = () => {
                 position: "top",
             })
         }
+    }
+    function handleChat(name: string) {
+        API.put<{ name: string }>(`/chat/createGroup?name=${name}`)
     }
 
     return (
@@ -287,6 +292,7 @@ const CreateActivityPoll = () => {
                                 onEsc={onClose}
                                 scrollBehavior="inside"
                                 closeOnOverlayClick={false}
+                                autoFocus={false}
                             >
                                 <ModalOverlay backdropBlur={"base"} />
                                 <ModalContent>
@@ -406,7 +412,6 @@ const CreateActivityPoll = () => {
 
                     <DatingCreateDate getDate={setDateInput} getValidDate={setValidDate} />
                     {/* Time input & error control */}
-
                     <DatingCreateTime getTime={setTimeInput} getValidTime={setValidTime} selectDate={date} />
                     <FormControl isRequired>
                         <FormLabel>Number of people</FormLabel>

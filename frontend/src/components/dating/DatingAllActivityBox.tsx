@@ -1,10 +1,11 @@
 import { Box, Button, Center, Flex, Heading, Image, Spacer, Tag, Text } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { POLL } from "./shared/poll"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { POLL_APPLICANT } from "./shared/poll_applicant"
 import { useToast } from "@chakra-ui/react"
 import { INTERESTS } from "./shared/interests"
+import API from "src/function/API"
 
 declare global {
     var date: string, time: string
@@ -12,9 +13,22 @@ declare global {
 
 // Component of all activity page
 const DatingAllActivityBox = () => {
+    const params = useParams()
+    // const [poll, setPoll] = useState(POLL)
     const [poll, setPoll] = useState(POLL)
-    const [interests, setInterests] = useState(INTERESTS)
+    // const [interests, setInterests] = useState(INTERESTS)
     const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
+    let count = 1
+    useEffect(() => {
+        if (count != 0) {
+            count--
+            //Wrong API
+            API.get("/dating/yourpoll/getYourPolls" + params.pollId).then((data) => {
+                setPoll(data.data)
+                console.log("Poll data " + poll);
+            }).catch((err) => console.log(err));
+        }
+    })
 
     function appiled(pId: string) {
         const today = new Date()

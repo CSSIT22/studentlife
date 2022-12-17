@@ -799,7 +799,7 @@ model Activity_Poll {
   pollcreated    DateTime         @default(now()) @db.Timestamp(0)
   roomId         String?          @unique
   pollCreator    User_Profile?    @relation(fields: [userId], references: [userId])
-  pollIn         Chat_Room?        @relation(fields: [roomId], references: [roomId])
+  pollIn         Chat_Room?       @relation(fields: [roomId], references: [roomId])
   participants   Poll_Applicant[]
   interests      Poll_Interest[]
 }
@@ -1110,7 +1110,7 @@ model Word_Report_Detail {
 }
 
 model Filtered_Word {
-  wordReportId Int           @id @default(autoincrement())
+  wordReportId Int    @id @default(autoincrement())
   word         String
 }
 
@@ -1409,8 +1409,8 @@ model Restaurant {
 
 model Restaurant_Detail {
   resId     String     @id
-  phoneNo   String @default("-")
-  website   String @default("")
+  phoneNo   String     @default("-")
+  website   String     @default("")
   location  String
   vicinity  String
   latitude  Float      @db.Real
@@ -1498,8 +1498,8 @@ model SReview_Shop_Image {
 
 model SReview_Review {
   reviewId     String                 @id @default(cuid())
-  resId        String?                 
-  shopId       String?                 
+  resId        String?
+  shopId       String?
   userId       String
   reviewedAt   DateTime               @default(now()) @db.Timestamp(0)
   text         String
@@ -1507,8 +1507,8 @@ model SReview_Review {
   likeReceived Int                    @default(0)
   images       SReview_Review_Image[]
   reviewer     User_Profile           @relation(fields: [userId], references: [userId])
-  restaurant   Restaurant?             @relation(fields: [resId], references: [resId])
-  shop         SReview_Shop?           @relation(fields: [shopId], references: [shopId])
+  restaurant   Restaurant?            @relation(fields: [resId], references: [resId])
+  shop         SReview_Shop?          @relation(fields: [shopId], references: [shopId])
   likes        SReview_Review_Like[]
   comments     SReview_Comment[]
   files        SReview_Review_File[]

@@ -43,7 +43,7 @@ const YourActivityPoll = () => {
                                 })
                                 navigate("/user")
                             }
-                            else if(getAge(detail.data.birth) < 18) {
+                            else if (getAge(detail.data.birth) < 18) {
                                 toast({
                                     title: "You don't meet the minimum age requirement!",
                                     status: "warning",
@@ -54,7 +54,7 @@ const YourActivityPoll = () => {
                                 })
                                 navigate("/")
                             }
-                            else if(getAge(detail.data.birth) > 40) {
+                            else if (getAge(detail.data.birth) > 40) {
                                 toast({
                                     title: "You don't meet the maximum age requirement!",
                                     status: "warning",
@@ -137,11 +137,11 @@ const YourActivityPoll = () => {
                 </Box>
             </Center>
             {/* Calling all your activity poll out (Need to order by time [desc])*/}
-            <Stack pt="120px" pb="60px">
+            <Stack pt="150px" pb="60px">
                 <DatingYourActivityBox />
             </Stack>
             {/* Create poll button */}
-            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px",md: "20px"}} bottom={{ base: "70px",md: "30px"}}  _hover={{ color: "black" }}>
+            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px", md: "20px" }} bottom={{ base: "70px", md: "30px" }} _hover={{ color: "black" }}>
                 <DatingCreatePollButton />
             </Box>
         </DatingAppBody>

@@ -89,8 +89,20 @@ export type FollowDetail = {
       type: string;
       data: number[];
     };
-    receiveRate: {
-      score: number;
+  };
+};
+
+export type RateFollow = {
+  anotherUserId: string;
+  score: number;
+  userId: string;
+  scoreReceiver: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
     };
   };
 };
@@ -114,7 +126,7 @@ export type PollInfo = {
   pollPlace: string;
   isOpen: boolean;
   participants: {
-    isAccepted: boolean,
+    isAccepted: boolean;
     user: {
       userId: string;
       fName: string;
@@ -155,4 +167,10 @@ export type HeartReceiver = {
       };
     };
   };
+};
+
+export type Rating = {
+  userId: string;
+  anotherUserId: string;
+  rate: number;
 };
