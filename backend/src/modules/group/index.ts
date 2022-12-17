@@ -21,6 +21,7 @@ import unBanMember from "./routes/community/member/unBanMember"
 import getCommunityId from "./routes/community/getCommunityId"
 import getTag from "./routes/getTag"
 import multer from "multer"
+import creatingCommunityPost from "./routes/community/post/createCommunityPost"
 
 const upload = multer()
 const groupRoutes = express()
@@ -44,6 +45,7 @@ groupRoutes.get("/getCommunityFile/:id", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 
 groupRoutes.get("/getCommunityPost/:id", getCommunityPost)
+groupRoutes.post("/creatingCommunityPost/:id", creatingCommunityPost)
 
 groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)
