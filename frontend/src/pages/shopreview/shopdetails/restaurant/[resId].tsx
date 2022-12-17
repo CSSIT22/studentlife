@@ -10,9 +10,11 @@ import RatingStar from 'src/components/shopreview/RatingStar'
 import ReviewDetail from 'src/components/shopreview/ReviewDetail'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
 import API from 'src/function/API'
+import rating from 'src/pages/dating/rating'
 
 const restId = () => {
     window.scrollTo(0, 0)
+    const [rating, setRating] = useState(0) // rating star max = 5
     const { isOpen, onOpen, onClose } = useDisclosure()
     let param = useParams()
     const [detail, setDetail2] = useState<any>([])
@@ -21,17 +23,28 @@ const restId = () => {
             .then((res) => setDetail2(res.data))
     }, [param])
     const [review, setReview] = useState<any>([])
-    const getReview = API.get("/shopreview/getmyreviewDb2")
-    useEffect(() => {
-        getReview.then((res) => {
-            setReview(res.data)
-        })
-    }, [])
+    // const getReview = API.get("/shopreview/getmyreviewDb2")
+    // useEffect(() => {
+    //     getReview.then((res) => {
+    //         setReview(res.data)
+    //     })
+    // }, [])
+    const onClick = (idx: any) => {
+        var x = idx
+        // allow user to click first icon and set rating to zero if rating is already 1
+        if (rating === 1 && parseInt(x) === 1) {
+            setRating(0)
+        } else {
+            setRating(parseInt(x))
+        }
+    }
+
     const navigate = useNavigate()
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
         window.scrollTo(0, 0)
     }
+
     return (
         <AppBody>
             {detail.map((item: any) => {
@@ -110,7 +123,7 @@ const restId = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        <RatingStar rating={rating} onClick={onClick} size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
 
                         <Textarea
                             colorScheme="white"

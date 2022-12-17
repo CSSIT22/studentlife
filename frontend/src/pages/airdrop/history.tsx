@@ -219,7 +219,7 @@ export default function Drophistory<FC>() {
                                     <Flex
                                         direction={"row"}
                                         justifyContent={{
-                                            base: "space-evenly",
+                                            base: "space-between",
                                             md: "space-between",
                                             lg: "space-between",
                                         }}
