@@ -22,8 +22,8 @@ model User_Profile {
   majorId             String?
   studentMajor        Major?                        @relation(fields: [majorId], references: [majorId], onDelete: SetNull)
   roles               User_To_Role[]
-  userFollowers       Follow[]                      @relation("following")
-  userFollowing       Follow[]                      @relation("follower")
+  userFollowers       Follow[]                      @relation("following") //มีใครฟอลเราบ้าง
+  userFollowing       Follow[]                      @relation("follower") //เราฟอลใครบ้าง
   userReporters       User_Report[]                 @relation("reporting")
   userReporting       User_Report[]                 @relation("reporter")
   userBlockers        User_Blocked[]                @relation("blocking")
@@ -1493,17 +1493,17 @@ model SReview_Shop_Image {
 }
 
 model SReview_Review {
-  reviewId     String                 @id @default(cuid())
+  reviewId     String                @id @default(cuid())
   resId        String?
   shopId       String?
   userId       String
-  reviewedAt   DateTime               @default(now()) @db.Timestamp(0)
+  reviewedAt   DateTime              @default(now()) @db.Timestamp(0)
   text         String
   rating       Int
-  likeReceived Int                    @default(0)
-  reviewer     User_Profile           @relation(fields: [userId], references: [userId])
-  restaurant   Restaurant?            @relation(fields: [resId], references: [resId])
-  shop         SReview_Shop?          @relation(fields: [shopId], references: [shopId])
+  likeReceived Int                   @default(0)
+  reviewer     User_Profile          @relation(fields: [userId], references: [userId])
+  restaurant   Restaurant?           @relation(fields: [resId], references: [resId])
+  shop         SReview_Shop?         @relation(fields: [shopId], references: [shopId])
   likes        SReview_Review_Like[]
   comments     SReview_Comment[]
   files        SReview_Review_File[]
