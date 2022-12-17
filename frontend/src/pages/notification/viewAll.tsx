@@ -7,6 +7,7 @@ import {
     Spacer,
     Stack,
     Text,
+    useBoolean,
     useToast,
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
@@ -27,7 +28,7 @@ import { socketContext } from "src/context/SocketContext"
 
 
 const viewAll = () => {
-
+    const [isLoading, { off }] = useBoolean(true)
     const { setcountUnread } = useContext(NavBarContext)
 
     //reload noti
@@ -54,7 +55,7 @@ const viewAll = () => {
         getUserNotiObjectModule().then((res) => {
             setUserNotiObjectModule(res.data)
             setcountUnread(res.data.filter((el: any) => { return el.isRead != true }).length)
-        })
+        }).finally(off)
     }, [reLoad])
     //console.log(userNotiObjectModule);
 
@@ -66,7 +67,13 @@ const viewAll = () => {
             socketIO.off("push_noti")
         }
     });
-
+    if (isLoading) return (
+        <AppBody>
+            <Center h={"80vh"}>
+                <iframe src="https://embed.lottiefiles.com/animation/63861"></iframe>
+            </Center>
+        </AppBody>
+    )
     return (
         <AppBody>
             <Flex padding={3}>

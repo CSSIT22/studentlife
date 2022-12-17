@@ -7,22 +7,12 @@ import {
     Spacer,
     Stack,
     Text,
-    useDisclosure,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
+    useBoolean,
     useToast,
-    Avatar,
-    AvatarBadge,
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import Modulelist from "./Modulelist"
 import NotiList from "./main/NotiList"
-import { SettingsIcon } from "@chakra-ui/icons"
 import MarkRead from "./MarkRead"
 import { Link, useParams } from "react-router-dom"
 import NotiSetting from "./NotiSetting"
@@ -30,16 +20,11 @@ import API from "src/function/API"
 import { alertNoti, Notiobject, NotiObjectMudule, pushNotiType } from "@apiType/notification"
 import { socketContext } from "src/context/SocketContext"
 import { NavBarContext } from "src/context/NavbarContext"
-import NotiObject from "./main/NotiObject"
-import { templates } from "./functions/templates"
 import { showDescription } from "./functions/replaceValue"
-import ShowUser from "../transaction/TransactionShowUser"
 import { showUser } from "./functions/showUser"
 
 const NotiTable = () => {
-
-
-
+    const [isLoading, { off }] = useBoolean(true)
     const { setcountUnread } = useContext(NavBarContext)
 
     //reload noti
@@ -69,7 +54,7 @@ const NotiTable = () => {
             setcountUnread(res.data.filter((el: any) => { return el.isRead != true }).length)
             //console.log(res.data.filter((el: any) => { return el.isRead != true }).length);
 
-        })
+        }).finally(off)
     }, [reLoad])
 
     const toast = useToast()
@@ -103,7 +88,13 @@ const NotiTable = () => {
         }
     });
 
+    if (isLoading) return (
 
+        <Center h={"80vh"}>
+            <iframe src="https://embed.lottiefiles.com/animation/63861"></iframe>
+        </Center>
+
+    )
     return (
         <Box>
             <Flex padding={3} paddingBottom={0}>
