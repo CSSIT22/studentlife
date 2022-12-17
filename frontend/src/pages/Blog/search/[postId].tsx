@@ -42,7 +42,7 @@ import { useParams } from "react-router-dom"
 const Home = () => {
 
     const param = useParams()
-    const [file, setFile,] = useState<any>(null)
+    // const [file, setFile,] = useState<any>(null)
     const [post, setPost,] = useState<any>(null)
     // const getData = API.get("/blog/searchPost/" + param.postId)
     useEffect(() => {
@@ -88,7 +88,7 @@ const Home = () => {
                     />}
                     {/* <PostImage image="" /> */}
                     {post &&
-                        <PostFile file={post.imgId}
+                        <PostFile file={post.imageAddress}
                         />}
 
                     <Center>
