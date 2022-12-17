@@ -176,7 +176,6 @@ export type Rating = {
 };
 
 export type Polls = {
-  userId: string;
   pollCreator: {
     userId: string;
     fName: string;

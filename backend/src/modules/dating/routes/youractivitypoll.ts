@@ -29,6 +29,9 @@ yourActivityPollRoutes.get("/getYourPolls", verifyUser, async (req: Request, res
         }
 
         const activityPollDB = await prisma.activity_Poll.findMany({
+            orderBy: {
+                pollcreated: "desc",
+            },
             where: {
                 pollId: pollId,
                 userId: req.user?.userId,

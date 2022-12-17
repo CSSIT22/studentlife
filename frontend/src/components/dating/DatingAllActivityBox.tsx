@@ -15,27 +15,20 @@ declare global {
 }
 
 // Component of all activity page
-const DatingAllActivityBox:FC<{poll: Polls[]; userId: string}> = ({poll, userId}) => {
+const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, userId }) => {
     const params = useParams()
     // const [poll, setPoll] = useState(POLL)
 
     // const [interests, setInterests] = useuseState<string>("")State(INTERESTS)
     // const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
-    let count = 1
-    useEffect(() => {
-        if (count != 0) {
-            count--
-
-        }
-    }, [])
-
-    function appiled(pId: string) {
-        const today = new Date()
-        // NEED TO ADD DATA TO DATABASE HERE!!!!
-        console.log("Is appiled " + pId)
-        console.log(today)
-    }
-
+    // let count = 1
+    // function appiled(pId: string) {
+    //     const today = new Date()
+    //     // NEED TO ADD DATA TO DATABASE HERE!!!!
+    //     console.log("Is appiled " + pId)
+    //     console.log(today)
+    // }
+    const [cc, setcc] = useState<boolean>(false)
     const toast = useToast()
     function handleApply(pId: string, apState: boolean) {
         const now = new Date()
@@ -92,6 +85,7 @@ const DatingAllActivityBox:FC<{poll: Polls[]; userId: string}> = ({poll, userId}
     //     return false
     // }
 
+
     // Make the number of people into correct grammar
     function handlePeople(min: number, max: number) {
         if (max === min && max === 1) {
@@ -102,6 +96,8 @@ const DatingAllActivityBox:FC<{poll: Polls[]; userId: string}> = ({poll, userId}
             return min + "-" + max + " people"
         }
     }
+
+
 
     return (
         <Box borderRadius="10px" color="black">
@@ -181,7 +177,7 @@ const DatingAllActivityBox:FC<{poll: Polls[]; userId: string}> = ({poll, userId}
                                     (values.isOpen ? (
                                         // If the poll have been applied user can click to navigate to appiledpoll page
                                         <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
-                                            <Box
+                                            {values.participants.length != 0 ? (<Button
                                                 display="flex"
                                                 cursor="pointer"
                                                 w="150px"
@@ -189,22 +185,47 @@ const DatingAllActivityBox:FC<{poll: Polls[]; userId: string}> = ({poll, userId}
                                                 mt="20px"
                                                 pr="40px"
                                                 pl="40px"
-                                                backgroundColor={values.participants.length != 0 ? "#B24000" : "#E65300"}
+                                                colorScheme="orange.200"
+                                                backgroundColor={"#B24000"}
                                                 borderRadius="5px"
                                                 justifyContent="center"
                                                 alignItems="center"
                                                 onClick={() => {
                                                     handleApply(values.pollId, values.participants.length != 0)
-                                                    // , setApplyState(true)
                                                 }}
+                                            // isDisabled={true}
                                             >
                                                 <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                    {values.participants.length != 0 ? "Applied" : "Apply"}
+                                                    {"Applied"}
                                                 </Text>
-                                            </Box>
+                                            </Button>) : (<Button
+                                                display="flex"
+                                                cursor="pointer"
+                                                w="150px"
+                                                m="10px"
+                                                mt="20px"
+                                                pr="40px"
+                                                pl="40px"
+                                                colorScheme="orange.200"
+                                                backgroundColor={"#E65300"}
+                                                borderRadius="5px"
+                                                justifyContent="center"
+                                                alignItems="center"
+
+                                                onClick={() => {
+                                                    handleApply(values.pollId, values.participants.length != 0)
+                                                    // , setApplyState(true)
+                                                    setcc(true)
+                                                }}
+                                                isDisabled={cc}
+                                            >
+                                                <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                    {"Apply"}
+                                                </Text>
+                                            </Button>)}
                                         </Link>
                                     ) : (
-                                        <Box
+                                        <Button
                                             display="flex"
                                             cursor="pointer"
                                             w="150px"
@@ -220,7 +241,7 @@ const DatingAllActivityBox:FC<{poll: Polls[]; userId: string}> = ({poll, userId}
                                             <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
                                                 Closed
                                             </Text>
-                                        </Box>
+                                        </Button>
                                     )
                                     ) : (<Box
                                         display="flex"
