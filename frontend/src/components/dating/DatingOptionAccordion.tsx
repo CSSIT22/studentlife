@@ -120,8 +120,8 @@ const DatingOptionAccordion: FC<{
                         mb="15px"
                     >
                         <Box textAlign="left" borderRadius="full" color="black" w="100%">
-                            <Text color="#747474" fontWeight="400"
-                                fontSize="14px"
+                            <Text color="black" fontWeight="400"
+                                fontSize="16px"
                                 lineHeight="20px">
                                 Faculty
                             </Text>

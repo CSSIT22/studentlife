@@ -6,20 +6,25 @@ import { motion } from "framer-motion"
 const DatingYourActivityButton: FC<{ backgroundColor: string }> = ({ backgroundColor }) => {
 
     function handleClick() {
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     return (
         <Link to="/dating/poll/yourpoll" style={{ textDecoration: "none" }} onClick={handleClick}>
             <motion.div
                 initial={
-                    { cursor: "pointer" }
+                    { cursor: "pointer", scale: 0 }
                 }
                 whileHover={{ scale: 1.1, }}
                 whileTap={{
                     scale: 0.9,
                 }}
-                ><Box
+                animate={{ scale: 1 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 360,
+                    damping: 20,
+                }}><Box
                     display="flex"
                     cursor="pointer"
                     w={{ base: "100px", sm: "130px", md: "200px", lg: "300px", xl: "290px" }}

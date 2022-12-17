@@ -11,6 +11,7 @@ import React from "react"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
 import Lottie from "lottie-react"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
+import { motion } from "framer-motion"
 
 declare global {
     var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean, firstTime: boolean, hasSetInterest: string
@@ -284,36 +285,63 @@ const DatingOption = () => {
                                 >
                                     {/* Interests topic */}
                                     <GridItem area={"topic"}>
-                                        <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
-                                            Option
-                                        </Heading>
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{
+                                                type: "spring",
+                                                stiffness: 360,
+                                                damping: 20,
+                                            }}>
+                                            <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
+                                                Option
+                                            </Heading>
+                                        </motion.div>
                                     </GridItem>
                                     <GridItem area={"desc"}>
-                                        <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
-                                            Please select your preferences
-                                        </Heading>
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{
+                                                type: "spring",
+                                                stiffness: 360,
+                                                damping: 20,
+                                            }}>
+                                            <Heading pl={0.5} color="black" fontWeight="500" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%" pt={{ base: "0px", md: "5px" }}>
+                                                Please select your preferences
+                                            </Heading>
+                                        </motion.div>
                                     </GridItem>
                                     {/* DatingInterestDynamicButton component: Skip & Done button */}
 
                                     <GridItem area={"button"} mt={{ base: "6px", md: "10px" }}>
-                                        <Button
-                                            colorScheme="orange"
-                                            width={{ base: "79px", md: "200px" }}
-                                            height={{ base: "33px", md: "70px" }}
-                                            borderRadius="5px"
-                                            float="right"
-                                            type="submit"
-                                            form="new-note"
-                                            isDisabled={isDisabled}
-                                            onClick={() => {
-                                                handleSubmit()
-                                                    , setIsDisabled(!isDisabled)
-                                            }}
-                                        >
-                                            <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
-                                                Done
-                                            </Box>
-                                        </Button>
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{
+                                                type: "spring",
+                                                stiffness: 360,
+                                                damping: 20,
+                                            }}>
+                                            <Button
+                                                colorScheme="orange"
+                                                width={{ base: "79px", md: "200px" }}
+                                                height={{ base: "33px", md: "70px" }}
+                                                borderRadius="5px"
+                                                float="right"
+                                                type="submit"
+                                                form="new-note"
+                                                isDisabled={isDisabled}
+                                                onClick={() => {
+                                                    handleSubmit()
+                                                        , setIsDisabled(!isDisabled)
+                                                }}
+                                            >
+                                                <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
+                                                    Done
+                                                </Box>
+                                            </Button>
+                                        </motion.div>
                                     </GridItem>
                                 </Grid>
                                 <Box>
@@ -328,50 +356,103 @@ const DatingOption = () => {
                 <SimpleGrid gap={12} pt={5} columns={{ base: 1, md: 2 }}>
                     <Box>
                         <Box pb={5}>
-                            <Text fontWeight="700"
-                                fontSize="30px"
-                                lineHeight={{ base: "133%", md: "120%" }} as="b">
-                                Age Preference
-                            </Text>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Text fontWeight="700"
+                                    fontSize="30px"
+                                    lineHeight={{ base: "133%", md: "120%" }} as="b">
+                                    Age Preference
+                                </Text>
+                            </motion.div>
                         </Box>
-                        <DatingOptionRangeSlider
-                            sliderValue={sliderValue}
-                            useAgeValue={useAgeValue}
-                            setUseAgeValue={setUseAgeValue}
-                            setSliderValue={setSliderValue}
-                        />
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 20,
+                            }}>
+                            <DatingOptionRangeSlider
+                                sliderValue={sliderValue}
+                                useAgeValue={useAgeValue}
+                                setUseAgeValue={setUseAgeValue}
+                                setSliderValue={setSliderValue}
+                            />
+                        </motion.div>
                     </Box>
                     <Box>
                         <Box pb={5}>
-                            <Text fontWeight="700"
-                                fontSize="30px"
-                                lineHeight={{ base: "133%", md: "120%" }} as="b">
-                                Gender Preference
-                            </Text>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Text fontWeight="700"
+                                    fontSize="30px"
+                                    lineHeight={{ base: "133%", md: "120%" }} as="b">
+                                    Gender Preference
+                                </Text>
+                            </motion.div>
                             <Box pb={5} />
                             {/* Gender preference radio box*/}
-                            <Stack {...group} direction="column">
-                                {options.map((value) => {
-                                    const radio = getRadioProps({ value })
-                                    return (
-                                        <DatingOptionRadioBox key={value} {...radio} onClick={handleGender}>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Stack {...group} direction="column">
+                                    {options.map((value) => {
+                                        const radio = getRadioProps({ value })
+                                        return (
+                                            <DatingOptionRadioBox key={value} {...radio} onClick={handleGender}>
                                                 {value}
-                                        </DatingOptionRadioBox>
-                                    )
-                                })}
-                            </Stack>
+                                            </DatingOptionRadioBox>
+                                        )
+                                    })}
+                                </Stack>
+                            </motion.div>
                         </Box>
                     </Box>
                     <Box>
                         {/* Chose multi Faculty preference */}
                         <Box pb={5}>
-                            <Text fontWeight="700"
-                                fontSize="30px"
-                                lineHeight={{ base: "133%", md: "120%" }} as="b">
-                                Faculty Preference
-                            </Text>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Text fontWeight="700"
+                                    fontSize="30px"
+                                    lineHeight={{ base: "133%", md: "120%" }} as="b">
+                                    Faculty Preference
+                                </Text>
+                            </motion.div>
                         </Box>
                         <Box>
+                        <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}>
                             <DatingOptionAccordion
                                 faculties={faculties}
                                 selectedFac={selectedFac}
@@ -379,6 +460,7 @@ const DatingOption = () => {
                                 // setSelectedFac={setSelectedFac}
                                 getCheckboxProps={getCheckboxProps}
                             />
+                            </motion.div>
                         </Box>
                     </Box>
                 </SimpleGrid>
@@ -395,9 +477,24 @@ const DatingOption = () => {
                             <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
                         </Box>
                         <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
-                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
-                                LOADING . . .
-                            </Text>
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: `0.25em`
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: `0em`,
+                                    transition: {
+                                        duration: 1,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }
+                                }}
+                            >
+                                <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                    LOADING . . .
+                                </Text>
+                            </motion.div>
                         </Box>
                     </>
                 ) : (

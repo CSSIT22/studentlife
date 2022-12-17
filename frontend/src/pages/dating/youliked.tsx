@@ -14,6 +14,7 @@ import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYo
 import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import { HEART_HISTORY } from "../../components/dating/shared/heart_history"
+import { motion } from "framer-motion"
 
 interface state {
     heart_history: {
@@ -200,6 +201,15 @@ const YouLiked = () => {
                 >
                     {heartGiver.filter((el) => !giveToUser?.some((f) => el.heartReceiver.userId))
                         .map(({ heartReceiver }) => (
+                            <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 20,
+                            }}
+                        >
                             <Box key={heartReceiver.userId} w={{ base: "159px", md: "100%" }} ml={{ md: "10px" }} mr={{ md: "10px" }}>
                                 <SimpleGrid display="flex" columns={{ base: 1, md: 2 }} gap="56px">
                                     <Box>
@@ -227,6 +237,7 @@ const YouLiked = () => {
 
                                 {isMobile ? <hr style={{ height: "1px", backgroundColor: "black" }} /> : <></>}
                             </Box>
+                            </motion.div>
                         ))}
                 </Box></>
             }
@@ -238,10 +249,26 @@ const YouLiked = () => {
                             <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
                         </Box>
                         <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
-                            <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
-                                LOADING . . .
-                            </Text>
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: `0.25em`
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: `0em`,
+                                    transition: {
+                                        duration: 1,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }
+                                }}
+                            >
+                                <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                    LOADING . . .
+                                </Text>
+                            </motion.div>
                         </Box>
+
                     </>
                 ) : (
                     <></>
@@ -257,7 +284,7 @@ const YouLiked = () => {
                     <></>
                 )
             }
-        </DatingAppBody>
+        </DatingAppBody >
     )
 }
 

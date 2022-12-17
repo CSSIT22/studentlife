@@ -1,5 +1,6 @@
 /* A custom radio button component. */
 import { Box, Text, useRadio } from "@chakra-ui/react"
+import { motion } from "framer-motion"
 
 // RadioBox component for dating option page
 export function DatingOptionRadioBox(props: any) {
@@ -11,6 +12,15 @@ export function DatingOptionRadioBox(props: any) {
     return (
         <Box as="label">
             <input {...input} />
+            <motion.div
+                initial={
+                    { cursor: "pointer" }
+                }
+                whileHover={{ scale: 1.05, }}
+                whileTap={{
+                    scale: 0.95,
+                }}
+                >
             <Box
                 {...checkbox}
                 onClick={() => {
@@ -37,7 +47,8 @@ export function DatingOptionRadioBox(props: any) {
                     lineHeight="120%" pl="5px">
                     {props.children}
                 </Text>
-            </Box>
+            </Box></motion.div>
         </Box>
+        
     )
 }
