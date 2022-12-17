@@ -7,10 +7,10 @@ const editEvent = async (req: Request, res: Response) => {
 
     const editEvent: any = {
         eventName: req.body.eventName,
-        stTime: req.body.stTime,
+        stTime: req.body.startTime,
         endTime: req.body.endTime,
         desc: req.body.eventDesc,
-        eventType: req.body.Eventtype,
+        eventTypeId: req.body.eventType,
     }
 
     try {
