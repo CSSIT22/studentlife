@@ -12,9 +12,9 @@ const index = () => {
     const [allPost, setAllPost] = React.useState<announcement[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const getData = API.get("/announcement/getwaitingpost")
+
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+        API.get("/announcement/getwaitingpost").then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [])
 
     return (

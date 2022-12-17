@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react"
 import React, { Children, FC, useEffect } from "react"
 import { GrClose } from "react-icons/gr"
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import { post, announcement_language, post_to_language, announcement } from "@apiType/announcement"
 import API from "src/function/API"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
@@ -26,6 +26,7 @@ import Detail from "src/components/annoucement/Detail"
 const approvalDetail = () => {
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
+    const navigate = useNavigate()
     const params = useParams()
 
     const [post, setpost] = React.useState<announcement[]>([])
@@ -48,11 +49,7 @@ const approvalDetail = () => {
 
     useEffect(() => {
         getPost()
-    }, [toggle])
-
-    const reload = () => {
-        settoggle(!toggle)
-    }
+    }, [])
 
     const [lang, setlang] = React.useState<number>(1000)
     const selectLangName = (lang_id: number) => {
@@ -88,16 +85,17 @@ const approvalDetail = () => {
             )
         }
     }
-
-    const changeStatus = (status: string) => {
+    const [isLoading2, setisLoading2] = React.useState(false)
+    const changeStatus = async (status: string) => {
+        setisLoading2(true)
         if (status == "Approve") {
-            API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: true })
-            API.post<post>("/announcement/gettargetgroup", { postId: params.postId, targetType: targetType, targetValue: targetValue })
-            reload()
+            await API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: true })
+            await API.post<post>("/announcement/gettargetgroup", { postId: params.postId, targetType: targetType, targetValue: targetValue })
         } else if (status == "Disapprove") {
-            API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: false })
-            reload()
+            await API.post<post>("/announcement/editstatusonapprove", { postId: params.postId, status: status, isapprove: false })
         }
+        setisLoading2(false)
+        navigate('/announcement/approval');
     }
 
     return (
@@ -143,16 +141,13 @@ const approvalDetail = () => {
                                 </Stack>
                                 <Box width="100%" p="5" mt="14">
                                     <Flex justifyContent={"space-between"}>
-                                        <Link to={"/announcement/approval"}>
-                                            <Button bg={"#38A169"} color={"white"} shadow={"md"} onClick={() => changeStatus("Approve")} >
-                                                Approve
-                                            </Button>
-                                        </Link>
-                                        <Link to={"/announcement/approval"}>
-                                            <Button bg={"#E53E3E"} color={"white"} shadow={"md"} onClick={() => changeStatus("Disapprove")}>
-                                                Disapprove
-                                            </Button>
-                                        </Link>
+                                        <Button bg={"#38A169"} color={"white"} shadow={"md"} isDisabled={isLoading2} onClick={() => changeStatus("Approve")} >
+                                            Approve
+                                        </Button>
+
+                                        <Button bg={"#E53E3E"} color={"white"} shadow={"md"} isDisabled={isLoading2} onClick={() => changeStatus("Disapprove")}>
+                                            Disapprove
+                                        </Button>
                                     </Flex>
                                 </Box>
                             </>

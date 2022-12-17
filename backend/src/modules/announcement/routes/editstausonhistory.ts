@@ -22,7 +22,6 @@ const editstatusOnHistory = async (req: Request, res: Response) => {
                     deleteAt: addHours(deleteAt),
                 },
             })
-            res.send(insertToDelete)
         } else if (status == "Deleted") {
             const deleteonAnnouncement_post = await prisma.announcement.delete({
                 where: {
