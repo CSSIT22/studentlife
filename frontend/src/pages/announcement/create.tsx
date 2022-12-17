@@ -16,6 +16,8 @@ import {
     Show,
     Heading,
     useBoolean,
+    FormErrorMessage,
+    FormHelperText,
 } from "@chakra-ui/react"
 import React, { useEffect, useRef, useState } from "react"
 import { GrClose } from "react-icons/gr"
@@ -177,6 +179,10 @@ const create = () => {
     const onDisable = () => {
         setdisable(!disable)
     }
+    const isErrorForm: boolean = topic.length > 120
+    console.log(isErrorForm);
+
+
     return (
         <AnnounceNav>
             {(() => {
@@ -226,16 +232,17 @@ const create = () => {
                                             <FormLabel>Language</FormLabel>
                                             <Select isDisabled placeholder="English" value={1000} bg="white"></Select>
                                         </FormControl>
-                                        <FormControl isRequired>
+                                        <FormControl isRequired isInvalid={isErrorForm}>
                                             <FormLabel>Title</FormLabel>
-                                            <Input placeholder="Title" onChange={(e) => {
+                                            <Input placeholder="Title" maxLength={120} onChange={(e) => {
                                                 if (e.target.value !== "") {
                                                     setFormState("modified");
                                                     setNav(false);
                                                 } else {
                                                     setFormState("unchanged");
                                                     setNav(true)
-                                                } setTopic(e.target.value)
+                                                }
+                                                setTopic(e.target.value)
                                             }} bg="white" />
                                         </FormControl>
                                         <FormControl isRequired>

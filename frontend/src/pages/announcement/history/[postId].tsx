@@ -378,7 +378,7 @@ const history = () => {
                                     </FormControl>
                                     <FormControl isRequired>
                                         <FormLabel>Title</FormLabel>
-                                        <Input placeholder="Title" onChange={(e) => {
+                                        <Input placeholder="Title" maxLength={120} onChange={(e) => {
                                             if (e.target.value !== "") {
                                                 setFormState("modified");
                                                 setNav(false);
