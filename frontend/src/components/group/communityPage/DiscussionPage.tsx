@@ -72,9 +72,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
     if (isError) return <Text>Something went wrong</Text>
     if (isLoading) return <Text>Loading...</Text>
     return (
-        <HStack position='relative' >
-
-
+        <HStack position='relative' px={{ base: 'none', md: '1rem', lg: '3rem' }} >
             <VStack mt='3' mb='6' width='full' >
 
                 <Accordion maxW='580px' width='full' allowToggle>
@@ -194,7 +192,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                 z-index='1'
                 alignSelf='flex-start'
                 width='full'
-                maxWidth='250px'
+                maxW={{ base: 'none', md: '260' }}
                 bg='white'
                 borderRadius='md'
                 p='4'
