@@ -70,6 +70,15 @@ const shopId = () => {
             setReview(res.data)
         })
     }, [])
+    console.log(review)
+    // const [amo_rate, setAmountRate] = useState<any>([])
+    // const getamo_rate = API.get("/shopreview/getcountRate")
+    // useEffect(() => {
+    //     getamo_rate.then((res) => {
+    //         setAmountRate(res.data)
+    //     })
+    // }, [])
+
     useEffect(() => {
         // console.log(files)
     }, [files])
@@ -138,12 +147,14 @@ const shopId = () => {
                 <LocationShop key={index} location={item.address} phoneNumber={item.phoneNo} />
             ))}
             <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
+                {/* {amo_rate.map((item:any, index:any) => { */}
                 <Rate ratting={"5"} background={"#FF3939"} amo_rate={"3k"} />
                 <Rate ratting={"4"} background={"#1DBC03"} amo_rate={"2"} />
                 <Rate ratting={"3"} background={"#1DBC03"} amo_rate={"1"} />
                 <Rate ratting={"2"} background={"#39A0FF"} amo_rate={"55"} />
                 <Rate ratting={"1"} background={"#39A0FF"} amo_rate={"80"} />
                 <Rate ratting={"0"} background={"#838383"} amo_rate={"26"} />
+                {/* })} */}
             </SimpleGrid>
 
             <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
@@ -160,7 +171,7 @@ const shopId = () => {
                     if (param.shopId === item.shopId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail key={index} image={item.images[0]} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
+                                <ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
                             </b>
                         )
                     }

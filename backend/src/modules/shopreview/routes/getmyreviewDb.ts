@@ -38,11 +38,11 @@ const getmyreviewDb = async (req: Request, res: Response) => {
                         lName: true,
                     },
                 },
-                images: {
-                    select: {
-                        image: true,
-                    },
-                },
+                // images: {
+                //     select: {
+                //         image: true,
+                //     },
+                // },
             },
             where: {
                 shopId: id,

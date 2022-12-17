@@ -20,11 +20,11 @@ const getreviewDb = async (req: Request, res: Response) => {
                         lName: true,
                     },
                 },
-                files:{
-                    select:{
-                        fileId:true
-                    }
-                }
+                files: {
+                    select: {
+                        fileId: true,
+                    },
+                },
             },
             where: {
                 reviewId: id,
