@@ -243,7 +243,7 @@ export default function SimpleThreeColumns() {
                                 position="initial"
                                 value="inside"
                                 shadow={"lg"}
-                                onClick={() => navigate("/chat")}
+                                onClick={() => API.post(`/chat/createRoom`, { chatWith_id: userData.userId }).then(() => navigate("/chat"))}
                             >
                                 Message
                             </Button>
