@@ -445,21 +445,21 @@ const DatingOption = () => {
                             </motion.div>
                         </Box>
                         <Box>
-                        <motion.div
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 360,
-                                            damping: 20,
-                                        }}>
-                            <DatingOptionAccordion
-                                faculties={faculties}
-                                selectedFac={selectedFac}
-                                setSelectedFac={setSelectedFac}
-                                // setSelectedFac={setSelectedFac}
-                                getCheckboxProps={getCheckboxProps}
-                            />
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <DatingOptionAccordion
+                                    faculties={faculties}
+                                    selectedFac={selectedFac}
+                                    setSelectedFac={setSelectedFac}
+                                    // setSelectedFac={setSelectedFac}
+                                    getCheckboxProps={getCheckboxProps}
+                                />
                             </motion.div>
                         </Box>
                     </Box>
@@ -474,7 +474,16 @@ const DatingOption = () => {
                 (isLoading) && !isError ? (
                     <>
                         <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
-                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                            </motion.div>
                         </Box>
                         <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
                             <motion.div
