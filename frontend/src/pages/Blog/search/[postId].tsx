@@ -49,7 +49,6 @@ const Home = () => {
         API.get("/blog/search/" + param.postId).then(item => {
             console.log(item.data)
             setPost(item.data)
-            setFile(item.data)
         })
 
         // console.log(param.postId)
@@ -88,7 +87,10 @@ const Home = () => {
                         text={post.body}
                     />}
                     {/* <PostImage image="" /> */}
-                    <PostFile file={""} />
+                    {post &&
+                        <PostFile file={post.imgId}
+                        />}
+
                     <Center>
                         <Box marginTop={"6"} display="flex" gap={10}>
                             <Box>

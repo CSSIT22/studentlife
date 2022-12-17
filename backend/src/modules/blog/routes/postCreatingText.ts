@@ -44,7 +44,7 @@ const postCreatingText = async (req: Request, res: Response) => {
         data: {
             imgId: fileId ,
             postId: post.postId,
-            imageAddress: "stagging.modlife.me" + fileId,
+            imageAddress: "https://staging-api.modlifes.me/airdrop/file/getfile/" + fileId,
         },
     })
     res.json({post, image_contain})
