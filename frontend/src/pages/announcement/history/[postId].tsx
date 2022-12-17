@@ -186,7 +186,6 @@ const history = () => {
         };
         if (formState == "modified") {
             window.addEventListener("beforeunload", handler);
-            // clean it up, if the dirty state changes
             return () => {
                 window.removeEventListener("beforeunload", handler);
             }
@@ -208,8 +207,6 @@ const history = () => {
             if (navi) {
                 return pushState.apply(history, arguments as any);
             } else {
-                // alert("Hello")
-                // console.log("hi");
                 const cancelRef = useRef()
             }
         };
@@ -275,7 +272,6 @@ const history = () => {
 
                 return (
                     <MoreLangForEdit
-                        // id={Date.now()}
                         onDecrease={decreaseForEdit}
                         addLang={addLang}
                         selectLang={el.languageId}
@@ -347,7 +343,6 @@ const history = () => {
                                     tog()
                                     onOpen()
                                     e.preventDefault()
-                                    // e.stopPropagation()
                                     submit()
                                     setFormState("saving")
                                 }}

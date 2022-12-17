@@ -15,56 +15,16 @@ const ModalForEvent: FC<{
     selectPost?: number
     onClick: Function
 }> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost, onClick }) => {
-    // console.log(status + " " + selectPost)
-    // console.log(allPost);
-    let expiredonrecycle: Date = new Date()
-    let date: number = new Date().getDate()
-    let month: number = new Date().getMonth()
-    let year: number = new Date().getFullYear()
-    // console.log  (year+"-"+month+"-"+date);
-    expiredonrecycle.setDate(date + 3)
-    expiredonrecycle.setMonth(month)
-    expiredonrecycle.setFullYear(year)
-    // console.log(expiredonrecycle);
-
     const toggle = () => {
         onClick()
         if (status == "Approve") {
-            // setAllPost(
-            //     allPost.map((el) => {
-            //         if (el.postId == selectPost) {
-            //             el.status = "delete"
-            //             el.deleteAt = new Date()
-            //         }
-            //         return el
-            //     })
-            // )
             API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Delete", deleteAt: new Date() })
         } else if (status == "Disapprove") {
-            // setAllPost(
-            //     allPost.map((el) => {
-            //         if (el.postId == selectPost) {
-            //             el.status = "deleted"
-            //         }
-            //         return el
-            //     })
-            // )
             API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date() })
         } else if (status == "Delete") {
-            // setAllPost(
-            //     allPost.map((el) => {
-            //         if (el.postId == selectPost) {
-            //             el.status = "approve"
-            //         }
-            //         return el
-            //     })
-            // )
             API.post<post>("/announcement/editstatusonrecycle", { postId: selectPost })
         }
     }
-    // console.log(status);
-    // console.log(allPost);
-    // console.log(selectPost);
 
     const checkstatus = (status: string) => {
         if (status == "Disapprove" || status == "Approve") {
@@ -115,7 +75,6 @@ const ModalForEvent: FC<{
             return ""
         }
     }
-    // console.log(status);
     const backToHistory = (status: string) => {
         if (status == "edit") {
             return (

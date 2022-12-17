@@ -10,10 +10,7 @@ const PostOnRecycle: FC<{
     id: string
     status: string
     onOpen: Function
-}> = ({ topic, sender, expired, onClick, id, status, onOpen }) => {
-    const current = new Date()
-    // console.log(id);
-    
+}> = ({ topic, sender, expired, onClick, id, status, onOpen }) => {    
     return (
         <Box
             height={"5rem"}
@@ -37,9 +34,6 @@ const PostOnRecycle: FC<{
                 <Spacer />
                 <Flex direction={"column"} alignItems="end">
                     <VscDebugRestart fontSize={"2rem"} color="#E65D10" />
-                    {/* <Text fontSize={"xs"} as="b">
-                        remaining
-                    </Text> */}
                     <Text fontSize={"xs"}>{expired}</Text>
                 </Flex>
             </Flex>

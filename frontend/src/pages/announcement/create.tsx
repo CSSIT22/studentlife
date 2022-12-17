@@ -1,6 +1,4 @@
 import {
-    Button,
-    Divider,
     Flex,
     FormControl,
     FormLabel,
@@ -18,30 +16,13 @@ import {
     Show,
     Heading,
     useBoolean,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    useDisclosure,
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogCloseButton,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogOverlay,
 } from "@chakra-ui/react"
 import React, { useEffect, useRef, useState } from "react"
-import { BsPlusCircleFill } from "react-icons/bs"
 import { GrClose } from "react-icons/gr"
-import { Link, To, useLocation, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
-import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
-import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 import AnnounceError from "src/components/annoucement/AnnounceError"
@@ -137,7 +118,6 @@ const create = () => {
             if (navi) {
                 return pushState.apply(history, arguments as any);
             } else {
-                // alert("Hello")
                 const cancelRef = useRef()
             }
         };
@@ -176,10 +156,6 @@ const create = () => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
 
-    const ALERT = () => {
-        alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
-        window.history.go(-1)
-    }
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])
     }
@@ -201,7 +177,6 @@ const create = () => {
     const onDisable = () => {
         setdisable(!disable)
     }
-    const navigate = useNavigate()
     return (
         <AnnounceNav>
             {(() => {

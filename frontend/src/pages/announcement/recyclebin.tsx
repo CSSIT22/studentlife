@@ -1,12 +1,8 @@
 import { Flex, Heading, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
-import AppBody from "../../components/share/app/AppBody"
-import detail from "./detail/[postId]"
-import { postInfoTest } from "./postInfoTest"
 import { announcement_delete, post } from "@apiType/announcement"
 import API from "src/function/API"
 import AnnounceError from "src/components/annoucement/AnnounceError"
@@ -48,7 +44,6 @@ const recyclebin = () => {
     useEffect(() => {
         getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
-    // console.log(toggle);
     const click = () => {
         settoggle(!toggle)
     }

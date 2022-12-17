@@ -9,7 +9,6 @@ const AnnounceError = () => {
             <Box pos={"fixed"} bottom={{ base: "40%", md: "38%", lg: "30%" }} left={{ base: "30%", md: "38%", lg: "42%" }}>
                 <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                     <Lottie animationData={annError} loop={true} style={{ maxWidth: "15rem" }} />
-                    {/* <Heading textAlign={"center"} >LOADING...</Heading> */}
                 </Flex>
             </Box>
         </Box>

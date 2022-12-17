@@ -2,15 +2,11 @@ import { Box, Divider, Flex, Grid, GridItem, Heading, Icon, Select, Show, Spacer
 import React, { useEffect, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { Link, useParams } from "react-router-dom"
-import AppBody from "../../../components/share/app/AppBody"
-import { postInfoTest } from "../postInfoTest"
 import { announcement, announcement_language } from "@apiType/announcement"
 import API from "src/function/API"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
-import { IoIosCalendar } from "react-icons/io"
-import { GiHumanTarget } from "react-icons/gi"
 import Detail from "src/components/annoucement/Detail"
 
 

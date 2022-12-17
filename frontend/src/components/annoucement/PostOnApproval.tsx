@@ -7,7 +7,6 @@ import { Link } from "react-router-dom"
 const PostOnApproval: FC<{
     topic: string
     sender: string
-    // status: string
     id: string
 }> = ({ topic, sender, id }) => {
     return (

@@ -1,17 +1,15 @@
 import { announcement, announcement_approve, announcement_approve2 } from "@apiType/announcement"
 import { Box, Flex, Heading, Spacer, IconButton, SlideFade, Slide, useDisclosure, Button, Text, Container, useBoolean, useBreakpointValue } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import { GrDown, GrUp } from "react-icons/gr"
+import { GrUp } from "react-icons/gr"
 import { TfiAnnouncement } from "react-icons/tfi"
 import { Link } from "react-router-dom"
 import API from "src/function/API"
 import ExpandOnTop from "../../components/annoucement/ExpandOnTop"
 import PostOnTop from "../../components/annoucement/PostOnTop"
 import AppBody from "../../components/share/app/AppBody"
-import { postInfoTest } from "./postInfoTest"
 
 const test = () => {
-    const [allPost, setAllPost] = React.useState(postInfoTest)
     const [clickArrowDown, setHide] = React.useState(false)
     const [clickMinimize, setMinimize] = React.useState(false)
     const [clickArrowUp, setTop] = React.useState(true)
@@ -41,7 +39,6 @@ const test = () => {
         base: false,
         md: true
     })
-    console.log(isMobile);
 
 
 
@@ -53,7 +50,6 @@ const test = () => {
     useEffect(() => {
         getDataPost.then((res) => setAllPost2(res.data)).catch((err) => on()).finally(off)
     }, [toggle])
-    // console.log(allPost2);
 
     if (isLoading)
         return (
@@ -70,7 +66,6 @@ const test = () => {
     const approveTime: announcement_approve2[] = allPost2.map((el) => {
         const apTime = new Date(el.annApprove.approveTime)
         const dEpd = Math.round(apTime.getTime())
-        // console.log(dEpd);
         return { postId: el.postId, approveTime: dEpd }
     })
 
@@ -81,7 +76,8 @@ const test = () => {
         if (allPost2[i] != undefined) {
             fivepost.push(allPost2[i])
         }
-    }
+    }    
+    
 
     return (
         <AppBody

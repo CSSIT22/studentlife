@@ -24,14 +24,6 @@ const PostOnAnnouncementPage: FC<{
         }
     }
     const toggle = () => {
-        // setAllPost(
-        //     allPost.map((el) => {
-        //         if (el.postId == id) {
-        //             el.pinStatus = !el.pinStatus
-        //         }
-        //         return el
-        //     })
-        // )
         onClick()
         setStat(!stat)
         API.post<post>("/announcement/editpinstatus", { postId: id, pinStatus: !status })
