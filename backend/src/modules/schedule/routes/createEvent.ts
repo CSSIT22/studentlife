@@ -39,7 +39,8 @@ const createEvent = async (req: Request, res: Response) => {
                 eventId: body.eventId,
             },
         })
-        if (createEvent) {
+        const isNoti = req.body.isNoti
+        if (createEvent && isNoti) {
             let eventName = createEvent.eventName
             let stTime = createEvent.stTime.toLocaleString()
             let eventId = createEvent.eventId
@@ -55,7 +56,7 @@ const createEvent = async (req: Request, res: Response) => {
                 })
             }
         }
-        
+
         res.send(createEvent)
     } catch (err) {
         console.log(err)
