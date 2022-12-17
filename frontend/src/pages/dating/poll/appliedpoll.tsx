@@ -152,7 +152,7 @@ const YourAppliedActivityPoll = () => {
                         Lname: item.poll.pollCreator.lName,
                         url: (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item.poll.pollCreator.userId
                      },
-                    pollStatus: item.isAccepted ? "Accepted" : "Pendding...",
+                    pollStatus: item.isAccepted ? "Accepted" : "Pending...",
                 }))
             )
         })
@@ -197,7 +197,7 @@ const YourAppliedActivityPoll = () => {
             <Box mt="130px"></Box>
 
             {/* Test 1: click to see more at medium bottom + chat button */}
-            <Box>
+            {/* <Box>
                 {poll.map((values) => {
                     return (
                         <>
@@ -275,7 +275,6 @@ const YourAppliedActivityPoll = () => {
                                     </Text>
 
                                     <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
-                                        {/* <ModalOverlay /> */}
                                         <ModalContent>
                                             <ModalHeader>
                                                 <Flex alignItems="center">
@@ -321,7 +320,7 @@ const YourAppliedActivityPoll = () => {
                         </>
                     )
                 })}
-            </Box>
+            </Box> */}
 
             {/* Test 2: click to see more at medium bottom + group chat and chat button */}
             <Box>
@@ -373,7 +372,7 @@ const YourAppliedActivityPoll = () => {
                                 </Box>
                                 <Spacer />
                                 <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                                    <Button
+                                    {values.pollStatus == "Accepted" ? <Button
                                         borderRadius="full"
                                         w={{ base: "50px", md: "72px" }}
                                         h={{ base: "50px", md: "72px" }}
@@ -383,7 +382,7 @@ const YourAppliedActivityPoll = () => {
                                         boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     >
                                         <Image src={GroupChatImg} />
-                                    </Button>
+                                    </Button> : <></>}
                                     <Button
                                         borderRadius="full"
                                         w={{ base: "50px", md: "72px" }}
