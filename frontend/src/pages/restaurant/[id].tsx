@@ -25,10 +25,8 @@ import ShowImage from "../../components/restaurant/ShowImage"
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { Restaurant2 } from "@apiType/restaurant"
-import Lottie from 'lottie-react'
+import  Lottie from 'lottie-react'
 import loading1 from './animation/loading1.json'
-import notloading2 from './animation/notloading2.json'
-
 declare global {
     var respage: number, rand: number
 }
@@ -41,8 +39,8 @@ function LikeorNope() {
     const navigate = useNavigate()
     // change params to run next restaurant
     const [res, setres] = React.useState(parseInt(params.id + ""))
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
     //when like, it will store userId and resId
     const likedRestaurant = () => {
         API.post("restaurant/" + params.id, { id: params.id, status: true })
@@ -51,48 +49,44 @@ function LikeorNope() {
     //Get restaurant to show on this page
     useEffect(() => {
         API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
-            .catch((err) => on())
-            .finally(off)
-        API.put("restaurant/" + params.id)
+        .catch((err) => on()) 
+        .finally(off)
+        API.put("restaurant/" + params.id) 
     }, [params.id])
+    
 
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     {/* <Heading color={"black"}>Loading</Heading> */}
+     <Box w={"100%"} h={"100%"}>
+        <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
+     <Lottie animationData={loading1} style={{scale: 1}}/>
+       </Flex>
+     </Box>
+    </AppBody>
+    )
 
-    if (isLoading)
-        return (
-            <AppBody
-                secondarynav={[
-                    { name: "Like or Nope", to: "/restaurant" },
-                    { name: "My Favorite", to: "/restaurant/favorite" },
-                    { name: "My History", to: "/restaurant/history" },
-                ]}
-            >
-                {/* <Heading color={"black"}>Loading</Heading> */}
-                <Box w={"100%"} h={"100%"}>
-                    <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
-                        <Lottie animationData={loading1} style={{ scale: 1 }} />
-                    </Flex>
-                </Box>
-            </AppBody>
-        )
-
-    if (isError) return (
-        <AppBody
+    if(isError) return (
+    <AppBody
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Box width="100%" height="100%">
-                <Flex justifyContent={"center"} alignItems={"center"} width="100%" height="100%" mt={"8rem"}>
-                    <Lottie animationData={notloading2} style={{ scale: 1 }} />
-                </Flex>
-            </Box>
-        </AppBody>
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
     )
     //  console.log(property);
-
-
+     
+    
     const Nope = () => {
         if (res < 5) {
             setres(res + 1)
@@ -141,9 +135,9 @@ function LikeorNope() {
                         <Box>
                             <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={() => {
                                 likedRestaurant()
-                                navigate(`/restaurant/detail/${"000" + globalThis.respage}`)
+                                navigate(`/restaurant/detail/${"000" +globalThis.respage}`)
                             }}>
-                                <Icon as={AiOutlineLike} w={12} h={12} />
+                                <Icon as={AiOutlineLike} w={12} h={12}/>
                             </Button>
                         </Box>
 
@@ -151,10 +145,10 @@ function LikeorNope() {
                             <Button onClick={() => {
                                 Nope()
                                 navigate(`/restaurant/${"000" + (globalThis.respage == 6 ? 1 : globalThis.respage + 1)}`)
-                            }} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
-
-                                <Icon as={AiOutlineDislike} w={12} h={12} />
-
+                                }} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
+                             
+                                   <Icon as={AiOutlineDislike} w={12} h={12}/>
+                            
                             </Button>
 
                             <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false}>
@@ -175,7 +169,7 @@ function LikeorNope() {
                                     <ModalCloseButton />
                                     <ModalFooter justifyContent={"center"} pt="60px">
                                         <Button colorScheme="blue" mr={3} onClick={Random} borderRadius={"5px"}>
-                                            <Link to={`/restaurant/detail/${"000" + rand}`}>Random</Link>
+                                            <Link to={`/restaurant/detail/${"000"+rand}`}>Random</Link>
                                         </Button>
 
                                         <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>

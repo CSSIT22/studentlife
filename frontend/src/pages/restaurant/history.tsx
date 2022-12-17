@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Heading, useBoolean } from "@chakra-ui/react"
+import { Grid, GridItem, Heading, useBoolean } from "@chakra-ui/react"
 import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import FavoriteContent from "src/components/restaurant/FavoriteContent"
@@ -7,19 +7,16 @@ import Historycontent from "../../components/restaurant/historycontent"
 import Searchbar from "../../components/restaurant/searchbar"
 import AppBody from "../../components/share/app/AppBody"
 import { Restaurant2 } from "@apiType/restaurant"
-import Lottie from 'lottie-react'
-import loading1 from './animation/loading1.json'
-import notloading2 from './animation/notloading2.json'
 
 const history = () => {
     const [property, setproperty] = React.useState<Restaurant2[]>([])
     const params = useParams()
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
     useEffect(() => {
         API.get("/restaurant/history/").then((item) => setproperty(item.data))
-            .catch((err) => on())
-            .finally(off)
+        .catch((err) => on())
+        .finally(off)
     }, [])
 
     // useEffect(() => {
@@ -27,37 +24,29 @@ const history = () => {
 
     // }, [property])
 
-    if (isLoading)
-        return (
-            <AppBody
-                secondarynav={[
-                    { name: "Like or Nope", to: "/restaurant" },
-                    { name: "My Favorite", to: "/restaurant/favorite" },
-                    { name: "My History", to: "/restaurant/history" },
-                ]}
-            >
-                <Box w={"100%"} h={"100%"}>
-                    <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
-                        <Lottie animationData={loading1} style={{ scale: 1 }} />
-                    </Flex>
-                </Box>
-            </AppBody>
-        )
+    if (isLoading) 
+    return    (
+    <AppBody
+    secondarynav={[
+        { name: "Like or Nope", to: "/restaurant" },
+        { name: "My Favorite", to: "/restaurant/favorite" },
+        { name: "My History", to: "/restaurant/history" },
+    ]}
+>
+     <Heading color={"black"}>Loading</Heading>
+    </AppBody>
+    )
 
-    if (isError) return (
-        <AppBody
+    if(isError) return (
+    <AppBody
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Box width="100%" height="100%">
-                <Flex justifyContent={"center"} alignItems={"center"} width="100%" height="100%" mt={"8rem"}>
-                    <Lottie animationData={notloading2} style={{ scale: 1 }} />
-                </Flex>
-            </Box>
-        </AppBody>
+       <Heading color={"red"}> There is an Error</Heading>
+    </AppBody>
     )
 
     return (
@@ -78,8 +67,7 @@ const history = () => {
                     //console.log(e1);
                     return (
                         <GridItem>
-                            <Historycontent resName={e1.restaurant.resName} date={new Date(e1.updatedAt).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })} status={e1.isLike} img={e1.restaurant.images} />
-                            {/* <Text textAlign={"right"} fontSize={"xs"}>Posted by {owner} at {new Date(date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}</Text> */}
+                            <Historycontent resName={e1.restaurant.resName} date={e1.updatedAt} status={e1.isLike} img={e1.restaurant.images} />
                         </GridItem>
                     )
                 })}
