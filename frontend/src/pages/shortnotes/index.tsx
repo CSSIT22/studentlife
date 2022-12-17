@@ -227,15 +227,15 @@ const index = () => {
                         <Box mt={4} mb={9}>
                             <SimpleGrid columns={{ base: 1, sm: 3 }} gap={{ base: 4, sm: 4 }} textAlign={"center"}>
                                 {rsn.map((rsn: any, key) => (
-                                    <Box as="button" onClick={() => {
+                                    <Box key={key} as="button" onClick={() => {
                                         navigate({
                                             pathname: "./" + rsn.shortNote.snId,
                                         })
                                     }}>
                                         {accessId.includes(rsn.shortNote.snId) ?
-                                            <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockOpen />}></Rsn>
+                                            <Rsn topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockOpen />}></Rsn>
                                             :
-                                            <Rsn key={key} topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockClosed />}></Rsn>
+                                            <Rsn topic={rsn.shortNote.snName} viewAt={rsn.viewedAt} lock={rsn.shortNote.isPublic ? "" : <TiLockClosed />}></Rsn>
 
                                         }
                                     </Box>
@@ -297,6 +297,7 @@ const index = () => {
                                 <>
                                     {currentSn.map((sn: any, key: any) => (
                                         <Box
+                                            key={key}
                                             as="button"
                                             w={"100%"}
                                             onClick={() => {
@@ -307,17 +308,17 @@ const index = () => {
                                             }}
                                         >
                                             {accessId.includes(sn.snId) ?
-                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
+                                                <SnList topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
                                                 :
-                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
+                                                <SnList topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
                                             }
 
                                         </Box>
                                     ))}
                                     <Flex w={"100%"} justifyContent={"center"} mb={4}>
                                         <HStack >
-                                            {pageNumbers.map((no: any) => (
-                                                <Button onClick={() => { setCurrentPage(no) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === no && {
+                                            {pageNumbers.map((no: any, key: any) => (
+                                                <Button key={key} onClick={() => { setCurrentPage(no) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === no && {
                                                     _hover: { bg: "orange.500" },
                                                     bg: "orange.500",
                                                     color: "white",
@@ -330,6 +331,7 @@ const index = () => {
                                 <>
                                     {ssn.map((sn: any, key: any) => (
                                         <Box
+                                            key={key}
                                             as="button"
                                             w={"100%"}
                                             onClick={() => {
@@ -341,9 +343,9 @@ const index = () => {
                                             }}
                                         >
                                             {accessId.includes(sn.snId) ?
-                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
+                                                <SnList topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockOpen />} />
                                                 :
-                                                <SnList key={key} topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
+                                                <SnList topic={sn.snName} course={sn.course.courseName} date={sn.created} lock={sn.isPublic ? "" : <TiLockClosed />} />
                                             }
                                         </Box>
                                     ))}

@@ -212,8 +212,8 @@ const snDetail: FC<{
 
             responseType: "arraybuffer"
         }).then((_file) => {
-            console.log(_file.data);
-            console.log(_file.headers["content-type"]);
+            //console.log(_file.data);
+            //console.log(_file.headers["content-type"]);
             try {
                 let fileBlob = new Blob([new Uint8Array(_file.data)], { type: _file.headers["content-type"] })
                 const urlCreator = window.URL || window.webkitURL
@@ -405,7 +405,7 @@ const snDetail: FC<{
                     <DrawerBody>
                         <Stack gap={4}>
                             {li.map((li: any, key) => (
-                                <Box onClick={() => {
+                                <Box key={key} onClick={() => {
                                     handleAddToLi(li.libId)
                                     toast({
                                         title: 'Shortnote added',
@@ -415,7 +415,7 @@ const snDetail: FC<{
                                         isClosable: true,
                                     })
                                 }}>
-                                    <LiList key={key} name={li.libName}></LiList>
+                                    <LiList name={li.libName}></LiList>
                                 </Box>
                             ))}
                         </Stack>

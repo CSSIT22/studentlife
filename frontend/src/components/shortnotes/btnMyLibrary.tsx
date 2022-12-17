@@ -147,6 +147,7 @@ const btnMyLibrary = () => {
                         <Stack gap={4}>
                             {li.map((li: any, key) => (
                                 <Box
+                                    key={key}
                                     as="button"
                                     onClick={() => {
                                         setNPicked(li.libName) //collect selected li.name
@@ -154,7 +155,7 @@ const btnMyLibrary = () => {
                                         inliOnOpen()
                                     }}
                                 >
-                                    <LiList key={key} name={li.libName}></LiList>
+                                    <LiList name={li.libName}></LiList>
                                 </Box>
                             ))}
 

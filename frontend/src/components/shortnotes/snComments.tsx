@@ -88,7 +88,7 @@ const snComments = () => {
                 :
                 <VStack gap={4}>
                     {comments.map((cm: any, key: any) => (
-                        <Box bg={"gray.50"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
+                        <Box key={key} bg={"gray.50"} boxShadow={"base"} rounded={8} p={3} w={"100%"} >
                             <Flex alignItems={"start"}>
                                 <Avatar
                                     size="sm"
