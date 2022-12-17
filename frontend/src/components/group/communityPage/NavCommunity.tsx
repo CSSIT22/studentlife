@@ -1,4 +1,4 @@
-import { Box, Image, Heading, Text, Flex, Button, VStack, Wrap, Tab, TabList, Tabs, Menu, MenuButton, MenuItem, MenuList, useToast, Status, transition } from '@chakra-ui/react'
+import { Box, Image, Heading, Text, Flex, Button, VStack, Wrap, Tab, TabList, Tabs, Menu, MenuButton, MenuItem, MenuList, useToast, Status, transition, Skeleton } from '@chakra-ui/react'
 import { FC, useEffect, useState } from 'react'
 import { BsPlusLg, BsThreeDots } from 'react-icons/bs'
 import { HiLockClosed, HiUserGroup } from 'react-icons/hi2'
@@ -43,7 +43,7 @@ const NavbarCommunity: FC<{
 
 
 
-    
+
     const toast = useToast()
     const onJoin = async () => {
         if (data?.community.privacy) {
@@ -184,8 +184,8 @@ const NavbarCommunity: FC<{
         <Box
         >
             <Image
-                src={`data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(data.community.photo?.data)))}`}
                 fallbackSrc="https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
+                src={`data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(data.community.photo?.data)))}`}
                 marginTop={{ base: "-2rem", sm: "-5rem" }}
                 height={{ base: "11rem", sm: "15rem" }}
                 backgroundRepeat="no-repeat"

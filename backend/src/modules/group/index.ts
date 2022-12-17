@@ -28,10 +28,10 @@ groupRoutes.use(express.json())
 
 groupRoutes.get("/getCommunity", getCommunity)
 
-groupRoutes.post("/createCommunity",upload.array("upload"), createCommunity)
+groupRoutes.post("/createCommunity", upload.array("upload"), createCommunity)
 groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.get("/searchCommunity", searchCommunity)
-groupRoutes.patch("/editCommunity:id",upload.array("upload"), editCommunity)
+groupRoutes.patch("/editCommunity:id", upload.array("upload"), editCommunity)
 groupRoutes.get("/getCommunity", getCommunity)
 
 groupRoutes.post("/pendingRequest", pendingRequest)
@@ -43,7 +43,7 @@ groupRoutes.delete("/declineRequest", declineRequest)
 groupRoutes.get("/getCommunityFile", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 
-groupRoutes.get("/getCommunityPost", getCommunityPost)
+groupRoutes.get("/getCommunityPost/:id", getCommunityPost)
 
 groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)

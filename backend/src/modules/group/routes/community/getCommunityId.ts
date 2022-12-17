@@ -20,7 +20,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 //select tags
                 tags: {
                     select: {
-                        tag: true
+                        tag: true,
                     },
                 },
                 posts: true,
@@ -32,17 +32,15 @@ const getCommunityId = async (req: Request, res: Response) => {
                         status: true,
                     },
                 },
-                files:{
-                    select:{
-                        file:{
-                            select:{
-                                fileId:true,
-                                fileName:true,
-                                fileSender:true,
+                files: {
+                    select: {
+                        file: {
+                            select: {
+                                fileId: true,
+                                fileName: true,
+                                fileSender: true,
                             },
-                            
-                        }
-                        
+                        },
                     },
                 },
                 owner: {
@@ -92,6 +90,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 },
                 userId: true,
                 status: true,
+                joined: true,
             },
         })
 
@@ -108,6 +107,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 role: community?.communityOwnerId === userId ? "OWNER" : user?.role.roleName, //role of the user
                 status: user?.status, //true if member, false if pending, undefined if not a member
                 isBlacklisted, //true if blacklisted, false if not blacklisted, undefined if not a member
+                joined: user?.joined, //date when the user joined the community
             },
             community: {
                 id: community?.communityId,
@@ -117,7 +117,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 photo: community?.communityPhoto,
                 tags: community?.tags.map((item: any) => item.tag),
                 memberCount: (community?.member.length || 0) + 1, //+1 for the owner
-                file:community?.files
+                file: community?.files,
             },
         })
         res.status(200).end()
@@ -127,4 +127,3 @@ const getCommunityId = async (req: Request, res: Response) => {
 }
 
 export default getCommunityId
-

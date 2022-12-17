@@ -41,7 +41,7 @@ const index = () => {
             {
                 //Check if user is member of community or community is public to show discussion page
                 data?.user.access || !data?.community.privacy && !isLoading && !isError && !data?.user.isBlacklisted ?
-                    <DiscussionPage /> : null
+                    <DiscussionPage data={data} /> : null
             }
         </AppBody >
     )

@@ -45,9 +45,9 @@ const index = () => {
             .catch((err) => on())
             .finally(() => off())
     }, [])
-    useEffect(() => {
-        console.log(typeof community?.communityList.own[0].communityPhoto);
-    }, [community])
+    // useEffect(() => {
+    //     console.log(typeof community?.communityList.own[0].communityPhoto);
+    // }, [community])
     if (isLoading) {
         return (
             // will fix the design later

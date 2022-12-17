@@ -1,4 +1,4 @@
-import { Box, Image, Heading, VStack, Tab, TabList, Tabs, Spinner, } from '@chakra-ui/react'
+import { Box, Image, Heading, VStack, Tab, TabList, Tabs, Spinner, Skeleton, } from '@chakra-ui/react'
 import { FC, } from 'react'
 
 import { Link } from 'react-router-dom'
@@ -24,15 +24,17 @@ const Loading: FC<{
     return (
         <Box
         >
-            <Image
-                src="https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
-                marginTop={{ base: "-2rem", sm: "-5rem" }}
-                height={{ base: "11rem", sm: "15rem" }}
-                backgroundRepeat="no-repeat"
-                width="100%"
-                objectFit="cover"
-                objectPosition="center"
-            />
+            <Skeleton>
+                <Image
+
+                    marginTop={{ base: "-2rem", sm: "-5rem" }}
+                    height={{ base: "11rem", sm: "15rem" }}
+                    backgroundRepeat="no-repeat"
+                    width="100%"
+                    objectFit="cover"
+                    objectPosition="center"
+                />
+            </Skeleton>
             <VStack
                 borderBottomRadius='lg'
                 align='flex-start'
