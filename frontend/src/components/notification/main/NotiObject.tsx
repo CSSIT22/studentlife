@@ -152,6 +152,7 @@ const NotiObject: FC<{
             count++;
         })
         //console.log(count)
+
         if (result3 != null) {
             return <Text fontSize={"sm"} textAlign={"left"} dangerouslySetInnerHTML={{ __html: result3 }} />
         }
@@ -171,18 +172,20 @@ const NotiObject: FC<{
             borderRadius="2xl"
             bg="white"
             padding={2}
+            overflow="hidden"
+            wordBreak="break-word"
             onClick={() => {
-                read(), onClick()
+                { read() }
+                { onClick() }
             }}
         >
             <a href={url}>
                 <Stack direction={"row"} spacing={4} padding={"1"}>
                     <Center>{showUser(sender, userId, module)}</Center>
                     <Stack>
-                        <div>
+                        <Text noOfLines={[0, 3]}>
                             {showDescription()}
-
-                        </div>
+                        </Text>
                         {showDate()}
                     </Stack>
 
