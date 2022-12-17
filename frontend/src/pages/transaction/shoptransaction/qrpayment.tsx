@@ -9,14 +9,13 @@ import API from "src/function/API"
 
 const qrpayment = ({ }) => {
     const totalPrice = useLocation().state.totalPrice
-    const tranactionId = useLocation().state.tranactionId
+    const transactionId = useLocation().state.transactionId
     const [rawData, setRawData] = React.useState("")
-    console.log(totalPrice)
 
     useEffect(() => {
         API.post("http://localhost:8000/transaction/QRpayment", {
-            tranactionId: { tranactionId },
-            totalPrice: { totalPrice },
+            transactionid: transactionId,
+            totalPrice: parseFloat(totalPrice),
         }).then(function (response) {
             setRawData(response.data.Qr)
         })

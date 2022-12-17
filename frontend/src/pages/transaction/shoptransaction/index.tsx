@@ -43,7 +43,7 @@ const shopTransaction = () => {
 
     const navigate = useNavigate()
     const toQRpayment = () => {
-        navigate("/transaction/shoptransaction/qrpayment", { state: { tranactionId: orderDetails.transId, totalPrice: orderDetails.totalPrice } })
+        navigate("/transaction/shoptransaction/qrpayment", { state: { transactionId: orderDetails.transId, totalPrice: orderDetails.totalPrice } })
     }
 
     const [orderDetails, setOrderDetails] = useState<any>(null)
