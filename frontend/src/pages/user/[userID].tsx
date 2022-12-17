@@ -31,16 +31,29 @@ function index() {
     useEffect(() => {
 
         getUserData()
+        setDetail()
+
     }, [])
 
+
     const [aboutmeForm, setAboutmeForm] = useState<AboutMeForm>({
-        phone: "089XXXXXXX",
-        sex: "Male",
-        hobbies: "run walk",
-        birthdate: "12/01/2020",
-        year: 2,
-        address: "Street: 723/106-107 Charansanitwong 53 Rd. City: Bang Phat State/province/area: Bangkok Phone number 66 0-2434-7113 Zip code 10700",
+        phone: userData.phone,
+        sex: userData.sex,
+        hobbies: userData.hobbies,
+        birthdate: userData.birthdate,
+        year: userData.year,
+        address: userData.address,
     })
+    const setDetail = () => {
+        setAboutmeForm({
+            phone: userData.phone,
+            sex: userData.sex,
+            hobbies: userData.hobbies,
+            birthdate: userData.birthdate,
+            year: userData.year,
+            address: userData.address,
+        });
+    };
 
     const breakpoints = {
         sm: "320px",

@@ -66,7 +66,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
 
     const mafa = async () => {
         const data = await API.get(`/user/profile/${user.userId}`, { responseType: "json" })
-        console.log(data)
+        // console.log(data)
 
     }
     useEffect(() => {
@@ -74,7 +74,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             const res = await API.get(`/profile/ratinguser/${param.userID}`)
             setRating(res.data.rating)
         }
-        fetch()
+        // fetch()
         mafa()
     }, [])
     const postData = async () => {
@@ -89,7 +89,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
 
         onClick(formData)
 
-        console.log(formData)
+        // console.log(formData)
 
 
         const res = await API.put(`/user/profile/edit`, {
@@ -103,7 +103,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             history("/user")
         }).catch((err) => { return err })
 
-        console.log(res);
+        // console.log(res);
     }
 
 
@@ -294,9 +294,9 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                             const currentYear = parseInt((new Date().getFullYear() + 543).toString().substring(2))
                                             const userYear = parseInt((user?.studentId || "0").substring(0, 2))
                                             const uniYear = currentYear - userYear
-                                            console.log(currentYear)
-                                            console.log(userYear)
-                                            console.log(uniYear)
+                                            // console.log(currentYear)
+                                            // console.log(userYear)
+                                            // console.log(uniYear)
                                             setYears(uniYear)
 
                                         }}>

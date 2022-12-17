@@ -1,27 +1,19 @@
-import React, { useState } from "react"
-import { Box, Flex, Spacer, Text, SimpleGrid, useMediaQuery, extendTheme, Grid, Stack } from "@chakra-ui/react"
+import { useState, useEffect } from "react"
+import { Box, Flex, Text, SimpleGrid, Stack } from "@chakra-ui/react"
+import API from "src/function/API"
 
+const AboutMe = () => {
 
-interface AboutMeProps {
-    phone: string
-    sex: string
-    hobbies: string
-    birthdate: string
-    year: number
-    address: string
-}
+    const [aboutme, setAboutMe] = useState<any>()
 
-const AboutMe: React.FC<AboutMeProps> = (props) => {
-    const breakpoints = {
-        sm: "320px",
-        md: "768px",
-        lg: "1000px",
-        xl: "1200px",
-        "2xl": "1536px",
+    async function fetch() {
+        const res = await API.get("/user/profile/aboutme")
+        setAboutMe(res.data.aboutMeData)
     }
 
-    // 3. Extend the theme
-    const theme = extendTheme({ breakpoints })
+    useEffect(() => {
+        fetch()
+    }, [])
 
     return (
         <div>
@@ -35,7 +27,7 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                             PHONE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {props.phone}
+                            {aboutme?.phone}
                         </Text>
                         {/* <Text color="orange.700" fontSize="md" fontWeight="500">
                             AGE
@@ -47,25 +39,25 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                             SEX
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {props.sex}
+                            {aboutme?.sex}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             HOBBIES
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {props.hobbies}
+                            {aboutme?.hobby}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             BIRTHDATE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {props.birthdate}
+                            {new Date(aboutme?.birth).toString().substring(0, 15)}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             YEARS
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {props.year}
+                            {aboutme?.year}
                         </Text>
                     </SimpleGrid>
                     <Stack direction={{ base: "column", lg: "row" }} mt="5" spacing={{ md: "5", base: "2" }}>
@@ -73,7 +65,7 @@ const AboutMe: React.FC<AboutMeProps> = (props) => {
                             ADDRESS
                         </Text>
                         <Text mb="5" color="black" fontSize="lg" fontWeight="700">
-                            {props.address}
+                            {aboutme?.address}
                         </Text></Stack>
 
                 </Box>
