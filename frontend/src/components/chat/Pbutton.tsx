@@ -40,6 +40,12 @@ function Plustoggle() {
     function Navigate() {
         return navigate(`/chat/${param.roomID}/property`)
     }
+    function NavigateRes() {
+        return navigate(`/restaurant/favorite`)
+    }
+    function NavigateSpotify(){
+        return navigate(`/chat/${param.roomID}/spotifyPage`)
+    }
     //pop up
 
     // function GroupFrom() {
@@ -89,7 +95,7 @@ function Plustoggle() {
                                 _active={{ background: "transparent" }}
                                 _hover={{ background: "transparent", transform: "scale(1.2)" }}
                             >
-                                <MdFastfood size={"40px"} />
+                                <MdFastfood size={"40px"} onClick={NavigateRes}/>
                             </Button>
                             <GroupFrom />
                             <Button
@@ -101,7 +107,7 @@ function Plustoggle() {
                                 _active={{ background: "transparent" }}
                                 _hover={{ background: "transparent", transform: "scale(1.2)" }}
                             >
-                                <HiOutlineMusicNote size={"40px"} />
+                                <HiOutlineMusicNote size={"40px"} onClick={NavigateSpotify}/>
                             </Button>
                             <Button
                                 borderRadius="md"

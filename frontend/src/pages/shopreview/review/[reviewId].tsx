@@ -37,15 +37,9 @@ const review = () => {
                 <Heading color={"black"}>Review</Heading>
             </Flex>
             {detail.map((item: any) => {
-                if (item.shopReview !== null) {
-                    return (
-                        <ReviewCards image={item.images[0].image} name={item.shopReview.reviewBy.fName + " " + item.shopReview.reviewBy.lName} ment={item.shopReview.text} date={item.shopReview.reviewedAt} amo_rate={item.shopReview.rating} amo_like={item.shopReview.likeReceived} />
-                    )
-                } else {
-                    return (
-                        <ReviewCards image={item.images[0].image} name={item.restaurantReview.reviewBy.fName + " " + item.restaurantReview.reviewBy.lName} ment={item.restaurantReview.text} date={item.restaurantReview.reviewedAt} amo_rate={item.restaurantReview.rating} amo_like={item.restaurantReview.likeReceived} />
-                    )
-                }
+                return (
+                    <ReviewCards image={item.images[0]} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
+                )
             })}
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {com.map((item: any) => {
@@ -54,7 +48,7 @@ const review = () => {
                             image={""}
                             name={item.commentBy.fName + " " + item.commentBy.lName}
                             ment={item.text}
-                            date={item.commentedAt}
+                            date={String(item.commentedAt).substring(0, 10)}
                         />
                     )
                 })}

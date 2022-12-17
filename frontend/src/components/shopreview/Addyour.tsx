@@ -11,7 +11,7 @@ const Addyour: FC<{
 
 }> = ({ name }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    window.scrollTo(0, 0)
     return (
         <>
 
@@ -31,7 +31,7 @@ const Addyour: FC<{
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        {/* <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" onClick={} rating={0} /> */}
                         {/* input here */}
                         <Textarea
                             colorScheme="white"
@@ -43,9 +43,9 @@ const Addyour: FC<{
                         ></Textarea>
                         <Input type={"file"} id="id" hidden multiple></Input>
 
-                        <TempUpload />
+                        {/* <TempUpload files={undefined} setFiles={undefined} /> */}
 
-                
+
                     </ModalBody>
 
                     <ModalFooter>
