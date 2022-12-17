@@ -9,15 +9,15 @@ import API from "src/function/API"
 
 const OrderItems: FC<{
     orderDetails: Shop_Order_Details_Show
-}> = ({orderDetails}) => {
+    defaultCollapse?: boolean
+}> = ({orderDetails, defaultCollapse}) => {
     const [couponDiscount, setCouponDiscount] = useState<string | null>(null)
     useEffect(() => {
       API.get("/shop/getCouponInformation/" + orderDetails.couponCode).then((res) => {
         setCouponDiscount(res.data.discount)
       }).catch((error) => console.log(error))
     }, [])
-    
-    const [isCollapse, { on, off }] = useBoolean(true)
+    const [isCollapse, { on, off }] = useBoolean(defaultCollapse != undefined ? defaultCollapse : true)
     let orderNo = orderDetails.orderId
     // TODO: Get Order Info from backend
     let orderStatus = orderDetails.orderStatus

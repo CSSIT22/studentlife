@@ -20,6 +20,7 @@ import getAllUserCoupons from "./routes/get/getAllUserCoupons"
 import getOrderInformation from "./routes/get/getOrderInformation"
 import getAllOrders from "./routes/get/getAllOrders"
 import getCouponInformation from "./routes/get/getCouponInformation"
+import setOrderStatus from "./routes/put/setOrderStatus"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -50,6 +51,7 @@ shopRoutes.put("/decreaseCPQuantity/:productId", decreaseCPQuantity)
 shopRoutes.post("/postUserOrder", postUserOrder)
 shopRoutes.get("/getOrderInformation/:orderId", getOrderInformation)
 shopRoutes.get("/getAllOrders", getAllOrders)
+shopRoutes.put("/setOrderStatus", setOrderStatus)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 
