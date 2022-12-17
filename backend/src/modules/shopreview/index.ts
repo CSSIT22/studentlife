@@ -7,7 +7,7 @@ import getshopDb from "./routes/getshopDb"
 import getrestDb from "./routes/getrestDb"
 import getmyreviewDb from "./routes/getmyreviewDb"
 import getmyreviewDb2 from "./routes/getmyreviewDb2"
-import postcomment from "./routes/postcommentDb"
+import postcomment from "./routes/postcomment"
 import getmycommentDb from "./routes/getmycommentDb"
 import getreviewDb from "./routes/getreviewDb"
 import getcommentDb from "./routes/getcommentDb"
@@ -15,6 +15,10 @@ import getresDbPls from "./routes/getresDbPls"
 import getcountRate from "./routes/getcountRate"
 import postmyreview from "./routes/postMyreview"
 import postimage from "./routes/postImage"
+import editcomment from "./routes/editcomment"
+import editmyreview from "./routes/editmyreview"
+import deletecomment from "./routes/deletecomment"
+import deletereview from "./routes/deletereview"
 
 const shopreviewRoutes = express()
 
@@ -262,5 +266,15 @@ shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
 shopreviewRoutes.get("/shopdetails/restaurant/:id", getRest)
 shopreviewRoutes.post("/postmyreview", upload.array("upload"), postmyreview)
 shopreviewRoutes.post("/postimage", postimage)
+shopreviewRoutes.post("/editcomment", editcomment)
+shopreviewRoutes.post("/editmyreview", editmyreview)
+shopreviewRoutes.post("/postcomment", postcomment)
+
+shopreviewRoutes.delete("/deletecomment",deletecomment)
+
+shopreviewRoutes.delete("/deletereview",deletereview)
+
+
+
 
 export default shopreviewRoutes

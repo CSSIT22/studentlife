@@ -112,7 +112,7 @@ const Myreview: FC<{ shopName: String; image: String; name: String; ment: String
                                     <Flex direction={"row"} justifyContent={"center"} alignItems={"center"}>
 
                                         <Box onClick={onOpen}>
-
+                                            {/* delete button */}
                                             <DeleteIcon mr={2} />
                                             Delete
                                         </Box>
@@ -145,7 +145,7 @@ const Myreview: FC<{ shopName: String; image: String; name: String; ment: String
                                                             isClosable: true,
                                                         })
                                                     } ml={3}>
-                                                        Delete
+                                                        Deleted 
                                                     </Button>
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
