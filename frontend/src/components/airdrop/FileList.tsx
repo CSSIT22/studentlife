@@ -20,6 +20,13 @@ import {
     useBoolean,
     useMediaQuery,
     Badge,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogCloseButton,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
@@ -61,9 +68,12 @@ const FileList: FC<{
     const fileContext = useContext(fileListContext)
     const user = useContext(authContext)
     const initRef = useRef(null)
-    const previewRef = useRef(null)
+    const cancleRef = useRef(null)
     const [senderImg, setSenderImg] = useState<string>("")
+    const [previewImg, setPreviewImg] = useState<any>(null)
+    const [imgMime, setMime] = useState<any>(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: alertIsOpen, onOpen: alertOnOpen, onClose: alertOnClose } = useDisclosure()
     const [isDownload, { off: offDownload, on: onDownload }] = useBoolean()
     const { isOpen: proOpen, onOpen: proOpenFunc, onClose: proCloseFunc } = useDisclosure()
     //modal page
@@ -245,7 +255,7 @@ const FileList: FC<{
         }).then((res) => {
             onDownload()
             downloadFunc(res.data, name, res.headers["content-type"])
-            toast({ title: "File Downloaded", status: "success",variant:"top-accent",duration: 2000, isClosable: true })
+            toast({ title: "File Downloaded", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
         })
 
         const hideFile = await API.post("/airdrop/file/hidefile", {
@@ -259,24 +269,29 @@ const FileList: FC<{
             const urlCreator = window.URL || window.webkitURL
             const blobUrl = urlCreator.createObjectURL(fileBlob)
             const a = document.createElement("a")
-            window.open(blobUrl);
+            if (type == "image/jpeg" || type == "image/png" || type == "image/jpg") {
+                await setPreviewImg(blobUrl)
+                await setMime(type)
+                alertOnOpen()
+            } else {
+                window.open(blobUrl)
+            }
         } catch (error) {
             console.log(error)
         }
     }
-    const handlePreview= async (type: string, name: string, sid: string, fid: string, event: any) => {
-        const getFile = await API.get(`/airdrop/file/download/${fid}`, {
+    const handlePreview = async (type: string, name: string, sid: string, fid: string, event: any) => {
+        const getFile = await API.get(`/airdrop/file/getfile/${fid}`, {
             responseType: "arraybuffer",
         }).then((res) => {
             previewFunc(res.data, name, res.headers["content-type"])
         })
-
     }
     const handleDecline = async (id: string, event: any) => {
         const hideFile = await API.post("/airdrop/file/hidefile", {
             fileId: id,
         }).then((res) => {
-            toast({ title: "File Declined", status: "error",variant:"top-accent", duration: 2000, isClosable: true })
+            toast({ title: "File Declined", status: "error", variant: "top-accent", duration: 2000, isClosable: true })
         })
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== id))
     }
@@ -320,6 +335,27 @@ const FileList: FC<{
                     ></Lottie>
                 </Box>
             ) : null}
+            <AlertDialog motionPreset="slideInBottom" onClose={alertOnClose} isOpen={alertIsOpen} isCentered leastDestructiveRef={cancleRef}>
+                <AlertDialogOverlay />
+
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <Text fontSize={"2xl"}> Image Preview</Text>
+                        </AlertDialogHeader>
+                    <AlertDialogCloseButton />
+                    <AlertDialogBody>
+                        <Box p={4}>
+                        {previewImg && imgMime ? (
+                            <img
+                                src={previewImg}
+                                alt="no image"
+                            />
+                        ) : null}
+                        </Box>
+                        
+                    </AlertDialogBody>
+                </AlertDialogContent>
+            </AlertDialog>
             <div id={elementid.toString()}>
                 <Flex
                     direction={"row"}
@@ -338,12 +374,21 @@ const FileList: FC<{
                         info.fileName.split(".")[1].toLowerCase() == "jpg" ||
                         info.fileName.split(".")[1].toLowerCase() == "png" ||
                         info.fileName.split(".")[1].toLowerCase() == "jpeg" ? (
-                            <Box position={"absolute"} zIndex={"999"} ml={2} mt={1} onClick={async(e)=>{
-                                handlePreview(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
-                            }} _hover={{
-                                cursor: "pointer",
-                            }}>
-                                <Badge colorScheme='green' size={"sm"}><MdRemoveRedEye/></Badge>
+                            <Box
+                                position={"absolute"}
+                                zIndex={"999"}
+                                ml={2}
+                                mt={1}
+                                onClick={async (e) => {
+                                    handlePreview(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
+                                }}
+                                _hover={{
+                                    cursor: "pointer",
+                                }}
+                            >
+                                <Badge colorScheme="green" size={"sm"}>
+                                    <MdRemoveRedEye />
+                                </Badge>
                             </Box>
                         ) : null}
                         <Box>
