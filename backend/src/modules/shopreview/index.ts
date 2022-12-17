@@ -12,7 +12,7 @@ import getmycommentDb from "./routes/getmycommentDb"
 import getreviewDb from "./routes/getreviewDb"
 import getcommentDb from "./routes/getcommentDb"
 import getresDbPls from "./routes/getresDbPls"
-import getcountRate from "./routes/getcountRate"
+import getcountReview from "./routes/getcountReview"
 import postmyreview from "./routes/postMyreview"
 import postimage from "./routes/postImage"
 import editcomment from "./routes/editcomment"
@@ -252,7 +252,7 @@ shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
 shopreviewRoutes.get("/shopdetails/restaurant/:id", getrestDb)
 shopreviewRoutes.get("/getreview/:id", getreviewDb)
 shopreviewRoutes.get("/getcommentDb/:id", getcommentDb)
-shopreviewRoutes.get("/getcountRate", getcountRate)
+shopreviewRoutes.get("/getcountReview", getcountReview)
 
 shopreviewRoutes.get("/getrestaurant", (req, res) => {
     res.send(restaurants)
