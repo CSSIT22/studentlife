@@ -395,7 +395,6 @@ enum Module {
 
 enum Noti_Type {
   ALL
-  MENTION
   IGNORE
 }
 
