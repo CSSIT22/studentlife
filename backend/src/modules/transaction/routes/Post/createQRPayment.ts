@@ -1,4 +1,5 @@
 import axios from "axios"
+import { log } from "console"
 import { Request, Response } from "express"
 import { nanoid } from "nanoid"
 
@@ -6,22 +7,16 @@ const createQRPayment = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const body = req.body
-        const transId = req.body.transId.toUpperCase()
-        const userID = "Wpj1j-ExAOjlYwApIodF8"
-        // const userID = req.user?.userId || ""
-        // if (userID === "") {
-        //     return res.status(401).send("User not found")
-        // }
+        // const userID = "Wpj1j-ExAOjlYwApIodF8"
+        const userID = req.user?.userId || ""
 
-        const transaction = await prisma.transaction.create({
-            data: {
-                transId: transId,
-                userId: userID,
-                totalPrice: body.totalPrice,
-            },
-        })
-        console.log("sadasda")
-
+        // const transaction = await prisma.transaction.create({
+        //     data: {
+        //         transId: transid,
+        //         userId: userID,
+        //         totalPrice: body.totalPrice,
+        //     },
+        // })
         axios
             .post(
                 "https://api-sandbox.partners.scb/partners/sandbox/v1/oauth/token",
@@ -39,29 +34,30 @@ const createQRPayment = async (req: Request, res: Response) => {
             )
             .then(function (response) {
                 console.log(response.data)
+                console.log(1111)
+
+                const createQrBody = {
+                    qrType: "PP",
+                    ppType: "BILLERID",
+                    ppId: process.env.SCB_MERCHANT_ID,
+                    amount: body.totalPrice + "",
+                    ref1: body.transactionid.toUpperCase().substring(0, 10),
+                    ref2: "AAAAAAAAA120",
+                    ref3: "HCO",
+                }
+                console.log(createQrBody)
 
                 axios
-                    .post(
-                        "https://api-sandbox.partners.scb/partners/sandbox/v1/payment/qrcode/create",
-                        {
-                            qrType: "PP",
-                            ppType: "BILLERID",
-                            ppId: process.env.SCB_MERCHANT_ID,
-                            amount: transaction.totalPrice,
-                            ref1: transId,
-                            ref2: nanoid(),
-                            ref3: "HCO",
+                    .post("https://api-sandbox.partners.scb/partners/sandbox/v1/payment/qrcode/create", createQrBody, {
+                        headers: {
+                            resourceOwnerId: process.env.SCB_RESOURCE_OWNER_ID,
+                            requestUId: nanoid(),
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + response.data.data.accessToken,
                         },
-                        {
-                            headers: {
-                                resourceOwnerId: process.env.SCB_RESOURCE_OWNER_ID,
-                                requestUId: nanoid(),
-                                "Content-Type": "application/json",
-                                Authorization: "Bearer " + response.data.data.accessToken,
-                            },
-                        }
-                    )
+                    })
                     .then(function (respone) {
+                        console.log(respone.data)
                         return res.send({ Qr: respone.data.data.qrRawData })
                     })
                     .catch(function (error) {
@@ -69,6 +65,8 @@ const createQRPayment = async (req: Request, res: Response) => {
                     })
             })
             .catch(function (error) {
+                console.log(error)
+
                 console.log(error.response.data)
             })
     } catch (err) {

@@ -38,7 +38,7 @@ const shopTransaction = () => {
 
     const navigate = useNavigate()
     const toQRpayment = () => {
-        navigate("/transaction/shoptransaction/qrpayment", { state: { tranactionId: orderDetails.transId, totalPrice: orderDetails.totalPrice } })
+        navigate("/transaction/shoptransaction/qrpayment", { state: { transactionId: orderDetails.transId, totalPrice: orderDetails.totalPrice } })
     }
 
     const [orderDetails, setOrderDetails] = useState<any>(null)
@@ -114,7 +114,7 @@ const shopTransaction = () => {
                     <Flex>
                         <Box bg="orange.50" h="50px" w={"80%"} py="9px" borderRadius="10px">
                             <Text fontSize="xl" color={"black"} pl="5%" fontWeight={"bold"}>
-                                Total payment : {totalPrice}
+                                Total payment : {totalPrice.toFixed(2)}
                             </Text>
                         </Box>
                         <Spacer />
