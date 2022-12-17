@@ -224,7 +224,6 @@ model Student_Post {
   seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
   images          Image_Container[]
-  vids            Video_Container[]
   studentsReacted Student_Reacted[]
   studentsComment Post_Comment[]
   rePost          Repost[]
@@ -238,13 +237,6 @@ model Image_Container {
   postId       String
   imageAddress String
   postImage    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
-}
-
-model Video_Container {
-  vidId      String       @id @default(cuid())
-  postId     String
-  vidAddress String
-  postVid    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Student_Reacted {
