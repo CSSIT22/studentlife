@@ -15,8 +15,6 @@ function handleImg(e: any) {
     }
 }
 export function showUser(sender: string | null, userId: string, module: string) {
-
-
     const [senderImg, setsenderImg] = useState([])
 
     useEffect(() => {
@@ -24,9 +22,10 @@ export function showUser(sender: string | null, userId: string, module: string) 
             item => setsenderImg(item.data.image)
         )
     }, [])
+
     if (sender == userId) {
         return (
-            <Avatar src="Logo_01.png" bgColor="orange.500" name={module} size={"sm"} />
+            <Avatar bgColor="orange.500" name={module} size={"sm"} />
         )
     } else {
         return (
