@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AppBody from 'src/components/share/app/AppBody'
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box, SimpleGrid, Heading } from "@chakra-ui/react"
+import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box, SimpleGrid, Heading, useToast } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, useDisclosure, Text, Flex, Select, Switch, Input, Textarea } from "@chakra-ui/react"
 import { Grid, GridItem } from '@chakra-ui/react'
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import API from 'src/function/API'
 import EditEventModal from 'src/components/schedule/model/editEventModal'
+import { user } from 'src/components/transaction/shared/testuser'
 
 
 const showEvent = () => {
@@ -32,9 +33,9 @@ const showEvent = () => {
 
     const getEvent = API.get("/schedule/getNewEvent/" + param.eventId)
     useEffect(() => {
-        
+
         console.log(param);
-        
+
         getEvent.then((res) => {
             setEvent(res.data)
             console.log(res.data)
@@ -63,17 +64,17 @@ const showEvent = () => {
                 borderRightRadius="55"
                 borderLeftRadius="55" />
             <br />
-                <Box boxShadow="md" p="6" rounded="md" bg="white" mt={"6"} >
-                    <Text textAlign={["center"]} fontSize="5xl" color={"#000000"} >
-                        {event.eventName}
-                    </Text>
-                </Box>
+            <Box boxShadow="md" p="6" rounded="md" bg="white" mt={"6"} >
+                <Text textAlign={["center"]} fontSize="5xl" color={"#000000"} >
+                    {event.eventName}
+                </Text>
+            </Box>
             <br />
             <Box boxShadow="md" p="6" rounded="md" bg="white" w={"980px"} h={"152px"}>
                 <Text textAlign={["left"]} color="#858585"> Description </Text>
-                    <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
-                        {event.desc}
-                    </Text>
+                <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
+                    {event.desc}
+                </Text>
 
             </Box><br />
             <SimpleGrid columns={[1, 3]} spacing="30px">
@@ -106,7 +107,7 @@ const showEvent = () => {
                 bgColor="#E1AB20">
                 Edit
             </Button>
-            <EditEventModal {...{modal2}}/>
+            <EditEventModal {...{ modal2 }} />
             {/* this part is for delete modal */}
             <Button id="deleteEvent" onClick={modal3.onOpen} bgColor="#D92445" colorScheme="white" ml={"25"}>
                 Delete

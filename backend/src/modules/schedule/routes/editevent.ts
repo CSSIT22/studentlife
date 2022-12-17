@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import getNewEvent from "./getNewEvent"
-import { getEvent, setEvent, Event, events } from "../index"
+// import getNewEvent from "./getNewEvent"
+// import { getEvent, setEvent, Event, events } from "../index"
 
 const editEvent = async (req: Request, res: Response) => {
     const prisma = res.prisma
@@ -9,34 +9,47 @@ const editEvent = async (req: Request, res: Response) => {
 
     const editEvent: any = {
         eventName: req.body.eventName,
-        stTime: req.body.stTIme,
+        stTime: req.body.stTime,
         endTime: req.body.endTime,
         desc: req.body.desc,
         eventTypeId: req.body.eventTypeId,
-        hostAt: {
-            connectOrCreate: {
-                create: {
-                    placeId: body.placeId,
-                    building: "test",
-                    room: "123",
-                },
-                where: {
-                    placeId: body.placeId,
-                },
-            },
+        // placeId: req.body.placeId,
+        // hostAt: {
+        //     connectOrCreate: {
+        //         create: {
+        //             placeId: body.placeId,
+        //             building: "test",
+        //             room: "123",
+        //         },
+        //         where: {
+        //             placeId: body.placeId,
+        //         },
+        //     },
+        // },
+    }
+
+    const getPlaceId = await prisma.event.findFirst({
+        where: {
+            placeId: body.placeId,
         },
+    })
+
+    if (!req.body.eventId) {
+        return res.status(400).send("Invaid")
     }
 
     try {
-        await prisma.event.update({
+        await prisma.event.updateMany({
             where: {
                 eventId: req.body.eventId,
             },
             data: editEvent,
         })
+        res.send(editEvent)
         return res.send("Success")
-    } catch {
-        res.status(404)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send("Error")
     }
 
     //******************************************************************************/
