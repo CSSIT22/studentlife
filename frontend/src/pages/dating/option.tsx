@@ -1,4 +1,4 @@
-import { Heading, Text, Box, Stack, Center, Button, SimpleGrid, useRadioGroup, useCheckboxGroup, useToast, useBoolean } from "@chakra-ui/react"
+import { Heading, Text, Box, Stack, Center, Button, SimpleGrid, useRadioGroup, useCheckboxGroup, useToast, useBoolean, Container, GridItem, Grid } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioBox"
 import DatingAppBody from "../../components/dating/DatingAppBody"
@@ -217,7 +217,6 @@ const DatingOption = () => {
 
     function handleSubmit() {
         //Submit data to database + show the alert result (debug)
-        setIsLoading(true)
         globalThis.useAge = useAgeValue
         globalThis.age = sliderValue
         globalThis.gender = selected
@@ -245,6 +244,10 @@ const DatingOption = () => {
                 description: "You are required to set your faculty Preference first."
             })
         }
+        else {
+            setIsLoading(true)
+        }
+
         // console.log("Test str " + sendFac(selectedFac))
         if (globalThis.firstTime) {
             API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
@@ -269,16 +272,65 @@ const DatingOption = () => {
         <DatingAppBody>
             {isLoading || isError ? <></> : <Stack pt="5" color="black">
                 {/* Heading and heading description part */}
-                <Heading fontSize="36px">Option</Heading>
-                <Box>
-                    <Text fontSize="18px">Set the criteria to be used for the profile randomization</Text>
+                <Box display="flex" justifyContent="center">
+                    <Box zIndex="2" position="fixed" w="100%" justifyContent="space-between" top={{ base: 21, md: 157 }} >
+                        <Container w="container.lg" maxW={"100%"}>
+                            <Box maxW="100%" bg="#FFF2E6" pt={{ base: "70px", md: "35px" }}>
+                                <Grid
+                                    templateAreas={`"topic button" "desc desc"`}
+                                    gridTemplateRows={"50px 50px"}
+                                    gridTemplateColumns={"12rem px"}
+                                    h={{ base: "100px", md: "125px" }}
+                                >
+                                    {/* Interests topic */}
+                                    <GridItem area={"topic"}>
+                                        <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
+                                            Option
+                                        </Heading>
+                                    </GridItem>
+                                    <GridItem area={"desc"}>
+                                        <Heading color="black" fontWeight="400" fontSize={{ base: "15px", md: "18px" }} lineHeight="150%">
+                                            Please select your preferences
+                                        </Heading>
+                                    </GridItem>
+                                    {/* DatingInterestDynamicButton component: Skip & Done button */}
+
+                                    <GridItem area={"button"} mt={{ base: "6px", md: "10px" }}>
+                                        <Button
+                                            colorScheme="orange"
+                                            width={{ base: "79px", md: "200px" }}
+                                            height={{ base: "33px", md: "70px" }}
+                                            borderRadius="5px"
+                                            float="right"
+                                            type="submit"
+                                            form="new-note"
+                                            isDisabled={isDisabled}
+                                            onClick={() => {
+                                                handleSubmit()
+                                                    , setIsDisabled(!isDisabled)
+                                            }}
+                                        >
+                                            <Box fontWeight="700" fontSize={{ base: "14px", md: "22px" }} line-height="120%">
+                                                Done
+                                            </Box>
+                                        </Button>
+                                    </GridItem>
+                                </Grid>
+                                <Box>
+                                </Box>
+                            </Box>
+                        </Container>
+                    </Box>
                 </Box>
 
+                <Box pt={{ base: "80px", md: "100px" }} />
                 {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}
                 <SimpleGrid gap={12} pt={5} columns={{ base: 1, md: 2 }}>
                     <Box>
                         <Box pb={5}>
-                            <Text fontSize="30px" as="b">
+                            <Text fontWeight="700"
+                                fontSize="30px"
+                                lineHeight={{ base: "133%", md: "120%" }} as="b">
                                 Age Preference
                             </Text>
                         </Box>
@@ -291,16 +343,19 @@ const DatingOption = () => {
                     </Box>
                     <Box>
                         <Box pb={5}>
-                            <Text fontSize="30px" as="b">
+                            <Text fontWeight="700"
+                                fontSize="30px"
+                                lineHeight={{ base: "133%", md: "120%" }} as="b">
                                 Gender Preference
                             </Text>
+                            <Box pb={5} />
                             {/* Gender preference radio box*/}
                             <Stack {...group} direction="column">
                                 {options.map((value) => {
                                     const radio = getRadioProps({ value })
                                     return (
                                         <DatingOptionRadioBox key={value} {...radio} onClick={handleGender}>
-                                            {value}
+                                                {value}
                                         </DatingOptionRadioBox>
                                     )
                                 })}
@@ -310,7 +365,9 @@ const DatingOption = () => {
                     <Box>
                         {/* Chose multi Faculty preference */}
                         <Box pb={5}>
-                            <Text fontSize="30px" as="b">
+                            <Text fontWeight="700"
+                                fontSize="30px"
+                                lineHeight={{ base: "133%", md: "120%" }} as="b">
                                 Faculty Preference
                             </Text>
                         </Box>
@@ -327,24 +384,7 @@ const DatingOption = () => {
                 </SimpleGrid>
                 {/* Submit button */}
                 <Center>
-                    <Button
-                        type="submit"
-                        form="new-note"
-                        borderRadius="15px"
-                        colorScheme="orange"
-                        isDisabled={isDisabled}
-                        // DON'T FORGET TO OPEN IT
-                        onClick={() => {
-                            handleSubmit()
-                                , setIsDisabled(!isDisabled)
-                        }}
-                        m="80px"
-                        p="30px"
-                        pr="50px"
-                        pl="50px"
-                    >
-                        Done
-                    </Button>
+
                 </Center>
             </Stack>}
 
