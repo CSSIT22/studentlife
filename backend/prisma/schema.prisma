@@ -1588,7 +1588,6 @@ model Question_Setting {
 
 model Question_Tag {
   tagKey Int                  @id
-  tagId  Int
   qId    String
   tagOf  Question             @relation(fields: [qId], references: [qId], onDelete: Cascade)
   tagIs  Question_Default_Tag @relation(fields: [tagKey], references: [tagKey], onDelete: Cascade)
@@ -1598,7 +1597,7 @@ model Question_Default_Tag {
   tagKey  Int           @id @default(autoincrement())
   tagId   Int
   tagName String
-  tag     Question_Tag?
+  tag     Question_Tag[]
 }
 
 model Question_Embed_File {
