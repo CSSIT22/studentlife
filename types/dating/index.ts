@@ -174,3 +174,40 @@ export type Rating = {
   anotherUserId: string;
   rate: number;
 };
+
+export type Polls = {
+  pollCreator: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+  };
+  pollId: string;
+  pollName: string;
+  pollText: string;
+  participantMin: number;
+  participantMax: number;
+  pollAppointAt: any;
+  pollPlace: string;
+  isOpen: boolean;
+  participants: {
+    isAccepted: boolean;
+    user: {
+      userId: string;
+      fName: string;
+      lName: string;
+      image: {
+        type: string;
+        data: number[];
+      };
+    };
+  }[];
+  interests: {
+    interest: {
+      interestName: true;
+    };
+  }[];
+};

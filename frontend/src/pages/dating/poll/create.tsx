@@ -218,6 +218,7 @@ const CreateActivityPoll = () => {
             //     sliderValue
             // )
             setClicked(true)
+            handleChat(header)
             setIsLoading(true)
             // handleChat(header)
             API.post<PollDetail | UserInterests>("/dating/create/setPoll", {
@@ -255,7 +256,7 @@ const CreateActivityPoll = () => {
         }
     }
     function handleChat(name: string) {
-        API.put<{ name: string }>(`/chat/createGroup?name=${name}`)
+        API.post<{ name: string }>(`/chat/createGroup?name=${name}`)
     }
 
     return (

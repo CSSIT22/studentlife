@@ -19,10 +19,6 @@ const DatingRatingAllStar: FC<{
     const [selected, setSelected] = useState<boolean[]>(handleFill(defaultFill))
     const toast = useToast()
 
-    function handleTimer() {
-        setTimer(false)
-    }
-
     //First time fill
     globalThis.starState = [false, false, false, false, false, false, false, false, false, false]
     function handleFill(n: number) {
@@ -73,19 +69,29 @@ const DatingRatingAllStar: FC<{
         }
         // console.log(rateFor + ": " + value)
         if (value != 0) {
-            if (defaultFill == 0) {
-                API.post<Rating>("/dating/rating/setRating", { anotherUserId: rateFor, score: value })
-                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
-            }
-            else {
-                API.put<Rating>("/dating/rating/updateRating", { anotherUserId: rateFor, score: value })
-                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
-            }
+            console.log(defaultFill)
+            // if (defaultFill === 0) {
+            //     console.log("POST")
+            //     API.post<Rating>("/dating/rating/setRating", { anotherUserId: rateFor, score: value })
+            //         .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+            //         .finally(() => setTimer(false))
+            // }
+            // else {
+            //     console.log("PUT")
+            //     API.put<Rating>("/dating/rating/updateRating", { anotherUserId: rateFor, score: value })
+            //         .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+            //         .finally(() => setTimer(false))
+            // }
+            API.post<Rating>("/dating/rating/setRating", { anotherUserId: rateFor, score: value })
+                .catch(() => API.put<Rating>("/dating/rating/updateRating", { anotherUserId: rateFor, score: value })
+                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) })))
+                .finally(() => setTimer(false))
         }
         else {
             const anotherUser: any = rateFor
             API.put<any>("/dating/rating/deleteRating", { anotherUserId: anotherUser })
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+                .finally(() => setTimer(false))
         }
     }
 
@@ -103,12 +109,12 @@ const DatingRatingAllStar: FC<{
                             colorScheme="none"
                             variant="unstyled"
                             size={{ base: "0px", md: "20px" }}
-                            onClick={() => {
-                                handleClick(s),
-                                    setTimer(true)
-                                setTimeout(handleTimer, 500)
-                            }}
                             isDisabled={timer}
+                            onClick={() => {
+                                setTimer(true)
+                                handleClick(s)
+                            }
+                            }
                         />
                     )
                 })}

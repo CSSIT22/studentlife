@@ -33,7 +33,7 @@ const DatingYourActivityBox = () => {
             count--
             API.get("/dating/youractivitypoll/getYourPolls").then((data) => {
                 setPoll(data.data)
-                console.log("Poll data " + poll);
+                // console.log("Poll data " + poll);
             }).catch((err) => console.log(err));
         }
     })
@@ -41,14 +41,16 @@ const DatingYourActivityBox = () => {
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
         const chooseDate = new Date(dateTime)
-        // console.log(chooseDate.getMonth())
-        return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
+        const d = chooseDate.toLocaleDateString()
+        // console.log(d)
+        return d.substring(3, 5) + "/" + d.substring(0, 2) + "/" + chooseDate.getFullYear()
+        // return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
     }
 
     // Convert time in to format that easy to read
     function hanlePollTime(dateTime: string) {
         const time = new Date(dateTime)
-        let hours = time.getHours()
+        let hours = time.getHours() + 5
         let minutes = time.getMinutes()
         let ampm = hours >= 12 ? "pm" : "am"
         hours = hours % 12
@@ -169,7 +171,7 @@ const DatingYourActivityBox = () => {
                                 <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }} >
                                     <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px" >
                                         <Text fontSize="12px" color="white" as="b">
-                                            {values.participants.filter(i => i.isAccepted).length}
+                                            {values.participants.filter(i => i.isAccepted).length > 99 ? "99+" : values.participants.filter(i => i.isAccepted).length}
                                             {/* Number of people that haven't accept need to replace 2 with data from db*/}
                                             {/* {2 > 99 ? "99+" : 2} */}
                                         </Text>
