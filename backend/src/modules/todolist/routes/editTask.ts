@@ -10,6 +10,7 @@ const editTask = async (req: Request, res: Response) => {
         taskDesc: req.body.taskDesc,
         due: req.body.due,
         taskType: req.body.taskType,
+        folderId: req.body.folderId,
     }
 
     if (!req.body.taskId) {

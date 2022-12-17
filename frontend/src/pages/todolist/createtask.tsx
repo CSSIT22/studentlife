@@ -96,6 +96,14 @@ const createtask = () => {
         }
 
     }
+    const disabledDates = () => {
+        var today, dd, mm, yyyy
+        today = new Date()
+        dd = today.getDate()
+        mm = today.getMonth() + 1
+        yyyy = today.getFullYear()
+        return yyyy + "-" + mm + "-" + dd
+    }
 
     useEffect(() => {
         // fetchTaskList();
@@ -137,7 +145,7 @@ const createtask = () => {
                     Due Date
                 </Heading>
                 <label>
-                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
+                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" min={disabledDates()} onChange={(e) => setDueDate(e.target.value)} />
                 </label>
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
