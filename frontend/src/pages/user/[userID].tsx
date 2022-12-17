@@ -68,7 +68,6 @@ function index() {
     }
 
     // 3. Extend the theme
-    const theme = extendTheme({ breakpoints })
     return (
         <>
             {
@@ -99,7 +98,7 @@ function index() {
                     </GridItem>
                     <GridItem area={"nav"}>
                         <ExpSystem />
-                        <AboutMe {...aboutmeForm} />
+                        <AboutMe />
                     </GridItem>
                     <GridItem area={{ base: "nav2", md: "main" }}>
                         <BlogHistory />

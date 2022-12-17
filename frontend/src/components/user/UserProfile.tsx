@@ -52,7 +52,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     let navigate = useNavigate()
 
     const { isOpen: isProfileOpen, onOpen: onProfileopen, onClose: onProfileClose } = useDisclosure()
-
+    const [aboutme, setAboutMe] = useState<any>()
     const param = useParams();
     const [isFollow, setIsFollow] = useState<boolean>(false)
     const [Phone, setPhone] = useState<string>("")
@@ -61,7 +61,10 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const [Hobbies, setHobbies] = useState<string>("")
     const [Years, setYears] = useState<number>(0)
     const [Address, setAddress] = useState<string>("")
-
+    
+    const handleSubmit = (data: any) => {
+        setAboutMe(data)
+    }
     const [rating, setRating] = useState<number>(0)
 
     const mafa = async () => {
@@ -85,6 +88,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             birthdate: BirthDate,
             year: Years,
             address: Address,
+            
         }
 
         onClick(formData)
