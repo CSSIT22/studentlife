@@ -16,7 +16,7 @@ const editNotiUserSetting = async (req: Request, res: Response) => {
     } catch (err) {
         //console.log(err)
         //console.log(req.user?.userId)
-        console.log(req.user?.userId)
+        //console.log(req.user?.userId)
         return res.status(400).send("user not found")
     }
 }

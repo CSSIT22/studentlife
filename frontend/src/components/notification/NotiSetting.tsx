@@ -28,19 +28,12 @@ const NotiSetting = () => {
     //console.log(notiUser?.notiSettingApp as string);
     //console.log(notiUser?.notiSettingEmail as string);
 
-    // function setUserSetting() {
-    // const [NotiUserSetting, setNotiUserSetting] = useState<NotiUser>()
-    // React.useEffect(() => {
-    //     API.post("/notification/editusernotisetting/").then((res) => {
-    //         setNotiUserSetting(res.data)
-    //     })
-    // })
-    // }
+
     //console.log(appValue + emailValue);
 
     const confirm = () => {
-        console.log(appValue + emailValue);
-        console.log(notiUser?.userId);
+        //console.log(appValue + emailValue);
+        //console.log(notiUser?.userId);
 
         API.post("/notification/editnotiusersetting/" + notiUser?.userId + "/" + appValue + "/" + emailValue)
     }
@@ -109,43 +102,4 @@ const NotiSetting = () => {
     )
 }
 
-
-
-// function RadioExample() {
-
-//     const [value, setValue] = React.useState("1")
-//     return (<><RadioGroup onChange={setValue} value={value} defaultValue="1" colorScheme="orange">
-//         <Stack>
-//             <Radio spacing={4} value="1">
-//                 All
-//             </Radio>
-//             <Radio spacing={4} value="2">
-//                 Mention
-//             </Radio>
-//             <Radio spacing={4} value="3">
-//                 Ignore
-//             </Radio>
-//         </Stack>
-//     </RadioGroup>
-//         <RadioGroup onChange={setValue} value={value} defaultValue="1" colorScheme="orange">
-//             <Stack>
-//                 <Radio spacing={4} value="1">
-//                     All
-//                 </Radio>
-//                 <Radio spacing={4} value="2">
-//                     Mention
-//                 </Radio>
-//                 <Radio spacing={4} value="3">
-//                     Ignore
-//                 </Radio>
-//             </Stack>
-//         </RadioGroup></>
-
-//     )
-// }
-
-
-// function useDisclosure(): { isOpen: any; onOpen: any; onClose: any } {
-//     throw new Error("Function not implemented.")
-// }
 export default NotiSetting
