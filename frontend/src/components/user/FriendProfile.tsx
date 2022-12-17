@@ -86,7 +86,7 @@ export default function SimpleThreeColumns() {
         sm: "400px",
         md: "800px",
         lg: "960px",
-        xl: "1270px",
+        xl: "990px",
         "2xl": "1536px",
     }
 
@@ -135,7 +135,7 @@ export default function SimpleThreeColumns() {
                         </Box>
                     </VStack>
                 </GridItem>
-                <GridItem pl="2" mt={{ base: "3", md: "0", lg: "15" }} ml={{ base: "10", lg: "" }} alignSelf={"end"} area={"main"} color="gray.700">
+                <GridItem pl="2" mt={{ base: "3", md: "5", lg: "10" }} ml={{ base: "10", lg: "" }} alignSelf={"end"} area={"main"} color="gray.700">
                     <HStack p={1} ml="3">
                         <Box fontSize={{ lg: "md", base: "sm" }} color="orange.700">
                             ID :
@@ -153,9 +153,9 @@ export default function SimpleThreeColumns() {
                                 damping: 20,
                             }}
                         >
-                            <Stack direction={{ base: "column", md: "row" }} spacing={{ base: "-1", md: "3" }}>
-                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{`${userData.fName}`}</Box>
-                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{`${userData.lName}`}</Box>
+                            <Stack direction={{ base: "column", md: "row", lg: "column", xl: "row" }} spacing={{ base: "-1", md: "3" }} whiteSpace="nowrap" overflow={"hidden"} textOverflow={"ellipsis"}>
+                                <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{`${userData.fName}`}</Box>
+                                <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{`${userData.lName}`}</Box>
                             </Stack>
                         </motion.div>
                     </Stack>
@@ -184,7 +184,7 @@ export default function SimpleThreeColumns() {
                         </Stack>
                     </Stack>
                 </GridItem>
-                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "0", md: "2", lg: "6" }}>
+                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "0", md: "2", lg: "6" }} mt={{ base: "0", md: "-3" }}>
                     <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
                         <HStack position="initial">
                             {isFollow ? (
@@ -196,7 +196,7 @@ export default function SimpleThreeColumns() {
                                             setIsFolCount(FolCount + 1)
                                         }}
                                         pl={5}
-                                        width={{ lg: "7rem", base: "" }}
+                                        width={{ lg: "6rem", base: "" }}
                                         height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                         fontSize={{ base: "", lg: "lg" }}
                                         bg="orange.600"
@@ -219,7 +219,7 @@ export default function SimpleThreeColumns() {
                                         colorScheme="orange"
                                         variant="outline"
                                         pl={5}
-                                        width={{ lg: "7rem", base: "" }}
+                                        width={{ lg: "6rem", base: "" }}
                                         height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                         fontSize={{ base: "", lg: "lg" }}
                                         position="initial"
@@ -235,7 +235,7 @@ export default function SimpleThreeColumns() {
                                 pl={5}
                                 bg="orange.600"
                                 _hover={{ background: "orange.200" }}
-                                width={{ lg: "7rem", base: "" }}
+                                width={{ lg: "6rem", base: "" }}
                                 height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
                                 fontSize={{ base: "", lg: "lg" }}
                                 position="initial"
@@ -387,7 +387,7 @@ export default function SimpleThreeColumns() {
                         </Menu>
                     </ButtonGroup>
                 </GridItem>
-                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "3rem" }} mr={5}>
+                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "2" }} mr={5}>
                     <Stack direction="row" mx={{ base: "50", lg: "" }} spacing={{ base: "", md: "" }}>
                         <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
                             <Box fontSize={{ base: "lg", lg: "2xl" }}>{FolCount}</Box>

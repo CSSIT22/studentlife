@@ -223,9 +223,10 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                                 damping: 20,
                             }}
                         >
-                            <Stack direction={{ base: "column", md: "row" }} spacing={{ base: "-1", md: "3" }}>
-                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{user?.fName} </Box>
-                                <Box fontSize={{ xl: "5xl", lg: "3xl", base: "xl" }}>{user?.lName}</Box>
+
+                            <Stack direction={{ base: "column", md: "row", lg: "column", xl: "row" }} spacing={{ base: "-1", md: "3" }} whiteSpace="nowrap" overflow={"hidden"} textOverflow={"ellipsis"}>
+                                <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{user?.fName} </Box>
+                                <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{user?.lName}</Box>
                             </Stack>
                         </motion.div>
                     </Stack>
