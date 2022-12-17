@@ -5,7 +5,7 @@ const getreviewDb = async (req: Request, res: Response) => {
         const id = req.params.id
         const prisma = res.prisma
         const review = await prisma.sReview_Review.findMany({
-            // include: {
+             // include: {
             //     restaurantReview: {
             //         select: {
             //             reviewedAt: true,

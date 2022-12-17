@@ -1,6 +1,7 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, User_Rating } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
+import calExp from "../../user/expsystem/calExp"
 
 const ratingRoutes = express()
 const prisma = new PrismaClient()
@@ -32,22 +33,34 @@ ratingRoutes.get("/getRating", verifyUser, async (req: Request, res: Response) =
                 },
             })
 
-            const followingIds = followDB.map((el) => el.following.userId)
-
             const rating = await prisma.user_Rating.findMany({
                 where: {
                     userId: userId,
-                    anotherUserId: {
-                        in: followingIds as string[],
+                },
+                include: {
+                    scoreReceiver: {
+                        select: {
+                            userId: true,
+                            fName: true,
+                            lName: true,
+                            image: true,
+                        },
                     },
                 },
-                // include: {
-                //     scoreReceiver: true,
-                // },
             })
 
-            console.log(rating)
-            return res.send(rating)
+            const buildres: typeof rating = followDB.map((item) => {
+                const rate = rating.filter((e) => e.anotherUserId === item.following.userId)
+                return {
+                    anotherUserId: item.following.userId,
+                    score: rate.length === 0 ? 0 : rate[0].score,
+                    userId: req.user?.userId || "",
+                    scoreReceiver: item.following,
+                }
+            })
+
+            // console.log(buildres)
+            return res.send(buildres)
         }
     } catch (err) {
         return res.status(404).send("User Option not found")
@@ -94,23 +107,72 @@ ratingRoutes.get("/getUserProfile", verifyUser, async (req: Request, res: Respon
             return res.send(followDB)
         }
     } catch (err) {
-        return res.status(404).send("User Option not found")
+        return res.status(404).send("User Rating not found")
     }
 })
 
 // Set the rating
 ratingRoutes.post("/setRating", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+    try {
+        const userId: string | undefined = req.user?.userId
+        const anotherUserId: string = req.body.anotherUserId
+        const rate: number = req.body.score
+        const setRate: any = { userId: userId, anotherUserId: anotherUserId, score: rate }
+        // console.log("RATE " + setRate.userId + " " + setRate.anotherUserId + " " + setRate.score)
+        await prisma.user_Rating.create({
+            data: setRate,
+        })
+        calExp(prisma, req.user?.userId || "", "DatingRate")
+    } catch {
+        return res.status(400).send("Cannot set Rating")
+    }
 })
 
 // Update the rating
 ratingRoutes.put("/updateRating", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+    try {
+        const userId = req.user?.userId
+        const anotherUserId = req.body.anotherUserId
+        const rate: number = req.body.score
+        const setRate: any = { userId: userId, anotherUserId: anotherUserId, score: rate }
+        // console.log("RATE " + setRate.userId + " " + setRate.anotherUserId + " " + setRate.score)
+        if (userId != undefined) {
+            await prisma.user_Rating.delete({
+                where: {
+                    userId_anotherUserId: {
+                        userId: userId,
+                        anotherUserId: anotherUserId,
+                    },
+                },
+            })
+        }
+        await prisma.user_Rating.create({
+            data: setRate,
+        })
+    } catch {
+        return res.status(400).send("Cannot update Rating")
+    }
 })
 
 // Delete the rating
-ratingRoutes.delete("/deleteRating", verifyUser, async (req: Request, res: Response) => {
-    // Put Thitipa's code here
+ratingRoutes.put("/deleteRating", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        const anotherUserId: string = req.body.anotherUserId
+        console.log("RATE " + userId + " " + anotherUserId)
+        if (userId != undefined) {
+            await prisma.user_Rating.delete({
+                where: {
+                    userId_anotherUserId: {
+                        userId: userId,
+                        anotherUserId: anotherUserId,
+                    },
+                },
+            })
+        }
+    } catch {
+        return res.status(400).send("Cannot delete Rating")
+    }
 })
 
 export default ratingRoutes

@@ -52,6 +52,7 @@ yourActivityPollRoutes.get("/getYourPolls", verifyUser, async (req: Request, res
                 isOpen: true,
                 participants: {
                     select: {
+                        isAccepted: true,
                         user: {
                             select: {
                                 userId: true,

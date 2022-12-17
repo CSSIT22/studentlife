@@ -58,7 +58,7 @@ function propertyEvent(props: any) {
         return setRoomColor(e.target.value)
     }
     const submitRoomColor = () => {
-        API.post(`/chat/${param.roomId}?chatColor=${encodeURIComponent(roomColor)}`)
+        API.put(`/chat/${param.roomId}?chatColor=${encodeURIComponent(roomColor)}`)
         navigate(`/chat/${param.roomId}`)
     }
 
@@ -98,7 +98,7 @@ function propertyEvent(props: any) {
     // Set room name
     const [roomName, setRoomName] = useState("")
     const submitRoomName = () => {
-        API.post(`/chat/${param.roomId}?roomName=${roomName}`)
+        API.put(`/chat/${param.roomId}?roomName=${roomName}`)
         navigate(`/chat/${param.roomId}`)
     }
 
@@ -188,7 +188,7 @@ function propertyEvent(props: any) {
     if (props === "Set room name") {
         return (
             <VStack spacing={4} p={4}>
-                <Input placeholder={Room?.room.roomName} onChange={(e: any) => setRoomName(e.target.value)} />
+                <Input placeholder={Room?.nickname} onChange={(e: any) => setRoomName(e.target.value)} />
                 <Box alignItems={'center'}>
                     <Button colorScheme="orange" onClick={submitRoomName}>
                         Done
@@ -262,7 +262,7 @@ function propertyEvent(props: any) {
                     </VStack>
                     <VStack>
                         <Text as="b">color code</Text>
-                        <Input placeholder={Room?.room.chatColor} bgColor={roomColor} onChange={(e) => colorRoom(e)} />
+                        <Input placeholder={Room?.chatColor} bgColor={roomColor} onChange={(e) => colorRoom(e)} />
                     </VStack>
                     <Button colorScheme="orange" onClick={submitRoomColor}>
                         Done

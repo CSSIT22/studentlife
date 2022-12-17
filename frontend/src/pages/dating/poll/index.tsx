@@ -138,11 +138,11 @@ const AllActivityPoll = () => {
                 </Box>
             </Center>
             {/* Calling all activity poll out (Need to order by time)*/}
-            <Stack pt="120px" pb="60px">
+            <Stack pt="150px" pb="60px">
                 <DatingAllActivityBox />
             </Stack>
             {/* Create poll button */}
-            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px",md: "20px"}} bottom={{ base: "70px",md: "30px"}}  _hover={{ color: "black" }}>
+            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px", md: "20px" }} bottom={{ base: "70px", md: "30px" }} _hover={{ color: "black" }}>
                 <DatingCreatePollButton />
             </Box>
 

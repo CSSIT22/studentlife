@@ -43,7 +43,7 @@ function showProperty() {
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/user/${Room?.userId}`)
+        return navigate(`/user/${Room?.roomId}`)
     }
 
     useEffect(() => {
@@ -52,7 +52,7 @@ function showProperty() {
     }, [param])
 
     function renderRoomProp() {
-        if (Room?.room.roomType === "INDIVIDUAL") {
+        if (Room?.roomType === "INDIVIDUAL") {
             return (
                 eventsIndi.map((event) => (
                     <Button
@@ -70,7 +70,7 @@ function showProperty() {
                 ))
             )
         }
-        else if (Room?.room.roomType === "GROUP") {
+        else if (Room?.roomType === "GROUP") {
             return (
                 eventsGroup.map((event) => (
                     <Button

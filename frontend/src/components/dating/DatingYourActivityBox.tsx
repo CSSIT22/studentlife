@@ -116,7 +116,7 @@ const DatingYourActivityBox = () => {
                                     whiteSpace={{ base: "nowrap", md: "initial" }}
                                     style={{ WebkitOverflowScrolling: "touch" }}
                                 >
-                                    {values.interests.map((i: any) => (
+                                    {values.interests.map((i) => (
                                         <Tag
                                             backgroundColor="orange.400"
                                             color="white"
@@ -127,7 +127,7 @@ const DatingYourActivityBox = () => {
                                             h={{ md: "28px" }}
                                         >
                                             <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
-                                                {i}
+                                                {i.interest.interestName}
                                             </Text>
                                         </Tag>
 
@@ -169,8 +169,9 @@ const DatingYourActivityBox = () => {
                                 <Link to={goToPoll(values.pollId)} style={{ textDecoration: "none" }} >
                                     <Circle backgroundColor="red" size="25px" ml="-24px" mt="7px" >
                                         <Text fontSize="12px" color="white" as="b">
+                                            {values.participants.filter(i => i.isAccepted).length}
                                             {/* Number of people that haven't accept need to replace 2 with data from db*/}
-                                            {2 > 99 ? "99+" : 2}
+                                            {/* {2 > 99 ? "99+" : 2} */}
                                         </Text>
                                     </Circle>
                                 </Link>

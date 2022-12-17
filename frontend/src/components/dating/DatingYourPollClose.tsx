@@ -13,14 +13,20 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react"
+import { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import API from "src/function/API"
+import Lottie from "lottie-react"
+import DatingLoading from "./lottie/DatingLoading.json"
 
-const DatingYourPollClose = () => {
+const DatingYourPollClose: FC<{ pollId: string }> = ({ pollId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
 
     function handleClick() {
-        navigate("/dating/poll/yourpoll")
+        setIsLoading(true)
+        API.put<{ pollId: string }>("/dating/yourpoll/closeYourPoll", { pollId: pollId }).then(() => navigate("/dating/poll/yourpoll"))
     }
     return (
         <>
@@ -41,7 +47,7 @@ const DatingYourPollClose = () => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>
-                        <Heading
+                        {isLoading ? <></> : <><Heading
                             textAlign="center"
                             color="black"
                             fontWeight="700"
@@ -50,41 +56,48 @@ const DatingYourPollClose = () => {
                             lineHeight="133%"
                         >
                             Close Now
-                        </Heading>
+                        </Heading></>}
                     </ModalHeader>
                     <ModalBody>
-                        <Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>
+                        {isLoading ? <><Box display="block"  mb={{ base: "140px", md: "180px" }}>
+                            <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.5" }} />
+                            <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                                CLOSING THE POLL...
+                            </Text>
+
+                        </Box></> : <><Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>
                             <Text textAlign="center" fontWeight="700" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%" color="black">
                                 Are you sure you want to close this poll now?
                             </Text>
                         </Box>
-                        <Center>
-                            <ModalFooter>
-                                <Button
-                                    colorScheme="green"
-                                    w={{ base: "132px", md: "200px" }}
-                                    h={{ base: "54px", md: "70px" }}
-                                    mr={{ base: "10px", md: "40px" }}
-                                    mb={{ base: "40px", md: "100px" }}
-                                    onClick={handleClick}
-                                >
-                                    <Text fontWeight="700" fontSize={{ base: "20px", md: "24px" }} lineHeight="133%">
-                                        Yes
-                                    </Text>
-                                </Button>
-                                <Button
-                                    colorScheme="red"
-                                    w={{ base: "132px", md: "200px" }}
-                                    h={{ base: "54px", md: "70px" }}
-                                    mb={{ base: "40px", md: "100px" }}
-                                    onClick={onClose}
-                                >
-                                    <Text fontWeight="700" fontSize={{ base: "20px", md: "24px" }} lineHeight="133%">
-                                        No
-                                    </Text>
-                                </Button>
-                            </ModalFooter>
-                        </Center>
+                            <Center>
+                                <ModalFooter>
+                                    <Button
+                                        colorScheme="green"
+                                        w={{ base: "132px", md: "200px" }}
+                                        h={{ base: "54px", md: "70px" }}
+                                        mr={{ base: "10px", md: "40px" }}
+                                        mb={{ base: "40px", md: "100px" }}
+                                        onClick={handleClick}
+                                    >
+                                        <Text fontWeight="700" fontSize={{ base: "20px", md: "24px" }} lineHeight="133%">
+                                            Yes
+                                        </Text>
+                                    </Button>
+                                    <Button
+                                        colorScheme="red"
+                                        w={{ base: "132px", md: "200px" }}
+                                        h={{ base: "54px", md: "70px" }}
+                                        mb={{ base: "40px", md: "100px" }}
+                                        onClick={onClose}
+                                    >
+                                        <Text fontWeight="700" fontSize={{ base: "20px", md: "24px" }} lineHeight="133%">
+                                            No
+                                        </Text>
+                                    </Button>
+                                </ModalFooter>
+                            </Center></>}
+
                     </ModalBody>
                     <ModalCloseButton />
                 </ModalContent>

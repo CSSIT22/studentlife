@@ -89,34 +89,22 @@ export type FollowDetail = {
       type: string;
       data: number[];
     };
-    // score: number;
   };
-  // score: number;
-  // userId: string;
-  // scoreReceiver: {
-  //   fName: string;
-  //   lName: string;
-  //   image: {
-  //     type: string;
-  //     data: number[];
-  //   };
-  // };
 };
 
 export type RateFollow = {
-  userId: string;
-  fName: string;
-  lName: string;
-  image: {
-    type: string;
-    data: number[];
-  };
-  score: number;
-};
-
-export type RateStatus = {
   anotherUserId: string;
   score: number;
+  userId: string;
+  scoreReceiver: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+  };
 };
 
 export type PollInfo = {
@@ -138,6 +126,7 @@ export type PollInfo = {
   pollPlace: string;
   isOpen: boolean;
   participants: {
+    isAccepted: boolean;
     user: {
       userId: string;
       fName: string;
@@ -153,4 +142,35 @@ export type PollInfo = {
       interestName: true;
     };
   }[];
+};
+
+export type HeartReceiver = {
+  heartReceiver: {
+    userId: string;
+    fName: string;
+    lName: string;
+    image: {
+      type: string;
+      data: number[];
+    };
+    details: {
+      birth: Date;
+      sex: string;
+    };
+    interests: {
+      interestId: number;
+    }[];
+    studentMajor: {
+      majorFaculty: {
+        facultyId: string;
+        facultyName: string;
+      };
+    };
+  };
+};
+
+export type Rating = {
+  userId: string;
+  anotherUserId: string;
+  rate: number;
 };

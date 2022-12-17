@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client"
+import axios from "axios"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 
@@ -23,7 +24,6 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                 pollId: true,
             },
         })
-
         if (!findPollDB?.pollId) {
             return res.send()
         }
@@ -51,6 +51,7 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                 isOpen: true,
                 participants: {
                     select: {
+                        isAccepted: true,
                         user: {
                             select: {
                                 userId: true,
@@ -82,19 +83,161 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
 })
 
 yourPollRoutes.put("/updatePollApplicants", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const userId = req.body.userId
+        const pollId = req.body.pollId
+        const reqUserId = req.user?.userId
+        const fName = await prisma.user_Profile.findFirst({
+            where: {
+                userId: reqUserId,
+            },
+            select: {
+                fName: true,
+            },
+        })
+
+        const pollName = await prisma.activity_Poll.findFirst({
+            where: {
+                pollId: pollId,
+            },
+            select: {
+                pollName: true,
+            },
+        })
+
+        await prisma.poll_Applicant.update({
+            where: {
+                userId_pollId: {
+                    userId: userId,
+                    pollId: pollId,
+                },
+            },
+            data: {
+                isAccepted: true,
+            },
+        })
+
+        if (fName && pollName && userId && reqUserId) {
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "DATING_ACCEPTED",
+                value: [fName.fName, pollName.pollName],
+                userId: [userId],
+                module: "DATING",
+                url: "/dating/poll/appliedpoll",
+                sender: reqUserId,
+            })
+        }
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send("Cannot update activity poll")
+    }
 })
 
 yourPollRoutes.put("/closeYourPoll", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const pollId = req.body.pollId
+
+        await prisma.activity_Poll.update({
+            where: {
+                pollId: pollId,
+            },
+            data: {
+                isOpen: false,
+            },
+        })
+        return res.send("Success!")
+    } catch (err) {
+        res.status(400).send("Cannot close your poll")
+    }
 })
 
 yourPollRoutes.put("/closeAndAcceptAllYourPoll", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+    try {
+        const pollId = req.body.pollId
+        const userIdDB = await prisma.poll_Applicant.findMany({
+            where: {
+                pollId: pollId,
+                isAccepted: false,
+            },
+            select: {
+                userId: true,
+            },
+        })
+
+        let unacceptedUserId: string[] = []
+        userIdDB.map((userId) => {
+            unacceptedUserId.push(userId.userId)
+        })
+
+        await prisma.activity_Poll.update({
+            where: {
+                pollId: pollId,
+            },
+            data: {
+                isOpen: false,
+            },
+        })
+
+        const reqUserId = req.user?.userId
+        const fName = await prisma.user_Profile.findFirst({
+            where: {
+                userId: reqUserId,
+            },
+            select: {
+                fName: true,
+            },
+        })
+
+        const pollName = await prisma.activity_Poll.findFirst({
+            where: {
+                pollId: pollId,
+            },
+            select: {
+                pollName: true,
+            },
+        })
+
+        await prisma.poll_Applicant.updateMany({
+            where: {
+                userId: {
+                    in: unacceptedUserId,
+                },
+                pollId: pollId,
+            },
+            data: {
+                isAccepted: true,
+            },
+        })
+
+        if (fName && pollName && reqUserId) {
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "DATING_ACCEPTED",
+                value: [fName.fName, pollName.pollName],
+                userId: unacceptedUserId,
+                module: "DATING",
+                url: "/dating/poll/appliedpoll",
+                sender: reqUserId,
+            })
+        }
+
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send("Cannot close your poll and accept all")
+    }
 })
 
-yourPollRoutes.delete("/deleteYourPoll", verifyUser, async (req: Request, res: Response) => {
-    // Put Pawin's code here
+yourPollRoutes.put("/deleteYourPoll", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const pollId = req.body.pollId
+        await prisma.activity_Poll.delete({
+            where: {
+                pollId: pollId,
+            },
+        })
+        return res.send("Success!")
+    } catch (err) {
+        return res.status(400).send("Cannot delete your poll")
+    }
 })
 
 export default yourPollRoutes
