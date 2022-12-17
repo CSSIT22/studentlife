@@ -11,6 +11,7 @@ const getCommunity = async (req: Request, res: Response) => {
                 status: true,
 
             },
+            
         })
 
         const communityUserInvite = await prisma.community_User.findMany({
@@ -28,22 +29,29 @@ const getCommunity = async (req: Request, res: Response) => {
             where: {
                 communityId: { in: communityUser.map((item: any) => item.communityId) },
             },
+            include: {
+                member: {
+                    where: {
+                        status: true,
+                    },
+                },
+            },
         })
 
         const ownCommunitys = await prisma.community.findMany({
             where: {
                 communityOwnerId: userId,
             },
+            include: {
+                member: {
+                    where: {
+                        status: true,
+                    },
+                },
+            },
         })
-        // const pendingRequest = await prisma.community_User.findMany({
-        //     where: {
-        //         communityId: { in: communityUserInvite.map((item: any) => item.communityId) },
-        //         status: false,
-        //     },
-        //     include: {
-        //         user: true,
-        //     },
-        // })
+        
+        
         const pendingRequest = await prisma.community.findMany({
             where: {
                 communityId: { in: communityUserInvite.map((item: any) => item.communityId) },
@@ -57,12 +65,9 @@ const getCommunity = async (req: Request, res: Response) => {
                 owner: true,
             },
         })
-        // const memberCount = await prisma.community_User.count({
-        //     where: {
-        //         communityId: { in: communityUser.map((item: any) => item.communityId) },
-        //         status: true,
-        //     },
-        // })
+        
+        
+        
         const invitations = await prisma.community.findMany({
             where: {
                 communityId: { in: communityUserInvite.map((item: any) => item.communityId) },
@@ -83,9 +88,6 @@ const getCommunity = async (req: Request, res: Response) => {
             },
         })
 
-        // const countJoined = joinedCommunitys.length
-        // const countOwn = ownCommunitys.length
-        // const countInvite = invitations.length
         const commuinities: any = {
             count: joinedCommunitys.length + ownCommunitys.length, //send count of joined and own community
             userId: userId,
@@ -96,6 +98,7 @@ const getCommunity = async (req: Request, res: Response) => {
                 suggest: suggest,
                 pendingRequest: pendingRequest,
             },
+            
             // ownCommunitys,
             // countOwn,
             // joinedCommunitys,

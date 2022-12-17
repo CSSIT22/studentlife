@@ -79,7 +79,7 @@ const index = () => {
                         <CommunityList
                             key={c.communityId}
                             communityName={c.communityName}
-                            lastActive={'9'}
+                            communityMember={c.communityMember}
                             communityPhoto={c.communityPhoto}
                             communityPrivacy={c.communityPrivacy}
                             communityId={c.communityId} />
@@ -98,7 +98,7 @@ const index = () => {
                         <CommunityList
                             key={community.communityId}
                             communityName={community.communityName}
-                            lastActive={community.lastActive}
+                            communityMember={community.communityMember}
                             communityPhoto={community.communityPhoto}
                             communityPrivacy={community.communityPrivacy}
                             communityId={community.communityId} />

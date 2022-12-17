@@ -1,4 +1,11 @@
-import { Box, Center, Heading, HStack, Text, useBoolean, VStack, } from "@chakra-ui/react"
+import { 
+    Box, 
+    Heading, 
+    HStack, 
+    Text, 
+    useBoolean, 
+    VStack, 
+} from "@chakra-ui/react"
 import { useState, useEffect, FC } from "react"
 import { useParams } from "react-router-dom"
 import API from "src/function/API"

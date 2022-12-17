@@ -1,14 +1,11 @@
 import { useBoolean, } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import { useParams } from "react-router-dom"
-import { communityData } from "../../communityData"
-import FileList from "src/components/group/FileList"
-import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
 import NavCommunity from "src/components/group/communityPage/NavCommunity"
 import FilePage from "src/components/group/communityPage/FilePage"
 import { useEffect, useState } from "react"
-const file = () => {
+const File = () => {
     let { communityID }: any = useParams()
 
     const [isError, { on }] = useBoolean()
@@ -31,7 +28,6 @@ const file = () => {
         fetchCommunity()
     }, [])
 
-
     return (
         <AppBody >
             <NavCommunity
@@ -44,11 +40,11 @@ const file = () => {
             {
                 //Check if user is member of community or community is public to show file page
                 data?.user.access || !data?.community.privacy && !isLoading && !isError && !data?.user.isBlacklisted ?
-                    <FilePage />
+                    <FilePage checkRole={data?.user.role} checkId={data?.user.id}/>
                     : null
             }
         </AppBody >
     )
 }
 
-export default file
+export default File

@@ -40,7 +40,7 @@ groupRoutes.post("/joinCommunity", joinCommunity)
 groupRoutes.post("/acceptRequest", acceptRequest)
 groupRoutes.delete("/declineRequest", declineRequest)
 
-groupRoutes.get("/getCommunityFile", getFile)
+groupRoutes.get("/getCommunityFile/:id", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 
 groupRoutes.get("/getCommunityPost/:id", getCommunityPost)

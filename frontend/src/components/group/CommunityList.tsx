@@ -3,8 +3,7 @@ import { HStack, Box, Image, Text, Badge } from "@chakra-ui/react"
 import React, { createElement, FC, useEffect } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { Link } from "react-router-dom"
-import API from "src/function/API"
-const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, lastActive, communityPhoto, communityPrivacy, communityId }) => {
+const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, communityPhoto, communityPrivacy, communityId ,communityMember}) => {
 
 
 
@@ -38,7 +37,7 @@ const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, lastAc
                                 </Text>
 
                             </HStack>
-                            <Text fontSize="sm">Last active {lastActive} days ago</Text>
+                            <Text fontSize="sm">{communityMember} {communityMember == 1 ? "Member" : "Members"} </Text>
                             
                         </div>
                     </HStack>

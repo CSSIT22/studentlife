@@ -8,36 +8,23 @@ import {
     IconButton,
     useBoolean,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
-import AppBody from "src/components/share/app/AppBody"
-import { communityData } from "src/pages/groups/communityData"
+import React, { FC, useEffect, useState } from "react"
 import FileList from "src/components/group/FileList"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
 import { useNavigate, useParams } from "react-router-dom"
 import search from "src/pages/restaurant/search"
 
-const FilePage = () => {
+const FilePage: FC<{
+    checkRole: string
+    checkId: string
+}> = ({ checkRole, checkId }) => {
 
-    const [searchValue, setSearchValue] = useState("") //for store search value
-    const handleChange = (event: any) => setSearchValue(event.target.value)
+
 
     let { communityID }: any = useParams()
-    const [community, setCommunity] = useState<any>()
+    const [file, setFile] = useState<any>()
 
-    //get community form backend
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-    const status = 0
-    // const [community, setCommunity] = useState<any>()
-    useEffect(() => {
-        API.get('/group/getCommunityId/' + communityID,)
-            .then((res) => {
-                setCommunity(res.data)
-                console.log(res.data)
-            }).catch((err) => on())
-            .finally(() => off())
-    }, [])
     const x = btoa("?type=community&id=" + communityID)
     const navigate = useNavigate()
     const goToUpload = () => {
@@ -46,22 +33,57 @@ const FilePage = () => {
             search: x,
         })
     }
+    // handle searching
+    const [searchValue, setSearchValue] = useState("") //for store search value
+    const handleChange = (event: any) => setSearchValue(event.target.value)
+
+    //get community form backend
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+
+    const fetchFile = async () => {
+        try {
+            const communityFileResult = (await API.get('/group/getCommunityFile/' + communityID)).data
+            await setFile(communityFileResult.communityFile)
+            console.log(communityFileResult.communityFile[0])
+
+        } catch (err) {
+            on()
+        } finally {
+            off()
+        }
+    }
+    useEffect(() => {
+        fetchFile()
+    }, [])
+
+
+    useEffect(() => {
+        console.log(file)
+        //console.log(file)
+        
+
+    }, [file])
     if (isLoading) {
         return (
-            // will fix the design later
             <Text>Loading...</Text>
         )
     }
     if (isError) {
-        // will fix the design later
         return (
-            <Text>There was no community found.</Text>
+            <Text>Error</Text>
         )
     }
+
+    //go to airdrop  upload
+
+
+
+
     return (
         <Box>
             <HStack
-                display={community.isMember || !community.communityPrivacy && !community?.isBlacklist ? "flex" : "none"}
+                display={"flex"}
                 mt='2' justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
                 <Text as={"b"} ml={8}>
                     Files
@@ -95,7 +117,7 @@ const FilePage = () => {
                 </HStack>
             </HStack>
             <Box
-                display={community.isMember || !community.communityPrivacy && !community?.isBlacklist ? "block" : "none"}
+                display={"block"}
                 mt={2}
                 borderRadius={"md"}
                 gap={2}
@@ -103,23 +125,31 @@ const FilePage = () => {
                 backgroundColor={"white"}
                 p={3} pl={4} pr={4} mb={4}>
                 <Flex display={{ base: "none", md: "flex" }} direction="row">
-                    <Text as="b" width={"30%"}>
+                    <Text as="b" width={"35%"}>
                         File name
                     </Text>
-                    <Text as="b" width={"25%"}>
+                    <Text as="b" width={"30%"}>
                         Owner
                     </Text>
-                    <Text as="b" width={"15%"}>
+                    <Text as="b" width={"10%"}>
                         Type
-                    </Text>
-                    <Text as="b" width={"30%"}>
-                        Modified Date
                     </Text>
                 </Flex>
 
-                {communityData.communityfile.map((file) => (
-                    <FileList key={file.FileID} fileName={file.Filename} owner={file.Owner} type={file.FileType} date={file.Date} />
-                ))}
+                <Text>gelppp</Text>
+                <Text>gelppp</Text>
+                <Text>gelppp</Text>
+                <Text>gelppp</Text>
+                <Text>gelppp</Text>
+                {file?.map((index: number, item: any) => {
+                    // <FileList
+                    //     key={index}
+                    //     fileName={item.fileName}
+                    //     owner={item.fileSender}
+                    //     type={item.fileName}
+                    // />
+                    
+                })}
             </Box>
         </Box>
     )
