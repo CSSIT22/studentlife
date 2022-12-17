@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 // import { InitUser } from "@apiType/user/InitUser"
 import { InitUserResponse } from "@apiType/user"
+import { sign } from "jsonwebtoken"
 const init = async (req: Request, res: Response<InitUserResponse | string>) => {
     try {
         const { prisma } = res
@@ -8,6 +9,7 @@ const init = async (req: Request, res: Response<InitUserResponse | string>) => {
             where: { userId: req.user?.userId },
             include: { levels: true, roles: { select: { role: true } } },
         })
+        const socketToken = sign({ userId: req.user?.userId }, process.env.COOKIE_SECRET || "")
         return res.json({
             userId,
             email,
@@ -15,7 +17,8 @@ const init = async (req: Request, res: Response<InitUserResponse | string>) => {
             lName,
             levels,
             studentId,
-            roles: [...roles.map((item) => item.role)],
+            roles: [...roles.map((item: any) => item.role)],
+            socketToken,
         })
     } catch (err) {
         return res.status(500).send("User not found")

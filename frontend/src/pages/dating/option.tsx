@@ -1,131 +1,157 @@
-import {
-    Heading,
-    Text,
-    Box,
-    RangeSlider,
-    RangeSliderTrack,
-    RangeSliderFilledTrack,
-    RangeSliderThumb,
-    Stack,
-    Center,
-    Checkbox,
-    Button,
-    RangeSliderMark,
-    SimpleGrid,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon,
-    Accordion,
-    Tooltip,
-} from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import { Heading, Text, Box, Stack, Center, Button, SimpleGrid, useRadioGroup, useCheckboxGroup, useToast, useBoolean } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import { DatingOptionRadioBox } from "../../components/dating/DatingOptionRadioBox"
-import { useRadioGroup } from "@chakra-ui/react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
-import { useCheckboxGroup } from "@chakra-ui/react"
-import { DatingOptionMultiChose } from "../../components/dating/DatingOptionMultiChose"
+import DatingOptionRangeSlider from "../../components/dating/DatingOptionRangeSlider"
+import DatingOptionAccordion from "../../components/dating/DatingOptionAccordion"
+import { AllFaculty, UserOption } from "@apiType/dating"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
+import React from "react"
 
 declare global {
-    var age: number[], gender: string, faculty: string[], useAge: boolean
+    var age: number[], gender: string, faculty: AllFaculty[], useAge: boolean, firstTime: boolean, hasSetInterest: string
 }
 const DatingOption = () => {
+    const [isDisabled, setIsDisabled] = React.useState<boolean>(false)
+    const didMount = useDidMount()
+    const navigate = useNavigate()
+
+    globalThis.hasSetInterest = "/dating/"
+    globalThis.useAge = true //need db + condition
+    globalThis.age = [19, 25] //need db + condition
+    globalThis.gender = "Everyone" //need db + condition
+    const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
+    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
+    const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
+    const [selectedFac, setSelectedFac] = useState<AllFaculty[]>([]) //For Faculties
+    let count = 1
+
+    useEffect(() => {
+        if (didMount && count != 0) {
+            count--
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (!datingEnroll.data.hasCompleteTutorial) {
+                    toast({
+                        title: "Welcome!",
+                        status: "info",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "top",
+                        description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
+                    })
+                    navigate("/dating/tutorial");
+                }
+            })
+            API.get("/dating/option/getOption").then((userSelectedOption) => {
+                const selectedOption = userSelectedOption.data
+                if (userSelectedOption.data.length < 1) {
+                    globalThis.firstTime = true
+                    return;
+                }
+                else {
+                    globalThis.firstTime = false
+                    setUseAgeValue(selectedOption.useAge)
+                    setSliderValue([selectedOption.ageMin, selectedOption.ageMax])
+                    setSelected(selectedOption.genderPref)
+                    globalThis.useAge = selectedOption.useAge
+                    globalThis.age = [selectedOption.ageMin, selectedOption.ageMax]
+                    globalThis.gender = selectedOption.genderPref
+                }
+            })
+            API.get("/dating/option/getFaculty").then((allFaculty) => {
+                setFaculties(allFaculty.data)
+                // setSelectedFac()
+            })
+                .catch((err) => console.log(err));
+        }
+    })
+
+    function useDidMount() {
+        const [didMount, setDidMount] = useState(true)
+        useEffect(() => {
+            setDidMount(false)
+        }, [])
+
+        return didMount
+    }
+
     //set default value from database by using condition from here
-    const options = ["Male", "Female", "Everyone"] // Gender type
-    const faculties = [
-        "All Faculty",
-        "Faculty of Engineering",
-        "Faculty of Science",
-        "Faculty of Industrial Education and Technology",
-        "School of Information Technology (SIT)",
-        "School of Architecture and Design",
-        "Faculty of Energy, Environment and Materials",
-        "School of Bioresources and Technology ",
-        "School of Liberal Arts",
-        "Graduate School of Management and Innovation (GMI)",
-        "Faculty of Industrial Education and Technology",
-        "Institute of FIeld RoBOtics (FIBO)",
-        "The Joint Graduate School of Energy and Environment (JGSEE)",
-        "Collage of Multidiscliplinary Sciences",
-    ] // All faculties
+
+    // const [isError, { on }] = useBoolean()
+    // const [isLoading, { off }] = useBoolean(true)
+    const options = ["Male", "Female", "LGBTQ+", "Everyone"] // Gender type
+    const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
+    // globalThis.faculty
+
+
+    // const faculties = [
+    //     "All Faculty",
+    //     "Faculty of Engineering",
+    //     "Faculty of Science",
+    //     "Faculty of Industrial Education and Technology",
+    //     "School of Information Technology (SIT)",
+    //     "School of Architecture and Design",
+    //     "Faculty of Energy, Environment and Materials",
+    //     "School of Bioresources and Technology ",
+    //     "School of Liberal Arts",
+    //     "Graduate School of Management and Innovation (GMI)",
+    //     "Institute of FIeld RoBOtics (FIBO)",
+    //     "The Joint Graduate School of Energy and Environment (JGSEE)",
+    //     "Collage of Multidiscliplinary Sciences",
+    // ] // All faculties
 
     //For RadioBox
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "Gender",
-        defaultValue: globalThis.gender,
+        defaultValue: "Everyone",
+        // defaultValue: globalThis.gender,
+        value: selected,
         //onChange: console.log,
     })
     const group = getRootProps()
+    const toast = useToast()
 
     //For faculty
     const { value, getCheckboxProps } = useCheckboxGroup({
-        defaultValue: globalThis.faculty,
+        defaultValue: ["All Faculty"],
     })
 
-    globalThis.useAge = true //need db + condition
-    globalThis.age = [19, 25] //need db + condition
-    globalThis.gender = "Everyone" //need db + condition
-    globalThis.faculty = ["All Faculty"] //need db + condition
-    const [useAgeValue, setUseAgeValue] = useState<boolean>(globalThis.useAge) //For use age to be criteria
-    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.age) //For age min,max
-    const [selected, setSelected] = useState<string>(globalThis.gender) //For gender
-    const [selectedFac, setSelectedFac] = useState<string[]>(globalThis.faculty) //For Faculties
+    // globalThis.useAge = true //need db + condition
+    // globalThis.age = [19, 25] //need db + condition
+    // globalThis.gender = "Everyone" //need db + condition
+    // globalThis.faculty = ["All Faculty"] //need db + condition
 
     useEffect(() => {
         setSelectedFac(faculties)
     }, [])
-    function handleAge() {
-        //Passing data + debug
-        globalThis.age = sliderValue
-        // console.log(globalThis.age)
-    }
-
-    function handleCheck() {
-        //Passing data + debug
-        globalThis.useAge = useAgeValue
-        // console.log(globalThis.useAge)
-    }
 
     function handleGender(gender: string) {
         //Passing data
         setSelected(gender)
     }
 
-    function handleFac(fac: any) {
-        let arr: string[] = selectedFac
-        if (fac === "All Faculty") {
-            if (arr.includes(fac)) {
-                setSelectedFac([])
-            } else setSelectedFac(faculties)
-            return
-        }
-        console.log("This arr: " + arr)
-        if (!arr.includes(fac)) {
-            arr = [...arr, fac]
-            arr.sort()
-            setSelectedFac([...arr])
-            console.log("array: " + selectedFac)
-            console.log("This add? :" + arr.indexOf(fac))
-        } else {
-            // filter?
-            arr = arr.filter((item) => item !== fac)
-            setSelectedFac([...arr])
-
-            console.log("This remove? :" + arr.splice(arr.indexOf(fac), arr.indexOf(fac) + 1))
-        }
-        let arrWithoutAllfact = faculties.filter((item) => item !== faculties[0])
-        let isAll = true
-        arrWithoutAllfact.forEach((item) => {
-            if (!arr.includes(item)) {
-                isAll = false
+    function sendFac(SF: any[]) {
+        //console.log(SF)
+        let arr: string[] = []
+        if (SF[0] !== null && Object.keys(SF[0]).length !== 0) {
+            for (let index = 0; index < selectedFac.length; index++) {
+                for (let index2 = 0; index2 < faculties.length; index2++) {
+                    if (SF[index] === faculties[index2].facultyName) {
+                        arr.push(faculties[index2].facultyId)
+                    }
+                }
             }
-        })
-        if (isAll) {
-            setSelectedFac([faculties[0], ...arr])
-        } else {
-            setSelectedFac(arr.filter((item) => item !== faculties[0]))
         }
-        console.log("This :" + arr)
+        else {
+            //console.log("Oh no")
+            for (let index = 0; index < faculties.length; index++) {
+                arr.push(faculties[index].facultyId)
+            }
+
+        }
+        //console.log("Heh " + arr)
+        return arr
     }
 
     function handleSubmit() {
@@ -134,90 +160,75 @@ const DatingOption = () => {
         globalThis.age = sliderValue
         globalThis.gender = selected
         globalThis.faculty = selectedFac
-        console.log(selectedFac)
-        if (globalThis.faculty[0] == "All Faculty") {
-            console.log("All Fac")
-        }
-        alert(
+        //console.log(selectedFac)
+        console.log(
             "Age min =" +
-                globalThis.age[0] +
-                " | Age max =" +
-                globalThis.age[1] +
-                " | Use age: " +
-                globalThis.useAge +
-                " | Gender : " +
-                globalThis.gender +
-                " | Selected Faculty: " +
-                globalThis.faculty
+            globalThis.age[0] +
+            " | Age max =" +
+            globalThis.age[1] +
+            " | Use age: " +
+            globalThis.useAge +
+            " | Gender : " +
+            globalThis.gender +
+            " | Selected Faculty: " +
+            globalThis.faculty
         )
+        if (globalThis.faculty.length < 1) {
+            toast({
+                title: "Faculty Setting Incomplete!",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+                description: "You are required to set your faculty Preference first."
+            })
+        }
+        // console.log("Test str " + sendFac(selectedFac))
+        if (globalThis.firstTime) {
+            API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
+                .then(() => navigate("/dating/interests"))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+        }
+        else {
+            API.put<UserOption | AllFaculty>("/dating/option/updateOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
+                .then(() => navigate(globalThis.hasSetInterest))
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+            API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
+                if (!datingEnroll.data.hasCompleteSetting) {
+                    globalThis.hasSetInterest = "/dating/interests"
+                }
+            })
+
+        }
     }
 
     return (
         <DatingAppBody>
-            <Stack pt="5">
+            <Stack pt="5" color="black">
                 {/* Heading and heading description part */}
-                <Heading>Dating Option</Heading>
-                <Box pt="3">
-                    <Text>Set the criteria to be used for the profile randomization.</Text>
+                <Heading fontSize="36px">Option</Heading>
+                <Box>
+                    <Text fontSize="18px">Set the criteria to be used for the profile randomization</Text>
                 </Box>
 
                 {/* DON'T CHANGE "columns" to "column" OR ELSE IT WILL NOT RESPONSIVE*/}
-                <SimpleGrid gap={12} pt={8} columns={{ base: 1, md: 2 }}>
+                <SimpleGrid gap={12} pt={5} columns={{ base: 1, md: 2 }}>
                     <Box>
                         <Box pb={5}>
-                            <Text fontSize="xl" as="b">
+                            <Text fontSize="30px" as="b">
                                 Age Preference
                             </Text>
                         </Box>
-                        <Center bg="orange.200" h={20} borderRadius="20px">
-                            {/* Is user use age as criteria? */}
-                            <Tooltip label="Use age as a criteria?" aria-label="A tooltip">
-                                <span tabIndex={0}>
-                                    <Checkbox
-                                        colorScheme="white"
-                                        defaultChecked={globalThis.useAge}
-                                        p="30px"
-                                        size="lg"
-                                        onChange={(val) => {
-                                            handleCheck(), setUseAgeValue(!useAgeValue)
-                                        }}
-                                    ></Checkbox>
-                                </span>
-                            </Tooltip>
-
-                            {/* Age min and Age max */}
-                            <RangeSlider
-                                aria-label={["min", "max"]}
-                                min={16}
-                                max={40}
-                                defaultValue={[19, 25]}
-                                onChange={(val) => {
-                                    handleAge(), setSliderValue(val)
-                                }}
-                                ml={"20px"}
-                                mr={"45px"}
-                            >
-                                <RangeSliderMark value={sliderValue[0]} textAlign="center" color="white" mt="-10" ml="-5" w="12">
-                                    {sliderValue[0]}
-                                </RangeSliderMark>
-                                <RangeSliderMark value={sliderValue[1]} textAlign="center" color="white" mt="-10" ml="-5" w="12">
-                                    {sliderValue[1]}
-                                </RangeSliderMark>
-                                <RangeSliderTrack bg="red.100">
-                                    <RangeSliderFilledTrack bg="tomato" />
-                                </RangeSliderTrack>
-                                <RangeSliderThumb boxSize={6} index={0}>
-                                    <Box color="tomato" />
-                                </RangeSliderThumb>
-                                <RangeSliderThumb boxSize={6} index={1}>
-                                    <Box color="tomato" />
-                                </RangeSliderThumb>
-                            </RangeSlider>
-                        </Center>
+                        <DatingOptionRangeSlider
+                            sliderValue={sliderValue}
+                            useAgeValue={useAgeValue}
+                            setUseAgeValue={setUseAgeValue}
+                            setSliderValue={setSliderValue}
+                        />
                     </Box>
                     <Box>
                         <Box pb={5}>
-                            <Text fontSize="xl" as="b">
+                            <Text fontSize="30px" as="b">
                                 Gender Preference
                             </Text>
                             {/* Gender preference radio box*/}
@@ -236,141 +247,44 @@ const DatingOption = () => {
                     <Box>
                         {/* Chose multi Faculty preference */}
                         <Box pb={5}>
-                            <Text fontSize="xl" as="b">
+                            <Text fontSize="30px" as="b">
                                 Faculty Preference
                             </Text>
                         </Box>
                         <Box>
-                            <Accordion allowToggle flex="left">
-                                <AccordionItem>
-                                    <h2>
-                                        <AccordionButton
-                                            bg={"orange.200"}
-                                            color="white"
-                                            borderRadius="20px"
-                                            _expanded={{ bg: "orange.200", color: "white" }}
-                                            _hover={{ bg: "orange.300", color: "white", border: "orange.800" }}
-                                        >
-                                            <Box textAlign="left">Selected Faculty</Box>
-                                            <AccordionIcon />
-                                        </AccordionButton>
-                                    </h2>
-                                    <AccordionPanel pb={4}>
-                                        <Stack>
-                                            {/* <Text>You have select from: {selectedFac.sort().join(" , ")}</Text> */}
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[0] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[0])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[1] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[1])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[2] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[2])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[3] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[3])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[4] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[4])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[5] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[5])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[6] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[6])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[7] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[7])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[8] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[8])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[9] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[9])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[10] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[10])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[11] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[11])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[12] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[12])}
-                                            />
-                                            <DatingOptionMultiChose
-                                                {...getCheckboxProps({ value: faculties[13] })}
-                                                handelClick={(e: any) => {
-                                                    handleFac(e)
-                                                }}
-                                                isChecked={selectedFac.includes(faculties[13])}
-                                            />
-                                        </Stack>
-                                    </AccordionPanel>
-                                </AccordionItem>
-                            </Accordion>
+                            <DatingOptionAccordion
+                                faculties={faculties}
+                                selectedFac={selectedFac}
+                                setSelectedFac={setSelectedFac}
+                                // setSelectedFac={setSelectedFac2}
+                                getCheckboxProps={getCheckboxProps}
+                            />
                         </Box>
                     </Box>
                 </SimpleGrid>
                 {/* Submit button */}
                 <Center>
-                    <Button type="submit" form="new-note" onClick={() => handleSubmit()} m={"80px"}>
+                    <Button
+                        type="submit"
+                        form="new-note"
+                        borderRadius="15px"
+                        colorScheme="orange"
+                        isDisabled={isDisabled}
+                        // DON'T FORGET TO OPEN IT
+                        onClick={() => {
+                            handleSubmit()
+                                , setIsDisabled(!isDisabled)
+                        }}
+                        m="80px"
+                        p="30px"
+                        pr="50px"
+                        pl="50px"
+                    >
                         Done
                     </Button>
                 </Center>
             </Stack>
-        </DatingAppBody>
+        </DatingAppBody >
     )
 }
 

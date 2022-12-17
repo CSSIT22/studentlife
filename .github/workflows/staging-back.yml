@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - staging
-      - infra-*
+      # - infra-*
     paths:
       - "backend/**"
 
@@ -23,6 +23,7 @@ jobs:
           password: ${{secrets.DOCKER_TOKEN}}
       - name: 🏗️ Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
       - name: ☁️ Build and push
         uses: docker/build-push-action@v2
         with:
@@ -30,10 +31,11 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: modlifes/backend:latest
+
   deploy:
     name: 🖨️ deploy to server
     runs-on: ubuntu-latest
-    environment: develop
+    environment: staging
     timeout-minutes: 5
     needs: [build]
     steps:
@@ -46,5 +48,6 @@ jobs:
           script: |
             cd ${{secrets.PATH_STAGING}}
             docker pull modlifes/backend:latest
+            echo '${{secrets.BACKEND_STAGING_ENV}}' > .env
             docker-compose up --detach backend
             docker system prune -af

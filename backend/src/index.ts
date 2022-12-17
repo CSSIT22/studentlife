@@ -6,8 +6,8 @@ import blogRoutes from "./modules/blog"
 import chatRoutes from "./modules/chat"
 import datingRoutes from "./modules/dating"
 import groupRoutes from "./modules/group"
-import middlewareRoutes from "./modules/backendService"
-import notificationRoutes from "./modules/notification"
+import backendserviceRoutes from "./modules/backendService"
+import { notificationRoutes, setIO } from "./modules/notification"
 import qaRoutes from "./modules/qa"
 import restaurantRoutes from "./modules/restaurant"
 import scheduleRoutes from "./modules/schedule"
@@ -26,14 +26,34 @@ import session from "express-session"
 import { createClient } from "redis"
 import connectRedis from "connect-redis"
 import cors from "cors"
-// const device = require("express-device")
+import http from "http"
+import { Server as IOServer, Socket } from "socket.io"
+import { verify } from "jsonwebtoken"
+import { DefaultEventsMap } from "socket.io/dist/typed-events"
+import chatSocket from "./modules/chat/chatStocket"
+import notiSocket from "./modules/notification/notiSocket"
+import airdropSocket from "./modules/airdrop/airdropSocket"
+import { set, deleteKey } from "./modules/backendService/socketstore/store"
+import mongoose, { mongo } from "mongoose"
+import { filterWord } from "./modules/backendService/middleware/filterWord"
 
 const PORT = 8000
 const app = express()
+app.use(express.json())
+
+const appOrigin = [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])]
+
+const appCors = cors({
+    origin: appOrigin,
+    credentials: true,
+    allowedHeaders: ["Content-Type"],
+})
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
 }
+
+mongoose.connect(process.env.MONGO_URL || "", { authSource: "admin" })
 
 const prisma = new PrismaClient()
 const redisClient = createClient({
@@ -55,6 +75,7 @@ declare global {
         export interface Response {
             prisma: PrismaClient
             redis: typeof redisClient
+            io: IOServer
         }
     }
 }
@@ -65,14 +86,7 @@ redisClient.connect().catch((err) => console.log(err))
 // config passport for microsoft strategy
 passport.use(microsoft(prisma))
 
-// app.use(device.capture())
-
-app.use(
-    cors({
-        origin: [process.env.CORS_ORIGIN || "", ...(process.env.NODE_ENV === "STAGING" ? [process.env.CORS_ORIGIN_DEV || ""] : [])],
-        credentials: true,
-    })
-)
+app.use(appCors)
 
 app.use(
     session({
@@ -103,6 +117,8 @@ app.use((_, res, next) => {
     next()
 })
 
+app.use(filterWord)
+
 app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
 })
@@ -113,7 +129,7 @@ app.use("/blog", blogRoutes)
 app.use("/chat", chatRoutes)
 app.use("/dating", datingRoutes)
 app.use("/group", groupRoutes)
-app.use("/middleware", middlewareRoutes)
+app.use("/backendservice", backendserviceRoutes)
 app.use("/notification", notificationRoutes)
 app.use("/qa", qaRoutes)
 app.use("/restaurant", restaurantRoutes)
@@ -127,4 +143,50 @@ app.use("/todolist", todolistRoutes)
 app.use("/transaction", transactionRoutes)
 app.use("/user", userRoutes)
 
-app.listen(PORT, () => console.log(`running on ${PORT} !!`))
+const server = http.createServer(app)
+
+const io = new IOServer(server, {
+    cors: {
+        credentials: true,
+        origin: appOrigin,
+    },
+})
+
+io.use((socket, next) => {
+    try {
+        const token = socket.handshake.headers.authorization
+        console.log(token)
+        if (!token) {
+            throw new Error("not authorized")
+        }
+        const decoded = verify(token, process.env.COOKIE_SECRET || "") as { userId: string }
+
+        set(socket.id, decoded.userId)
+        return next()
+    } catch (err) {
+        console.log(err)
+        return next(new Error("not authorized"))
+    }
+})
+
+export type customeSocketPrams = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>, prisma: PrismaClient) => any
+
+io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+    chatSocket(socket, prisma)
+
+    notiSocket(socket, prisma)
+
+    airdropSocket(socket, prisma)
+
+    socket.on("disconnect", (reason) => {
+        deleteKey(socket.id)
+    })
+    // console.log(store)
+
+    console.log(socket.handshake.headers)
+    console.log("Hello")
+})
+
+setIO(io)
+server.listen(PORT, () => console.log(`running on ${PORT} !`))
+// app.listen(PORT, () => console.log(`running on ${PORT} !`))

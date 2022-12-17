@@ -26,16 +26,23 @@ import { FaHistory, FaUserAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import NavBarWithNoti from "./NavBarWithNoti"
 import SecondaryNav from "./SecondaryNav"
-import { moreMenu, NavBarMenu } from "./NavBar"
+import { logout, moreMenu, NavBarMenu } from "./NavBar"
 import { FC, useContext } from "react"
 import { secondaryNavProps } from "../app/AppBody"
 import ExtarSecondaryNav from "./ExtarSecondaryNav"
 import logo from "./pic/logo.png"
 import { authContext } from "src/context/AuthContext"
 import NotiTable from "src/components/notification/NotiTable"
+import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
+import { NavBarContext } from "src/context/NavbarContext"
 
 const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav: secondarynav }) => {
     const user = useContext(authContext)
+    const navigate = useNavigate()
+
+    const { countUnread } = useContext(NavBarContext)
+
     return (
         <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
@@ -50,7 +57,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                             <Popover>
                                 <PopoverTrigger>
                                     <Button variant={"unstyled"}>
-                                        <NavBarWithNoti label="Notification" notiCount={1} Icon={AiFillBell} />
+                                        <NavBarWithNoti label="Notification" notiCount={countUnread} Icon={AiFillBell} />
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent>
@@ -85,11 +92,17 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                                         </MenuButton>
                                         <MenuList>
                                             <MenuGroup title="User">
-                                                <MenuItem icon={<FaUserAlt />}>Profile</MenuItem>
-                                                <MenuItem icon={<FaHistory />}>Login Activity</MenuItem>
+                                                <Link to="/user">
+                                                    <MenuItem icon={<FaUserAlt />}>Profile</MenuItem>
+                                                </Link>
+                                                <MenuItem as={Link} to={"/auth/revokeTokens"} icon={<FaHistory />}>
+                                                    Login Activity
+                                                </MenuItem>
                                             </MenuGroup>
                                             <MenuGroup title="Danger Area">
-                                                <MenuItem icon={<BiLogOut />}>Logout</MenuItem>
+                                                <MenuItem onClick={logout} icon={<BiLogOut />}>
+                                                    Logout
+                                                </MenuItem>
                                             </MenuGroup>
                                         </MenuList>
                                     </>
