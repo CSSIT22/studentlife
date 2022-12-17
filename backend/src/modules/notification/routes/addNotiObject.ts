@@ -82,7 +82,7 @@ const addNotiObject = async (req: Request, res: Response) => {
             for (let i in body.userId) {
                 const el = body.userId[i]
                 let socketids = getSessionIdsByUserIds(el)
-                console.log(socketids)
+                //console.log(socketids)
 
                 for (let id of socketids) {
                     ;(res.io as Server).to(id).emit("push_noti", { data, notiObject })
@@ -114,7 +114,7 @@ const addNotiObject = async (req: Request, res: Response) => {
     } catch (err) {
         //console.log(err)
 
-        console.log(body + " err" + err)
+        //console.log(body + " err" + err)
         return res.status(400).send(err)
     }
 }
