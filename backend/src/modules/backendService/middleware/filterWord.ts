@@ -18,6 +18,19 @@ const getWords = (rawString: string[]): string[] => {
     return words
 }
 
+const replaceBadWords = (obj: any, badWords: Array<string>): any => {
+    for (let prop in obj) {
+        if (typeof obj[prop] === "string") {
+            badWords.forEach((word) => {
+                obj[prop] = obj[prop].replace(word, "*".repeat(word.length))
+            })
+        } else if (typeof obj[prop] === "object") {
+            obj[prop] = replaceBadWords(obj[prop], badWords)
+        }
+    }
+    return obj
+}
+
 const filterWordHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const prisma = res.prisma
@@ -33,7 +46,10 @@ const filterWordHandler = async (req: Request, res: Response, next: NextFunction
         ).map((e) => e.word)
         let badWords = words.filter((x) => filterWord.includes(x))
         if (badWords.length > 0) {
-            return res.status(400).json({ message: "found bad word", badWords: badWords })
+            req.body = replaceBadWords(req.body, badWords)
+            req.params = replaceBadWords(req.params, badWords)
+            req.query = replaceBadWords(req.query, badWords)
+            return next()
         }
         return next()
     } catch (err: any) {
