@@ -1501,7 +1501,6 @@ model SReview_Review {
   text         String
   rating       Int
   likeReceived Int                    @default(0)
-  images       SReview_Review_Image[]
   reviewer     User_Profile           @relation(fields: [userId], references: [userId])
   restaurant   Restaurant?            @relation(fields: [resId], references: [resId])
   shop         SReview_Shop?          @relation(fields: [shopId], references: [shopId])
@@ -1517,13 +1516,6 @@ model SReview_Review_File {
   file     File_Info      @relation(fields: [fileId], references: [fileId])
 
   @@id([reviewId, fileId])
-}
-
-model SReview_Review_Image {
-  imageId  Int            @id @default(autoincrement())
-  reviewId String
-  image    String
-  imageOf  SReview_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
 }
 
 model SReview_Comment {
