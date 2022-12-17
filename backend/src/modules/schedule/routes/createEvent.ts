@@ -8,13 +8,15 @@ const createEvent = async (req: Request, res: Response) => {
 
     // Event is the table from db
     try {
+        console.log(body);
+        
         const createEvent = await prisma.event.create({
             data: {
                 eventName: body.eventName,
-                stTime: new Date("2022-01-01 " + body.startTime),
-                endTime: new Date("2022-01-01 " + body.endTime),
-                desc: body.eventDesc,
-                eventTypeId: body.eventType,
+                stTime: new Date(body.stTime),
+                endTime: new Date(body.endTime),
+                desc: body.desc,
+                eventTypeId: body.eventTypeId,
                 // descId: body.descId,
                 hostAt: {
                     connectOrCreate: {
@@ -30,21 +32,15 @@ const createEvent = async (req: Request, res: Response) => {
                 },
             },
         })
+        // await prisma.t
         res.send(createEvent)
     } catch (err) {
-        res.send(err)
+        console.log(err)
+
+        res.status(500).send(err)
     }
 
-    // const createEvent: any = {
-    //     eventId: body.eventId,
-    //     eventName: body.eventName,
-    //     startTime: body.startTime,
-    //     endTime: body.endTime,
-    //     // startDate: body.startDate,
-    //     // endDate: body.endDate,
-    //     eventDesc: body.eventDesc,
-    //     eventType: body.eventType,
-    // }
+    
 }
 
 export default createEvent
