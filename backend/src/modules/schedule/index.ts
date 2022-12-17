@@ -9,28 +9,28 @@ const scheduleRoutes = express()
 
 scheduleRoutes.use(express.json())
 
-scheduleRoutes.put("/createEvent", (req, res) => {
-    const eventId = req.body.eventId
-    const eventName = req.body.eventName
-    const startTime = req.body.startTime
-    const endTime = req.body.endTime
-    const startDate = req.body.startDate
-    const endDate = req.body.endDate
-    const eventDesc = req.body.eventDesc
-    const eventType = req.body.eventType
+// scheduleRoutes.put("/createEvent", (req, res) => {
+//     const eventId = req.body.eventId
+//     const eventName = req.body.eventName
+//     const startTime = req.body.startTime
+//     const endTime = req.body.endTime
+//     const startDate = req.body.startDate
+//     const endDate = req.body.endDate
+//     const eventDesc = req.body.eventDesc
+//     const eventType = req.body.eventType
 
-    res.send({
-        success: true,
-        eventName: eventName,
-        eventId: eventId,
-        startTime: startTime,
-        endTime: endTime,
-        startDate: startDate,
-        endDate: endDate,
-        eventDesc: eventDesc,
-        eventType: eventType,
-    })
-})
+//     res.send({
+//         success: true,
+//         eventName: eventName,
+//         eventId: eventId,
+//         startTime: startTime,
+//         endTime: endTime,
+//         startDate: startDate,
+//         endDate: endDate,
+//         eventDesc: eventDesc,
+//         eventType: eventType,
+//     })
+// })
 
 export type Event = {
     eventId: string
