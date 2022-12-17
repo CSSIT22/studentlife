@@ -21,7 +21,7 @@ export function generateConfirmCartProducts(ProductsList: confirmOrder) {
         const formattedPrice = numberFormat.format(price)
 
         products.push(
-            <GridItem bg="" borderBottom="1px" pl="2">
+            <GridItem bg="" pl="2">
                 <OrderList
                     imageAlt={ProductsList.products[i].product.productName}
                     imageUrl={ProductsList.products[i].product.images[0].image}
