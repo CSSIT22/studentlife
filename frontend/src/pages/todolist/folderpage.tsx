@@ -49,7 +49,7 @@ const folderpage = () => {
   const isError = newFolderName === ''
 
   const fetchData = () => {
-    axios.post("http://localhost:8000/todolist/listfolder").then((res) => {
+    API.post("/todolist/listfolder").then((res) => {
       setFolderList(res.data);
     })
   }

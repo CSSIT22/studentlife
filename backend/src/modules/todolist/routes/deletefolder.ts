@@ -17,6 +17,19 @@ const deleteFolder = async (req: Request, res: Response) => {
     }
 
     try {
+        await prisma.task.updateMany({
+            where: {
+                folderId: body.folderId,
+            },
+            data: {
+                folderId: null,
+            },
+        })
+    } catch (err) {
+        return res.status(400).send(400)
+    }
+
+    try {
         await prisma.task_Folder.delete({
             where: {
                 folderId: req.body.folderId,
@@ -24,7 +37,9 @@ const deleteFolder = async (req: Request, res: Response) => {
         })
         res.status(200).send("Delete Folder Success")
     } catch (err) {
-        return res.status(400)
+        console.log(err)
+
+        return res.status(400).send("Delete folder failed")
     }
 }
 

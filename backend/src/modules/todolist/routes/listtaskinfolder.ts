@@ -13,23 +13,6 @@ const listtaskinfolder = async (req: Request, res: Response) => {
         )
     } else {
         result = await prisma.task_Folder.findFirst({
-            // orderBy: [
-            //     {
-            //         taskCheck: {
-            //             [body.orderBy || "taskName"]: "asc",
-            //         },
-            //     },
-            // ],
-            // where: {
-            //     userId: {
-            //         equals: userid,
-            //     },
-            //     taskCheck: {
-            //         folderId: {
-            //             equals: body.folderId,
-            //         },
-            //     },
-            // },
             where: {
                 userId: userid,
                 folderId: body.folderId,
@@ -40,7 +23,6 @@ const listtaskinfolder = async (req: Request, res: Response) => {
                         checkTask: { select: { isCheck: true } },
                     },
                 },
-                // taskCheck: true,
             },
         })
     }

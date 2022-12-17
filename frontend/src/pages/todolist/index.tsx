@@ -91,7 +91,6 @@ const index = () => {
       {/* backend */}
       {
         taskList.map((el: any, index: number) => (
-
           <Box height={"5rem"} width={"100%"} p="5" mt="5"
             backgroundColor="#FFFFFF" rounded="lg" key={index} boxShadow="md" onClick={() => {
               navigate({
