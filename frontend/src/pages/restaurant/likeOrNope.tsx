@@ -43,17 +43,39 @@ function LikeorNope() {
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     //when like, it will store userId and resId
-    const likedRestaurant = () => {
-        API.post("restaurant/" + params.id, { id: params.id, status: true })
+    const [radius, setradius] = useState(500);
+    const [nextres, setnextres] = useState(true);
+    const selectRadius = (radius: number) => {
+        setradius(radius)
+    }
+    const [id, setid] = useState(0);
+
+    
+    const plusId = () => {
+        setid(parseInt(new URLSearchParams(location.search).get("id") + "") > id ? parseInt(new URLSearchParams(location.search).get("id") + "") : id) 
+        if (id < property[0].likes - 1) {
+            setid(id + 1)
+        }
+        else {
+            setid(0)
+        }
+
     }
 
     //Get restaurant to show on this page
     useEffect(() => {
-        API.get("/restaurant/" + params.id).then((item) => setproperty(item.data))
+        API.get("/restaurant/likeOrNope?radius=" + radius + `&id=${parseInt(new URLSearchParams(location.search).get("id") + "") > id ? parseInt(new URLSearchParams(location.search).get("id") + "") : id}`).then((item) => setproperty([item.data]))
             .catch((err) => on())
             .finally(off)
-        API.put("restaurant/" + params.id)
-    }, [params.id])
+        // API.put("restaurant/" + params.id) 
+    }, [nextres])
+
+    const likedRestaurant = async () => {
+        await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: true })
+        navigate(`/restaurant/detail?resId=${property[0]?.resId}` + `&id=${id}`  + "&total=" + property[0].likes)
+    }
+    console.log(radius);
+
 
 
     if (isLoading)
@@ -104,6 +126,8 @@ function LikeorNope() {
         }
     }
 
+    console.log(id);
+
     globalThis.respage = res
     globalThis.rand = Math.floor(Math.random() * 5) + 1
     const Random = () => {
@@ -119,7 +143,7 @@ function LikeorNope() {
             ]}
         >
             <Box mb={"30px"}>
-                <Searchbar />
+                <Searchbar selectRadius={selectRadius} />
             </Box>
             <Box px={2} h={"100%"} pb={6} pt={2}>
                 {property.map((e1) => {
@@ -140,7 +164,7 @@ function LikeorNope() {
                         <Box>
                             <Button colorScheme="green" width="80px" h="80px" borderRadius={"full"} onClick={() => {
                                 likedRestaurant()
-                                navigate(`/restaurant/detail/${"000" + globalThis.respage}`)
+
                             }}>
                                 <Icon as={AiOutlineLike} w={12} h={12} />
                             </Button>
@@ -148,8 +172,10 @@ function LikeorNope() {
 
                         <Box>
                             <Button onClick={() => {
+                                plusId()
                                 Nope()
-                                navigate(`/restaurant/${"000" + (globalThis.respage == 6 ? 1 : globalThis.respage + 1)}`)
+                                // navigate(`/restaurant/${"000" + (globalThis.respage == 6 ? 1 : globalThis.respage + 1)}`)
+                                setnextres(!nextres)
                             }} colorScheme="red" width="80px" h="80px" borderRadius={"full"}>
 
                                 <Icon as={AiOutlineDislike} w={12} h={12} />

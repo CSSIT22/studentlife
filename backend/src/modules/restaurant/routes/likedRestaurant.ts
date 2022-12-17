@@ -18,7 +18,7 @@ const likedRestaurant = async (req: Request, res: Response) => {
         // console.log(detaildata.geometry.location.lng > 13.651273593231576  ? (detaildata.geometry.location.lng >  13.666273593231576 ? "อื่นๆ" : "หน้ามอ"): (detaildata.geometry.location.lng <  13.636273593231576 ? "อื่นๆ" : "หลังมอ"));
         // console.log(detaildata.opening_hours.periods[0].open.time);
        
-        const opentime = detaildata.opening_hours?.periods.map((x: any) => {
+        const opentime = detaildata?.opening_hours?.periods.map((x: any) => {
             // console.log(x);
 
             return { day: x?.open?.day == undefined ? 0 : x?.open?.day, open: x?.open?.time == undefined ? "undefined" : x?.open?.time}
@@ -27,7 +27,7 @@ const likedRestaurant = async (req: Request, res: Response) => {
         // console.log(detaildata.opening_hours?.period);
         
     
-        const closetime = detaildata.opening_hours?.periods.map((x: any) => {
+        const closetime = detaildata?.opening_hours?.periods.map((x: any) => {
             // console.log(x);
             
             return ({ day: x?.close?.day == undefined ? 0 : x?.close?.day, close: x?.close?.time == undefined ? "undefined" : x?.close?.time})
@@ -37,7 +37,7 @@ const likedRestaurant = async (req: Request, res: Response) => {
         
         // console.log(detaildata.photos)
 
-        const img = detaildata.photos.map((x:any) => {
+        const img = detaildata?.photos.map((x:any) => {
             return {image: x.photo_reference}
         })
        

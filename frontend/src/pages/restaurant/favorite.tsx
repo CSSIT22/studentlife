@@ -14,9 +14,13 @@ function favorite() {
     const params = useParams()
     const [property, setproperty] = React.useState<Restaurant2[]>([])
     const [status, setstatus] = useState(true)
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-    const getFav = API.get("/restaurant/favorite")
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
+    const getFav =  API.get("/restaurant/favorite")
+    const [radius, setradius] = useState(500);
+    const selectRadius = (radius:number) => {
+        setradius(radius)
+    }
     useEffect(() => {
         getFav.then((item) => setproperty(item.data))
             .catch((err) => on())
@@ -68,7 +72,7 @@ function favorite() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar />
+            <Searchbar selectRadius={selectRadius}/>
 
             <Heading color={"##000000"} mt={"20px"} textAlign="center">
                 Favorite

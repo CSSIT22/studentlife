@@ -33,12 +33,12 @@ import {
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
-import Searchbar from "../../../components/restaurant/searchbar"
-import AppBody from "../../../components/share/app/AppBody"
-import ShowImage from "../../../components/restaurant/ShowImage"
+import Searchbar from "../../components/restaurant/searchbar"
+import AppBody from "../../components/share/app/AppBody"
+import ShowImage from "../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom"
-import { friend } from "../data/friend"
+import { friend } from "./data/friend"
 import API from "src/function/API"
 
 
@@ -51,47 +51,29 @@ function detail() {
 
     const [property, setproperty] = React.useState<any>([])
     const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(false)
-    const getdetail = API.get("/restaurant/detail/" + params.detailRes)
+    const [isLoading, { off }] = useBoolean(true)
+    const getdetail = API.get(`/restaurant/detail?resId=${new URLSearchParams(location.search).get("resId")}`)
+    const [radius, setradius] = useState(500);
+
     useEffect(() => {
         getdetail.then((item) => setproperty(item.data))
+            .catch((err) => on())
+            .finally(off)
 
     }, [params.detailRes])
 
+    const selectRadius = (radius: number) => {
+        setradius(radius)
+    }
 
     const [room, setRoom] = React.useState("")
     console.log(room);
-    
+
 
     const getRoom = API.get("/chat")
     useEffect(() => {
         getRoom.then((item) => setRoom(item.data))
-    },[setRoom])
-
-    if (isLoading)
-        return (
-            <AppBody
-                secondarynav={[
-                    { name: "Like or Nope", to: "/restaurant" },
-                    { name: "My Favorite", to: "/restaurant/favorite" },
-                    { name: "My History", to: "/restaurant/history" },
-                ]}
-            >
-                <Heading color={"black"}>Loading</Heading>
-            </AppBody>
-        )
-
-    if (isError) return (
-        <AppBody
-            secondarynav={[
-                { name: "Like or Nope", to: "/restaurant" },
-                { name: "My Favorite", to: "/restaurant/favorite" },
-                { name: "My History", to: "/restaurant/history" },
-            ]}
-        >
-            <Heading color={"red"}> There is an Error</Heading>
-        </AppBody>
-    )
+    }, [setRoom])
 
     let [isFavorite, setIsFavorite] = useState(Boolean)
 
@@ -117,6 +99,36 @@ function detail() {
         navigate(`/chat/${room}/${numres}`)
     }
 
+    const nextres = () => {
+        navigate(`/restaurant/likeOrNope?radius=${radius}&id=${parseInt(new URLSearchParams(location.search).get("id") + "") + 1 > parseInt(new URLSearchParams(location.search).get("total") + "") - 1 ? 0 : parseInt(new URLSearchParams(location.search).get("id") + "") + 1}`)
+    }
+
+    if (isLoading)
+        return (
+            <AppBody
+                secondarynav={[
+                    { name: "Like or Nope", to: "/restaurant" },
+                    { name: "My Favorite", to: "/restaurant/favorite" },
+                    { name: "My History", to: "/restaurant/history" },
+                ]}
+            >
+                <Heading color={"black"}>Loading</Heading>
+            </AppBody>
+        )
+
+    if (isError) return (
+        <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+            <Heading color={"red"}> There is an Error</Heading>
+        </AppBody>
+    )
+    // console.log(parseInt(new URLSearchParams(location.search).get("id") + "") + 1 > parseInt(new URLSearchParams(location.search).get("total") + "") - 1 ? 0 : parseInt(new URLSearchParams(location.search).get("id") + "") + 1);
+    
     return (
         <AppBody
             secondarynav={[
@@ -125,7 +137,7 @@ function detail() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar />
+            <Searchbar selectRadius={selectRadius} />
             <Center w={"full"} mt={4}>
                 {property.map((e1: any) => {
 
@@ -133,9 +145,9 @@ function detail() {
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/${numres}`}>
-                                        <CloseButton my={-4} ml={-1} />
-                                    </Link>
+                                    
+                                        <CloseButton my={-4} ml={-1} onClick={() => nextres()}/>
+                                   
 
                                     <Heading textAlign={"center"} fontWeight="bold" color={"#E65300"}>
                                         {e1.resName}
@@ -160,7 +172,7 @@ function detail() {
                                                 <Icon as={AiOutlineLike} fontSize="md" /> {e1.likes} liked
                                             </Box>
                                             <Spacer />
-                                            <Link to={`/restaurant/review/${numres}`}>
+                                            <Link to={`/restaurant/review/${e1.resId}`}>
                                                 <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
                                                     <Icon as={AiOutlineComment} fontSize="md" /> Review
                                                 </Box>
@@ -171,7 +183,7 @@ function detail() {
                                     <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }} fontWeight="600">
                                         <Box w={"full"} textAlign={"center"}>
                                             <Text color="" fontSize="md">
-                                                OPEN - CLOSE : {e1.openAt[0]?.open == undefined ? "Unknown" : e1.openAt[0]?.open.substring(0,2) + ":" + e1.openAt[0]?.open.substring(2,4)}  {e1.closeAt[0]?.close == undefined ? "" : "-" + e1.closeAt[0]?.close.substring(0,2) + ":" + e1.closeAt[0]?.close.substring(2,4)} <br />
+                                                OPEN - CLOSE : {e1.openAt[0]?.open == undefined ? "Unknown" : e1.openAt[0]?.open.substring(0, 2) + ":" + e1.openAt[0]?.open.substring(2, 4)}  {e1.closeAt[0]?.close == undefined ? "" : "-" + e1.closeAt[0]?.close.substring(0, 2) + ":" + e1.closeAt[0]?.close.substring(2, 4)} <br />
                                                 <Show above="md">
                                                     <br />
                                                 </Show>
@@ -239,55 +251,55 @@ function detail() {
                                                         <PopoverCloseButton />
                                                         <PopoverHeader fontWeight='semibold' textAlign={"center"}>Share</PopoverHeader>
                                                         <PopoverBody>
-                                                                <Flex>
-                                                                    <Wrap spacing="30px">
-                                                                        {/* {room?.map((ro:any) => { */}
-                                                                        {friend.map((ro: any) => {
-                                                                            return (
-                                                                                <RadioGroup onChange={setRoom} value={room}>
-                                                                                    <Radio value={ro.roomId}>
-                                                                                        <WrapItem>
-                                                                                            <Avatar name={ro.group.roomName} /*src={ro.nick.nameWho.image} */ />
-                                                                                            <Text></Text>
-                                                                                        </WrapItem>
-                                                                                    </Radio>
-                                                                                </RadioGroup>
-                                                                            )
+                                                            <Flex>
+                                                                <Wrap spacing="30px">
+                                                                    {/* {room?.map((ro:any) => { */}
+                                                                    {friend.map((ro: any) => {
+                                                                        return (
+                                                                            <RadioGroup onChange={setRoom} value={room}>
+                                                                                <Radio value={ro.roomId}>
+                                                                                    <WrapItem>
+                                                                                        <Avatar name={ro.group.roomName} /*src={ro.nick.nameWho.image} */ />
+                                                                                        <Text></Text>
+                                                                                    </WrapItem>
+                                                                                </Radio>
+                                                                            </RadioGroup>
+                                                                        )
 
-                                                                        })}
-                                                                    </Wrap>
-                                                                </Flex>
+                                                                    })}
+                                                                </Wrap>
+                                                            </Flex>
 
 
-                                                                <Flex my={5}>
-                                                                    <Button
-                                                                        // type="submit"
-                                                                        bg={"green.400"}
-                                                                        color="white"
-                                                                        border={1}
-                                                                        borderRadius={"10px"}
-                                                                        px={4}
-                                                                        py={2}
-                                                                        onClick={() => {
-                                                                            share()
-                                                                        }}
-                                                                    >
-                                                                        OK
-                                                                    </Button>
-                                                                    <Spacer />
-                                                                    <Button
-                                                                        bg={"tomato"}
-                                                                        color="white"
-                                                                        border={1}
-                                                                        borderRadius={"10px"}
-                                                                        px={2}
-                                                                        py={1}
-                                                                        onClick={onClose}
-                                                                    >
-                                                                        Cancel
-                                                                    </Button>
-                                                                </Flex>
-                                                            
+                                                            <Flex my={5}>
+                                                                <Button
+                                                                    // type="submit"
+                                                                    bg={"green.400"}
+                                                                    color="white"
+                                                                    border={1}
+                                                                    borderRadius={"10px"}
+                                                                    px={4}
+                                                                    py={2}
+                                                                    onClick={() => {
+                                                                        share()
+                                                                    }}
+                                                                >
+                                                                    OK
+                                                                </Button>
+                                                                <Spacer />
+                                                                <Button
+                                                                    bg={"tomato"}
+                                                                    color="white"
+                                                                    border={1}
+                                                                    borderRadius={"10px"}
+                                                                    px={2}
+                                                                    py={1}
+                                                                    onClick={onClose}
+                                                                >
+                                                                    Cancel
+                                                                </Button>
+                                                            </Flex>
+
                                                         </PopoverBody>
                                                     </PopoverContent>
                                                 </>

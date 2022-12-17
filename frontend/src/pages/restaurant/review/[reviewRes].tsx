@@ -1,5 +1,5 @@
 import { Text, Box, Center, CloseButton, Image, Spacer, Heading, Icon } from "@chakra-ui/react"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import ReviewContent from "../../../components/restaurant/ReviewContent"
 import Searchbar from "../../../components/restaurant/searchbar"
 import AppBody from "../../../components/share/app/AppBody"
@@ -11,6 +11,10 @@ import API from "src/function/API"
 function review() {
     const params = useParams()
     const numres = params.reviewRes
+    const [radius, setradius] = useState(500);
+    const selectRadius = (radius:number) => {
+        setradius(radius)
+    }
     // const property = Restaurant.filter((e1) => {
     //     return e1.id == numres
     // })
@@ -42,7 +46,7 @@ function review() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar />
+            <Searchbar selectRadius={selectRadius}/>
             <Center mt={4}>
                 {property.map((e1: any) => {
 

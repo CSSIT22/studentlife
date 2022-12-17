@@ -15,9 +15,13 @@ const search = () => {
     // const params = useParams()
     const [search, setsearch] = useState<Restaurant2[]>([])
     const [open, setopen] = useState<Open>();
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
+    const [isError, {on}] = useBoolean()     
+    const [isLoading, {off}] = useBoolean(true)
+    const [radius, setradius] = useState(500);
 
+    const selectRadius = (radius:number) => {
+        setradius(radius)
+    }
     useEffect(() => {
         API.get("/restaurant/search?name=" + new URLSearchParams(location.search).get("name")).then((item) => setsearch(item.data))
             .catch((err) => on())
@@ -67,7 +71,7 @@ const search = () => {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar />
+            <Searchbar selectRadius={selectRadius}/>
 
             <Heading mt={"20px"} textAlign="center">
                 Search Result
@@ -76,7 +80,7 @@ const search = () => {
                 {search.map((e1: any) => {
                     return (
                         <GridItem>
-                            <Link to={`/restaurant/detail/${e1.resId}`}>
+                            <Link to={`/restaurant/detail?resId=${e1.resId}&id=0`}>
 
 
 
@@ -87,7 +91,7 @@ const search = () => {
                                     close={e1.opening}
                                     website={e1.website}
                                     img={e1.photos}
-                                    link={`/restaurant/detail/${e1.placeId}`}
+                                    link={`/restaurant/detail?resId=${e1.placeId}&id=0`}
                                     resid={e1.placeId}
                                 />
                             </Link>
