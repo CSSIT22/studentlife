@@ -15,18 +15,8 @@ import { socketContext } from "src/context/SocketContext"
 import { useRef } from "react"
 import Lottie from "lottie-react"
 import chatL from "./animation/chatL.json"
+import { sendMsg } from "src/components/chat/socketType"
 
-type room = { roomID: string; roomName: string; roomtype: "individual" | "group"; img: string }[]
-
-const mockMessage = [
-    { text: "Hi,how are you doing?", from: "others", timeSent: "20:10" },
-    { text: "I'm doing good, hbu?", from: "me", timeSent: "20:11" },
-    { text: "I'm so so. Thx", from: "others", timeSent: "20:15" },
-    { text: "Where are u from?", from: "me", timeSent: "20:16" },
-    { text: "Hmm..", from: "others", timeSent: "20:19" },
-    { text: "wait..? what?", from: "me", timeSent: "20:27" },
-    { text: "I guess I'm from your heart", from: "others", timeSent: "20:32" },
-]
 export type RoomType = {
     chatColor: string
     roomId: string
@@ -75,6 +65,15 @@ const Room = () => {
         scroll.current?.scrollIntoView()
     }, [msg])
 
+    useEffect(()=>{
+        socketIO.on("receive-message", (s: any) => {
+           setmsg(s)
+        })
+        return ()=>{
+            socketIO.off("receive-message")
+        }
+    },[])
+
     //function
     function onType(e: any) {
         setText(e.target.value)
@@ -85,8 +84,8 @@ const Room = () => {
         if (Text == "") {
             alert("ไม่ให้ส่งคั้บ")
         } else {
-            API.post(`chat/${param.roomID}/postMessage`,{type :"TEXT" ,message:Text}).then(()=> API.get(`chat/${param.roomID}/getMessage`).then((e)=>setmsg(e.data)))
-            //socketIO.emit("send-msg", { userId: Room?., roomId: Room?.room.roomId, message: Text })
+            //API.post(`chat/${param.roomID}/postMessage`,{type :"TEXT" ,message:Text}).then(()=> API.get(`chat/${param.roomID}/getMessage`).then((e)=>setmsg(e.data)))
+            socketIO.emit("send-msg", { msg : Text , room_id :Room?.roomId,from:Room?.userId ,type:"TEXT"})
             setText("")
         }
     }

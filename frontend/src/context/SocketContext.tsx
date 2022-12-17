@@ -23,13 +23,14 @@ const SocketContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         socketIO.on("connect", () => {
             console.log("Conntected")
         })
-        socketIO.on("receive-message", (s: sendMsg) => {
-            console.log(s)
-        })
+        // socketIO.on("receive-message", (s: sendMsg) => {
+        //     console.log("test");
+            
+        // })
 
         return () => {
             socketIO.off("connect")
-            socketIO.off("receive-message")
+            //socketIO.off("receive-message")
         }
     }, [])
     return <socketContext.Provider {...{ children, value: { messages, testSocket, socketIO } }} />
