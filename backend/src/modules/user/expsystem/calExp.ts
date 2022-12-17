@@ -47,7 +47,7 @@ export const calExp = async (prisma: PrismaClient, userId: string, exp: expType)
                     userId: userId,
                 },
                 update: {
-                    level: (oldlevel?.level || 1) + 1,
+                    level: (oldlevel?.level || 0) + 1,
                     currentXP: 0, //Math.floor(Math.random() * 100)
                 },
                 create: {
