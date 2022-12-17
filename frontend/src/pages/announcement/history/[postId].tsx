@@ -427,7 +427,7 @@ const history = () => {
                                             {selectTargetValue(targetType)}
                                         </Flex>
                                     </FormControl>
-                                    <FormControl isRequired>
+                                    <FormControl>
                                         <FormLabel>Event Date</FormLabel>
                                         <Input
                                             placeholder="Select expired date"

@@ -49,7 +49,7 @@ const create = () => {
     const [targetType, setTargetType] = React.useState(String)
     const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
-    const [event, setEvent] = React.useState(Date)
+    const [event, setEvent] = React.useState("")
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [tv, settv] = useState<tgType[]>([])
@@ -153,7 +153,6 @@ const create = () => {
     }
 
 
-
     const addLang = (lang: number, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
@@ -180,8 +179,6 @@ const create = () => {
         setdisable(!disable)
     }
     const isErrorForm: boolean = topic.length > 120
-    console.log(isErrorForm);
-
 
     return (
         <AnnounceNav>
@@ -277,7 +274,7 @@ const create = () => {
                                                 {selectTargetValue(targetType)}
                                             </Flex>
                                         </FormControl>
-                                        <FormControl isRequired>
+                                        <FormControl>
                                             <FormLabel>Event Date</FormLabel>
                                             <Input
                                                 placeholder="Select expired date"
