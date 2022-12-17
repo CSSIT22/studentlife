@@ -123,7 +123,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             gender: Sex,
             year: Years,
         }).then(() => {
-            history("/user")
+            history(`/user/${param.userID}`)
         }).catch((err) => { return err })
 
         // console.log(res);
