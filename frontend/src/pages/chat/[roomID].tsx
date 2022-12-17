@@ -66,13 +66,15 @@ const Room = () => {
     }, [msg])
 
     useEffect(()=>{
+        console.log(param.roomID);
+        
         socketIO.on(`receive-message-${param.roomID}`, (s: any) => {
            setmsg(s)
         })
         return ()=>{
             socketIO.off(`receive-message-${param.rooomID}`)
         }
-    },[])
+    },[param])
 
     //function
     function onType(e: any) {
