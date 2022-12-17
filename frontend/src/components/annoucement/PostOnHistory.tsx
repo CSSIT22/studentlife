@@ -51,11 +51,11 @@ const PostOnHistory: FC<{
             _hover={{backgroundColor:"rgb(243 244 246)"}}
         >
             <Flex alignItems={"center"}>
-                <Box pr={"1rem"} width="">
+                <Box pr={"1rem"} >
                     {state(status)}
                 </Box>
                 <Box>
-                    <Heading size={"sm"}>{topic.substring(0, 20)}</Heading>
+                    <Heading size={"sm"}  overflow={"hidden"} whiteSpace="nowrap" textOverflow="ellipsis" width={{base:"180px",md:"100%"}}>{topic}</Heading>
                     <Text fontSize={"xs"}>{sender}</Text>
                 </Box>
                 <Spacer />
