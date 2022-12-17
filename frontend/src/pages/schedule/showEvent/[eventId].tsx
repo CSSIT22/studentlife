@@ -40,6 +40,18 @@ const showEvent = () => {
             console.log(res.data)
         })
     }, [])
+
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
+
+    const deleteEvent = (eventId: string) => {
+        API.post("/schedule/deleteEvent", { eventId: eventId }).then((res) => {
+            console.log(res.data);
+        }).then(() => {
+            navigate({
+                pathname: "/schedule"
+            })
+        })
+    }
    
     return (
         <AppBody>
@@ -67,7 +79,7 @@ const showEvent = () => {
             <SimpleGrid columns={[1, 3]} spacing="30px">
                 <Box boxShadow="md" p="6" rounded="md" bg="white" w={"283px"} h={"102px"}>
                     <Text textAlign={["left"]} color="#858585"> Time </Text>
-                    <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
+                    <Text textAlign={["center"]} fontSize="xl" color={"#000000"}>
                         { new Date(event.stTime).toLocaleTimeString()} - {new Date(event.endTime).toLocaleTimeString()}
 
                     </Text>
@@ -120,7 +132,17 @@ const showEvent = () => {
 
                     <ModalFooter>
 
-                        <Button variant="ghost" bg="#38A169">
+                    <Button variant="ghost" bg="#38A169" onClick={() => {
+                            onDeleteClose()
+                            deleteEvent(event.eventId)
+                            // toast({
+                            //     title: 'Event Deleted.',
+                            //     desciption: "Event " + event.eventId + " deleted successfully",
+                            //     status: 'success',
+                            //     duration: 9000,
+                            //     isClosable: true,
+                            // })
+                        }}>
                             <Text color="white">Yes</Text>
                         </Button>
                         <Button bg="#E53E3E" mr={3} onClick={modal3.onClose}>

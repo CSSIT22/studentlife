@@ -144,9 +144,6 @@ const timetable = () => {
                     borderRightRadius="55"
                     borderLeftRadius="55"
                     display={{ base: "none", md: "block" }} />
-
-
-
                 <IconButton
                     onClick={modal1.onOpen}
 

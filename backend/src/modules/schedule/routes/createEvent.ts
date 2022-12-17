@@ -1,10 +1,12 @@
+import axios from "axios"
 import { Request, Response } from "express"
 // import { Event } from "@apiType/schedule"
 
 const createEvent = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const userid = req.user?.userId
+    const userId = req.user?.userId
     const body = req.body
+    const eventId = req.body.eventId
 
     // Event is the table from db
     try {
@@ -32,7 +34,28 @@ const createEvent = async (req: Request, res: Response) => {
                 },
             },
         })
-        // await prisma.t
+        const eventId = await prisma.event.findFirst({
+            where: {
+                eventId: body.eventId,
+            },
+        })
+        if (createEvent) {
+            let eventName = createEvent.eventName
+            let stTime = createEvent.stTime.toLocaleString()
+            let eventId = createEvent.eventId
+            let url = "/schedule/showEvent/" + eventId
+            if (userId != undefined) {
+                axios.post("http://localhost:8000/notification/addnotiobject", {
+                    template: "SCHEDULE_EVENT",
+                    value: [eventName, stTime],
+                    userId: [userId],
+                    module: "SCHEDULE",
+                    url: url,
+                    sender: userId,
+                })
+            }
+        }
+        
         res.send(createEvent)
     } catch (err) {
         console.log(err)

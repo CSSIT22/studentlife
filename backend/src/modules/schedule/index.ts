@@ -4,6 +4,7 @@ import createEvent from "./routes/createEvent"
 import editEvent from "./routes/editevent"
 import deleteEvent from "./routes/deleteEvent"
 import getNewEvent from "./routes/getNewEvent"
+import createTask from "./routes/createTask"
 
 const scheduleRoutes = express()
 
@@ -78,6 +79,7 @@ export const setEvent = (newData: Event[]) => {
 
 scheduleRoutes.post("/editEvent", editEvent)
 scheduleRoutes.post("/createEvent", createEvent)
+scheduleRoutes.post("/createTask", createTask)
 scheduleRoutes.post("/deleteEvent", deleteEvent)
 scheduleRoutes.get("/getNewEvent/:eventId", getNewEvent)
 

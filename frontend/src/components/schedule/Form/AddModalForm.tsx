@@ -42,6 +42,22 @@ const AddModalForm = () => {
             placeId: location
         }).then((res) => console.log(res))
             .catch((err => console.log("Error")))
+        if(type == "Assignment"){
+            API.post<{taskName: string,
+            taskDesc: string,
+            created: any,
+            due: any,
+            taskType: any}>("/schedule/createTask", {
+            taskName: event,
+            taskDesc: description,
+            created: time,
+            due: endtime,
+            taskType: "individual",
+            
+        }).then((res) => console.log(res))
+            .catch((err => console.log("Error")))
+        }
+        
     }
     return (
         <>
