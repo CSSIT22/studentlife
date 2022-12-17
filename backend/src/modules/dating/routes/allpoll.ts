@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
+import calExp from "../../user/expsystem/calExp"
 
 const allPollRoutes = express()
 const prisma = new PrismaClient()
@@ -42,6 +43,9 @@ allPollRoutes.get("/getAllPoll", verifyUser, async (req: Request, res: Response)
             //     pollId: pollId,
             //     userId: req.user?.userId,
             // },
+            orderBy: {
+                pollcreated: "desc",
+            },
             select: {
                 pollCreator: {
                     select: {
@@ -110,6 +114,7 @@ allPollRoutes.post("/applyPoll", verifyUser, async (req: Request, res: Response)
         await prisma.poll_Applicant.create({
             data: setApply,
         })
+        calExp(prisma, req.user?.userId || "", "DatingPoll")
         return res.send("OK")
     } catch (err) {
         return res.status(404).send("Activity poll went wrong")

@@ -192,7 +192,6 @@ const CreateActivityPoll = () => {
         if (
             // Validate
             !isTooShortHeader &&
-            !isTooLongDescription &&
             !isTooShortLocation &&
             !isNoDate &&
             !validDate &&
