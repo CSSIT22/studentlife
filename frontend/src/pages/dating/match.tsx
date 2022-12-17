@@ -9,6 +9,7 @@ import ChatImg from "../../components/dating/pic/chat.png"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
+import { HeartReceiver } from "@apiType/dating"
 
 
 const DatingMatch = () => {
@@ -17,6 +18,7 @@ const DatingMatch = () => {
     const toast = useToast()
     const [poll, setPoll] = useState([])
     let count = 1
+    const [heartGiver, setHeartGiver] = useState<HeartReceiver[]>([])
     const [isError, setIsError] = useState(false)
     const [isLoading, { off }] = useBoolean(true)
     useEffect(() => {
@@ -113,6 +115,7 @@ const DatingMatch = () => {
         API.get("/dating/matches/getMatches").then((data) => {
             console.log(data.data)
             setPoll(data.data)
+            off()
         })
     }, [])
 
@@ -144,24 +147,34 @@ const DatingMatch = () => {
         }
     }
 
+    function goToProfile(userId: string) {
+        navigate("/user/" + userId)
+    }
+
+    const [giveToUser, setGiveToUser] = useState<
+        | {
+            UserId: string
+            isSkipped: boolean
+        }[]
+        | {
+            UserId: string
+            isSkipped: boolean
+        }[]
+    >([])
+
+    console.log(poll);
+
 
     return (
         <DatingAppBody>
             <Box mb="20px">
-                {/* // Big Heading */}
                 <GridItem pt="5" pl="2" area={"topic"} >
                     <Heading color="Black" fontWeight="700" fontSize={{ base: "36px", md: "43px" }} lineHeight="120%">
                         You are match with
                     </Heading>
                 </GridItem>
             </Box>
-            {isLoading || isError ? <></>:
-            <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md:"35%"}}>
-                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
-                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                        Right now, you don't have any new matches.
-                    </Text>
-                </Box>}
+
             <Box>
                 {poll.map((values: any) => {
                     return (
@@ -173,7 +186,11 @@ const DatingMatch = () => {
                             mt="5px"
                             key={values.userId}
                             mb={{ base: "8px", md: "12px" }}
-                            display="flex">
+                            display="flex"
+                            // cursor="pointer"
+                            // onClick={() => goToProfile(values.userId)}
+                            >
+
 
 
                             <Box display="flex" alignItems="center" ml={{ base: "20px", md: "24px" }} w="65%">
@@ -185,12 +202,16 @@ const DatingMatch = () => {
                                         objectFit="cover"
                                         src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
                                         alt={values.fName + " " + values.lName}
+                                        cursor="pointer"
+                            onClick={() => goToProfile(values.userId)}
                                     /> : <Image
                                         borderRadius="full"
                                         boxSize="78px"
                                         objectFit="cover"
                                         src={NoProfileImg}
                                         alt={values.fName + " " + values.lName}
+                                        cursor="pointer"
+                            onClick={() => goToProfile(values.userId)}
                                     />
                                 }
 
@@ -224,14 +245,14 @@ const DatingMatch = () => {
                     )
                 })}
             </Box>
-            {
-                (isLoading) && !isError ? (
-                    <Box display="block" mt={{ base: "100px", md: "-200px" }}>
-                        <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.4" }} />
-                    </Box>
-                ) : (
-                    <></>
-                )
+
+            {!(isLoading || isError) && poll.length == 0 &&
+                <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
+                    <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
+                    <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                        Right now, you don't have any new matches.
+                    </Text>
+                </Box>
             }
 
             {
