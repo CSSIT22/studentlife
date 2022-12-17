@@ -1,13 +1,4 @@
-import {
-    Flex,
-    Button,
-    Box,
-    Text,
-    HStack,
-    Input,
-    IconButton,
-    useBoolean,
-} from "@chakra-ui/react"
+import { Flex, Button, Box, Text, HStack, Input, IconButton, useBoolean } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import FileList from "src/components/group/FileList"
 import { SearchIcon } from "@chakra-ui/icons"
@@ -19,9 +10,6 @@ const FilePage: FC<{
     checkRole: string
     checkId: string
 }> = ({ checkRole, checkId }) => {
-
-
-
     let { communityID }: any = useParams()
     const [file, setFile] = useState<any>()
 
@@ -43,10 +31,9 @@ const FilePage: FC<{
 
     const fetchFile = async () => {
         try {
-            const communityFileResult = (await API.get('/group/getCommunityFile/' + communityID)).data
+            const communityFileResult = (await API.get("/group/getCommunityFile/" + communityID)).data
             await setFile(communityFileResult.communityFile)
             console.log(communityFileResult.communityFile[0])
-
         } catch (err) {
             on()
         } finally {
@@ -57,34 +44,33 @@ const FilePage: FC<{
         fetchFile()
     }, [])
 
-
-    useEffect(() => {
-        console.log(file)
-        //console.log(file)
-        
-
-    }, [file])
+    // useEffect(() => {
+    //     if (file) {
+    //         console.log(file)
+    //     }
+    // }, [file])
     if (isLoading) {
-        return (
-            <Text>Loading...</Text>
-        )
+        return <Text>Loading...</Text>
     }
     if (isError) {
-        return (
-            <Text>Error</Text>
-        )
+        return <Text>Error</Text>
     }
 
     //go to airdrop  upload
-
-
-
 
     return (
         <Box>
             <HStack
                 display={"flex"}
-                mt='2' justify={"space-between"} borderRadius={"md"} p={3} pl={4} pr={4} boxShadow={"2xl"} backgroundColor={"white"}>
+                mt="2"
+                justify={"space-between"}
+                borderRadius={"md"}
+                p={3}
+                pl={4}
+                pr={4}
+                boxShadow={"2xl"}
+                backgroundColor={"white"}
+            >
                 <Text as={"b"} ml={8}>
                     Files
                 </Text>
@@ -116,14 +102,7 @@ const FilePage: FC<{
                     </Button>
                 </HStack>
             </HStack>
-            <Box
-                display={"block"}
-                mt={2}
-                borderRadius={"md"}
-                gap={2}
-                boxShadow={"2xl"}
-                backgroundColor={"white"}
-                p={3} pl={4} pr={4} mb={4}>
+            <Box display={"block"} mt={2} borderRadius={"md"} gap={2} boxShadow={"2xl"} backgroundColor={"white"} p={3} pl={4} pr={4} mb={4}>
                 <Flex display={{ base: "none", md: "flex" }} direction="row">
                     <Text as="b" width={"35%"}>
                         File name
@@ -135,21 +114,14 @@ const FilePage: FC<{
                         Type
                     </Text>
                 </Flex>
-
-                <Text>gelppp</Text>
-                <Text>gelppp</Text>
-                <Text>gelppp</Text>
-                <Text>gelppp</Text>
-                <Text>gelppp</Text>
-                {file?.map((index: number, item: any) => {
-                    // <FileList
-                    //     key={index}
-                    //     fileName={item.fileName}
-                    //     owner={item.fileSender}
-                    //     type={item.fileName}
-                    // />
-                    
-                })}
+                {file &&
+                    file?.map(( item: any,index: number) => {
+                        return (
+                            <>
+                                <FileList key={index} fileName={item.file.fileName} owner={item.file.fileSender} type={item.file.fileName} />
+                            </>
+                        )
+                    })}
             </Box>
         </Box>
     )
