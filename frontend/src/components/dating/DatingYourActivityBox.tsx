@@ -1,4 +1,4 @@
-import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text, useBoolean } from "@chakra-ui/react"
+import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
 import { POLL } from "./shared/poll"
@@ -85,16 +85,17 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                         }}>
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                             <Flex>
-                                <Image
-                                    borderRadius="full"
-                                    boxSize="78px"
-                                    objectFit="cover"
-                                    src={values.pollCreator.image ?
-                                        (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
-                                        :
-                                        NoProfileImg
-                                    }
-                                />
+                                <Link to={""}>
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={values.pollCreator.image ?
+                                            (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
+                                            :
+                                            NoProfileImg
+                                        }
+                                    /></Link>
                                 <Center>
                                     <Text ml="30px" fontSize="20px">
                                         {values.pollCreator.fName}
