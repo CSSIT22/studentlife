@@ -74,9 +74,24 @@ const DatingYourPollCancel: FC<{ pollId: string }> = ({ pollId }) => {
                     <ModalBody>
                         {isLoading ? <><Box display="block" mb={{ base: "140px", md: "180px" }}>
                             <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.8" }} />
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: `0.25em`
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: `0em`,
+                                    transition: {
+                                        duration: 1,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }
+                                }}
+                            >
                             <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
                                 DELETING THE POLL&nbsp;.&nbsp;.&nbsp;.
                             </Text>
+                            </motion.div>
 
                         </Box></> : <><Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>
                             <Text textAlign="center" fontWeight="700" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%" color="black">

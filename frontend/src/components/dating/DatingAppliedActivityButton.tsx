@@ -13,12 +13,19 @@ const DatingAppliedActivityButton: FC<{ backgroundColor: string }> = ({ backgrou
         <Link to="/dating/poll/appliedpoll" style={{ textDecoration: "none" }} onClick={handleClick}>
             <motion.div
                 initial={
-                    { cursor: "pointer" }
+                    { cursor: "pointer", scale: 0 }
                 }
                 whileHover={{ scale: 1.1, }}
                 whileTap={{
                     scale: 0.9,
+                }}
+                animate={{ scale: 1 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 360,
+                    damping: 20,
                 }}>
+                    
                 <Box
                     display="flex"
                     cursor="pointer"

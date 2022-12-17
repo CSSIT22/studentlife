@@ -15,6 +15,7 @@ import Lottie from "lottie-react"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
+import { motion } from "framer-motion"
 
 const LikedYou = () => {
     const didMount = useDidMount()
@@ -231,9 +232,24 @@ const LikedYou = () => {
                             <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
                         </Box>
                         <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                        <motion.div
+                            initial={{
+                                opacity: 0,
+                                y: `0.25em`
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: `0em`,
+                                transition: {
+                                    duration: 1,
+                                    ease: [0.2, 0.65, 0.3, 0.9],
+                                }
+                            }}
+                        >
                             <Text mt="-25%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
                                 LOADING . . .
                             </Text>
+                            </motion.div>
                         </Box>
                     </>
                 ) : (

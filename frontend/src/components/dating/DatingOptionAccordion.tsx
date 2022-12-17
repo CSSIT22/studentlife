@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Stack } from "@chakra-ui/react"
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Stack, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 import { DatingOptionMultipleChoose } from "./DatingOptionMultipleChoose"
 import { AllFaculty } from "@apiType/dating"
@@ -116,9 +116,15 @@ const DatingOptionAccordion: FC<{
                         //_expanded={{ color: "white" }}
                         stroke={"#E2E8F0"}
                         _hover={{ border: "#E2E8F0" }}
+                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        mb="15px"
                     >
-                        <Box textAlign="left" borderRadius="full" color="black">
-                            Selected Faculty
+                        <Box textAlign="left" borderRadius="full" color="black" w="100%">
+                            <Text color="black" fontWeight="400"
+                                fontSize="16px"
+                                lineHeight="20px">
+                                Faculty
+                            </Text>
                         </Box>
                         <AccordionIcon />
                     </AccordionButton>

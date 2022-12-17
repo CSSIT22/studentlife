@@ -31,16 +31,7 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
     }
     return (
         <>{numOfParticipants != undefined ? numOfParticipants <= 0 ?
-            <motion.div
-            initial={
-                { cursor: "pointer" }
-            }
-            whileHover={{ scale: 1.1, }}
-            whileTap={{
-                scale: 0.9,
-            }}
-            onClick={onOpen}
-        >
+
             <Button
                 colorScheme="blackAlpha"
                 w={{ base: "167px", md: "172px" }}
@@ -52,7 +43,7 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
                 <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
                     Close & accept all
                 </Text>
-            </Button></motion.div> : <motion.div
+            </Button>: <motion.div
             initial={
                 { cursor: "pointer" }
             }
@@ -60,12 +51,12 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
             whileTap={{
                 scale: 0.9,
             }}
+            onClick={onOpen}
         ><Button
                 colorScheme="orange"
                 w={{ base: "167px", md: "172px" }}
                 h="36px"
                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                onClick={onOpen}
             >
                 <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
                     Close & accept all
@@ -92,9 +83,24 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
                     <ModalBody>
                         {isLoading ? <><Box display="block" mb={{ base: "140px", md: "180px" }}>
                             <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.8" }} />
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: `0.25em`
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: `0em`,
+                                    transition: {
+                                        duration: 1,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }
+                                }}
+                            >
                             <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
                                 CLOSING AND ACCEPTING&nbsp;.&nbsp;.&nbsp;.
                             </Text>
+                            </motion.div>
 
                         </Box></> : <><Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>
                             <Text textAlign="center" fontWeight="700" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%" color="black">
