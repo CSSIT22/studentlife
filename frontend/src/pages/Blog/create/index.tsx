@@ -4,7 +4,7 @@ import CancelButton from "../../../components/blog/cancleButton"
 import CommentButton from "../../../components/blog/CommentButton"
 import EmojiReaction from "../../../components/blog/EmojiReaction"
 import Optionbutton from "../../../components/blog/Optionbutton"
-import PostImage from "../../../components/blog/PostImage"
+import PostImage from "../../../components/blog/PostFile"
 import PostText from "../../../components/blog/PostText"
 import PostType_modal from "../../../components/blog/PostType_modal"
 import Profile from "../../../components/blog/Profile"
@@ -16,7 +16,7 @@ import { CiYoutube, CiImageOn } from "react-icons/ci"
 import TextAreaPost from "../../../components/blog/TextAreaPost"
 import ImageInsert from "../../../components/blog/ImageInsert"
 import VideoInsert from "../../../components/blog/VideoInsert"
-import PostButton from "../../../components/annoucement/PostButton"
+import PostButton from "../../../components/blog/PostButton"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
@@ -37,7 +37,7 @@ const Create = () => {
     //         /**ตรงนี้ๆ */
     //     })
     // })
-    
+
     const submit = () => {
         const form = new FormData();
         form.append("text", text);
@@ -78,7 +78,7 @@ const Create = () => {
                     <Center>
                         <ImageInsert children files={files} setFiles={setFiles} />
                         <Spacer />
-                        <VideoInsert />
+                        <VideoInsert children files={files} setFiles={setFiles} />
                     </Center>
                     <Center>
                         <Box marginTop={"6"}>

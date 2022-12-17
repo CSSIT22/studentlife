@@ -79,6 +79,7 @@ blogRoutes.post("/postCreating", postCreating)
 
 blogRoutes.post("/postCreatingX", upload.array("upload"), postCreatingText)
 
+
 // blogRoutes.post("/uploadfileintopost", upLoadFile)
 
 ///image and video uploade
