@@ -103,24 +103,24 @@ const edittask = () => {
                     Task Name
                 </Heading>
                 {/* <Text size="md">{descList.taskName}</Text> */}
-                <Input placeholder={descList.taskName} size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
+                <Input placeholder={descList.taskCheck?.taskName} size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
                 {/* <Text size="md">{descList.taskDesc}</Text> */}
-                <Input placeholder={descList.taskDesc} size="md" id="desc" onChange={(e) => setTaskDesc(e.target.value)} />
+                <Input placeholder={descList.taskCheck?.taskDesc} size="md" id="desc" onChange={(e) => setTaskDesc(e.target.value)} />
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
                 </Heading>
-                <Text fontSize="md">{dayjs(descList.due).format("dddd DD MMMM YYYY")}</Text>
+                <Text fontSize="md">{dayjs(descList.taskCheck?.due).format("dddd DD MMMM YYYY")}</Text>
                 {/* value={dayjs(descList.due).format("YYYY-MM-DD")} */}
                 <label>
-                    <input type="date" name="bday" placeholder={dayjs(descList.due).format("YYYY-MM-DD")} required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
+                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
                 </label>
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
-                <Text fontSize="md">{dayjs(descList.due).format("HH:mm:ss")}</Text>
+                <Text fontSize="md">{dayjs(descList.taskCheck?.due).format("HH:mm:ss")}</Text>
                 {/* value={dayjs(descList.due).format("HH:mm")} */}
                 <form>
                     <input id="appt-time" type="time" name="appt-time" onChange={(e) => setTime(e.target.value)} />
@@ -137,7 +137,7 @@ const edittask = () => {
                     Type
                 </Heading>
                 {/* <Text size="md">{descList.taskType}</Text> */}
-                <Select placeholder={descList.taskType} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
+                <Select placeholder={descList.taskCheck?.taskType} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
                     <option value="individual">Individual</option>
                     <option value="group">Group</option>
                 </Select>
@@ -171,7 +171,7 @@ const edittask = () => {
                     {type == "individual" ? (
                         <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
                             <Link onClick={() => {
-                                submit(descList.taskId)
+                                submit(descList.taskCheck?.taskId)
                             }}>Done</Link>
                         </Button>
                     ) : (

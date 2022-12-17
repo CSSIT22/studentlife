@@ -47,7 +47,7 @@ import { user } from "src/components/transaction/shared/testuser"
 
 
 const creategroup = () => {
-    const [userList, setUserList] = useState([])
+    const [userList, setUserList] = useState<any[]>([])
     const [userId, setUserId] = useState("")
 
     // const deleteTask = (taskId: string) => {
@@ -100,8 +100,8 @@ const creategroup = () => {
                 {members.map((member, index) => (
                     <Box display="flex" flexWrap={"wrap"} marginY={10}>
                         {index + 1}.
-                        <Input variant="flushed" placeholder="Insert UID" ml={4} flex={1} value={member.uid} onChange={(e) => setUserId(e.target.value)} />
-                        <Input variant="flushed" placeholder="Member Name" ml={4} flex={1} />
+                        <Input variant="flushed" placeholder="Insert UID" ml={4} flex={1} onChange={(e) => setUserId(e.target.value)} />
+                        <Input variant="flushed" placeholder="Member Name" ml={4} flex={1} value={userList[index]?.fName} />
                     </Box>
                 ))}
 

@@ -175,27 +175,18 @@ const createtask = () => {
                 </Select>
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
-                    {type == "individual" ? (
-                        <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
-                            <Link onClick={() => {
-                                submit()
-                                toast({
-                                    title: 'Task Created.',
-                                    description: "Task " + taskName + " created successfully.",
-                                    status: 'success',
-                                    duration: 9000,
-                                    isClosable: true,
-                                })
-                            }}>Done</Link>
-                        </Button>
-
-
-
-                    ) : (
-                        <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
-                            <Link href="/todolist/creategroup">Next</Link>
-                        </Button>
-                    )}
+                    <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
+                        <Link onClick={() => {
+                            submit()
+                            toast({
+                                title: 'Task Created.',
+                                description: "Task " + taskName + " created successfully.",
+                                status: 'success',
+                                duration: 9000,
+                                isClosable: true,
+                            })
+                        }}>Done</Link>
+                    </Button>
                 </Box>
             </Box>
         </ToDoListAppBody>
