@@ -87,7 +87,7 @@ const NotiListViewAll: FC<{ selectedList: any[], module: string; onClick: Functi
 
         return (
             <Box>
-                {sortedList?.slice(0, 20).map((el) => {
+                {sortedList?.map((el) => {
                     return (
                         <Box key={el.notiObjectId}>
                             {showDate(new Date(el.notiObject.date))}
