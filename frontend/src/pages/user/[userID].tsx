@@ -4,10 +4,13 @@ import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
 import { Box, extendTheme, Flex, Grid, GridItem } from "@chakra-ui/react"
-import { useState } from "react"
-import { useParams } from "react-router-dom"
+import { useContext, useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import API from "src/function/API"
+import { authContext } from "src/context/AuthContext"
+import UserProfile from "../../components/user/UserProfile"
+
 
 
 
@@ -21,17 +24,32 @@ interface AboutMeForm {
 }
 
 function index() {
+    const user = useContext(authContext)
+    const navigate = useNavigate()
+    const [currentExp, setCurrentExp] = useState<number>(0)
     const param = useParams();
     const [userData, setUserData] = useState<any>({})
+    const [isMe, setIsMe] = useState<boolean>(false)
+    const getCurrentExp = async () => {
+        const res = await API.get(`/user/profile/exp/${param.userID}`)
+        setCurrentExp(res.data.exp)
+    }
+
     const getUserData = async () => {
         const res = await API.get(`/user/friendprofile/${param.userID}`)
         setUserData(res.data)
     }
     console.log(userData)
-    useEffect(() => {
+    console.log(currentExp)
 
+    useEffect(() => {
+        getCurrentExp()
         getUserData()
         setDetail()
+
+        if (user.userId === param.userID) {
+            setIsMe(true)
+        }
 
     }, [])
 
@@ -94,7 +112,8 @@ function index() {
                     justifyContent="center"
                 >
                     <GridItem alignItems="center" area={"header"}>
-                        <FriendProfile />
+                        {isMe ? <UserProfile onClick={() => { }} /> : <FriendProfile />}
+
                     </GridItem>
                     <GridItem area={"nav"}>
                         <ExpSystem />

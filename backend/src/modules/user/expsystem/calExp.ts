@@ -41,13 +41,15 @@ export const calExp = async (prisma: PrismaClient, userId: string, exp: expType)
 
         const expuser = await prisma.eXP.findFirstOrThrow({ where: { userId }, select: { currentXP: true } })
 
-        if (expuser.currentXP == 1000) {
+        if (expuser.currentXP == 100) {
             const result1 = await prisma.eXP.upsert({
                 where: {
                     userId: userId,
                 },
                 update: {
-                    level: (oldlevel?.level || 0) + 1,
+                    level: {
+                        increment:1
+                    },
                     currentXP: 0, //Math.floor(Math.random() * 100)
                 },
                 create: {

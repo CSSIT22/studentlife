@@ -61,23 +61,42 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
     const [Hobbies, setHobbies] = useState<string>("")
     const [Years, setYears] = useState<number>(0)
     const [Address, setAddress] = useState<string>("")
-    
+    const [userData, setUserData] = useState({
+        userId: "",
+        studentId: "",
+        username: "",
+        fName: "",
+        lName: "",
+        email: "",
+        image: "",
+        majorId: "",
+    })
+
     const handleSubmit = (data: any) => {
         setAboutMe(data)
     }
     const [rating, setRating] = useState<number>(0)
 
     const mafa = async () => {
-        const data = await API.get(`/user/profile/${user.userId}`, { responseType: "json" })
+        const res = await API.get(`/user/profile/${user.userId}`, { responseType: "json" });
         // console.log(data)
 
     }
     useEffect(() => {
+        const mafa = async () => {
+            const res = await API.get(`/user/profile/${user.userId}`, { responseType: "json" });
+            setUserData({ ...res.data.user });
+        }
+
+        mafa();
         async function fetch() {
             const res = await API.get(`/profile/ratinguser/${param.userID}`)
             setRating(res.data.rating)
+            console.log(res)
         }
-        // fetch()
+        fetch()
+
+
         mafa()
     }, [])
     const postData = async () => {
@@ -88,7 +107,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
             birthdate: BirthDate,
             year: Years,
             address: Address,
-            
+
         }
 
         onClick(formData)
@@ -232,7 +251,7 @@ const SimpleThreeColumns: React.FC<SimpleThreeColumnsProps> = (props) => {
                             <Box fontSize={{ base: "sm", lg: "lg" }} display={{ base: "block", lg: "none" }} color="orange.700">
                                 Major :
                             </Box>
-                            <Box fontSize={{ base: "md", lg: "xl" }}>Computer Science</Box>
+                            <Box fontSize={{ base: "md", lg: "xl" }}>{userData.majorId}</Box>
                         </Stack>
                     </Stack>
                 </GridItem>

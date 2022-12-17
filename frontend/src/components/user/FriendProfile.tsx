@@ -24,9 +24,7 @@ import {
 } from "@chakra-ui/react"
 
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
-
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
-
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs"
 import { useParams, useNavigate } from "react-router-dom"
 import API from "src/function/API"
@@ -59,7 +57,7 @@ export default function SimpleThreeColumns() {
     useEffect(() => {
         async function fetch() {
             const res = await API.get(`/profile/ratinguser/${param.userID}`)
-            setRating(res.data.rating)
+            setRating(res.data.Rating)
         }
         fetch()
 
