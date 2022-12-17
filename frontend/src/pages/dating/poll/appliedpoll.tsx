@@ -27,13 +27,17 @@ import DatingAppliedActivityButton from "src/components/dating/DatingAppliedActi
 import DatingYourActivityButton from "src/components/dating/DatingYourActivityButton"
 import Lottie from "lottie-react"
 import DatingYourPollSeeMore from "src/components/dating/DatingYourPollSeeMore"
+import NoProfileImg from "../../../components/dating/pic/noprofile.png"
 import API from "src/function/API"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import ChatImg from "../../../components/dating/pic/chat.png"
 import GroupChatImg from "../../../components/dating/pic/groupchat.png"
 import { POLL } from "src/components/dating/shared/poll"
 import { motion } from "framer-motion"
+<<<<<<< Updated upstream
 import DatingLoading from "../../../components/dating/lottie/DatingLoading.json"
+=======
+>>>>>>> Stashed changes
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
 
 const YourAppliedActivityPoll = () => {
@@ -179,6 +183,11 @@ const YourAppliedActivityPoll = () => {
 
         return didMount
     }
+
+    function goToProfile(userId: string) {
+        navigate("/user/" + userId)
+    }
+
     return (
         <DatingAppBody>
             {isLoading && !isError ? (
@@ -247,6 +256,7 @@ const YourAppliedActivityPoll = () => {
                 </Box>
             </Center>
 
+<<<<<<< Updated upstream
                 <Box mt="130px"></Box>
                 {/* Test 2: click to see more at medium bottom + group chat and chat button */}
                 <Box>
@@ -383,6 +393,145 @@ const YourAppliedActivityPoll = () => {
                         )
                     })}
                 </Box></>}
+=======
+            <Box mt="130px"></Box>
+
+            {/* Test 2: click to see more at medium bottom + group chat and chat button */}
+            <Box>
+                {poll.map((values) => {
+                    return (
+                        <Box
+                            backgroundColor="white"
+                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                            borderRadius="10px"
+                            mb={{ base: "8px", md: "25px" }}
+                        >
+                            <Flex>
+                                <Box>
+                                    <Text
+                                        pt="17px"
+                                        pl="30px"
+                                        pr="31px"
+                                        color="black"
+                                        fontWeight="700"
+                                        fontSize={{ base: "20px", md: "26px" }}
+                                        lineHeight="120%"
+                                    >
+                                        {values.pollName}
+                                    </Text>
+                                </Box>
+                                <Spacer />
+                                <Box>
+                                    <Badge mt="17px" mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus(values.pollStatus)}>
+                                        {values.pollStatus}
+                                    </Badge>
+                                </Box>
+                            </Flex>
+
+                            <Flex>
+                                <Box pt="6" pb="6">
+                                    {isMobile ? (
+                                        <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
+                                            {values.creator.Fname}
+                                            &nbsp;
+                                            {values.creator.Lname}
+                                        </Text>
+                                    ) : (
+                                        <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
+                                            {values.creator.Fname}
+                                            &nbsp;
+                                            {values.creator.Lname}
+                                        </Text>
+                                    )}
+                                </Box>
+                                <Spacer />
+                                <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
+                                    {values.pollStatus == "Accepted" ? <Button
+                                        borderRadius="full"
+                                        w={{ base: "50px", md: "72px" }}
+                                        h={{ base: "50px", md: "72px" }}
+                                        backgroundColor="white"
+                                        border="1px solid"
+                                        mr={{ base: "12px", md: "24px" }}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    >
+                                        <Image src={GroupChatImg} />
+                                    </Button> : <></>}
+                                    <Button
+                                        borderRadius="full"
+                                        w={{ base: "50px", md: "72px" }}
+                                        h={{ base: "50px", md: "72px" }}
+                                        backgroundColor="white"
+                                        border="1px solid"
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    >
+                                        <Image src={ChatImg} />
+                                    </Button>
+                                </Box>
+                            </Flex>
+
+                            <Box display="flex" w="100%" justifyContent="right" pr="30px" pt="10px">
+                                <Text
+                                    lineHeight="150%"
+                                    color="black"
+                                    fontWeight="400"
+                                    fontSize={{ base: "14px", md: "16px" }}
+                                    as="u"
+                                    mb="20px"
+                                    cursor="pointer"
+                                    onClick={onOpen}
+                                >
+                                    Click to see more
+                                </Text>
+
+                                <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
+                                    {/* <ModalOverlay /> */}
+                                    <ModalContent>
+                                        <ModalHeader>
+                                            <Flex alignItems="center">
+                                                <Image
+                                                    borderRadius="full"
+                                                    boxSize="78px"
+                                                    objectFit="cover"
+                                                    src={values.creator.url}
+                                                    alt={values.creator.Fname + " " + values.creator.Lname}
+                                                />
+                                                <Text fontWeight="700" lineHeight="150%" ml="20px" fontSize="20px" color="black">
+                                                    {values.creator.Fname}
+                                                    &nbsp;
+                                                    {values.creator.Lname}
+                                                </Text>
+                                            </Flex>
+                                        </ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody>
+                                            <Heading color="black" fontWeight="700" fontSize="20px" lineHeight="150%" pb="20px">
+                                                {values.pollName}
+                                            </Heading>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="20px">
+                                                {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                Location: {values.pollPlace}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                Date: {globalThis.date}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%">
+                                                Time: {globalThis.time}
+                                            </Text>
+                                            <Text color="black" fontWeight="400" fontSize="16px" lineHeight="150%" pb="15px">
+                                                Number of people: {handlePeople(values.participantMin, values.participantMax)}
+                                            </Text>
+                                        </ModalBody>
+                                    </ModalContent>
+                                </Modal>
+                            </Box>
+                        </Box>
+                    )
+                })}
+            </Box>
+>>>>>>> Stashed changes
         </DatingAppBody>
     )
 }

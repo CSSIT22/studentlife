@@ -231,6 +231,15 @@ const YouLiked = () => {
                     </Box>
                 </Center>
 
+<<<<<<< Updated upstream
+=======
+
+                {isMobile ? (
+                <Box mt="80px"></Box>
+            ) : (
+                <Box mt="10px"></Box>
+            )}
+>>>>>>> Stashed changes
 
                 <Box
                     display={{ base: "grid", md: "block" }}
@@ -238,7 +247,7 @@ const YouLiked = () => {
                     gridTemplateColumns="repeat(auto-fill, 165px)"
                     gridGap="10px"
                     justifyContent="center"
-                    mt="120px"
+                    mt="90px"
                 >
                     {heartGiver.filter((el) => !giveToUser?.some((f) => el.heartReceiver.userId))
                         .map(({ heartReceiver }) => (

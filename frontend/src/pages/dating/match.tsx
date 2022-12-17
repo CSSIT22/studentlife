@@ -184,6 +184,25 @@ const DatingMatch = () => {
                         </motion.div>
                     </GridItem>
                 </Box>
+<<<<<<< Updated upstream
+=======
+
+            <Box>
+                {poll.map((values: any) => {
+                    return (
+                        <Box w="100%"
+                            height={{ base: "90px", md: "100px" }}
+                            backgroundColor="white"
+                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                            borderRadius="10px"
+                            mt="5px"
+                            key={values.userId}
+                            mb={{ base: "8px", md: "12px" }}
+                            display="flex"
+                            // cursor="pointer"
+                            // onClick={() => goToProfile(values.userId)}
+                            >
+>>>>>>> Stashed changes
 
                 <motion.div
                     initial={{ scale: 0 }}
