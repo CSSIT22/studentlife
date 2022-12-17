@@ -184,7 +184,7 @@ const NavbarCommunity: FC<{
         <Box
         >
             <Image
-                src={photo instanceof Blob ? `data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(data.community.photo?.data)))}`: photo}
+                src={`data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(data.community.photo?.data)))}`}
                 fallbackSrc="https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
                 marginTop={{ base: "-2rem", sm: "-5rem" }}
                 height={{ base: "11rem", sm: "15rem" }}
@@ -240,7 +240,7 @@ const NavbarCommunity: FC<{
                             key={tag.tagId}
 
                         >
-                            {tag.tag.tagName}
+                            {tag?.tagName}
                         </Box>
                     ))}
                 </Wrap>

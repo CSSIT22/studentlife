@@ -106,7 +106,7 @@ const NavbarCommunity: FC<{
                             key={tag.Id}
 
                         >
-                            {tag.tag?.tagName === undefined ? tag?.tagName : tag.tag?.tagName}
+                            {tag?.tagName}
                         </Box>
                     ))}
                 </Wrap>

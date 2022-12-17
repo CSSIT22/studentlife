@@ -194,7 +194,7 @@ const createCommunity = () => {
                                             hasArrow
                                             arrowSize={5}
                                             borderRadius='xl'
-                                            label={tag.tagDescription}>
+                                            label={tag?.tagDesc}>
                                             <Tag
 
                                                 key={tag.tagId}
@@ -439,7 +439,7 @@ const createCommunity = () => {
                                 gap='2' >
                                 {
                                     tags.map((tag: any) =>
-                                        <Tooltip hasArrow arrowSize={5} borderRadius='xl' label={tag.tagDesc}>
+                                        <Tooltip hasArrow arrowSize={5} borderRadius='xl' label={tag?.tagDesc}>
                                             <Tag
                                                 key={tag.tagId}
                                                 _hover={{ cursor: 'pointer' }}

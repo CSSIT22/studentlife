@@ -115,7 +115,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 desc: community?.communityDesc,
                 privacy: community?.communityPrivacy, //true if private, false if public
                 photo: community?.communityPhoto,
-                tags: community?.tags,
+                tags: community?.tags.map((item: any) => item.tag),
                 memberCount: (community?.member.length || 0) + 1, //+1 for the owner
                 file:community?.files
             },

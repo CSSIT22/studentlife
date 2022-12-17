@@ -28,12 +28,6 @@ const createCommunity = async (req: Request, res: Response) => {
     let privacy = body.communityPrivacy == 'false' ? false : true
     
 
-    let b: number[] = []
-
-    let y: any = {
-        any: tag2id.map((item) => b.push(item.tagId)),
-    }
-
     const createCommunity: any = {
         communityName: body.communityName,
         communityOwnerId: userid,

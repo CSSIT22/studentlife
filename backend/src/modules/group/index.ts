@@ -31,7 +31,7 @@ groupRoutes.get("/getCommunity", getCommunity)
 groupRoutes.post("/createCommunity",upload.array("upload"), createCommunity)
 groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.get("/searchCommunity", searchCommunity)
-groupRoutes.patch("/editCommunity:id", editCommunity)
+groupRoutes.patch("/editCommunity:id",upload.array("upload"), editCommunity)
 groupRoutes.get("/getCommunity", getCommunity)
 
 groupRoutes.post("/pendingRequest", pendingRequest)

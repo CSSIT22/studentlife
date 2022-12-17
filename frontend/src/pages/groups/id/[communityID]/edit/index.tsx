@@ -116,9 +116,9 @@ const editCommunity = () => {
 
 
     useEffect(() => {
-        // console.log(createTag)
-         console.log(updatedTag)
-        // console.log(selectedTag)
+        console.log(createTag)
+        console.log(updatedTag)
+        console.log(selectedTag)
        
 
     }, [updatedTag])
@@ -199,11 +199,21 @@ const editCommunity = () => {
 
     //Send data to backend
     const submit = () => {
-        API.patch("/group/editCommunity" + communityID, {
-            communityName: communityName,
-            communityDesc: communityDesc,
-            communityPrivacy: communityPrivacy,
-            communityTags: createTag,
+        const form = new FormData()
+        let Privacy: any = !communityPrivacy.toString();
+        form.append("communityName", communityName);
+        form.append("communityDesc", communityDesc);
+        form.append("communityPrivacy", Privacy);
+        form.append("communityTags", createTag);
+        form.append("upload", communityCoverPhoto);
+        for (var pair of form.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        API.patch("/group/editCommunity" + communityID, form,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         })
             .then((res) => {
                 toast({
@@ -304,7 +314,7 @@ const editCommunity = () => {
                         >
                             {updatedTag?.map((tag: any) => {
                                 return (
-                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tag.tagDesc}>
+                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag?.tagDesc}>
                                         <Tag
                                             key={tag.tagId}
                                             shadow="lg"
@@ -316,7 +326,7 @@ const editCommunity = () => {
                                             py={{ base: 2, md: 1 }}
                                             fontWeight="bold"
                                         >
-                                            {tag.tag.tagName}
+                                            {tag?.tagName}
                                         </Tag>
                                     </Tooltip>
                                 )
@@ -529,7 +539,7 @@ const editCommunity = () => {
                         <DrawerContent mx={{ base: "5", md: "10%", lg: "20%" }} width="auto" backgroundColor="#e67f45" borderTopRadius="3rem" pb="20">
                             <DrawerBody pt="6" display="flex" flexWrap="wrap" gap="2">
                                 {tags.map((tag:any) => (
-                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
+                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag?.tagDesc}>
                                         <Tag
                                             key={tag.tagId}
                                             _hover={{ cursor: "pointer" }}
