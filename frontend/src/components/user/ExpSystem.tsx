@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom"
 
 function ExpSystem() {
     const param = useParams();
-    let history = useNavigate()
     const [currentExp, setCurrentExp] = useState<number>(0)
 
     useEffect(() => {
