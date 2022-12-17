@@ -34,11 +34,11 @@ const propertyDetail = (props: any) => {
 }
 
 type memberType = {
-    userId: string,
     roomId: string,
     joined: string,
     lefted: string,
     user: {
+        userId: string,
         fName: string,
         image: {
             type: string,
@@ -82,9 +82,9 @@ function propertyEvent(props: any) {
             element.map((e: memberType) => {
                 const img = e.user.image
                 return (
-                    <HStack spacing={4}>
-                        <Avatar name={e.user.fName} src={(img === null) ? "" : buffer_to_img(img?.data)} />
-                        <Heading size={"md"} cursor={'default'}>
+                    <HStack spacing={4} onClick={()=>navigate(`/user/${e.user.userId}`)} cursor={'pointer'}>
+                        <Avatar name={e.user.fName} src={(img === null) ? "" : buffer_to_img(img?.data)}/>
+                        <Heading size={"md"}>
                             {e.user.fName}
                         </Heading>
                     </HStack>
