@@ -66,6 +66,12 @@ const getCommunityPost = async (req: Request, res: Response) => {
             where: {
                 communityId: id,
             },
+            orderBy: {
+                post: {
+                    score: "desc",
+                    // lastEdit: "desc",
+                },
+            },
         })
 
         res.send({

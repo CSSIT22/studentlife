@@ -130,6 +130,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                 isClosable: true,
                 position: 'top'
             })
+            fetchPost()
             console.log(err)
         }
     }
