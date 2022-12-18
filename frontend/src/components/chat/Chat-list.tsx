@@ -42,7 +42,8 @@ const Clist: FC<any> = () => {
 
     //function handle
     function Navigate(target: any) {
-        return navigate(`/chat/${target}`)
+        location.href = `/chat/${target}`
+        // return navigate(`/chat/${target}`,{replace:false})
     }
     function Seach(e: any) {
         return setSearch(e.target.value)

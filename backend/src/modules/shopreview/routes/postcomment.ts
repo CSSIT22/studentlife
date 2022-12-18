@@ -5,19 +5,19 @@ const postcomment = async (req: Request<any>, res: Response<any>) => {
         const prisma = res.prisma
         // const user = useContext(authContext)
         const user = req.user?.userId
-        //console.log(req)
-        // const comment = req.body.type.map(item=>({item:}))
+
         const postcomment: any = {
             //ให้ไปทำงานที่ sre_re ก่อน เอาไอดีมาก่่อน
-            commentId: "07",
-            reviewId: "08",
+            reviewId : req.body.reviewId , 
+            commentId: req.body.commentId,
             userId: user,
             text: req.body.text,
-
-            likeRecieved: 0,
+            likeReceived: req.body.likeReceived,
         }
         const rev = await prisma.sReview_Comment.create({
-            data: postcomment,
+            data: {
+                ...postcomment,
+            },
         })
         res.send(rev)
     } catch (err) {
