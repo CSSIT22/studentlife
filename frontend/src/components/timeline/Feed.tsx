@@ -25,6 +25,16 @@ export const Feed = () => {
     // }, [])
     // console.log(posts)
 
+    window.onscroll = function (ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            alert("you're at the bottom")
+            return (
+                <VStack>
+                    <Post></Post>
+                </VStack>
+            )
+        }
+    }
     return (
         <VStack>
             <AnnounceList />

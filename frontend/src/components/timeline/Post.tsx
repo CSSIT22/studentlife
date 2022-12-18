@@ -36,7 +36,7 @@ export const Post = (/*props: PostProps*/) => {
     }, [])
     console.log(posts)
 
-    let sortedScore = Postdata.sort((a, b) => (a.score > b.score ? -1 : 1))
+    // let sortedScore = Postdata.sort((a, b) => (a.score > b.score ? -1 : 1))
 
     return (
         posts.map((postDt: any, index: any) =>
