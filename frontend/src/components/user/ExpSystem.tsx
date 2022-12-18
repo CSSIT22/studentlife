@@ -14,13 +14,13 @@ const ExpSystem: React.FC<{ exp: number, level: number }> = ({ exp, level }) => 
                     </Text>
                 </Stack>
 
-                <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={exp / 1000} />
+                <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={(exp / 1000) * 100} />
                 <Stack direction="row" alignContent="center" ml="5" mb="5" mt={1} spacing={1}>
                     <Text color="black" fontSize="md" fontWeight="500">
                         EXP :
                     </Text>
                     <Text color="black" fontSize="md" fontWeight="500">
-                        {exp % 1000}
+                        {exp}
                     </Text>
                     <Text color="black" fontSize="md" fontWeight="500">
                         /

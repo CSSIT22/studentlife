@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { Prisma } from "@prisma/client"
 const fs = require("fs")
 const buffer = require("buffer")
 const changeimageuser = async (req: Request, res: Response) => {
