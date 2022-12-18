@@ -160,7 +160,7 @@ const index = () => {
         let filteredSn = sn;
 
         if (searchSn) {
-            filteredSn = filteredSn.filter((items: any) => items.snName.toLowerCase().includes(searchSn));
+            filteredSn = filteredSn.filter((items: any) => items.snName.toLowerCase().includes(searchSn.toLowerCase()));
         }
 
         if (coursePicked) {
