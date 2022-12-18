@@ -56,25 +56,25 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
     //     })
     // })
 
-    const submit = () => {
-        API.post<Event>("/schedule/editEvent", {
-            eventName: event,
-            stTime: time,
-            endTime: endtime,
-            desc: description,
-            eventTypeId: type,
-            place: location,
-            isNoti: isNoti,
-            eventId: eventId
-        }).then((res) => console.log(res))
-            .catch((err => console.log((err))))
+    // const submit = () => {
+    //     API.post<Event>("/schedule/editEvent", {
+    //         eventName: event,
+    //         stTime: time,
+    //         endTime: endtime,
+    //         desc: description,
+    //         eventTypeId: type,
+    //         place: location,
+    //         isNoti: isNoti,
+    //         eventId: eventId
+    //     }).then((res) => console.log(res))
+    //         .catch((err => console.log((err))))
 
-            .then(() => {
-                navigate({
-                    pathname: "/schedule"
-                })
-            })
-    }
+    //         .then(() => {
+    //             navigate({
+    //                 pathname: "/schedule"
+    //             })
+    //         })
+    // }
 
     const editEvent = (eventId: string) => {
         API.post("/schedule/editEvent", { eventId: eventId }).then((res) => {
