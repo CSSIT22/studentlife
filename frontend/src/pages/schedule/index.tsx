@@ -203,7 +203,7 @@ const timetable = () => {
                             <FullCalendar events={events} plugins={[timeGridPlugin]}
                                 initialView={"timeGridDay"}
                                 headerToolbar={{ right: "" }}
-                                validRange={(now) => ({ start: targetDate }) as any}
+                                validRange={(now) => ({ start: targetDate, end: targetDate })}
                                 initialDate={dateRange[0] as Date} />
                         </Box>
                         :
