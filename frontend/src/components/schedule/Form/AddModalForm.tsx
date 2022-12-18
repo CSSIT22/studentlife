@@ -266,7 +266,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
             <FormControl display="flex" alignItems="center">
                 <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)} />
-                <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4}>
+                <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4} pl="3">
                     Notification
                 </FormLabel>
             </FormControl>

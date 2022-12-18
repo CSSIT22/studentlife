@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AppBody from 'src/components/share/app/AppBody'
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box, SimpleGrid, Heading, useToast, useBoolean, useBreakpointValue } from "@chakra-ui/react"
+import { IconButton, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Box, SimpleGrid, Heading, useToast, useBoolean, useBreakpointValue, Spinner } from "@chakra-ui/react"
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, useDisclosure, Text, Flex, Select, Switch, Input, Textarea } from "@chakra-ui/react"
 import { Grid, GridItem } from '@chakra-ui/react'
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,6 +14,7 @@ import {
 import API from 'src/function/API'
 import EditEventModal from 'src/components/schedule/model/editEventModal'
 import { user } from 'src/components/transaction/shared/testuser'
+import { AiOutlineClockCircle } from 'react-icons/ai'
 
 
 const showEvent = () => {
@@ -25,23 +26,31 @@ const showEvent = () => {
     const finalRef = React.useRef(null)
     const param = useParams()
     const [event, setEvent] = useState<any>({})
+    const [isLoading, setLoading] = useState(true);
     const isMobile = useBreakpointValue({
         base: true,
         md: false,
     })
+    const addHours = (date: Date): Date => {
+        const result = new Date(date);
+        result.setHours(result.getHours() - 7);
+        return result;
+    };
     // useEffect(() => {
     //     API.get("/schedule/getNewEvent"+ param.eventId)
     //     .then((item) => setEvent(item.data))
     // },[])
     const [isError, { on }] = useBoolean()
-    const getEvent = API.get("/schedule/getNewEvent/" + param.eventId)
     useEffect(() => {
         console.log(param);
-        getEvent.then((res) => {
+        API.get("/schedule/getNewEvent/" + param.eventId).then((res) => {
             setEvent(res.data)
-            console.log(res.data)
         })
-        getEvent.catch((err) => on())
+            .catch((err) => {
+                on()
+            }).finally(() => {
+                setLoading(false)
+            })
     }, [])
     // if(isError) return <AppBody><Heading> Event does not exist</Heading></AppBody>
 
@@ -58,17 +67,33 @@ const showEvent = () => {
     }
 
 
+    if (isLoading) {
+        return (
+            <AppBody><Spinner /></AppBody>
+        )
+    }
+
+    if (isError) {
+        return (
+            <AppBody>Error!!!</AppBody>
+        )
+    }
 
     return (
         <AppBody>
-
-            <IconButton aria-label="previous"
+            <Box display="flex" alignItems={"center"} >
+                <IconButton aria-label="previous"
                 icon={<ChevronLeftIcon />}
-                onClick={() => navigate("/schedule/")}
+                onClick={() => navigate("/schedule/")
+            }
                 w="60px" h="62px"
                 borderRightRadius="55"
-                borderLeftRadius="55" />
+                borderLeftRadius="55" mt="3" />
             <br />
+            <Heading ml="2"> Your Event</Heading>
+            <Box ml="2"><AiOutlineClockCircle size={30}/> </Box>
+            </Box>
+            
             <Box boxShadow="md" pt="3" pl="6" pb="3" rounded="md" bg="white" mt={"6"} >
                 <Text fontWeight="bold" textAlign={["center"]} fontSize={{ md: "5xl", base: "2xl" }} color={"#000000"} >
                     {event.eventName}
@@ -136,17 +161,17 @@ const showEvent = () => {
                             </Text>
                             <Flex justifyContent="center" gap="8" mt="5">
                                 <Button variant="ghost" bg="#38A169" onClick={() => {
-                                onDeleteClose()
-                                deleteEvent(event.eventId)
-                                
-                            }}>
-                                <Text color="white">Yes</Text>
-                            </Button>
-                            
-                            
-                            <Button bg="#E53E3E" pl="3" onClick={modal3.onClose}>
-                                <Text color="white" textAlign="center">No</Text>
-                            </Button></Flex>
+                                    onDeleteClose()
+                                    deleteEvent(event.eventId)
+
+                                }}>
+                                    <Text color="white">Yes</Text>
+                                </Button>
+
+
+                                <Button bg="#E53E3E" pl="3" onClick={modal3.onClose}>
+                                    <Text color="white" textAlign="center">No</Text>
+                                </Button></Flex>
                         </ModalBody>
 
                         <ModalFooter>

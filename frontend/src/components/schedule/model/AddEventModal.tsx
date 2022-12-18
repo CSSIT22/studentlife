@@ -1,6 +1,7 @@
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, Text, Heading, ModalCloseButton, ModalBody, FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, ModalFooter, Button, useBreakpointValue, Box } from '@chakra-ui/react'
 import React, { FC } from 'react'
+import { AiOutlineSchedule } from 'react-icons/ai'
 import AddModalForm from '../Form/AddModalForm'
 
 const AddEventModal: FC<{
@@ -22,7 +23,8 @@ const AddEventModal: FC<{
                 <ModalHeader>
                     <Box display="flex" alignItems="center" >
                     {isMobile? <Box onClick={modal1.onClose}><ChevronLeftIcon/></Box>:<></> }
-                    <Heading color="black" pl="1.5">Add Event</Heading></Box>
+                    <Heading color="black" pl="1.5">Add Event</Heading>
+                    <Box ml="3"><AiOutlineSchedule size={30}/> </Box></Box>
                     {/* <timetable getName = {setNameInput}/> */}
                 </ModalHeader>
                 {isMobile?<></> :<ModalCloseButton /> }

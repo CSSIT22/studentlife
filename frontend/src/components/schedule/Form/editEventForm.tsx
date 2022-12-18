@@ -89,15 +89,16 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
 
     const submit = () => {
         API.post("/schedule/editEvent", {
+            eventId: eventId,
             eventName: event,
-            stTime: time,
-            endTime: endtime,
+            stTime: new Date(time),
+            endTime: new Date(endtime),
             desc: description,
             eventTypeId: type,
             place: location,
             isNoti: isNoti
         }).then((res) => console.log(res))
-            .catch((err => console.log("Error")))
+            .catch((err => console.log(err)))
 
             .then(() => {
                 navigate({
@@ -195,7 +196,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
             </FormControl>
 
             <FormControl display="flex" alignItems="center">
-                <Switch id="notification" size="lg" mt={4} />
+                <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)}/>
                 <FormLabel htmlFor="notification"  color="#5A5A5A" mt={"4"} ml="2">
                     Notification
                 </FormLabel>

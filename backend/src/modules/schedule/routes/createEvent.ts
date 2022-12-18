@@ -11,7 +11,7 @@ const createEvent = async (req: Request, res: Response) => {
     // Event is the table from db
     try {
         console.log(body)
-        let assignmentId = null;
+        let assignmentId = null
         if (body.assignmentName != null) {
             const assignment = await prisma.assignment.create({
                 data: {
@@ -26,8 +26,8 @@ const createEvent = async (req: Request, res: Response) => {
             data: {
                 userId: userId,
                 eventName: body.eventName,
-                stTime: new Date(body.stTime),
-                endTime: new Date(body.endTime),
+                stTime: new Date(new Date(body.stTime).getTime() - 7 * 60 * 60 * 1000),
+                endTime: new Date(new Date(body.endTime).getTime() -7 * 60 *60 *1000),
                 desc: body.desc,
                 eventTypeId: body.eventTypeId,
                 place: body.place,
@@ -40,7 +40,7 @@ const createEvent = async (req: Request, res: Response) => {
                 eventId: body.eventId,
             },
         })
-        
+
         const isNoti = req.body.isNoti
         if (createEvent && isNoti) {
             let eventName = createEvent.eventName
