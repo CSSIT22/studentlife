@@ -49,8 +49,7 @@ groupRoutes.delete("/declineRequest", declineRequest)
 groupRoutes.get("/getCommunityFile/:id", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 
-groupRoutes.get("/getCommunityPost/:id", getCommunityPost)
-groupRoutes.post("/creatingCommunityPost/:id", creatingCommunityPost)
+// groupRoutes.post("/creatingCommunityPost/:id", creatingCommunityPost)
 
 groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)
@@ -63,6 +62,7 @@ groupRoutes.get("/communityTest", communityTest)
 groupRoutes.get("/getTag", getTag)
 
 //Post
+groupRoutes.get("/getCommunityPost/:id", getCommunityPost)
 groupRoutes.post("/createPost", createPost)
 groupRoutes.delete("/deletePost", deletePost)
 groupRoutes.post("/pinPost", pinPost)

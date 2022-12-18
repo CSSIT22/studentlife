@@ -4,6 +4,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { BsEyeFill, BsFillClockFill, BsFillPersonFill } from 'react-icons/bs'
 import { HiLockClosed } from 'react-icons/hi2'
 import { MdPublic } from 'react-icons/md'
+import { TiWarning } from 'react-icons/ti'
 import { useParams } from 'react-router-dom'
 import API from 'src/function/API'
 import Post from '../Post'
@@ -71,6 +72,34 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
             display: data?.user.status,
         }
     ]
+    const NoPosts = () => {
+        return (
+            <Flex direction="column"
+                justify={"center"}
+                align="center"
+                w='full'
+            >
+                <Box
+                    p='4'
+                    shadow='xl'
+                    borderRadius={{ base: 'md' }}
+                    bg='white'
+                    width={"100%"}
+                >
+                    <Box>
+                        <Flex alignItems="center" gap={1}>
+                            <TiWarning />
+                            <Text as="b" fontSize="sm">
+                                Its empty here :(
+                            </Text>
+                        </Flex>
+                        <Text fontSize="sm">
+                            Create a post to start the discussion!
+                        </Text>
+                    </Box>
+                </Box>
+            </Flex>)
+    }
     const toast = useToast()
     const onCreatePost = async () => {
         try {
@@ -114,62 +143,62 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
             position='relative'
             px={{ base: 'none', md: '1rem', lg: '3rem' }} >
             <VStack mt='3' mb='6' width='full' >
+                {data?.user.access ?
+                    <Accordion maxW='580px' width='full' allowToggle>
+                        <AccordionItem
+                            bg="white"
+                            shadow='lg'
+                            borderRadius='md'
+                            p='1'
+                            width='full'
+                            sx={{
+                                borderTopWidth: '',
+                                borderColor: '',
+                                overflowAnchor: '',
+                                bg: "white",
+                                color: "#848383",
+                                shadow: "md",
+                                fontWeight: 500,
+                                mb: 1,
 
-                <Accordion maxW='580px' width='full' allowToggle>
-                    <AccordionItem
-                        bg="white"
-                        shadow='lg'
-                        borderRadius='md'
-                        p='1'
-                        width='full'
-                        sx={{
-                            borderTopWidth: '',
-                            borderColor: '',
-                            overflowAnchor: '',
-                            bg: "white",
-                            color: "#848383",
-                            shadow: "md",
-                            fontWeight: 500,
-                            mb: 1,
-
-                        }}>
-                        <AccordionButton onClick={() => setIsCreatePostBtn(!isCreatePostBtn)}>
-                            <Box
-                                fontSize={{ base: 'md', md: 'sm' }}
-                                fontWeight={isCreatePostBtn ? "bold" : ""}
-                                color={isCreatePostBtn ? '#4a5568' : 'gray.500'}
-                                flex='1'
-                                textAlign='left'
-                            >
-                                {isCreatePostBtn ? 'Create Post' : 'Type anything...'}
-                            </Box>
-                            <AccordionIcon />
-                        </AccordionButton>
-                        <AccordionPanel>
-                            <Textarea
-                                focusBorderColor='none'
-                                fontSize='sm'
-                                // type='area'
-                                value={postText}
-                                placeholder='Type anything...'
-                                onChange={(e) => setPostText(e.target.value)}
-                            />
-                            <HStack justify='flex-end'>
-                                <Button
-                                    onClick={onCreatePost}
-                                    color='white'
-                                    bg='orange.400'
-                                    size='sm'
-                                    mt='2'
-                                    _hover={{ bg: 'orange.500' }}
-                                    display={isCreatePostBtn ? "block" : "none"}>
-                                    Submit
-                                </Button>
-                            </HStack>
-                        </AccordionPanel>
-                    </AccordionItem>
-                </Accordion>
-
+                            }}>
+                            <AccordionButton onClick={() => setIsCreatePostBtn(!isCreatePostBtn)}>
+                                <Box
+                                    fontSize={{ base: 'md', md: 'sm' }}
+                                    fontWeight={isCreatePostBtn ? "bold" : ""}
+                                    color={isCreatePostBtn ? '#4a5568' : 'gray.500'}
+                                    flex='1'
+                                    textAlign='left'
+                                >
+                                    {isCreatePostBtn ? 'Create Post' : 'Type anything...'}
+                                </Box>
+                                <AccordionIcon />
+                            </AccordionButton>
+                            <AccordionPanel>
+                                <Textarea
+                                    focusBorderColor='none'
+                                    fontSize='sm'
+                                    // type='area'
+                                    value={postText}
+                                    placeholder='Type anything...'
+                                    onChange={(e) => setPostText(e.target.value)}
+                                />
+                                <HStack justify='flex-end'>
+                                    <Button
+                                        onClick={onCreatePost}
+                                        color='white'
+                                        bg='orange.400'
+                                        size='sm'
+                                        mt='2'
+                                        _hover={{ bg: 'orange.500' }}
+                                        display={isCreatePostBtn ? "block" : "none"}>
+                                        Submit
+                                    </Button>
+                                </HStack>
+                            </AccordionPanel>
+                        </AccordionItem>
+                    </Accordion> : null
+                }
                 {post?.post.filter((post: any) => post.isPinned == true).length > 0 ?
                     <HStack
                         maxW='580px'
@@ -236,7 +265,8 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                 Post
                             </Text>
                         </HStack>
-                        : null}
+                        : <NoPosts />
+                }
                 {
                     post?.post.filter((post: any) => post.isPinned == false).map((post: any) => {
                         return (
