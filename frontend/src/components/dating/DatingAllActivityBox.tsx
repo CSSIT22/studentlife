@@ -46,7 +46,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                 .finally(() =>
                     setTimeout(() => {
                         setcc(false)
-                    }, 1000))
+                    }, 1400))
             // (appiled(pId),
             //     toast({
             //         title: "Applied success",

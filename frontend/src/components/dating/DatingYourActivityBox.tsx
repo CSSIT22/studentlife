@@ -20,6 +20,7 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
     // const [poll, setPoll] = useState(POLL)
     const params = useParams()
     const didMount = useDidMount()
+    const [polls, setPolls] = useState<PollInfo[]>(poll)
 
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
@@ -74,12 +75,12 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
         return "/dating/poll/yourpoll/" + pId + "/"
     }
 
-    // window.addEventListener('scroll', function () {
-    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    //         if (heartGiver.length != allHeartGiver.length)
-    //             setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 20))
-    //     }
-    // })
+    window.addEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            if (polls.length != poll.length)
+                setPolls(poll.slice(0, polls.length + 1))
+        }
+    })
 
     const isMobile = useBreakpointValue({
         base: false,
