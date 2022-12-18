@@ -24,15 +24,11 @@ export const Feed = () => {
     //     })
     // }, [])
     // console.log(posts)
+    const [postset, setpostset] = useState(1)
 
     window.onscroll = function (ev) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            alert("you're at the bottom")
-            return (
-                <VStack>
-                    <Post></Post>
-                </VStack>
-            )
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+            setpostset(postset + 1)
         }
     }
     return (
@@ -40,7 +36,8 @@ export const Feed = () => {
             <AnnounceList />
             <FriendSuggestion></FriendSuggestion>
             <CreateButton></CreateButton>
-            <Post></Post>
+            {/* <Post></Post> */}
+            {[...Array(postset).keys()].map(item => <Post i={item} key={item} />)}
 
             {/* <FriendSuggestion></FriendSuggestion>
             <Post></Post> */}

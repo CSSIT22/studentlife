@@ -94,7 +94,7 @@ timelineRoutes.get("/getUserName", getUserName)
 
 timelineRoutes.get("/getReacted", getReacted)
 
-timelineRoutes.get("/getStudentPost", getStudentPost)
+timelineRoutes.get("/getStudentPost/:i", getStudentPost)
 
 timelineRoutes.post("/editspost", editedPost)
 

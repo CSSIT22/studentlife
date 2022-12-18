@@ -23,11 +23,11 @@ import EmojiFeelingTelling from "../blog/EmojiFeelingTelling"
 //     score?: number
 // }
 
-export const Post = (/*props: PostProps*/) => {
+export const Post = (prop: any) => {
     const [posts, setposts] = useState<any>([])
     // const getData = API.get("/timeline/getposts") old mockup data
     // const getPost = API.get("/timeline/getPostList") // data from database
-    const getPost = API.get("/timeline/getStudentPost")
+    const getPost = API.get("/timeline/getStudentPost/" + prop.i)
 
     useEffect(() => {
         getPost.then(res => {
