@@ -4,8 +4,8 @@ const getFollow = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user ? req.user.userId : ""
-        const Follower = await prisma.user_Blocked.findFirst({
-            // include: { anotherUserId: true },
+        const Follower = await prisma.follow.findFirst({
+            include: { follower: true },
             where: {
                 userId: userId,
                 anotherUserId: req.params.id,
