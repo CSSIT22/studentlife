@@ -52,7 +52,9 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
     }, [])
 
     return (
-        <Box maxW="100%" borderRadius="none" position={"initial"} height={"100%"} rounded="2xl" overflow={"unset"} p={5} pt={{ md: "40px", base: "0" }} ml={{ base: "3", md: "0" }}>
+        <Box maxW="100%" borderRadius="none" position={"initial"} height={"100%"}
+            bgColor={"black"}
+            rounded="2xl" overflow={"unset"} p={3} ml={{ base: "3", md: "0" }}>
             <Grid
                 templateAreas={{
                     base: `
@@ -64,10 +66,10 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                   "main main"
                   "followlist footer"`,
                 }}
-                gridTemplateRows={{ base: "80% 1fr 50%", md: "45% 1fr 20%" }}
+                gridTemplateRows={{ base: "80% 1fr 50%", md: "45% 1fr 40%" }}
                 gridTemplateColumns={{ md: "50% 1fr", base: "30% 1fr" }}
                 h="100%"
-                gap="1"
+                gap={{ base: "1", md: "7", lg: "2" }}
                 color="blackAlpha.700"
                 fontWeight="bold"
                 borderRadius="md"
@@ -76,22 +78,21 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <>
-                        <VStack align="stretch" alignItems="center" mt="5">
-                            {isMe
-                                ?
-                                <UserProfileImages userData={userData} /> : <FriendProfileImages userData={userData} />}
-                            <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
-                                Rating : {rating}
-                            </Box>
-
-
+                        <VStack alignItems="center" mt="5">
+                            <Center flexDirection={"column"}>
+                                {isMe
+                                    ?
+                                    <UserProfileImages userData={userData} /> : <FriendProfileImages userData={userData} />}
+                                <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
+                                    Rating : {rating}
+                                </Box>
+                            </Center>
                         </VStack>
-
                     </>
                 </GridItem>
                 <GridItem pl="2" mt={{ base: "3", md: "0", lg: "3rem" }} ml={{ base: "10", md: "25" }} alignItems={"center"} area={"main"} color="gray.700">
                     <Stack direction={"column"} alignItems={"center"}>
-                        <HStack p={1} ml="3" align="stretch" alignItems="center">
+                        <HStack p={1} ml={{ base: "-13", md: "0" }} align="stretch" alignSelf={"center"} alignItems="center">
                             <Box fontSize={{ lg: "md", base: "sm" }} color="orange.700">
                                 ID :
                             </Box>
@@ -116,11 +117,12 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                             </motion.div>
                         </Stack>
 
-                        <Stack direction={{ base: "column", lg: "row" }} alignItems="flex-start" spacing={-0.5} mb="5">
-
-                            <Stack p={1} direction="row" alignItems="center">
+                        <Stack direction={{ base: "column", lg: "row" }} alignSelf="center" spacing={-0.5} mb="5">
+                            <Stack p={1}
+                                direction={{ base: "column", md: "row" }}
+                                alignItems={{ base: "flex-start", md: "flex-start", lg: "center" }}>
                                 <Box fontSize={{ base: "sm", lg: "lg" }} display={{ base: "block", lg: "none" }} color="orange.700">
-                                    Faculty :
+                                    Faculty
                                 </Box>
                                 <Box fontSize={{ base: "md", lg: "xl" }}>{userData.facultyId}</Box>
                                 <Box fontSize={{ base: "lg", lg: "lg" }} display={{ base: "none", lg: "block" }} color="orange.700">
@@ -130,19 +132,19 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
 
                             <Stack
                                 p={1}
-                                direction={{ base: "row", lg: "row" }}
-                                alignItems={{ base: "center", md: "flex-start", lg: "center" }}
-                                spacing={{ base: "2", md: "2", lg: "2" }}
+                                direction={{ base: "column", md: "row" }}
+                                alignItems={{ base: "flex-start", lg: "center" }}
+
                             >
                                 <Box fontSize={{ base: "sm", lg: "lg" }} display={{ base: "block", lg: "none" }} color="orange.700">
-                                    Major :
+                                    Major
                                 </Box>
                                 <Box fontSize={{ base: "md", lg: "xl" }}>{userData.majorId}</Box>
                             </Stack>
                         </Stack>
                     </Stack>
                 </GridItem>
-                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "10", lg: "3" }} mt={"3"}>
+                <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "10", lg: "3" }} mt={{ base: "3", md: "6" }}>
                     <Center>
                         {
                             isMe ?
@@ -155,7 +157,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                 </GridItem>
                 <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "0" }}>
                     <Center>
-                        <Stack direction="row" mx={{ base: "50", lg: "30%" }} align="stretch" alignItems="center" spacing={{ base: "", md: "" }}>
+                        <Stack direction="row" mx={{ base: "50", lg: "30%" }} mt={{ base: "0.7rem" }} align="stretch" alignItems="center" spacing={{ base: "2", md: "0" }}>
                             <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
                                 <Box fontSize={{ base: "lg", lg: "2xl" }}>{follower}</Box>
                                 <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFollowerListopen}>

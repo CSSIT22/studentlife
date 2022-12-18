@@ -27,7 +27,7 @@ export function userProfileButtons(onOpen: () => void, initialRef: React.Mutable
         </motion.div>
         {/* Show Edit Form Modal */}
         <ShowEditProfileFormModal initialFocusRef={initialRef} finalFocusRef={finalRef} onClose={onClose} isOpen={isOpen} />
-        <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.7 }}>
+        <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 1.2 }}>
             <Button
                 pl={5}
                 bg="orange.600"
