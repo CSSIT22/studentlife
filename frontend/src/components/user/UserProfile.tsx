@@ -20,9 +20,13 @@ import { ShowFollowingModal } from "./customModal/ShowFollowingModal"
 import { userProfileButtons } from "./userProfileButton/userProfileButtons"
 import { userFriendProfileButtons } from "./userFriendProfileButton/userFriendProfileButtons"
 import FriendProfileImages from "./UserProfileImages/FriendProfileImages"
+<<<<<<< Updated upstream
 import UserProfileImages from "./UserProfileImages/UserProfileImage"
 import API from "src/function/API"
 import { useParams } from "react-router-dom"
+=======
+import UserProfileImages from "./UserProfileImages/userProfileImage"
+>>>>>>> Stashed changes
 
 const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = ({ isMe, userData, rating }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -44,12 +48,19 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
     const finalRef = React.useRef(null)
 
     useEffect(() => {
+<<<<<<< Updated upstream
         async function fetch() {
             const res_follower = await API.get(`/user/profile/getFollower/${param.userId}`)
             setFollower(res_follower.data.length)
 
             const res_following = await API.get(`/user/profile/getFollowering/${param.userId}`)
             setFollowing(res_following.data.length)
+=======
+        function fetch() {
+            // fetch follower/following api 
+            setFollower(10)
+            setFollowing(10)
+>>>>>>> Stashed changes
         }
 
 
@@ -57,9 +68,9 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
     }, [])
 
     return (
-        <Box maxW="100%" borderRadius="none" position={"initial"} height={"100%"}
-            bgColor={"black"}
-            rounded="2xl" overflow={"unset"} p={3} ml={{ base: "3", md: "0" }}>
+        <Box maxW="100%" borderRadius="none" position={"initial"} height={{ base: "70%", md: "65%" }} mt={"140px"}
+            bg={{ base: "", md: "linear-gradient(180deg, rgba(221,107,32,1) 0%, rgba(254,148,0,1) 50%, rgba(255,208,125,1) 100%)" }}
+            rounded="2xl" overflow={"unset"} p={2} ml={{ base: "3", md: "0" }}>
             <Grid
                 templateAreas={{
                     base: `
@@ -71,10 +82,11 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                   "main main"
                   "followlist footer"`,
                 }}
-                gridTemplateRows={{ base: "80% 1fr 50%", md: "45% 1fr 40%" }}
+                gridTemplateRows={{ base: "80% 1fr 40%", md: "45% 1fr 30%" }}
                 gridTemplateColumns={{ md: "50% 1fr", base: "30% 1fr" }}
                 h="100%"
-                gap={{ base: "1", md: "7", lg: "2" }}
+                alignContent={"flex-end"}
+                gap={{ base: "2", md: "7", lg: "5" }}
                 color="blackAlpha.700"
                 fontWeight="bold"
                 borderRadius="md"
@@ -84,10 +96,9 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <>
                         <VStack alignItems="center" mt="5">
-                            <Center flexDirection={"column"}>
-                                {isMe
-                                    ?
-                                    <UserProfileImages userData={userData} /> : <FriendProfileImages userData={userData} />}
+                            <Center flexDirection={"column"} position={"sticky"}>
+                                <UserProfileImages userData={userData} />
+
                                 <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                                     Rating : {rating}
                                 </Box>
@@ -95,32 +106,37 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                         </VStack>
                     </>
                 </GridItem>
-                <GridItem pl="2" mt={{ base: "3", md: "0", lg: "3rem" }} ml={{ base: "10", md: "25" }} alignItems={"center"} area={"main"} color="gray.700">
+                <GridItem pl="2" mt={{ base: "3", md: "0", lg: "2.5rem" }} ml={{ base: "10", md: "25" }} alignItems={"center"} area={"main"} color="gray.700">
                     <Stack direction={"column"} alignItems={"center"}>
-                        <HStack p={1} ml={{ base: "-13", md: "0" }} align="stretch" alignSelf={"center"} alignItems="center">
+
+                        <HStack p={1} ml={{ base: "-13", md: "0" }} alignSelf={"center"} alignItems="center">
                             <Box fontSize={{ lg: "md", base: "sm" }} color="orange.700">
                                 ID :
                             </Box>
                             <Box fontSize={{ lg: "lg", base: "md" }}>{userData.studentId}</Box>
                         </HStack>
+                        <Box rounded={"2xl"}
+                            bg={{ base: "linear-gradient(180deg, rgba(254,148,0,1) 0%, rgba(255,255,255,1) 100%)", md: "white" }}
+                            textAlign={"center"} p={3}>
 
-                        <Stack p={1} direction={{ base: "column", md: "row" }}>
-                            <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                transition={{
-                                    type: "spring",
-                                    stiffness: 500,
-                                    damping: 20,
-                                }}
-                            >
+                            <Stack p={1} direction={{ base: "column", md: "row" }}>
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 500,
+                                        damping: 20,
+                                    }}
+                                >
 
-                                <Stack direction={{ base: "column", md: "row" }} spacing={{ base: "-1", md: "3" }} whiteSpace="nowrap" overflow={"hidden"} textOverflow={"ellipsis"}>
-                                    <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{userData.fName}</Box>
-                                    <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{userData.lName}</Box>
-                                </Stack>
-                            </motion.div>
-                        </Stack>
+                                    <Stack direction={{ base: "column", md: "row" }} spacing={{ base: "-1", md: "3" }} whiteSpace="nowrap" overflow={"hidden"} textOverflow={"ellipsis"}>
+                                        <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{userData.fName}</Box>
+                                        <Box fontSize={{ xl: "2em", lg: "3xl", base: "xl" }}>{userData.lName}</Box>
+                                    </Stack>
+                                </motion.div>
+                            </Stack>
+                        </Box>
 
                         <Stack direction={{ base: "column", lg: "row" }} alignSelf="center" spacing={-0.5} mb="5">
                             <Stack p={1}
@@ -160,7 +176,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                         }
                     </Center>
                 </GridItem>
-                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "0" }}>
+                <GridItem rounded="xl" area={"followlist"} mt={{ base: "-1rem", md: "0" }}>
                     <Center>
                         <Stack direction="row" mx={{ base: "50", lg: "30%" }} mt={{ base: "0.7rem" }} align="stretch" alignItems="center" spacing={{ base: "2", md: "0" }}>
                             <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
