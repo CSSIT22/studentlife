@@ -48,6 +48,14 @@ const shopreview = () => {
         })
     }, [])
 
+    const [countRate, setCountRate] = useState<any>([])
+    const getamo_Rate = API.get("/shopreview/getcountRate")
+    useEffect(() => {
+        getamo_Rate.then((res) => {
+            setCountRate(res.data)
+        })
+    }, [])
+
     function Navigate(target: any) {
         navigate(`/shopreview/shopdetails/shop/${target}`)
         window.scrollTo(0, 0)

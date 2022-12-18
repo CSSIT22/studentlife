@@ -36,6 +36,7 @@ import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
 import mongoose, { mongo } from "mongoose"
 import { filterWord } from "./modules/backendService/middleware/filterWord"
+import { banned } from "./modules/backendService/middleware/banned"
 
 const PORT = 8000
 const app = express()
@@ -118,6 +119,7 @@ app.use((_, res, next) => {
 })
 
 app.use(filterWord)
+app.use(banned)
 
 app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)

@@ -1,10 +1,11 @@
-import { Flex, ContainerProps } from "@chakra-ui/react"
-import React, { FC } from "react"
+import { Flex, ContainerProps, useMediaQuery } from "@chakra-ui/react"
+import React, { FC, useEffect } from "react"
 
 const PageBox: FC<{
     pageName: string
     children: React.ReactNode
 }> = (props) => {
+    const [isLargeHeight] = useMediaQuery('(min-height: 1079px)')
     return (
         <>
             <Flex
@@ -12,12 +13,21 @@ const PageBox: FC<{
                 borderRadius={"50px"}
                 minHeight={"auto"}
                 {...(props.pageName != "drop"
-                    ? {
+                    ? isLargeHeight ? 
+                    {
                         px: 5,
                         py: ["10%", "3%"],
-                        h: ["60vh", "60vh", "60vh", "56vh"],
+                        h: ["60vh", "60vh", "60vh", "50vh"],
                         flexDirection: "column",
                         w: ["100%"],
+                        mt: ["25%", "13%", "6%", "15%"]
+                    }:
+                    {
+                        px: 5,
+                        py: ["10%", "3%"],
+                        h: "100%",
+                        flexDirection: "column",
+                        w: "auto",
                         mt: ["25%", "13%", "6%", "15%"]
                     }
                     : {

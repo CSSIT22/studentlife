@@ -1,6 +1,8 @@
 import { Avatar, Box, HStack, VStack } from "@chakra-ui/react"
 import { Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import API from "src/function/API"
 
 let d = new Date()
 d.toLocaleString
@@ -10,10 +12,11 @@ type props = {
     timeSent: string
     from: string
     color : any
+    myId : string
 }
 
-export const TextBar = ({ message, timeSent, from ,color }: props) => {
-    const isMe = from === "me"
+const TextBar = ({ message, timeSent, from ,color  , myId}: props) => {
+    const isMe = from === myId
     const align = isMe ? "flex-end" : "flex-start"
     const bottomRradius = isMe ? 0 : 32
     const bottomLradius = isMe ? 32 : 0
