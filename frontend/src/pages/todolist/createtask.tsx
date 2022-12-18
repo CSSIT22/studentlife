@@ -151,7 +151,7 @@ const createtask = () => {
                     <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                         Task Name
                     </Heading>
-                    <Input placeholder="Task Name" size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
+                    <Input placeholder="Task Name" size="md" id="taskName" onChange={(e: any) => setTaskName(e.target.value)} />
                     {/* //value={taskName} onChange={(e) => setTaskName(e.target.value)} */}
                     {!isError ? (
                         <></>
@@ -163,7 +163,7 @@ const createtask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
-                <Input placeholder="Description" size="md" id="desc" onChange={(e) => setTaskDesc(e.target.value)} />
+                <Input placeholder="Description" size="md" id="desc" onChange={(e: any) => setTaskDesc(e.target.value)} />
                 {/* // value={taskDesc} onChange={(e) => setTaskDesc(e.target.value)} */}
 
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
@@ -183,7 +183,7 @@ const createtask = () => {
                 <Heading className="Type" as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Type
                 </Heading>
-                <Select placeholder="Choose" size="md" className="Type" onChange={(e) => setType(e.target.value)}>
+                <Select placeholder="Choose" size="md" className="Type" onChange={(e: any) => setType(e.target.value)}>
                     <option value="individual">Individual</option>
                     <option value="group">Group</option>
                 </Select>
@@ -199,7 +199,7 @@ const createtask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Folder
                 </Heading>
-                <Select placeholder="Choose" size="md" onChange={(e) => setFolder(e.target.value)}>
+                <Select placeholder="Choose" size="md" onChange={(e: any) => setFolder(e.target.value)}>
                     {
                         folderList.map((el: any) => (
                             <option value={el.folderId}>{el.folderName}</option>
@@ -208,17 +208,17 @@ const createtask = () => {
                 </Select>
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
-                    <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
-                        <Link onClick={() => {
-                            submit()
-                            toast({
-                                title: 'Task Created.',
-                                description: "Task " + taskName + " created successfully.",
-                                status: 'success',
-                                duration: 9000,
-                                isClosable: true,
-                            })
-                        }}>Done</Link>
+                    <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }} onClick={() => {
+                        submit()
+                        toast({
+                            title: 'Task Created.',
+                            description: "Task " + taskName + " created successfully.",
+                            status: 'success',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    }}>
+                        Done
                     </Button>
                 </Box>
             </Box>

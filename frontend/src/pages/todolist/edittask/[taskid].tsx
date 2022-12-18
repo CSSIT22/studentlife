@@ -107,12 +107,16 @@ const edittask = () => {
         <ToDoListAppBody>
             <Heading as="h2" size="3xl" noOfLines={1}>
                 <Box display="flex" justifyContent="left" alignItems="center">
-                    <Link href="/todolist/task">
-                        <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }}>
-                            {/* onClick={onBackOpen} */}
-                            <ArrowBackIcon />
-                        </Button>
-                    </Link>
+
+                    <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }} onClick={() => {
+                        navigate({
+                            pathname: "/todolist/task/" + taskid,
+                        })
+                    }}>
+                        {/* onClick={onBackOpen} */}
+                        <ArrowBackIcon />
+                    </Button>
+
                 </Box>
                 Edit Task
             </Heading>
@@ -123,17 +127,17 @@ const edittask = () => {
                 {/* <Text size="md">{descList.taskName}</Text> */}
                 {/* <Editable defaultValue='something'>
                     <EditablePreview /> */}
-                <Input placeholder={descList.taskCheck?.taskName} size="md" id="taskName" value={taskName} onChange={(e) => setTaskName(e.target.value)} />
+                <Input placeholder={descList.taskCheck?.taskName} size="md" id="taskName" value={taskName} onChange={(e: any) => setTaskName(e.target.value)} />
                 {/* </Editable> */}
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
                 {/* <Text size="md">{descList.taskDesc}</Text> */}
-                <Input placeholder={descList.taskCheck?.taskDesc} size="md" id="desc" value={taskDesc} onChange={(e) => setTaskDesc(e.target.value)} />
+                <Input placeholder={descList.taskCheck?.taskDesc} size="md" id="desc" value={taskDesc} onChange={(e: any) => setTaskDesc(e.target.value)} />
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
                 </Heading>
-                <Text fontSize="md">{dayjs(descList.taskCheck?.due).format("dddd DD MMMM YYYY")}</Text>
+                <Input edittable={false} diable={true} value={dayjs(descList.taskCheck?.due).format("dddd DD MMMM YYYY")} fontSize="md"></Input>
                 {/* value={dayjs(descList.due).format("YYYY-MM-DD")} */}
                 <label>
                     <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
@@ -141,7 +145,7 @@ const edittask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
-                <Text fontSize="md">{dayjs(descList.taskCheck?.due).format("HH:mm:ss")}</Text>
+                <Input edittable={false} value={dayjs(descList.taskCheck?.due).format("HH:mm:ss")}></Input>
                 {/* value={dayjs(descList.due).format("HH:mm")} */}
                 <form>
                     <input id="appt-time" type="time" name="appt-time" onChange={(e) => setTime(e.target.value)} />
@@ -158,7 +162,7 @@ const edittask = () => {
                     Type
                 </Heading>
                 {/* <Text size="md">{descList.taskType}</Text> */}
-                <Select value={type} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
+                <Select value={type} size="md" className="Type" onChange={(e: any) => setType(e.target.value)}>
                     <option value="group">Group</option>
                     <option value="individual">Individual</option>
 
@@ -183,7 +187,7 @@ const edittask = () => {
                     Folder
                 </Heading>
 
-                <Select value={folder} size="md" onChange={(e) => setFolder(e.target.value)}>
+                <Select value={folder} size="md" onChange={(e: any) => setFolder(e.target.value)}>
                     {
                         folderList.map((el: any) => (
                             <option value={el.folderId}>{el.folderName}</option>
