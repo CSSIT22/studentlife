@@ -47,7 +47,7 @@ export default function upload(){
                 isClosable: true,
             })
             if(typeDecode == "shortnote"){
-                navigate("../../shortnote/"+idDecode)
+                navigate("../../shortnotes/"+idDecode)
             }else if(typeDecode == "community"){
                 navigate("../../groups/id/"+idDecode)
             }
