@@ -41,8 +41,11 @@ const insidefolder = () => {
   }
 
   const sort = (sortName: string) => {
-    API.post("/todolist/listtaskinfolder", { orderBy: sortName }).then((res) => {
-      setTaskList(res.data.tasks);
+    API.post("/todolist/listtaskinfolder", {
+      orderBy: sortName,
+      folderId: folderid
+    }).then((res) => {
+      setTaskList(res.data);
       console.log(res.data);
     })
   }
@@ -111,7 +114,7 @@ const insidefolder = () => {
 
       {/* list each task list in folder */}
       {taskList.tasks?.map((el: any, index: number) => (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5"
+        <Box height={"6rem"} width={"100%"} p="5" mt="5"
           backgroundColor="#FFFFFF" rounded="lg" boxShadow="md" key={index} onClick={() => {
             navigate({
               pathname: "/todolist/task/" + el.taskId,
@@ -119,10 +122,19 @@ const insidefolder = () => {
           }} >
           <Flex alignItems={"center"}>
             <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
-            <Text fontSize={"2xl"}>{el.taskName}</Text>
+            <Text fontSize={"2xl"}>{el.taskCheck?.taskName}</Text>
             <Spacer />
-            {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
+            {/* {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>} */}
+
+            {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box>
+              :
+              new Date(el.taskCheck?.due) < new Date() ?
+                <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Failed</Box> :
+                <Box textAlign={"right"} as="b" pr={"1rem"} color="gray">Not Finished</Box>
+            }
           </Flex>
+          {/* <Text>{el.isCheck.toString()}</Text> */}
+          <Box marginLeft={"7"} marginTop="0.5" color="gray">Type : {el.taskCheck?.taskType}</Box>
         </Box>
       ))
       }
