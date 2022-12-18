@@ -5,6 +5,7 @@ const startBrowser: () => Promise<Browser> = async () => {
       headless: false,
       args: ["--disable-setuid-sandbox"],
       ignoreHTTPSErrors: true,
+      executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
     });
     return browser;
   } catch (err: any) {

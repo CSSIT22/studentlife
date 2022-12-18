@@ -7,7 +7,7 @@ import chatRoutes from "./modules/chat"
 import datingRoutes from "./modules/dating"
 import groupRoutes from "./modules/group"
 import backendserviceRoutes from "./modules/backendService"
-import notificationRoutes from "./modules/notification"
+import { notificationRoutes, setIO } from "./modules/notification"
 import qaRoutes from "./modules/qa"
 import restaurantRoutes from "./modules/restaurant"
 import scheduleRoutes from "./modules/schedule"
@@ -36,6 +36,7 @@ import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
 import mongoose, { mongo } from "mongoose"
 import { filterWord } from "./modules/backendService/middleware/filterWord"
+import { banned } from "./modules/backendService/middleware/banned"
 
 const PORT = 8000
 const app = express()
@@ -75,6 +76,7 @@ declare global {
         export interface Response {
             prisma: PrismaClient
             redis: typeof redisClient
+            io: IOServer
         }
     }
 }
@@ -117,6 +119,7 @@ app.use((_, res, next) => {
 })
 
 app.use(filterWord)
+app.use(banned)
 
 app.get("/", (_, res) => {
     return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
@@ -186,5 +189,6 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     console.log("Hello")
 })
 
+setIO(io)
 server.listen(PORT, () => console.log(`running on ${PORT} !`))
 // app.listen(PORT, () => console.log(`running on ${PORT} !`))
