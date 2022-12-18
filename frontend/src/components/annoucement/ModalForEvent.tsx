@@ -7,6 +7,7 @@ import API from "src/function/API"
 const ModalForEvent: FC<{
     isOpen: boolean
     onClose: Function
+    load: Function
     topic: string
     detail: string
     status: string
@@ -14,20 +15,18 @@ const ModalForEvent: FC<{
     setAllPost: React.Dispatch<React.SetStateAction<Array<any>>> | ""
     selectPost?: number
     onClick: Function
-}> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost, onClick }) => {
+}> = ({ isOpen, onClose, load, topic, detail, status, allPost, setAllPost, selectPost, onClick }) => {
     const navigate = useNavigate()
     const toggle = async () => {
         onClick()
         if (status == "Approve") {
             await API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Delete", deleteAt: new Date() })
-            navigate("/announcement/history")
         } else if (status == "Disapprove") {
             await API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date() })
-            navigate("/announcement/history")
         } else if (status == "Delete") {
             await API.post<post>("/announcement/editstatusonrecycle", { postId: selectPost })
-            navigate("/announcement/recyclebin")
         }
+        load()
     }
 
     const checkstatus = (status: string) => {

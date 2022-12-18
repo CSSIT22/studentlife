@@ -221,6 +221,7 @@ const create = () => {
                                                 allPost={""}
                                                 setAllPost={""}
                                                 onClick={onClose}
+                                                load={() => {}}
                                             />
                                         </Box>
                                     </Flex>
