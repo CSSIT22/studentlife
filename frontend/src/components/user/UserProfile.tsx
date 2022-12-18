@@ -66,35 +66,16 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <>
                         <VStack align="stretch" alignItems="center" mt="5">
-                            <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }} whileHover={{ scale: 0.9 }}>
-                                <Avatar
-                                    borderRadius='full'
-                                    mt={{ md: "5px", base: "0" }}
-                                    display="flex"
-                                    position="initial"
-                                    float={"inline-end"}
-                                    boxSize={{ md: '200px', base: '10rem' }}
-                                    shadow="xl"
-                                    bg='orange.400'
-                                    src={`${buffer_to_img(userData?.image?.data)}`}
-                                    _hover={{ cursor: "pointer" }}
-                                    onClick={onProfileopen}
-                                />
-                            </motion.div>{" "}
-                            {/* Changing Profile Image Modal */}
-                            <ChangeProfileImageModal isProfileOpen={isProfileOpen} onProfileClose={onProfileClose} />
-
-
-
+                            {isMe
+                                ?
+                                <UserProfileImages userData={userData} /> : <FriendProfileImages userData={userData} />}
                             <Box textAlign="center" color="gray.600" my={4} fontSize={"1xl"} fontWeight={200} fontFamily={"body"}>
                                 Rating : {rating}
                             </Box>
 
 
                         </VStack>
-                        {isMe
-                            ?
-                            <UserProfileImages userData={userData} /> : (FriendProfileImages)}
+
                     </>
                 </GridItem>
                 <GridItem pl="2" mt={{ base: "3", md: "0", lg: "3rem" }} ml={{ base: "10", md: "25" }} alignItems={"center"} area={"main"} color="gray.700">
