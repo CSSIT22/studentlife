@@ -15,7 +15,7 @@ import { socketContext } from "src/context/SocketContext"
 import { useRef } from "react"
 import Lottie from "lottie-react"
 import chatL from "./animation/chatL.json"
-import { sendMsg } from "src/components/chat/socketType"
+import socket from "src/function/socket"
 
 export type RoomType = {
     chatColor: string
@@ -66,13 +66,15 @@ const Room = () => {
     }, [msg])
 
     useEffect(()=>{
-        socketIO.on("receive-message", (s: any) => {
-           setmsg(s)
-        })
+        const setmsgfunc =(s: any) => {
+            setmsg(s)
+         }
+        socketIO.on(`receive-message-${param.roomID}`,setmsgfunc )
         return ()=>{
-            socketIO.off("receive-message")
+            socketIO.off(`receive-message-${param.rooomID}`,setmsgfunc)
         }
-    },[])
+    
+    },[socketIO,param.roomID])
 
     //function
     function onType(e: any) {

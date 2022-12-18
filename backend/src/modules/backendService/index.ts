@@ -2,18 +2,49 @@ import { Request, Response } from "express"
 import express from "express"
 import { nanoid } from "nanoid"
 import { verifyUser } from "./middleware/verifyUser"
-import UAParser from "ua-parser-js"
 import DeviceDetector from "node-device-detector"
-import { banned } from "./middleware/banned"
 import { reportRequest } from "@apiType/backendService"
-import { filterWord } from "./middleware/filterWord"
 
 const backendserviceRoutes = express()
 
 backendserviceRoutes.use(express.json())
 
-backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
-    const { prisma } = res
+backendserviceRoutes.post("/reportword", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const { prisma } = res
+        const countWord = await prisma.word_Report.aggregate({
+            _count: {
+                word: true,
+            },
+        })
+        if (countWord._count.word >= 10) {
+            const result = await prisma.filtered_Word.create({
+                data: {
+                    word: req.body.word,
+                    wordReportId: countWord._count.word + 1,
+                },
+            })
+        } else {
+            const result = await prisma.word_Report.create({
+                data: {
+                    word: req.body.word,
+                    userId: req.user?.userId || "",
+                    detail: {
+                        create: {
+                            reason: req.body.reason || "",
+                            roomId: req.body.roomId,
+                        },
+                    },
+                },
+            })
+        }
+        res.status(200).json({ message: "Report Success" })
+    } catch (err: any) {
+        return res.status(400).json({ message: err })
+    }
+})
+
+backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
     try {
         const bannedUser = await res.prisma.ban_Status.upsert({
             where: {
@@ -31,16 +62,18 @@ backendserviceRoutes.post("/banneds", verifyUser, async (req: Request<any, any, 
                 userId: req.body.bannedUserId || "",
                 banTo: req.body.banTo,
                 reason: req.body.reason,
-                instance: 0,
+                instance: 1,
             },
         })
+        res.status(200).json({ message: "ban report successs" })
     } catch (error) {
+        console.log(error)
         return res.status(400).json({ message: error })
     }
 })
-backendserviceRoutes.get("/test", filterWord, (req, res) => {
-    res.send("you passed the filter word")
-})
+// backendserviceRoutes.get("/test", filterWord, (req, res) => {
+//     res.send("you passed the filter word")
+// })
 
 backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Response) => {
     const prisma = res.prisma
@@ -60,7 +93,7 @@ backendserviceRoutes.get("/tokens", verifyUser, async (req: Request, res: Respon
                 currentDevice: item.token === req.session.id,
             })
         })
-        console.log(response)
+        // console.log(response)
         return res.status(200).json({ tokens: response })
     } catch (err: any) {
         return res.status(400).json({ message: err })
@@ -77,13 +110,12 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
     })
     const userAgent = req.headers["user-agent"] || ""
     const detectedResult = detector.detect(userAgent)
-    console.log(detectedResult)
+    // console.log(detectedResult)
 
     const selectedDeviceToken = req.body.token
     const currentUserDeviceToken = req.session.id
     const isLogoutCurrentDevice = selectedDeviceToken === currentUserDeviceToken
 
-    const device = new UAParser(req.headers["user-agent"])
     const { token, userId } = req.body
     const logoutId = nanoid()
     const logoutDate = new Date()
@@ -119,7 +151,7 @@ backendserviceRoutes.delete("/revokeTokens", verifyUser, async (req: Request, re
 
         redis.DEL(`sess:${token}`)
 
-        console.log(logoutResult)
+        // console.log(logoutResult)
 
         res.status(200).json({ token: token })
     } catch (err: any) {
