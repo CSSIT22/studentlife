@@ -1,11 +1,11 @@
 import { Request, Response } from "express"
 
-const getFollowFriend = async (req: Request, res: Response) => {
+const getFollowing = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user ? req.user.userId : ""
-        const followering = await prisma.user_Blocked.findFirst({
-            // include: { anotherUserId: true },
+        const followering = await prisma.follow.findMany({
+            include: { follower: true },
             where: {
                 userId: userId,
             },
@@ -17,4 +17,4 @@ const getFollowFriend = async (req: Request, res: Response) => {
     }
 }
 
-export default getFollowFriend
+export default getFollowing
