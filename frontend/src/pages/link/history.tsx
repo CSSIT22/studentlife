@@ -7,6 +7,7 @@ import {
     Editable,
     EditablePreview,
     EditableTextarea,
+    Flex,
     Grid,
     GridItem,
     Heading,
@@ -15,11 +16,28 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-
 import AppBody from "src/components/share/app/AppBody"
+import LList from "src/components/shortlink/LList"
+import API from "src/function/API"
 
 const history = () => {
+    // ---------------------------------
+
+    const [linkdata, setlinkdata] = useState<any>()
+
+    async function fetch() {
+        const res = await API.get(`/shortlink/getlink`)
+        setlinkdata([...res.data.link])
+    }
+
+    useEffect(() => {
+        fetch()
+    }, [])
+
+    console.log(linkdata)
+    // ---------------------------------
     const navigate = useNavigate()
     const shortlink = () => {
         navigate("/link/shortlink")
@@ -28,7 +46,7 @@ const history = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"500px"} background={"white"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} height={"auto"} background={"white"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -49,88 +67,27 @@ const history = () => {
                     <VStack spacing={5} align="stretch" marginBottom={"100%"} >
                         <Center>
                             <Box w="90%" p={5} color="white" alignItems={"center"}>
+
+                                {/* ------------------------ */}
                                 <HStack spacing="24px">
-                                   
+
                                     <Box w="400px" h="10" >
-                                    <Editable defaultValue="ShortlinkURL/loremciaga" textColor={"black"} border={"4px"}borderColor={"black"}>
-                                        <EditablePreview />
-                                        <EditableTextarea />
-                                    </Editable>
-                                    </Box>
-                                    <Box w="180px" h="10"  borderColor={"black"} paddingBottom={"65px"}>
-                                    <Button bg={"red"} w={"100%"} mt={3}>
-                                                Delete
-                                            </Button>
+                                        <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
+                                            {linkdata && linkdata.map((link: { shortenLink: string }, index: any) =>
+                                                (<LList key={index} shortenLink={link.shortenLink} />))}
+                                        </Flex>
                                     </Box>
                                 </HStack>
-                                <hr></hr>
-                                <HStack spacing="24px">
-                                   
-                                    <Box w="400px" h="10" >
-                                    <Editable defaultValue="ShortlinkURL/E3" textColor={"black"} border={"4px"}borderColor={"black"}>
-                                        <EditablePreview />
-                                        <EditableTextarea />
-                                    </Editable>
-                                    </Box>
-                                    <Box w="180px" h="10"  borderColor={"black"} paddingBottom={"65px"}>
-                                    <Button bg={"red"} w={"100%"} mt={3}>
-                                                Delete
-                                            </Button>
-                                    </Box>
-                                </HStack>
-                                <hr></hr>
-                                <HStack spacing="24px">
-                                   
-                                    <Box w="400px" h="10" >
-                                    <Editable defaultValue="ShortlinkURL/Nickk" textColor={"black"} border={"4px"}borderColor={"black"}>
-                                        <EditablePreview />
-                                        <EditableTextarea />
-                                    </Editable>
-                                    </Box>
-                                    <Box w="180px" h="10"  borderColor={"black"} paddingBottom={"65px"}>
-                                    <Button bg={"red"} w={"100%"} mt={3}>
-                                                Delete
-                                            </Button>
-                                    </Box>
-                                </HStack>
-                                <hr></hr>
-                                <HStack spacing="24px">
-                                   
-                                    <Box w="400px" h="10" >
-                                    <Editable defaultValue="ShortlinkURL/Cornkids" textColor={"black"} border={"4px"}borderColor={"black"}>
-                                        <EditablePreview />
-                                        <EditableTextarea />
-                                    </Editable>
-                                    </Box>
-                                    <Box w="180px" h="10"  borderColor={"black"} paddingBottom={"65px"}>
-                                    <Button bg={"red"} w={"100%"} mt={3}>
-                                                Delete
-                                            </Button>
-                                    </Box>
-                                </HStack>
-                                <hr></hr>
-                                <HStack spacing="24px">
-                                   
-                                   <Box w="400px" h="10" >
-                                   <Editable defaultValue="ShortlinkURL/CringeVideos" textColor={"black"} border={"4px"}borderColor={"black"}>
-                                       <EditablePreview />
-                                       <EditableTextarea />
-                                   </Editable>
-                                   </Box>
-                                   <Box w="180px" h="10"  borderColor={"black"} paddingBottom={"65px"}>
-                                   <Button bg={"red"} w={"100%"} mt={3}>
-                                               Delete
-                                           </Button>
-                                   </Box>
-                               </HStack>
-                                <Box>
-                                    <Button bg={"orange.600"} w={"50%"} height={"60px"} onClick={shortlink}>
-                                        <Text as={"b"}>Return</Text>
-                                    </Button>
-                                </Box>
+                                {/* ------------------------ */}
+
                             </Box>
-                            <hr></hr>
                         </Center>
+                        {/* ----- problem 1 ----- */}
+                        {/* <Box>
+                            <Button bg={"orange.600"} w={"20%"} height={"60px"} onClick={shortlink}  marginTop={"43%"}>
+                                <Text as={"b"}>Return</Text>
+                            </Button>
+                        </Box> */}
                     </VStack>
                 </Box>
             </Center>

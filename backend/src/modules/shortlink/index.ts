@@ -5,6 +5,7 @@ import getRedirect from "./route/getRedireect"
 import { prisma } from "@prisma/client"
 import customlink from "./route/customlink"
 import getUserData from "./route/getUserData"
+import getlinkData from "./route/getlinkData"
 
 const shortlinkRoutes = express()
 shortlinkRoutes.use(express.json())
@@ -12,6 +13,7 @@ shortlinkRoutes.post("/generate", verifyUser, shortenlink)
 shortlinkRoutes.post("/custom" , verifyUser , customlink)
 shortlinkRoutes.get("/redirect", verifyUser, getRedirect)
 shortlinkRoutes.get("/getUser", getUserData )
+shortlinkRoutes.get("/getlink", getlinkData )
 
 export default shortlinkRoutes
          
