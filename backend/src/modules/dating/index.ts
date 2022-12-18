@@ -8,8 +8,6 @@ import likedYouRoutes from "./routes/likedyou"
 import matchesRoutes from "./routes/matches"
 import optionRoutes from "./routes/option"
 import ratingRoutes from "./routes/rating"
-import readDBRoutes from "./routes/readDB"
-import resetDBRoutes from "./routes/resetDB"
 import tutorialRoutes from "./routes/tutorial"
 import verifyEnrollRoutes from "./routes/verifyEnroll"
 import youLikedRoutes from "./routes/youliked"
@@ -38,8 +36,5 @@ datingRoutes.use("/appliedpoll", appliedPollRoutes)
 datingRoutes.use("/tutorial", tutorialRoutes)
 datingRoutes.use("/rating", ratingRoutes)
 datingRoutes.use("/verifyEnroll", verifyEnrollRoutes)
-// Danger zone (These routes will be removed later.)
-datingRoutes.use("/readDB", readDBRoutes)
-datingRoutes.use("/resetDB", resetDBRoutes)
 
 export default datingRoutes

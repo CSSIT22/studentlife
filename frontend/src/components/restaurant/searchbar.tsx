@@ -2,7 +2,9 @@ import { Box, Button, Center, Flex, Input, InputGroup, InputLeftElement, Select,
 import React, { FC, useState } from "react"
 import { TfiSearch } from "react-icons/tfi"
 import { useNavigate } from "react-router-dom"
-const Searchbar = () => {
+const Searchbar:FC<{
+    selectRadius: Function
+}> = ({selectRadius}) => {
     let [search, setSearch] = React.useState<any>()
     const navigate = useNavigate()
 
@@ -13,6 +15,10 @@ const Searchbar = () => {
 
         navigate(`/restaurant/search?name=${search}`)
     }
+
+    // const selectRadius = () => {
+    //     API.get()
+    // }
     return (
         <Center>
             <form onSubmit={handleSubmit}>
@@ -37,12 +43,15 @@ const Searchbar = () => {
                 </Flex>
             </form>
 
-            <Select placeholder="5 Km" borderRadius={"30px"} width={"5.5rem"} backgroundColor={"white"} boxShadow={"md"}>
-                <option value="option2">10 Km</option>
-                <option value="option3">15 Km</option>
+            <Select borderRadius={"30px"} width={"6.5rem"} backgroundColor={"white"} boxShadow={"md"}  onChange={(e1) => selectRadius(e1.target.value)}>
+                <option value={500}>0.5 Km</option>
+                <option value={1000}>1 Km</option>
+                <option value={1500}>1.5 Km</option>
             </Select>
         </Center>
     )
 }
 
 export default Searchbar
+
+

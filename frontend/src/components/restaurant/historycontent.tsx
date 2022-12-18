@@ -22,11 +22,11 @@ import { AiOutlineClose } from "react-icons/ai"
 
 const Historycontent: FC<{
     resName: string
-    date: Date
+    date: String
     status: boolean
-    img: Array<Image1>
+    img: string
 }> = ({ resName, date, status, img }) => {
-    // console.log(img);
+    // console.log(img); 
     // console.log(status);
     // console.log(date.getTime());
     // console.log(date);
@@ -37,15 +37,15 @@ const Historycontent: FC<{
     return (
         <>
             <Show below="sm">
-                <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
+                <Box width={"100%"} height={"90%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"} display={"flex"}  flexDirection={"row"}  alignItems={"center"}>
                     <Flex>
-                        <Box width={"30%"} ml={"1rem"}>
-                            {img?.length == 0 ? null :
-                                <Image boxSize="5rem" src={img[0].image} alt="Dan Abramov" borderRadius={"10px"} />
-                            }
+                        <Box display={"flex"} flexDirection="column" justifyContent={"center"} width={"30%"} ml={"1rem"} mr={"1rem"}>
+                          
+                               {img == "undefined" ? <Image boxSize="5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />} 
+                            
                         </Box>
 
-                        <Box width={"60%"} height={"6rem"} color={"black"}>
+                        <Box width={"60%"} height={"6rem"} color={"black"} display={"flex"} flexDirection="column" justifyContent={"center"}>
                             <Flex direction={"column"} justifyContent={"center"} height={"80%"}>
 
                                 <Text fontSize={"sm"}>
@@ -65,19 +65,14 @@ const Historycontent: FC<{
             </Show>
 
             <Show above="sm">
-                <Box width={"100%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"} backgroundColor={"white"}>
+                <Box width={"100%"}  height={"90%"} p={5} shadow="md" borderWidth="1px" mt={"35px"} borderRadius={"lg"} backgroundColor={"white"} display={"flex"} flexDirection={"column"}  justifyContent={"center"}>
                     <Flex direction={"column"} alignItems={"center"} gap={"4"}>
-                        <Heading color={"#E65D10"} fontSize="xl">
+                        <Heading textAlign={"center"} color={"#E65D10"} fontSize="xl">
                             {resName}
                         </Heading>
-                        {img?.length == 0 ? null :
-                            <Image
-                                boxSize={"12.5rem"}
-                                // height={{ lg: "9.5rem" }}
-                                src={img[0].image}
-                                borderRadius={"10px"}
-                            />
-                        }
+                      
+                        {img == "undefined" ? <Image boxSize="12.5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="12.5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />} 
+                        
                     </Flex>
                     <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
                         <Text>

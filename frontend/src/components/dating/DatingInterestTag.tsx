@@ -1,5 +1,6 @@
 import { Box, Checkbox, Text, useToast } from "@chakra-ui/react"
 import { Dispatch, FC } from "react"
+import { motion } from "framer-motion"
 
 const DatingInterestTag: FC<{
     interestId: number
@@ -64,6 +65,15 @@ const DatingInterestTag: FC<{
         // If true, it will return the orange tag
         // Else, it will run the checkNum() function.
         return idExists(interestId) ? (
+            <motion.div
+                initial={
+                    { cursor: "pointer" }
+                }
+                style={{display: "inline-block"}}
+                whileHover={{ scale: 1.1, }}
+                whileTap={{
+                    scale: 0.9,
+                }}>
             <Checkbox
                 p="1"
                 pr="5"
@@ -86,10 +96,20 @@ const DatingInterestTag: FC<{
                     {interestName}
                 </Text>
             </Checkbox>
+            </motion.div>
         ) : // If true, it will return the light gray tags that cannot be checked.
             // Else, it will return the gray tags that is currently unchecked.
             numOfSelectedInterest === 5 ? (
                 <Box onClick={onOpen} display="inline" mr="11px">
+                                <motion.div
+                initial={
+                    { cursor: "pointer" }
+                }
+                style={{display: "inline-block"}}
+                whileHover={{ scale: 1.1, }}
+                whileTap={{
+                    scale: 0.9,
+                }}>
                     <Checkbox
                         p="1"
                         pr="5"
@@ -108,8 +128,18 @@ const DatingInterestTag: FC<{
                             {interestName}
                         </Text>
                     </Checkbox>
+                    </motion.div>
                 </Box>
             ) : (
+                <motion.div
+                initial={
+                    { cursor: "pointer" }
+                }
+                style={{display: "inline-block"}}
+                whileHover={{ scale: 1.1, }}
+                whileTap={{
+                    scale: 0.9,
+                }}>
                 <Checkbox
                     p="1"
                     pr="5"
@@ -129,6 +159,7 @@ const DatingInterestTag: FC<{
                         {interestName}
                     </Text>
                 </Checkbox>
+                </motion.div>
             )
     }
 

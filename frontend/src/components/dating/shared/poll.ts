@@ -9,6 +9,7 @@ export const POLL = [
         participantMax: 5,
         isOpen: true,
         pollcreated: "2022-11-19 03:14:07.9999",
+        pollStatus: "Accepted",
         pollInterest: [],
         creator: {
             UserId: "1",
@@ -27,6 +28,7 @@ export const POLL = [
         participantMax: 3,
         isOpen: true,
         pollcreated: "Wed Nov 16 2022 21:16:00 GMT+0700 (Indochina Time)",
+        pollStatus: "Accepted",
         pollInterest: ["Game", "Overwatch"],
         creator: {
             UserId: "1",
@@ -45,6 +47,7 @@ export const POLL = [
         participantMax: 15,
         isOpen: false,
         pollcreated: "Wed Nov 16 2022 14:36:00 GMT+0700 (Indochina Time)",
+        pollStatus: "Pending...",
         pollInterest: ["Book", "Reading"],
         creator: {
             UserId: "1",
@@ -63,6 +66,7 @@ export const POLL = [
         participantMax: 3,
         isOpen: true,
         pollcreated: "Nov 16 2022 14:36:00 GMT+0700 (Indochina Time)",
+        pollStatus: "Pending...",
         pollInterest: [],
         creator: {
             UserId: "1",
@@ -81,6 +85,7 @@ export const POLL = [
         participantMax: 12,
         isOpen: true,
         pollcreated: "Wed Nov 16 2022 14:36:00 GMT+0700 (Indochina Time)",
+        pollStatus: "Accepted",
         pollInterest: ["Game", "Among Us"],
         creator: {
             UserId: "1",
@@ -99,6 +104,7 @@ export const POLL = [
         participantMax: 1,
         isOpen: false,
         pollcreated: "Thr Nov 17 2022 21:16:00 GMT+0700 (Indochina Time)",
+        pollStatus: "Pending...",
         pollInterest: [],
         creator: {
             UserId: "1",

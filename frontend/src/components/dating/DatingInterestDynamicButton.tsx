@@ -40,16 +40,19 @@ const DatingInterestDynamicButton: FC<{
         }
         function handleSubmit() {
             if (hasSelectedInterest || hasCompleteSetting) {
+                window.scrollTo(0, 0)
                 if (selectedInterests.length != 0) {
                     API.put<UserInterests>("/dating/interests/updateUserInterests", { interestId: selectedInterests })
                         .then(() => navigate("/dating/"))
                         .catch((err) => on())
                 } else {
+                    window.scrollTo(0, 0)
                     API.delete<UserInterests>("/dating/interests/deleteUserInterests")
                         .then(() => navigate("/dating/"))
                         .catch((err) => on())
                 }
             } else {
+                window.scrollTo(0, 0)
                 API.post<UserInterests>("/dating/interests/setUserInterests", { interestId: selectedInterests })
                     .then(() => navigate("/dating/"))
                     .catch((err) => on())

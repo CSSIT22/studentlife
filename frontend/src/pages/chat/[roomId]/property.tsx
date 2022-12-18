@@ -113,6 +113,8 @@ function showProperty() {
         { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue : 'Done'},
         { eventIcon: MdColorLens, eventName: "Change room color" },
         { eventIcon: MdFlag, eventName: "Report"},
+        //Test
+        { eventIcon: FaUserFriends, eventName: "Member"},
     ]
     const eventsGroup = [
         { eventIcon: FaUserFriends, eventName: "Member"},
@@ -120,7 +122,6 @@ function showProperty() {
         { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name"},
         { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : 'Done'},
         { eventIcon: MdColorLens, eventName: "Change room color" },
-        { eventIcon: FaHome, eventName: "Create community" },
         { eventIcon: MdFlag, eventName: "Report" },
         { eventIcon: FaDoorOpen, eventName: "Leave group" },
     ]
@@ -141,13 +142,6 @@ function showProperty() {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>{propertyDetail(eventNames)}</ModalBody>
-
-                    {/* <ModalFooter display={"flex"} justifyContent={"center"}>
-                        <Button colorScheme="orange" onClick={onClose}>
-                            {eventButtons}
-                        </Button>
-                        <Button variant="ghost">Secondary Action</Button>
-                    </ModalFooter> */}
                 </ModalContent>
             </Modal>
         </>

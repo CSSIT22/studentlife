@@ -144,7 +144,7 @@ const Clist: FC<any> = () => {
                         w={"93%"}
                     >
                         <Avatar name={e.room.nick[0].nickname} src={handleImg(e.room.nick[0].nameWho.image)} />
-                        <Box marginLeft={"5"}>{e.room.nick[0].nickname} </Box>
+                        <Box marginLeft={"5"} overflowX={"auto"}>{e.room.nick[0].nickname} </Box>
                     </Flex>
                     <Show above="md">
                         <Cmenu room={e} />
@@ -170,7 +170,7 @@ const Clist: FC<any> = () => {
                         w={"93%"}
                     >
                         <Avatar name={e.room.group.roomName} src="https://picsum.photos/200/300" />
-                        <Box marginLeft={"5"}>{e.room.group.roomName} </Box>
+                        <Box marginLeft={"5"} overflowX={"auto"}>{e.room.group.roomName} </Box>
                     </Flex>
                     <Show above="md">
                         <Cmenu room={e} />
