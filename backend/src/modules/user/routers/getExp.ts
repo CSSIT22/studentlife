@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
-import calExp from "../expsystem/calExp"
 
 const getExp = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
-        const userId = req.user?.userId || ""
+        const userId = req.params["id"]
+        console.log(userId)
         const checkexp = await prisma.eXP.findFirst({ where: { userId } })
         if (checkexp === null) {
             await prisma.eXP.create({
@@ -16,7 +16,15 @@ const getExp = async (req: Request, res: Response) => {
             })
         }
 
-        const result = await prisma.eXP.findFirstOrThrow({ where: { userId }, select: { currentXP: true, level: true } })
+        const result = await prisma.eXP.findUniqueOrThrow({
+            where: {
+                userId,
+            },
+            select: {
+                currentXP: true,
+                level: true,
+            },
+        })
         res.json({
             exp: result.currentXP,
             level: result.level,
