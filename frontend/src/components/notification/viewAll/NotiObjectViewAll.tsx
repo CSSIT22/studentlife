@@ -157,7 +157,8 @@ const NotiObjectViewAll: FC<{
             borderRadius="2xl"
             padding={2}
             onClick={() => {
-                read(), onClick()
+                { read() }
+                { onClick() }
             }}
         >
             <a href={url}>
@@ -170,13 +171,14 @@ const NotiObjectViewAll: FC<{
                             <Center>{showUser(sender, userId, module)}</Center>
                             <Stack direction={"row"} spacing={5} padding={5}>
                                 {showDescription()}
-
-                                <Button shadow={"lg"}
-                                    size='xs'
-                                    padding={1}
-                                    bg="#E3E3E3">
-                                    {module}
-                                </Button>
+                                <Center>
+                                    <Button shadow={"lg"}
+                                        size='xs'
+                                        padding={1}
+                                        bg="#E3E3E3">
+                                        {module}
+                                    </Button>
+                                </Center>
                             </Stack>
                         </Stack>
                     </Box>
