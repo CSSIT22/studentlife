@@ -3,13 +3,13 @@ import AboutMe from "../../components/user/AboutMe"
 import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
-import { Box, extendTheme, Flex, Grid, GridItem } from "@chakra-ui/react"
-import { useState } from "react"
+import { Box, Grid, GridItem } from "@chakra-ui/react"
+import { useContext, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 import API from "src/function/API"
-
-
+import { authContext } from "src/context/AuthContext"
+import UserProfile from "../../components/user/UserProfile"
 
 interface AboutMeForm {
     phone: string
@@ -20,88 +20,79 @@ interface AboutMeForm {
     address: string
 }
 
+// Main component
 function index() {
+    const user = useContext(authContext)
+    const [userExp, setUserExp] = useState<any>()
     const param = useParams();
     const [userData, setUserData] = useState<any>({})
+    const [isMe, setIsMe] = useState<boolean>(false)
+    const [rating, setRating] = useState<number>(0)
+    const [isLoading, setisLoading] = useState(true)
+
+    // get user data
+    const getCurrentExp = async () => {
+        const res = await API.get(`/user/profile/exp/${param.userID}`)
+        setUserExp(res.data)
+    }
+
+    // get user data
     const getUserData = async () => {
         const res = await API.get(`/user/friendprofile/${param.userID}`)
-        setUserData(res.data)
+        setUserData(res.data.user)
     }
-    console.log(userData)
+
+    // set user rating
+    const getUserRating = async () => {
+        const res = await API.get(`/user/profile/ratinguser/${param.userID}`)
+        setRating(res.data.Rating)
+    }
+
     useEffect(() => {
-
+        getCurrentExp()
         getUserData()
-    }, [])
+        getUserRating()
+        setisLoading(false)
+        if (user.userId === param.userID) {
+            setIsMe(true)
+        }
+    }, [user.userId])
 
-    const [aboutmeForm, setAboutmeForm] = useState<AboutMeForm>({
-        phone: "089XXXXXXX",
-        sex: "Male",
-        hobbies: "run walk",
-        birthdate: "12/01/2020",
-        year: 2,
-        address: "Street: 723/106-107 Charansanitwong 53 Rd. City: Bang Phat State/province/area: Bangkok Phone number 66 0-2434-7113 Zip code 10700",
-    })
-
-    const breakpoints = {
-        sm: "320px",
-        md: "768px",
-        lg: "960px",
-        xl: "1200px",
-        "2xl": "1536px",
-    }
-
-    const handleSubmit = (data: AboutMeForm) => {
-        setAboutmeForm(data)
-    }
-
-    // 3. Extend the theme
-    const theme = extendTheme({ breakpoints })
     return (
-        <>
-            {
-
-            }
+        <AppBody>
             <Box bg="orange.50">
-                <Flex display="flex" position="static">
-                    <AppBody />
-                </Flex>
                 <Grid
                     margin={"3"}
-                    templateAreas={{
-                        base: `"header"
-                    "nav"
-                    "nav2"`,
-                        md: `"header header"
-                  "nav main"
-                  "nav2 footer"`,
-                    }}
-                    gridTemplateColumns={{ base: "100%", md: "35% 1fr" }}
+                    templateAreas=
+                    {{
+                        base: `
+                            "header" 
+                            "nav"
+                            "nav2"`,
+                        md: `
+                        "header header"
+                        "nav main" 
+                        "nav2 footer"` }}
+
+                    gridTemplateColumns={{ base: "100%", md: "40% 1fr" }}
                     gap="1"
                     color="blackAlpha.700"
                     fontWeight="bold"
                     justifyContent="center"
                 >
                     <GridItem alignItems="center" area={"header"}>
-                        <FriendProfile />
+                        {!isLoading && <UserProfile isMe={isMe} userData={userData} rating={rating} />}
                     </GridItem>
-                    <GridItem area={"nav"}>
-                        <ExpSystem />
-                        <AboutMe {...aboutmeForm} />
+                    <GridItem area={"nav"} >
+                        <ExpSystem exp={userExp?.exp} level={userExp?.level} />
+                        <AboutMe aboutMe={userData} />
                     </GridItem>
-                    <GridItem area={{ base: "nav2", md: "main" }}>
+                    <GridItem area={{ base: "nav2", md: "main" }}  >
                         <BlogHistory />
                     </GridItem>
                 </Grid>
             </Box>
-        </>
-
-        // <>
-        //     <AppBody />
-        //     <UserProfile />
-        //     <ExpSystem />
-        //     <AboutMe />
-        //     <BlogHistory />
-        // </>
+        </AppBody>
     )
 }
 
