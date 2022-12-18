@@ -14,11 +14,11 @@ function favorite() {
     const params = useParams()
     const [property, setproperty] = React.useState<Restaurant2[]>([])
     const [status, setstatus] = useState(true)
-    const [isError, {on}] = useBoolean()     
-    const [isLoading, {off}] = useBoolean(true)
-    const getFav =  API.get("/restaurant/favorite")
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const getFav = API.get("/restaurant/favorite")
     const [radius, setradius] = useState(500);
-    const selectRadius = (radius:number) => {
+    const selectRadius = (radius: number) => {
         setradius(radius)
     }
     useEffect(() => {
@@ -72,7 +72,7 @@ function favorite() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar selectRadius={selectRadius}/>
+            <Searchbar selectRadius={selectRadius} />
 
             <Heading color={"##000000"} mt={"20px"} textAlign="center">
                 Favorite
@@ -88,7 +88,7 @@ function favorite() {
                                 phone={restaurant.detail?.phoneNo ?? "-"}
                                 openTime={
                                     restaurant.openAt && restaurant.closeAt && restaurant.openAt.length > 0 && restaurant.closeAt.length > 0
-                                        ? `${restaurant.openAt[0]?.open.substring(0,2)}:${restaurant.openAt[0]?.open.substring(2,4)} - ${restaurant.closeAt[0]?.close.substring(0,2)}:${restaurant.closeAt[0]?.close.substring(2,4)}`
+                                        ? `${restaurant.openAt[0]?.open.substring(0, 2)}:${restaurant.openAt[0]?.open.substring(2, 4)} - ${restaurant.closeAt[0]?.close.substring(0, 2)}:${restaurant.closeAt[0]?.close.substring(2, 4)}`
                                         : "Closed"
                                 }
                                 website={restaurant.detail?.website ?? "-"}

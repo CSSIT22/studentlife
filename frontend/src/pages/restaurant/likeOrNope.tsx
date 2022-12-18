@@ -47,31 +47,31 @@ function LikeorNope() {
     const [nextres, setnextres] = useState(true);
     const [rand, setrand] = React.useState<Restaurant2[]>([])
     // const [finish, setfinish] = useState(false);
-    const getRandom = async(id:number) => {
-        console.log(id);
+    const getRandom = async (id: number) => {
+        // console.log(id);
         const rand = await API.get("/restaurant/likeOrNope?radius=" + radius + `&id=${id}`)
         const res = rand.data
-        console.log(rand.data.resId);
-        
+        // console.log(rand.data.resId);
 
-        if(!res.resId != null) {
-            console.log("เสร็จยัง" + res);
-            
+
+        if (!res.resId != null) {
+            // console.log("เสร็จยัง" + res);
+
             await API.post("restaurant/likeOrNope", { id: res.resId, status: true });
-        navigate(`/restaurant/detail?resId=${res.resId}` + `&id=${id}`  + "&total=" + res.likes)
+            navigate(`/restaurant/detail?resId=${res.resId}` + `&id=${id}` + "&total=" + res.likes)
         }
 
     }
     // console.log(finish);
-    
+
     const selectRadius = (radius: number) => {
         setradius(radius)
     }
     const [id, setid] = useState(0);
 
-    
+
     const plusId = () => {
-        setid(parseInt(new URLSearchParams(location.search).get("id") + "") > id ? parseInt(new URLSearchParams(location.search).get("id") + "") : id) 
+        setid(parseInt(new URLSearchParams(location.search).get("id") + "") > id ? parseInt(new URLSearchParams(location.search).get("id") + "") : id)
         if (id < property[0].likes - 1) {
             setid(id + 1)
         }
@@ -87,20 +87,20 @@ function LikeorNope() {
         API.get("/restaurant/likeOrNope?radius=" + radius + `&id=${parseInt(new URLSearchParams(location.search).get("id") + "") > id ? parseInt(new URLSearchParams(location.search).get("id") + "") : id}`).then((item) => setproperty([item.data]))
             .catch((err) => on())
             .finally(off)
-            
+
         // API.put("restaurant/" + params.id) 
     }, [nextres])
-    
+
     const likedRestaurant = async () => {
         await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: true })
-        navigate(`/restaurant/detail?resId=${property[0]?.resId}` + `&id=${id}`  + "&total=" + property[0].likes)
+        navigate(`/restaurant/detail?resId=${property[0]?.resId}` + `&id=${id}` + "&total=" + property[0].likes)
     }
     // console.log(radius);
 
     useEffect(() => {
-      return () => {
-        setid(0)
-      };
+        return () => {
+            setid(0)
+        };
     }, [radius]);
 
 
@@ -156,9 +156,9 @@ function LikeorNope() {
     // console.log(id);
 
     globalThis.respage = res
-    globalThis.rand = Math.floor(Math.random() * (property[0].likes - id)+ id) 
+    globalThis.rand = Math.floor(Math.random() * (property[0].likes - id) + id)
     // console.log(globalThis.rand);
-    
+
     const Random = () => {
         setid(globalThis.rand)
         return onClose()
@@ -232,7 +232,7 @@ function LikeorNope() {
                                             Random()
                                             getRandom(globalThis.rand)
                                         }
-                                        } 
+                                        }
                                             borderRadius={"5px"}>
                                             Random
                                         </Button>

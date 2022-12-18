@@ -15,11 +15,11 @@ const search = () => {
     // const params = useParams()
     const [search, setsearch] = useState<Restaurant2[]>([])
     const [open, setopen] = useState<Open>();
-    const [isError, {on}] = useBoolean()     
-    const [isLoading, {off}] = useBoolean(true)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
     const [radius, setradius] = useState(500);
 
-    const selectRadius = (radius:number) => {
+    const selectRadius = (radius: number) => {
         setradius(radius)
     }
     useEffect(() => {
@@ -27,8 +27,6 @@ const search = () => {
             .catch((err) => on())
             .finally(off)
     }, [new URLSearchParams(location.search).get("name")])
-
-
 
     if (isLoading)
         return (
@@ -71,7 +69,7 @@ const search = () => {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar selectRadius={selectRadius}/>
+            <Searchbar selectRadius={selectRadius} />
 
             <Heading mt={"20px"} textAlign="center">
                 Search Result
@@ -84,16 +82,16 @@ const search = () => {
 
 
 
-                                <Searchcontent
-                                    resName={e1.name}
-                                    phone={e1.phone}
-                                    open={e1.opening}
-                                    close={e1.opening}
-                                    website={e1.website}
-                                    img={e1.photos}
-                                    link={`/restaurant/detail?resId=${e1.placeId}&id=0`}
-                                    resid={e1.placeId}
-                                />
+                            <Searchcontent
+                                resName={e1.name}
+                                phone={e1.phone}
+                                open={e1.opening}
+                                close={e1.opening}
+                                website={e1.website}
+                                img={e1.photos}
+                                link={`/restaurant/detail?resId=${e1.placeId}&id=0`}
+                                resid={e1.placeId}
+                            />
                             {/* </Link> */}
                         </GridItem>
                     )

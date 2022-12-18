@@ -40,8 +40,6 @@ import Lottie from 'lottie-react'
 import loading1 from './animation/loading1.json'
 import notloading2 from './animation/notloading2.json'
 
-
-
 function detail() {
     const { onOpen } = useDisclosure()
     const params = useParams()
@@ -69,7 +67,6 @@ function detail() {
     useEffect(() => {
         getRoom.then((item) => setRoom(item.data))
     }, [setRoom])
-    console.log(room);
 
     function buffer_to_img(data: any) {
         const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
@@ -267,22 +264,22 @@ function detail() {
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                <Grid templateColumns='repeat(5, 2fr)' gap={6}>
-                                                                    {room?.map((ro: any) => {
-                                                                        return (
-                                                                            <RadioGroup onChange={setRoom2} value={room2}>
-                                                                                <Radio value={ro.room.roomId}>
-                                                                                    
+                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6}>
+                                                                        {room?.map((ro: any) => {
+                                                                            return (
+                                                                                <RadioGroup onChange={setRoom2} value={room2}>
+                                                                                    <Radio value={ro.room.roomId}>
+
                                                                                         <GridItem>
                                                                                             <Avatar name={ro.room.nick[0].nickname} src={handleImg(ro.room.nick[0].nameWho.image)} />
                                                                                             <Center><Text fontSize={"xs"}>{ro.room.nick[0].nickname}</Text></Center>
                                                                                         </GridItem>
-                                                                                    
-                                                                                </Radio>
-                                                                            </RadioGroup>
-                                                                        )
 
-                                                                    })}
+                                                                                    </Radio>
+                                                                                </RadioGroup>
+                                                                            )
+
+                                                                        })}
                                                                     </Grid>
                                                                 </Wrap>
                                                             </Flex>
