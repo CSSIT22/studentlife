@@ -26,8 +26,8 @@ import EmojiFeelingTelling from "../blog/EmojiFeelingTelling"
 export const Post = (prop: any) => {
     const [posts, setposts] = useState<any>([])
     // const getData = API.get("/timeline/getposts") old mockup data
-    // const getPost = API.get("/timeline/getPostList") // data from database
-    const getPost = API.get("/timeline/getStudentPost/" + prop.i)
+    // const getPost = API.get("/timeline/getPostList") // data from database == User_Profile then Student_Post
+    const getPost = API.get("/timeline/getStudentPost/" + prop.i) // data from database == Student_Post then User_Profile
 
     useEffect(() => {
         getPost.then(res => {
