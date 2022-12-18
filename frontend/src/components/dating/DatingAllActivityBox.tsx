@@ -131,14 +131,14 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                 type: "spring",
                                 stiffness: 360,
                                 damping: 20,
-                            }}>
+                            }}
+                        >
                             <Box key={values.pollId} mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                                 <Flex>
                                     <Link to={"/user/" + values.pollCreator.userId}>
                                         <motion.div
                                             initial={{ scale: 0 }}
                                             animate={{ scale: 1 }}
-                                            style={{ display: "flex" }}
                                             whileTap={{ scale: 1 }}
                                             whileHover={{ scale: 1.2, }}
                                             transition={{
@@ -205,7 +205,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                                         </Text>
                                                     </Tag>
                                                 </motion.div>
-
                                             ))}
                                         </Box>
                                     </Box>
@@ -228,10 +227,9 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                         (values.isOpen ? (
                                             // If the poll have been applied user can click to navigate to appiledpoll page
                                             <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
-                                                {values.participants.length != 0 ? (<motion.div
+                                                <motion.div
                                                     initial={{ scale: 0 }}
                                                     animate={{ scale: 1 }}
-                                                    style={{ display: "flex" }}
                                                     whileTap={{ scale: 0.9 }}
                                                     whileHover={{ scale: 1.1, }}
                                                     transition={{
@@ -239,65 +237,55 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                                         stiffness: 360,
                                                         damping: 20,
                                                     }}
-                                                ><Button
-                                                    display="flex"
-                                                    cursor="pointer"
-                                                    w="150px"
-                                                    m="10px"
-                                                    mt="20px"
-                                                    pr="40px"
-                                                    pl="40px"
-                                                    colorScheme="orange.200"
-                                                    backgroundColor={"#B24000"}
-                                                    borderRadius="5px"
-                                                    justifyContent="center"
-                                                    alignItems="center"
-                                                    onClick={() => {
-                                                        handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                    }}
-                                                // isDisabled={cc}
-
-                                                // isDisabled={true}
                                                 >
-                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                            {"Applied"}
-                                                        </Text>
-                                                    </Button></motion.div>) : <motion.div
-                                                        initial={{ scale: 0 }}
-                                                        animate={{ scale: 1 }}
-                                                        style={{ display: "flex" }}
-                                                        whileTap={{ scale: 0.9 }}
-                                                        whileHover={{ scale: 1.1, }}
-                                                        transition={{
-                                                            type: "spring",
-                                                            stiffness: 360,
-                                                            damping: 20,
-                                                        }}
-                                                    ><Button
-                                                        display="flex"
-                                                        cursor="pointer"
-                                                        w="150px"
-                                                        m="10px"
-                                                        mt="20px"
-                                                        pr="40px"
-                                                        pl="40px"
-                                                        colorScheme="orange.200"
-                                                        backgroundColor={"#E65300"}
-                                                        borderRadius="5px"
-                                                        justifyContent="center"
-                                                        alignItems="center"
-
-                                                        onClick={() => {
-                                                            setcc(true)
-                                                            handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                            // , setApplyState(true)
-                                                        }}
-                                                        isDisabled={cc}
-                                                    >
-                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                            {"Apply"}
-                                                        </Text>
-                                                    </Button></motion.div>}
+                                                    {(values.participants.length != 0) ?
+                                                        (<Button
+                                                            display="flex"
+                                                            cursor="pointer"
+                                                            w="150px"
+                                                            m="10px"
+                                                            mt="20px"
+                                                            pr="40px"
+                                                            pl="40px"
+                                                            colorScheme="orange.200"
+                                                            backgroundColor={"#B24000"}
+                                                            borderRadius="5px"
+                                                            justifyContent="center"
+                                                            alignItems="center"
+                                                            disabled={cc}
+                                                            onClick={() => {
+                                                                handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
+                                                            }}
+                                                        >
+                                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                                {"Applied"}
+                                                            </Text>
+                                                        </Button>) :
+                                                        (<Button
+                                                            display="flex"
+                                                            cursor="pointer"
+                                                            w="150px"
+                                                            m="10px"
+                                                            mt="20px"
+                                                            pr="40px"
+                                                            pl="40px"
+                                                            colorScheme="orange.200"
+                                                            backgroundColor={"#E65300"}
+                                                            borderRadius="5px"
+                                                            justifyContent="center"
+                                                            alignItems="center"
+                                                            onClick={() => {
+                                                                setcc(true)
+                                                                handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
+                                                                // , setApplyState(true)
+                                                            }}
+                                                            isDisabled={cc}
+                                                        >
+                                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                                {"Apply"}
+                                                            </Text>
+                                                        </Button>)
+                                                    }</motion.div>
                                             </Link>
                                         ) : (
                                             <Button
@@ -320,69 +308,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                             </Button>
                                         )
                                         ) : (<Box
-                            <Text fontSize="16px">Date: {globalThis.date}</Text>
-                            <Text fontSize="16px">Time: {globalThis.time}</Text>
-                            <Text fontSize="16px">
-                                Number of people: {handlePeople(values.participantMin, values.participantMax)}
-                                {/* {values.participantMin}-{values.participantMax} people */}
-                            </Text>
-                            <Flex justifyContent="end">
-                                {/* Check if poll open or close to display different button */}
-                                {values.pollCreator.userId !== userId ?
-                                    (values.isOpen ? (
-                                        // If the poll have been applied user can click to navigate to appiledpoll page
-                                        <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
-                                            {(values.participants.length != 0) ?
-                                                (<Button
-                                                    display="flex"
-                                                    cursor="pointer"
-                                                    w="150px"
-                                                    m="10px"
-                                                    mt="20px"
-                                                    pr="40px"
-                                                    pl="40px"
-                                                    colorScheme="orange.200"
-                                                    backgroundColor={"#B24000"}
-                                                    borderRadius="5px"
-                                                    justifyContent="center"
-                                                    alignItems="center"
-                                                    disabled={cc}
-                                                    onClick={() => {
-                                                        handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                    }}
-                                                >
-                                                    <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                        {"Applied"}
-                                                    </Text>
-                                                </Button>) :
-                                                (<Button
-                                                    display="flex"
-                                                    cursor="pointer"
-                                                    w="150px"
-                                                    m="10px"
-                                                    mt="20px"
-                                                    pr="40px"
-                                                    pl="40px"
-                                                    colorScheme="orange.200"
-                                                    backgroundColor={"#E65300"}
-                                                    borderRadius="5px"
-                                                    justifyContent="center"
-                                                    alignItems="center"
-                                                    onClick={() => {
-                                                        setcc(true)
-                                                        handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                        // , setApplyState(true)
-                                                    }}
-                                                    isDisabled={cc}
-                                                >
-                                                    <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                        {"Apply"}
-                                                    </Text>
-                                                </Button>)
-                                            }
-                                        </Link>
-                                    ) : (
-                                        <Button
                                             display="flex"
                                             w="300px"
                                             m="10px"
@@ -399,8 +324,9 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                         </Box>)
                                     }
                                 </Flex>
-                            </Box>
-                        </motion.div>)
+
+                            </Box></motion.div>
+                    )
                 })
                 : (<Box display="block" pt="50px" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "25%" }}>
                     <motion.div
