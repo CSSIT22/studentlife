@@ -51,8 +51,8 @@ const Create = () => {
                 }
             }
             )
-                .then((res) => 
-                navigate("/"))
+                .then((res) =>
+                    navigate("/"))
         } else {
             toast({
                 title: "Can't still post yet",
@@ -89,10 +89,10 @@ const Create = () => {
 
                     <TextAreaPost onChange={e => setText(e.target.value)} />
 
-                    <Center>
+                    <Center width={"100"}>
                         <ImageInsert children files={files} setFiles={setFiles} />
-                        <Spacer />
-                        <VideoInsert children files={files} setFiles={setFiles} />
+                        {/* <Spacer /> */}
+                        {/* <VideoInsert children files={files} setFiles={setFiles} /> */}
                     </Center>
                     <Center>
                         <Box marginTop={"6"}>
