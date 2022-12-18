@@ -22,7 +22,7 @@ const EditReview = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        {/* <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" onClick={undefined} rating={0} /> */}
 
                         <Textarea
                             colorScheme="white"
