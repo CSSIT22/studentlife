@@ -83,6 +83,17 @@ const createtask = () => {
     const submit = () => {
         if (taskName == '') {
             console.log("");
+        }
+        else if (folder == '') {
+            API.post("/todolist/createtask", {
+                taskName: taskName,
+                taskDesc: taskDesc,
+                due: new Date(due + "T" + time + "Z"),
+                taskType: type,
+                // alert: alert,
+            }).then(() => {
+                navigate("/todolist/")
+            })
         } else {
             API.post("/todolist/createtask", {
                 taskName: taskName,
@@ -91,6 +102,8 @@ const createtask = () => {
                 taskType: type,
                 // alert: alert,
                 folderId: folder
+            }).then(() => {
+                navigate("/todolist/")
             })
 
                 // API.post("/notification/addnotiobject", {
