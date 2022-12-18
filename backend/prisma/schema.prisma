@@ -121,7 +121,6 @@ model Detail {
   address String
   hobby   String
   phone   String
-  year    Int
   student User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
