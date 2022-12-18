@@ -177,24 +177,24 @@ const YouLiked = () => {
         <DatingAppBody>
             {isLoading || isError ? <>
             </> : giveToUser.length == heartGiver.length ? <><Center>
-                        <Box
-                            mt={{ base: "-20px", md: "7px" }}
-                            pr="500px"
-                            pl="500px"
-                            pt={{ base: "-20px", md: "20px" }}
-                            zIndex="4"
-                            pb="30px"
-                            position="fixed"
-                            top={{ base: 20, md: 150 }}
-                            justifyContent="center"
-                            bg="#FFF2E5"
-                        >
-                            <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
-                                <DatingLikedYouButton backgroundColor="orange.800" />
-                                <DatingYouLikedButton backgroundColor="orange.600" />
-                            </HStack>
-                        </Box>
-                    </Center><Box display="flex" justifyContent="center">
+                <Box
+                    mt={{ base: "-20px", md: "7px" }}
+                    pr="500px"
+                    pl="500px"
+                    pt={{ base: "-20px", md: "20px" }}
+                    zIndex="4"
+                    pb="30px"
+                    position="fixed"
+                    top={{ base: 20, md: 150 }}
+                    justifyContent="center"
+                    bg="#FFF2E5"
+                >
+                    <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
+                        <DatingLikedYouButton backgroundColor="orange.800" />
+                        <DatingYouLikedButton backgroundColor="orange.600" />
+                    </HStack>
+                </Box>
+            </Center><Box display="flex" justifyContent="center">
                 </Box>
                 <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
                     <motion.div
@@ -207,7 +207,7 @@ const YouLiked = () => {
                         }}>
                         <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
                         <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                            Right now, you don't have any new likes.
+                            You didn't like anyone at the moment.
                         </Text>
                     </motion.div>
 
@@ -233,10 +233,10 @@ const YouLiked = () => {
 
 
                 {isMobile ? (
-                <Box mt="130px"></Box>
-            ) : (
-                <Box mt="10px"></Box>
-            )}
+                    <Box mt="130px"></Box>
+                ) : (
+                    <Box mt="10px"></Box>
+                )}
 
                 <Box
                     display={{ base: "grid", md: "block" }}

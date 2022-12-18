@@ -126,8 +126,8 @@ const CreateActivityPoll = () => {
     const [time, setTimeInput] = useState("")
     const [validTime, setValidTime] = useState(false)
 
-    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.people) //For age min,max
-    globalThis.people = [2, 5] //need db + condition
+    const [sliderValue, setSliderValue] = useState<number[]>([2,5]) //For age min,max
+    // globalThis.people = [2, 5] //need db + condition
 
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.

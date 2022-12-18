@@ -1,10 +1,22 @@
 import { Request, Response } from "express"
 import { nanoid } from "nanoid"
 import { pushNotiType } from "@apiType/notification"
-import { Module, Template } from "@prisma/client"
+import { Module, Noti_Type, Template } from "@prisma/client"
 
 import { Server } from "socket.io"
+import nodemailer from "nodemailer"
 import { getSessionIdsByUserIds } from "../../backendService/socketstore/store"
+import { showDescription } from "../utils/replaceValue"
+
+let transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+    },
+})
 const addNotiObject = async (req: Request, res: Response) => {
     const body = req.body as pushNotiType
     const objectId = nanoid()
@@ -53,7 +65,7 @@ const addNotiObject = async (req: Request, res: Response) => {
                 await prisma.noti_User.create({
                     data: {
                         userId: userId,
-                        notiSettingEmail: "ALL",
+                        notiSettingEmail: "IGNORE",
                         notiSettingApp: "ALL",
                     },
                 })
@@ -65,22 +77,44 @@ const addNotiObject = async (req: Request, res: Response) => {
             data: user,
         })
 
-        setTimeout(() => {
-            body.userId.forEach((el) => {
+        setTimeout(async () => {
+            // body.userId.forEach((el) => {
+            for (let i in body.userId) {
+                const el = body.userId[i]
                 let socketids = getSessionIdsByUserIds(el)
-                console.log(socketids)
+                //console.log(socketids)
 
                 for (let id of socketids) {
-                    ;(res.io as Server).to(id).emit("push_noti", data)
+                    ;(res.io as Server).to(id).emit("push_noti", { data, notiObject })
                 }
-            })
+                try {
+                    const userEmail = await prisma.noti_User.findFirstOrThrow({
+                        where: {
+                            notiSettingEmail: "ALL" as Noti_Type,
+                            userId: el,
+                        },
+                        include: {
+                            user: {
+                                select: { email: true },
+                            },
+                        },
+                    })
+
+                    let info = await transporter.sendMail({
+                        from: "ModLifes <noreply@modlifes.me>",
+                        to: userEmail.user.email,
+                        subject: "notification from " + notiObject.module,
+                        html: showDescription(req.body.value, notiObject.template),
+                    })
+                } catch (err) {}
+            }
         }, 1000)
 
         return res.send(notiObject)
     } catch (err) {
         //console.log(err)
 
-        console.log(body + " err" + err)
+        //console.log(body + " err" + err)
         return res.status(400).send(err)
     }
 }

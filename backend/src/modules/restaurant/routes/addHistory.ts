@@ -6,7 +6,7 @@ const addHistory = async (req: Request, res: Response) => {
 
 const addHours = (date: Date): Date => {
     const result = new Date(date);
-    result.setHours(result.getHours() + 7);
+    result.setHours(result.getHours());
     return result;
   };
     try {
@@ -16,7 +16,7 @@ const addHours = (date: Date): Date => {
             data: {
                 userId: user,
                 resId: resid,
-                seenAt: addHours(new Date()),
+                seenAt: addHours(new Date()) ,
             },
         })
 
@@ -32,7 +32,7 @@ const addHours = (date: Date): Date => {
         // console.log(isSeen);
         res.send(seen)
     } catch (error) {
-        console.log("Error store")
+        // console.log("Error store")
         res.status(400)
     }
 }

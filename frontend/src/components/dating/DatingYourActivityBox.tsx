@@ -18,17 +18,6 @@ declare global {
 // Component of your activity page
 const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
     // const [poll, setPoll] = useState(POLL)
-    const params = useParams()
-    const didMount = useDidMount()
-
-    function useDidMount() {
-        const [didMount, setDidMount] = useState(true)
-        useEffect(() => {
-            setDidMount(false)
-        }, [])
-
-        return didMount
-    }
 
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
@@ -74,6 +63,13 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
         return "/dating/poll/yourpoll/" + pId + "/"
     }
 
+    // window.addEventListener('scroll', function () {
+    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    //         if (mpolls.length != mpoll.length)
+    //             setmPolls(poll.slice(0, mpolls.length + 20))
+    //     }
+    // })
+
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
@@ -100,16 +96,27 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                             <Flex>
                                 <Link to={"/user/" + values.pollCreator.userId}>
-                                    <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={values.pollCreator.image ?
-                                            (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
-                                            :
-                                            NoProfileImg
-                                        }
-                                    /></Link>
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        whileTap={{ scale: 1 }}
+                                        whileHover={{ scale: 1.2, }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}
+                                    >
+                                        <Image
+                                            borderRadius="full"
+                                            boxSize="78px"
+                                            objectFit="cover"
+                                            src={values.pollCreator.image ?
+                                                (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
+                                                :
+                                                NoProfileImg
+                                            }
+                                        /></motion.div></Link>
                                 <Center>
                                     <Text ml="30px" fontSize="20px">
                                         {values.pollCreator.fName}
@@ -131,20 +138,32 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                                         style={{ WebkitOverflowScrolling: "touch" }}
                                     >
                                         {values.interests.map((i) => (
-                                            <Tag
-                                                backgroundColor="orange.400"
-                                                color="white"
-                                                mr="1"
-                                                mb="1"
-                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                                borderRadius="5px"
-                                                h={{ md: "28px" }}
+                                            <motion.div
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                style={{ display: "inline-block" }}
+                                                whileTap={{ scale: 1 }}
+                                                whileHover={{ scale: 1.2, }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 360,
+                                                    damping: 20,
+                                                }}
                                             >
-                                                <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
-                                                    {i.interest.interestName}
-                                                </Text>
-                                            </Tag>
-
+                                                <Tag
+                                                    backgroundColor="orange.400"
+                                                    color="white"
+                                                    mr="1"
+                                                    mb="1"
+                                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                                    borderRadius="5px"
+                                                    h={{ md: "28px" }}
+                                                >
+                                                    <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
+                                                        {i.interest.interestName}
+                                                    </Text>
+                                                </Tag>
+                                            </motion.div>
                                         ))}</Box>
                                 </Box>
                             }

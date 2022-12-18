@@ -25,6 +25,8 @@ import {
     useBoolean,
     Radio,
     RadioGroup,
+    SimpleGrid,
+    Stack,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
@@ -33,13 +35,10 @@ import AppBody from "../../components/share/app/AppBody"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom"
-import { friend } from "./data/friend"
 import API from "src/function/API"
 import Lottie from 'lottie-react'
 import loading1 from './animation/loading1.json'
 import notloading2 from './animation/notloading2.json'
-
-
 
 function detail() {
     const { onOpen } = useDisclosure()
@@ -62,13 +61,28 @@ function detail() {
     }
 
     const [room, setRoom] = React.useState<any>()
+    const [room2, setRoom2] = React.useState<any>()
 
     const getRoom = API.get("/chat")
     useEffect(() => {
         getRoom.then((item) => setRoom(item.data))
     }, [setRoom])
 
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
+    }
+
     let [isFavorite, setIsFavorite] = useState(Boolean)
+
 
     useEffect(() => {
         property.map((el: any) => {
@@ -86,7 +100,7 @@ function detail() {
 
     const navigate = useNavigate()
     const share = () => {
-        navigate(`/chat/${room}?resId=${new URLSearchParams(location.search).get("resId")}`)
+        navigate(`/chat/${room2}?resId=${new URLSearchParams(location.search).get("resId")}`)
     }
 
     const nextres = () => {
@@ -127,7 +141,7 @@ function detail() {
         </AppBody>
     )
 
-        return (
+    return (
         <AppBody
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
@@ -250,19 +264,23 @@ function detail() {
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                    {room?.map((ro:any) => {
-                                                                        return (
-                                                                            <RadioGroup onChange={setRoom} value={room}>
-                                                                                <Radio value={ro.roomId}>
-                                                                                    <WrapItem>
-                                                                                        <Avatar name={ro.group.roomName} src={ro.nick.nameWho.image} />
-                                                                                        <Text></Text>
-                                                                                    </WrapItem>
-                                                                                </Radio>
-                                                                            </RadioGroup>
-                                                                        )
+                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6}>
+                                                                        {room?.map((ro: any) => {
+                                                                            return (
+                                                                                <RadioGroup onChange={setRoom2} value={room2}>
+                                                                                    <Radio value={ro.room.roomId}>
 
-                                                                    })}
+                                                                                        <GridItem>
+                                                                                            <Avatar name={ro.room.nick[0].nickname} src={handleImg(ro.room.nick[0].nameWho.image)} />
+                                                                                            <Center><Text fontSize={"xs"}>{ro.room.nick[0].nickname}</Text></Center>
+                                                                                        </GridItem>
+
+                                                                                    </Radio>
+                                                                                </RadioGroup>
+                                                                            )
+
+                                                                        })}
+                                                                    </Grid>
                                                                 </Wrap>
                                                             </Flex>
 

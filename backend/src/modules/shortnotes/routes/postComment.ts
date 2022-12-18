@@ -13,8 +13,16 @@ const postComment = async (req: Request<any>, res: Response<any>) => {
                 comment: req.body.comment,
             },
         })
-        res.send(cm)
-        console.log(cm)
+        const cmDetail = await prisma.user_Profile.findFirstOrThrow({
+            where: {
+                userId: user,
+            },
+            select: {
+                fName: true,
+                lName: true,
+            },
+        })
+        res.send({ cm, cmDetail })
     } catch (err) {
         console.log(err)
         return res.send(err)

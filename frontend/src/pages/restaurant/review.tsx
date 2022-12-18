@@ -17,7 +17,7 @@ function review() {
     const [radius, setradius] = useState(500);
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const selectRadius = (radius:number) => {
+    const selectRadius = (radius: number) => {
         setradius(radius)
     }
     // const property = Restaurant.filter((e1) => {
@@ -34,47 +34,47 @@ function review() {
 
     useEffect(() => {
         API.get("/restaurant/review?resId=" + new URLSearchParams(location.search).get("resId")).then((item) => setproperty(item.data))
-        .catch((err) => on())
-        .finally(off)
+            .catch((err) => on())
+            .finally(off)
     }, [params.reviewRes])
     // property.reviews?.map((e2: any) => {
     //     console.log(e2)
     // })
 
-//    console.log([property]);
-if (isLoading)
-return (
-    <AppBody
-        secondarynav={[
-            { name: "Like or Nope", to: "/restaurant" },
-            { name: "My Favorite", to: "/restaurant/favorite" },
-            { name: "My History", to: "/restaurant/history" },
-        ]}
-    >
-        {/* <Heading color={"black"}>Loading</Heading> */}
-        <Box w={"100%"} h={"100%"}>
-            <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
-                <Lottie animationData={loading1} style={{ scale: 1 }} />
-            </Flex>
-        </Box>
-    </AppBody>
-)
+    //    console.log([property]);
+    if (isLoading)
+        return (
+            <AppBody
+                secondarynav={[
+                    { name: "Like or Nope", to: "/restaurant" },
+                    { name: "My Favorite", to: "/restaurant/favorite" },
+                    { name: "My History", to: "/restaurant/history" },
+                ]}
+            >
+                {/* <Heading color={"black"}>Loading</Heading> */}
+                <Box w={"100%"} h={"100%"}>
+                    <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
+                        <Lottie animationData={loading1} style={{ scale: 1 }} />
+                    </Flex>
+                </Box>
+            </AppBody>
+        )
 
-if (isError) return (
-<AppBody
-    secondarynav={[
-        { name: "Like or Nope", to: "/restaurant" },
-        { name: "My Favorite", to: "/restaurant/favorite" },
-        { name: "My History", to: "/restaurant/history" },
-    ]}
->
-    <Box width="100%" height="100%">
-        <Flex justifyContent={"center"} alignItems={"center"} width="100%" height="100%" mt={"8rem"}>
-            <Lottie animationData={notloading2} style={{ scale: 1 }} />
-        </Flex>
-    </Box>
-</AppBody>
-)
+    if (isError) return (
+        <AppBody
+            secondarynav={[
+                { name: "Like or Nope", to: "/restaurant" },
+                { name: "My Favorite", to: "/restaurant/favorite" },
+                { name: "My History", to: "/restaurant/history" },
+            ]}
+        >
+            <Box width="100%" height="100%">
+                <Flex justifyContent={"center"} alignItems={"center"} width="100%" height="100%" mt={"8rem"}>
+                    <Lottie animationData={notloading2} style={{ scale: 1 }} />
+                </Flex>
+            </Box>
+        </AppBody>
+    )
 
 
     return (
@@ -85,7 +85,7 @@ if (isError) return (
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar selectRadius={selectRadius}/>
+            <Searchbar selectRadius={selectRadius} />
             <Center mt={4}>
                 {property.map((e1: any) => {
 

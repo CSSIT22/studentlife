@@ -7,11 +7,13 @@ const likedRestaurant = async (req: Request, res: Response) => {
     const like = req.body.status
 
     // console.log(id);
+   try{
+
 
 
 const addHours = (date: Date): Date => {
     const result = new Date(date);
-    result.setHours(result.getHours() + 7);
+    result.setHours(result.getHours());
     return result;
   };
  
@@ -56,7 +58,7 @@ const addHours = (date: Date): Date => {
         // console.log(img);
         
         const prisma = res.prisma
-        const existingRestaurant = await prisma.restaurant_Like_By_User.findMany({
+        const existingRestaurant = await prisma.restaurant_Like_By_User.findFirst({
             where: {
                 userId: user,
                 resId: id,
@@ -122,11 +124,16 @@ const addHours = (date: Date): Date => {
                     },
                     data: {
                         isLike: like,
-                        updatedAt: new Date(),
+                        updatedAt:  addHours(new Date()),
                     },
                 })
                 res.send(liked)
             }
+
+        }
+        catch(error) {
+           res.status(400)
+        }
            
         
    

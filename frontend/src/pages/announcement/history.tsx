@@ -1,15 +1,14 @@
 import { Box, Flex, Heading, useBoolean } from "@chakra-ui/react"
 import { Link, useParams } from "react-router-dom"
-
 import { announcement, post } from "@apiType/announcement"
-
 import API from "src/function/API"
-import { postInfoTest } from "./postInfoTest"
 import React, { useEffect, useState } from "react"
 import HeaderPage from "src/components/annoucement/HeaderPage"
 import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import PostOnHistory from "src/components/annoucement/PostOnHistory"
-import AppBody from "src/components/share/app/AppBody"
+import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
+import AnnounceError from "src/components/annoucement/AnnounceError"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const history = () => {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -27,9 +26,6 @@ const history = () => {
         setStatusPostRequest(status)
         setSelectPost(postId)
     }
-    // console.log(selectPost);
-
-    // console.log(statusPostRequest)
 
     const cancelRecover = () => {
         setShowButton(false)
@@ -46,45 +42,28 @@ const history = () => {
         topic: "WARNING",
         detail: "This announcement will completely deleted from this page",
     }
-    // const post = [
-    //     { topic: "hello World", sender: "SAMO-SIT", status: "disapprove", id: 10 },
-    //     { topic: "SIT Esport", sender: "SAMO-SIT", status: "approve", id: 11 },
-    //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "waiting", id: 12 },
-    //     { topic: "SIT Valentine", sender: "SAMO-SIT", status: "disapprove", id: 13 },
-    // ]
-
     const params = useParams()
     const [toggle, settoggle] = useState(false)
     const [allPost, setAllPost] = React.useState<announcement[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const getData = API.get("/announcement/gethistorypost/")
+    const load = () => {
+        API.get("/announcement/gethistorypost/").then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+    }
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+        load()
     }, [toggle])
-    // console.log(toggle);
-
-    // console.log(allPost);
-
 
     const tog = () => {
         settoggle(!toggle)
     }
-    if (isLoading)
-        return (
-            <AppBody>
-                <Heading>Loading</Heading>
-            </AppBody>
-        )
-    if (isError)
-        return <AppBody><Heading color={"red"}>There is an Error</Heading></AppBody>
-    // console.log(allPost)
 
     const deleteOrEdit = (status: string) => {
         if (status == "Approve") {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalDelete.topic}
@@ -95,13 +74,13 @@ const history = () => {
                         selectPost={selectPost}
                         onClick={tog}
                     />
-                    {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
             )
         } else if (status == "Disapprove") {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalDeleted.topic}
@@ -112,13 +91,13 @@ const history = () => {
                         selectPost={selectPost}
                         onClick={tog}
                     />
-                    {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
             )
         } else if (status == "Waiting for Approve") {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalEdit.topic}
@@ -129,42 +108,50 @@ const history = () => {
                         selectPost={selectPost}
                         onClick={tog}
                     />
-                    {/* {showButton && <ButtonForEvent onOpen={onOpen} cancel={cancelRecover} status={statusPostRequest} />} */}
                 </>
             )
         }
     }
 
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
-            <Flex alignItems={"center"}>
-                <HeaderPage head="History" />
-            </Flex>
-            {allPost
-                .filter((fl) => fl.annPost?.status == "Waiting for Approve" || fl.annPost?.status == "Approve" || fl.annPost?.status == "Disapprove")
-                .map((el) => {
-                    return (
-                        <PostOnHistory
-                            topic={el.annLanguage[0].annTopic}
-                            sender={el.annCreator.fName + " " + el.annCreator.lName}
-                            status={el.annPost.status}
-                            onClick={onClick}
-                            onOpen={onOpen}
-                            id={el.postId}
-                            key={el.postId}
-                        />
-                    )
-                })}
-            {deleteOrEdit(statusPostRequest)}
-        </AppBody>
+        <AnnounceNav>
+            {(() => {
+                if (isLoading && !isError) {
+                    return <AnnounceLoading />
+                } else {
+                    if (isError) {
+                        return <AnnounceError />
+                    } else {
+                        return (
+                            <>
+                                <Flex alignItems={"center"}>
+                                    <HeaderPage head="History" />
+                                </Flex>
+                                {allPost
+                                    .filter((fl) => fl.annPost?.status == "Waiting for Approve" || fl.annPost?.status == "Approve" || fl.annPost?.status == "Disapprove")
+                                    .map((el) => {
+                                        return (
+                                            <PostOnHistory
+                                                topic={el.annLanguage[0].annTopic}
+                                                sender={el.annCreator.fName + " " + el.annCreator.lName}
+                                                status={el.annPost.status}
+                                                onClick={onClick}
+                                                onOpen={onOpen}
+                                                id={el.postId}
+                                                key={el.postId}
+                                            />
+                                        )
+                                    })}
+                                {deleteOrEdit(statusPostRequest)}
+                            </>
+                        )
+                    }
+                }
+            })()}
+        </AnnounceNav>
+
+
+
     )
 }
 
