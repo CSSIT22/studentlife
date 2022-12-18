@@ -19,7 +19,8 @@ const DatingRandomTag: FC<{
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             style={{ display: "inline-block" }}
-            whileTap={{ scale: 1.2 }}
+            whileTap={{ scale: 1 }}
+            whileHover={{ scale: 1.2, }}
             key={index}
             transition={{
                 type: "spring",
