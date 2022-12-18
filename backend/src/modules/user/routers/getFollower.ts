@@ -4,17 +4,13 @@ const getFollow = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user ? req.user.userId : ""
-        const isBlocked = await prisma.user_Blocked.findFirst({
-            // include: { anotherUserId: true },
+        const follower = await prisma.follow.findMany({
             where: {
-                userId: userId,
-                anotherUserId: req.params.userId,
+                anotherUserId: userId,
             },
+            include: { follower: true ,
+                { fName: true, lName: true, profilePic: true}},
         })
-
-        if (isBlocked) {
-            return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
-        }
 
         // res.status(200).json({ user: profile })
     } catch (err) {
