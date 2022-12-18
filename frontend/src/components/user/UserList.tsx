@@ -35,7 +35,7 @@ const UserList: FC<{ isSelected?: boolean; userProfile: string; userName: string
                                 <Text as="b" fontSize="sm">
                                     {userName}
                                 </Text>
-                                <Text as="b" fontSize="sm">
+                                <Text as="b" fontSize="sm" width={"90px"} whiteSpace="nowrap" overflow={"hidden"} textOverflow={"ellipsis"}>
                                     {lastName}
                                 </Text>
                             </Box>
