@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-import calExp from "../expsystem/calExp"
 
 const getExp = async (req: Request, res: Response) => {
     try {

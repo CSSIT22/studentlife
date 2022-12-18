@@ -29,7 +29,6 @@ const editaboutmeuser = async (req: Request, res: Response) => {
                 year: tail.year,
             },
         })
-        console.log(upsertUser)
         res.json(upsertUser)
     } catch (err) {
         if (err instanceof Prisma.PrismaClientKnownRequestError) {
