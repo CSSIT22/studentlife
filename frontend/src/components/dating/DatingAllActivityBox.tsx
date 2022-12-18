@@ -58,17 +58,22 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
         const chooseDate = new Date(dateTime)
+        chooseDate.setHours(chooseDate.getHours() - 7);
         // console.log(chooseDate.getMonth())
         // return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
-        const d = chooseDate.toLocaleDateString()
-        // console.log(d)
-        return d.substring(3, 5) + "/" + d.substring(0, 2) + "/" + chooseDate.getFullYear()
+        // const d = chooseDate.toLocaleDateString()
+        // const strDate = chooseDate.toLocaleDateString()
+        // return chooseDate.getDay() + "/" + chooseDate.getMonth() + "/" + chooseDate.getFullYear()
+        const d = chooseDate.toISOString()
+        return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + chooseDate.getFullYear()
     }
 
     // Convert time in to format that easy to read
     function hanlePollTime(dateTime: string) {
-        const time = new Date(dateTime)
-        let hours = time.getHours() + 5
+        const result = new Date(dateTime);
+        result.setHours(result.getHours() - 7);
+        const time = new Date(result)
+        let hours = time.getHours()
         let minutes = time.getMinutes()
         let ampm = hours >= 12 ? "pm" : "am"
         hours = hours % 12
@@ -128,7 +133,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                     <Text ml="30px" fontSize="20px">
                                         {values.pollCreator.fName}
                                         &nbsp;
-                                        {values.pollCreator.lName}
+                                        {values.pollCreator.lName.substring(0, 1) + "."}
                                     </Text>
                                 </Center>
                             </Flex>
