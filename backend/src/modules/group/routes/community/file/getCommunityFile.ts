@@ -52,7 +52,13 @@ const getFile = async (req: Request, res: Response) => {
                     select:{
                         fileId:true,
                         fileName:true,
-                        fileDesc:true
+                        fileDesc:true,
+                        sender:{
+                            select:{
+                                fName:true,
+                                lName:true
+                            }
+                        }
                     }
                 },
             },

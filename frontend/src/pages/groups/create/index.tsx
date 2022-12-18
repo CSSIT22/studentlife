@@ -262,7 +262,7 @@ const createCommunity = () => {
 
 
                     <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
-                        Upload Community cover photo
+                        Cover photo (Type jpg | Size &lt; 400 KB )
                     </FormLabel>
                     <Box
                         sx={{
@@ -431,7 +431,7 @@ const createCommunity = () => {
                             width='auto'
                             backgroundColor='#e67f45'
                             borderTopRadius='3rem'
-                            pb='20'>
+                            pb='5'>
                             <DrawerBody
                                 pt='6'
                                 display='flex'
@@ -447,10 +447,13 @@ const createCommunity = () => {
                                                 borderRadius='full'
                                                 px='4'
                                                 py='2'
+                                                my='0.5'
+                                                mx='1'
                                                 fontWeight='bold'
                                                 bg={tag.isSelected ? "#444444" : "#FFFFFF"}
                                                 color={tag.isSelected ? "#FFFFFF" : "#444444"}
-                                                onClick={() => handleAddTag(tag)}>
+                                                onClick={() => handleAddTag(tag)}
+                                                >
                                                 {tag.tagName}
                                             </Tag>
                                         </Tooltip>)

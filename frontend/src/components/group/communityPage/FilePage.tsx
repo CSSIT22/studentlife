@@ -104,7 +104,7 @@ const FilePage: FC<{
             </HStack>
             <Box display={"block"} mt={2} borderRadius={"md"} gap={2} boxShadow={"2xl"} backgroundColor={"white"} p={3} pl={4} pr={4} mb={4}>
                 <Flex display={{ base: "none", md: "flex" }} direction="row">
-                    <Text as="b" width={"35%"}>
+                    <Text as="b" width={"50%"}>
                         File name
                     </Text>
                     <Text as="b" width={"30%"}>
@@ -118,7 +118,14 @@ const FilePage: FC<{
                     file?.map(( item: any,index: number) => {
                         return (
                             <>
-                                <FileList key={index} fileName={item.file.fileName} owner={item.file.fileSender} type={item.file.fileName} />
+                                <FileList 
+                                key={index} 
+                                fileName={item.file.fileName.split(".")[0].length > 50
+                                ? item.file.fileName.split(".")[0].slice(0, 50) + "..."
+                                : item.file.fileName.split(".")[0]}
+                                owner={item.file.sender.fName+" "+item.file.sender.lName}
+                                fileId={item.file.fileId} 
+                                type={item.file.fileName.split(".")[1]} />
                             </>
                         )
                     })}

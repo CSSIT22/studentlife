@@ -50,6 +50,7 @@ groupRoutes.get("/getCommunityFile/:id", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 
 groupRoutes.get("/getCommunityPost/:id", getCommunityPost)
+groupRoutes.post("/creatingCommunityPost/:id", creatingCommunityPost)
 
 groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)
