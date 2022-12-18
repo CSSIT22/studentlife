@@ -33,7 +33,6 @@ import AppBody from "../../components/share/app/AppBody"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom"
-import { friend } from "./data/friend"
 import API from "src/function/API"
 import Lottie from 'lottie-react'
 import loading1 from './animation/loading1.json'
@@ -62,13 +61,29 @@ function detail() {
     }
 
     const [room, setRoom] = React.useState<any>()
+    const [room2, setRoom2] = React.useState<any>()
 
     const getRoom = API.get("/chat")
     useEffect(() => {
         getRoom.then((item) => setRoom(item.data))
-    }, [setRoom])
+    }, [setRoom]) 
+    console.log(room);
+    
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
+    }
 
     let [isFavorite, setIsFavorite] = useState(Boolean)
+    
 
     useEffect(() => {
         property.map((el: any) => {
@@ -86,7 +101,7 @@ function detail() {
 
     const navigate = useNavigate()
     const share = () => {
-        navigate(`/chat/${room}?resId=${new URLSearchParams(location.search).get("resId")}`)
+        navigate(`/chat/${room2}?resId=${new URLSearchParams(location.search).get("resId")}`)
     }
 
     const nextres = () => {
@@ -252,10 +267,10 @@ function detail() {
                                                                 <Wrap spacing="30px">
                                                                     {room?.map((ro:any) => {
                                                                         return (
-                                                                            <RadioGroup onChange={setRoom} value={room}>
-                                                                                <Radio value={ro.roomId}>
+                                                                            <RadioGroup onChange={setRoom2} value={room2}>
+                                                                                <Radio value={ro.room.roomId}>
                                                                                     <WrapItem>
-                                                                                        <Avatar name={ro.group.roomName} src={ro.nick.nameWho.image} />
+                                                                                        <Avatar name={ro.room.nick[0].nickname}  src={handleImg(ro.room.nick[0].nameWho.image)} />
                                                                                         <Text></Text>
                                                                                     </WrapItem>
                                                                                 </Radio>
