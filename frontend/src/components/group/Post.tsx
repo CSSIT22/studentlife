@@ -289,6 +289,7 @@ const Post: FC<{
                                 autoFocus
                                 variant='unstyled'
                             />
+                            
                         ) : (
                             <Box>
                                 <Text fontSize='lg'>{body}</Text>
