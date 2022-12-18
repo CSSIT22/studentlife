@@ -145,7 +145,7 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                             <Flex justifyContent="end">
                                 <Center>
                                     {/* Need data from database and need condition checking for people/person*/}
-                                    <Text fontSize="16px">{values.participants.length} people have applied</Text>
+                                    <Text fontSize="16px">{values.participants.length} {values.participants.length == 1 ? "person has " : "people have "} applied</Text>
                                 </Center>
 
                                 <motion.div

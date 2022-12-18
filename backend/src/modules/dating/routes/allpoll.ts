@@ -23,21 +23,21 @@ allPollRoutes.get("/getAllPollUserId", verifyUser, async (req: Request, res: Res
 // Get all poll and join with Poll applicants and user profiles table
 allPollRoutes.get("/getAllPoll", verifyUser, async (req: Request, res: Response) => {
     try {
-        const reqUserId = req.user?.userId
-        const pollId = req.params.pollId
-        const findPollDB = await prisma.activity_Poll.findFirst({
-            where: {
-                pollId: pollId,
-                userId: reqUserId,
-            },
-            select: {
-                pollId: true,
-            },
-        })
+        // const reqUserId = req.user?.userId
+        // const pollId = req.params.pollId
+        // const findPollDB = await prisma.activity_Poll.findFirst({
+        //     where: {
+        //         pollId: pollId,
+        //         userId: reqUserId,
+        //     },
+        //     select: {
+        //         pollId: true,
+        //     },
+        // })
 
-        if (!findPollDB?.pollId) {
-            return res.send()
-        }
+        // if (!findPollDB?.pollId) {
+        //     return res.send()
+        // }
 
         const activityPollDB = await prisma.activity_Poll.findMany({
             // where: {
