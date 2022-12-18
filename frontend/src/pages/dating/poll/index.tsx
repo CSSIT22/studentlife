@@ -133,11 +133,11 @@ const AllActivityPoll = () => {
     useEffect(() => {
         API.get("/dating/allpoll/getAllPoll").then((data) => {
             setPoll(data.data)
-        }).catch((err) => console.log(err))
+        }).catch(on).finally(() => setIsloading(false))
 
         API.get("/dating/allpoll/getAllPollUserId").then((data) => {
             setUserId(data.data)
-        }).catch(on).finally(() => setIsloading(false))
+        }).catch(on)
     })
 
     return (

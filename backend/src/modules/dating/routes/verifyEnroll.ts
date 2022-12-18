@@ -21,8 +21,8 @@ verifyEnrollRoutes.get("/getDetail", verifyUser, async (req: Request, res: Respo
                 },
                 select: {
                     birth: true,
-                    sex: true
-                }
+                    sex: true,
+                },
             })
             return res.send(detailDB)
         }

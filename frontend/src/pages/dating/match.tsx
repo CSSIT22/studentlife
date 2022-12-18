@@ -198,8 +198,6 @@ const DatingMatch = () => {
                                             key={values.userId}
                                             mb={{ base: "8px", md: "12px" }}
                                             display="flex"
-                                        // cursor="pointer"
-                                        // onClick={() => goToProfile(values.userId)}
                                         >
 
 
@@ -225,7 +223,7 @@ const DatingMatch = () => {
                                                             onClick={() => goToProfile(values.userId)}
                                                         /> : <Image
                                                             borderRadius="full"
-                                                            boxSize="78px"
+                                                            boxSize={{ base: "50px", md: "78px" }}
                                                             objectFit="cover"
                                                             src={NoProfileImg}
                                                             alt={values.fName + " " + values.lName}
@@ -244,7 +242,7 @@ const DatingMatch = () => {
                                                     <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
                                                         {values.fName}
                                                         &nbsp;
-                                                        {values.lName}
+                                                        {values.lName.substring(0, 1) + "."}
                                                     </Text>
                                                 )
                                                 }

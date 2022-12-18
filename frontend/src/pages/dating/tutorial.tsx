@@ -17,6 +17,10 @@ import DiscoveryMobileGif from "../../components/dating/pic/discoverymobile.gif"
 import HistoryGif from "../../components/dating/pic/history.gif"
 import HistoryMobileGif from "../../components/dating/pic/historymobile.gif"
 import MatchGif from "../../components/dating/pic/match.gif"
+import InterestsGif from "../../components/dating/pic/interests.gif"
+import InterestsMobileGif from "../../components/dating/pic/interestsmobile.gif"
+import OptionGif from "../../components/dating/pic/options.gif"
+import OptionMobileGif from "../../components/dating/pic/optionmobile.gif"
 
 
 const FirstPageNextButton = (props: any) => {
@@ -407,7 +411,8 @@ const Tutorial = () => {
                                         w="552px"
                                         h="354px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
+                                        backgroundImage={InterestsGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
@@ -415,7 +420,7 @@ const Tutorial = () => {
                                         w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage={TutorialMobileGif}
+                                        backgroundImage={InterestsMobileGif}
                                         boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
                                     </>
@@ -443,7 +448,8 @@ const Tutorial = () => {
                                         w="552px"
                                         h="354px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
+                                        backgroundImage={OptionGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
@@ -451,7 +457,7 @@ const Tutorial = () => {
                                         w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage={TutorialMobileGif}
+                                        backgroundImage={OptionMobileGif}
                                         boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
                                     </>
