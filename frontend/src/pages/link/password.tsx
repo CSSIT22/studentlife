@@ -34,7 +34,7 @@ const password = () => {
             )
         }
         else if (pw1 === pw2 && pw1 != "" && pw2 != "") {
-            console.log("2");
+          
 
             navigate("/link/complete")
         }

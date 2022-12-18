@@ -18,6 +18,19 @@ import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 
 const customize = () => {
+    const navigate = useNavigate()
+    const password = () => {
+        navigate("/link/password")
+    }
+    const history = () => {
+        navigate("/link/history")
+    }
+    const permission = () => {
+        navigate("/link/permission")
+    }
+    const complete = () => {
+        navigate("/link/complete")
+    }
     const toast = useToast()
     // ---------------------------
     const [shortUrlData, setShortUrlData] = useState(
@@ -45,7 +58,10 @@ const customize = () => {
         if (!shortUrlData.link || !shortUrlData.word) {
 
         }
-        if (!(shortUrlData.password == shortUrlData.confirmPassword)) {
+
+        if (shortUrlData.password === shortUrlData.confirmPassword) {
+            navigate("/link/history")
+        } else {
             return toast({
                 title: "Password not match!",
                 status: "error",
@@ -60,19 +76,7 @@ const customize = () => {
     }
 
     // ---------------------------
-    const navigate = useNavigate()
-    const password = () => {
-        navigate("/link/password")
-    }
-    const unblock = () => {
-        navigate("/link/unblock")
-    }
-    const permission = () => {
-        navigate("/link/permission")
-    }
-    const complete = () => {
-        navigate("/link/complete")
-    }
+
 
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -157,7 +161,7 @@ const customize = () => {
                                         <Center>
                                             <Input
                                                 type="password"
-                                                name="confirm-password"
+                                                name="confirmPassword"
                                                 placeholder="Confirm Password*:"
                                                 onChange={handleChange}
                                                 w={"75%"} height={"60px"}
@@ -172,7 +176,7 @@ const customize = () => {
                                 <Center>
                                     <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
                                         <a>
-                                            {shortedUrl != "" &&
+                                            {shortUrlData.word &&
                                                 "http://localhost:8000/shortlink/redirect?shorten=" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
                                         </a>
                                     </Editable>
