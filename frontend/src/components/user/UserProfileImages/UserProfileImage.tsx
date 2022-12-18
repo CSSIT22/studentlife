@@ -19,7 +19,7 @@ const UserProfileImages: React.FC<{ userData: any }> = ({ userData }) => {
 
 
     return <Flex>
-        <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }} whileHover={{ scale: 0.9 }}>
+        <motion.div animate={{ rotate: 360 }} transition={{ type: "spring", duration: 2, bounce: 0.6 }} whileHover={{ scale: 0.9 }} whileFocus={{ scale: 1.5 }}>
             <Avatar
                 borderRadius='full'
                 mt={{ md: "5px", base: "0" }}

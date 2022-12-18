@@ -108,7 +108,8 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number, abou
                             <Box fontSize={{ lg: "lg", base: "md" }}>{userData.studentId}</Box>
                         </HStack>
                         <Box rounded={"2xl"}
-                            bg={{ base: "linear-gradient(180deg, rgba(254,148,0,1) 0%, rgba(255,255,255,1) 100%)", md: "none" }}
+                            bg={{ base: "linear-gradient(132deg, rgba(250,132,17,1) 0%, rgba(252,204,104,1) 57%, rgba(255,170,0,1) 100%)", md: "none" }}
+
                             textAlign={"center"} p={3}>
 
                             <Stack p={1} direction={{ base: "column", md: "row" }}>
