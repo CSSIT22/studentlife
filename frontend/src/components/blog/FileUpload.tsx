@@ -9,7 +9,7 @@ type ImageInsertProps = {
     setFiles: (files: File | null) => void;
 };
 
-const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
+const FileUpload: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [previewUrl, setPreviewUrl] = useState('');
     const [imageWidth, setImageWidth] = useState<number | null>(null);
@@ -21,8 +21,8 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
             const img = new Image();
             img.src = previewUrl;
             img.onload = () => {
-                setImageWidth(img.naturalWidth * 0.75); // multiply by 0.5 to account for the 50% width of the image
-                setImageHeight(img.naturalHeight * 0.75); // multiply by 0.5 to account for the 50% width of the image
+                setImageWidth(img.naturalWidth * 0.45); // multiply by 0.5 to account for the 50% width of the image
+                setImageHeight(img.naturalHeight * 0.45); // multiply by 0.5 to account for the 50% width of the image
             };
         }
     }, [previewUrl]);
@@ -36,6 +36,30 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
             console.log(`previewUrl after update: ${previewUrl}`);
             setPreviewUrl(URL.createObjectURL(event.target.files[0]));
 
+            const file = event.target.files[0];
+            if (file.type.startsWith('image/')) {
+                setPreviewUrl(URL.createObjectURL(file));
+            } else if (file.type.startsWith('video/')) {
+                // create a video element to get the first frame of the video as preview
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                video.addEventListener('loadeddata', function () {
+                    // get the first frame of the video as canvas
+                    const canvas = document.createElement('canvas');
+                    canvas.height = video.videoHeight * 1.5;
+                    canvas.width = video.videoWidth * 1.5;
+                    const ctx = canvas.getContext('2d');
+                    if (ctx) {
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    }
+                    // get the data URL of the canvas as preview
+                    setPreviewUrl(canvas.toDataURL());
+                });
+            }
+
+            console.log(`previewUrl after update: ${previewUrl}`);
+            setPreviewUrl(URL.createObjectURL(event.target.files[0]));
+
             const image = new Image();
             image.src = URL.createObjectURL(event.target.files[0]);
 
@@ -43,8 +67,6 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
                 setImageWidth(image.naturalWidth);
                 setImageHeight(image.naturalHeight);
             };
-
-
         }
     };
 
@@ -91,9 +113,15 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
                     marginTop="5"
                     width={imageWidth ? `${imageWidth}px` : 'auto'}
                     height={imageHeight ? `${imageHeight}px` : 'auto'}
+                    position="relative"
                 >
                     {previewUrl ? (
-                        <img src={previewUrl} alt="Preview" style={{ width: '100%' }} />
+                        <>
+                            {files?.type.startsWith('video/') && (
+                                <Box position="absolute" top={"container.lg"} left={"container.lg"}>Your video was successfully uploaded!</Box>
+                            )}
+                            <img src={previewUrl} alt="Preview" style={{ width: '100%' }} />
+                        </>
                     ) : (
                         <>
                             <CiImageOn size="50px" />
@@ -103,7 +131,7 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
                     )}
                     <input
                         type="file"
-                        accept="image/jpeg,image/png"
+                        accept="image/jpg,image/jpeg,image/png,video/mp4"
                         ref={inputRef}
                         onChange={handleChange}
                         style={{ display: 'none' }}
@@ -120,4 +148,4 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
 };
 
 
-export default ImageInsert
+export default FileUpload

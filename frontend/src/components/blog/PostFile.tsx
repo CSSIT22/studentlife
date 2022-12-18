@@ -1,13 +1,35 @@
-import { Center, Box, Image } from "@chakra-ui/react"
-import React, { FC } from "react"
+import { Center, Box, } from "@chakra-ui/react"
+import React, { FC, useEffect, useState } from "react"
+import file from "src/pages/groups/id/[communityID]/file";
+function isImgUrl(url: any) {
+    const img = new Image();
+    img.src = url;
+    return new Promise((resolve) => {
+        img.onerror = () => resolve(false);
+        img.onload = () => resolve(true);
+    })
+}
+
 
 const PostFile: FC<{
     file: string
 }> = ({ file }) => {
+    const [isImg, setIsImg] = useState(false);
+    useEffect(() => {
+        isImgUrl(file).then((res) => {
+            if (res) {
+                setIsImg(true);
+            } else {
+                setIsImg(false);
+            }
+        });
+    }, [])
+
     return (
         <Box marginTop={4}>
-            <Center>
-                <Image src={`${file}`} alt="PostImage" objectFit={"cover"} boxSize="500px" />
+            <Center>{isImg ? <img src={`${file}`} width="100%" height="auto" /> : <video width="100%" height="auto" controls>
+                <source src={`${file}`} type="video/mp4"></source>
+            </video>}
             </Center>
         </Box>
     )

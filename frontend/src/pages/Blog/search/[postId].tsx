@@ -38,6 +38,7 @@ import API from "src/function/API"
 import { useEffect, useState } from "react"
 import { getItem } from "localforage"
 import { useParams } from "react-router-dom"
+import file from 'src/pages/groups/id/[communityID]/file';
 
 const Home = () => {
 
@@ -48,6 +49,7 @@ const Home = () => {
     useEffect(() => {
         API.get("/blog/search/" + param.postId).then(item => {
             console.log(item.data)
+            // console.log("this is a file address =>" + post.fileAddress)
             setPost(item.data)
         })
 
@@ -87,9 +89,10 @@ const Home = () => {
                         text={post.body}
                     />}
                     {/* <PostImage image="" /> */}
-                    {post &&
-                        <PostFile file={post.imageAddress}
+                    {post?.files.length===1 &&
+                        <PostFile file={post.files[0].fileAddress}
                         />}
+
 
                     <Center>
                         <Box marginTop={"6"} display="flex" gap={10}>
