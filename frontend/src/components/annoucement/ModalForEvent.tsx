@@ -1,7 +1,7 @@
 import { post } from "@apiType/announcement"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Text } from "@chakra-ui/react"
 import React, { FC } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import API from "src/function/API"
 
 const ModalForEvent: FC<{
@@ -15,14 +15,18 @@ const ModalForEvent: FC<{
     selectPost?: number
     onClick: Function
 }> = ({ isOpen, onClose, topic, detail, status, allPost, setAllPost, selectPost, onClick }) => {
-    const toggle = () => {
+    const navigate = useNavigate()
+    const toggle = async () => {
         onClick()
         if (status == "Approve") {
-            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Delete", deleteAt: new Date() })
+            await API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Delete", deleteAt: new Date() })
+            navigate("/announcement/history")
         } else if (status == "Disapprove") {
-            API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date() })
+            await API.post<post>("/announcement/editstatusonhistory", { postId: selectPost, status: "Deleted", deleteAt: new Date() })
+            navigate("/announcement/history")
         } else if (status == "Delete") {
-            API.post<post>("/announcement/editstatusonrecycle", { postId: selectPost })
+            await API.post<post>("/announcement/editstatusonrecycle", { postId: selectPost })
+            navigate("/announcement/recyclebin")
         }
     }
 
