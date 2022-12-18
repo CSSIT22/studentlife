@@ -42,7 +42,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
         ) : (
             // If user apply -> tost, add data to db, change button state
             API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now, pollCreaterId: pollCreaterId, pollName: pollName })
-                .catch((err) => console.log(err))
+                .catch((err) => console.log(err)).then(() => setcc(false))
             // (appiled(pId),
             //     toast({
             //         title: "Applied success",
@@ -119,7 +119,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                     globalThis.date = handlePollDate(values.pollAppointAt)
                     globalThis.time = hanlePollTime(values.pollAppointAt)
                     return (
-                        <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
+                        <Box key={values.pollId} mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                             <Flex>
                                 <Link to={"/user/" + values.pollCreator.userId}>
                                     <Image
@@ -205,6 +205,8 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                                 onClick={() => {
                                                     handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
                                                 }}
+                                            // isDisabled={cc}
+
                                             // isDisabled={true}
                                             >
                                                 <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
@@ -225,9 +227,9 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                                 alignItems="center"
 
                                                 onClick={() => {
+                                                    setcc(true)
                                                     handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
                                                     // , setApplyState(true)
-                                                    setcc(true)
                                                 }}
                                                 isDisabled={cc}
                                             >

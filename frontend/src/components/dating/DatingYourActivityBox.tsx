@@ -74,6 +74,13 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
         return "/dating/poll/yourpoll/" + pId + "/"
     }
 
+    // window.addEventListener('scroll', function () {
+    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    //         if (heartGiver.length != poll.length)
+    //             setHeartGiver(poll.slice(0, heartGiver.length + 20))
+    //     }
+    // })
+
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
