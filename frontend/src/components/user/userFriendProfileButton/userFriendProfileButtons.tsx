@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { NavigateFunction } from "react-router-dom";
 import {
@@ -38,8 +38,9 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
     const { isOpen: isPokeModalOpen, onOpen: onPokeModalOpen, onClose: onPokeModalClose } = useDisclosure()
     const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
     const [isFollow, setIsFollow] = useState<boolean>()
+    const [followerCount, setFollowerCount] = useState<number>(0)
 
-    function handleClickFollow() {
+    async function handleClickFollow() {
         if (isFollow) {
             setIsFollow(!isFollow)
         } else {
@@ -51,31 +52,16 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
         throw new Error("Function not implemented.");
     }
 
-    function onReportModalClose(): void {
-        throw new Error("Function not implemented.");
-    }
-
-    function onConfirmRPModalClose(): void {
-        throw new Error("Function not implemented.");
-    }
-
-    function onBlockModalClose(): void {
-        throw new Error("Function not implemented.");
-    }
-
-    function onPokeModalClose(): void {
-        throw new Error("Function not implemented.");
-    }
-
     return (
+
         <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
             <HStack position="initial">
+                {/* FOLLOW BUTTON */}
                 <motion.div whileHover={{ scale: 0.9 }}>
                     <Button
                         _hover={{ cursor: "pointer", background: "orange.200" }}
                         onClick={() => {
                             handleClickFollow()
-                            setIsFolCount(FolCount + 1)
                         }}
                         pl={5}
                         width={{ lg: "6rem", base: "" }}
@@ -89,7 +75,9 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                         Follow
                     </Button>
                 </motion.div>
+                {/* FOLLOW BUTTON */}
             </HStack>
+            {/* MESSAGE BUTTON */}
             <motion.div whileHover={{ scale: 0.9 }}>
                 <Button
                     pl={5}
@@ -101,11 +89,14 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                     position="initial"
                     value="inside"
                     shadow={"lg"}
-                    onClick={() => API.post(`/chat/createRoom`, { chatWith_id: userData.userId }).then(() => navigate("/chat"))}
+                // onClick={() => API.post(`/chat/createRoom`, { chatWith_id: userData.userId }).then(() => navigate("/chat"))}
                 >
                     Message
                 </Button>
             </motion.div>{" "}
+            {/* MESSAGE BUTTON */}
+
+            {/* MENU 3 DOTS */}
             <Menu>
                 <motion.div whileHover={{ scale: 0.9 }}>
                     <MenuButton
@@ -126,6 +117,7 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                         value="inside"
                     />
                 </motion.div>
+
                 <MenuList>
                     <MenuItem color="orange.700" icon={<BsFillFlagFill />} onClick={onReportModalOpen}>
                         Report
@@ -165,7 +157,6 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                                         <ModalHeader>Are you sure to report this account?</ModalHeader>
                                         <ModalCloseButton />
                                         <ModalBody>
-                                            <Text></Text>
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button
@@ -203,7 +194,6 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                             <ModalHeader>Are you sure to block this account?</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
-                                <Text></Text>
                             </ModalBody>
                             <ModalFooter>
                                 <Button colorScheme="orange" mr={3} onClick={onBlockModalClose}>
@@ -224,7 +214,6 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                             <ModalHeader>Are you sure to poke this account?</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
-                                <Text></Text>
                             </ModalBody>
                             <ModalFooter>
                                 <Button colorScheme="orange" mr={3} onClick={onPokeModalClose}>
@@ -238,6 +227,7 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                     </Modal>
                 </MenuList>
             </Menu>
+            {/* MENU 3 DOTS */}
         </ButtonGroup>
     )
 }
