@@ -4,7 +4,7 @@
 //     try {
 //         const { prisma } = res
 //         const userId = req.user ? req.user.userId : ""
-//         // const anotherUserId = req.follow ? req.follow.anotherUserId : ""
+//         const anotherUserId = req.Follow ? req.Follow.anotherUserId : ""
 //         const follower = await prisma.Follow.create({
 //             // where: {
 //             //     userId: userId,
