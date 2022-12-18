@@ -12,6 +12,7 @@ const drive = axios.create({
 
 const postCreatingText = async (req: Request, res: Response | any) => {
     console.log(req.body)
+    console.log(req.files)
     const formData = new fd()
     const fileList: any = req.files
 
@@ -55,13 +56,20 @@ const postCreatingText = async (req: Request, res: Response | any) => {
             })
         const fileId = resFileId[0].Id
 
-        const file_contain = await prisma.file_Container.create({
-            data: {
-                fileId: fileId || "",
-                postId: postId,
-                fileAddress: "https://staging-api.modlifes.me/airdrop/file/getfile/" + fileId || "",
-            },
-        })
+        const file_contain = await prisma.file_Container
+            .create({
+                data: {
+                    fileId: fileId || "",
+                    postId: postId,
+                    fileAddress: "https://staging-api.modlifes.me/airdrop/file/getfile/" + fileId || "",
+                },
+            })
+            .then((res: any) => {
+                postId = res.postId
+            })
+            .catch((err: any) => {
+                console.log(err)
+            })
     }
     res.json({ status: "upload sucessfully" })
 }

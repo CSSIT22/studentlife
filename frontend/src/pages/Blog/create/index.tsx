@@ -40,8 +40,9 @@ const Create = () => {
     const toast = useToast()
 
     const submit = () => {
-        if (text && files) {
+        if (text || files) {
             const form = new FormData();
+            console.log(files)
             form.append("text", text);
             form.append("upload", files);
             API.post<any>("/blog/postCreatingX",

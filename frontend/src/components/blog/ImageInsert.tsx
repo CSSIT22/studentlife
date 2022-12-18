@@ -29,14 +29,15 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        if (files) {
+        if (event.target.files) {
+            setFiles(event.target.files[0]);
             console.log(`previewUrl before update: ${previewUrl}`);
-            setPreviewUrl(URL.createObjectURL(files[0]));
+            setPreviewUrl(URL.createObjectURL(event.target.files[0]));
             console.log(`previewUrl after update: ${previewUrl}`);
-            setPreviewUrl(URL.createObjectURL(files[0]));
+            setPreviewUrl(URL.createObjectURL(event.target.files[0]));
 
             const image = new Image();
-            image.src = URL.createObjectURL(files[0]);
+            image.src = URL.createObjectURL(event.target.files[0]);
 
             image.onload = () => {
                 setImageWidth(image.naturalWidth);
