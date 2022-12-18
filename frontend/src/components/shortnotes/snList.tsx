@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, Text, Flex, Spacer, Hide } from "@chakra-ui/react"
+import { Box, Grid, GridItem, Text, Flex, Spacer, Hide, Tooltip } from "@chakra-ui/react"
 import React, { FC } from "react"
 
 const snList: FC<{
@@ -12,7 +12,7 @@ const snList: FC<{
             <Grid templateColumns="repeat(9, 1fr)">
                 <GridItem colSpan={4}>
                     <Flex alignItems={"center"} justifyContent={"start"} h={"100%"}>
-                        <Text>{topic}</Text>
+                        <Text textAlign={"left"} noOfLines={1} >{topic}</Text>
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={2}>
@@ -29,7 +29,10 @@ const snList: FC<{
                 </GridItem>
                 <GridItem colSpan={1} textAlign={"right"}>
                     <Flex alignItems={"center"} justifyContent={"right"} h={"100%"}>
-                        <Text>{lock}</Text>
+                        <Tooltip hasArrow label='Private shortnote' placement='top' fontSize='md' bg={"orange.500"} rounded={6}>
+                            <Text fontSize={"2xl"}>{lock}</Text>
+                        </Tooltip>
+
                     </Flex>
                 </GridItem>
             </Grid>

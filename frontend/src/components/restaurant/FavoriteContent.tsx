@@ -51,7 +51,7 @@ const FavoriteContent: FC<{
     return (
         <>
             <Show below="sm">
-                <Box width={"100%"} height={"90%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
+                <Box width={"100%"} height={"90%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}  flexDirection={"row"}  alignItems={"center"}>
                     <Popover placement="auto">
                         {({ onClose }: any) => (
                             <>
@@ -84,7 +84,7 @@ const FavoriteContent: FC<{
                     </Popover>
 
                     <Flex alignItems={"center"} maxWidth="100%">
-                    <Box width={"30%"} ml={"1rem"}>
+                    <Box  width={"30%"} ml={"1rem"}>
                           
                           {img == "undefined" ? <Image boxSize="5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />} 
                        
@@ -109,7 +109,7 @@ const FavoriteContent: FC<{
                 </Box>
             </Show>
             <Show above="sm">
-                <Box width={"100%"} height={"90%"} p={5} shadow="md" backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"}>
+                <Box width={"100%"} height={"90%"} p={5} shadow="md" backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"} display={"flex"} flexDirection={"column"}  justifyContent={"center"} >
                     <Popover placement="bottom">
                         {({ onClose }: any) => (
                             <>
@@ -150,7 +150,7 @@ const FavoriteContent: FC<{
                     </Popover>
                     <Link to={link}>
                         <Flex direction={"column"} alignItems={"center"} gap={"4"}>
-                            <Heading color={"#E65D10"} fontSize="xl">
+                            <Heading textAlign={"center"} color={"#E65D10"} fontSize="xl">
                                 {resName}
                             </Heading>
                             {img == "undefined" ? <Image boxSize="12.5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} borderRadius={"10px"} width="100%" height="100%"/> : <Image boxSize={"12.5rem"} src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} borderRadius={"10px"} />}

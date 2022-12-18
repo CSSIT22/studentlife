@@ -19,8 +19,8 @@ const deleteFavorite = async(req: Request, res: Response) => {
 
         
     } catch (error) {
-        console.log("delete Error");
-        
+      
+        res.status(400)
     }
     // const newdata = getRestaurant().map((restaurant) => {
     //     if (restaurant.id == id) {

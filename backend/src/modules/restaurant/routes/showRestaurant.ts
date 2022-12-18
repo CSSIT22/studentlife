@@ -7,6 +7,8 @@ const showRestaurant = async (req: Request, res: Response) => {
   
    
     // console.log(radius);
+    try{
+
     
     const google = axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=restaurant&location=13.651215325557505,100.49407892842339&radius=${radius}&type=restaurant&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`);
     // console.log((await google).data);
@@ -49,6 +51,10 @@ const showRestaurant = async (req: Request, res: Response) => {
     // })
     
     res.send(showres)
+}
+catch(error) {
+    res.status(400)
+}
 
 }
 export default showRestaurant
