@@ -11,6 +11,11 @@ import getAboutMeDetail from "./routers/getAboutMeDetail"
 import changeimageuser from "./routers/changeuserimage"
 import blockuser from "./routers/blockuser"
 import getblockuser from "./routers/getblockuser"
+
+import getFollower from "./routers/getFollower"
+import getFollowing from "./routers/getFollowing"
+import insertfollow from "./routers/insertfollower"
+
 import init from "./routers/init"
 
 const userRoutes = express()
@@ -34,6 +39,10 @@ userRoutes.put("/profile/edit", editaboutmeuser)
 userRoutes.put("/profile/changeuserimage/:id", changeimageuser)
 
 userRoutes.put("/profile/blockuser/:id", blockuser)
-userRoutes.put("/profile/getblockuser/:id", getblockuser)
+userRoutes.get("/profile/getblockuser/:id", getblockuser)
+
+userRoutes.put("/profile/insertfollow/:id", insertfollow)
+userRoutes.get("/getFollower/:id", getFollower)
+userRoutes.get("/getFollowering/:id", getFollowing)
 
 export default userRoutes
