@@ -93,7 +93,7 @@ const DatingYourPollSeeMore: FC<{
                 <ModalContent>
                     <ModalHeader>
                         <Flex alignItems="center">
-                            <Link to="/user/" >
+                            <Link to={"/user/" + pollInfo.pollCreator.userId} >
                                 {pollInfo.pollCreator.image ?
                                     <Image
                                         borderRadius="full"
