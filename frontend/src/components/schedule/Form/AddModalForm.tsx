@@ -70,25 +70,31 @@ const AddModalForm = () => {
     }
     return (
         <>
-           
-               <FormControl isRequired>
+
+            <FormControl >
+
                 <FormLabel color="black">
-                    <Text fontSize={{ base: "20px", md: "24px" }}>Event name</Text>
+                    <Box display="flex">
+                        <Text fontSize={{ base: "20px", md: "24px" }} pr="2">Event name</Text>
+                        <Text color="red">*</Text>
+                    </Box>
                 </FormLabel>
+
                 <Input
                     id="name"
                     type="text"
                     value={event}
                     onChange={(e) => handleInputEventChange(e)}
                     maxLength={100}
-                    isRequired
                     placeholder="What's your event?"
                     boxShadow="md"
                     bgColor="white"
                 />
             </FormControl>
 
-            <FormControl mt={4}>
+
+
+            <FormControl mt={4} >
                 <FormLabel color="black">
                     <Text fontSize={{ base: "20px", md: "24px" }}>Description</Text>
                 </FormLabel>
@@ -105,11 +111,14 @@ const AddModalForm = () => {
             </FormControl>
 
             <Box display={{ md: "flex" }} >
-                <FormControl mt={4} pr="4">
+                <FormControl mt={4} pr="4" >
                     <FormLabel color="black">
-                        <Text fontSize={{ base: "20px", md: "24px" }}>Start Time</Text>
+                        <Box display="flex">
+                            <Text fontSize={{ base: "20px", md: "24px" }}>Start Time</Text>
+                            <Text color="red">*</Text>
+                        </Box>
                     </FormLabel>
-                    <Input placeholder="Select time" size="xs"
+                    <Input placeholder="Select time" size="s"
                         id="time"
                         type="datetime-local"
                         value={time}
@@ -117,21 +126,29 @@ const AddModalForm = () => {
                         boxShadow="md" />
                 </FormControl>
 
-                <FormControl mt={4} pr="4">
+                <FormControl mt={4} pr="4" >
                     <FormLabel color="black" >
-                        <Text fontSize={{ base: "20px", md: "24px" }}>End Time</Text>
+                        <Box display="flex">
+                            <Text fontSize={{ base: "20px", md: "24px" }}>End Time</Text>
+                            <Text color="red">*</Text>
+                        </Box>
+
                     </FormLabel>
                     <Input placeholder="Select time"
-                        size="xs"
+                        size="s"
                         type="datetime-local"
-                        onChange={(e) => { handleInputEndTimeChange(e) }} 
-                        boxShadow="md"/>
+                        onChange={(e) => { handleInputEndTimeChange(e) }}
+                        boxShadow="md" />
 
                 </FormControl>
 
                 <FormControl mt={4} >
-                    <FormLabel color="black">
-                        <Text fontSize={{ base: "20px", md: "24px" }}>Event Type</Text>
+                    <FormLabel color="black" >
+                        <Box display="flex">
+                            <Text fontSize={{ base: "20px", md: "24px" }}>Event Type</Text>
+                            <Text color="red">*</Text>
+                        </Box>
+
                     </FormLabel>
                     <Box>
                         <Select placeholder="Select Event Type"
@@ -150,7 +167,11 @@ const AddModalForm = () => {
 
             <FormControl mt={4}>
                 <FormLabel color="black">
-                    <Text fontSize={{ base: "20px", md: "24px" }}>Location</Text>
+                    <Box display="flex">
+                        <Text fontSize={{ base: "20px", md: "24px" }}>Location</Text>
+                        <Text color="red">*</Text>
+                    </Box>
+
                 </FormLabel>
                 <Input
                     id="location"
@@ -183,9 +204,9 @@ const AddModalForm = () => {
                     onClick={handleSubmit}>
                     Add
                 </Button>
-            </HStack> 
-            
-            
+            </HStack>
+
+
 
 
         </>
