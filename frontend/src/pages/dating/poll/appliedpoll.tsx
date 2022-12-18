@@ -299,7 +299,7 @@ const YourAppliedActivityPoll = () => {
                                             mb={{ base: "8px", md: "25px" }}
                                         >
                                             <Flex>
-                                                <Box w="85%">
+                                                <Box overflow="hidden">
                                                     <Text
                                                         pt="17px"
                                                         pl="30px"
