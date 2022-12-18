@@ -15,23 +15,22 @@ import API from "src/function/API"
 // Cart
 const Cart = () => {
     const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
-    const [updates, setUpdates] = useState<number>(0)
 
     const [couponCode, setCouponCode] = useState<string>("")
     const [couponDiscount, setCouponDiscount] = useState<number>(0)
     const [errorCouponMsg, setErrorMsg] = useState("Coupon is invalid!")
     const [userCoupons, setCoupons] = useState<User_Coupon_With_Detials[] | null>(null)
-    const [isErrorCoupon , setErrorCoupon] = useState<boolean>(false)
+    const [isErrorCoupon, setErrorCoupon] = useState<boolean>(false)
     const [isCouponSuccess, setCouponSuccess] = useState<boolean>(false)
 
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const getData = API.get("/shop/getAllProductsInCart")
     useEffect(() => {
-        getData.then((res) => {setCartProducts(res.data)}).catch((err) => on()).finally(() => off())
+        getData.then((res) => { setCartProducts(res.data) }).catch((err) => on()).finally(() => off())
         API.get("/shop/getAllUserCoupons").then(res => setCoupons(res.data)).catch(err => console.log(err))
         clearCoupon()
-    }, [updates])
+    }, [])
     let st = 0, dt = 0
     cartProducts?.forEach(cartProduct => {
         st += parseFloat(cartProduct.product.productPrice) * cartProduct.quantity
@@ -58,10 +57,10 @@ const Cart = () => {
         setErrorCoupon(false)
     }
 
-    const checkProductInCart = (productId: number) : boolean => {
-        if (cartProducts != null){
-            for (let i = 0; i < cartProducts?.length; i++){
-                if (cartProducts[i].productId == productId){
+    const checkProductInCart = (productId: number): boolean => {
+        if (cartProducts != null) {
+            for (let i = 0; i < cartProducts?.length; i++) {
+                if (cartProducts[i].productId == productId) {
                     return true
                 }
             }
@@ -69,19 +68,19 @@ const Cart = () => {
         } else {
             return false
         }
-        
+
     }
 
     const applyCoupon = () => {
-        if (userCoupons != null && userCoupons.length > 0){
-            for (let i = 0; i < userCoupons.length; i++){
-                if (userCoupons[i].couponCode.toLowerCase() == couponCode.toLowerCase()){
-                    if (userCoupons[i].coupon.quota > 0 ){
-                        let expDate =  new Date(userCoupons[i].coupon.validTill.toString())
+        if (userCoupons != null && userCoupons.length > 0) {
+            for (let i = 0; i < userCoupons.length; i++) {
+                if (userCoupons[i].couponCode.toLowerCase() == couponCode.toLowerCase()) {
+                    if (userCoupons[i].coupon.quota > 0) {
+                        let expDate = new Date(userCoupons[i].coupon.validTill.toString())
                         let now = new Date()
-                        if (now < expDate ){
-                            if (parseFloat(userCoupons[i].coupon.minimumSpend) <= summeryData.total){
-                                if (checkProductInCart(userCoupons[i].coupon.productId)){
+                        if (now < expDate) {
+                            if (parseFloat(userCoupons[i].coupon.minimumSpend) <= summeryData.total) {
+                                if (checkProductInCart(userCoupons[i].coupon.productId)) {
                                     couponSuccess(parseFloat(userCoupons[i].coupon.discount))
                                     return
                                 }
@@ -109,9 +108,57 @@ const Cart = () => {
             setErrorMsg("User does not have coupon")
         }
     }
-    const handleChange = (e:  React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCouponCode(e.target.value)
     }
+    const removeFromCart = (productId: number) => {
+        // Remove the item from the array of cart items
+        if (cartProducts) {
+            const updatedCartItems = cartProducts.filter(cp => cp.productId !== productId);
+            // Update the state with the new array
+            setCartProducts(updatedCartItems);
+            clearCoupon()
+            // Send a DELETE request to the backend to remove the item from the database
+            API.delete("/shop/deleteCartProduct/" + productId).then(res => console.log(res.data)).catch((err) => alert("There was an error connecting with database. Please Reload the webpage!"))
+        }
+    }
+    const increaseQty = (productId: number) => {
+        if (cartProducts) {
+            // Find the item in the array of cart items
+            const item = cartProducts.find(item => item.productId === productId);
+            if (item) {
+                let newQuantity = item.quantity + 1
+                // Check with stock
+                if (newQuantity <= item.product.productStock) {
+                    // Update the quantity of the item
+                    item.quantity = newQuantity
+                    // Update the state with the new array
+                    setCartProducts([...cartProducts]);
+                    clearCoupon()
+                    API.put("/shop/incrementCPQuantity/" + productId).catch(() => alert("Cannot Update the database please reload the page"))
+                }
+            }
+        }
+    }
+    const decreaseQty = (productId: number) => {
+        if (cartProducts) {
+            // Find the item in the array of cart items
+            const item = cartProducts.find(item => item.productId === productId);
+            if (item) {
+                let newQuantity = item.quantity - 1
+                // Check with stock
+                if (newQuantity > 0) {
+                    // Update the quantity of the item
+                    item.quantity = newQuantity
+                    // Update the state with the new array
+                    setCartProducts([...cartProducts]);
+                    clearCoupon()
+                    API.put("/shop/decreaseCPQuantity/" + productId).catch(() => alert("Cannot Update the database please reload the page"))
+                }
+            }
+        }
+    }
+
     const orderSummary = (
         <ContentBox bg="#fff">
             <Flex direction="column" gap={5} p="5">
@@ -124,7 +171,7 @@ const Cart = () => {
                     <Text>TotalDelivery</Text>
                     <Text as="b">{convertCurrency(summeryData.deliveryTotal)}</Text>
                 </Flex>
-                {!isCouponSuccess &&<Flex gap={2} justify="space-between">
+                {!isCouponSuccess && <Flex gap={2} justify="space-between">
                     <Input
                         type="text"
                         placeholder="Enter Coupon Code"
@@ -133,16 +180,16 @@ const Cart = () => {
                         borderRadius="10px"
                         size={"md"}
                         background="white"
-                        value = {couponCode}
-                        onChange = {handleChange}
+                        value={couponCode}
+                        onChange={handleChange}
                     ></Input>
                     <ThemedButton maxW="24" onClick={applyCoupon}> APPLY </ThemedButton>
-                </Flex> }
+                </Flex>}
                 {isCouponSuccess && <Flex gap={2} justify="space-between">
                     <Text>Coupon Discount</Text>
                     <Text as="b">{convertCurrency(couponDiscount)}</Text>
                 </Flex>}
-                {isErrorCoupon && <Text sx = {errorText}>{errorCouponMsg}</Text>}
+                {isErrorCoupon && <Text sx={errorText}>{errorCouponMsg}</Text>}
                 <Link to={"/shop/other/coupons"}>
                     <Button variant="link" width="min">
                         See Your Coupons
@@ -154,7 +201,7 @@ const Cart = () => {
                 </Flex>
                 <Flex justify="center" >
                     <LinkBox>
-                        <Link to="../shop/checkout" state={{couponDiscount: couponDiscount, couponCode: couponCode}}>
+                        <Link to="../shop/checkout" state={{ couponDiscount: couponDiscount, couponCode: couponCode }}>
                             <ThemedButton>CHECKOUT</ThemedButton>
                         </Link>
                     </LinkBox>
@@ -171,7 +218,7 @@ const Cart = () => {
                 <GridItem colSpan={{ base: 2, md: 1 }}>
                     <Flex direction="column" gap={5}>
                         <TitleBox title="Products in Cart"></TitleBox>
-                        {isError? <>There Was an Error</> : isLoading? <Spinner /> : generateCartProducts(cartProducts, setUpdates)}
+                        {isError ? <>There Was an Error</> : isLoading ? <Spinner /> : generateCartProducts(cartProducts, removeFromCart, increaseQty, decreaseQty)}
                     </Flex>
                 </GridItem>
                 <GridItem colSpan={{ base: 2, md: 1 }}>
@@ -183,21 +230,22 @@ const Cart = () => {
     )
 }
 
-function generateCartProducts(cartProducts: Shop_Cart[] | null, setUpdates: React.Dispatch<React.SetStateAction<number>>){
+function generateCartProducts(cartProducts: Shop_Cart[] | null, removeFromCart: (productId: number) => void, increaseQty: (productId: number) => void, decreaseQty: (productId: number) => void) {
     try {
-        
         if (cartProducts != null && cartProducts.length > 0) {
             return cartProducts.map((cartProduct, key) => (
                 <CartProduct
-                        key = {key}
-                        productId={cartProduct.productId}
-                        quantity={cartProduct.quantity}
-                        images={cartProduct.product.images} 
-                        productName={cartProduct.product.productName} 
-                        productPrice={parseFloat(cartProduct.product.productPrice)} 
-                        productStock={cartProduct.product.productStock}
-                        setUpdates = {setUpdates}                        
-                        />
+                    key={key}
+                    productId={cartProduct.productId}
+                    quantity={cartProduct.quantity}
+                    images={cartProduct.product.images}
+                    productName={cartProduct.product.productName}
+                    productPrice={parseFloat(cartProduct.product.productPrice)}
+                    productStock={cartProduct.product.productStock}
+                    increaseQty={increaseQty}
+                    decreaseQty={decreaseQty}
+                    onDelete={removeFromCart}
+                />
             ))
         }
     } catch (error) {
