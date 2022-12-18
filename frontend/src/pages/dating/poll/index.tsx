@@ -145,8 +145,7 @@ const AllActivityPoll = () => {
             setAllPoll(data.data)
             let pollData = data.data
             setPoll(pollData.slice(0, poll.length))
-        }).catch(on).finally(() => {setIsloading(false), (document.getElementById(pId) as HTMLInputElement).disabled = false})
-
+        }).catch(on).finally(() => { setIsloading(false), (document.getElementById(pId) as HTMLInputElement).disabled = false })
     }
 
     window.addEventListener('scroll', function () {

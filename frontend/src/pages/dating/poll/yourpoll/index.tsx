@@ -18,7 +18,8 @@ const YourActivityPoll = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
-    const [poll, setPoll] = useState<PollInfo | any>()
+    const [poll, setPoll] = useState<PollInfo[]>([])
+    const [pollS, setPollS] = useState<PollInfo[]>([])
     const [isLoading, setIsloading] = useState(true)
     const [isError, { on }] = useBoolean()
     let count = 1
@@ -112,9 +113,9 @@ const YourActivityPoll = () => {
                     })
             })
             API.get("/dating/youractivitypoll/getYourPolls").then((data) => {
-                setPoll(data.data)
-                // console.log("Poll data " + poll);
+                setPollS(data.data)
                 const x = data.data
+                console.log(data.data)
                 setPoll(x.slice(0, 20))
             }).catch(on).finally(() => setIsloading(false))
         }
@@ -128,6 +129,12 @@ const YourActivityPoll = () => {
 
         return didMount
     }
+
+    window.addEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && pollS && poll) {
+            setPoll(pollS.slice(0, poll.length + 20))
+        }
+    })
 
     return (
         <DatingAppBody>
@@ -154,7 +161,7 @@ const YourActivityPoll = () => {
                 </Center>
                 {/* Calling all your activity poll out (Need to order by time [desc])*/}
                 <Stack pt="150px" pb="60px">
-                    <DatingYourActivityBox poll={poll} />
+                    {poll && <DatingYourActivityBox poll={poll} />}
                 </Stack>
                 {/* Create poll button */}
                 <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px", md: "20px" }} bottom={{ base: "70px", md: "30px" }} _hover={{ color: "black" }}>
