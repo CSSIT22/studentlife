@@ -117,7 +117,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
             form.append("communityID", communityID);
             form.append("upload", files[0]);
             for (var pair of form.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
+                console.log(pair[0] + ', ' + pair[1]);
             }
             const result = await API.post("/group/createPost", form, {
                 headers: {
@@ -199,7 +199,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                     onChange={(e) => setPostText(e.target.value)}
                                 />
                                 <HStack justify='flex-end'>
-                                
+
                                     <Button
                                         onClick={onCreatePost}
                                         color='white'
@@ -207,10 +207,10 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                         size='sm'
                                         mt={'2'}
                                         pe={'9'}
-                                        
+
                                         _hover={{ bg: 'orange.500' }}
                                         display={isCreatePostBtn ? "block" : "none"}
-                                        >
+                                    >
                                         <Text>Submit</Text>
                                     </Button>
                                     <ImageInsert children files={files} setFiles={setFiles} />
@@ -236,7 +236,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                         >
                             Pinned Post
                         </Text>
-                        
+
                     </HStack> : null
                 }
                 {
@@ -251,10 +251,12 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                 likeCount={post.score}
                                 isPinned={post.isPinned}
                                 fetchPost={fetchPost}
-                                postMedia={post.media}
+                                postMedia={post.postMedia}
                                 //user
                                 checkid={data.user.id}
                                 checkRole={data.user.role}
+                                undefined={post.user.undefined}
+
                                 //member
                                 userId={post.user.id}
                                 userRole={post.user.role}
@@ -262,6 +264,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                 avatar={post.user.image}
                                 lastEdit={post.date}
                                 seen={post.seen}
+
                             />
                         )
                     })
@@ -300,10 +303,14 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                 likeCount={post.score}
                                 isPinned={post.isPinned}
                                 fetchPost={fetchPost}
+                                postMedia={post.postMedia}
+
 
                                 //user
                                 checkid={data.user.id}
                                 checkRole={data.user.role}
+                                undefined={post.user.undefined}
+
                                 //member
                                 userId={post.user.id}
                                 userRole={post.user.role}

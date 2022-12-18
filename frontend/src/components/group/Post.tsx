@@ -1,5 +1,5 @@
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
-import { Avatar, Badge, Box, Button, ButtonGroup, Editable, EditableInput, EditablePreview, Flex, Heading, HStack, IconButton, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Text, Textarea, useEditableControls, useToast } from '@chakra-ui/react'
+import { Avatar, Badge, Box, Button, Flex, HStack, Menu, MenuButton, MenuItem, MenuList, Text, Textarea, useToast, Image } from '@chakra-ui/react'
 import React, { FC, useState } from 'react'
 import { AiFillDislike, AiFillLike, AiFillPushpin, AiOutlineDislike, AiOutlineLike, AiOutlinePushpin } from 'react-icons/ai'
 import { BsPinFill, BsThreeDots } from 'react-icons/bs'
@@ -26,7 +26,8 @@ const Post: FC<{
     checkid?: string,
     lastEdit?: Date,
     seen?: boolean,
-    postMedia?:any
+    postMedia?: any
+    undefined?: any
 }> = ({
     userName = "Unknown user",
     userRole,
@@ -41,11 +42,12 @@ const Post: FC<{
     lastEdit,
     isPinned,
     seen,
-    postMedia
+    postMedia,
+    undefined,
 }) => {
 
         const [files, setFiles] = useState<any>([])
-        const [fs,setFs] = useState(true)
+        const [fs, setFs] = useState(true)
 
         const [body, setBody] = useState(postText)
         const [isEditing, setIsEditing] = useState(false)
@@ -53,16 +55,16 @@ const Post: FC<{
         const [like, setLike] = useState(false)
         const [dislike, setDislike] = useState(false)
         const handleOnLikeClick = () => {
-                
+
             setLike(!like)
             setDislike(false)
             setFs(false)
-            
-            if(fs){
+
+            if (fs) {
                 onLike()
                 setFs(false)
             }
-            else{
+            else {
                 onDislike()
                 setFs(true)
             }
@@ -72,7 +74,7 @@ const Post: FC<{
             setDislike(!dislike)
             setLike(false)
             setFs(!fs)
-            
+
         }
         const toast = useToast()
         const sendAPI = async (
@@ -80,7 +82,7 @@ const Post: FC<{
             method: string,
             title?: string,
             desc?: string,
-            
+
         ) => {
             try {
                 if (method === "POST") {
@@ -98,7 +100,7 @@ const Post: FC<{
                     })
                     fetchPost()
                 }
-                title?toast({
+                title ? toast({
                     title: title,
                     description: desc,
                     status: "success",
@@ -106,7 +108,7 @@ const Post: FC<{
                     isClosable: true,
                     position: 'top',
                 })
-                : null
+                    : null
                 // fetchCommunity()
             }
             catch (err) {
@@ -126,7 +128,7 @@ const Post: FC<{
                 "DELETE",
                 "Delete post",
                 "Post deleted successfully",
-                
+
             )
         }
         const onPinPost = () => {
@@ -135,7 +137,7 @@ const Post: FC<{
                 "POST",
                 "Pin post",
                 "Post pinned successfully",
-                
+
             )
         }
         const onUnpinPost = () => {
@@ -144,7 +146,7 @@ const Post: FC<{
                 "POST",
                 "Unpin post",
                 "Post unpinned successfully",
-                
+
             )
         }
         const onEdit = () => {
@@ -153,7 +155,7 @@ const Post: FC<{
                 "POST",
                 "Edit post",
                 "Post edited successfully",
-                
+
             )
             setTimeout(() => {
                 setIsEditing(false)
@@ -164,14 +166,14 @@ const Post: FC<{
             sendAPI(
                 "/group/likePost",
                 "POST",
-                
-                
+
+
             )
         }
         const onDislike = () => {
             sendAPI(
-                
-                
+
+
                 "/group/dislikePost",
                 "POST",
             )
@@ -227,7 +229,7 @@ const Post: FC<{
 
         return (
             <Box width='full' maxW='580px'>
-                <Box p='4' shadow='lg' bg={userName != ' ' ? 'white' : 'gray.100'} borderRadius='md'>
+                <Box p='4' shadow='lg' bg={!undefined ? 'white' : 'gray.100'} borderRadius='md'>
                     <HStack mb='1' justify='space-between'>
                         <Flex
 
@@ -238,7 +240,7 @@ const Post: FC<{
                             />
                             <Box ml='3' lineHeight='1.2'>
                                 <Text fontSize='sm' fontWeight='bold'>
-                                    {userName != ' ' ? userName : 'Anonymous'}
+                                    {!undefined ? userName : 'Anonymous'}
                                     <Badge ml='1' colorScheme='green'>
                                         {userRole}
                                     </Badge>
@@ -288,10 +290,23 @@ const Post: FC<{
                                 variant='unstyled'
                             />
                         ) : (
-                        
-                            <Text fontSize='lg'>{body}</Text>
-                            
-                        
+                            <Box>
+                                <Text fontSize='lg'>{body}</Text>
+                                <Image
+                                    src={postMedia}
+                                    alt=""
+                                    width="100%"
+                                    height="auto"
+                                    objectFit="cover"
+                                    borderRadius="md"
+                                    maxHeight='300px'
+                                    p="1"
+                                    fit={"cover"}
+                                />
+                            </Box>
+
+
+
                         )
                     }
 
@@ -313,10 +328,10 @@ const Post: FC<{
                 </Flex> */}
                     <Flex mt='2' alignItems='center' justifyContent='flex-start' gap='1'>
                         {!like ? <AiOutlineLike color='#3388ff' size='20px' onClick={handleOnLikeClick} />
-                            : <AiFillLike color='#3388ff' size='20px' onClick={handleOnLikeClick}/>}
+                            : <AiFillLike color='#3388ff' size='20px' onClick={handleOnLikeClick} />}
                         <Text color='#3388ff' as='b' fontSize='sm'>{likeCount}</Text>
                         {!dislike ? <AiOutlineDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick} />
-                            : <AiFillDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick}/>}
+                            : <AiFillDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick} />}
                         {/* <Text color='#ff2400' as='b' fontSize='sm'></Text> */}
                     </Flex>
                 </Box >
