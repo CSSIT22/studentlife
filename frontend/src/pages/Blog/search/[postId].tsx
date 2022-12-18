@@ -59,6 +59,7 @@ const Home = () => {
         // getData.then((res) => {
         //     console.log(res.data)
         // })
+        // yoooo
 
     }, [])
     return (
@@ -89,7 +90,7 @@ const Home = () => {
                         text={post.body}
                     />}
                     {/* <PostImage image="" /> */}
-                    {post?.files.length===1 &&
+                    {post?.files.length === 1 &&
                         <PostFile file={post.files[0].fileAddress}
                         />}
 
