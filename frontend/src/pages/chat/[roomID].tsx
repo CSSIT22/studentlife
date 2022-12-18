@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, calc, Flex, Heading, Hide, HStack, Input, Textarea, useBoolean } from "@chakra-ui/react"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
@@ -43,6 +43,9 @@ export type message = {
     message: string
     senderId: string
 }
+type quoteType = {
+    text: string
+}
 
 const Room = () => {
     let param = useParams()
@@ -54,17 +57,18 @@ const Room = () => {
     const scroll = useRef<null | HTMLDivElement>(null)
     const [isLoading, { off }] = useBoolean(true)
     const [member, setMember] = useState<memberType[]>()
+    const [quote, setQuote] = useState<quoteType[]>([])
     //fetch API
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
+        API.get(`chat/${param.roomID}/getQuote`).then((e) => setQuote(e.data))
         API.get(`chat/${param.roomID}/getMessage`)
             .then((e) => setmsg(e.data))
             .finally(() => off())
     }, [param])
 
     useEffect(() => {
-        API.get(`/chat/${param.roomID}/getMember`).then((e) => setMember(e.data)
-        )
+        API.get(`/chat/${param.roomID}/getMember`).then((e) => setMember(e.data))
     }, [param])
 
     useEffect(() => {
@@ -86,26 +90,32 @@ const Room = () => {
         setText(e.target.value)
     }
 
-    function onPoke(Room : RoomType) {
+    function onPoke(Room: RoomType) {
         noti(Room)
     }
-    function noti(Room : RoomType){
-        const result = member?.filter((e)=>e.user.userId != Room.userId);
-        const name = member?.filter((e)=>e.user.userId == Room.userId)
+    function noti(Room: RoomType) {
+        const result = member?.filter((e) => e.user.userId != Room.userId)
+        const name = member?.filter((e) => e.user.userId == Room.userId)
         axios.post("http://localhost:8000/notification/addnotiobject", {
             template: "CHAT_MESSAGE",
-            value: [`${name?.map((e)=>e.user.fName)}`],
-            userId: result?.map((e)=>e.user.userId),
+            value: [`${name?.map((e) => e.user.fName)}`],
+            userId: result?.map((e) => e.user.userId),
             module: "CHAT",
             url: `/chat/${Room.roomId}`,
             sender: `${Room.userId}`,
         })
     }
 
-    function onSend(e: any ,Room : RoomType) {
+    function onSend(e: any, Room: RoomType) {
         e.preventDefault()
         if (Text == "") {
             alert("ไม่ให้ส่งคั้บ")
+        } else if (Text == "/quote") {
+            const result = RandomQuote(quote)
+            socketIO.emit("send-msg", { msg: result.text, room_id: Room?.roomId, from: Room?.userId, type: "TEXT" })
+            noti(Room)
+            setText("")
+            
         } else {
             //API.post(`chat/${param.roomID}/postMessage`,{type :"TEXT" ,message:Text}).then(()=> API.get(`chat/${param.roomID}/getMessage`).then((e)=>setmsg(e.data)))
             socketIO.emit("send-msg", { msg: Text, room_id: Room?.roomId, from: Room?.userId, type: "TEXT" })
@@ -113,6 +123,12 @@ const Room = () => {
             setText("")
         }
     }
+    function RandomQuote(e: any) {
+        const randomObject = e[Math.floor(Math.random() * e.length)]
+        return randomObject
+    }
+
+    //funtion render
     function renderTitle() {
         if (Room?.roomType === "INDIVIDUAL") {
             const img = Room.nameWho.image
@@ -138,6 +154,14 @@ const Room = () => {
     }
 
     function renderMessage(Room: RoomType) {
+        
+    }
+
+    const renderedMessage = useMemo(() => {
+        if(!Room){
+            return null;
+        }
+        
         if (Room?.roomType === "INDIVIDUAL") {
             return msg.map((e) => {
                 return (
@@ -148,14 +172,14 @@ const Room = () => {
                         from={e.senderId}
                         color={Room.chatColor}
                         myId={Room.userId}
-                        name = {Room.nickname}
-                        image = {Room.nameWho.image}
+                        name={Room.nickname}
+                        image={Room.nameWho.image}
                     />
                 )
             })
         } else {
             return msg.map((e) => {
-                const name = member?.filter((el)=>el.user.userId == e.senderId)    
+                const name = member?.filter((el) => el.user.userId == e.senderId)
                 return (
                     <TextBar
                         key={e._id}
@@ -164,13 +188,13 @@ const Room = () => {
                         from={e.senderId}
                         color={Room.chatColor}
                         myId={Room.userId}
-                        name = {name?.map((e)=>e.user.fName) }
-                        image = {null}
+                        name={name?.map((e) => e.user.fName)}
+                        image={null}
                     />
                 )
             })
         }
-    }
+    }, [Room, msg])
 
     if (isLoading) {
         return (
@@ -224,7 +248,9 @@ const Room = () => {
                         roundedTopRight={"lg"}
                         py={2}
                     >
-                        <Flex alignItems={"center"} overflowX={"clip"}>{renderTitle()}</Flex>
+                        <Flex alignItems={"center"} overflowX={"clip"}>
+                            {renderTitle()}
+                        </Flex>
                         <Flex marginRight={4}>
                             <Box marginX={5}>
                                 <Box cursor={"pointer"} onClick={() => setIsMute(!isMute)}>
@@ -232,19 +258,19 @@ const Room = () => {
                                 </Box>
                             </Box>
                             <Box>
-                                <AiFillThunderbolt cursor={"pointer"} size={35} onClick={()=>onPoke(Room)} />
+                                <AiFillThunderbolt cursor={"pointer"} size={35} onClick={() => onPoke(Room)} />
                             </Box>
                         </Flex>
                     </Flex>
 
                     <Box overflowY={"auto"} flex={1} bg="#FFF2E6" width={{ base: "100%", md: "auto" }} maxH={"65vh"}>
-                        {renderMessage(Room)}
+                        {renderedMessage}
                         <div ref={scroll}></div>
                     </Box>
 
                     <Flex h={"55px"} bg={Room?.chatColor} justifyContent={"space-between"} alignItems={"center"} width={{ base: "100%", md: "auto" }}>
                         <Plustoggle />
-                        <form onSubmit={(e)=>onSend(e,Room)}>
+                        <form onSubmit={(e) => onSend(e, Room)}>
                             <Input
                                 marginLeft={5}
                                 isInvalid
@@ -263,7 +289,13 @@ const Room = () => {
                             <Box cursor={"pointer"} marginRight={4}>
                                 <BiSticker size={30} />
                             </Box>
-                            <Button cursor={"pointer"} marginRight={4} onClick={(e)=>onSend(e,Room)} disabled={Text == "" ? true : false} variant={"unstyled"}>
+                            <Button
+                                cursor={"pointer"}
+                                marginRight={4}
+                                onClick={(e) => onSend(e, Room)}
+                                disabled={Text == "" ? true : false}
+                                variant={"unstyled"}
+                            >
                                 <FiSend size={30} />
                             </Button>
                         </Flex>
