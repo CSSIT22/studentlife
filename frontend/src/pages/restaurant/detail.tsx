@@ -25,6 +25,8 @@ import {
     useBoolean,
     Radio,
     RadioGroup,
+    SimpleGrid,
+    Stack,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
@@ -66,9 +68,9 @@ function detail() {
     const getRoom = API.get("/chat")
     useEffect(() => {
         getRoom.then((item) => setRoom(item.data))
-    }, [setRoom]) 
+    }, [setRoom])
     console.log(room);
-    
+
     function buffer_to_img(data: any) {
         const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
         return `data:image/png;base64,${base64String}`
@@ -83,7 +85,7 @@ function detail() {
     }
 
     let [isFavorite, setIsFavorite] = useState(Boolean)
-    
+
 
     useEffect(() => {
         property.map((el: any) => {
@@ -142,7 +144,7 @@ function detail() {
         </AppBody>
     )
 
-        return (
+    return (
         <AppBody
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
@@ -265,19 +267,23 @@ function detail() {
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                    {room?.map((ro:any) => {
+                                                                <Grid templateColumns='repeat(5, 2fr)' gap={6}>
+                                                                    {room?.map((ro: any) => {
                                                                         return (
                                                                             <RadioGroup onChange={setRoom2} value={room2}>
                                                                                 <Radio value={ro.room.roomId}>
-                                                                                    <WrapItem>
-                                                                                        <Avatar name={ro.room.nick[0].nickname}  src={handleImg(ro.room.nick[0].nameWho.image)} />
-                                                                                        <Text></Text>
-                                                                                    </WrapItem>
+                                                                                    
+                                                                                        <GridItem>
+                                                                                            <Avatar name={ro.room.nick[0].nickname} src={handleImg(ro.room.nick[0].nameWho.image)} />
+                                                                                            <Center><Text fontSize={"xs"}>{ro.room.nick[0].nickname}</Text></Center>
+                                                                                        </GridItem>
+                                                                                    
                                                                                 </Radio>
                                                                             </RadioGroup>
                                                                         )
 
                                                                     })}
+                                                                    </Grid>
                                                                 </Wrap>
                                                             </Flex>
 
