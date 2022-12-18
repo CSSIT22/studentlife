@@ -57,17 +57,6 @@ const ShortAc = () => {
                                                 <Text as={"b"}>Click!</Text>
                                             </Button>
                                         </ListItem>
-                                        
-                                        <ListItem>
-                                        <Center><Text as={"b"} fontSize="2xl">
-                                                Year
-                                            </Text></Center>
-                                        </ListItem>
-                                        <ListItem marginBottom={"20px"}>
-                                            <Button bg={"orange.600"} w={"100%"} height={"60px"} onClick={complete}>
-                                                <Text as={"b"}>Click!</Text>
-                                            </Button>
-                                        </ListItem>
                                     </List>
                                 </Center>
                             </Box>

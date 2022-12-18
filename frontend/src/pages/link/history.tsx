@@ -23,7 +23,7 @@ import LList from "src/components/shortlink/LList"
 import API from "src/function/API"
 
 const history = () => {
-    // ---------------------------------
+    //
 
     const [linkdata, setlinkdata] = useState<any>()
 

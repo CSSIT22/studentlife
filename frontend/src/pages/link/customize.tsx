@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack, Text, useToast, Editable } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack, Text, useToast, Editable, HStack } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { Input } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
@@ -16,15 +16,37 @@ import {
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
+const toast = useToast()
 const customize = () => {
     // ---------------------------
-    const [custom, setcustom] = useState("");
-    const [word, setword] = useState("");
-    const [link, setLink] = useState("");
+    const [shortUrlData, setShortUrlData] = useState(
+        {
+            link: "",
+            word: "",
+            password: ""
+        }
+    );
+    const [shortedUrl, setShortedUrl] = useState("");
+    // const [custom, setcustom] = useState("");
+    // const [word, setword] = useState("");
+    // const [link, setLink] = useState("");
 
-    const customlinkk = async () => {
-        const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: link, shortenLink: word })
-        setcustom(response.data.result.customlink)
+    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const { name, value }: { name: string; value: string } = e.currentTarget;
+        setShortUrlData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const generateLink = async () => {
+        if (!shortUrlData.link || !shortUrlData.word) {
+            
+        }
+        
+        //TODO: Check if password and coonfirm password is same
+        const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password })
+        setShortedUrl(response.data.result.shortenLink)
     }
 
     // ---------------------------
@@ -58,7 +80,7 @@ const customize = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
+                <Box width={"80%"} height={shortUrlData.password.length > 0 ? "450px" : "400px"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
                     <Box>
                         <Heading
                             width={"300px"}
@@ -77,23 +99,69 @@ const customize = () => {
 
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="100px">
-                            <Box width={"100%"}>
-                                <Center>
-                                    <Input placeholder="link url:" onChange={(e) => setLink(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"}  textColor="black"/>
-                                </Center>
-                            </Box>
-                            <Box width={"100%"} marginTop={"1%"}>
-                                {/* custom word */}
-                                {/* handle change */}
-                                <Center>
-                                    <Input placeholder="custom word:" onChange={(e) => setword(e.target.value)} w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"}  textColor="black"/>
-                                </Center>
-                            </Box>
+                            <VStack gap="1%">
+                                <Box width={"100%"}>
+                                    <Center>
+                                        <Input
+                                            name="link"
+                                            placeholder="Link URL*:"
+                                            onChange={handleChange}
+                                            w={"75%"} height={"60px"}
+                                            border={"4px"} borderColor={"black"}
+                                            backgroundColor={"white"}
+                                            textColor="black" />
+                                    </Center>
+                                </Box>
+                                <Box width={"100%"}>
+                                    {/* custom word */}
+                                    {/* handle change */}
+                                    <Center>
+                                        <Input
+                                            name="word"
+                                            placeholder="Custom Word*:"
+                                            onChange={handleChange}
+                                            w={"75%"} height={"60px"}
+                                            border={"4px"} borderColor={"black"}
+                                            backgroundColor={"white"}
+                                            textColor="black" />
+                                    </Center>
+                                </Box>
+                                <Box width={"100%"}>
+                                    {/* custom password */}
+                                    {/* handle change */}
+                                    <Center>
+                                        <Input
+                                            name="password"
+                                            placeholder="Password (Optional):"
+                                            onChange={handleChange}
+                                            w={"75%"} height={"60px"}
+                                            border={"4px"} borderColor={"black"}
+                                            backgroundColor={"white"}
+                                            textColor="black" />
+                                    </Center>
+                                </Box>
+                                {
+                                    shortUrlData.password.length > 0 &&
+                                    (<Box width={"100%"}>
+                                        <Center>
+                                            <Input
+                                                name="confirm-password"
+                                                placeholder="Confirm Password*:"
+                                                onChange={handleChange}
+                                                w={"75%"} height={"60px"}
+                                                border={"4px"} borderColor={"black"}
+                                                backgroundColor={"white"}
+                                                textColor="black" />
+                                        </Center>
+                                    </Box>)
+                                }
+                            </VStack>
                             <Box h="70px" w={"100%"} marginTop={"2%"}>
                                 <Center>
-                                    <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"}  textColor="black">
+                                    <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
                                         <a>
-                                            {custom != "" ? "http://localhost:8000/shortlink/redirect?shorten=" + word : ""}{custom}
+                                            {shortedUrl != "" &&
+                                                "http://localhost:8000/shortlink/redirect?shorten=" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
                                         </a>
                                     </Editable>
                                 </Center>
@@ -135,7 +203,7 @@ const customize = () => {
                             <Box width={"100%"}>
                                 <Center>
                                     {/* onClick={onOpen} */}
-                                    <Button colorScheme="green" w={"50%"} disabled={custom.length === 0 && link.length === 0} height={"60px"} onClick={customlinkk}>
+                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={generateLink} disabled={shortUrlData.link.length === 0}>
                                         SAVE
                                     </Button>
                                 </Center>
@@ -173,7 +241,7 @@ const customize = () => {
                                             >
                                                 Shortlink Unblock
                                             </Button> */}
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white"> 
+                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
                                                 Shortlink Permission
                                             </Button>
                                         </PopoverBody>
