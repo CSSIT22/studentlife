@@ -28,6 +28,7 @@ import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
 import { EditIcon } from "@chakra-ui/icons"
 import { DeleteIcon } from "@chakra-ui/icons"
+import { BellIcon } from "@chakra-ui/icons"
 import { CheckIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
@@ -41,9 +42,11 @@ const task = () => {
     const { isOpen: isBackOpen, onOpen: onBackOpen, onClose: onBackClose } = useDisclosure()
     const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
     const { isOpen: isAddOpen, onOpen: onAddOpen, onClose: onAddClose } = useDisclosure()
+    const { isOpen: isNotiOpen, onOpen: onNotiOpen, onClose: onNotiClose } = useDisclosure()
     const [descList, setDescList] = useState<any>({})
     const navigate = useNavigate()
     const [studentId, setStudentId] = useState("")
+    const [userId, setUserId] = useState("")
 
     // const location = useLocation()
     // console.log(location.state.taskId);
@@ -60,6 +63,7 @@ const task = () => {
 
         API.post("/todolist/detail", { taskId: taskid }).then((res) => {
             setDescList(res.data);
+            setUserId(res.data.userId);
             console.log("grrrr", res.data);
         })
     }, [])
@@ -97,6 +101,20 @@ const task = () => {
             })
         })
 
+    }
+
+    const setNoti = () => {
+        API.post("/notification/addnotiobject", {
+            template: "TODO_LIST_TASK",
+            value: [descList.taskCheck?.taskName],
+            userId: [userId],
+            module: "TODO_LIST",
+            url: "/todolist/",
+            sender: userId
+        })
+            .then(() => {
+                navigate("/todolist/")
+            })
     }
 
 
@@ -246,6 +264,46 @@ const task = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+
+            {/* add Notification */}
+            <Button onClick={onNotiOpen} marginLeft={"5"} color={"white"} bgColor="orange.200" width="40px" h="40px">
+                <BellIcon />
+            </Button>
+            <Modal isOpen={isNotiOpen} onClose={onNotiClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader fontWeight="800" fontSize={"35px"}>
+                        Setting up Notification
+                    </ModalHeader>
+                    <VStack spacing={3} pt="30px">
+                        <Text fontSize={"20px"} fontWeight="500">
+                            Do you want set Notification for this task?
+                        </Text>
+                    </VStack>
+                    <ModalCloseButton />
+                    <ModalFooter justifyContent={"center"} pt="60px">
+                        <Button colorScheme="red" mr={3} onClick={onNotiClose}>
+                            No
+                        </Button>
+                        <Button colorScheme="green" mr={3} onClick={() => {
+                            onNotiClose()
+                            setNoti()
+                            toast({
+                                title: 'Notification Added.',
+                                description: "Task " + descList.taskCheck?.taskName + " notified successfully.",
+                                status: 'success',
+                                duration: 9000,
+                                isClosable: true,
+                            })
+
+                        }}>
+                            Yes
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
+
 
 
             <Modal isOpen={isCheckOpen} onClose={onCheckClose} isCentered>
