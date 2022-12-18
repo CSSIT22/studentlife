@@ -1,16 +1,19 @@
 import { Request, Response } from "express"
 const fs = require("fs")
+const buffer = require("buffer")
 const changeuserimage = async (req: Request, res: Response) => {
     try {
-        const data = fs.readFileSync("path/to/image.jpg")
-        const imageBuffer = Buffer.from(data).toString("base64")
+        const imageData = fs.readFileSync("path/to/image/file.jpg")
+        const base64ImageData = buffer.Buffer.from(imageData).toString("base64")
 
         const { prisma } = res
         const userId = req.user?.userId || ""
 
         await prisma.user_Profile.update({
-            where: { userId: userId },
-            data: { image: { connect: { userId } } },
+            where: { userId },
+            data: {
+                image: base64ImageData,
+            },
         })
         res.json({ message: "Profile picture updated successfully" })
     } catch (err) {
