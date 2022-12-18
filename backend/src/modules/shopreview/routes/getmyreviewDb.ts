@@ -7,6 +7,19 @@ const getmyreviewDb = async (req: Request, res: Response) => {
         const myreview = await prisma.sReview_Review.findMany({
             select: {
                 reviewId: true,
+                restaurant: {
+                    select: {
+                        resName: true,
+                        openAt: true,
+                        closeAt: true,
+                        detail: {
+                            select: {
+                                location: true,
+                                phoneNo: true,
+                            },
+                        },
+                    },
+                },
                 shopId: true,
                 shop: {
                     select: {
@@ -25,11 +38,11 @@ const getmyreviewDb = async (req: Request, res: Response) => {
                         lName: true,
                     },
                 },
-                images: {
-                    select: {
-                        image: true,
-                    },
-                },
+                // images: {
+                //     select: {
+                //         image: true,
+                //     },
+                // },
             },
             where: {
                 shopId: id,

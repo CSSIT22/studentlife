@@ -6,7 +6,8 @@ const getlinkData = async (req:Request , res: Response) =>{
             select:{
                 userId: true,
                 originalLink: true,
-                shortenLink:true
+                shortenLink:true,
+                slId:true
             },take:100
         })
         res.status(200).json({link:linkData})

@@ -15,7 +15,7 @@ const shortlink = () => {
     const history = () => {
         navigate("/link/history")
     }
-    const customizePermission = () => {
+    const customper = () => {
         navigate("/link/customper")
     }
     return (
@@ -59,7 +59,7 @@ const shortlink = () => {
                                                     Customize Password
                                                 </Button>
 
-                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customizePermission} textColor="white">
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customper} textColor="white">
                                                     Customize Permission
                                                 </Button>
                                             </PopoverBody>
