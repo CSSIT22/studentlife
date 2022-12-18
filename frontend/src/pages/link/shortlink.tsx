@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text, PopoverBody, PopoverHeader, PopoverContent, Popover, PopoverCloseButton, PopoverArrow, PopoverTrigger } from "@chakra-ui/react"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
@@ -14,6 +14,9 @@ const shortlink = () => {
     }
     const history = () => {
         navigate("/link/history")
+    }
+    const permission = () => {
+        navigate("/link/permission")
     }
     return (
         <AppBody>
@@ -39,23 +42,57 @@ const shortlink = () => {
                     <VStack spacing={4} align="stretch" marginTop={"10%"}>
                         <Box h="70px">
                             <Box width={"100%"}>
-                               
-                                    <Center>
-                                        <Button bg={"#E65300"} w={"50%"} height={"60px"} onClick={customize} textColor="white">
-                                            <Text as={"b"}>SHORTLINK CUSTOMIZE</Text>
-                                        </Button>
-                                    </Center>
-                                
+
+                                <Center>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button bg={"#E65300"} w={"50%"} height={"60px"} textColor="white">
+                                                <Text as={"b"}>SHORTLINK CUSTOMIZE</Text>
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <PopoverArrow />
+                                            <PopoverCloseButton />
+
+                                            <PopoverBody>
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customize} textColor="white">
+                                                    Customize Password
+                                                </Button>
+
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
+                                                    Customize Permission
+                                                </Button>
+                                            </PopoverBody>
+                                        </PopoverContent>
+                                    </Popover>
+                                </Center>
+
                             </Box>
                         </Box>
                         <Box h="70px">
-                            <Link>
-                                <Center>
-                                    <Button bg={"#E65300"} w={"50%"} height={"60px"} onClick={generate} textColor="white">
-                                        <Text as={"b"}>SHORTLINK GENERATOR</Text>
-                                    </Button>
-                                </Center>
-                            </Link>
+                            <Center>
+                                <Popover>
+                                    <PopoverTrigger>
+                                        <Button bg={"#E65300"} w={"50%"} height={"60px"} textColor="white">
+                                            <Text as={"b"}>SHORTLINK GENERATOR</Text>
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent>
+                                        <PopoverArrow />
+                                        <PopoverCloseButton />
+
+                                        <PopoverBody>
+                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={generate} textColor="white">
+                                                Generator Password
+                                            </Button>
+
+                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
+                                                Generator Permission
+                                            </Button>
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Popover>
+                            </Center>
                         </Box>
                         <Box h="70px">
                             <Link>

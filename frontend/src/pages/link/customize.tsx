@@ -225,46 +225,7 @@ const customize = () => {
                                 </Center>
                             </Box>
                         </Box>
-                        <Box h="70px">
-                            <Center>
-                                <Popover>
-                                    <PopoverTrigger>
-                                        <Button colorScheme="orange" w={"50%"} height={"60px"}>
-                                            ADD-ON
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverCloseButton />
-                                        <PopoverHeader>
-                                            <Text as={"b"}>Select the Shortlink Add on!</Text>
-                                        </PopoverHeader>
-                                        <PopoverBody>
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={password} textColor="white">
-                                                Shortlink Password
-                                            </Button>
-                                            {/* <Button bg={"orange.600"} w={"100%"} mt={3} textColor="white"
-                                                onClick={() =>
-                                                    toast({
-                                                        title: "Add Unblock features!",
-                                                        description: "Unblock shortlink success",
-                                                        status: "success",
-                                                        duration: 3000,
-                                                        isClosable: true,
-                                                    })
-
-                                                }
-                                            >
-                                                Shortlink Unblock
-                                            </Button> */}
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
-                                                Shortlink Permission
-                                            </Button>
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Popover>
-                            </Center>
-                        </Box>
+                        
                     </VStack>
                 </Box>
             </Center>
