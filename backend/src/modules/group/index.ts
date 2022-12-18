@@ -4,6 +4,7 @@ import deleteCommunity from "./routes/community/deleteCommunity"
 import editCommunity from "./routes/community/editCommunity"
 import getCommunity from "./routes/getCommunity"
 import getFile from "./routes/community/file/getCommunityFile"
+import getPic from "./routes/community/file/getCommunityPic"
 import getCommunityMember from "./routes/community/member/getCommunityMember"
 import getCommunityPost from "./routes/community/post/getCommunityPost"
 import searchCommunity from "./routes/searchCommunity"
@@ -53,6 +54,8 @@ groupRoutes.delete("/deleteFile", deleteFile)
 groupRoutes.get("/downloadFile/:id", downloadFile)
 
 //groupRoutes.post("/creatingCommunityPost", upload.array("upload"), creatingCommunityPost)
+
+groupRoutes.get("/getpic/:id", getPic)
 
 groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)

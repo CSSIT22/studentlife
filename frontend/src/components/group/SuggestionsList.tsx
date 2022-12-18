@@ -1,6 +1,6 @@
 import { SuggestionsCommunity } from "@apiType/group"
 import { HStack, Box, Image, Text, Button, Flex } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { createElement, FC, useEffect, useState } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { Link } from "react-router-dom"
 
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 
 
 const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMember, communityPhoto, communityPrivacy, communityId }) => {
+
     return (
         <Link to={`/groups/id/${communityId}`}>
             <Box
@@ -23,8 +24,7 @@ const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMem
                         background: "tomato",
                         width: "100%",
                         height: "20vh",
-                        // backgroundImage: `url(${communityCoverPhoto})`,
-                        backgroundImage: communityPhoto ? `data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(communityPhoto?.data)))}` : `url(https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg)`,
+                        backgroundImage: communityPhoto ? (import.meta.env.VITE_APP_ORIGIN || "") + "/group/getpic/" + communityId : `url(https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg)`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "cover",
                         backgroundPosition: "center",
@@ -56,7 +56,7 @@ const SuggestionsList: FC<SuggestionsCommunity> = ({ communityName, communityMem
                     </Flex>
                 </Box>
             </Box>
-        </Link>
+        </Link >
     )
 }
 

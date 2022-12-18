@@ -236,6 +236,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                         >
                             Pinned Post
                         </Text>
+                        
                     </HStack> : null
                 }
                 {
@@ -250,7 +251,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                 likeCount={post.score}
                                 isPinned={post.isPinned}
                                 fetchPost={fetchPost}
-
+                                postMedia={post.media}
                                 //user
                                 checkid={data.user.id}
                                 checkRole={data.user.role}

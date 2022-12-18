@@ -185,7 +185,7 @@ const NavbarCommunity: FC<{
         >
             <Image
                 fallbackSrc="https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
-                src={`data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(data.community.photo?.data)))}`}
+                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/group/getpic/" + data?.community.id}
                 marginTop={{ base: "-2rem", sm: "-5rem" }}
                 height={{ base: "11rem", sm: "15rem" }}
                 backgroundRepeat="no-repeat"
@@ -272,7 +272,7 @@ const NavbarCommunity: FC<{
                                             onJoin
                                 }
                             >
-                                
+
                                 <Text>
                                     {data?.user.access ? "Invite" :
                                         !data?.user.status && data?.user.status !== undefined

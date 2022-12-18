@@ -26,6 +26,7 @@ const Post: FC<{
     checkid?: string,
     lastEdit?: Date,
     seen?: boolean,
+    postMedia?:any
 }> = ({
     userName = "Unknown user",
     userRole,
@@ -39,7 +40,8 @@ const Post: FC<{
     checkid,
     lastEdit,
     isPinned,
-    seen
+    seen,
+    postMedia
 }) => {
 
         const [files, setFiles] = useState<any>([])
@@ -286,7 +288,10 @@ const Post: FC<{
                                 variant='unstyled'
                             />
                         ) : (
+                        
                             <Text fontSize='lg'>{body}</Text>
+                            
+                        
                         )
                     }
 
