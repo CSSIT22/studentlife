@@ -6,7 +6,8 @@ const savelink = async(req : Request , res : Response)=>{
     console.log(req.body.shortenLink)
     try{
         const prisma = res.prisma
-        const result = await prisma.shor
+
+        const result = await prisma.ShortLink_S
         // const result = await prisma.shortLink.create({
         //     data:{
         //         userId:userId,
@@ -14,8 +15,8 @@ const savelink = async(req : Request , res : Response)=>{
         //         shortenLink:body.shortenLink
         //     },
         // })
-        console.log(result)
-        res.status(200).json({result:result})
+        // console.log(result)
+        // res.status(200).json({result:result})
     }catch (err){
         console.log(err)
         res.status(500).json({message:"error" , err: err})
