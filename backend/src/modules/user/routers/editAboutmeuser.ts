@@ -25,7 +25,6 @@ const editaboutmeuser = async (req: Request, res: Response) => {
                 hobby: tail.hobby,
                 phone: tail.phone,
                 sex: tail.gender,
-                year: 0,
             },
         })
         res.json(upsertUser)

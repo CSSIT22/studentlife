@@ -21,11 +21,10 @@ import { userProfileButtons } from "./userProfileButton/userProfileButtons"
 import { userFriendProfileButtons } from "./userFriendProfileButton/userFriendProfileButtons"
 import FriendProfileImages from "./UserProfileImages/FriendProfileImages"
 import UserProfileImages from "./UserProfileImages/UserProfileImage"
-import UserProfileImages from "./UserProfileImages/userProfileImage"
 import API from "src/function/API"
 import { useParams } from "react-router-dom"
 
-const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = ({ isMe, userData, rating }) => {
+const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number, aboutMe: any }> = ({ isMe, userData, rating, aboutMe }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [follower, setFollower] = useState<number>(0)
     const [following, setFollowing] = useState<number>(0)
@@ -46,11 +45,11 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
 
     useEffect(() => {
         async function fetch() {
-            const res_follower = await API.get(`/user/profile/getFollower/${param.userId}`)
+            const res_follower = await API.get(`/user/getFollower/${param.userId}`)
             setFollower(res_follower.data.follower.length)
 
-            const res_following = await API.get(`/user/profile/getFollowing/${param.userId}`)
-            setFollowing(res_following.data.following.length)
+            const res_following = await API.get(`/user/getFollowering/${param.userId}`)
+            setFollowing(res_following.data.followering.length)
         }
 
 
@@ -85,6 +84,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
             >
                 <GridItem rounded="xl" area={"nav"} mt={5}>
                     <>
+
                         <VStack alignItems="center" mt="5">
                             <Center flexDirection={"column"} position={"sticky"}>
                                 <UserProfileImages userData={userData} />
@@ -93,6 +93,8 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                                     Rating : {rating}
                                 </Box>
                             </Center>
+
+
                         </VStack>
                     </>
                 </GridItem>
@@ -106,7 +108,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                             <Box fontSize={{ lg: "lg", base: "md" }}>{userData.studentId}</Box>
                         </HStack>
                         <Box rounded={"2xl"}
-                            bg={{ base: "linear-gradient(180deg, rgba(254,148,0,1) 0%, rgba(255,255,255,1) 100%)", md: "white" }}
+                            bg={{ base: "linear-gradient(180deg, rgba(254,148,0,1) 0%, rgba(255,255,255,1) 100%)", md: "none" }}
                             textAlign={"center"} p={3}>
 
                             <Stack p={1} direction={{ base: "column", md: "row" }}>
@@ -154,12 +156,13 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                             </Stack>
                         </Stack>
                     </Stack>
+
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "10", lg: "3" }} mt={{ base: "3", md: "6" }}>
                     <Center>
                         {
                             isMe ?
-                                (userProfileButtons(onOpen, initialRef, finalRef, onClose, isOpen, navigate))
+                                (userProfileButtons(onOpen, initialRef, finalRef, onClose, isOpen, navigate, aboutMe))
                                 :
                                 (userFriendProfileButtons(onOpen, initialRef, finalRef, onClose, isOpen, navigate))
 
@@ -191,6 +194,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                             </Stack>
                         </Stack>
                     </Center>
+
                 </GridItem>
             </Grid>
         </Box>

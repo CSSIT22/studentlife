@@ -11,26 +11,18 @@ import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import UserProfile from "../../components/user/UserProfile"
 
-interface AboutMeForm {
-    phone: string
-    sex: string
-    hobbies: string
-    birthdate: string
-    year: number
-    address: string
-}
-
 // Main component
 function index() {
     const user = useContext(authContext)
     const [userExp, setUserExp] = useState<any>()
     const param = useParams();
+    const [aboutMe, setaboutMe] = useState<any>({})
     const [userData, setUserData] = useState<any>({})
     const [isMe, setIsMe] = useState<boolean>(false)
     const [rating, setRating] = useState<number>(0)
     const [isLoading, setisLoading] = useState(true)
 
-    // get user data
+    // get user EXP
     const getCurrentExp = async () => {
         const res = await API.get(`/user/profile/exp/${param.userID}`)
         setUserExp(res.data)
@@ -42,6 +34,12 @@ function index() {
         setUserData(res.data.user)
     }
 
+    // get user Aboutme
+    const getAboutme = async () => {
+        const res = await API.get(`/user/friendprofile/${param.userID}`)
+        setaboutMe(res.data.user)
+    }
+
     // set user rating
     const getUserRating = async () => {
         const res = await API.get(`/user/profile/ratinguser/${param.userID}`)
@@ -49,6 +47,7 @@ function index() {
     }
 
     useEffect(() => {
+        getAboutme()
         getCurrentExp()
         getUserData()
         getUserRating()
@@ -81,7 +80,7 @@ function index() {
                     justifyContent="center"
                 >
                     <GridItem alignItems="center" area={"header"}>
-                        {!isLoading && <UserProfile isMe={isMe} userData={userData} rating={rating} />}
+                        {!isLoading && <UserProfile aboutMe={aboutMe} isMe={isMe} userData={userData} rating={rating} />}
                     </GridItem>
                     <GridItem area={"nav"} mt={"-6rem"}>
                         <ExpSystem exp={userExp?.exp} level={userExp?.level} />

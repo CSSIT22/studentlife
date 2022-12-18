@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { ShowEditProfileFormModal } from "../customModal/ShowEditProfileFormModal";
 
-export function userProfileButtons(onOpen: () => void, initialRef: React.MutableRefObject<null>, finalRef: React.MutableRefObject<null>, onClose: () => void, isOpen: boolean, navigate: NavigateFunction) {
+export function userProfileButtons(onOpen: () => void, initialRef: React.MutableRefObject<null>, finalRef: React.MutableRefObject<null>, onClose: () => void, isOpen: boolean, navigate: NavigateFunction, aboutMe: any) {
     return <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
         <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 1.2 }}>
             <Button
@@ -26,7 +26,7 @@ export function userProfileButtons(onOpen: () => void, initialRef: React.Mutable
             </Button>
         </motion.div>
         {/* Show Edit Form Modal */}
-        <ShowEditProfileFormModal initialFocusRef={initialRef} finalFocusRef={finalRef} onClose={onClose} isOpen={isOpen} />
+        <ShowEditProfileFormModal initialFocusRef={initialRef} finalFocusRef={finalRef} onClose={onClose} isOpen={isOpen} aboutMe={aboutMe} />
         <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 1.2 }}>
             <Button
                 pl={5}

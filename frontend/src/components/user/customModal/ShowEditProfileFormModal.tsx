@@ -17,12 +17,16 @@ import {
 import API from "src/function/API";
 
 // TODO: FIX btnRef in Following Modal
-export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.MutableRefObject<null>; finalFocusRef: React.MutableRefObject<null>; isOpen: boolean; onClose: VoidFunction; }> = ({ initialFocusRef, finalFocusRef, isOpen, onClose }) => {
+export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.MutableRefObject<null>; finalFocusRef: React.MutableRefObject<null>; isOpen: boolean; onClose: VoidFunction; aboutMe: any }> = ({ initialFocusRef, finalFocusRef, isOpen, onClose, aboutMe }) => {
     const [phone, setPhone] = useState<string>()
     const [birthDate, setBirthDate] = useState<string>()
     const [sex, setSex] = useState<string>()
     const [hobby, setHobby] = useState<string>()
     const [address, setAddress] = useState<string>()
+
+    function refreshClick() {
+        window.location.reload()
+    }
 
     function phoneHandler(user_phone: string) {
         setPhone(user_phone)
@@ -56,7 +60,7 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
             phone: phone,
             gender: sex,
         }).then((res) => {
-            console.log(res)
+            console.log(aboutMe)
         }).catch(err => console.error("Error happend during updating user profile", err))
 
     }
@@ -111,7 +115,9 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
                     <ModalFooter>
                         <motion.div whileHover={{ scale: 0.9 }}>
                             <Button type='submit' color="white" bg="orange.600"
-                                _hover={{ background: "orange.200" }} mr={3}>
+                                _hover={{ background: "orange.200" }} mr={3}
+                                onClick={refreshClick}
+                            >
                                 Save
                             </Button>
                         </motion.div>
