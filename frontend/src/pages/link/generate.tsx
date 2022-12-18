@@ -121,7 +121,7 @@ const generate = () => {
                         <Box h="70px">
                             <Center>
                                 <ButtonGroup gap={2}>
-                                    <Button colorScheme="blue" w={"100px"} height={"60px"} onClick={generateLink} textColor="white">
+                                    <Button colorScheme="blue" w={"100px"} height={"60px"} onClick={generateLink} textColor="white"  disabled={link.length === 0}>
                                         GENERATE
                                     </Button>
                                     <Popover>
@@ -189,7 +189,7 @@ const generate = () => {
                             </AlertDialog>
                             <Box width={"100%"}>
                                 <Center>
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={onOpen}  disabled={link.length === 0}>
+                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={onOpen}>
                                         SAVE
                                     </Button>
                                 </Center>

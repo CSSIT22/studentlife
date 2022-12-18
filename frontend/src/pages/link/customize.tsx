@@ -16,14 +16,16 @@ import {
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
-const toast = useToast()
+
 const customize = () => {
+    const toast = useToast()
     // ---------------------------
     const [shortUrlData, setShortUrlData] = useState(
         {
             link: "",
             word: "",
-            password: ""
+            password: "",
+            confirmPassword: ""
         }
     );
     const [shortedUrl, setShortedUrl] = useState("");
@@ -41,9 +43,17 @@ const customize = () => {
 
     const generateLink = async () => {
         if (!shortUrlData.link || !shortUrlData.word) {
-            
+
         }
-        
+        if (!(shortUrlData.password == shortUrlData.confirmPassword)) {
+            return toast({
+                title: "Password not match!",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            })
+        }
+
         //TODO: Check if password and coonfirm password is same
         const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password })
         setShortedUrl(response.data.result.shortenLink)
@@ -75,7 +85,7 @@ const customize = () => {
         xl: "1200px",
         "2xl": "1536px",
     }
-    const toast = useToast()
+
     return (
         <AppBody>
             <Center>
@@ -131,6 +141,7 @@ const customize = () => {
                                     {/* handle change */}
                                     <Center>
                                         <Input
+                                            type="password"
                                             name="password"
                                             placeholder="Password (Optional):"
                                             onChange={handleChange}
@@ -145,6 +156,7 @@ const customize = () => {
                                     (<Box width={"100%"}>
                                         <Center>
                                             <Input
+                                                type="password"
                                                 name="confirm-password"
                                                 placeholder="Confirm Password*:"
                                                 onChange={handleChange}
