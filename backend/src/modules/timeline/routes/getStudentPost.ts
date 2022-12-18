@@ -8,6 +8,7 @@ const getStudentPost = async (req: Request, res: Response) => {
         const thisUserId = req.user ? req.user.userId : ""
         const getStudentP = await prisma.student_Post.findMany({
             where: {
+                // where does not work
                 postOwner: {
                     userFollowing: {
                         every: {

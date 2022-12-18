@@ -27,7 +27,6 @@ export const Feed = () => {
     // console.log(posts)
     const [isLoading, setLoading] = useState(false);
     const [postset, setpostset] = useState(1)
-    const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
     const handleScroll = () => {
         if (isLoading) return

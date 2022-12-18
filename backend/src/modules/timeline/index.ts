@@ -4,6 +4,7 @@ import editedPost from "./routes/editspost"
 import getPostList from "./routes/getPostList"
 import getReacted from "./routes/getReacted"
 import getStudentPost from "./routes/getStudentPost"
+import getStudentPostNoi from "./routes/getStudentPostNoi"
 import getUserName from "./routes/getUserName"
 import searchPost from "./routes/searchpost"
 
@@ -95,6 +96,8 @@ timelineRoutes.get("/getUserName", getUserName)
 timelineRoutes.get("/getReacted", getReacted)
 
 timelineRoutes.get("/getStudentPost/:i", getStudentPost)
+
+timelineRoutes.get("/getStudentPostNoi/", getStudentPostNoi)
 
 timelineRoutes.post("/editspost", editedPost)
 

@@ -8,14 +8,14 @@ export const SuggestedFriend = () => {
     const [sugg, setSugg] = useState<any>([])
     // const getData = API.get("/timeline/getposts") old mockup data
     // const getPost = API.get("/timeline/getPostList") // data from database
-    const getFriend = API.get("/timeline/getStudentPost")
+    const getFriend = API.get("/timeline/getStudentPostNoi")
 
     useEffect(() => {
         getFriend.then(res => {
             setSugg(res.data)
         })
     }, [])
-    console.log(sugg)
+    // console.log(sugg)
 
     return (
         sugg.map((suggFS: any, index: any) =>
