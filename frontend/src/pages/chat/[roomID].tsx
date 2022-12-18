@@ -55,7 +55,7 @@ const Room = () => {
     const param = useParams()
     const { socketIO } = useContext(socketContext)
     const [isMute, setIsMute] = useState(false)
-    const [Text, setText] = useState("")
+    const [, setRerender] = useState(0)
     const [msg, setmsg] = useState<message[]>([])
     const [Room, setRoom] = useState<RoomType>()
     const scroll = useRef<null | HTMLDivElement>(null)
@@ -93,10 +93,10 @@ const Room = () => {
         }
     }, [socketIO, param.roomID])
 
-    //function
-    function onType(e: any) {
-        setText(e.target.value)
-    }
+    // //function
+    // function onType(e: any) {
+    //     setText(e.target.value)
+    // }
 
     function onPoke(Room: RoomType) {
         noti(Room)
@@ -122,22 +122,28 @@ const Room = () => {
         return API.get(`restaurant/${resId}`)
     }
 
+    const inputRef = useRef<HTMLInputElement>(null)
+
     function onSend(e: any, Room: RoomType) {
         e.preventDefault()
-        if (Text == "") {
+        let text = "";
+        if (inputRef.current) {
+            text = inputRef.current.value;
+            inputRef.current.value = "";
+        }
+        if (text == "") {
             alert("ไม่ให้ส่งคั้บ")
-        } else if (Text == "/quote") {
+        } else if (text == "/quote") {
             const result = RandomQuote(quote)
             socketIO.emit("send-msg", { msg: result.text, room_id: Room?.roomId, from: Room?.userId, type: "TEXT" })
             noti(Room)
-            setText("")
 
         } else {
             //API.post(`chat/${param.roomID}/postMessage`,{type :"TEXT" ,message:Text}).then(()=> API.get(`chat/${param.roomID}/getMessage`).then((e)=>setmsg(e.data)))
-            socketIO.emit("send-msg", { msg: Text, room_id: Room?.roomId, from: Room?.userId, type: "TEXT" })
+            socketIO.emit("send-msg", { msg: text, room_id: Room?.roomId, from: Room?.userId, type: "TEXT" })
             noti(Room)
-            setText("")
         }
+        setRerender((prev) => prev + 1)
     }
     function RandomQuote(e: any) {
         const randomObject = e[Math.floor(Math.random() * e.length)]
@@ -213,7 +219,7 @@ const Room = () => {
                 }
                 else if (e.messageType[0] == "RESTAURANT") {
                     return (
-                        <ResCard resId={e.message} from={e.senderId} myId={Room.userId} image={null}/>
+                        <ResCard resId={e.message} from={e.senderId} myId={Room.userId} image={null} />
                     )
                 }
             })
@@ -305,8 +311,9 @@ const Room = () => {
                                 type={"text"}
                                 focusBorderColor="#606070"
                                 errorBorderColor="#ffffff"
-                                onChange={(e) => onType(e)}
-                                value={Text}
+                                // onChange={(e) => onType(e)}
+                                // value={Text}
+                                ref={inputRef}
                             />
                         </form>
                         <Flex alignItems={"center"}>
@@ -317,7 +324,7 @@ const Room = () => {
                                 cursor={"pointer"}
                                 marginRight={4}
                                 onClick={(e) => onSend(e, Room)}
-                                disabled={Text == "" ? true : false}
+                                // disabled={inputRef.current?.value == "" ? true : false}
                                 variant={"unstyled"}
                             >
                                 <FiSend size={30} />
