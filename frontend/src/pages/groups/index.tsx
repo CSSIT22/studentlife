@@ -137,7 +137,12 @@ const index = () => {
     const renderSuggestCommunity = () => {
         return (
             community?.communityList.suggest
-                // .slice(0, 4)
+                .filter((c: OwnCommunity) => {
+                    return searchValue.toLowerCase() == ""
+                        ? c
+                        : c.communityName.toLowerCase().includes(searchValue)
+                })
+                .slice(0, 8)
                 .map((community: any) => {
                     return (
                         <SuggestionsList
