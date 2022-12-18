@@ -5,12 +5,16 @@ import { Autoplay } from "swiper"
 import AmountLike from "./AmountLike"
 import AmountRate from "./AmountRate"
 import AmountReview from "./AmountReview"
-const ReviewCards: FC<{ image: String; name: String; ment: String; date: String; amo_rate: String; amo_like: String }> = ({ image, name, ment, date, amo_rate, amo_like }) => {
+const ReviewCards: FC<{ image: []; name: String; ment: String; date: String; amo_rate: String; amo_like: String }> = ({ image, name, ment, date, amo_rate, amo_like }) => {
+    //console.log(image)
     return (
         <Box width={""} minWidth={"full"} minHeight={"auto"} alignContent={"center"}>
-            <Avatar marginBottom={5} marginRight={5} name="Joe" />
+            <Avatar marginBottom={5} marginRight={5} />
             <Text as={"b"}>{name}</Text>
-            <Image width={"auto"} height={"auto"} src={`${image}`} />
+            {image?.map((item: any) => {
+                console.log(item)
+                return <Image width={"50%"} height={"100%"} src={`https://staging-api.modlifes.me/airdrop/file/getfile/${item.fileId}`} />
+            })}
             <Box ml={2}>
                 <Heading color="white" mt={5}>
                     <Flex direction={"row"} alignItems={"flex-start"}>

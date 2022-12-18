@@ -20,9 +20,9 @@ const getreviewDb = async (req: Request, res: Response) => {
                         lName: true,
                     },
                 },
-                images: {
+                files: {
                     select: {
-                        image: true,
+                        fileId: true,
                     },
                 },
             },
