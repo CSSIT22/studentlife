@@ -3,11 +3,11 @@ import { HStack, Box, Image, Text, Badge } from "@chakra-ui/react"
 import React, { createElement, FC, useEffect } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { Link } from "react-router-dom"
-const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, communityPhoto, communityPrivacy, communityId ,communityMember}) => {
+const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, communityPhoto, communityPrivacy, communityId, communityMember, lastActive }) => {
 
 
 
-    
+
 
     return (
         <Link to={`/groups/id/${communityId}`}>
@@ -37,8 +37,14 @@ const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, commun
                                 </Text>
 
                             </HStack>
-                            <Text fontSize="sm">{communityMember} {communityMember == 1 ? "Member" : "Members"} </Text>
-                            
+
+                            <Text
+                                //last activity
+                                fontSize="sm"
+                            >
+                                last active {lastActive}
+                            </Text>
+
                         </div>
                     </HStack>
                 </Box>

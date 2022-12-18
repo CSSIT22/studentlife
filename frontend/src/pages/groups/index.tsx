@@ -35,15 +35,20 @@ const index = () => {
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [community, setCommunity] = useState<any>()
-    useEffect(() => {
-        API.get("/group/getcommunity")
-            .then((res) => {
+    const getCommunity = async () => {
+        try {
+            const res = await API.get("/group/getcommunity")
+            setCommunity(res.data)
+            console.log(res.data)
+        } catch (error) {
+            on()
+        } finally {
+            off()
+        }
+    }
 
-                setCommunity(res.data)
-                console.log(res.data)
-            })
-            .catch((err) => on())
-            .finally(() => off())
+    useEffect(() => {
+        getCommunity()
     }, [])
     // useEffect(() => {
     //     console.log(typeof community?.communityList.own[0].communityPhoto);
@@ -78,6 +83,7 @@ const index = () => {
                     return (
                         <CommunityList
                             key={c.communityId}
+                            lastActive={c.lastActive}
                             communityName={c.communityName}
                             communityMember={c.communityMember}
                             communityPhoto={c.communityPhoto}
@@ -97,6 +103,7 @@ const index = () => {
                     return (
                         <CommunityList
                             key={community.communityId}
+                            lastActive={community.lastActive}
                             communityName={community.communityName}
                             communityMember={community.communityMember}
                             communityPhoto={community.communityPhoto}
