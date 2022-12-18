@@ -137,7 +137,7 @@ const edittask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
                 </Heading>
-                <Input edittable={false} diable={true} value={dayjs(descList.taskCheck?.due).format("dddd DD MMMM YYYY")} fontSize="md"></Input>
+                <Input disabled={true} value={dayjs(descList.taskCheck?.due).format("dddd DD MMMM YYYY")} fontSize="md"></Input>
                 {/* value={dayjs(descList.due).format("YYYY-MM-DD")} */}
                 <label>
                     <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
@@ -145,7 +145,7 @@ const edittask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
-                <Input edittable={false} value={dayjs(descList.taskCheck?.due).format("HH:mm:ss")}></Input>
+                <Input disabled={true} value={dayjs(descList.taskCheck?.due).format("HH:mm:ss")}></Input>
                 {/* value={dayjs(descList.due).format("HH:mm")} */}
                 <form>
                     <input id="appt-time" type="time" name="appt-time" onChange={(e) => setTime(e.target.value)} />
