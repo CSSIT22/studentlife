@@ -30,8 +30,12 @@ userRoutes.get("/profile/edit/:id", verifyUser, getaboutmeuser)
 
 userRoutes.put("/profile/edit", editaboutmeuser)
 
+<<<<<<< Updated upstream
 userRoutes.put("/profile/changeuserimage/:id", changeimageuser)
 
 userRoutes.put("/profile/blockuser/:id", blockuser)
+=======
+userRoutes.post("/profile/changeuserimage/:id", changeimageuser)
+>>>>>>> Stashed changes
 
 export default userRoutes
