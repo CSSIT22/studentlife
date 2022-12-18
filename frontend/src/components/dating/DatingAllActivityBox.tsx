@@ -9,7 +9,7 @@ import API from "src/function/API"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { ApplyPoll, Polls } from "@apiType/dating"
 import Lottie from "lottie-react"
-import { motion } from "framer-motion"
+import { delay, motion } from "framer-motion"
 import NoActivity from "../../components/dating/lottie/NoActivity.json"
 
 
@@ -42,7 +42,11 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
         ) : (
             // If user apply -> tost, add data to db, change button state
             API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now, pollCreaterId: pollCreaterId, pollName: pollName })
-                .catch((err) => console.log(err)).then(() => setcc(false))
+                .catch((err) => console.log(err))
+                .finally(() =>
+                    setTimeout(() => {
+                        setcc(false)
+                    }, 1000))
             // (appiled(pId),
             //     toast({
             //         title: "Applied success",
@@ -54,6 +58,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
             //     }))
         )
     }
+
 
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
@@ -189,54 +194,54 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                     (values.isOpen ? (
                                         // If the poll have been applied user can click to navigate to appiledpoll page
                                         <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
-                                            {values.participants.length != 0 ? (<Button
-                                                display="flex"
-                                                cursor="pointer"
-                                                w="150px"
-                                                m="10px"
-                                                mt="20px"
-                                                pr="40px"
-                                                pl="40px"
-                                                colorScheme="orange.200"
-                                                backgroundColor={"#B24000"}
-                                                borderRadius="5px"
-                                                justifyContent="center"
-                                                alignItems="center"
-                                                onClick={() => {
-                                                    handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                }}
-                                            // isDisabled={cc}
-
-                                            // isDisabled={true}
-                                            >
-                                                <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                    {"Applied"}
-                                                </Text>
-                                            </Button>) : (<Button
-                                                display="flex"
-                                                cursor="pointer"
-                                                w="150px"
-                                                m="10px"
-                                                mt="20px"
-                                                pr="40px"
-                                                pl="40px"
-                                                colorScheme="orange.200"
-                                                backgroundColor={"#E65300"}
-                                                borderRadius="5px"
-                                                justifyContent="center"
-                                                alignItems="center"
-
-                                                onClick={() => {
-                                                    setcc(true)
-                                                    handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                    // , setApplyState(true)
-                                                }}
-                                                isDisabled={cc}
-                                            >
-                                                <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                    {"Apply"}
-                                                </Text>
-                                            </Button>)}
+                                            {(values.participants.length != 0) ?
+                                                (<Button
+                                                    display="flex"
+                                                    cursor="pointer"
+                                                    w="150px"
+                                                    m="10px"
+                                                    mt="20px"
+                                                    pr="40px"
+                                                    pl="40px"
+                                                    colorScheme="orange.200"
+                                                    backgroundColor={"#B24000"}
+                                                    borderRadius="5px"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                    disabled={cc}
+                                                    onClick={() => {
+                                                        handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
+                                                    }}
+                                                >
+                                                    <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                        {"Applied"}
+                                                    </Text>
+                                                </Button>) :
+                                                (<Button
+                                                    display="flex"
+                                                    cursor="pointer"
+                                                    w="150px"
+                                                    m="10px"
+                                                    mt="20px"
+                                                    pr="40px"
+                                                    pl="40px"
+                                                    colorScheme="orange.200"
+                                                    backgroundColor={"#E65300"}
+                                                    borderRadius="5px"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                    onClick={() => {
+                                                        setcc(true)
+                                                        handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
+                                                        // , setApplyState(true)
+                                                    }}
+                                                    isDisabled={cc}
+                                                >
+                                                    <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                        {"Apply"}
+                                                    </Text>
+                                                </Button>)
+                                            }
                                         </Link>
                                     ) : (
                                         <Button
