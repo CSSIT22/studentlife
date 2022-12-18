@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
+import axios from "axios"
 
 const allPollRoutes = express()
 const prisma = new PrismaClient()
@@ -22,30 +23,27 @@ allPollRoutes.get("/getAllPollUserId", verifyUser, async (req: Request, res: Res
 // Get all poll and join with Poll applicants and user profiles table
 allPollRoutes.get("/getAllPoll", verifyUser, async (req: Request, res: Response) => {
     try {
-        const reqUserId = req.user?.userId
-        const pollId = req.params.pollId
-        const findPollDB = await prisma.activity_Poll.findFirst({
-            where: {
-                pollId: pollId,
-                userId: reqUserId,
-            },
-            select: {
-                pollId: true,
-            },
-        })
+        // const reqUserId = req.user?.userId
+        // const pollId = req.params.pollId
+        // const findPollDB = await prisma.activity_Poll.findFirst({
+        //     where: {
+        //         pollId: pollId,
+        //         userId: reqUserId,
+        //     },
+        //     select: {
+        //         pollId: true,
+        //     },
+        // })
 
-        if (!findPollDB?.pollId) {
-            return res.send()
-        }
+        // if (!findPollDB?.pollId) {
+        //     return res.send()
+        // }
 
         const activityPollDB = await prisma.activity_Poll.findMany({
             // where: {
             //     pollId: pollId,
             //     userId: req.user?.userId,
             // },
-            orderBy: {
-                pollcreated: "desc",
-            },
             select: {
                 pollCreator: {
                     select: {
@@ -94,6 +92,9 @@ allPollRoutes.get("/getAllPoll", verifyUser, async (req: Request, res: Response)
                     },
                 },
             },
+            orderBy: {
+                pollcreated: "desc",
+            },
         })
         // console.log("WOW " + activityPollDB[0].participants.length)
         return res.send(activityPollDB)
@@ -106,15 +107,30 @@ allPollRoutes.get("/getAllPoll", verifyUser, async (req: Request, res: Response)
 allPollRoutes.post("/applyPoll", verifyUser, async (req: Request, res: Response) => {
     try {
         const userId: string | undefined = req.user?.userId
+        const fName: string | undefined = req.user?.fName
+        const lName: string | undefined = req.user?.lName
+        const pollCreaterId: string = req.body.pollCreaterId
         const pollId: string = req.body.pollId
+        const pollName: string = req.body.pollName
         const isAccepted: boolean = req.body.isAccepted
         const registerTime: Date = req.body.registerTime
         const setApply: any = { userId: userId, pollId: pollId, isAccepted: isAccepted, registerTime: registerTime }
-        console.log(setApply)
+        const name: string = fName + " " + lName
+        // console.log(name + " " + pollCreaterId + " " + pollName + " /dating/poll/yourpoll/" + pollId)
         await prisma.poll_Applicant.create({
             data: setApply,
         })
         calExp(prisma, req.user?.userId || "", "DatingPoll")
+        if (name && pollName && userId && pollCreaterId) {
+            axios.post("http://localhost:8000/notification/addnotiobject", {
+                template: "DATING_INTERESTED",
+                value: [name, pollName],
+                userId: [pollCreaterId],
+                module: "DATING",
+                url: "/dating/poll/yourpoll/" + pollId,
+                sender: userId,
+            })
+        }
         return res.send("OK")
     } catch (err) {
         return res.status(404).send("Activity poll went wrong")
