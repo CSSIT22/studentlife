@@ -12,7 +12,6 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverFooter,
     PopoverHeader,
     PopoverTrigger,
     Show,
@@ -24,10 +23,6 @@ import {
     Icon,
     Heading,
     useBoolean,
-    CheckboxGroup,
-    Stack,
-    Checkbox,
-    FormControl,
     Radio,
     RadioGroup,
 } from "@chakra-ui/react"
@@ -49,8 +44,6 @@ import notloading2 from './animation/notloading2.json'
 function detail() {
     const { onOpen } = useDisclosure()
     const params = useParams()
-    const [numres, setnumres] = useState(params.detailRes)
-
     const [property, setproperty] = React.useState<any>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
@@ -64,15 +57,11 @@ function detail() {
 
     }, [params.detailRes])
 
-  
-
     const selectRadius = (radius: number) => {
         setradius(radius)
     }
 
     const [room, setRoom] = React.useState("")
-    //console.log(room);
-
 
     const getRoom = API.get("/chat")
     useEffect(() => {
@@ -83,7 +72,6 @@ function detail() {
 
     useEffect(() => {
         property.map((el: any) => {
-            //console.log(el.userFav.length)
             if (el.userFav.length == 1) {
                 setIsFavorite(true)
             } else {
@@ -92,15 +80,13 @@ function detail() {
         })
     }, [setIsFavorite, property])
 
-
-
     const addFavorite = () => {
         API.post("/restaurant/detail?resId=" + new URLSearchParams(location.search).get("resId"))
     }
 
     const navigate = useNavigate()
     const share = () => {
-        navigate(`/chat/${room}/${numres}`)
+        navigate(`/chat/${room}?resId=${new URLSearchParams(location.search).get("resId")}`)
     }
 
     const nextres = () => {
@@ -140,9 +126,8 @@ function detail() {
             </Box>
         </AppBody>
     )
-    // console.log(parseInt(new URLSearchParams(location.search).get("id") + "") + 1 > parseInt(new URLSearchParams(location.search).get("total") + "") - 1 ? 0 : parseInt(new URLSearchParams(location.search).get("id") + "") + 1);
 
-    return (
+        return (
         <AppBody
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
@@ -159,7 +144,7 @@ function detail() {
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
 
-                                    <CloseButton  my={-1} ml={-1} onClick={() => nextres()} />
+                                    <CloseButton my={-1} ml={-1} onClick={() => nextres()} />
 
 
                                     <Heading textAlign={"center"} fontWeight="bold" color={"#E65300"}>
@@ -286,7 +271,6 @@ function detail() {
 
                                                             <Flex my={5}>
                                                                 <Button
-                                                                    // type="submit"
                                                                     bg={"green.400"}
                                                                     color="white"
                                                                     border={1}
