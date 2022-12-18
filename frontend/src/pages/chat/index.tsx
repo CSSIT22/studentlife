@@ -1,8 +1,10 @@
-import { Box, Center, Flex, Hide, HStack, Portal } from "@chakra-ui/react"
+import { Box, Center, Flex, Heading, Hide, HStack, Portal, useBoolean } from "@chakra-ui/react"
+import Lottie from "lottie-react"
 import { useEffect } from "react"
 import API from "src/function/API"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
+import chatL from './animation/chatL.json'
 const Chat = () => {
     return (
         <AppBody>
@@ -18,3 +20,4 @@ const Chat = () => {
     )
 }
 export default Chat
+

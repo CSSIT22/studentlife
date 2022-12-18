@@ -7,6 +7,7 @@ import customlink from "./route/customlink"
 import getUserData from "./route/getUserData"
 import getlinkData from "./route/getlinkData"
 import deletelink from "./route/deletelink"
+import savelink from "./route/savelink"
 
 const shortlinkRoutes = express()
 shortlinkRoutes.use(express.json())
@@ -16,5 +17,8 @@ shortlinkRoutes.get("/redirect", verifyUser, getRedirect)
 shortlinkRoutes.get("/getUser", getUserData)
 shortlinkRoutes.get("/getlink", getlinkData)
 shortlinkRoutes.post("/deletelink", verifyUser, deletelink)
+
+shortlinkRoutes.get("/savelink",savelink )
+
 
 export default shortlinkRoutes
