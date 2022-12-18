@@ -16,6 +16,7 @@ const createtask = async (req: Request, res: Response) => {
         created: new Date(),
         due: new Date(body.due),
         taskType: body.taskType,
+        folderId: body.folderId,
     }
 
     console.log(task)

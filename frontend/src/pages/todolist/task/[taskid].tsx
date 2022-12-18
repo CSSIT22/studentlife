@@ -69,7 +69,7 @@ const task = () => {
             console.log(res.data);
         }).then(() => {
             navigate({
-                pathname: "/todolist/edittask/" + descList.taskId,
+                pathname: "/todolist/",
             })
         })
     }
@@ -173,11 +173,11 @@ const task = () => {
                         </Button>
                         <Button colorScheme="green" mr={3} onClick={() => {
                             onDeleteClose()
-                            deleteTask(descList.taskId)
+                            deleteTask(descList.taskCheck?.taskId)
                             toast({
                                 title: 'Task Deleted.',
-                                description: "Task " + descList.taskName + " deleted successfully.",
-                                status: 'success',
+                                description: "Task " + descList.taskCheck?.taskName + " deleted successfully.",
+                                status: 'error',
                                 duration: 9000,
                                 isClosable: true,
                             })
@@ -266,13 +266,13 @@ const task = () => {
                         </Button>
                         <Button colorScheme="green" mr={3} onClick={() => {
                             onCheckClose()
-                            finishTask(descList.taskId)
+                            finishTask(descList.taskCheck?.taskId)
                             console.log(descList)
                             if (descList.isCheck == false) {
 
                                 toast({
                                     title: 'Task Checked.',
-                                    description: "Task " + descList.taskName + " has been checked successfully.",
+                                    description: "Task " + descList.taskCheck?.taskName + " has been checked successfully.",
                                     status: 'success',
                                     duration: 9000,
                                     isClosable: true,
@@ -280,8 +280,8 @@ const task = () => {
                             } else {
                                 toast({
                                     title: 'Task Unchecked.',
-                                    description: "Task " + descList.taskName + " has been unchecked successfully.",
-                                    status: 'success',
+                                    description: "Task " + descList.taskCheck?.taskName + " has been unchecked successfully.",
+                                    status: 'error',
                                     duration: 9000,
                                     isClosable: true,
                                 })

@@ -74,6 +74,7 @@ const createtask = () => {
     const [type, setType] = useState("")
     // const [alert, setAlert] = useState("")
     const [folder, setFolder] = useState("")
+    const [userId, setUserId] = useState("")
     const [folderList, setFolderList] = useState([])
 
     const isError = taskName === ''
@@ -90,9 +91,19 @@ const createtask = () => {
                 taskType: type,
                 // alert: alert,
                 folderId: folder
-            }).then(() => {
-                navigate("/todolist/")
             })
+
+                // API.post("/notification/addnotiobject", {
+                //     template: "TODO_TASK",
+                //     value: ["valueA", "valueB", "valueC"],
+                //     userId: userId,
+                //     module: "TODO",
+                //     url: "/todolist/",
+                //     sender: userId
+                // })
+                .then(() => {
+                    navigate("/todolist/")
+                })
         }
 
     }
@@ -109,6 +120,7 @@ const createtask = () => {
         // fetchTaskList();
         API.post("/todolist/listfolder").then((res) => {
             setFolderList(res.data);
+            setUserId(res.data.userId);
             console.log(res.data);
         })
     }, [])

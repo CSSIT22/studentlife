@@ -28,6 +28,7 @@ import {
     Editable,
     EditablePreview,
     EditableInput,
+    useToast,
 } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import API from "src/function/API"
@@ -51,7 +52,7 @@ const edittask = () => {
     const [folderName, setFolderName] = useState("")
     const [folderList, setFolderList] = useState([])
     const [descList, setDescList] = useState<any>({})
-
+    const toast = useToast()
     let { taskid } = useParams()
 
     useEffect(() => {
@@ -61,6 +62,7 @@ const edittask = () => {
             setTaskName(res.data.taskCheck?.taskName);
             setTaskDesc(res.data.taskCheck?.taskDesc);
             setFolder(res.data.taskCheck?.folderId);
+            setType(res.data.taskCheck?.taskType)
             // console.log(taskName);
 
             console.log("grrrr", res.data);
@@ -156,11 +158,9 @@ const edittask = () => {
                     Type
                 </Heading>
                 {/* <Text size="md">{descList.taskType}</Text> */}
-                <Select placeholder={descList.taskCheck?.taskType} value={folder} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
-                    {
-                        descList.taskCheck?.taskType == "individual" ? <option value="group">Group</option> :
-                            <option value="individual">Individual</option>
-                    }
+                <Select value={type} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
+                    <option value="group">Group</option>
+                    <option value="individual">Individual</option>
 
 
                 </Select>
@@ -183,7 +183,7 @@ const edittask = () => {
                     Folder
                 </Heading>
 
-                <Select placeholder={descList.taskCheck?.folderName} size="md" onChange={(e) => setFolder(e.target.value)}>
+                <Select value={folder} size="md" onChange={(e) => setFolder(e.target.value)}>
                     {
                         folderList.map((el: any) => (
                             <option value={el.folderId}>{el.folderName}</option>
@@ -196,6 +196,13 @@ const edittask = () => {
                     <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
                         <Link onClick={() => {
                             submit(descList.taskCheck?.taskId)
+                            toast({
+                                title: 'Task Edited.',
+                                description: "Task " + descList.taskCheck?.taskName + " has been edited.",
+                                status: 'success',
+                                duration: 9000,
+                                isClosable: true,
+                            })
                         }}>Done</Link>
                     </Button>
                 </Box>

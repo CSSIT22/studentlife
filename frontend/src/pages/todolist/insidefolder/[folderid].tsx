@@ -97,8 +97,7 @@ const insidefolder = () => {
               deleteFolder()
               toast({
                 title: 'Folder Deleted.',
-                description: "Folder" + fdName.
-                  folderName + " deleted successfully.",
+                description: "Folder " + taskList.folderInfo?.folderName + " deleted successfully.",
                 status: 'success',
                 duration: 9000,
                 isClosable: true,
