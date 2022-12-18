@@ -1,14 +1,18 @@
 import { Polls } from "@apiType/dating"
-import { Box, Center, Container, Flex, HStack, Stack, useToast } from "@chakra-ui/react"
+import { Box, Center, Container, Flex, HStack, Stack, useBoolean, useToast } from "@chakra-ui/react"
+import { motion } from "framer-motion"
+import Lottie from "lottie-react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingAllActivityBox from "src/components/dating/DatingAllActivityBox"
 import DatingAllActivityButton from "src/components/dating/DatingAllActivityButton"
 import DatingAppliedActivityButton from "src/components/dating/DatingAppliedActivityButton"
 import DatingCreatePollButton from "src/components/dating/DatingCreatePollButton"
+import DatingWentWrong from "src/components/dating/DatingWentWrong"
 import DatingYourActivityButton from "src/components/dating/DatingYourActivityButton"
 import API from "src/function/API"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
+import DatingLoading from "../../../components/dating/lottie/DatingLoading.json"
 
 const AllActivityPoll = () => {
     const didMount = useDidMount()
@@ -17,7 +21,8 @@ const AllActivityPoll = () => {
     let count = 1;
     const [poll, setPoll] = useState<Polls[]>([])
     const [userId, setUserId] = useState<string>("")
-
+    const [isLoading, setIsloading] = useState(true)
+    const [isError, { on }] = useBoolean()
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -132,42 +137,90 @@ const AllActivityPoll = () => {
 
         API.get("/dating/allpoll/getAllPollUserId").then((data) => {
             setUserId(data.data)
-        }).catch((err) => console.log(err))
+        }).catch(on).finally(() => setIsloading(false))
     })
 
     return (
         <DatingAppBody>
-            {/* Combine all Nav buttons */}
-            <Center>
-                <Box
-                    mt={{ base: "-20px", md: "7px" }}
-                    pr="500px"
-                    pl="500px"
-                    pt={{ base: "-20px", md: "20px" }}
-                    zIndex="4"
-                    pb="30px"
-                    position="fixed"
-                    top={{ base: 20, md: 150 }}
-                    justifyContent="center"
-                    bg="#FFF2E5"
-                >
-                    <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" pt="20px">
-                        <DatingAllActivityButton backgroundColor={"orange.600"} />
-                        <DatingYourActivityButton backgroundColor={"orange.800"} />
-                        <DatingAppliedActivityButton backgroundColor={"orange.800"} />
-                    </HStack>
-                </Box>
-            </Center>
-            {/* Calling all activity poll out (Need to order by time)*/}
-            <Stack pt="150px" pb="60px">
-                <DatingAllActivityBox poll={poll} userId={userId} />
-            </Stack>
-            {/* Create poll button */}
-            <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px", md: "20px" }} bottom={{ base: "70px", md: "30px" }} _hover={{ color: "black" }}>
-                <DatingCreatePollButton />
-            </Box>
+            {isLoading || isError ? <></> : <>
+                <Center>
+                    <Box
+                        mt={{ base: "-20px", md: "7px" }}
+                        pr="500px"
+                        pl="500px"
+                        pt={{ base: "-20px", md: "20px" }}
+                        zIndex="4"
+                        pb="30px"
+                        position="fixed"
+                        top={{ base: 20, md: 150 }}
+                        justifyContent="center"
+                        bg="#FFF2E5"
+                    >
+                        <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" pt="20px">
+                            <DatingAllActivityButton backgroundColor={"orange.600"} />
+                            <DatingYourActivityButton backgroundColor={"orange.800"} />
+                            <DatingAppliedActivityButton backgroundColor={"orange.800"} />
+                        </HStack>
+                    </Box>
+                </Center>
+                {/* Calling all activity poll out (Need to order by time)*/}
+                <Stack pt="150px" pb="60px">
+                    <DatingAllActivityBox poll={poll} userId={userId} />
+                </Stack>
+                {/* Create poll button */}
+                <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px", md: "20px" }} bottom={{ base: "70px", md: "30px" }} _hover={{ color: "black" }}>
+                    <DatingCreatePollButton />
+                </Box></>}
+            {
+                (isLoading) && !isError ? (
+                    <>
+                        <Box w="800px" h="400px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "450px", md: "400px" }}>
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 360,
+                                    damping: 20,
+                                }}>
+                                <Lottie animationData={DatingLoading} loop={true} style={{ scale: "0.6" }} />
+                            </motion.div>
+                        </Box>
+                        <Box w="350px" h="100px" display="block" position="fixed" left="50%" transform="translateX(-50%)" bottom={{ base: "180px", md: "125px" }}>
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: `0.25em`
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: `0em`,
+                                    transition: {
+                                        duration: 1,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }
+                                }}
+                            >
+                                <Box mt="-25%" textAlign={"center"} color="black" fontWeight="700" fontSize={{ base: "2xl", md: "5xl" }} lineHeight="120%" pl="18px" >
+                                    LOADING
+                                </Box>
+                            </motion.div>
+                        </Box>
+                    </>
+                ) : (
+                    <></>
+                )
+            }
 
-
+            {
+                isError ? (
+                    <Box display="flex" h="66vh" justifyContent="center" alignItems="center">
+                        <DatingWentWrong />
+                    </Box>
+                ) : (
+                    <></>
+                )
+            }
         </DatingAppBody>
     )
 }

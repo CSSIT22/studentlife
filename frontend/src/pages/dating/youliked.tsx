@@ -232,13 +232,19 @@ const YouLiked = () => {
                 </Center>
 
 
+                {isMobile ? (
+                <Box mt="80px"></Box>
+            ) : (
+                <Box mt="10px"></Box>
+            )}
+
                 <Box
                     display={{ base: "grid", md: "block" }}
                     ml={{ base: "5px", md: "0px" }}
                     gridTemplateColumns="repeat(auto-fill, 165px)"
                     gridGap="10px"
                     justifyContent="center"
-                    mt="120px"
+                    mt="90px"
                 >
                     {heartGiver.filter((el) => !giveToUser?.some((f) => el.heartReceiver.userId))
                         .map(({ heartReceiver }) => (
