@@ -17,7 +17,6 @@ const editaboutmeuser = async (req: Request, res: Response) => {
                 hobby: tail.hobby,
                 phone: tail.phone,
                 sex: tail.gender,
-                year: tail.year,
             },
             create: {
                 userId: userId || "",
@@ -26,7 +25,7 @@ const editaboutmeuser = async (req: Request, res: Response) => {
                 hobby: tail.hobby,
                 phone: tail.phone,
                 sex: tail.gender,
-                year: tail.year,
+                year: 0,
             },
         })
         console.log(upsertUser)
