@@ -1,7 +1,6 @@
 import { Avatar, Box, Flex, HStack, VStack } from "@chakra-ui/react"
 import { Text } from "@chakra-ui/react"
 import dayjs from "dayjs"
-import { memberType } from "src/pages/chat/[roomId]/propertyEvent"
 import { buffer_to_img } from "./function/64_to_img"
 
 let d = new Date()
