@@ -6,16 +6,6 @@ export function showDescription(values: NotiValue[], template: string) {
     let v1 = ""
     let v2 = ""
     let v3 = ""
-    //console.log(getvalue)
-    // const [valueNotiObject, setValueNotiObject] = useState([])
-    // useEffect(() => {
-    //     const getvalue = API.get("/notification/getvalue")
-    //     getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
-    //         setValueNotiObject(res.data)
-    //     })
-    // }, [])
-    // console.log(valueNotiObject)
-    // console.log(values);
 
     values.forEach((item: NotiValue) => {
 
