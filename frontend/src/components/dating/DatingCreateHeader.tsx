@@ -35,7 +35,7 @@ const DatingCreateHeader: FC<{
                 {!isTooShortHeader ? (
                     <FormHelperText></FormHelperText>
                 ) : (
-                    <FormErrorMessage color="red">The minimum header length is 10 characters. Type something.</FormErrorMessage>
+                    <FormErrorMessage color="red">The minimum header length is 10 characters. Type something</FormErrorMessage>
                 )}
                 {!isTooLongHeader ? (
                     <FormHelperText></FormHelperText>
