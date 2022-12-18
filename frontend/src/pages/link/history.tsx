@@ -46,7 +46,7 @@ const history = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"auto"} background={"white"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" marginTop={"10%"} >
                     <Box>
                         <Heading
                             width={"300px"}

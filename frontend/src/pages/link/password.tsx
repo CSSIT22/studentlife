@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text, Input, InputGroup, InputRightElement, Alert, AlertIcon, Toast } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text, Input, InputGroup, InputRightElement, Alert, AlertIcon, Toast, useToast } from "@chakra-ui/react"
 import React, { useState } from "react"
 import AppBody from "src/components/share/app/AppBody"
 import { LockIcon } from "@chakra-ui/icons"
@@ -15,6 +15,7 @@ const breakpoints = {
 // const [show, setShow] = useState(false)
 // const handleClick = () => setShow(!show)
 const password = () => {
+    const toast = useToast()
     const [pw1, setpw1] = useState("")
     const [pw2, setpw2] = useState("")
     const navigate = useNavigate()
@@ -26,17 +27,33 @@ const password = () => {
     }
 
     function onSend() {
+
         if (pw1 == "" && pw2 == "") {
+            
             return (
-                <Toast title={"ยังไม่ใส่เลยไอ้สัส"} status={"error"} isClosable={true} />
+                toast({
+                    title: "Please fill the Password!",
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                })
             )
         }
         else if (pw1 === pw2 && pw1 != "" && pw2 != "") {
+            console.log("2");
+
             navigate("/link/complete")
         }
         else {
+            console.log("3");
+
             return (
-                <Toast title={"ยังไม่ใส่เลยไอ้สัส"} status={"error"} isClosable={true} />
+                toast({
+                    title: "Password not match!",
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                })
             )
         }
     }
@@ -66,7 +83,7 @@ const password = () => {
                         <Box h="70px">
                             <Center >
 
-                                <Input onChange={(e) => setpw1(e.target.value)} type={'password'} placeholder='Create Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
+                                <Input onChange={(e) => setpw1(e.target.value)} type={'password'} placeholder='Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
 
 
                             </Center>
@@ -79,7 +96,7 @@ const password = () => {
                         <Box h="70px">
                             <Link>
                                 <Center>
-                                    <Button bg={"green.400"} w={"75%"} height={"60px"} onClick={onSend}>
+                                    <Button bg={"green.400"} w={"75%"} height={"60px"} onClick={() => onSend()}>
                                         <Text as={"b"}>SAVE</Text>
                                     </Button>
                                 </Center>
