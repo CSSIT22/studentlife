@@ -43,8 +43,8 @@ const generate = () => {
     const permission = () => {
         navigate("/link/permission")
     }
-    const complete = () => {
-        navigate("/link/complete")
+    const history = () => {
+        navigate("/link/history")
     }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
@@ -120,77 +120,21 @@ const generate = () => {
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <Center>
-                                <ButtonGroup gap={2}>
-                                    <Button colorScheme="blue" w={"100px"} height={"60px"} onClick={generateLink} textColor="white"  disabled={link.length === 0}>
+                                
+                                    <Button colorScheme="blue" w={"50%"} height={"60px"} onClick={generateLink} textColor="white"  disabled={link.length === 0}>
                                         GENERATE
                                     </Button>
-                                    <Popover>
-                                        <PopoverTrigger>
-                                            <Button colorScheme="orange" w={"100px"} height={"60px"} >
-                                                ADD-ON
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent>
-                                            <PopoverArrow />
-                                            <PopoverCloseButton />
-                                            <PopoverHeader>
-                                                <Text as={"b"}>Select the Shortlink Add on!</Text>
-                                            </PopoverHeader>
-                                            <PopoverBody>
-                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={password} textColor="white">
-                                                    Shortlink Password
-                                                </Button>
-                                                {/* <Button textColor="white"
-                                                    bg={"orange.600"}
-                                                    w={"100%"}
-                                                    mt={3}
-                                                    onClick={() =>
-                                                        toast({
-                                                            title: "Add Unblock features!",
-                                                            description: "Unblock shortlink success",
-                                                            status: "success",
-                                                            duration: 3000,
-                                                            isClosable: true,
-                                                        })
-                                                    }
-                                                >
-                                                    Shortlink Unblock
-                                                </Button> */}
-                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
-                                                    Shortlink Permission
-                                                </Button>
-                                            </PopoverBody>
-                                        </PopoverContent>
-                                    </Popover>
-                                </ButtonGroup>
+                                    
+                                
                             </Center>
                         </Box>
 
                         <Box h="70px">
-                            <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-                                <AlertDialogOverlay>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                                            SAVE
-                                        </AlertDialogHeader>
-
-                                        <AlertDialogBody>Are you sure?</AlertDialogBody>
-
-                                        <AlertDialogFooter>
-                                            <Button colorScheme="green" onClick={complete} ml={3} >
-                                                SAVE
-                                            </Button>
-                                            <Button ref={cancelRef} onClick={onClose} ml={3}>
-                                                Cancel
-                                            </Button>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialogOverlay>
-                            </AlertDialog>
+                            
                             <Box width={"100%"}>
                                 <Center>
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={onOpen}>
-                                        SAVE
+                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={history}>
+                                        Go to Shortlink History
                                     </Button>
                                 </Center>
                             </Box>
