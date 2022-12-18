@@ -1,9 +1,10 @@
 import { DEFAULT_TAGS } from "src/components/qa/shared/defaultTags"
-import { useState, useEffect, useRef } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect, useContext } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import {
     Box,
     Image,
+    Center,
     Container,
     Heading,
     Text,
@@ -25,8 +26,7 @@ import {
     useDisclosure,
     AvatarBadge,
     AvatarGroup,
-    Wrap, Textarea,
-    Tag, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, Input, ModalFooter
+    Wrap, Tag, FormControl, FormLabel, Textarea
 } from "@chakra-ui/react"
 import QAnsAppBody from "src/components/qa/QAnsAppBody"
 import QAnsSearchBar from "src/components/qa/QAnsSearchBar"
@@ -34,14 +34,14 @@ import QAnsAnonyButton from "src/components/qa/QAnsAnonyButton"
 import QAnsBoxPost from "src/components/qa/QAnsBoxPost"
 import QAnsTag from "src/components/qa/QAnsTag"
 import API from "src/function/API"
-import tumpup from "../../components/qa/img/upAnt.jpg"
-import tumpdown from "../../components/qa/img/downSadAnt.jpg"
-import reply from "../../components/qa/img/reply.jpg"
+import tumpup from "../../../components/qa/img/upAnt.jpg"
+import tumpdown from "../../../components/qa/img/downSadAnt.jpg"
+import reply from "../../../components/qa/img/reply.jpg"
+import { authContext } from "src/context/AuthContext"
+import bin from "../../../components/qa/img/bin.png"
 
-const index = () => {
+const myquestions = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const qMentModal = useDisclosure()
-
     let TState = { allTags: DEFAULT_TAGS }
     const [numOfTag, setNumOfTag] = useState(0)
     const [selectedTags, setSelectedTag] = useState<String[] | String>([])
@@ -53,32 +53,33 @@ const index = () => {
     const [allquestions, setallquestions] = useState<any>([])
     const [qId, setqId] = useState<any>(0)
 
-    const initialRef = useRef(null)
-    const finalRef = useRef(null)
-
-    const [anstext, setanstext] = useState()
-    const [ansembed, setansembed] = useState()
-
-    const [qment, setqment] = useState()
-
     const [ansment, setansment] = useState()
 
+    const params = useParams()
+    const user = useContext(authContext)
+    const nav = useNavigate()
+
     useEffect(() => {
-        API.get("/qa").then(dataqa => { setquestions(dataqa.data.questions[0]); setallquestions(dataqa.data.questions) })
+        API.get("/qa/myquestions/" + params.uid).then(dataqa => { setquestions(dataqa.data.questions[0]); setallquestions(dataqa.data.questions) })
     }, [])
     useEffect(() => {
         setquestions(allquestions[qId])
     }, [qId])
 
-    const nav = useNavigate()    
+    const isMobile = useBreakpointValue({
+        base: false,
+        md: true,
+    })
 
-    const submitQMent = (qid: any) => {
+    const del = (qid: any) => {
         console.log(qid)
-        API.post("/qa/"+qid, {qment}).then((res) => (window.location.reload()))
+        API.delete("/qa/myquestions/" + qid,
+        ).then((res) => (window.location.reload()))
     }
 
     return (
         <QAnsAppBody>
+
             <Flex padding={"0.5em"} height={20} alignItems={"baseline"}>
                 <Box w="15%">
                     <Heading as="h1" size="2xl" noOfLines={1}>
@@ -134,6 +135,9 @@ const index = () => {
                             <HStack gap={'5px'}>
                                 <Avatar src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + questions?.qCreator?.userId}></Avatar>
                                 <Text variant="h3" as='b' color={'#2B547E'}>{questions?.qCreator?.fName} {questions?.qCreator?.lName}</Text>
+                                <Box as="button" onClick={() => del(questions?.qId)}>
+                                    <Image src={bin} w='35px' h='20px' boxSize='20px' />
+                                </Box>
                             </HStack>
                             <Text variant="h1" fontSize='20px' paddingLeft="40px" as='b' color={'#2B547E'}>{questions?.qTitle}</Text>
                             <HStack>
@@ -143,7 +147,7 @@ const index = () => {
                                     ))
                                 }
                             </HStack>
-                            <HStack  >
+                            <HStack>
                                 <VStack minW='55px' padding={'10px'}>
                                     <Box as='button'>
                                         <Image src={tumpup} w='35px' h='35px' boxSize='35px' />
@@ -173,34 +177,7 @@ const index = () => {
                             </VStack>
                         </VStack>
                     </QAnsBoxPost>
-                    <Button colorScheme="orange" size="md" w={"60%"} onClick={qMentModal.onOpen}>
-                        ➕
-                    </Button>
-                    <Modal
-                        initialFocusRef={initialRef}
-                        finalFocusRef={finalRef}
-                        isOpen={qMentModal.isOpen}
-                        onClose={qMentModal.onClose}
-                    >
-                        <ModalOverlay />
-                        <ModalContent>
-                            <ModalHeader>Question Comment</ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody pb={6}>
-                                <FormControl>
-                                    <FormLabel>Your Question Comment</FormLabel>
-                                    <Textarea placeholder="Your Question Comment..." h={"200px"} onChange={(e: any) => setqment(e.target.value)} />
-                                </FormControl>
-                            </ModalBody>
 
-                            <ModalFooter>
-                                <Button colorScheme='blue' mr={3} onClick={() => submitQMent(questions?.qId)}>
-                                    'Ment the Question!
-                                </Button>
-                                <Button onClick={qMentModal.onClose}>Cancel</Button>
-                            </ModalFooter>
-                        </ModalContent>
-                    </Modal>
                 </VStack>
 
                 <VStack >
@@ -217,7 +194,7 @@ const index = () => {
                                                     <Text as='b'>{item.aCreator.fName} {item.aCreator.lName}</Text>
                                                 </HStack>
                                                 <p>{item.text}</p>
-
+                                                
                                                 <Popover>
                                                     <PopoverTrigger>
                                                         <Box as={"button"} paddingLeft='100px' >
@@ -235,7 +212,6 @@ const index = () => {
                                                         </PopoverBody>
                                                     </PopoverContent>
                                                 </Popover>
-
 
                                                 <VStack paddingLeft="12">
                                                     {item?.comments &&
@@ -262,34 +238,7 @@ const index = () => {
 
                         </VStack>
                     </QAnsBoxPost>
-                    <Button colorScheme="orange" size="md" w={"60%"} onClick={onOpen}>
-                        ➕
-                    </Button>
-                    <Modal
-                        initialFocusRef={initialRef}
-                        finalFocusRef={finalRef}
-                        isOpen={isOpen}
-                        onClose={onClose}
-                    >
-                        <ModalOverlay />
-                        <ModalContent>
-                            <ModalHeader>Answer</ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody pb={6}>
-                                <FormControl>
-                                    <FormLabel>Your Answer</FormLabel>
-                                    <Textarea placeholder="Your Answer..." h={"200px"} onChange={(e: any) => setanstext(e.target.value)} />
-                                </FormControl>
-                            </ModalBody>
 
-                            <ModalFooter>
-                                <Button colorScheme='blue' mr={3}>
-                                    Post
-                                </Button>
-                                <Button onClick={onClose}>Cancel</Button>
-                            </ModalFooter>
-                        </ModalContent>
-                    </Modal>
                 </VStack>
 
                 <HStack>
@@ -302,4 +251,4 @@ const index = () => {
     )
 }
 
-export default index
+export default myquestions

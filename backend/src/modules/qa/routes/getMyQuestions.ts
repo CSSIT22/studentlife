@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 
-const getQuestions = async (req: Request, res: Response) => {
+const getMyQuestions = async (req: Request, res: Response) => {
+
     try {
         const { prisma } = res
         const questions = await prisma.question.findMany({
@@ -13,14 +14,17 @@ const getQuestions = async (req: Request, res: Response) => {
                 qDesc: true,
                 voteCount: true,
                 qCreator: { select: { fName: true, lName: true, userId: true } },
-                comments: { include: { commentor: { select: { fName: true, lName: true, userId: true } } } },
+                comments: { include: { 
+                    commentor: { select: { fName: true, lName: true, userId: true } } 
+                }
+                },
                 answers: {
                     include: {
                         aCreator: { select: { fName: true, lName: true, userId: true } },
                         comments: { include: { commentor: { select: { fName: true, lName: true, userId: true } } } },
                     },
                     orderBy: {
-                        created: "desc"
+                        created: "asc"
                     }
                 },
                 tags: {
@@ -30,17 +34,18 @@ const getQuestions = async (req: Request, res: Response) => {
                 },
             },
             take: 20,
+            where: { userId: req.params.userid },
             orderBy: { voteCount: "desc" },
         })
 
         return res.json({
             questions,
         })
+
     } catch (err) {
         console.log(err)
-
-        res.status(400).send("Failed to retrieve questions")
+        res.status(400).send("Failed to retrieve my questions")
     }
 }
 
-export default getQuestions
+export default getMyQuestions
