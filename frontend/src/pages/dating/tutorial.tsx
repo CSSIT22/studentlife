@@ -10,6 +10,13 @@ import API from 'src/function/API'
 import { useNavigate } from 'react-router-dom'
 import DatingWentWrong from 'src/components/dating/DatingWentWrong'
 import { motion } from "framer-motion"
+import TutorialGif from "../../components/dating/pic/tutorial.gif"
+import TutorialMobileGif from "../../components/dating/pic/tutorialmobile.gif"
+import DiscoveryGif from "../../components/dating/pic/discovery.gif"
+import DiscoveryMobileGif from "../../components/dating/pic/discoverymobile.gif"
+import HistoryGif from "../../components/dating/pic/history.gif"
+import HistoryMobileGif from "../../components/dating/pic/historymobile.gif"
+import MatchGif from "../../components/dating/pic/match.gif"
 
 
 const FirstPageNextButton = (props: any) => {
@@ -253,15 +260,19 @@ const Tutorial = () => {
                                         w="552px"
                                         h="354px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
-                                    /> : <Box
+                                        backgroundImage={DiscoveryGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
-                                        w="294px"
+                                        ml="30px"
+                                        w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.tenor.com/l9d2q8-JiQoAAAAM/kermit.gif"
+                                        backgroundImage={DiscoveryMobileGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
+                                    </>
                                     }
 
                                 </Box>
@@ -286,15 +297,19 @@ const Tutorial = () => {
                                         w="552px"
                                         h="354px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
-                                    /> : <Box
+                                        backgroundImage={HistoryGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
-                                        w="294px"
+                                        ml="20px"
+                                        w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.tenor.com/l9d2q8-JiQoAAAAM/kermit.gif"
+                                        backgroundImage={HistoryMobileGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
+                                    </>
                                     }
 
                                 </Box>
@@ -319,15 +334,19 @@ const Tutorial = () => {
                                         w="552px"
                                         h="354px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
-                                    /> : <Box
+                                        backgroundImage={MatchGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                    /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
-                                        w="294px"
+                                        ml="20px"
+                                        w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.tenor.com/l9d2q8-JiQoAAAAM/kermit.gif"
+                                        backgroundImage={TutorialMobileGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
+                                    </>
                                     }
 
                                 </Box>
@@ -353,14 +372,17 @@ const Tutorial = () => {
                                         h="354px"
                                         backgroundSize="cover"
                                         backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
-                                    /> : <Box
+                                    /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
-                                        w="294px"
+                                        ml="20px"
+                                        w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.tenor.com/l9d2q8-JiQoAAAAM/kermit.gif"
+                                        backgroundImage={TutorialMobileGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
+                                    </>
                                     }
 
                                 </Box>
@@ -386,14 +408,17 @@ const Tutorial = () => {
                                         h="354px"
                                         backgroundSize="cover"
                                         backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
-                                    /> : <Box
+                                    /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
-                                        w="294px"
+                                        ml="20px"
+                                        w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.tenor.com/l9d2q8-JiQoAAAAM/kermit.gif"
+                                        backgroundImage={TutorialMobileGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
+                                    </>
                                     }
 
                                 </Box>
@@ -419,14 +444,17 @@ const Tutorial = () => {
                                         h="354px"
                                         backgroundSize="cover"
                                         backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
-                                    /> : <Box
+                                    /> : <><Box
                                         borderRadius="10px"
                                         mt="36px"
-                                        w="294px"
+                                        ml="20px"
+                                        w="198px"
                                         h="426px"
                                         backgroundSize="cover"
-                                        backgroundImage="https://media.tenor.com/l9d2q8-JiQoAAAAM/kermit.gif"
+                                        backgroundImage={TutorialMobileGif}
+                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                     />
+                                    </>
                                     }
 
                                 </Box>
@@ -450,14 +478,17 @@ const Tutorial = () => {
                                             w="552px"
                                             h="354px"
                                             backgroundSize="cover"
-                                            backgroundImage="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif"
+                                            backgroundImage={TutorialGif}
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                         /> : <><Box
                                             borderRadius="10px"
                                             mt="36px"
-                                            w="294px"
+                                            ml="40px"
+                                            w="198px"
                                             h="426px"
                                             backgroundSize="cover"
-                                            backgroundImage="https://media.tenor.com/l9d2q8-JiQoAAAAM/kermit.gif"
+                                            backgroundImage={TutorialMobileGif}
+                                            boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
                                         />
                                         </>
                                         }

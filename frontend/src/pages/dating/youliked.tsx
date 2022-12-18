@@ -190,8 +190,8 @@ const YouLiked = () => {
                             bg="#FFF2E5"
                         >
                             <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
-                                <DatingLikedYouButton backgroundColor="orange.600" />
-                                <DatingYouLikedButton backgroundColor="orange.800" />
+                                <DatingLikedYouButton backgroundColor="orange.800" />
+                                <DatingYouLikedButton backgroundColor="orange.600" />
                             </HStack>
                         </Box>
                     </Center><Box display="flex" justifyContent="center">

@@ -261,15 +261,14 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                         in: filterId,
                     },
                 },
-
                 details: {
                     NOT: {
                         userId: reqUserId,
                     },
                 },
-                // datingSetting: {
-                //     hasCompleteSetting: true,
-                // },
+                datingSetting: {
+                    hasCompleteSetting: true,
+                },
             },
             select: {
                 userId: true,
@@ -574,7 +573,7 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
 discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: Response) => {
     try {
         const userId = req.user?.userId
-        const anotherUserId : string = req.body.anotherUserId
+        const anotherUserId: string = req.body.anotherUserId
         const isSkipped = req.body.isSkipped
 
         const giveHeartId: any = []
@@ -584,7 +583,7 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
             },
             select: {
                 anotherUserId: true,
-            }
+            },
         })
 
         const userProfileDB = await prisma.user_Profile.findFirst({
@@ -592,17 +591,17 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                 userId: userId,
             },
             select: {
-                fName: true
-            }
+                fName: true,
+            },
         })
 
         const anotherUserProfileDB = await prisma.user_Profile.findFirst({
             where: {
-                userId: anotherUserId
+                userId: anotherUserId,
             },
             select: {
                 fName: true,
-            }
+            },
         })
 
         const receiveHeartDB = await prisma.heart_History.findFirst({
@@ -612,10 +611,9 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
             },
         })
 
-        giveHeartDB.map(({anotherUserId}) => {
+        giveHeartDB.map(({ anotherUserId }) => {
             giveHeartId.push(anotherUserId)
         })
-
 
         if (userId && !giveHeartId.includes(anotherUserId)) {
             try {
@@ -653,7 +651,6 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                                     sender: anotherUserId,
                                 })
                                 console.log(fName + " " + anotherUserId + " " + userId)
-
                             }
                         }
                     }

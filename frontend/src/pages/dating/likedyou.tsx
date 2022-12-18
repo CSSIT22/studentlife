@@ -237,7 +237,7 @@ const LikedYou = () => {
                         gridTemplateColumns="repeat(auto-fill, 165px)"
                         gridGap="10px"
                         justifyContent="center"
-                        mt="120px"
+                        mt="90px"
                     >
 
                         {heartGiver.filter((el) => !giveToUser?.some((f) => f == el.heartGiver.userId))
