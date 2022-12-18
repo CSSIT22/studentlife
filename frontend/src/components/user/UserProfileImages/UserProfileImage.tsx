@@ -27,7 +27,7 @@ const UserProfileImages: React.FC<{ userData: any }> = ({ userData }) => {
                 position="initial"
                 float={"inline-end"}
                 boxSize={{ md: '200px', base: '10rem' }}
-                shadow="xl"
+                shadow="2xl"
                 bg='orange.400'
                 src={`${buffer_to_img(userData?.image?.data)}`}
                 _hover={{ cursor: "pointer" }}
