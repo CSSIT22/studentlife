@@ -15,11 +15,12 @@ import {
     Show,
     useBoolean,
     Heading,
+    useToast,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import { IoAdd } from "react-icons/io5"
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import { addMoreLangType, announcement, post, post_to_language, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
 import MoreLangForEdit from "src/components/annoucement/MoreLangForEdit"
@@ -28,15 +29,12 @@ import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import MoreLang from "src/components/annoucement/MoreLang"
 import { postInfoTest } from "../postInfoTest"
 import MoreLangAdded from "src/components/annoucement/MoreLangAdded"
+import AnnounceError from "src/components/annoucement/AnnounceError"
+import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const history = () => {
-    // const [isError, {on}] = useBoolean()
     const params = useParams()
-    // console.log(params.postId);
     const [allPost, setAllPost] = React.useState(postInfoTest)
-    const postParams = allPost.filter((el) => {
-        return el.postId == parseInt(params.postId + "")
-    })
     const [topic, setTopic] = React.useState<string>()
     const [detail, setDetail] = React.useState<string>()
     const [targetType, setTargetType] = React.useState<string>()
@@ -52,73 +50,91 @@ const history = () => {
     const [add, setAdd] = React.useState(0)
     const [exmoreLang, setexMoreLang] = React.useState<post_to_language2[]>([])
     const [count, setCount] = React.useState(0)
-    const [disable, setdisable] = useState(true)
+    const [disable, setdisable] = useState(false)
+    const [event, setEvent] = useState<string | undefined>()
 
     const tog = () => {
         settoggle(!toggle)
     }
 
-    let d: Date
+    let d, e: Date
     const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-    const [tt, settt] = useState<addMoreLangType[]>([])
     const [tv, settv] = useState<tgType[]>([])
-    const [exlang2 , setexlang2] = useState<addMoreLangType[]>([])
+    const toast = useToast()
+    const navigate = useNavigate()
 
     async function getPost() {
-        const getData = await API.get("/announcement/getdetailedit/" + params.postId)
-        setpost(getData.data)
-        setTopic(getData.data[0].annLanguage[0].annTopic)
-        setDetail(getData.data[0].annLanguage[0].annDetail)
-        setTargetType(getData.data[0].annFilter.filterType)
-        setTargetValue(getData.data[0].annFilter.value)
-        d = new Date(getData.data[0].annExpired)
-        // get date มาแค่ 1 หลัก แต่ date require 2 หลัก
-        if (d.getMonth() < 10) {
-            const nm = "0" + (d.getMonth() + 1)
-            if (d.getDate() < 10) {
-                const nd = "0" + (d.getDate())
-                setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+        await API.get("/announcement/getdetailedit/" + params.postId).then((item) => {
+            setpost(item.data)
+            setTopic(item.data[0].annLanguage[0].annTopic)
+            setDetail((item.data[0].annLanguage[0].annDetail.split("~"))[1])
+            setTargetType(item.data[0].annFilter.filterType)
+            setTargetValue(item.data[0].annFilter.value)
+
+            e = new Date((item.data[0].annLanguage[0].annDetail.split("~"))[0])
+            if (e.getMonth() + 1 < 10) {
+                const nm2 = "0" + (e.getMonth() + 1)
+                if (e.getDate() < 10) {
+                    const nd2 = "0" + (e.getDate())
+                    setEvent(e.getFullYear() + "-" + nm2 + "-" + nd2)
+                } else {
+                    setEvent(e.getFullYear() + "-" + nm2 + "-" + e.getDate())
+                }
+            } else if (e.getDate() < 10) {
+                const nd2 = "0" + e.getDate()
+                if (e.getMonth() + 1 < 10) {
+                    const nm2 = "0" + (e.getMonth() + 1)
+                    setEvent(e.getFullYear() + "-" + nm2 + "-" + nd2)
+                } else {
+                    setEvent(e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + nd2)
+                }
             } else {
-                setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
+                setEvent(e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + e.getDate())
             }
 
-        } else if (d.getDate() < 10) {3
-            const nd = "0" + d.getDate()
-            if (d.getMonth() < 10) {
+            d = new Date(item.data[0].annExpired)
+            if (d.getMonth() + 1 < 10) {
                 const nm = "0" + (d.getMonth() + 1)
-                setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+                if (d.getDate() < 10) {
+                    const nd = "0" + (d.getDate())
+                    setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+                } else {
+                    setExpired(d.getFullYear() + "-" + nm + "-" + d.getDate())
+                }
+            } else if (d.getDate() < 10) {
+                if (d.getDate() < 10) {
+                    const nd = "0" + d.getDate()
+                    if (d.getMonth() + 1 < 10) {
+                        const nm = "0" + (d.getMonth() + 1)
+                        setExpired(d.getFullYear() + "-" + nm + "-" + nd)
+                    } else {
+                        setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + nd)
+                    }
+                }
             } else {
-                setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + nd)
+                setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
             }
-        } else {
-            setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
-        }
 
-        // setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
-        // setAddMoreLang(getData.data[0].annLanguage.filter((el:any) => el.languageId > 1000))
+            setexMoreLang(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
 
-        setexMoreLang(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
+            setmorelanglength(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
+        }).catch(err => toast({ title: "Something went wrong with Loading information", duration: 5000, status: "error", position: "top" }))
 
-        setmorelanglength(getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
-        const value = await API.get("/announcement/gettypetarget");
-        settv(value.data)
-        // for(let i=0;i<getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length;i++){
-        //     exlang2.push( {id:Date.now(),languageId:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].languageId,annTopic:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].annTopic,annDetail:getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000)[i].annDetail})
-        // }
-        // getData.data[0].annLanguage.filter((el: any) => el.languageId > 1000).forEach((el:any) => {
-        //    exlang2.push( {id:Date.now(),languageId:el.languageId,annTopic:el.annTopic,annDetail:el.annDetail})
-        // })
+        await API.get("/announcement/gettypetarget").then(item => settv(item.data))
     }
-    // console.log(exlang2.slice(0,exmoreLang.length));
-    // setexMoreLang(exmoreLang) 
-   
-   
 
+
+
+
+    const [formState, setFormState] = useState<
+        "unchanged" | "modified" | "saving"
+    >("unchanged");
 
     useEffect(() => {
         getPost()
     }, [toggle])
+
+
 
     const onOpen = () => {
         setIsOpen(true)
@@ -131,7 +147,6 @@ const history = () => {
         detail: " The announcement request has been sent.",
         status: "edit",
     }
-
 
 
     const selectTargetValue = (tgType: string | undefined) => {
@@ -163,7 +178,43 @@ const history = () => {
             return ""
         }
     }
+    const [navi, setNav] = useState(true);
+    useEffect(() => {
+        const handler = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        if (formState == "modified") {
+            window.addEventListener("beforeunload", handler);
+            return () => {
+                window.removeEventListener("beforeunload", handler);
+            }
+        }
 
+
+    }, [formState])
+
+    useEffect(() => {
+        const history = window.history as any;
+        var pushState = window.history.pushState;
+        history.pushState = function (state: any) {
+            if (typeof history.onpushstate == "function") {
+                history.onpushstate({ state: state });
+            }
+            // const nav = false;
+            // false cannot navigate
+
+            if (navi) {
+                return pushState.apply(history, arguments as any);
+            } else {
+                const cancelRef = useRef()
+            }
+        };
+
+        return () => {
+            window.history.pushState = pushState
+        }
+    }, [navi])
     const onAdd = () => {
         setAdd(add + 1)
     }
@@ -172,71 +223,55 @@ const history = () => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
 
-    const increaseCount = () => {
-        setCount(count + 1)
-        AddLang()
-    }
-
-    // console.log(morelanglength);
-    
-    const decreaseCount = (id: number) => {
-        setCount(count - 1)
-        setAddMoreLang(addMoreLang.filter((el) => el.languageId != id))
-        setMoreLangField(moreLangField.filter((el) => el.count != count-1))
-        // setexMoreLang(exmoreLang.filter((el) => el.languageId != id))
-    }
-
-
-    const decreaseForEdit = (langid:number) => {
-        console.log(langid);
-        setmorelanglength(morelanglength - 1)
-        setexMoreLang(exmoreLang.filter((el) => {return el.languageId != langid}))
-    }
-
-    
-    console.log(exmoreLang)
-
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])
     }
-    // console.log(moreLangField);
 
-
-    // console.log(moreLangLength)
-    // console.log(addMoreLang)
-    const onDisable = () => {
-        setdisable(!disable)
+    const increaseCount = () => {
+        setCount(count + 1)
+        AddLang()
+        setdisable(true)
     }
-    // console.log(exmoreLang);
-    // console.log(count);
-    
+
+
+    const decreaseCount = () => {
+        setCount(count - 1)
+        setMoreLangField(moreLangField.filter((el) => el.count != count - 1))
+    }
+
+
+    const decreaseForEdit = (langid: number) => {
+        setmorelanglength(morelanglength - 1)
+        setexMoreLang(exmoreLang.filter((el) => { return el.languageId != langid }))
+    }
+
+    const onDisable = () => {
+        setdisable(false)
+        setMoreLangField(moreLangField.filter((el) => el.count == count))
+    }
+
 
     const updateMoreLang = (add: Number) => {
-        if(add == morelanglength){
-            return addMoreLang.map((el,index) => {
+        if (add == morelanglength) {
+            return addMoreLang.map((el, index) => {
                 return (
                     <MoreLangAdded
-                    title={el.annTopic}
-                    dt={el.annDetail}
-                    selectLang={el.languageId}
-                    key={index}
-                    addLang={addLang}
-                    onAdd={onAdd}
-                    add={true}
+                        title={el.annTopic}
+                        dt={el.annDetail}
+                        selectLang={el.languageId}
+                        key={index}
+                        addLang={addLang}
+                        onAdd={onAdd}
+                        add={true}
                     />
                 )
             })
-        }else {
-            // ลบจากด้านล่างลำดับได้ปกติ
-            // ลบจากด้านบน ค่าที่เปลี่ยนแปลงไป ถูกต้องแต่ render ผิด
-            
-           return exmoreLang?.map((el) => {
-            // wtf log ค่าถูกตามที่ต้องการถูกทุกอย่าง ที่frontend ไม่ได้ re render ตามนั้น?????
-            console.log(el.languageId);
-            console.log(el.annTopic);
+        } else {
+
+            return exmoreLang?.map((el) => {
+
                 return (
                     <MoreLangForEdit
-                        // id={Date.now()}
                         onDecrease={decreaseForEdit}
                         addLang={addLang}
                         selectLang={el.languageId}
@@ -247,43 +282,10 @@ const history = () => {
                     />
                 )
             })
-        } 
+        }
     }
-       
-    // if (add == morelanglength) {
-    //     return addMoreLang.map((el) => {
-    //         return (
-    //             <MoreLangForEdit
-    //                 id={el.id}
-    //                 onDecrease={decreaseCount}
-    //                 addLang={addLang}
-    //                 selectLang={el.languageId}
-    //                 title={el.annTopic}
-    //                 dt={el.annDetail}
-    //                 key={el.id}
-    //                 onAdd={onAdd}
-    //                 add={true}
-    //             />
-    //         )
-    //     })
-    // } else if(exmoreLang.length != 0){
-    //     return exmoreLang?.map((el) => {
-    //         return (
-    //             <MoreLangForEdit
-    //                 onDecrease={decreaseCount}
-    //                 id={el.id}
-    //                 addLang={addLang}
-    //                 selectLang={el.languageId}
-    //                 title={el.annTopic}
-    //                 dt={el.annDetail}
-    //                 key={el.id}
-    //                 onAdd={onAdd}
-    //                 add={false}
-    //             />
-    //         )
-    //     })
-    // }
-    // }
+
+
 
     const showMoreLang = (moreLangLength: Number, add: Number) => {
         if (moreLangLength > 0) {
@@ -318,7 +320,7 @@ const history = () => {
         API.post<post>("/announcement/editdetailpost", {
             postid: params.postId,
             topic: topic,
-            detail: detail,
+            detail: event + "~" + detail,
             targetType: targetType,
             targetValue: targetValue,
             postat: new Date(),
@@ -326,120 +328,176 @@ const history = () => {
             addMoreLang: addMoreLang,
         })
     }
-    // console.log(expired);
-    // console.log(exmoreLang)
+
+
     return (
-        <AppBody
-            secondarynav={[
-                { name: "Announcement", to: "/announcement" },
-                { name: "Approval", to: "/announcement/approval" },
-                { name: "History", to: "/announcement/history" },
-                { name: "Recycle bin", to: "/announcement/recyclebin" },
-            ]}
-            p={{ md: "3rem" }}
-        >
-            <form
-                onSubmit={(e) => {
-                    tog()
-                    onOpen()
-                    e.preventDefault()
-                    submit()
-                }}
-            >
-                <Flex alignItems={"center"}>
-                    <Show below="lg">
-                        <Text as={"b"} fontSize="xl">
-                            <Link to={"/announcement/history"}>
-                                <GrClose />
-                            </Link>
-                        </Text>
-                    </Show>
-                    <Spacer />
-                    <Box textAlign={"right"}>
-                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
-                        <ModalForEvent
-                            isOpen={isOpen}
-                            onClose={onClose}
-                            topic={modalEdit.topic}
-                            detail={modalEdit.detail}
-                            status={modalEdit.status}
-                            allPost={allPost}
-                            setAllPost={setAllPost}
-                            //onclick not use in edit post
-                            onClick={tog}
-                        />
-                    </Box>
-                </Flex>
-                <Stack spacing={3} p="5" color="black">
-                    <FormControl>
-                        <FormLabel>Language</FormLabel>
-                        <Select isDisabled placeholder="English" bg="white"></Select>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Title</FormLabel>
-                        <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} value={topic} bg="white" />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Detail</FormLabel>
-                        <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} value={detail} bg="white" />
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Target Group</FormLabel>
-                        <Flex>
-                            <Select
-                                placeholder="Select Type"
-                                pr={"2"}
-                                onChange={(el) => setTargetType(el.target.value)}
-                                value={targetType}
-                                bg="white"
-                            >
-                                <option>Everyone</option>
-                                <option>Year</option>
-                                <option>Major</option>
-                                <option>Faculty</option>
-                            </Select>
-                            {selectTargetValue(targetType)}
-                        </Flex>
-                    </FormControl>
-                    <FormControl isRequired>
-                        <FormLabel>Expired Date</FormLabel>
-                        <Input
-                            placeholder="Select expired date"
-                            size="md"
-                            type="date"
-                            min={disabledDates()}
-                            onChange={(e) => setExpired(e.target.value)}
-                            value={expired}
-                            bg="white"
-                        />
-                    </FormControl>
-                    <FormControl>
+        <AnnounceNav>
+            {(() => {
+                if (isError) {
+                    return <AnnounceError />
+                } else {
+                    return (
                         <>
-                            {showMoreLang(morelanglength, add)}
-                            {disable &&
-                                moreLangField?.map((el) => {
-                                    return <MoreLang key={el.count} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} />
-                                })}
-                            <Tag
-                                size={"lg"}
-                                key={"lg"}
-                                variant="subtle"
-                                backgroundColor={"#DD6B20"}
-                                color="white"
-                                onClick={() => {
-                                    increaseCount()
+                            <form
+                                onSubmit={(e) => {
+                                    tog()
+                                    onOpen()
+                                    e.preventDefault()
+                                    submit()
+                                    setFormState("saving")
                                 }}
-                                cursor={"pointer"}
-                                mt="5"
                             >
-                                <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
-                                <TagLabel>Add More Language</TagLabel>
-                            </Tag>
+                                <Flex alignItems={"center"}>
+                                    <Show below="lg">
+                                        <Text as={"b"} fontSize="xl">
+                                            <Link to={"/announcement/history"}>
+                                                <GrClose />
+                                            </Link>
+                                        </Text>
+                                    </Show>
+                                    <Spacer />
+                                    <Box textAlign={"right"}>
+                                        <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
+                                        <ModalForEvent
+                                            isOpen={isOpen}
+                                            onClose={onClose}
+                                            topic={modalEdit.topic}
+                                            detail={modalEdit.detail}
+                                            status={modalEdit.status}
+                                            allPost={allPost}
+                                            setAllPost={setAllPost}
+                                            //onclick not use in edit post
+                                            onClick={tog}
+                                        />
+                                    </Box>
+                                </Flex>
+                                <Stack spacing={3} p="5" color="black">
+                                    <FormControl>
+                                        <FormLabel>Language</FormLabel>
+                                        <Select isDisabled placeholder="English" bg="white"></Select>
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Title</FormLabel>
+                                        <Input placeholder="Title" maxLength={120} onChange={(e) => {
+                                            if (e.target.value !== "") {
+                                                setFormState("modified");
+                                                setNav(false);
+                                            } else {
+                                                setFormState("unchanged");
+                                                setNav(true)
+                                            }
+                                            setTopic(e.target.value)
+                                        }} value={topic} bg="white" />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Detail</FormLabel>
+                                        <Textarea placeholder="Detail" size="sm" onChange={(e) => {
+                                            if (e.target.value !== "") {
+                                                setFormState("modified");
+                                                setNav(false);
+                                            } else {
+                                                setFormState("unchanged");
+                                                setNav(true)
+                                            } setDetail(e.target.value)
+                                        }} value={detail} bg="white" rows={10} />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Target Group</FormLabel>
+                                        <Flex>
+                                            <Select
+                                                placeholder="Select Type"
+                                                pr={"2"}
+                                                onChange={(el) => {
+                                                    if (el.target.value !== "") {
+                                                        setFormState("modified");
+                                                        setNav(false);
+                                                    } else {
+                                                        setFormState("unchanged");
+                                                        setNav(true)
+                                                    } setTargetType(el.target.value)
+                                                }}
+                                                value={targetType}
+                                                bg="white"
+                                            >
+                                                <option>Everyone</option>
+                                                <option>Year</option>
+                                                <option>Major</option>
+                                                <option>Faculty</option>
+                                            </Select>
+                                            {selectTargetValue(targetType)}
+                                        </Flex>
+                                    </FormControl>
+                                    <FormControl>
+                                        <FormLabel>Event Date</FormLabel>
+                                        <Input
+                                            placeholder="Select expired date"
+                                            size="md"
+                                            type="date"
+                                            min={disabledDates()}
+                                            onChange={(e) => {
+                                                if (e.target.value !== "") {
+                                                    setFormState("modified");
+                                                    setNav(false);
+                                                } else {
+                                                    setFormState("unchanged");
+                                                    setNav(true)
+                                                } setEvent(e.target.value)
+                                            }}
+                                            bg="white"
+                                            value={event}
+                                        />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                        <FormLabel>Expired Date</FormLabel>
+                                        <Input
+                                            placeholder="Select expired date"
+                                            size="md"
+                                            type="date"
+                                            min={disabledDates()}
+                                            onChange={(e) => {
+                                                if (e.target.value !== "") {
+                                                    setFormState("modified");
+                                                    setNav(false);
+                                                } else {
+                                                    setFormState("unchanged");
+                                                    setNav(true)
+                                                } setExpired(e.target.value)
+                                            }}
+                                            value={expired}
+                                            bg="white"
+                                        />
+                                    </FormControl>
+                                    <FormControl>
+                                        <>
+                                            {showMoreLang(morelanglength, add)}
+                                            {disable && moreLangField?.map((_, index) => {
+                                                return <MoreLang key={index} onClick={decreaseCount} addLang={addLang} onDisable={onDisable} addMoreLang={addMoreLang} />
+                                            })}
+                                            <Tag
+                                                size={"lg"}
+                                                key={"lg"}
+                                                variant="subtle"
+                                                backgroundColor={"#DD6B20"}
+                                                color="white"
+                                                onClick={() => {
+                                                    increaseCount()
+                                                }}
+                                                cursor={"pointer"}
+                                                mt="5"
+                                            >
+                                                <TagLeftIcon boxSize="1.5rem" as={IoAdd} />
+                                                <TagLabel>Add More Language</TagLabel>
+                                            </Tag>
+                                        </>
+                                    </FormControl>
+                                </Stack>
+                            </form>
                         </>
-                    </FormControl>
-                </Stack>
-            </form>
-        </AppBody>
+                    )
+                }
+            })()}
+        </AnnounceNav>
+
     )
 }
 
