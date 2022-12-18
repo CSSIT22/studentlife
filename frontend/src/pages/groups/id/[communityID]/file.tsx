@@ -40,7 +40,7 @@ const File = () => {
             {
                 //Check if user is member of community or community is public to show file page
                 data?.user.access || !data?.community.privacy && !isLoading && !isError && !data?.user.isBlacklisted ?
-                    <FilePage checkRole={data?.user.role} checkId={data?.user.id}/>
+                    <FilePage checkRole={data?.user.role} checkId={data?.user.id} checkName={data?.user.name} />
                     : null
             }
         </AppBody >

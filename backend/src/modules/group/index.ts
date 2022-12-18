@@ -31,6 +31,7 @@ import likePost from "./routes/community/post/likePost"
 import dislikePost from "./routes/community/post/dislikePost"
 import downloadFile from "../airdrop/routes/functions/downloadFile"
 import creatingCommunityPost from "./routes/community/post/createCommunityPost"
+import { group } from "console"
 const upload = multer()
 const groupRoutes = express()
 groupRoutes.use(express.json())

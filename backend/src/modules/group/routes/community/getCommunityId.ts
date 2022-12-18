@@ -91,6 +91,12 @@ const getCommunityId = async (req: Request, res: Response) => {
                 userId: true,
                 status: true,
                 joined: true,
+                user: {
+                    select: {
+                        fName: true,
+                        lName: true,
+                    },
+                },
             },
         })
 
@@ -108,6 +114,7 @@ const getCommunityId = async (req: Request, res: Response) => {
                 status: user?.status, //true if member, false if pending, undefined if not a member
                 isBlacklisted, //true if blacklisted, false if not blacklisted, undefined if not a member
                 joined: user?.joined, //date when the user joined the community
+                name: user?.user.fName + " " + user?.user.lName,
             },
             community: {
                 id: community?.communityId,

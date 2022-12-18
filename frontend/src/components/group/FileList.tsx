@@ -1,5 +1,5 @@
-import { Text, Box, Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger, Portal, useBoolean, useToast } from "@chakra-ui/react"
-import React, { FC } from "react"
+import { Text, Box, Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger, Portal, useBoolean, useToast, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
+import React, { FC, useEffect } from "react"
 import { BsFillFileEarmarkTextFill, BsThreeDots } from "react-icons/bs"
 import { FaDownload } from "react-icons/fa"
 import { RiDeleteBinFill } from "react-icons/ri"
@@ -9,9 +9,21 @@ import API from "src/function/API"
 
 
 
-const FileList: FC<{ fileName: string; owner: string; type: string;fileId:string }> = ({ fileName, owner, type,fileId}) => {
+const FileList: FC<{
+    fileName: string;
+    owner: string;
+    userRole?: string;
+    checkRole?: string;
+    type: string;
+    fileId: string
+    checkId?: string;
+    userId?: string;
+    checkName?: string;
+    fetchFile: any;
+}> = ({ checkId, userId, checkRole, userRole, fileName, owner, type, fileId, checkName, fetchFile }) => {
 
     const [isDownload, { off: offDownload, on: onDownload }] = useBoolean()
+    const [isDelete, { off: offDelete, on: onDelete }] = useBoolean()
     const toast = useToast()
     async function downloadFunc(data: any, name: any, type: any) {
         try {
@@ -29,19 +41,38 @@ const FileList: FC<{ fileName: string; owner: string; type: string;fileId:string
         }
     }
     const handleDownload = async (name: string, sid: string, fid: string, event: any) => {
-        const downloadFile = await API.get(`/airdrop/file/download/${fileId}` , {
+        const downloadFile = await API.get(`/airdrop/file/download/${fileId}`, {
             responseType: "arraybuffer",
         }).then((res) => {
             onDownload()
             downloadFunc(res.data, name, res.headers["content-type"])
-            toast({ title: "File Downloaded", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
+            toast({ position: "top", title: "File Downloaded", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
         })
     }
-    const onDelete = async () => {
-        
-        
-        
+    const handleDelete = async () => {
+        await API.delete(`/group/deleteFile`,
+            { data: { fileId: fileId } })
+        onDelete()
+        toast({ position: "top", title: "File Deleted", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
+        fetchFile()
+        console.log("delete")
     }
+    const threeDots = [
+        {
+            icon: <FaDownload size={"20px"} />,
+            text: "Download",
+            onClick: async (e: any) =>
+                handleDownload(fileName, owner, fileId, e.target),
+            conditions: true,
+        },
+        {
+            icon: <RiDeleteBinFill size={"20px"} />,
+            text: "Delete",
+            onClick: () => handleDelete(),
+            conditions: checkRole == "OWNER" || checkRole == "ADMIN" || owner.toLowerCase() == checkName?.toLowerCase(),
+        }
+    ]
+
 
 
     return (
@@ -49,7 +80,7 @@ const FileList: FC<{ fileName: string; owner: string; type: string;fileId:string
             <Flex width={"100%"} direction="row" alignItems={"center"}>
                 <BsFillFileEarmarkTextFill size={"30px"} />
                 <Flex width={"100%"} flexDirection={{ base: "column", md: "row" }}>
-                    
+
                     <Text fontSize={"sm"} width={{ base: "100%", md: "100%" }} ml={{ base: 2 }}>
                         {fileName}
                     </Text>
@@ -65,32 +96,29 @@ const FileList: FC<{ fileName: string; owner: string; type: string;fileId:string
                     </Flex>
                 </Flex>
             </Flex>
-            <Popover>
-                <PopoverTrigger>
-                    <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
-                        <BsThreeDots fontSize={"25px"} />
-                    </Box>
-                </PopoverTrigger>
-                <Portal>
-                    <PopoverContent width="180px">
-                        <PopoverBody>
-                        
-                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"} onClick={async (e) => {
-                                handleDownload( fileName, owner, fileId, e.target)
-                            }}>
-                                <FaDownload />
-                                <Text>Download</Text>
-                            </Box>
-
-                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"} //onClick={onDelete()}
-                            >
-                                <RiDeleteBinFill />
-                                <Text>Delete</Text>
-                            </Box>
-                        </PopoverBody>
-                    </PopoverContent>
-                </Portal>
-            </Popover>
+            <Box>
+                <Menu>
+                    <MenuButton>
+                        <BsThreeDots fontSize='25px' />
+                    </MenuButton>
+                    <MenuList>
+                        {
+                            threeDots
+                                .filter((item) => item.conditions)
+                                .map((item, index) => {
+                                    return (
+                                        <MenuItem
+                                            key={index}
+                                            icon={item.icon}
+                                            onClick={item.onClick}>
+                                            {item.text}
+                                        </MenuItem>
+                                    )
+                                })
+                        }
+                    </MenuList>
+                </Menu>
+            </Box>
         </Flex>
     )
 }

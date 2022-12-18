@@ -213,7 +213,11 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                     >
                                         <Text>Submit</Text>
                                     </Button>
-                                    <ImageInsert children files={files} setFiles={setFiles} />
+                                    <ImageInsert
+
+                                        children files={files}
+                                        setFiles={setFiles}
+                                    />
                                 </HStack>
                             </AccordionPanel>
                         </AccordionItem>

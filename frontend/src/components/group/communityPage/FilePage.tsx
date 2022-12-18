@@ -8,8 +8,11 @@ import search from "src/pages/restaurant/search"
 
 const FilePage: FC<{
     checkRole: string
+    userRole?: string
+    userId?: string
     checkId: string
-}> = ({ checkRole, checkId }) => {
+    checkName?: string
+}> = ({ checkRole, checkId, checkName }) => {
     let { communityID }: any = useParams()
     const [file, setFile] = useState<any>()
 
@@ -42,6 +45,7 @@ const FilePage: FC<{
     }
     useEffect(() => {
         fetchFile()
+        // console.log("file", file);
     }, [])
 
     // useEffect(() => {
@@ -120,20 +124,26 @@ const FilePage: FC<{
                             ? item
                             : item.file.fileName.toLowerCase().includes(searchValue)
                     })
-                        .map(( item: any,index: number) => {
-                        return (
-                            <>
-                                <FileList 
-                                key={index} 
-                                fileName={item.file.fileName.split(".")[0].length > 50
-                                ? item.file.fileName.split(".")[0].slice(0, 50) + "..."
-                                : item.file.fileName.split(".")[0]}
-                                owner={item.file.sender.fName+" "+item.file.sender.lName}
-                                fileId={item.file.fileId} 
-                                type={item.file.fileName.split(".")[1]} />
-                            </>
-                        )
-                    })}
+                        .map((item: any, index: number) => {
+                            return (
+                                <>
+                                    <FileList
+                                        fetchFile={fetchFile}
+                                        checkName={checkName}
+                                        checkRole={checkRole}
+                                        checkId={checkId}
+                                        userRole={item.file.sender.role}
+                                        userId={item.file.sender.userId}
+                                        key={index}
+                                        fileName={item.file.fileName.split(".")[0].length > 50
+                                            ? item.file.fileName.split(".")[0].slice(0, 50) + "..."
+                                            : item.file.fileName.split(".")[0]}
+                                        owner={item.file.sender.fName + " " + item.file.sender.lName}
+                                        fileId={item.file.fileId}
+                                        type={item.file.fileName.split(".")[1]} />
+                                </>
+                            )
+                        })}
             </Box>
         </Box>
     )
