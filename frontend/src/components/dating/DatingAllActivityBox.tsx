@@ -30,7 +30,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
     // }
     const [cc, setcc] = useState<boolean>(false)
     const toast = useToast()
-    function handleApply(pId: string, apState: boolean) {
+    function handleApply(pId: string, apState: boolean, pollName: string, pollCreaterId: string) {
         const now = new Date()
         now.setHours(now.getHours() + 7);
         // console.log(pId + " s: " + apState)
@@ -38,7 +38,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
             <></>
         ) : (
             // If user apply -> tost, add data to db, change button state
-            API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now })
+            API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now, pollCreaterId: pollCreaterId, pollName: pollName })
                 .catch((err) => console.log(err))
             // (appiled(pId),
             //     toast({
@@ -191,7 +191,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                                 justifyContent="center"
                                                 alignItems="center"
                                                 onClick={() => {
-                                                    handleApply(values.pollId, values.participants.length != 0)
+                                                    handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
                                                 }}
                                             // isDisabled={true}
                                             >
@@ -213,7 +213,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                                 alignItems="center"
 
                                                 onClick={() => {
-                                                    handleApply(values.pollId, values.participants.length != 0)
+                                                    handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
                                                     // , setApplyState(true)
                                                     setcc(true)
                                                 }}

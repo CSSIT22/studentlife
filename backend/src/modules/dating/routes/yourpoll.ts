@@ -68,8 +68,8 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                         },
                         {
                             user: {
-                                fName: "asc"
-                            }
+                                fName: "asc",
+                            },
                         },
                     ],
                 },

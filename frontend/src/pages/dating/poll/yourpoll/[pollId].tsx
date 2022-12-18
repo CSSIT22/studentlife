@@ -194,7 +194,7 @@ const YourPoll = () => {
         md: true,
     })
 
-    function disableButton(id : string) {
+    function disableButton(id: string) {
         let button = document.getElementById(id) as HTMLInputElement
         button.disabled = true
     }
@@ -217,7 +217,7 @@ const YourPoll = () => {
 
     window.addEventListener('scroll', function () {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
-            if(allParticipants.length != participants.length) {
+            if (allParticipants.length != participants.length) {
                 setParticipants(allParticipants.slice(0, participants.length + 20))
             }
         }
@@ -433,7 +433,7 @@ const YourPoll = () => {
                                     border="1px solid"
                                     mr={{ base: "12px", md: "24px" }}
                                     boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    onClick={() => {handleAccept(participant.user.userId), disableButton(participant.user.userId)}}
+                                    onClick={() => { handleAccept(participant.user.userId), disableButton(participant.user.userId) }}
                                 >
                                         <Image src={CheckImg} />
                                     </Button></motion.div>}
