@@ -1,11 +1,14 @@
 import { Request, Response } from "express"
 
 // get post from Student_Profile
-const getStudentPostNoi = async (req: Request, res: Response) => {
+const getSuggestion = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
+        const studentPostCount = await prisma.student_Post.count()
+        const skip = Math.floor(Math.random() * studentPostCount) // skip by random number
         const getStudentP = await prisma.student_Post.findMany({
-            take: 20,
+            take: 5,
+            skip: skip,
             orderBy: { score: "desc" },
             include: {
                 postOwner: {
@@ -13,6 +16,7 @@ const getStudentPostNoi = async (req: Request, res: Response) => {
                         userId: true,
                         fName: true,
                         lName: true,
+                        majorId: true,
                     },
                 },
             },
@@ -23,4 +27,4 @@ const getStudentPostNoi = async (req: Request, res: Response) => {
     }
 }
 
-export default getStudentPostNoi
+export default getSuggestion

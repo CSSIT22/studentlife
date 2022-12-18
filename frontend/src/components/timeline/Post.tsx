@@ -10,6 +10,7 @@ import CommentButton from "../blog/CommentButton"
 import RemodButton from "../blog/RemodButton"
 import Optionbutton from "../blog/Optionbutton"
 import EmojiFeelingTelling from "../blog/EmojiFeelingTelling"
+import PostFile from "../blog/PostFile"
 // export type PostProps = { // <= Previous way to get Post properties
 //     id: string
 //     name: string
@@ -63,7 +64,7 @@ export const Post = (prop: any) => {
             <div key={index}>
                 <VStack p="3"> // if we're not using VStack & p="3" here, our posts will have no padding between each of them.. โพสต์ติดกันไม่มีช่องว่าง
                     <Box width={"100%"} padding={5} background={"white"} rounded={"lg"} shadow={"lg"}>
-                        <Text align="right"> score: {postDt.score} </Text>
+                        {/* <Text align="right"> score: {postDt.score} </Text> */}
                         <Flex justifyContent="flex-end" marginTop={"10px"}><Optionbutton /></Flex>
                         <HStack marginTop={"-60px"}>
                             <Avatar size="md" name={postDt.postOwner.fName} src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + postDt?.postOwner.userId} />
@@ -77,7 +78,8 @@ export const Post = (prop: any) => {
 
                         <Container p="1" fontWeight="normal">
                             {postDt.body}
-                            <Image src={postDt.media} alt="" p="1" fit={"cover"} />
+                            {<PostFile file={postDt.files[0]?.fileAddress} />}
+                            {/* <Image src={postDt.media} alt="" p="1" fit={"cover"} /> */}
                         </Container>
                         <Center>
                             <Box marginTop={"6"} display="flex" gap={10}>
@@ -85,7 +87,7 @@ export const Post = (prop: any) => {
                                     <EmojiReaction />
                                 </Box>
                                 <Box>
-                                    <EmojiFeelingTelling number={postDt.likes} emotion=" LIKES" />
+                                    <EmojiFeelingTelling number={postDt.studentsReacted} emotion=" LIKES" />
                                 </Box>
                                 <Box>
                                     <CommentButton />

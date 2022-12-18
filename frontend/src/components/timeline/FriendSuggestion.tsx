@@ -18,16 +18,11 @@ const FriendSuggestion = (/*{ photoUrl, year, department, faculty }: { photoUrl:
                                 <SuggestedFriend></SuggestedFriend>
                             </Center>
                         </SwiperSlide>
-                        <SwiperSlide>
+                        {/* <SwiperSlide>
                             <Center>
                                 <SuggestedFriend></SuggestedFriend>
                             </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center>
-                                <SuggestedFriend></SuggestedFriend>
-                            </Center>
-                        </SwiperSlide>
+                        </SwiperSlide> */}
                     </HStack>
                 </SimpleGrid>
             </Swiper>

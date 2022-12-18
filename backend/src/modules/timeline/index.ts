@@ -4,7 +4,7 @@ import editedPost from "./routes/editspost"
 import getPostList from "./routes/getPostList"
 import getReacted from "./routes/getReacted"
 import getStudentPost from "./routes/getStudentPost"
-import getStudentPostNoi from "./routes/getStudentPostNoi"
+import getSuggestion from "./routes/getSuggestion"
 import getUserName from "./routes/getUserName"
 import searchPost from "./routes/searchpost"
 
@@ -27,7 +27,7 @@ export let posts: Post[] = [
         name: "Mr. Cat 1",
         dateTime: "23m",
         message: "Hello from the other side!",
-        likes: 253,                         
+        likes: 253,
         comments: 110,
         shares: 10,
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
@@ -97,7 +97,7 @@ timelineRoutes.get("/getReacted", getReacted)
 
 timelineRoutes.get("/getStudentPost/:i", getStudentPost)
 
-timelineRoutes.get("/getStudentPostNoi/", getStudentPostNoi)
+timelineRoutes.get("/getSuggestion", getSuggestion)
 
 timelineRoutes.post("/editspost", editedPost)
 
