@@ -136,7 +136,7 @@ const editCommunity = () => {
     const [previewPhoto, setPreviewPhoto] = useState("")
 
     //program confuse with data at data:image but patial accept
-    const imgbase64 = `data:image;base64,${btoa(String.fromCharCode(...new Uint8Array(communityCoverPhoto?.data)))}`
+
 
     //form styles
     const desktopStyle = {
@@ -617,7 +617,7 @@ const editCommunity = () => {
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    photo={previewPhoto ? previewPhoto : imgbase64}
+                                    photo={previewPhoto ? previewPhoto : (import.meta.env.VITE_APP_ORIGIN || "") + "/group/getpic/" + data?.community.id}
                                     memberCount={1}
                                     tags={updatedTag}
                                 />
