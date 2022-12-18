@@ -47,9 +47,11 @@ const history = () => {
     const [allPost, setAllPost] = React.useState<announcement[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const getData = API.get("/announcement/gethistorypost/")
+    const load = () => {
+        API.get("/announcement/gethistorypost/").then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+    }
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+        load()
     }, [toggle])
 
     const tog = () => {
@@ -61,6 +63,7 @@ const history = () => {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalDelete.topic}
@@ -77,6 +80,7 @@ const history = () => {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalDeleted.topic}
@@ -93,6 +97,7 @@ const history = () => {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalEdit.topic}

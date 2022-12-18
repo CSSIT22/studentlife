@@ -40,10 +40,15 @@ const recyclebin = () => {
     const [allPost, setAllPost] = React.useState<announcement_delete[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const getData = API.get("/announcement/getdeletepost")
+
+    const load = () => {
+        API.get("/announcement/getdeletepost").then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+    }
+
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+        load()
     }, [toggle])
+
     const click = () => {
         settoggle(!toggle)
     }
@@ -111,13 +116,13 @@ const recyclebin = () => {
 
                                         const expired = new Date(expiredonrecycle)
                                         const expiredPost = Math.round(expired.getTime() / day)
-                                        const diffD = expiredPost - currentD                                        
+                                        const diffD = expiredPost - currentD
 
                                         const hEpd = Math.round(expired.getTime() / hour)
                                         const diffH = hEpd - currentH
-                                        if(diffH < 0){                                            
-                                            API.post("/announcement/deleteexpiredpost", {postId:fl.post.postId})
-                                           
+                                        if (diffH < 0) {
+                                            API.post("/announcement/deleteexpiredpost", { postId: fl.post.postId })
+
                                         }
 
                                         return (diffD > 0 || diffH > 0)
@@ -146,6 +151,7 @@ const recyclebin = () => {
                                     isOpen={isOpen}
                                     onClose={onClose}
                                     onClick={click}
+                                    load={load}
                                     topic={modalRecycle.topic}
                                     detail={modalRecycle.detail}
                                     status={statusPostRequest}

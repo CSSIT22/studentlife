@@ -359,6 +359,7 @@ const history = () => {
                                     <Box textAlign={"right"}>
                                         <Input type={"submit"} value="Announce" backgroundColor={"#E65300"} color="white" cursor="pointer" />
                                         <ModalForEvent
+                                            load={() => { }}
                                             isOpen={isOpen}
                                             onClose={onClose}
                                             topic={modalEdit.topic}
