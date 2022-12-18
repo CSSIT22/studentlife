@@ -8,6 +8,7 @@ const getblockuser = async (req: Request, res: Response) => {
         const isBlocked = await prisma.user_Blocked.findMany({
             // include: { anotherUserId: true },
             where: {
+                userId: userId,
                 anotherUserId: req.params.userId,
             },
         })
