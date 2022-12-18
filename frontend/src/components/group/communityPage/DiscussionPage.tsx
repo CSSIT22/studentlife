@@ -6,7 +6,10 @@ import { HiLockClosed } from 'react-icons/hi2'
 import { MdPublic } from 'react-icons/md'
 import { TiWarning } from 'react-icons/ti'
 import { useParams } from 'react-router-dom'
+
+
 import API from 'src/function/API'
+import ImageInsert from '../addImage'
 import Post from '../Post'
 
 const DiscussionPage: FC<{ data: any }> = ({ data }) => {
@@ -17,6 +20,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
     const [post, setPost] = useState<any>()
     const [isError, { on }] = useBoolean()
     const [isLoading, { off, on: onLoading }] = useBoolean(true)
+    const [files, setFiles] = useState<any>([])
 
     const joinedDate = new Date(data?.user.joined || "")
     //Date format February 21, 2015. 12:00:00 AM
@@ -185,16 +189,21 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                     onChange={(e) => setPostText(e.target.value)}
                                 />
                                 <HStack justify='flex-end'>
+                                
                                     <Button
                                         onClick={onCreatePost}
                                         color='white'
                                         bg='orange.400'
                                         size='sm'
-                                        mt='2'
+                                        mt={'2'}
+                                        pe={'9'}
+                                        
                                         _hover={{ bg: 'orange.500' }}
-                                        display={isCreatePostBtn ? "block" : "none"}>
-                                        Submit
+                                        display={isCreatePostBtn ? "block" : "none"}
+                                        >
+                                        <Text>Submit</Text>
                                     </Button>
+                                    <ImageInsert children files={files} setFiles={setFiles} />
                                 </HStack>
                             </AccordionPanel>
                         </AccordionItem>

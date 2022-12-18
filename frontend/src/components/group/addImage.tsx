@@ -60,7 +60,7 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
 
     return (
         <Box>
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative',width:'50%'}}>
                 {previewUrl && (
                     <IconButton
                         onClick={() => {
@@ -72,13 +72,13 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
                         aria-label="Delete uploaded file"
 
                         position="absolute"
-                        top={6}
-                        right={1}
-                        size="lg"
+                        top={4}
+                        left={4}
+                        size="sm"
                         colorScheme="red"
                         zIndex={1}
                         icon={<CloseIcon />}
-
+                        
 
                     >
                     </IconButton>
@@ -87,17 +87,19 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
                     onClick={() => inputRef.current?.click()}
                     colorScheme="orange"
                     variant="outline"
-                    marginTop="5"
-                    width={imageWidth ? `${imageWidth}px` : 'auto'}
-                    height={imageHeight ? `${imageHeight}px` : 'auto'}
+                    marginTop="2"
+                    marginLeft="2"
+                    py={'2'}
+                    width={imageWidth ? '60%' : 'auto'}
+                    height={imageHeight ? '60%' : 'auto'}
                 >
                     {previewUrl ? (
                         <img src={previewUrl} alt="Preview" style={{ width: '100%' }} />
                     ) : (
                         <>
-                            <CiImageOn size="50px" />
+                            
                             Upload your image or video!
-                            <CiYoutube size="50px" />
+                            
                         </>
                     )}
                     <input

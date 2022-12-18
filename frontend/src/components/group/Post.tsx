@@ -41,29 +41,44 @@ const Post: FC<{
     isPinned,
     seen
 }) => {
+
+        const [files, setFiles] = useState<any>([])
+        const [fs,setFs] = useState(true)
+
         const [body, setBody] = useState(postText)
         const [isEditing, setIsEditing] = useState(false)
 
         const [like, setLike] = useState(false)
         const [dislike, setDislike] = useState(false)
         const handleOnLikeClick = () => {
-
+                
             setLike(!like)
             setDislike(false)
-            onLike()
+            setFs(false)
+            
+            if(fs){
+                onLike()
+                setFs(false)
+            }
+            else{
+                onDislike()
+                setFs(true)
+            }
 
         }
         const handleOnDislikeClick = () => {
             setDislike(!dislike)
             setLike(false)
-            onDislike()
+            setFs(!fs)
+            
         }
         const toast = useToast()
         const sendAPI = async (
-            title: string,
-            desc: string,
             url: string,
             method: string,
+            title?: string,
+            desc?: string,
+            
         ) => {
             try {
                 if (method === "POST") {
@@ -81,7 +96,7 @@ const Post: FC<{
                     })
                     fetchPost()
                 }
-                toast({
+                title?toast({
                     title: title,
                     description: desc,
                     status: "success",
@@ -89,6 +104,7 @@ const Post: FC<{
                     isClosable: true,
                     position: 'top',
                 })
+                : null
                 // fetchCommunity()
             }
             catch (err) {
@@ -104,34 +120,38 @@ const Post: FC<{
         }
         const onDeletePost = () => {
             sendAPI(
-                "Delete post",
-                "Post deleted successfully",
                 "/group/deletePost",
                 "DELETE",
+                "Delete post",
+                "Post deleted successfully",
+                
             )
         }
         const onPinPost = () => {
             sendAPI(
-                "Pin post",
-                "Post pinned successfully",
                 "/group/pinPost",
                 "POST",
+                "Pin post",
+                "Post pinned successfully",
+                
             )
         }
         const onUnpinPost = () => {
             sendAPI(
-                "Unpin post",
-                "Post unpinned successfully",
                 "/group/unpinPost",
                 "POST",
+                "Unpin post",
+                "Post unpinned successfully",
+                
             )
         }
         const onEdit = () => {
             sendAPI(
-                "Edit post",
-                "Post edited successfully",
                 "/group/editPost",
                 "POST",
+                "Edit post",
+                "Post edited successfully",
+                
             )
             setTimeout(() => {
                 setIsEditing(false)
@@ -140,16 +160,16 @@ const Post: FC<{
         }
         const onLike = () => {
             sendAPI(
-                "Like post",
-                "Post liked successfully",
                 "/group/likePost",
                 "POST",
+                
+                
             )
         }
         const onDislike = () => {
             sendAPI(
-                "Dislike post",
-                "Post disliked successfully",
+                
+                
                 "/group/dislikePost",
                 "POST",
             )
@@ -288,10 +308,10 @@ const Post: FC<{
                 </Flex> */}
                     <Flex mt='2' alignItems='center' justifyContent='flex-start' gap='1'>
                         {!like ? <AiOutlineLike color='#3388ff' size='20px' onClick={handleOnLikeClick} />
-                            : <AiFillLike color='#3388ff' size='20px' />}
+                            : <AiFillLike color='#3388ff' size='20px' onClick={handleOnLikeClick}/>}
                         <Text color='#3388ff' as='b' fontSize='sm'>{likeCount}</Text>
                         {!dislike ? <AiOutlineDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick} />
-                            : <AiFillDislike color='#ff2400' size='20px' />}
+                            : <AiFillDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick}/>}
                         {/* <Text color='#ff2400' as='b' fontSize='sm'></Text> */}
                     </Flex>
                 </Box >

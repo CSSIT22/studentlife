@@ -258,7 +258,7 @@ const NavbarCommunity: FC<{
                 >
                     {
                         //Invite, Cancel, Join -> display only members of the group (not owner)
-                        data?.user.role === 'OWNER' ? null :
+                        data?.user.role === 'OWNER' || data?.user.access ? null :
                             <Button
                                 leftIcon={data?.user.access ? <BsPlusLg /> : !data?.user.status ? undefined : <HiUserGroup />}
                                 width={{ base: 'full', sm: 'auto' }}
@@ -272,6 +272,7 @@ const NavbarCommunity: FC<{
                                             onJoin
                                 }
                             >
+                                
                                 <Text>
                                     {data?.user.access ? "Invite" :
                                         !data?.user.status && data?.user.status !== undefined

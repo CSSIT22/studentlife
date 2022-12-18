@@ -237,7 +237,9 @@ const UserList: FC<{
                     <Box>
                         <Menu>
                             <MenuButton>
-                                <BsThreeDots fontSize='25px' />
+                            {                    
+                                checkRole === 'OWNER' || checkRole === 'ADMIN'||checkRole === 'CO-ADMIN' ? <BsThreeDots fontSize='25px' />: null
+                            }
                             </MenuButton>
                             <MenuList>
                                 {

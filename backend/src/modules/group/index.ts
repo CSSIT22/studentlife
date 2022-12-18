@@ -49,7 +49,7 @@ groupRoutes.delete("/declineRequest", declineRequest)
 groupRoutes.get("/getCommunityFile/:id", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 
-// groupRoutes.post("/creatingCommunityPost/:id", creatingCommunityPost)
+// groupRoutes.post("/creatingCommunityPost/:id", upload.array("upload"), creatingCommunityPost)
 
 groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)
