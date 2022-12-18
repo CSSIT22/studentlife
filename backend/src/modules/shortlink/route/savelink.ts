@@ -7,8 +7,7 @@ const savelink = async(req : Request , res : Response)=>{
     try{
         const prisma = res.prisma
 
-        const result = await res.prisma.shortlink
-            )
+        const result = await res.prisma.shortLink_Save.findMany
         // const result = await prisma.shortLink.create({
         //     data:{
         //         userId:userId,
