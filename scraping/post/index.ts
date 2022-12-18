@@ -77,14 +77,14 @@ import path from "path";
     result.push(...eee);
   }, 8000);
 
-  await new Promise((res) => setTimeout(res, 60 * 60 * 1000));
+  await new Promise((res) => setTimeout(res, 30 * 60 * 1000));
 
   clearInterval(timer);
 
   console.log("Here comes articles");
 
   fs.writeFileSync(
-    path.join(__dirname, "/json/result.json"),
+    path.join(__dirname, "/json/community.json"),
     JSON.stringify(result, null, 2)
   );
   // fs.writeFile("./json/result.json", JSON.stringify(result), "utf-8", () => {
