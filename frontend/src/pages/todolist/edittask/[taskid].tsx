@@ -25,6 +25,10 @@ import {
     Flex,
     Text,
     Link,
+    Editable,
+    EditablePreview,
+    EditableInput,
+    useToast,
 } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import API from "src/function/API"
@@ -32,6 +36,7 @@ import { BrowserRouter as Router, Route, Link as RouteLink, Form, useNavigate, u
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import { ArrowBackIcon } from "@chakra-ui/icons"
 import dayjs from "dayjs"
+import task from "../task"
 
 // const edittask = () => {
 //     const { isOpen: isBackOpen, onOpen: onBackOpen, onClose: onBackClose } = useDisclosure()
@@ -44,15 +49,22 @@ const edittask = () => {
     const [due, setDueDate] = useState("")
     const [time, setTime] = useState("")
     const [folder, setFolder] = useState("")
+    const [folderName, setFolderName] = useState("")
     const [folderList, setFolderList] = useState([])
     const [descList, setDescList] = useState<any>({})
-
+    const toast = useToast()
     let { taskid } = useParams()
 
     useEffect(() => {
         // fetchTaskList();
         API.post("/todolist/detail", { taskId: taskid }).then((res) => {
             setDescList(res.data);
+            setTaskName(res.data.taskCheck?.taskName);
+            setTaskDesc(res.data.taskCheck?.taskDesc);
+            setFolder(res.data.taskCheck?.folderId);
+            setType(res.data.taskCheck?.taskType)
+            // console.log(taskName);
+
             console.log("grrrr", res.data);
         })
 
@@ -75,6 +87,12 @@ const edittask = () => {
             navigate("/todolist/")
         })
     }
+
+    // const ChangeName = (e: any) => {
+
+    //     setTaskName(e)
+    //     console.log(taskName);
+    // }
 
     // const editTask = (taskId: string) => {
     //     API.post("/todolist/editTask", { taskId: taskid }).then((res) => {
@@ -103,24 +121,27 @@ const edittask = () => {
                     Task Name
                 </Heading>
                 {/* <Text size="md">{descList.taskName}</Text> */}
-                <Input placeholder={descList.taskName} size="md" id="taskName" onChange={(e) => setTaskName(e.target.value)} />
+                {/* <Editable defaultValue='something'>
+                    <EditablePreview /> */}
+                <Input placeholder={descList.taskCheck?.taskName} size="md" id="taskName" value={taskName} onChange={(e) => setTaskName(e.target.value)} />
+                {/* </Editable> */}
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Description
                 </Heading>
                 {/* <Text size="md">{descList.taskDesc}</Text> */}
-                <Input placeholder={descList.taskDesc} size="md" id="desc" onChange={(e) => setTaskDesc(e.target.value)} />
+                <Input placeholder={descList.taskCheck?.taskDesc} size="md" id="desc" value={taskDesc} onChange={(e) => setTaskDesc(e.target.value)} />
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Due Date
                 </Heading>
-                <Text fontSize="md">{dayjs(descList.due).format("dddd DD MMMM YYYY")}</Text>
+                <Text fontSize="md">{dayjs(descList.taskCheck?.due).format("dddd DD MMMM YYYY")}</Text>
                 {/* value={dayjs(descList.due).format("YYYY-MM-DD")} */}
                 <label>
-                    <input type="date" name="bday" placeholder={dayjs(descList.due).format("YYYY-MM-DD")} required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
+                    <input type="date" name="bday" required pattern="\d{4}/\d{2}/\d{2}" onChange={(e) => setDueDate(e.target.value)} />
                 </label>
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Time
                 </Heading>
-                <Text fontSize="md">{dayjs(descList.due).format("HH:mm:ss")}</Text>
+                <Text fontSize="md">{dayjs(descList.taskCheck?.due).format("HH:mm:ss")}</Text>
                 {/* value={dayjs(descList.due).format("HH:mm")} */}
                 <form>
                     <input id="appt-time" type="time" name="appt-time" onChange={(e) => setTime(e.target.value)} />
@@ -137,9 +158,11 @@ const edittask = () => {
                     Type
                 </Heading>
                 {/* <Text size="md">{descList.taskType}</Text> */}
-                <Select placeholder={descList.taskType} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
-                    <option value="individual">Individual</option>
+                <Select value={type} size="md" className="Type" onChange={(e) => setType(e.target.value)}>
                     <option value="group">Group</option>
+                    <option value="individual">Individual</option>
+
+
                 </Select>
 
                 {/* <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
@@ -159,7 +182,8 @@ const edittask = () => {
                 <Heading as="h2" size="md" noOfLines={1} mt={8} mb={2}>
                     Folder
                 </Heading>
-                <Select placeholder="Choose" size="md" onChange={(e) => setFolder(e.target.value)}>
+
+                <Select value={folder} size="md" onChange={(e) => setFolder(e.target.value)}>
                     {
                         folderList.map((el: any) => (
                             <option value={el.folderId}>{el.folderName}</option>
@@ -168,17 +192,19 @@ const edittask = () => {
                 </Select>
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
-                    {type == "individual" ? (
-                        <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
-                            <Link onClick={() => {
-                                submit(descList.taskId)
-                            }}>Done</Link>
-                        </Button>
-                    ) : (
-                        <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
-                            <Link href="/todolist/creategroup">Next</Link>
-                        </Button>
-                    )}
+
+                    <Button bg={"orange.200"} size="lg" color={"white"} _hover={{ bgColor: "orange.100" }}>
+                        <Link onClick={() => {
+                            submit(descList.taskCheck?.taskId)
+                            toast({
+                                title: 'Task Edited.',
+                                description: "Task " + descList.taskCheck?.taskName + " has been edited.",
+                                status: 'success',
+                                duration: 9000,
+                                isClosable: true,
+                            })
+                        }}>Done</Link>
+                    </Button>
                 </Box>
             </Box>
         </ToDoListAppBody>

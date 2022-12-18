@@ -82,8 +82,10 @@ const index = () => {
           <MenuList>
             <MenuItem onClick={() => sort("due")}>Due Date</MenuItem>
             <MenuItem onClick={() => sort("taskName")}>A-Z</MenuItem>
+            <MenuItem onClick={() => sort("taskType")}>Type</MenuItem>
             <MenuItem onClick={() => sort("complete")}>Complete</MenuItem>
             <MenuItem onClick={() => sort("incomplete")}>Incomplete</MenuItem>
+
           </MenuList>
         </Menu>
       </Flex>
@@ -91,7 +93,8 @@ const index = () => {
       {/* backend */}
       {
         taskList.map((el: any, index: number) => (
-          <Box height={"5rem"} width={"100%"} p="5" mt="5"
+
+          <Box height={"6rem"} width={"100%"} p="5" mt="5"
             backgroundColor="#FFFFFF" rounded="lg" key={index} boxShadow="md" onClick={() => {
               navigate({
                 pathname: "/todolist/task/" + el.taskId,
@@ -101,8 +104,18 @@ const index = () => {
               <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
               <Text fontSize={"2xl"}>{el.taskCheck.taskName}</Text>
               <Spacer />
-              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
+
+              <Spacer />
+              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box>
+                :
+                new Date(el.taskCheck?.due) < new Date() ?
+                  <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Failed</Box> :
+                  <Box textAlign={"right"} as="b" pr={"1rem"} color="gray">Not Finished</Box>
+              }
+
             </Flex>
+            <Box marginLeft={"7"} marginTop="0.5" color="gray">Type : {el.taskCheck.taskType}</Box>
+
           </Box>
         ))
       }
