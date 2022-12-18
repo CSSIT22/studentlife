@@ -89,6 +89,7 @@ model User_Profile {
   creditCards         Credit_Card[]
   coupons             User_Coupon[]
   carts               Shop_Cart[]
+  shopContact         Shop_Contact?
   reviewProduct       Shop_Product_Review[]
   likeRestaurants     Restaurant_Like_By_User[]
   favRestaurants      Restaurant_Favorite_By_User[]
@@ -222,8 +223,7 @@ model Student_Post {
   score           Int               @default(0)
   seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  images          Image_Container[]
-  vids            Video_Container[]
+  files           File_Container[]
   studentsReacted Student_Reacted[]
   studentsComment Post_Comment[]
   rePost          Repost[]
@@ -232,18 +232,12 @@ model Student_Post {
   communityPost   Community_Post?
 }
 
-model Image_Container {
-  imgId        String       @id @default(cuid())
+model File_Container {
+  fileId       String       @id @default(cuid())
   postId       String
-  imageAddress String
-  postImage    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
-}
-
-model Video_Container {
-  vidId      String       @id @default(cuid())
-  postId     String
-  vidAddress String
-  postVid    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  fileAddress  String
+  fileUploaded DateTime     @default(now()) @db.Timestamp(0)
+  postFile     Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Student_Reacted {
@@ -401,7 +395,6 @@ enum Module {
 
 enum Noti_Type {
   ALL
-  MENTION
   IGNORE
 }
 
@@ -1111,7 +1104,7 @@ model Word_Report_Detail {
 
 model Filtered_Word {
   wordReportId Int    @id @default(autoincrement())
-  word         String
+  word         String @unique
 }
 
 //ShortNotes Module
@@ -1280,7 +1273,7 @@ model Shop_Order {
   orderId           String               @id @default(cuid())
   userId            String
   transId           String               @unique
-  couponCode        String?              @unique
+  couponCode        String?
   totalPrice        Decimal              @db.Decimal(9, 2)
   totalDeliveryFees Decimal              @db.Decimal(9, 2)
   shipping          String
@@ -1348,7 +1341,9 @@ model Shop_Contact {
   phoneNo       String
   address       String
   lineId        String
+  userId        String?        @unique
   products      Shop_Product[]
+  user          User_Profile?  @relation(fields: [userId], references: [userId])
 }
 
 model Shop_Product_Images {
@@ -1506,7 +1501,6 @@ model SReview_Review {
   text         String
   rating       Int
   likeReceived Int                    @default(0)
-  images       SReview_Review_Image[]
   reviewer     User_Profile           @relation(fields: [userId], references: [userId])
   restaurant   Restaurant?            @relation(fields: [resId], references: [resId])
   shop         SReview_Shop?          @relation(fields: [shopId], references: [shopId])
@@ -1522,13 +1516,6 @@ model SReview_Review_File {
   file     File_Info      @relation(fields: [fileId], references: [fileId])
 
   @@id([reviewId, fileId])
-}
-
-model SReview_Review_Image {
-  imageId  Int            @id @default(autoincrement())
-  reviewId String
-  image    String
-  imageOf  SReview_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
 }
 
 model SReview_Comment {
@@ -1592,18 +1579,18 @@ model Question_Setting {
 }
 
 model Question_Tag {
-  tagKey Int                  @id
-  tagId  Int
+  tagKey Int
   qId    String
   tagOf  Question             @relation(fields: [qId], references: [qId], onDelete: Cascade)
   tagIs  Question_Default_Tag @relation(fields: [tagKey], references: [tagKey], onDelete: Cascade)
+
+  @@id([tagKey, qId])
 }
 
 model Question_Default_Tag {
-  tagKey  Int           @id @default(autoincrement())
-  tagId   Int
+  tagKey  Int            @id @default(autoincrement())
   tagName String
-  tag     Question_Tag?
+  tag     Question_Tag[]
 }
 
 model Question_Embed_File {

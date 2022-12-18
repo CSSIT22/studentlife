@@ -1,5 +1,5 @@
 import { useDisclosure, Spacer, Flex, Heading, Image, AspectRatio, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Textarea, Input, ModalFooter, Button, SimpleGrid, Container, Box } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
 import AmountRate from 'src/components/shopreview/AmountRate'
@@ -9,14 +9,22 @@ import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
 import ReviewDetail from 'src/components/shopreview/ReviewDetail'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
+
 import TempUpload from 'src/components/shopreview/TempUpload'
 import API from 'src/function/API'
+import index from 'src/pages/announcement'
 
+// main component
 const shopId = () => {
-    const [rating, setRating] = React.useState(0)
+    const [rating, setRating] = useState(0) // rating star max = 5
+    const [text, setText] = useState("") // review description 
+    const [detail, setDetail] = useState<any>([]) // shop's detail fetch from backend
+    const [files, setFiles] = useState<any>([]) // array of user's files (pictures)
+    const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
+    let param = useParams() // get data from param
     const buttons = []
 
-
+    // handle onclick
     const onClick = (idx: any) => {
         var x = idx
         // allow user to click first icon and set rating to zero if rating is already 1
@@ -27,48 +35,71 @@ const shopId = () => {
         }
     }
     window.scrollTo(0, 0)
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const [text, setText] = useState("")
+
 
     const submit = () => {
+        const form = new FormData();
+        form.append("text", text);
+        form.append("rating", rating + "");
+        form.append("shopId", param.shopId + "");
+        files.map((item: any) => {
+            form.append("upload", item.file)
+        })
 
-        API.post("/shopreview/postmyreview", {
-            text: text,
-            shopId: param.shopId,
-        }).then((res) => {
+        API.post("/shopreview/postmyreview",
+            form,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        ).then((res) => {
             console.log(res)
             window.location.reload()
         })
     }
-
-
-    let param = useParams()
-    const [detail, setDetail] = useState<any>([])
-
+    // fetch shop detail data
     useEffect(() => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
+
     const [review, setReview] = useState<any>([])
-    // const getReview = API.get("/shopreview/getmyreviewDb")
+    const getReview = API.get("/shopreview/getmyreviewDb")
+    //show setreview 
+    useEffect(() => {
+        getReview.then((res) => {
+            setReview(res.data)
+        })
+    }, [])
+    console.log(review)
+    // const [amo_rate, setAmountRate] = useState<any>([])
+    // const getamo_rate = API.get("/shopreview/getcountRate")
     // useEffect(() => {
-    //     getReview.then((res) => {
-    //         setReview(res.data)
+    //     getamo_rate.then((res) => {
+    //         setAmountRate(res.data)
     //     })
     // }, [])
+
+    useEffect(() => {
+        // console.log(files)
+    }, [files])
     const navigate = useNavigate()
+
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
         window.scrollTo(0, 0)
     }
+
     return (
         <AppBody>
-            {detail.map((item: any) => (
-                <ShopDetailName name={item.shopName} />
+            {detail.map((item: any, index: any) => (
+                <ShopDetailName key={index} name={item.shopName} />
             ))}
-            {detail.map((item: any) => (
+            {detail.map((item: any, index: any) => (
                 <Box
+                    key={index}
                     flex={1}
                     backgroundSize={"120%"}
                     bgImage={item.images[0].image}
@@ -97,8 +128,8 @@ const shopId = () => {
                     </Flex>
                 </Box>
             ))}
-            {detail.map((item: any) => (
-                <Flex direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
+            {detail.map((item: any, index: any) => (
+                <Flex key={index} direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
                     <Heading padding={10} paddingLeft={"-1"} color={"green"} size={"lg"}>
                         Opening
                     </Heading>
@@ -117,10 +148,19 @@ const shopId = () => {
                 </AspectRatio>
             </Box>
 
-            {detail.map((item: any) => (
-                <LocationShop location={item.address} phoneNumber={item.phoneNo} />
+            {detail.map((item: any, index: any) => (
+                <LocationShop key={index} location={item.address} phoneNumber={item.phoneNo} />
             ))}
-            <Rate />
+            <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
+                {/* {amo_rate.map((item:any, index:any) => { */}
+                <Rate ratting={"5"} background={"#FF3939"} amo_rate={"3k"} />
+                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={"2"} />
+                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={"1"} />
+                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={"55"} />
+                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={"80"} />
+                <Rate ratting={"0"} background={"#838383"} amo_rate={"26"} />
+                {/* })} */}
+            </SimpleGrid>
 
             <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
@@ -130,6 +170,22 @@ const shopId = () => {
                 {/* pop ups  */}
             </Box>
 
+            <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
+                {review.map((item: any, index: any) => {
+                    console.log(item)
+                    if (param.shopId === item.shopId) {
+                        return (
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
+                            </b>
+                        )
+                    }
+                })}
+            </SimpleGrid>
+            <Container my={5} textAlign={"center"}>
+                That's all~
+            </Container>
+            {/* Modal Component */}
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -139,7 +195,7 @@ const shopId = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        <RatingStar rating={rating} onClick={onClick} size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
                         {/* input here */}
                         <Textarea
                             colorScheme="white"
@@ -154,11 +210,29 @@ const shopId = () => {
 
                         >
                         </Textarea>
-                        <Input type={"file"} id="id" hidden multiple></Input>
+                        <Input type={"file"} id="fileInput" hidden multiple></Input>
+                        {/* <Box
+                            onClick={() => {
+                                document.getElementById("fileInput")?.click()
+                            }}
+                            as="button"
+                            style={{
+                                position: "absolute",
+                                top: "67%",
+                                left: "7%",
+                            }}
+                        >
+                            <Image
+                                src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
+                                width={"40px"}
+                                borderRadius="full"
+                            />
+                        </Box> */}
+                        <TempUpload files={files} setFiles={setFiles} />
 
-                        <TempUpload />
 
-                        <Input type={"file"} id="id" hidden multiple></Input>
+
+                        {/* <Input type={"file"} id="id" hidden multiple></Input>
                         <Box
                             onClick={() => {
                                 document.getElementById("id")?.click()
@@ -174,37 +248,21 @@ const shopId = () => {
                                 marginTop={"-58px"}
                                 padding={"4px"}
                             />
-                        </Box>
+                        </Box> */}
                     </ModalBody>
 
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-
                         <Button bgColor={"green"} color="white" onClick={submit}>
                             Submit
                         </Button>
-
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
-            <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
-                {review.map((item: any) => {
-                    if (param.shopId === item.shopId) {
-                        return (
-                            <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail image={item.reviewBy.image} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
-                            </b>
-                        )
-                    }
-                })}
-            </SimpleGrid>
-            <Container my={5} textAlign={"center"}>
-                That's all~
-            </Container>
-        </AppBody>
+            {/* End of Modal Component */}
+        </AppBody >
     )
 }
 

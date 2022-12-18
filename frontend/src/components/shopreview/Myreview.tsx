@@ -46,13 +46,14 @@ import EditReview from "./EditReview"
 import RatingStar from "./RatingStar"
 import ShopName from "./ShopName"
 
-const Myreview: FC<{ image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
+const Myreview: FC<{ shopName: String; image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
     image,
     name,
     ment,
     date,
     am_like,
     ratting,
+    shopName,
 }) => {
     const [show, setShow] = React.useState(false)
     const handleToggle = () => setShow(!show)
@@ -60,6 +61,10 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
     const navigate = useNavigate()
     const navigateReview = () => {
         navigate("/shopreview/review")
+    }
+    function Navigate(target: any) {
+        navigate(`/shopreview/review/${target}`)
+        window.scrollTo(0, 0)
     }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<HTMLButtonElement>(null);
@@ -91,12 +96,12 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                     {isHovering && <Popover placement="bottom">
                         <PopoverTrigger>
                             {/* on this way  */}
-                            <Box as="button">
+                            <Box onClick={(e: any) => { e.stopPropagation() }} as="button">
                                 <Image width={15} src="https://cdn1.iconfinder.com/data/icons/web-and-user-interface-21/512/30-512.png"></Image>
                             </Box>
 
                         </PopoverTrigger>
-                        <PopoverContent width={"100px"}>
+                        <PopoverContent onClick={(e: any) => { e.stopPropagation() }} width={"100px"}>
                             {/* <PopoverCloseButton /> */}
                             <PopoverHeader textAlign={"center"}>
                                 <EditReview />
@@ -107,7 +112,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                                     <Flex direction={"row"} justifyContent={"center"} alignItems={"center"}>
 
                                         <Box onClick={onOpen}>
-
+                                            {/* delete button */}
                                             <DeleteIcon mr={2} />
                                             Delete
                                         </Box>
@@ -140,7 +145,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                                                             isClosable: true,
                                                         })
                                                     } ml={3}>
-                                                        Delete
+                                                        Deleted 
                                                     </Button>
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
@@ -174,7 +179,7 @@ const Myreview: FC<{ image: String; name: String; ment: String; date: String; am
                     ></img>
                     { }
                 </Box>
-                <ShopName name="ข้าวมันไก่ป้าตุ๊ก" />
+                <ShopName name={shopName} />
                 <AmountLike am_like={am_like} />
                 {/* ดีงข้อมูลมาจาก database */}
                 <AmountRate ratting={ratting} />
