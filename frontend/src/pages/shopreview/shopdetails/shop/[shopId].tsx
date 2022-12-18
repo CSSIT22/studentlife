@@ -37,12 +37,15 @@ const shopId = () => {
     window.scrollTo(0, 0)
 
 
+
     const submit = () => {
         const form = new FormData();
         form.append("text", text);
         form.append("rating", rating + "");
         form.append("shopId", param.shopId + "");
-        form.append("file", files);
+        files.map((item: any) => {
+            form.append("upload", item.file)
+        })
 
         API.post("/shopreview/postmyreview",
             form,
@@ -52,11 +55,10 @@ const shopId = () => {
                 }
             }
         ).then((res) => {
-            // console.log(res)
+            console.log(res)
             window.location.reload()
         })
     }
-
     // fetch shop detail data
     useEffect(() => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
@@ -65,6 +67,7 @@ const shopId = () => {
 
     const [review, setReview] = useState<any>([])
     const getReview = API.get("/shopreview/getmyreviewDb")
+    //show setreview 
     useEffect(() => {
         getReview.then((res) => {
             setReview(res.data)
@@ -83,10 +86,12 @@ const shopId = () => {
         // console.log(files)
     }, [files])
     const navigate = useNavigate()
+
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
         window.scrollTo(0, 0)
     }
+
     return (
         <AppBody>
             {detail.map((item: any, index: any) => (
@@ -206,7 +211,7 @@ const shopId = () => {
                         >
                         </Textarea>
                         <Input type={"file"} id="fileInput" hidden multiple></Input>
-                        <Box
+                        {/* <Box
                             onClick={() => {
                                 document.getElementById("fileInput")?.click()
                             }}
@@ -222,7 +227,7 @@ const shopId = () => {
                                 width={"40px"}
                                 borderRadius="full"
                             />
-                        </Box>
+                        </Box> */}
                         <TempUpload files={files} setFiles={setFiles} />
 
 

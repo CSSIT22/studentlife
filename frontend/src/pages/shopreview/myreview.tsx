@@ -3,11 +3,11 @@ import { Box, Button, Container, Flex, Heading, Link, SimpleGrid, Text } from "@
 import React, { useContext, useEffect, useState } from "react"
 import ReviewDetail from "src/components/shopreview/ReviewDetail"
 import Myreview from "src/components/shopreview/Myreview"
+import Comments from "src/components/shopreview/Comments"
 import AppBody from "../../components/share/app/AppBody"
 import { useNavigate } from "react-router-dom"
 import { authContext } from "src/context/AuthContext"
 import API from "src/function/API"
-import Comments from "src/components/shopreview/Comments"
 
 const myreview = () => {
     const [myReviews, setMyReview] = useState<any>([])
@@ -91,6 +91,7 @@ const myreview = () => {
                 That's all for your review~
             </Container>
             <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
+            
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myComments.map((item: any) => {
                     console.log(item)

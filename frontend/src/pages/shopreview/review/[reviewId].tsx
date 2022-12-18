@@ -12,22 +12,29 @@ import API from "src/function/API"
 
 const review = () => {
     window.scrollTo(0, 0)
+  
     let param = useParams()
     const [detail, setDetail] = useState<any>([])
     useEffect(() => {
         API.get(`/shopreview/getreview/${param.reviewId}`)
             .then((res) => setDetail(res.data))
     }, [param])
+    
     const [com, setCom] = useState<any>([])
     useEffect(() => {
         API.get(`/shopreview/getcommentDb/${param.reviewId}`)
             .then((res) => setCom(res.data))
     }, [param])
+
     const navigate = useNavigate()
     function Navigate(target: any) {
         navigate("/shopreview")
         window.scrollTo(0, 0)
     }
+
+    const [comment,setcomment] = useState<any>([])
+
+
     return (
         <AppBody>
             <Flex mb={5} alignItems={"center"}>
@@ -56,6 +63,7 @@ const review = () => {
             <Container mt={5} mb={20} textAlign={"center"}>
                 That's all~
             </Container>
+            
             <CommentBar />
         </AppBody>
     )

@@ -2,7 +2,7 @@ import { Box, Button, Center, color, Flex, Input, Stack, Textarea, useBreakpoint
 import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react"
 import API from "src/function/API"
 import { useParams } from 'react-router-dom'
-const CommentBar: any = (autoFocus = false) => {
+const CommentBar: React.FC<{}> = (autoFocus = false) => {
 
     const [Text, setText] = useState<any>("")
 
