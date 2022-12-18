@@ -83,11 +83,11 @@ function index() {
                     <GridItem alignItems="center" area={"header"}>
                         {!isLoading && <UserProfile isMe={isMe} userData={userData} rating={rating} />}
                     </GridItem>
-                    <GridItem area={"nav"} >
+                    <GridItem area={"nav"} mt={"-6rem"}>
                         <ExpSystem exp={userExp?.exp} level={userExp?.level} />
                         <AboutMe aboutMe={userData} />
                     </GridItem>
-                    <GridItem area={{ base: "nav2", md: "main" }}  >
+                    <GridItem area={{ base: "nav2", md: "main" }} mt={{ base: "0rem", md: "-6rem" }} >
                         <BlogHistory />
                     </GridItem>
                 </Grid>

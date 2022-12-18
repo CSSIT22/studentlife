@@ -30,18 +30,22 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
 
     function birthDateHandler(user_birthdate: string) {
         setBirthDate(user_birthdate)
+
     }
 
     function sexHandler(user_sex: string) {
         setSex(user_sex)
+
     }
 
     function hobbyHandler(user_hobby: string) {
         setHobby(user_hobby)
+
     }
 
     function addressHandler(user_address: string) {
         setAddress(user_address)
+
     }
 
     async function submitHandler() {
@@ -51,7 +55,10 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
             hobby: hobby,
             phone: phone,
             gender: sex,
-        }).then().catch(err => console.error("Error happend during updating user profile", err))
+        }).then((res) => {
+            console.log(res)
+        }).catch(err => console.error("Error happend during updating user profile", err))
+
     }
 
     return (
