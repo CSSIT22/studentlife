@@ -14,16 +14,16 @@ import CreateButton from "./CreateButton"
 import AnnounceList from "../annoucement/AnnounceList"
 
 export const Feed = () => {
-    // const [posts, setposts] = useState<any>([])
-    // // const getData = API.get("/timeline/getposts") old mockup data
-    // // const getPost = API.get("/timeline/getPostList") // data from database
-    // const getPost = API.get("/timeline/getStudentPost")
-    // useEffect(() => {
-    //     getPost.then(res => {
-    //         setposts(res.data)
-    //     })
-    // }, [])
-    // console.log(posts)
+    const [posts, setposts] = useState<any>([])
+    // const getData = API.get("/timeline/getposts") old mockup data
+    // const getPost = API.get("/timeline/getPostList") // data from database
+    const getPost = API.get("/timeline/getStudentPost")
+    useEffect(() => {
+        getPost.then((res: { data: any }) => {
+            setposts(res.data)
+        })
+    }, [])
+    console.log(posts)
 
     window.onscroll = function (ev) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
@@ -40,8 +40,35 @@ export const Feed = () => {
             <AnnounceList />
             <FriendSuggestion></FriendSuggestion>
             <CreateButton></CreateButton>
-            <Post></Post>
+            {posts.map((postDt: any, index: any) => (
+                <div key={index}>
+                    {postDt.posts?.map((userProDt: any, n: number) => (
+                        <Box marginTop={"2"} p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} overflow="hidden" fontWeight="semibold">
+                            <HStack>
+                                <Avatar size="md" name={userProDt?.fName} src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + postDt?.userId} />
+                                <VStack spacing="0.5" align={"-moz-initial"}>
+                                    <Text align="left">{userProDt?.fName} {userProDt?.lName}</Text>
+                                    <Text align="left" color="gray.500" fontWeight="semibold" fontSize="xs">
+                                        {postDt.lastEdit}
+                                    </Text>
+                                </VStack>
+                            </HStack>
+                            <Container p="1" fontWeight="normal">
+                                {postDt.body}
 
+                                <Image src={userProDt.media} alt="" p="1" fit={"cover"} />
+                            </Container>
+                            <HStack spacing="0.5">
+                                <Icon as={AiFillLike} color="#E65300"></Icon>
+                                <Text p="1" fontSize="xs">
+                                    {postDt.likes} {postDt.comments} {postDt.shares}
+                                </Text>
+                                <Icon as={AiOutlineShareAlt}></Icon>
+                            </HStack>
+                        </Box>
+                    ))}
+                </div>
+            ))}
             {/* <FriendSuggestion></FriendSuggestion>
             <Post></Post> */}
         </VStack>
