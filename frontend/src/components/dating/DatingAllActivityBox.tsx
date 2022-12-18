@@ -8,6 +8,9 @@ import { useToast } from "@chakra-ui/react"
 import API from "src/function/API"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { ApplyPoll, Polls } from "@apiType/dating"
+import Lottie from "lottie-react"
+import { motion } from "framer-motion"
+import NoActivity from "../../components/dating/lottie/NoActivity.json"
 
 
 declare global {
@@ -101,7 +104,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
 
     return (
         <Box borderRadius="10px" color="black">
-            {poll ?
+            {poll.length > 0 ?
                 poll.map((values: Polls) => {
                     // For set the apply state only
                     // const [applyState, setApplyState] = useState(isApply(values.pollId))
@@ -234,6 +237,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                             mt="30px"
                                             pr="40px"
                                             pl="40px"
+                                            colorScheme={"gray.200"}
                                             backgroundColor={"grey"}
                                             borderRadius="5px"
                                             justifyContent="center"
@@ -264,7 +268,28 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                         </Box>
                     )
                 })
-                : <></>}
+                : (<Box display="block" pt="50px" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "25%" }}>
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Lottie animationData={NoActivity} loop={true} style={{ scale: "0.5" }} /></motion.div>
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 360,
+                            damping: 20,
+                        }}>
+                        <Text textAlign="center" mt="-25px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                            Right now, there are no activity polls. Please wait a moment.
+                        </Text></motion.div>
+                </Box>)}
         </Box >
     )
 }

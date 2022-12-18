@@ -5,6 +5,7 @@ import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
 // import { Room } from ".."
 import axios from "axios"
+import { nanoid } from "nanoid"
 
 const createAPollRoutes = express()
 const prisma = new PrismaClient()
@@ -56,6 +57,8 @@ createAPollRoutes.get("/getFavRestaurants", verifyUser, async (req: Request, res
 createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Response) => {
     const pollNow = await prisma.activity_Poll.findMany()
     try {
+        const room_id = nanoid()
+        const roomName = req.query.name
         const userId: string | undefined = req.user?.userId
         const pollName: string = req.body.pollName
         const pollPlace: string = req.body.pollPlace
@@ -67,24 +70,51 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
         const isOpen: boolean = req.body.isOpen
         // const pollcreated: Date = new Date(req.body.pollcreated)
         const pollTopic: any = []
-        console.log(
-            "NAMEEEEEEE ! " +
-                pollName +
-                " " +
-                pollPlace +
-                " " +
-                pollAppointAt +
-                " " +
-                pollText +
-                " " +
-                participantMin +
-                " " +
-                participantMax +
-                " " +
-                isOpen +
-                " " +
-                pollTopic
-        )
+        const user_id = await prisma.user_Profile.findUniqueOrThrow({
+            select: {
+                userId: true,
+            },
+            where: {
+                userId: userId,
+            },
+        })
+        await prisma.chat_Room.create({
+            data: {
+                chatColor: "#E68E5C",
+                roomType: "GROUP",
+                roomId: room_id,
+            },
+        })
+        await prisma.chat_Group.create({
+            data: {
+                roomId: room_id,
+                roomName: `${roomName}`,
+            },
+        })
+        await prisma.user_To_Room.create({
+            data: {
+                userId: user_id.userId,
+                roomId: room_id,
+            },
+        })
+        // console.log(
+        //     "NAMEEEEEEE ! " +
+        //         pollName +
+        //         " " +
+        //         pollPlace +
+        //         " " +
+        //         pollAppointAt +
+        //         " " +
+        //         pollText +
+        //         " " +
+        //         participantMin +
+        //         " " +
+        //         participantMax +
+        //         " " +
+        //         isOpen +
+        //         " " +
+        //         pollTopic
+        // )
 
         const pollInfo: any = {
             userId: userId,
@@ -95,7 +125,7 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
             participantMin: participantMin,
             participantMax: participantMax,
             isOpen: isOpen,
-            // roomId: "293249324",
+            roomId: room_id,
         }
         // console.log("HENLO! " + pollInfo.pollAppointAt)
         const poll = await prisma.activity_Poll.create({

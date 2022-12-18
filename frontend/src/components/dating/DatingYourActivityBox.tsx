@@ -7,6 +7,9 @@ import API from "src/function/API"
 import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { motion } from "framer-motion"
+import Lottie from "lottie-react"
+import NoActivity from "../../components/dating/lottie/NoActivity.json"
+
 
 declare global {
     var date: string, time: string
@@ -192,7 +195,28 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                             </Flex>
                         </Box></motion.div>
                 )
-            }) : <></>}
+            }) : (<Box display="block" pt="50px" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "25%" }}>
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 360,
+                        damping: 20,
+                    }}>
+                    <Lottie animationData={NoActivity} loop={true} style={{ scale: "0.5" }} /></motion.div>
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 360,
+                        damping: 20,
+                    }}>
+                    <Text textAlign="center" mt="-20px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                        Right now, you don't have any activity polls.
+                    </Text></motion.div>
+            </Box>)}
 
         </Box>
     )
