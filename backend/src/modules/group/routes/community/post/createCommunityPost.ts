@@ -36,28 +36,13 @@ const creatingCommunityPost = async (req: Request, res: Response | any) => {
             .catch((err: any) => {
                 console.log(err)
             })
-
-        const communityPost = await prisma.Community_Post
-            .create({
-                data: {
-                    communityId:id,
-                    postId: postId
-                },
-            })
-
-            .then((res: any) => {
-                console.log("success")
-            })
-            .catch((err: any) => {
-                console.log(err)
-            })
     }
 
     fileList?.map((file: any) => {
         formData.append("upload", file.buffer, file.originalname)
     })
 
-    
+
     let resFileId: {
         Id: string
         Name: string
