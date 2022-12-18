@@ -30,7 +30,7 @@ const DatingOptionRangeSlider: FC<{
     }
 
     return (
-        <Center bg="#E65300" h={20} borderRadius="15px">
+        <Center bg="#E65300" h={20} borderRadius="15px" boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)">
             {/* Is user use age as criteria? */}
             <Tooltip label="Use age as a criteria?" aria-label="A tooltip">
                 <span tabIndex={0}>
@@ -64,10 +64,14 @@ const DatingOptionRangeSlider: FC<{
                 ml={"20px"}
                 mr={"45px"}
             >
-                <RangeSliderMark value={sliderValue[0]} textAlign="center" color="white" mt="-9" ml="-5" w="12">
+                <RangeSliderMark value={sliderValue[0]} textAlign="center" color="white" mt="-8" ml={{ base: "-6", md: "-5" }} w="12" fontWeight="700"
+                    fontSize={{ base: "14px", md: "16px" }}
+                    lineHeight="120%">
                     {sliderValue[0]}
                 </RangeSliderMark>
-                <RangeSliderMark value={sliderValue[1]} textAlign="center" color="white" mt="-9" ml="-5" w="12">
+                <RangeSliderMark value={sliderValue[1]} textAlign="center" color="white" mt="-8" ml={{ base: "-6", md: "-5" }} w="12" fontWeight="700"
+                    fontSize={{ base: "14px", md: "16px" }}
+                    lineHeight="120%">
                     {sliderValue[1]}
                 </RangeSliderMark>
                 <RangeSliderTrack bg="#FFF2E5">
