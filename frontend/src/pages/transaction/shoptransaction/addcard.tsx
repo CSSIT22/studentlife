@@ -73,6 +73,13 @@ const addcard = () => {
                     </Show>
 
                     <Link to="/transaction/shoptransaction">
+                        <Button colorScheme="red" shadow={"lg"} variant="solid" size="lg">
+                            <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"}>
+                                Cancel
+                            </Text>
+                        </Button>
+                    </Link>
+                    <Link to="/transaction/shoptransaction">
                         <Button colorScheme="green" shadow={"lg"} variant="solid" size="lg">
                             <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"}>
                                 Save

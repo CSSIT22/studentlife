@@ -1,4 +1,4 @@
-import { Box, Image, Text, Stack, Center, useMediaQuery } from "@chakra-ui/react"
+import { Box, Image, Text, Stack, Center, useMediaQuery, StackItem } from "@chakra-ui/react"
 import React, { FC } from "react"
 
 const OrderList: FC<{
@@ -20,25 +20,32 @@ const OrderList: FC<{
                 </Center>
                 <Stack
                     direction={isSmallerThan768 ? "column" : "row"}
-                    align={isSmallerThan768 ? "flex-start" : "center"}
+                    align={isSmallerThan768 ? "center" : "center"}
                     m="10px"
-                    spacing="0"
                     gap={isSmallerThan768 ? "" : "100px"}
+                    flex="25%"
+                    spacing="10%"
                 >
-                    <Text fontSize={isSmallerThan768 ? "md" : "lg"} fontWeight={"bold"} color="black">
-                        Product: {product}
-                    </Text>
-
                     <Box>
                         <Text fontSize={isSmallerThan768 ? "md" : "lg"} fontWeight={"bold"} color="black">
+                            Product: {product}
+                        </Text>
+                    </Box>
+
+
+
+                    <Box>
+                        <Text fontSize={isSmallerThan768 ? "md" : "lg"} fontWeight={"bold"} color="black" >
                             Quantity: {quantity}
                         </Text>
                     </Box>
-                    <Box>
-                        <Text fontSize={isSmallerThan768 ? "md" : "lg"} fontWeight={"bold"} color="black">
+                    <Box >
+                        <Text fontSize={isSmallerThan768 ? "md" : "lg"} fontWeight={"bold"} color="black" justifyContent="right">
                             Price: {price}
                         </Text>
                     </Box>
+
+
                 </Stack>
             </Box>
         </div>

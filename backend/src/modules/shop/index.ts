@@ -13,6 +13,11 @@ import getAllProductsInCart from "./routes/get/getAllProductsInCart"
 import deleteCartProduct from "./routes/delete/deleteCartProduct"
 import incrementCPQuantity from "./routes/put/incrementCPQuantity"
 import decreaseCPQuantity from "./routes/put/decreaseCPQuantity"
+import postUserReview from "./routes/post/postUserReview"
+import postUserOrder from "./routes/post/postUserOrder"
+import postUserCoupon from "./routes/post/postUserCoupon"
+import getAllUserCoupons from "./routes/get/getAllUserCoupons"
+import getOrderInformation from "./routes/get/getOrderInformation"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -25,16 +30,22 @@ shopRoutes.get("/getAllCategories", getAllCategories)
 shopRoutes.get("/getAllProductsInCategory/:id", getAllProductsInCategory)
 // Review Routes
 shopRoutes.get("/getAllReviews/:productId", getAllReviews)
+shopRoutes.post("/postUserReview", postUserReview)
 // Contact routes
 shopRoutes.get("/getContactInfo/:id", getContactInfo)
 // Coupon Routes --> Not Complete
 shopRoutes.get("/getAllCoupons", getAllCoupons)
+shopRoutes.post("/postUserCoupon", postUserCoupon)
+shopRoutes.get("/getAllUserCoupons", getAllUserCoupons)
 // Cart routes
 shopRoutes.post("/postCartProduct", postCartProduct)
 shopRoutes.get("/getAllProductsInCart", getAllProductsInCart)
 shopRoutes.delete("/deleteCartProduct/:productId", deleteCartProduct)
 shopRoutes.put("/incrementCPQuantity/:productId", incrementCPQuantity)
 shopRoutes.put("/decreaseCPQuantity/:productId", decreaseCPQuantity)
+// Order routes
+shopRoutes.post("/postUserOrder", postUserOrder)
+shopRoutes.get("/getOrderInformation/:orderId", getOrderInformation)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 
