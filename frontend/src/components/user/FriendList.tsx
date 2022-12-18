@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { FC, useState, useEffect } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import UserList from "../user/UserList"
@@ -7,10 +7,10 @@ import { useParams } from "react-router-dom"
 import API from "src/function/API"
 
 interface FriendListProps {
-    props:any
+    props: any
 }
 
-function FriendList(props) {
+const FriendList: FC<(FriendListProps: any)> = ({ FriendListProps: any }) => {
     const [search, setSearch] = useState("")
     const [friendList, setFriendList] = useState([])
     const param = useParams();
