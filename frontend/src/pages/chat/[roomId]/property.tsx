@@ -38,16 +38,19 @@ function showProperty() {
     const [eventNames, setEventName] = React.useState("")
     const [eventButtons, setEventButton] = React.useState("")
     const [Room, setRoom] = React.useState<RoomType>()
-
+    const [userChatWith, setUserChatWith] = React.useState<any>([])
+    
     let param = useParams()
     const navigate = useNavigate()
 
     function NavigateProfile() {
-        return navigate(`/user/${Room?.roomId}`)
+        return navigate(`/user/${userChatWith.anotherUserId}`)
     }
 
     useEffect(() => {
         API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data)
+        )
+        API.get(`/chat/${param.roomId}/getUserID`).then((e) => setUserChatWith(e.data)
         )
     }, [param])
 
@@ -106,26 +109,21 @@ function showProperty() {
     }
     const eventsIndi = [
         { eventIcon: CgProfile, eventName: "View profile" },
-        // { eventIcon: RiUserSettingsLine, eventName: "Set nickname" },
         { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name"},
         { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue : 'Done'},
         { eventIcon: MdColorLens, eventName: "Change room color" },
-        { eventIcon: FaUserFriends, eventName: "Create group chat" },
         { eventIcon: MdFlag, eventName: "Report"},
     ]
     const eventsGroup = [
         { eventIcon: FaUserFriends, eventName: "Member"},
         { eventIcon: FaUserPlus, eventName: "Invite people"},
         { eventIcon: MdOutlineDriveFileRenameOutline, eventName: "Set room name"},
-        { eventIcon: AiFillPicture, eventName: "Set room profile"},
         { eventIcon: MdPostAdd, eventName: "Add quote" , buttonValue : 'Done'},
         { eventIcon: MdColorLens, eventName: "Change room color" },
         { eventIcon: FaHome, eventName: "Create community" },
         { eventIcon: MdFlag, eventName: "Report" },
         { eventIcon: FaDoorOpen, eventName: "Leave group" },
     ]
-
-    // console.log(Room);
 
     return (
         <>

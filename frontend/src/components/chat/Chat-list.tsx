@@ -42,7 +42,8 @@ const Clist: FC<any> = () => {
 
     //function handle
     function Navigate(target: any) {
-        return navigate(`/chat/${target}`)
+        location.href = `/chat/${target}`
+        // return navigate(`/chat/${target}`,{replace:false})
     }
     function Seach(e: any) {
         return setSearch(e.target.value)
@@ -54,7 +55,7 @@ const Clist: FC<any> = () => {
         //const result = API.get
         setuserRoom(result.data)
         navigate(`/chat`)
-        // console.log(e.room.roomId);
+        // console.log(e.room.roomIsd SAd);
     }
     function handleImg(e: any) {
         if (e === null) {

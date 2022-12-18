@@ -38,7 +38,7 @@ const room_prop = async (req: Request, res: Response) => {
                      userId : user ,roomId : room_id
                 }
             })
-            res.send({...room_prop.room,...get_nick})
+            res.send({...room_prop.room,...get_nick,...{userId : user}})
         }else{
             const room_prop = await prisma.user_To_Room.findFirstOrThrow({
                 select: {
@@ -63,7 +63,7 @@ const room_prop = async (req: Request, res: Response) => {
                     userId: user,
                 },
             })
-            res.send(room_prop.room)
+            res.send({...room_prop.room,...{userId : user}})
         }
     } catch (err) {
         res.status(400).send("ther is not this room in this user")
