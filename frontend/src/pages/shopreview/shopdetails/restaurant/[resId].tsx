@@ -22,13 +22,14 @@ const restId = () => {
         API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
             .then((res) => setDetail2(res.data))
     }, [param])
+    console.log(detail)
     const [review, setReview] = useState<any>([])
-    // const getReview = API.get("/shopreview/getmyreviewDb2")
-    // useEffect(() => {
-    //     getReview.then((res) => {
-    //         setReview(res.data)
-    //     })
-    // }, [])
+    const getReview = API.get("/shopreview/getmyreviewDb")
+    useEffect(() => {
+        getReview.then((res) => {
+            setReview(res.data)
+        })
+    }, [])
     const onClick = (idx: any) => {
         var x = idx
         // allow user to click first icon and set rating to zero if rating is already 1
@@ -48,15 +49,14 @@ const restId = () => {
     return (
         <AppBody>
             {detail.map((item: any) => {
-                console.log(item)
                 return (
-                    <ShopDetailName name={item.detailOf.resName} />
+                    <ShopDetailName name={item.resName} />
                 )
             })}
             {detail.map((item: any) => (
                 <Box
                     flex={1}
-                    bgImage={item.detailOf.images[0].image}
+                    bgImage={item.images[0].image}
                     shadow={"lg"}
                     w={"100%"}
                     height={"sm"}
@@ -88,7 +88,7 @@ const restId = () => {
                         Opening
                     </Heading>
                     <Heading padding={10} size={"lg"}>
-                        {item.detailOf.openAt[0].open} - {item.detailOf.closeAt[0].close}
+                        {item.openAt[0].open} - {item.closeAt[0].close}
                     </Heading>
                 </Flex>
             ))}
@@ -103,9 +103,16 @@ const restId = () => {
             </Box>
 
             {detail.map((item: any) => (
-                <LocationShop location={item.zone} phoneNumber={item.phoneNo} />
+                <LocationShop location={item.detail.zone} phoneNumber={item.detail.phoneNo} />
             ))}
-            <Rate />
+            <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
+                <Rate ratting={"5"} background={"#FF3939"} amo_rate={"3k"} />
+                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={"2"} />
+                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={"1"} />
+                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={"55"} />
+                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={"80"} />
+                <Rate ratting={"0"} background={"#838383"} amo_rate={"26"} />
+            </SimpleGrid>
 
             <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
@@ -167,7 +174,7 @@ const restId = () => {
                     if (param.resId === item.resId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail image={""} name={item.reviewBy.fName + " " + item.reviewBy.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
+                                <ReviewDetail image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
                             </b>
                         )
                     }
