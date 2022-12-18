@@ -8,7 +8,7 @@ import editaboutmeuser from "./routers/editAboutmeuser"
 import getFriendData from "./routers/getFriendData"
 import getRating from "./routers/getratinguser"
 import getAboutMeDetail from "./routers/getAboutMeDetail"
-
+import changeimageuser from "./routers/changeuserimage"
 import init from "./routers/init"
 
 const userRoutes = express()
@@ -28,5 +28,7 @@ userRoutes.get("/profile/:id", getProfile)
 userRoutes.get("/profile/edit/:id", verifyUser, getaboutmeuser)
 
 userRoutes.put("/profile/edit", editaboutmeuser)
+
+userRoutes.get("/profile/changeuserimage/:id", changeimageuser)
 
 export default userRoutes
