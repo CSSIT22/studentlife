@@ -80,8 +80,8 @@ const folderpage = () => {
         Folder Page
       </Heading>
       <Box display="flex" justifyContent="end" alignItems="center" marginY={10}>
-        <Button bgColor="orange.200" onClick={onCreateOpen}>
-          <AddIcon />
+        <Button bgColor="orange.100" onClick={onCreateOpen}>
+          Add Folder
         </Button>
       </Box>
 
@@ -93,10 +93,10 @@ const folderpage = () => {
           <ModalBody>
             <FormControl isRequired isInvalid={isError}>
               <Heading as="h2" size="ms" noOfLines={1} display="flex" alignItems="center">
-                <AiFillFolder />
+                <AiFillFolder style={{ color: "#FFB991" }} />
                 <FormLabel marginLeft={2}>Folder Name</FormLabel>
               </Heading>
-              <Input placeholder="Folder Name" size="md" onChange={(name) => setNewFolderName(name.target.value)} />
+              <Input placeholder="Folder Name" size="md" onChange={(name: any) => setNewFolderName(name.target.value)} />
               {!isError ? (
                 <></>
               ) : (
@@ -123,13 +123,13 @@ const folderpage = () => {
         {
           folderList.map((el: any) => (
             <GridItem colSpan={6}>
-              <Box as="h2" noOfLines={1} display="flex" alignItems="center" key={el.folderId} onClick={() => {
+              <Box as="h2" noOfLines={1} display="flex" flexDirection="column" alignItems="center" key={el.folderId} onClick={() => {
                 navigate({
                   pathname: "/todolist/insidefolder/" + el.folderId,
                 })
               }}>
                 <IconContext.Provider value={{ size: '100' }}>
-                  <AiFillFolder />
+                  <AiFillFolder style={{ color: "#FFB991" }} />
                 </IconContext.Provider>
                 <Text alignItems={"center"} fontSize={"2xl"}>{el.folderName}</Text>
               </Box>

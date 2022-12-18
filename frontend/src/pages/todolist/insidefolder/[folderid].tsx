@@ -7,10 +7,9 @@ import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import API from "src/function/API"
 
 const insidefolder = () => {
-  const [taskList, setTaskList] = useState([])
+  const [taskList, setTaskList] = useState<any>({})
   const navigate = useNavigate()
   const [folderList, setFolderList] = useState([])
-  const [fdName, setFdName] = useState<any>({})
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
   let { folderid } = useParams()
   const toast = useToast()
@@ -24,9 +23,10 @@ const insidefolder = () => {
       folderId: folderid,
     }).then((res) => {
       console.log(res.data.tasks);
-      setTaskList(res.data.tasks);
+      setTaskList(res.data);
       // console.log("success", res.data);
       console.log(taskList);
+      console.log("data");
 
     })
   }, [])
@@ -41,8 +41,11 @@ const insidefolder = () => {
   }
 
   const sort = (sortName: string) => {
-    API.post("/todolist/listtaskinfolder", { orderBy: sortName }).then((res) => {
-      setTaskList(res.data.tasks);
+    API.post("/todolist/listtaskinfolder", {
+      orderBy: sortName,
+      folderId: folderid
+    }).then((res) => {
+      setTaskList(res.data);
       console.log(res.data);
     })
   }
@@ -52,7 +55,7 @@ const insidefolder = () => {
       <Flex minWidth="max-content" flexWrap="wrap" alignItems="center" gap="2" flexDirection={["column", "row"]}>
         <Box p="2">
           <Heading size="2xl"  >
-            {fdName.folderName}
+            {taskList.folderInfo?.folderName}
           </Heading>
         </Box>
 
@@ -97,8 +100,7 @@ const insidefolder = () => {
               deleteFolder()
               toast({
                 title: 'Folder Deleted.',
-                description: "Folder" + fdName.
-                  folderName + " deleted successfully.",
+                description: "Folder " + taskList.folderInfo?.folderName + " deleted successfully.",
                 status: 'success',
                 duration: 9000,
                 isClosable: true,
@@ -111,8 +113,8 @@ const insidefolder = () => {
       </Modal>
 
       {/* list each task list in folder */}
-      {taskList.map((el: any, index: number) => (
-        <Box height={"5rem"} width={"100%"} p="5" mt="5"
+      {taskList.tasks?.map((el: any, index: number) => (
+        <Box height={"6rem"} width={"100%"} p="5" mt="5"
           backgroundColor="#FFFFFF" rounded="lg" boxShadow="md" key={index} onClick={() => {
             navigate({
               pathname: "/todolist/task/" + el.taskId,
@@ -120,10 +122,19 @@ const insidefolder = () => {
           }} >
           <Flex alignItems={"center"}>
             <ArrowRightIcon w={3} h={3} color="red.500" marginRight={3} />
-            <Text fontSize={"2xl"}>{el.taskCheck.taskName}</Text>
+            <Text fontSize={"2xl"}>{el.taskCheck?.taskName}</Text>
             <Spacer />
-            {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
+            {/* {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>} */}
+
+            {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box>
+              :
+              new Date(el.taskCheck?.due) < new Date() ?
+                <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Failed</Box> :
+                <Box textAlign={"right"} as="b" pr={"1rem"} color="gray">Not Finished</Box>
+            }
           </Flex>
+          {/* <Text>{el.isCheck.toString()}</Text> */}
+          <Box marginLeft={"7"} marginTop="0.5" color="gray">Type : {el.taskCheck?.taskType}</Box>
         </Box>
       ))
       }

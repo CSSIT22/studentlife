@@ -6,23 +6,13 @@ const getMember = async (req: Request, res: Response) => {
         const id = req.params.id
 
         const member = await prisma.user_To_Room.findMany({
-            // where: {
-            //     roomId: id,
-            // },
-            // include: {
-            //     user: {
-            //         select: {
-            //             fName: true,
-            //             image: true,
-            //         },
-            //     },
-            // },
             select:{
                 user:{
                     select:{
                         userId :true,
                         image:true,
-                        fName:true
+                        fName:true,
+                        lName:true,
                     }
                 }
             },

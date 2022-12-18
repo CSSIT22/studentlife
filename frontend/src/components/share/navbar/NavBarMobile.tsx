@@ -29,6 +29,7 @@ import { FC, useContext } from "react"
 import { AiOutlineMail, AiFillBell, AiOutlineMenu } from "react-icons/ai"
 import { Link, Navigate } from "react-router-dom"
 import { authContext } from "src/context/AuthContext"
+import { NavBarContext } from "src/context/NavbarContext"
 import { secondaryNavProps } from "../app/AppBody"
 import { NavBarMenu } from "./NavBar"
 import NavBarMobileButton from "./NavBarMobileButton"
@@ -38,7 +39,7 @@ import logo from "./pic/logo.png"
 
 const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav }) => {
     const user = useContext(authContext)
-
+    const { countUnread } = useContext(NavBarContext)
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
@@ -99,7 +100,7 @@ const NavBarMobile: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondarynav
                                 <NavBarWithNoti label="Chat" notiCount={20} Icon={AiOutlineMail} />
                             </Link>
                             <Link to="/notification">
-                                <NavBarWithNoti label="Notification" notiCount={1} Icon={AiFillBell} />
+                                <NavBarWithNoti label="Notification" notiCount={countUnread} Icon={AiFillBell} />
                             </Link>
                         </HStack>
                     </HStack>

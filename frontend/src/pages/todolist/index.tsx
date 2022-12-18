@@ -43,6 +43,7 @@ import { useNavigate } from "react-router-dom"
 
 const index = () => {
   const [taskList, setTaskList] = useState([])
+  const [folderList, setFolderList] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -75,9 +76,12 @@ const index = () => {
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
             Sorting
           </MenuButton>
-          <Button colorScheme="orange" >
-            <Link href="/todolist/folderpage"
-              _hover={{ textDecoration: "none" }}>Folder</Link>
+          <Button bg={"orange.200"} color={"white"} _hover={{ bgColor: "orange.100" }} onClick={() => {
+            navigate({
+              pathname: "/todolist/folderpage/",
+            })
+          }}>
+            Folder
           </Button>
           <MenuList>
             <MenuItem onClick={() => sort("due")}>Due Date</MenuItem>
@@ -106,7 +110,12 @@ const index = () => {
               <Spacer />
 
               <Spacer />
-              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box> : <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Not Finished</Box>}
+              {el.isCheck ? <Box textAlign={"right"} as="b" pr={"1rem"} color="green">Finished</Box>
+                :
+                new Date(el.taskCheck?.due) < new Date() ?
+                  <Box textAlign={"right"} as="b" pr={"1rem"} color="red">Failed</Box> :
+                  <Box textAlign={"right"} as="b" pr={"1rem"} color="gray">Not Finished</Box>
+              }
 
             </Flex>
             <Box marginLeft={"7"} marginTop="0.5" color="gray">Type : {el.taskCheck.taskType}</Box>
