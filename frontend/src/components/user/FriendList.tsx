@@ -6,17 +6,22 @@ import { people } from "./Mock_UpData"
 import { useParams } from "react-router-dom"
 import API from "src/function/API"
 
-function FriendList() {
+interface FriendListProps {
+    props:any
+}
+
+function FriendList(props) {
     const [search, setSearch] = useState("")
-    const [friendList, setFriendList] = useState(people)
+    const [friendList, setFriendList] = useState([])
     const param = useParams();
     console.log(search)
 
 
     useEffect(() => {
         async function fetch() {
-            const res = await API.get(`/user/profile/getFollower/${param.userId}`)
-            setFriendList(res as any)
+            const res = await API.get(`/user/getFollower/${param.userId}`)
+            console.log(res.data)
+            setFriendList(res.data.follower)
         }
 
         fetch();
@@ -64,9 +69,9 @@ function FriendList() {
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
                     {friendList
-                        .filter((user) => user.name.toLowerCase().includes(search) || user.last.toLowerCase().includes(search))
-                        .map((user) => (
-                            <UserList userProfile={""} userName={user.name} key={user.id} lastName={user.last} />
+                        .filter((user: any) => user.follower.fName.toLowerCase().includes(search) || user.follower.lName.toLowerCase().includes(search))
+                        .map((user: any) => (
+                            <UserList userProfile={""} userName={user.follower.fName} key={user.userId} lastName={user.follower.lName} />
                         ))}
                 </Flex>
             </Box>

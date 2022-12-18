@@ -12,6 +12,7 @@ const getFollowing = async (req: Request, res: Response) => {
         })
 
         // res.status(200).json({ user: profile }) ss
+        res.status(200).json({ followering })
     } catch (err) {
         return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
     }

@@ -1,13 +1,12 @@
 import { Request, Response } from "express"
 
-const getFollow = async (req: Request, res: Response) => {
+const getFollower = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user ? req.user.userId : ""
-        const Follower = await prisma.follow.findFirst({
+        const Follower = await prisma.follow.findMany({
             include: { follower: true },
             where: {
-                userId: userId,
                 anotherUserId: req.params.id,
             },
         })
@@ -16,10 +15,10 @@ const getFollow = async (req: Request, res: Response) => {
         //     return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
         // }
 
-        // res.status(200).json({ user: profile })
+        res.status(200).json({ follower: Follower })
     } catch (err) {
         return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
     }
 }
 
-export default getFollow
+export default getFollower
