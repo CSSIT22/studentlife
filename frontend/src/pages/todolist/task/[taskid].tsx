@@ -55,6 +55,15 @@ const task = () => {
 
     const toast = useToast()
     const isError = studentId === ''
+    const currentDate = new Date()
+    const targetDate = new Date(descList.taskCheck?.due)
+    const min = 1000 * 0
+    const hour = min * 60
+    const day = hour * 24
+    const one_day = 1000 * 60 * 60 * 24;
+    const dayleft = Math.ceil((targetDate.getTime() - currentDate.getTime()) / (one_day))
+    console.log(dayleft);
+
     // console.log(location.task);
 
     useEffect(() => {
@@ -106,7 +115,7 @@ const task = () => {
     const setNoti = () => {
         API.post("/notification/addnotiobject", {
             template: "TODO_LIST_TASK",
-            value: [descList.taskCheck?.taskName],
+            value: [descList.taskCheck?.taskName, " ", dayleft.toString()],
             userId: [userId],
             module: "TODO_LIST",
             url: "/todolist/",
