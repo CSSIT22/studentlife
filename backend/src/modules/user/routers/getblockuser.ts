@@ -1,13 +1,14 @@
 import { Request, Response } from "express"
+import { use } from "passport"
 
 const getblockuser = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user ? req.user.userId : ""
-        const isBlocked = await prisma.user_Blocked.findOne({
-            include: { anotherUserId: true },
+        const isBlocked = await prisma.user_Blocked.findMany({
+            // include: { anotherUserId: true },
             where: {
-                anotherUserId: true,
+                anotherUserId: req.params.userId,
             },
         })
 
