@@ -20,13 +20,9 @@ import { ShowFollowingModal } from "./customModal/ShowFollowingModal"
 import { userProfileButtons } from "./userProfileButton/userProfileButtons"
 import { userFriendProfileButtons } from "./userFriendProfileButton/userFriendProfileButtons"
 import FriendProfileImages from "./UserProfileImages/FriendProfileImages"
-<<<<<<< Updated upstream
-import UserProfileImages from "./UserProfileImages/UserProfileImage"
+import UserProfileImages from "./UserProfileImages/userProfileImage"
 import API from "src/function/API"
 import { useParams } from "react-router-dom"
-=======
-import UserProfileImages from "./UserProfileImages/userProfileImage"
->>>>>>> Stashed changes
 
 const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = ({ isMe, userData, rating }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -48,19 +44,12 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
     const finalRef = React.useRef(null)
 
     useEffect(() => {
-<<<<<<< Updated upstream
         async function fetch() {
             const res_follower = await API.get(`/user/profile/getFollower/${param.userId}`)
             setFollower(res_follower.data.length)
 
             const res_following = await API.get(`/user/profile/getFollowering/${param.userId}`)
             setFollowing(res_following.data.length)
-=======
-        function fetch() {
-            // fetch follower/following api 
-            setFollower(10)
-            setFollowing(10)
->>>>>>> Stashed changes
         }
 
 
