@@ -9,12 +9,12 @@ import { getSessionIdsByUserIds } from "../../backendService/socketstore/store"
 import { showDescription } from "../utils/replaceValue"
 
 let transporter = nodemailer.createTransport({
-    host: "mail.bsthun.com",
+    host: process.env.SMTP_HOST,
     port: 587,
     secure: false,
     auth: {
-        user: "noreply@modlifes.me",
-        pass: "VkFTfHLgYS56m00ojNUvxbUfKG8P4207",
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
     },
 })
 const addNotiObject = async (req: Request, res: Response) => {
