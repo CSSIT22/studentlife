@@ -242,7 +242,7 @@ const DatingMatch = () => {
                                                     <Text ml="12px" fontWeight="700" fontSize="16px" lineHeight="133%" color="black">
                                                         {values.fName}
                                                         &nbsp;
-                                                        {values.lName}
+                                                        {values.lName.substring(0, 1) + "."}
                                                     </Text>
                                                 )
                                                 }

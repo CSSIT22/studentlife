@@ -324,7 +324,7 @@ const YourAppliedActivityPoll = () => {
                                                     <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
                                                         {values?.pollCreator?.fName}
                                                         &nbsp;
-                                                        {values?.pollCreator?.lName}
+                                                        {values?.pollCreator?.lName.substring(0, 1) + "."}
                                                     </Text>
                                                 )}
                                             </Box>
