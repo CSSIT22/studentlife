@@ -58,6 +58,7 @@ const generate = () => {
         // console.log(response.data)
     }
 
+
     const breakpoints = {
         sm: "320px",
         md: "768px",

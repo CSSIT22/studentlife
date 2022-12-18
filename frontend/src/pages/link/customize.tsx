@@ -54,14 +54,18 @@ const customize = () => {
         }));
     };
 
+    // handle save change
     const generateLink = async () => {
+        // if link or word is empty do nothing
         if (!shortUrlData.link || !shortUrlData.word) {
-
+            return;  
         }
 
+        // password from both input tag are the same then navigate to /link/history
         if (shortUrlData.password === shortUrlData.confirmPassword) {
             navigate("/link/history")
         } else {
+            // if password doesn't equal to each other then render a toast (toast = popup)
             return toast({
                 title: "Password not match!",
                 status: "error",
@@ -70,14 +74,10 @@ const customize = () => {
             })
         }
 
-        //TODO: Check if password and coonfirm password is same
-        const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password })
-        setShortedUrl(response.data.result.shortenLink)
+        // send data to database
+        const response = await API.post("/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password })
+        setShortedUrl(response.data.result.shortenLink) // set shortenlink generated from server
     }
-
-    // ---------------------------
-
-
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
@@ -219,7 +219,9 @@ const customize = () => {
                             <Box width={"100%"}>
                                 <Center>
                                     {/* onClick={onOpen} */}
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={generateLink} disabled={shortUrlData.link.length === 0}>
+                                    {/* onClick of this button (save button) called function named generateLink */}
+                                    {/* isDisable: the save button is set to disable (cannot press) if one of link or word is not filled */}
+                                    <Button isDisabled={!shortUrlData.link || !shortUrlData.word} colorScheme="green" w={"50%"} height={"60px"} onClick={generateLink}>
                                         SAVE
                                     </Button>
                                 </Center>
