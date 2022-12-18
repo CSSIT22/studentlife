@@ -18,7 +18,7 @@ declare global {
 }
 
 // Component of all activity page
-const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch: () => void }> = ({ poll, userId, fetch }) => {
+const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(pId: string): void }> = ({ poll, userId, fetch }) => {
     const params = useParams()
     // const [poll, setPoll] = useState(POLL)
 
@@ -31,9 +31,10 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch: () => voi
     //     console.log("Is appiled " + pId)
     //     console.log(today)
     // }
-    const [cc, setcc] = useState<boolean>(false)
     const toast = useToast()
     function handleApply(pId: string, apState: boolean, pollName: string, pollCreaterId: string) {
+        let button = document.getElementById(pId) as HTMLInputElement
+        button.disabled = true
         const now = new Date()
         now.setHours(now.getHours() + 7);
         // console.log(pId + " s: " + apState)
@@ -43,10 +44,9 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch: () => voi
             // If user apply -> tost, add data to db, change button state
             API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now, pollCreaterId: pollCreaterId, pollName: pollName })
                 .catch((err) => console.log(err))
-                .finally(() =>
-                    {setTimeout(() => {
-                        setcc(false)
-                    }, 1400), fetch()})
+                .finally(() => {
+                    fetch(pId)
+                })
             // (appiled(pId),
             //     toast({
             //         title: "Applied success",
@@ -252,10 +252,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch: () => voi
                                                             borderRadius="5px"
                                                             justifyContent="center"
                                                             alignItems="center"
-                                                            disabled={cc}
-                                                            onClick={() => {
-                                                                handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                            }}
                                                         >
                                                             <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
                                                                 {"Applied"}
@@ -274,12 +270,11 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch: () => voi
                                                             borderRadius="5px"
                                                             justifyContent="center"
                                                             alignItems="center"
+                                                            id={values.pollId}
                                                             onClick={() => {
-                                                                setcc(true)
                                                                 handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
                                                                 // , setApplyState(true)
                                                             }}
-                                                            isDisabled={cc}
                                                         >
                                                             <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
                                                                 {"Apply"}

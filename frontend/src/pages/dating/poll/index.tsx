@@ -140,12 +140,12 @@ const AllActivityPoll = () => {
         return didMount
     }
 
-    function fetch() {
+    function fetch(pId: string) {
         API.get("/dating/allpoll/getAllPoll").then((data) => {
             setAllPoll(data.data)
             let pollData = data.data
             setPoll(pollData.slice(0, poll.length))
-        }).catch(on).finally(() => setIsloading(false))
+        }).catch(on).finally(() => {setIsloading(false), (document.getElementById(pId) as HTMLInputElement).disabled = false})
 
     }
 
