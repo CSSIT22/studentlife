@@ -4,6 +4,7 @@ const getStudentPost = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const getStudentP = await prisma.student_Post.findMany({
+            take: 20,
             orderBy: { score: "desc" },
             include: {
                 postOwner: true,

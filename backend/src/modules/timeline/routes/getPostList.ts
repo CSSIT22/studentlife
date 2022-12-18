@@ -11,8 +11,8 @@ export const getPostList = async (req: Request, res: Response) => {
             //         every: { userId: userId },
             //     },
             // },
-
             // get list of post that this userId had made
+
             // select: { postId: true, userId: true, lastEdit: true, score: true, seen: true, body: true },
 
             // orderBy: {
