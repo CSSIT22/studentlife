@@ -19,7 +19,7 @@ function FriendList(props) {
 
     useEffect(() => {
         async function fetch() {
-            const res = await API.get(`/user/getFollower/${param.userId}`)
+            const res = await API.get(`/user/profile/getFollower/${param.userId}`)
             console.log(res.data)
             setFriendList(res.data.follower)
         }
