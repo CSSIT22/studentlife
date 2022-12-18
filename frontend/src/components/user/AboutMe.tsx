@@ -39,12 +39,6 @@ const AboutMe: React.FC<{ aboutMe: any }> = ({ aboutMe }) => {
                         <Text color="black" fontSize="lg" fontWeight="700">
                             {new Date(aboutMe?.birth).toString().substring(0, 15)}
                         </Text>
-                        <Text color="orange.700" fontSize="md" fontWeight="500">
-                            YEARS
-                        </Text>
-                        <Text color="black" fontSize="lg" fontWeight="700">
-                            {aboutMe?.year}
-                        </Text>
                     </SimpleGrid>
                     <Stack direction={{ base: "column", lg: "row" }} mt="5" spacing={{ md: "5", base: "2" }}>
                         <Text color="orange.700" fontSize="md" fontWeight="500">

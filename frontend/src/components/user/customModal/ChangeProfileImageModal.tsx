@@ -11,7 +11,7 @@ export const ChangeProfileImageModal: React.FC<{ isProfileOpen: boolean; onProfi
         setimage(user_image)
     }
     async function submitHandler() {
-        await API.put(`/profile/changeuserimage/${param.userID}`, {
+        await API.put(`/user/profile/changeuserimage/${param.userID}`, {
             image: image,
 
         }).then().catch(err => console.error("Error happend during updating user profile", err))
@@ -26,9 +26,7 @@ export const ChangeProfileImageModal: React.FC<{ isProfileOpen: boolean; onProfi
                     <ModalHeader>Change Profile Image</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Button value={image} onChange={(e) => imageHandler(e.target.value)}>
-                            import file
-                        </Button>
+                        <input value={image} type="file" onChange={(e) => imageHandler(e.target.value)} accept="image/png, image/jpeg" placeholder="import file"/>
                     </ModalBody>
 
                     <ModalFooter>

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import UserList from "../user/UserList"
@@ -6,7 +6,18 @@ import { people } from "./Mock_UpData"
 
 function FriendList() {
     const [search, setSearch] = useState("")
+    const [friendList, setFriendList] = useState(people)
     console.log(search)
+
+
+    useEffect(() =>{
+        async function fetch(){
+            // todo fetch friend list
+            setFriendList([])
+        }
+
+        fetch();
+    }, [])
 
     const breakpoints = {
         sm: "400px",
@@ -49,7 +60,7 @@ function FriendList() {
                 }}
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                    {people
+                    {friendList
                         .filter((user) => user.name.toLowerCase().includes(search) || user.last.toLowerCase().includes(search))
                         .map((user) => (
                             <UserList userProfile={""} userName={user.name} key={user.id} lastName={user.last} />

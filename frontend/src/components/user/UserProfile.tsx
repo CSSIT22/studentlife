@@ -1,4 +1,4 @@
-import React, { Ref } from "react"
+import React, { Ref, useState, useEffect } from "react"
 import { buffer_to_img } from "../chat/function/64_to_img"
 import { motion } from "framer-motion"
 import {
@@ -21,10 +21,12 @@ import { ShowFollowingModal } from "./customModal/ShowFollowingModal"
 import { userProfileButtons } from "./userProfileButton/userProfileButtons"
 import { userFriendProfileButtons } from "./userFriendProfileButton/userFriendProfileButtons"
 import FriendProfileImages from "./UserProfileImages/FriendProfileImages"
-import UserProfileImages from "./UserProfileImages/userProfileImage"
+import UserProfileImages from "./UserProfileImages/UserProfileImage"
 
 const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = ({ isMe, userData, rating }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [follower, setFollower] = useState<number>(0)
+    const [following, setFollowing] = useState<number>(0)
 
     // Following Modal
     const { isOpen: isFollowingListOpen, onOpen: onFollowingListopen, onClose: onFollowingListClose } = useDisclosure()
@@ -39,6 +41,15 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
+
+    useEffect(() =>{
+        function fetch(){
+            // fetch follower/following api 
+            setFollower(10)
+            setFollowing(10)
+        }
+        fetch()
+    }, [])
 
     return (
         <Box maxW="100%" borderRadius="none" position={"initial"} height={"100%"} rounded="2xl" overflow={"unset"} p={5} pt={{ md: "40px", base: "0" }} ml={{ base: "3", md: "0" }}>
@@ -146,7 +157,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                     <Center>
                         <Stack direction="row" mx={{ base: "50", lg: "30%" }} align="stretch" alignItems="center" spacing={{ base: "", md: "" }}>
                             <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-1.5", md: "" }}>
-                                <Box fontSize={{ base: "lg", lg: "2xl" }}>0</Box>
+                                <Box fontSize={{ base: "lg", lg: "2xl" }}>{follower}</Box>
                                 <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFollowerListopen}>
                                     <Box fontSize={{ base: "lg", lg: "2xl" }} color="orange.700">
                                         Follower
@@ -156,7 +167,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                                 <ShowFollowerModal isOpen={isFollowerListOpen} onClose={onFollowerListClose} finalFocusRef={btnRef} onClick={onFollowerListClose} />
                             </Stack>
                             <Stack direction="column" alignItems="center" mr={3} spacing={{ base: "-3.5", lg: "" }}>
-                                <Box fontSize={{ base: "lg", lg: "2xl" }}>0</Box>
+                                <Box fontSize={{ base: "lg", lg: "2xl" }}>{following}</Box>
                                 <Link style={{ textDecoration: "none" }} ref={btnRef} onClick={onFollowingListopen}>
                                     <Box fontSize={{ base: "lg", lg: "2xl" }} color="orange.700" mt="0.5rem">
                                         Following

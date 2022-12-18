@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { NavigateFunction } from "react-router-dom";
+import { NavigateFunction, useParams } from "react-router-dom";
 import {
     Button,
     ButtonGroup,
@@ -39,6 +39,19 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
     const { isOpen: isFriendListOpen, onOpen: onFriendListopen, onClose: onFriendListClose } = useDisclosure()
     const [isFollow, setIsFollow] = useState<boolean>()
     const [followerCount, setFollowerCount] = useState<number>(0)
+    const [block, setblock] = useState<any>()
+    const param = useParams()
+    function blockHandler(user_block: any) {
+        setblock(user_block)
+    }
+    function submitHandler() {
+        API.post(`/user/profile/blockuser/${param.userID}`, {
+            block: block,
+
+        }).then().catch(err => console.error("Error happend during updating user profile", err))
+
+
+    }
 
     async function handleClickFollow() {
         if (isFollow) {
@@ -89,7 +102,7 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                     position="initial"
                     value="inside"
                     shadow={"lg"}
-                // onClick={() => API.post(`/chat/createRoom`, { chatWith_id: userData.userId }).then(() => navigate("/chat"))}
+                    onClick={() => API.post(`/chat/createRoom`, { chatWith_id: param.userID }).then(() => navigate("/chat"))}
                 >
                     Message
                 </Button>
@@ -193,36 +206,16 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                         <ModalContent>
                             <ModalHeader>Are you sure to block this account?</ModalHeader>
                             <ModalCloseButton />
-                            <ModalBody>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button colorScheme="orange" mr={3} onClick={onBlockModalClose}>
-                                    Block
-                                </Button>
-                                <Button variant="ghost" onClick={onBlockModalClose}>
-                                    Close
-                                </Button>
-                            </ModalFooter>
-                        </ModalContent>
-                    </Modal>
-                    <MenuItem color="orange.700" icon={<BsHandIndexThumbFill />} onClick={onPokeModalOpen}>
-                        Poke
-                    </MenuItem>
-                    <Modal isCentered isOpen={isPokeModalOpen} onClose={onPokeModalClose}>
-                        <ModalOverlay />
-                        <ModalContent>
-                            <ModalHeader>Are you sure to poke this account?</ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button colorScheme="orange" mr={3} onClick={onPokeModalClose}>
-                                    Poke
-                                </Button>
-                                <Button variant="ghost" onClick={onPokeModalClose}>
-                                    Close
-                                </Button>
-                            </ModalFooter>
+                            <form onSubmit={(e) => { e.preventDefault(); submitHandler() }}>
+                                <ModalFooter>
+                                    <Button colorScheme="orange" mr={3}  onClick={blockHandler}>
+                                        Block
+                                    </Button>
+                                    <Button variant="ghost" onClick={onBlockModalClose}>
+                                        Close
+                                    </Button>
+                                </ModalFooter>
+                            </form>
                         </ModalContent>
                     </Modal>
                 </MenuList>
