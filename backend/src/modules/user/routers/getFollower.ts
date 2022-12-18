@@ -8,8 +8,7 @@ const getFollow = async (req: Request, res: Response) => {
             where: {
                 anotherUserId: userId,
             },
-            include: { follower: true ,
-                { fName: true, lName: true, profilePic: true}},
+            include: { follower: { fName: true, lName: true, profilePic: true } },
         })
 
         // res.status(200).json({ user: profile })
