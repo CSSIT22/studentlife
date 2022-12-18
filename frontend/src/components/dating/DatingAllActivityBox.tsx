@@ -104,7 +104,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
 
     return (
         <Box borderRadius="10px" color="black">
-            {poll ?
+            {poll.length > 0 ?
                 poll.map((values: Polls) => {
                     // For set the apply state only
                     // const [applyState, setApplyState] = useState(isApply(values.pollId))
