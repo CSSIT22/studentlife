@@ -29,7 +29,7 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        
+
         if (files) {
             console.log(`previewUrl before update: ${previewUrl}`);
             setPreviewUrl(URL.createObjectURL(files[0]));
@@ -58,11 +58,11 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
         }
     };
 
-    
+
 
     return (
         <Box>
-            <div style={{ position: 'relative',width:'50%'}}>
+            <div style={{ position: 'relative' }}>
                 {previewUrl && (
                     <IconButton
                         onClick={() => {
@@ -80,7 +80,7 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
                         colorScheme="red"
                         zIndex={1}
                         icon={<CloseIcon />}
-                        
+
 
                     >
                     </IconButton>
@@ -92,16 +92,18 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
                     marginTop="2"
                     marginLeft="2"
                     py={'2'}
-                    width={imageWidth ? '60%' : 'auto'}
-                    height={imageHeight ? '60%' : 'auto'}
+                    // boxSize={'100%'}
+                    width={imageWidth ? '100px' : 'auto'}
+                    height={imageHeight ? '100px' : 'auto'}
+                    size="sm"
                 >
                     {previewUrl ? (
                         <img src={previewUrl} alt="Preview" style={{ width: '100%' }} />
                     ) : (
                         <>
-                            
-                            Upload your image or video!
-                            
+
+                            Upload your image or video
+
                         </>
                     )}
                     <input

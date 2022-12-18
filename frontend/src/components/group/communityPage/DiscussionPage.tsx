@@ -133,6 +133,8 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                 isClosable: true,
                 position: 'top'
             })
+            //remove files
+            setFiles([])
             setPostText('')
             fetchPost()
         } catch (err) {
@@ -198,27 +200,28 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                                     placeholder='Type anything...'
                                     onChange={(e) => setPostText(e.target.value)}
                                 />
-                                <HStack justify='flex-end'>
+                                <Flex alignItems='center' gap='2' justify='flex-end'>
+                                    <ImageInsert
+
+                                        children files={files}
+                                        setFiles={setFiles}
+                                    />
 
                                     <Button
+                                        alignSelf={'flex-end'}
                                         onClick={onCreatePost}
                                         color='white'
                                         bg='orange.400'
                                         size='sm'
                                         mt={'2'}
-                                        pe={'9'}
+                                        // pe={'9'}
 
                                         _hover={{ bg: 'orange.500' }}
                                         display={isCreatePostBtn ? "block" : "none"}
                                     >
                                         <Text>Submit</Text>
                                     </Button>
-                                    <ImageInsert
-
-                                        children files={files}
-                                        setFiles={setFiles}
-                                    />
-                                </HStack>
+                                </Flex>
                             </AccordionPanel>
                         </AccordionItem>
                     </Accordion> : null
