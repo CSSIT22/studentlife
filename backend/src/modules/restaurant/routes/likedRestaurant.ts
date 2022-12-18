@@ -7,11 +7,13 @@ const likedRestaurant = async (req: Request, res: Response) => {
     const like = req.body.status
 
     // console.log(id);
+   try{
+
 
 
 const addHours = (date: Date): Date => {
     const result = new Date(date);
-    result.setHours(result.getHours() + 7);
+    result.setHours(result.getHours());
     return result;
   };
  
@@ -122,11 +124,16 @@ const addHours = (date: Date): Date => {
                     },
                     data: {
                         isLike: like,
-                        updatedAt: new Date(),
+                        updatedAt:  addHours(new Date()),
                     },
                 })
                 res.send(liked)
             }
+
+        }
+        catch(error) {
+           res.status(400)
+        }
            
         
    

@@ -48,14 +48,14 @@ function LikeorNope() {
     const [rand, setrand] = React.useState<Restaurant2[]>([])
     // const [finish, setfinish] = useState(false);
     const getRandom = async(id:number) => {
-        console.log(id);
+        // console.log(id);
         const rand = await API.get("/restaurant/likeOrNope?radius=" + radius + `&id=${id}`)
         const res = rand.data
-        console.log(rand.data.resId);
+        // console.log(rand.data.resId);
         
 
         if(!res.resId != null) {
-            console.log("เสร็จยัง" + res);
+            // console.log("เสร็จยัง" + res);
             
             await API.post("restaurant/likeOrNope", { id: res.resId, status: true });
         navigate(`/restaurant/detail?resId=${res.resId}` + `&id=${id}`  + "&total=" + res.likes)
