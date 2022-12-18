@@ -1,0 +1,56 @@
+name: 👾 Deployment Production-front
+
+on:
+  push:
+    branches:
+      # - infra-*
+      - main
+    paths:
+      - "frontend/**"
+
+jobs:
+  frontend-build:
+    name: 🐳 Build React.js Frontend
+    runs-on: [self-hosted, linux, x64]
+    timeout-minutes: 5
+    container: node:16-alpine
+    environment: develop
+    steps:
+      - name: 🎤 Checkout
+        uses: actions/checkout@v2
+
+      - name: ⌚ Compile React.js production build
+        run: |
+          cd ./frontend
+          npm i
+          touch .env
+          echo '${{secrets.FRONTEND_PRODUCTION_ENV}}' > .env
+          npm run build
+      - name: 🆙 Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-build-artifact
+          path: ./frontend/dist
+
+  upload:
+    name: 🍱 Preview Server Uploading
+    runs-on: [self-hosted, linux, x64]
+    environment: develop
+    timeout-minutes: 2
+    container: alpine
+    needs: [frontend-build]
+    env:
+      REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP_PRODUCTION }}
+      MIRROR_DIST: ${{ secrets.MIRROR_DIST }}
+    steps:
+      - name: 📥 Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: .
+
+      - name: Install packages
+        run: |
+          apk add openssh-client sshpass lftp
+      - name: 🖨️ Upload artifacts to server
+        run: |
+          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; $MIRROR_DIST; bye"
