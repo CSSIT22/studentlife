@@ -46,7 +46,7 @@ const history = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" marginTop={"10%"} >
+                <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
                     <Box>
                         <Heading
                             width={"300px"}
@@ -66,12 +66,12 @@ const history = () => {
 
                     <VStack spacing={5} align="stretch" marginBottom={"100%"} >
                         <Center>
-                            <Box w="90%" p={5} color="white" alignItems={"center"}>
+                            <Box w="100" p={5} color="white" alignItems={"center"}>
 
                                 {/* ------------------------ */}
                                 <HStack spacing="24px">
 
-                                    <Box w="400px" h="10" >
+                                    <Box w="400px" h="430px" overflowWrap={'normal'} overflow="scroll">
                                         <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
                                             {linkdata && linkdata.map((link: { shortenLink: string }, index: any) =>
                                                 (<LList key={index} shortenLink={link.shortenLink} />))}

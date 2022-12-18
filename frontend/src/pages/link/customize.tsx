@@ -135,7 +135,7 @@ const customize = () => {
                             <Box width={"100%"}>
                                 <Center>
                                     {/* onClick={onOpen} */}
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={customlinkk}>
+                                    <Button colorScheme="green" w={"50%"} disabled={custom.length === 0 && link.length === 0} height={"60px"} onClick={customlinkk}>
                                         SAVE
                                     </Button>
                                 </Center>

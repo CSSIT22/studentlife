@@ -91,7 +91,7 @@ const generate = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} backgroundColor={"white"} />
+                                    <Input placeholder="link url:" w={"75%"} height={"60px"}  border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} backgroundColor={"white"} />
                                 </Center>
                             </Box>
                         </Box>
@@ -177,7 +177,7 @@ const generate = () => {
                                         <AlertDialogBody>Are you sure?</AlertDialogBody>
 
                                         <AlertDialogFooter>
-                                            <Button colorScheme="green" onClick={complete} ml={3}>
+                                            <Button colorScheme="green" onClick={complete} ml={3} >
                                                 SAVE
                                             </Button>
                                             <Button ref={cancelRef} onClick={onClose} ml={3}>
@@ -189,7 +189,7 @@ const generate = () => {
                             </AlertDialog>
                             <Box width={"100%"}>
                                 <Center>
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={onOpen}>
+                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={onOpen}  disabled={link.length === 0}>
                                         SAVE
                                     </Button>
                                 </Center>

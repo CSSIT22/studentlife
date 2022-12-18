@@ -4,13 +4,7 @@ import AppBody from "src/components/share/app/AppBody"
 import { LockIcon } from "@chakra-ui/icons"
 import { useNavigate } from "react-router-dom"
 
-const breakpoints = {
-    sm: '320px',
-    md: '768px',
-    lg: '960px',
-    xl: '1200px',
-    '2xl': '1536px',
-}
+
 
 // const [show, setShow] = useState(false)
 // const handleClick = () => setShow(!show)
@@ -96,7 +90,7 @@ const password = () => {
                         <Box h="70px">
                             <Link>
                                 <Center>
-                                    <Button bg={"green.400"} w={"75%"} height={"60px"} onClick={() => onSend()}>
+                                    <Button bg={"green.400"} w={"75%"} height={"60px"} onClick={() => onSend()} >
                                         <Text as={"b"}>SAVE</Text>
                                     </Button>
                                 </Center>
