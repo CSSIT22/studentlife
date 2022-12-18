@@ -6,16 +6,20 @@ const getrestDb = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const rest = await prisma.restaurant.findMany({
             include: {
+                detail: {
+                    select: {
+                        zone: true,
+                        location: true,
+                        phoneNo: true,
+                    },
+                },
                 images: {
                     select: {
                         image: true,
                     },
                 },
-                detail: {
-                    select: {
-                        // zone: true,
-                    },
-                },
+                openAt: true,
+                closeAt: true,
             },
             where: {
                 resId: id,

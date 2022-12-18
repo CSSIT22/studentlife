@@ -18,11 +18,12 @@ const postmyreview = async (req: Request<any>, res: Response<any> | any) => {
         // const user = useContext(authContext)
         const user = req.user?.userId
         //console.log(req)
+        
         const postmyreview: any = {
             //ให้ไปทำงานที่ sre_re ก่อน เอาไอดีมาก่่อน
             // reviewId: req.body.reviewId,
-            shopId: req.body.shopId + "",
             // resId: req.body.resId || null,
+            shopId: req.body.shopId + "",
             userId: user,
             text: req.body.text,
             rating: parseInt(req.body.rating),
@@ -34,6 +35,7 @@ const postmyreview = async (req: Request<any>, res: Response<any> | any) => {
                 ...postmyreview,
             },
         })
+
         const formData = new fd()
         const fileList: any = req.files
         fileList?.map((file: any) => {

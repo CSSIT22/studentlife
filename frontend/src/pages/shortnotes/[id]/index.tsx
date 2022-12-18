@@ -1,6 +1,6 @@
-import { Box, Button, Flex, GridItem, Heading, Textarea, useBoolean, VStack } from '@chakra-ui/react'
+import { Box, Text, Button, Flex, GridItem, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Textarea, useBoolean, useDisclosure, VStack } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
 import CmList from 'src/components/shortnotes/cmList'
 import SnDetail from 'src/components/shortnotes/snDetail'
@@ -29,9 +29,9 @@ const index = () => {
     useEffect(() => {
         API.get("shortnotes/getShortnoteDetail/" + param.id).then((item) => {
             resentOnclick()
+            setShortnote(item.data)
             if (item.data.isPublic) {
                 setAllow.on()
-                setShortnote(item.data)
             } else {
                 setAccess(item.data.userAccess)
                 const acc = item.data.userAccess
@@ -43,21 +43,19 @@ const index = () => {
 
                 if (x.includes(user?.userId)) {
                     setAllow.on()
+                } else {
+                    onOpen()
                 }
-                setShortnote(item.data)
             }
-
-            // console.log(user?.userId)
-            // console.log(x)
-            // console.log(x.includes(user?.userId));
-            // console.log(allow);
-            // console.log(item.data.isPublic);
-
-
-
         }).finally(setLoad.off)
-
     }, [])
+
+    const blur = {
+        filter: "blur(8px)"
+    }
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const navigate = useNavigate()
 
     if (load) {
         return (
@@ -66,7 +64,7 @@ const index = () => {
     }
     return (
         <AppBody>
-            {allow ? <Box><Box p={6} bg={"white"} boxShadow={"xl"} rounded={8} mb={4}>
+            {allow ? <Box><Box p={6} bg={"white"} boxShadow={"base"} rounded={8} mb={4}>
                 <SnDetail
                     topic={shortnote.snName}
                     course={shortnote.course.courseName}
@@ -74,19 +72,78 @@ const index = () => {
                     link={shortnote.snLink}
                     owner={shortnote.owner.fName + " " + shortnote.owner.lName}
                     date={shortnote.created}
+                    isPublic={shortnote.isPublic}
                 />
             </Box>
-                <Box bg={"white"} boxShadow={"xl"} rounded={8} p={6}>
+                <Box bg={"white"} boxShadow={"base"} rounded={8} px={6} pt={6} mb={4}>
                     <SnComments />
                 </Box>
             </Box>
                 :
-                <Box mt={300}>
-                    <Flex bg={"white"} rounded={8} boxShadow={"xl"} w={"100%"} h={"100%"}>
-                        <Heading alignSelf={"center"} textAlign={"center"}>Sorry, you don't have the permission to access this shortnote.</Heading>
-                    </Flex>
+                <Box style={blur}>
+                    <Box p={6} bg={"white"} boxShadow={"base"} rounded={8} mb={4}>
+                        <SnDetail
+                            topic={"Ja ma do arai ror ja???"}
+                            course={"LOL555"}
+                            desc={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, voluptatem asperiores. Molestiae expedita minima ad in commodi veritatis iusto quaerat animi quis! Dolores voluptatem nesciunt porro quidem alias ut suscipit."}
+                            link={"youtu.be/dQw4w9WgXcQ"}
+                            owner={"Maibok Yaloktam"}
+                            date={shortnote.created}
+                            isPublic={shortnote.isPublic}
+                        />
+                    </Box>
+                    <Box bg={"white"} boxShadow={"base"} rounded={8} p={6} mb={4}>
+                        <Box mb={4} rounded={8}>
+                            <Box>
+                                <Heading size={"md"} mb={1}>
+                                    Comments
+                                </Heading>
+                                <Textarea h={150} mb={2} py={4} placeholder={"What are your thoughts ?"} />
+                                <Flex direction={"row"} justifyContent={"end"}>
+                                    <Button colorScheme={"orange"} >Comment</Button>
+                                </Flex>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box bg={"white"} boxShadow={"base"} p={3} rounded={8} mb={2}>
+                        <Heading py={3} size={"sm"} alignSelf={"center"}>Joshua Wong</Heading>
+                        <Text>Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong </Text>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
+                            <Text fontSize={"xs"} alignSelf={"end"}>
+                                {new Date("2022-11-29 07:34:05").toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
+                            </Text>
+                        </Flex>
+
+                    </Box>
+                    <Box bg={"white"} boxShadow={"base"} p={3} rounded={8}>
+                        <Heading py={3} size={"sm"} alignSelf={"center"}>Joshua Wong</Heading>
+                        <Text>Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong Jochong wua Joshua Wong </Text>
+                        <Flex w={"100%"} h={"100%"} justifyContent={"end"} >
+                            <Text fontSize={"xs"} alignSelf={"end"}>
+                                {new Date("2022-11-29 07:34:05").toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })}
+                            </Text>
+                        </Flex>
+
+                    </Box>
                 </Box>
             }
+            <Modal isCentered closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Permission needed.</ModalHeader>
+                    <ModalBody pb={6}>
+                        You don't have a permission to access this shortnote.</ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='orange' mr={3} onClick={() => {
+                            navigate({
+                                pathname: "../shortnotes"
+                            })
+                        }}>
+                            Back
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </AppBody>
     )
 }

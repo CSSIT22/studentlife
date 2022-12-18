@@ -128,3 +128,30 @@ export type announcement_approve2 = {
     postId:string,
     approveTime:number,
 }
+
+export type existLang = {
+    postId:string,
+    languageId:number
+}
+export type checkLanguage = {
+    languageId:number,
+    found:boolean
+}
+export type checkNewLanguage = {
+    languageId:number,
+    found:boolean,
+    topic:string,
+    detail:string
+}
+export type allFaculty = {
+    facultyName:string
+}
+export type allMajor = {
+    majorName:string
+}
+export type allStudentId = {
+    studentId:string
+}
+export type yearType = {
+    year:string
+}

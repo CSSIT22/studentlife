@@ -211,8 +211,8 @@ const FileList: FC<{
                         {new Date(modalData.fileExpired).getFullYear() == 2000
                             ? "Permanent"
                             : new Date(modalData.fileExpired).toLocaleString("en-US", {
-                                  timeZone: "Asia/Bangkok",
-                              })}
+                                timeZone: "Asia/Bangkok",
+                            })}
                     </Text>
                 </HStack>
             </>
@@ -300,7 +300,7 @@ const FileList: FC<{
             fileId: modalData.fileId,
             commentTxt: commentText,
         })
-            .then((res) => {})
+            .then((res) => { })
             .catch((err) => {
                 console.log(err)
                 toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
@@ -341,18 +341,18 @@ const FileList: FC<{
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <Text fontSize={"2xl"}> Image Preview</Text>
-                        </AlertDialogHeader>
+                    </AlertDialogHeader>
                     <AlertDialogCloseButton />
                     <AlertDialogBody>
                         <Box p={4}>
-                        {previewImg && imgMime ? (
-                            <img
-                                src={previewImg}
-                                alt="no image"
-                            />
-                        ) : null}
+                            {previewImg && imgMime ? (
+                                <img
+                                    src={previewImg}
+                                    alt="no image"
+                                />
+                            ) : null}
                         </Box>
-                        
+
                     </AlertDialogBody>
                 </AlertDialogContent>
             </AlertDialog>
@@ -371,9 +371,9 @@ const FileList: FC<{
                 >
                     <Box>
                         {info.fileName.split(".")[1].toLowerCase() == "pdf" ||
-                        info.fileName.split(".")[1].toLowerCase() == "jpg" ||
-                        info.fileName.split(".")[1].toLowerCase() == "png" ||
-                        info.fileName.split(".")[1].toLowerCase() == "jpeg" ? (
+                            info.fileName.split(".")[1].toLowerCase() == "jpg" ||
+                            info.fileName.split(".")[1].toLowerCase() == "png" ||
+                            info.fileName.split(".")[1].toLowerCase() == "jpeg" ? (
                             <Box
                                 position={"absolute"}
                                 zIndex={"999"}
@@ -403,8 +403,8 @@ const FileList: FC<{
                         {senderName && senderName?.length > 18
                             ? senderName?.slice(0, 18) + "..."
                             : isMobile && senderName && senderName?.length > 7
-                            ? senderName?.slice(0, 7) + "..."
-                            : senderName}
+                                ? senderName?.slice(0, 7) + "..."
+                                : senderName}
                     </Text>
 
                     <HStack spacing={0}>
