@@ -134,6 +134,9 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
             setFiles([])
             setPostText('')
             fetchPost()
+            setTimeout(() => {
+                document.location.reload();
+              }, 1500);
         } catch (err) {
             toast({
                 title: "Error",
@@ -299,7 +302,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                     post?.post.filter((post: any) => post.isPinned == false).map((post: any) => {
                         return (
                             <Post
-                                key={post.postId}
+                                key={post.lastEdit}
 
                                 //post
                                 postId={post.id}

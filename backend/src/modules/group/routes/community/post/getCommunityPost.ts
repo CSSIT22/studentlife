@@ -65,7 +65,7 @@ const getCommunityPost = async (req: Request, res: Response) => {
                 },
             },
             orderBy: {
-                score: "desc",
+                lastEdit: "desc",
             },
         })
         // i += 20

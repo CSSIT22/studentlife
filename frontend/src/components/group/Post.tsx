@@ -194,12 +194,7 @@ const Post: FC<{
                 conditions: isPinned && (checkRole === "OWNER" || checkRole === "ADMIN"),
                 onClick: () => onUnpinPost()
             },
-            {
-                name: "Report",
-                icon: <TiWarning fontSize='20px' />,
-                conditions: true,
-                onClick: () => { }
-            },
+            
             {
                 name: "Edit",
                 icon: <FaEdit fontSize='20px' />,
@@ -257,25 +252,26 @@ const Post: FC<{
                         </Flex>
                         <Box>
                             <Menu>
-                                <MenuButton>
-                                    <BsThreeDots fontSize='25px' />
-                                </MenuButton>
-                                <MenuList>
-                                    {
-                                        threeDots
-                                            .filter((item) => item.conditions)
-                                            .map((item, index) => {
-                                                return (
-                                                    <MenuItem
-                                                        key={index}
-                                                        icon={item.icon}
-                                                        onClick={item.onClick}>
-                                                        {item.name}
-                                                    </MenuItem>
-                                                )
-                                            })
-                                    }
-                                </MenuList>
+                                {
+                                    (checkRole === "OWNER"  || checkid === userId || checkRole === "ADMIN") ? (
+                                <><MenuButton>
+                                            <BsThreeDots fontSize='25px' />
+                                        </MenuButton><MenuList>
+                                                {threeDots
+                                                    .filter((item) => item.conditions)
+                                                    .map((item, index) => {
+                                                        return (
+                                                            <MenuItem
+                                                                key={index}
+                                                                icon={item.icon}
+                                                                onClick={item.onClick}>
+                                                                {item.name}
+                                                            </MenuItem>
+                                                        )
+                                                    })}
+                                            </MenuList></>
+                                ):(null)
+                                }
                             </Menu>
                         </Box>
                     </HStack>
