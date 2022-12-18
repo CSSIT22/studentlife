@@ -137,10 +137,10 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                 </GridItem>
                 <GridItem pl="2" area={"footer"} rounded="xl" ml={{ base: "3", md: "10", lg: "6" }}>
                     {
-                        isMe ?
-                            (userProfileButtons(onOpen, initialRef, finalRef, onClose, isOpen, navigate))
-                            :
+                        false ?
                             (userFriendProfileButtons(onOpen, initialRef, finalRef, onClose, isOpen, navigate))
+                            :
+                            (userProfileButtons(onOpen, initialRef, finalRef, onClose, isOpen, navigate))
                     }
                 </GridItem>
                 <GridItem rounded="xl" area={"followlist"} mt={{ base: "-2rem", md: "3rem" }} mr={5}>
