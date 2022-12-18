@@ -18,7 +18,7 @@ declare global {
 }
 
 // Component of all activity page
-const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(pId: string): void }> = ({ poll, userId, fetch }) => {
+const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }> = ({ poll, userId, fetch }) => {
     const params = useParams()
     // const [poll, setPoll] = useState(POLL)
 
@@ -45,7 +45,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(pId: strin
             API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now, pollCreaterId: pollCreaterId, pollName: pollName })
                 .catch((err) => console.log(err))
                 .finally(() => {
-                    fetch(pId)
+                    fetch()
                 })
             // (appiled(pId),
             //     toast({
@@ -227,60 +227,60 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(pId: strin
                                         (values.isOpen ? (
                                             // If the poll have been applied user can click to navigate to appiledpoll page
                                             <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
-                                                <motion.div
-                                                    initial={{ scale: 0 }}
-                                                    animate={{ scale: 1 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                    whileHover={{ scale: 1.1, }}
-                                                    transition={{
-                                                        type: "spring",
-                                                        stiffness: 360,
-                                                        damping: 20,
-                                                    }}
-                                                >
-                                                    {(values.participants.length != 0) ?
-                                                        (<Button
-                                                            display="flex"
-                                                            cursor="pointer"
-                                                            w="150px"
-                                                            m="10px"
-                                                            mt="20px"
-                                                            pr="40px"
-                                                            pl="40px"
-                                                            colorScheme="orange.200"
-                                                            backgroundColor={"#B24000"}
-                                                            borderRadius="5px"
-                                                            justifyContent="center"
-                                                            alignItems="center"
-                                                        >
-                                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                                {"Applied"}
-                                                            </Text>
-                                                        </Button>) :
-                                                        (<Button
-                                                            display="flex"
-                                                            cursor="pointer"
-                                                            w="150px"
-                                                            m="10px"
-                                                            mt="20px"
-                                                            pr="40px"
-                                                            pl="40px"
-                                                            colorScheme="orange.200"
-                                                            backgroundColor={"#E65300"}
-                                                            borderRadius="5px"
-                                                            justifyContent="center"
-                                                            alignItems="center"
-                                                            id={values.pollId}
-                                                            onClick={() => {
-                                                                handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                                // , setApplyState(true)
-                                                            }}
-                                                        >
-                                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                                {"Apply"}
-                                                            </Text>
-                                                        </Button>)
-                                                    }</motion.div>
+                                                {(values.participants.length != 0) ?
+                                                    (<Box><Button
+                                                        display="flex"
+                                                        cursor="pointer"
+                                                        w="150px"
+                                                        m="10px"
+                                                        mt="20px"
+                                                        pr="40px"
+                                                        pl="40px"
+                                                        id="applied"
+                                                        colorScheme="orange.200"
+                                                        backgroundColor={"#B24000"}
+                                                        borderRadius="5px"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                    >
+                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                            {"Applied"}
+                                                        </Text>
+                                                    </Button></Box>) :
+                                                    (<Box><motion.div
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        whileTap={{ scale: 0.9 }}
+                                                        whileHover={{ scale: 1.1, }}
+                                                        transition={{
+                                                            type: "spring",
+                                                            stiffness: 360,
+                                                            damping: 20,
+                                                        }}
+                                                    ><Button
+                                                        display="flex"
+                                                        cursor="pointer"
+                                                        w="150px"
+                                                        m="10px"
+                                                        mt="20px"
+                                                        pr="40px"
+                                                        pl="40px"
+                                                        colorScheme="orange.200"
+                                                        backgroundColor={"#E65300"}
+                                                        borderRadius="5px"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                        id={values.pollId}
+                                                        onClick={() => {
+                                                            handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
+                                                            // , setApplyState(true)
+                                                        }}
+                                                    >
+                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                            {"Apply"}
+                                                        </Text>
+                                                    </Button></motion.div></Box>)
+                                                }
                                             </Link>
                                         ) : (
                                             <Button

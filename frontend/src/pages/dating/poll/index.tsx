@@ -140,12 +140,13 @@ const AllActivityPoll = () => {
         return didMount
     }
 
-    function fetch(pId: string) {
+    function fetch() {
         API.get("/dating/allpoll/getAllPoll").then((data) => {
             setAllPoll(data.data)
             let pollData = data.data
             setPoll(pollData.slice(0, poll.length))
-        }).catch(on).finally(() => { setIsloading(false), (document.getElementById(pId) as HTMLInputElement).disabled = false })
+        }).catch(on).finally(() => setIsloading(false))
+
     }
 
     window.addEventListener('scroll', function () {

@@ -49,6 +49,7 @@ const YourAppliedActivityPoll = () => {
     let count = 1
     const [isLoading, setIsLoading] = useState(true)
     const [isError, { on }] = useBoolean()
+    const [allPoll, setAllPoll] = useState<PollInfo[]>([])
 
     function handlePeople(min: number, max: number) {
         if (max === min && max === 1) {
@@ -150,31 +151,18 @@ const YourAppliedActivityPoll = () => {
                 })
             })
             API.get("/dating/appliedpoll/getAppliedPolls").then((data) => {
+                let pollData = data.data
                 // setInfo(data.data)
+                setAllPoll(pollData.map((item: any) => ({
+                    ...item,
+                    ...item.poll,
+                    pollStatus: item.isAccepted ? "Accepted" : "Pending..."
+                })))
                 setPoll(
-
-                    data.data.map((item: any) => ({
+                    pollData.slice(0, 20).map((item: any) => ({
                         ...item,
                         ...item.poll,
                         pollStatus: item.isAccepted ? "Accepted" : "Pending..."
-
-                        // creator: {
-                        //     ...item.poll.pollCreator,
-                        //     Fname: item.poll.pollCreator.fName,
-                        //     Lname: item.poll.pollCreator.lName,
-                        //     img: {
-                        //         type: item.poll.pollCreator.type,
-                        //         data: item.poll.pollCreator.data
-                        //     },
-                        //     url: (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item.poll.pollCreator.userId
-                        // },
-                        // participants: [
-                        //     ...item.poll.participants,
-                        // ],
-                        // interests: [
-                        //     ...item.poll.interests
-                        // ],
-                        // pollStatus: item.isAccepted ? "Accepted" : "Pending...",
                     }))
                 )
             }).catch(on).finally(() => setIsLoading(false))
@@ -183,6 +171,15 @@ const YourAppliedActivityPoll = () => {
 
     console.log(poll)
 
+    window.addEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            setPoll(allPoll.slice(0, poll.length + 20).map((item: any) => ({
+                ...item,
+                ...item.poll,
+                pollStatus: item.isAccepted ? "Accepted" : "Pending..."
+            })))
+        }
+    })
 
     const isMobile = useBreakpointValue({
         base: false,
