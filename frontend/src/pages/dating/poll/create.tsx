@@ -23,10 +23,9 @@ import {
     Text,
 } from "@chakra-ui/react"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import DatingPollCreateRangeSlider from "../../../components/dating/DatingPollCreateRangeSlider"
 import { AllInterests, PollDetail, UserInterests } from "@apiType/dating"
-import { INTERESTS } from "../../../components/dating/shared/interests"
 import DatingInterestDynamicButton from "../../../components/dating/DatingInterestDynamicButton"
 import DatingInterestTag from "../../../components/dating/DatingInterestTag"
 import DatingInterestSearch from "../../../components/dating/DatingInterestSearch"
@@ -37,7 +36,6 @@ import DatingCreateDate from "src/components/dating/DatingCreateDate"
 import DatingCreateTime from "./../../../components/dating/DatingCreateTime"
 import API from "src/function/API"
 import { useNavigate } from "react-router-dom"
-import TagOfInterest from './../interests';
 import { motion } from "framer-motion"
 import DatingWentWrong from "src/components/dating/DatingWentWrong"
 import Lottie from "lottie-react"
@@ -103,6 +101,10 @@ const CreateActivityPoll = () => {
 
     }, [])
 
+    useEffect(() => {
+
+    }, [])
+
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
         useEffect(() => {
@@ -120,7 +122,6 @@ const CreateActivityPoll = () => {
     const [location, setLocationInput] = useState("")
 
     const [date, setDateInput] = useState("")
-    const [validDate, setValidDate] = useState(false)
 
     const [time, setTimeInput] = useState("")
     const [validTime, setValidTime] = useState(false)
@@ -182,10 +183,29 @@ const CreateActivityPoll = () => {
         const selectDate = new Date(date)
         const dateTime =
             // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
+            date + "T" + time + ":00.000+0700"
+        console.log(dateTime)
+        return dateTime
+    }
+
+    function handleDateTime2() {
+        // const dateTime = new Date(date + " " + time)
+        const selectDate = new Date(date)
+        const dateTime =
+            // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
             date + "T" + time + ":00.000Z"
         console.log(dateTime)
         return dateTime
     }
+
+    const timePass = useMemo(() => {
+        const currentInput = new Date(handleDateTime())
+        if (new Date() > currentInput) {
+            return true
+        } else {
+            return false
+        }
+    }, [date, time])
 
     function handleSubmit() {
         // Validate all value before submit to database
@@ -194,9 +214,9 @@ const CreateActivityPoll = () => {
             !isTooShortHeader &&
             !isTooShortLocation &&
             !isNoDate &&
-            !validDate &&
+            !validTime &&
             !isNoTime &&
-            !validTime
+            !timePass
         ) {
             // console.log(
             //     "Header: " +
@@ -217,18 +237,18 @@ const CreateActivityPoll = () => {
             //     sliderValue
             // )
             setClicked(true)
-            handleChat(header)
+            // handleChat(header)
             setIsLoading(true)
             // handleChat(header)
-            API.post<PollDetail | UserInterests>("/dating/create/setPoll", {
+            console.log(handleDateTime())
+            API.post<PollDetail | UserInterests>(`/dating/create/setPoll?name=${header}`, {
                 pollName: header,
                 pollPlace: location,
-                pollAppointAt: handleDateTime(),
+                pollAppointAt: handleDateTime2(),
                 pollText: description,
                 participantMin: sliderValue[0],
                 participantMax: sliderValue[1],
                 isOpen: true,
-                // pollcreated: new Date(),
                 activityInterestId: selectedInterests
             })
                 .then(() => navigate("/dating/poll"))
@@ -254,10 +274,11 @@ const CreateActivityPoll = () => {
             })
         }
     }
-    function handleChat(name: string) {
-        API.post<{ name: string }>(`/chat/createGroup?name=${name}`)
-    }
+    // function handleChat(name: string) {
+    //     API.post<{ name: string }>(`/chat/createGroup?name=${name}`)
+    // }
 
+    console.log("Date :" + date)
     return (
         <DatingAppBody>
             {isLoading || isError ? <></> : <motion.div
@@ -434,9 +455,9 @@ const CreateActivityPoll = () => {
                         <DatingCreateLocation getLocation={setLocationInput} />
                         {/* Date input & error control */}
 
-                        <DatingCreateDate getDate={setDateInput} getValidDate={setValidDate} />
+                        <DatingCreateDate setDate={setDateInput} timePass={timePass} />
                         {/* Time input & error control */}
-                        <DatingCreateTime getTime={setTimeInput} getValidTime={setValidTime} selectDate={date} />
+                        <DatingCreateTime setTime={setTimeInput} timePass={timePass} />
                         <FormControl isRequired>
                             <FormLabel>Number of people</FormLabel>
                             <DatingPollCreateRangeSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
