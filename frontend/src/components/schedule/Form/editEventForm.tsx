@@ -118,7 +118,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                     value={event}
                     onChange={(e) => setEvent(e.target.value)}
                     maxLength={100}
-                    placeholder={event}
+                    placeholder="Enter edit event name"
                     boxShadow="md"
                     bgColor="white"
                 />
@@ -133,7 +133,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                     isRequired
                     value={description}
                     onChange={(e) => setDescriptionInput(e.target.value)}
-                    placeholder="Description"
+                    placeholder="Enter edit event description"
                     size="md"
                     boxShadow="md"
                 />
@@ -145,7 +145,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                     <FormLabel color="black">
                         <Text fontSize="24px">Start Time</Text>
                     </FormLabel>
-                    <Input placeholder="Select time" size="s"
+                    <Input placeholder="Select start time" size="s"
                         id="time"
                         type="datetime-local"
                         onChange={(e) => setStartTimeInput(e.target.value + ":41.000Z")}
@@ -156,7 +156,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                     <FormLabel color="black">
                         <Text fontSize="24px">End Time</Text>
                     </FormLabel>
-                    <Input placeholder="Select time"
+                    <Input placeholder="Select end time"
                         size="s"
                         type="datetime-local"
                         onChange={(e) => setEndTimeInput(e.target.value + ":41.000Z")}
@@ -187,7 +187,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                     value={location}
                     onChange={(e) => setLocationInput(e.target.value)}
                     maxLength={100}
-                    placeholder="location"
+                    placeholder="Enter edit event location"
                     boxShadow="md"
                     bgColor="white"
                 />
