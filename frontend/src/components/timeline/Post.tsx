@@ -36,6 +36,16 @@ export const Post = (/*props: PostProps*/) => {
     }, [])
     console.log(posts)
 
+    // function CurrentDate(): string {
+    //     var date: Date = new Date()
+    //     var dmy = date.toDateString()
+    //     var hours = date.getHours().toString()
+    //     var minutes = date.getMinutes().toString()
+    //     // var seconds = date.getSeconds().toString()
+    //     let currentDate: string = dmy + " " + hours + ":" + minutes /* + ":" + seconds */
+    //     return currentDate
+    // }
+
     // let sortedScore = Postdata.sort((a, b) => (a.score > b.score ? -1 : 1))
 
     return (
@@ -50,7 +60,7 @@ export const Post = (/*props: PostProps*/) => {
                             <VStack spacing="0.5" align={"-moz-initial"}>
                                 <Text align="left">{postDt.postOwner.fName + " " + postDt.postOwner.lName}</Text>
                                 <Text align="left" color="gray.500" fontWeight="semibold" fontSize="xs">
-                                    {postDt.dateTime}
+                                    {new Date(postDt.lastEdit).toLocaleDateString("th-TH")} {new Date(postDt.lastEdit).toLocaleTimeString("th-TH")}
                                 </Text>
                             </VStack>
                         </HStack>
