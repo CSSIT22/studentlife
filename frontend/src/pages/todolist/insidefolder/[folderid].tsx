@@ -127,7 +127,8 @@ const insidefolder = () => {
         </Box>
       ))
       }
-    </ToDoListAppBody > 
+    </ToDoListAppBody >
+  )
 }
 
 export default insidefolder
