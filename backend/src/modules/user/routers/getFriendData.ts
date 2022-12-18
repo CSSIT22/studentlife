@@ -19,7 +19,6 @@ const getFriendData = async (req: Request, res: Response) => {
                         sex: true,
                         hobby: true,
                         birth: true,
-                        year: true,
                         address: true,
                     },
                 },
@@ -41,14 +40,13 @@ const getFriendData = async (req: Request, res: Response) => {
                 sex: profile.details?.sex,
                 hobby: profile.details?.hobby,
                 birth: profile.details?.birth,
-                year: profile.details?.year,
                 address: profile.details?.address,
                 majorId: profile.studentMajor?.majorId,
                 facultyId: profile.studentMajor?.facultyId,
             },
         })
-        console.log(profile)
     } catch (err) {
+        console.log(err)
         return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
     }
 }
