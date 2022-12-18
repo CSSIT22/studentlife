@@ -18,6 +18,7 @@ import getUserIDChatWith from "./router/getUserIDChatWith"
 import postMessage from "./router/postMessage"
 import getMessage from "./router/getMessage"
 import inviteToGroup from "./router/inviteToGroup"
+import getUserProp from "./router/getUserProp"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -35,6 +36,8 @@ chatRoutes.post("/createRoom", createRoom)
 chatRoutes.post("/createGroup",createGroup)
 
 chatRoutes.post("/joinGroup",joinGroup)
+
+chatRoutes.get("/getUserProps",getUserProp)
 
 chatRoutes.get("/:id", room_prop)
 
