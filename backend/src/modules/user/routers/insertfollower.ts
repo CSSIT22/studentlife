@@ -11,7 +11,7 @@ const insertfollow = async (req: Request, res: Response) => {
             // },
             data: {
                 userId: userId,
-                anotherUserId: anotherUserId,
+                anotherUserId: req.params.userId,
             },
         })
     } catch (err) {
