@@ -13,26 +13,8 @@ const editEvent = async (req: Request, res: Response) => {
         endTime: req.body.endTime,
         desc: req.body.desc,
         eventTypeId: req.body.eventTypeId,
-        // placeId: req.body.placeId,
-        // hostAt: {
-        //     connectOrCreate: {
-        //         create: {
-        //             placeId: body.placeId,
-        //             building: "test",
-        //             room: "123",
-        //         },
-        //         where: {
-        //             placeId: body.placeId,
-        //         },
-        //     },
-        // },
+        placeId: req.body.placeId,
     }
-
-    const getPlaceId = await prisma.event.findFirst({
-        where: {
-            placeId: body.placeId,
-        },
-    })
 
     if (!req.body.eventId) {
         return res.status(400).send("Invaid")
@@ -51,37 +33,39 @@ const editEvent = async (req: Request, res: Response) => {
         console.log(err)
         res.status(404).send("Error")
     }
-
-    //******************************************************************************/
-
-    // const eventId = req.body.eventId
-    // const eventName = req.body.eventName
-    // const stTime = req.body.stTime
-    // const endTime = req.body.endTime
-    // const desc = req.body.desc
-    // const eventTypeId = req.body.eventTypeId
-
-    // let editEvent: Event | null = null
-    // const newdata = getEvent().map((event) => {
-    //     if (eventId == eventId) {
-    //         editEvent = {
-    //             eventId: eventId,
-    //             eventName: eventName,
-    //             stTime: stTime,
-    //             endTime: endTime,
-    //             desc: desc,
-    //             eventTypeId: eventTypeId,
-    //         }
-    //         return {}
-    //     }
-    //     return event
-    // })
-    // setEvent(newdata)
-
-    // res.send(editEvent)
 }
 
 export default editEvent
+
+//******************************************************************************/
+
+// const eventId = req.body.eventId
+// const eventName = req.body.eventName
+// const stTime = req.body.stTime
+// const endTime = req.body.endTime
+// const desc = req.body.desc
+// const eventTypeId = req.body.eventTypeId
+
+// let editEvent: Event | null = null
+// const newdata = getEvent().map((event) => {
+//     if (eventId == eventId) {
+//         editEvent = {
+//             eventId: eventId,
+//             eventName: eventName,
+//             stTime: stTime,
+//             endTime: endTime,
+//             desc: desc,
+//             eventTypeId: eventTypeId,
+//         }
+//         return {}
+//     }
+//     return event
+// })
+// setEvent(newdata)
+
+// res.send(editEvent)
+
+//******************************************************************************/
 
 // import { Event } from "@apiType/schedule"
 // import { Event, getEvent, setEvent } from ".."
@@ -107,4 +91,57 @@ export default editEvent
 //     })
 //     setEvent(newData)
 //     res.send(editedEvent)
+// }
+
+//******************************************************************************/
+
+// const updatePlace = await prisma.event.updateMany({
+//     where: {
+//         eventId: req.body.eventId,
+//     },
+//     data: {
+//         placeId: req.body.placeId,
+//     },
+// })
+
+// const editPlace: any = {
+//     hostAt: {
+//         connectOrCreate: {
+//             create: {
+//                 placeId: body.placeId,
+//                 building: "test",
+//                 room: "123",
+//             },
+//             where: {
+//                 placeId: body.placeId,
+//             },
+//         },
+//     },
+// }
+
+//******************************************************************************/
+
+// try {
+//     const placeId = await prisma.event_Place.findFirstOrThrow({
+//         where: {
+//             placeId: req.body.placeId,
+//         },
+//         select: {
+//             placeId: body.placeId,
+//         },
+//     })
+// } catch {
+//     const createPlace = await prisma.event_Place.create({
+//         data: {
+//             placeId: req.body.placeId,
+//             building: "",
+//             room: "",
+//         },
+//     })
+
+//     const createEventPlace = await prisma.event.create({
+//         data: {
+//             placeId: req.body.placeId,
+//         },
+//     })
 // }
