@@ -133,7 +133,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                     <Text ml="30px" fontSize="20px">
                                         {values.pollCreator.fName}
                                         &nbsp;
-                                        {values.pollCreator.lName}
+                                        {values.pollCreator.lName.substring(0, 1) + "."}
                                     </Text>
                                 </Center>
                             </Flex>

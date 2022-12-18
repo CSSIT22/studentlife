@@ -60,7 +60,6 @@ const DatingYourPollSeeMore: FC<{
 
     return (
         <>
-
             <Box h="10%" display="flex" justifyContent="end" alignItems="end">
                 <motion.div
                     initial={
