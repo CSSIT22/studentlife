@@ -265,7 +265,7 @@ const btnNewShortnote = () => {
                                 <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"100%"}>
                                     <>
                                         <VStack w={"full"} spacing={"5%"}>
-                                            <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }}>
+                                            <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%", minHeight: "100px" }}>
                                                 {files &&
                                                     files?.map((file: any, key) => (
                                                         <FileItem
@@ -284,8 +284,8 @@ const btnNewShortnote = () => {
                                                 {files.length == 0 ? (
                                                     <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                                                         <HiUpload fontSize={"84px"} />
-                                                        <Text fontSize={"2xl"}>Drop the file</Text>
-                                                        <Text fontSize={"md"}>Maximum file size can be up to 200MB</Text>
+                                                        <Text fontSize={"2xl"}>Drop the file here</Text>
+                                                        {/* <Text fontSize={"md"}>Maximum file size can be up to 200MB</Text> */}
                                                     </Flex>
                                                 ) : null}
                                             </Dropzone>
