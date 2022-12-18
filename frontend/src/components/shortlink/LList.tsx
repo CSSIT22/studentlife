@@ -1,20 +1,25 @@
-import { Flex, HStack, Box, Text, Button } from "@chakra-ui/react"
+import { Flex, HStack, Box, Text, Button, useBoolean } from "@chakra-ui/react"
 import React, { FC, useContext } from "react"
-import { useNavigate } from "react-router"
 import { authContext } from "src/context/AuthContext"
 
-const LList: FC<{ shortenLink: string }> = ({
-    shortenLink
+const LList: FC<{ shortenLink: string; handleSelect?: (shortenLink: string, slId: string) => Promise<void>, slId: string }> = ({
+    shortenLink,
+    slId,
+    handleSelect
 }) => {
+
     const user = useContext(authContext)
     const [isSelect, setIsSelect] = React.useState(true)
+    const [isLoading, { off, on }] = useBoolean(false)
     const handleOnSelect = () => {
         setIsSelect(!isSelect)
+        if (handleSelect) {
+            on()
+            handleSelect(shortenLink, slId).finally(off)
+
+        }
     }
-    const navigate = useNavigate()
-    const shortlink = () => {
-        navigate("/link/shortlink")
-    }
+
     return (
 
         <>
@@ -41,26 +46,14 @@ const LList: FC<{ shortenLink: string }> = ({
                             </div>
                         </HStack>
                         <HStack width={"6rem"} justify={{ base: "flex-end" }}>
-                            {isSelect ? (
-                                <Button _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="solid">
-                                    DELETE
-                                </Button>
-                            ) : (
-                                <Button _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="outline">
-                                    DELETE
-                                </Button>
-                            )}
-
+                            <Button isLoading={isLoading} _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="solid">
+                                DELETE
+                            </Button>
                         </HStack>
-
                     </Flex>
                 </Box>
-
             </Box>
-
         </>
-
-
     )
 }
 

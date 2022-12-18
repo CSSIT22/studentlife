@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef, useMemo } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import std from "./RUser"
@@ -6,25 +6,24 @@ import UList from "./UList"
 import API from "src/function/API"
 import { useParams } from "react-router-dom"
 
+interface SearchUserListProps {
+    handleSelect?: ((id: {
+        id: string;
+        userName: string;
+        lastName: string;
+    }) => void);
+    selectedUser?: {
+        id: string;
+        userName: string;
+        lastName: string;
+    }[];
+    userData: any;
+}
 
-function SearchUserList() {
+function SearchUserList({ handleSelect, selectedUser, userData }: SearchUserListProps) {
     const [search, setSearch] = useState("")
-    const [userData, setUserData] = useState<any>()
-    const param = useParams();
-    console.log(search)
 
-    async function fetch() {
-        const res = await API.get(`/shortlink/getUser`);
-        setUserData([ ...res.data.users ]);
-    }
-
-    useEffect(() => {
-        fetch()
-    }, [])
-
-    console.log(userData)
-
-    return (    
+    return (
         <Box borderRadius={"md"}>
             <HStack borderRadius={"md"} boxShadow="md" position="initial" padding={1} mb={{ md: 1, sm: 4 }} background={"white"}>
                 <Box color={"black"} mr={-1}>
@@ -57,9 +56,10 @@ function SearchUserList() {
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
                     {userData && userData
-                        .filter((user: { fName: string; lName: string }) => (`${user.fName} ${user.lName}`).toLowerCase().includes(search.toLowerCase())).slice(0,65)
-                        .map((user: { fName: string; lName: string }, index: any) => (
-                            <UList userProfile={""} userName={user.fName} key={index} lastName={user.lName} />
+                        ?.filter((user: { fName: string; lName: string }) => (`${user.fName} ${user.lName}`).toLowerCase().includes(search.toLowerCase())).slice(0, 65)
+                        ?.map((user: { userId: string; fName: string; lName: string }, index: any) => (
+                            <UList id={user.userId} userProfile={""} userName={user.fName} key={index} lastName={user.lName} handleSelect={handleSelect}
+                                isSelected={!!(selectedUser?.find(sUser => sUser.id === user.userId)) || false} />
                         ))}
                 </Flex>
             </Box>

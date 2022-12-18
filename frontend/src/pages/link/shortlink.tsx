@@ -15,8 +15,8 @@ const shortlink = () => {
     const history = () => {
         navigate("/link/history")
     }
-    const permission = () => {
-        navigate("/link/permission")
+    const customper = () => {
+        navigate("/link/customper")
     }
     return (
         <AppBody>
@@ -59,7 +59,7 @@ const shortlink = () => {
                                                     Customize Password
                                                 </Button>
 
-                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customper} textColor="white">
                                                     Customize Permission
                                                 </Button>
                                             </PopoverBody>
@@ -71,27 +71,11 @@ const shortlink = () => {
                         </Box>
                         <Box h="70px">
                             <Center>
-                                <Popover>
-                                    <PopoverTrigger>
-                                        <Button bg={"#E65300"} w={"50%"} height={"60px"} textColor="white">
-                                            <Text as={"b"}>SHORTLINK GENERATOR</Text>
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverCloseButton />
 
-                                        <PopoverBody>
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={generate} textColor="white">
-                                                Generator Password
-                                            </Button>
+                                <Button bg={"#E65300"} w={"50%"} height={"60px"} textColor="white" onClick={generate}>
+                                    <Text as={"b"}>SHORTLINK GENERATOR</Text>
+                                </Button>
 
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
-                                                Generator Permission
-                                            </Button>
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Popover>
                             </Center>
                         </Box>
                         <Box h="70px">
