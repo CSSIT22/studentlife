@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import AppBody from "../../components/share/app/AppBody"
 import calendar from "../../components/schedule/calendar"
 import Calendar from 'react-calendar';
+import timeGridPlugin from '@fullcalendar/timegrid'
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader,
@@ -9,12 +10,16 @@ import {
     FormControl, FormLabel, FormErrorMessage, FormHelperText,
     Input, Switch, Flex, Spacer, Grid, GridItem, Select, Text, Box,
     extendTheme, Heading, SimpleGrid, Textarea, IconButton,
-    useDisclosure, Button, ButtonGroup, Divider
+    useDisclosure, Button, ButtonGroup, Divider, useBreakpointValue, HStack
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import API from "src/function/API";
 import AddEventModal from "src/components/schedule/model/AddEventModal";
+import FullCalendar from "@fullcalendar/react";
+import { DateRangePicker } from "@mantine/dates";
+import { DateRangePickerValue } from "@mantine/dates/lib/components/DateRangePicker";
+import { DatePicker } from "@mantine/dates";
 // import { DESCRIPTION } from "src/components/notification/main/data/descTest"
 
 
@@ -47,41 +52,87 @@ const theme = extendTheme({
     },
 })
 
+const getSunday = (d: Date) => {
+    const today = new Date(d);
+    const first = today.getDate() - today.getDay() + 1;
+    const last = first - 1;
+
+    const sunday = new Date(today.setDate(last));
+
+    return sunday;
+}
+
+const getMonday = (d: Date) => {
+    const today = new Date();
+    const first = today.getDate() - today.getDay() + 1;
+    const last = first + 6;
+
+    const sunday = new Date(today.setDate(first));
+
+    return sunday;
+}
+
+const addDays = (d: Date, days: number) => {
+    let date = new Date(d);
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+const getDates = (st: Date) => {
+    const t = new Date(st)
+    const s = getSunday(t)
+
+    return [s, addDays(s, 6)]
+}
+
+const getDatesBack = (st: Date) => {
+    return [addDays(st, -7), addDays(st, -1)]
+
+}
+const getDatesNext = (st: Date) => {
+    return [addDays(st, 1), addDays(st, 7)]
+
+}
 const timetable = () => {
     // const { isOpen, onOpen, onClose } = useDisclosure()
-    const { isOpen, onOpen, onClose } = useDisclosure()
     const modal1 = useDisclosure()
-    const modal2 = useDisclosure()
-    const modal3 = useDisclosure()
-    const calendarModal = useDisclosure()
-    const detailModal = useDisclosure()
     const navigate = useNavigate()
-
-
+    const [dateRange, setDateRange] = useState<DateRangePickerValue>(getDates(new Date()) as any)
+    const [targetDate, setTargetDate] = useState<Date>(getSunday(new Date()))
+    const isMobile = useBreakpointValue({ base: true, md: false })
+    const [events, setEvents] = useState<{ startTime: Date, endTime: Date, title: string }[]>([])
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     //set State for add event 
+    useEffect(() => {
+        API.get("/schedule/getWeekTasks/" + dateRange[0])
+            .then(i => {
+                setEvents(
+                    [...i.data.map(
+                        (item: any) =>
+                        ({
+                            start: new Date(item.stTime), end: new Date(item.endTime),
+                            title: item.eventName, id: item.eventId
+                        }))])
+                // console.log(i.data)
+            });
+    }, [dateRange])
 
-
-    //select date in calendar
-    const [dateSelect, setDateInput] = useState(new Date())
-    const monthNames = ["January", "February", "March", "April",
-        "May", "June", "July", "August", "September", "October",
-        "November", "December"]
-    const dateButton = document.getElementById('my-element')
-
-
-    function selectDate() {
-        dateSelect
-        console.log("Date: " + dateSelect)
+    const hadelDateChange = (d: Date | null) => {
+        if (d) {
+            setTargetDate(d)
+            setDateRange(getDates(d) as any)
+        }
     }
-    //this part send backend to frontend 
+
+
 
 
     return (
         <AppBody>
-            <SimpleGrid columns={[1, 6]} spacing="30px">
+            {!isMobile && <SimpleGrid columns={[1, 6]} spacing="30px">
                 <IconButton aria-label="previous"
+                    onClick={() => setDateRange(getDatesBack(dateRange[0] as any) as any)}
                     icon={<ChevronLeftIcon />}
                     ml={"8"}
                     shadow={"md"}
@@ -91,52 +142,15 @@ const timetable = () => {
                     borderLeftRadius="55"
                     display={{ base: "none", md: "block" }} />
 
+                <DateRangePicker firstDayOfWeek="sunday" onChange={(e) => setDateRange(getDates(e[0] || new Date()) as DateRangePickerValue)} size="lg" shadow={"md"} clearable={false} inputFormat="DD" type="button" dropdownType="modal" value={dateRange} ></DateRangePicker>
 
-                <Button id="dateButton" boxShadow="md" p="6" rounded="md"
-                    bg="white"
+                <DateRangePicker firstDayOfWeek="sunday" onChange={(e) => setDateRange(getDates(e[0] || new Date()) as DateRangePickerValue)} size="lg" shadow={"md"} clearable={false} inputFormat="MM" type="button" dropdownType="modal" value={dateRange} ></DateRangePicker>
+                <DateRangePicker firstDayOfWeek="sunday" onChange={(e) => setDateRange(getDates(e[0] || new Date()) as DateRangePickerValue)} size="lg" shadow={"md"} clearable={false} inputFormat="YYYY" type="button" dropdownType="modal" value={dateRange} ></DateRangePicker>
 
-                    onClick={calendarModal.onOpen}
-                    display={{ base: "none", md: "block" }}>
-                    <Text textAlign={["center"]}>{dateSelect.getDate()}</Text>
-                    {/* Date  */}
-                    {/* <calendar 
-                   date ={date}
-                   setDate={setDate}/> */}
-                </Button>
-                <Modal id="calendarButton"
-                    initialFocusRef={initialRef}
-                    finalFocusRef={finalRef}
-                    isOpen={calendarModal.isOpen}
-                    onClose={calendarModal.onClose}
-                >
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalCloseButton />
-                        <ModalBody pb={6}>
-                            <Flex>
-                                <FormControl mt={5}>
-                                    <Calendar
-                                        defaultActiveStartDate={dateSelect}
-                                        onChange={(dateNow: any) => {
-                                            setDateInput(dateNow)
-                                        }}
-                                    />
-                                </FormControl>
-                            </Flex>
-                        </ModalBody>
-                    </ModalContent>
-                </Modal>
-                <Button boxShadow="md" p="6" rounded="md" bg="white"
-                    onClick={calendarModal.onOpen} display={{ base: "none", md: "block" }}>
-                    {monthNames[dateSelect.getMonth()]}
-                </Button>
-                <Button boxShadow="md" p="6" rounded="md" bg="white"
-                    onClick={calendarModal.onOpen} display={{ base: "none", md: "block" }}>
-                    {dateSelect.getFullYear()}
-                </Button>
 
                 <IconButton aria-label="next"
                     ml={"8"}
+                    onClick={() => setDateRange(getDatesNext(dateRange[1] as any) as any)}
                     icon={<ChevronRightIcon />}
                     bgColor="white"
                     shadow={"md"}
@@ -144,6 +158,7 @@ const timetable = () => {
                     borderRightRadius="55"
                     borderLeftRadius="55"
                     display={{ base: "none", md: "block" }} />
+
                 <IconButton
                     onClick={modal1.onOpen}
 
@@ -158,120 +173,52 @@ const timetable = () => {
                     borderLeftRadius="55"
 
                 />
-                <AddEventModal {...{ initialRef, finalRef, modal1 }} />
-            </SimpleGrid>
-            <br />
+            </SimpleGrid>}
+            <AddEventModal {...{ initialRef, finalRef, modal1 }} />
 
-            <Box boxShadow="md" p="6" rounded="md" bg="white"
-                display={{ base: "none", md: "block" }}>
-                <Grid templateColumns="repeat(8, 1fr)" gap={2}>
-                    <h4> </h4>
-                    <h4>
-                        <Text color="#FF3939">SUN</Text>
-                    </h4>
-                    <h4>MON</h4>
-                    <h4>TUE</h4>
-                    <h4>WED</h4>
-                    <h4>THU</h4>
-                    <h4>FRI</h4>
-                    <h4>
-                        <Text color="#FF3939">SAT</Text>
-                    </h4>
-                </Grid>
-            </Box>
-            <br />
+            {isMobile && <HStack justifyContent={"space-between"}>
+                <DatePicker firstDayOfWeek="sunday" clearable={false} dropdownType="modal" value={targetDate} onChange={(e) => hadelDateChange(e)} />
+                <IconButton
+                    onClick={modal1.onOpen}
 
-            <Box boxShadow="md" p="4" rounded="md" bg="white">
-                <Text>01:00</Text>
-                <br />
-                <Divider orientation="horizontal" />
-                <Text>02:00</Text>
-                <br />
-                <Divider orientation="horizontal" />
-                <Text>03:00</Text>
-                <br />
-                <Divider />
-                <Text>04:00</Text>
-                <br />
-                <Divider />
-                <Text>05:00</Text>
-                <br />
-                <Divider />
-                <Text>06:00</Text>
-                <Box boxShadow="md" p="6" rounded="md" bg="white">
-                    <Grid templateColumns="repeat(8, 1fr)" gap={2}>
-                        <h4></h4>
-                        <h4></h4>
-                        <h4></h4>
-                        <h4></h4>
-                        <h4></h4>
-                        <h4>
-                            {/* <Box bg='#7EFF69' w='100%' p="3" color='black' onClick={() => navigate("/schedule/showEvent/")}> <>{event}</>  </Box> */}
-                            {/* onClick={detailModal.onOpen} cursor='pointer' */}
-                        </h4>
-                        <h4></h4>
-                        <h4></h4>
-                    </Grid>
-                </Box>
-                <br />
-                <Divider />
-                <Text>07:00</Text>
-                <br />
-                <Divider />
-                <Text>08:00</Text>
-                <br />
-                <Divider />
-                <Text>09:00</Text>
-                <br />
-                <Divider />
-                <Text>10:00</Text>
-                <br />
-                <Divider />
-                <Text>11:00</Text>
-                <br />
-                <Divider />
-                <Text>12:00</Text>
-                <br />
-                <Divider />
-                <Text>13:00</Text>
-                <br />
-                <Divider />
-                <Text>14:00</Text>
-                <br />
-                <Divider />
-                <Text>15:00</Text>
-                <br />
-                <Divider />
-                <Text>16:00</Text>
-                <br />
-                <Divider />
-                <Text>17:00</Text>
-                <br />
-                <Divider />
-                <Text>18:00</Text>
-                <br />
-                <Divider />
-                <Text>19:00</Text>
-                <br />
-                <Divider />
-                <Text>20:00</Text>
-                <br />
-                <Divider />
-                <Text>21:00</Text>
-                <br />
-                <Divider />
-                <Text>22:00</Text>
-                <br />
-                <Divider />
-                <Text>23:00</Text>
-                <br />
-                <Divider />
-                <Text>24:00</Text>
-                <br />
-                <Divider />
-                {/* <Grid templateColumns="repeat(8, 1fr)" gap={2}> */}
-                <h4></h4>
-                {/* this part is for edit evet modal     */}
+                    w={{ base: "38px", md: "60px" }}
+                    h={{ base: "40px", md: "62px" }}
+                    bg="#6CF5B4"
+                    //colorScheme="green"
+                    aria-label="Add event"
+                    size="sm"
+                    icon={<AddIcon color="#828282" />}
+                    borderRightRadius="55"
+                    borderLeftRadius="55"
+
+                />
+            </HStack>
+
+            }
+            <br />
+            <Box bg="white" p={5} rounded={"2xl"}  >
+                {
+                    isMobile ?
+                        <Box>
+                            <FullCalendar events={events} plugins={[timeGridPlugin]}
+                                initialView={"timeGridDay"}
+                                headerToolbar={{ right: "" }}
+                                validRange={(now) => ({ start: dateRange[0], end: dateRange[1] }) as any}
+                                initialDate={dateRange[0] as Date} />
+                        </Box>
+                        :
+                        <FullCalendar
+                            events={events}
+                            eventClick={(info) => {
+                                navigate("/schedule/showEvent/" + info.event.id)
+                            }}
+                            plugins={[timeGridPlugin]}
+                            initialView={"timeGridWeek"}
+                            headerToolbar={{ right: "" }}
+                            validRange={(now) => ({ start: dateRange[0], end: dateRange[1] }) as any}
+                            initialDate={dateRange[0] as Date} />
+                }
+
             </Box>
 
         </AppBody>
