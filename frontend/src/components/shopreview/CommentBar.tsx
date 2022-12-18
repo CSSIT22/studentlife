@@ -2,7 +2,7 @@ import { Box, Button, Center, color, Flex, Input, Stack, Textarea, useBreakpoint
 import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react"
 import API from "src/function/API"
 import { useParams } from 'react-router-dom'
-const CommentBar: React.FC<{}> = (autoFocus = false) => {
+const CommentBar: React.FC<{ }> = () => {
 
     const [Text, setText] = useState<any>("")
 
@@ -38,7 +38,7 @@ const CommentBar: React.FC<{}> = (autoFocus = false) => {
                             <Input
                                 width={"100%"}
                                 placeholder="Type your comment"
-                                autoFocus={autoFocus}
+                                // autoFocus={autoFocus}
                                 value={Text}
                                 type={"text"}
                                 onChange={e => setText(e.target.value)}
