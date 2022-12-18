@@ -76,8 +76,8 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
 
     // window.addEventListener('scroll', function () {
     //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    //         if (heartGiver.length != poll.length)
-    //             setHeartGiver(poll.slice(0, heartGiver.length + 20))
+    //         if (heartGiver.length != allHeartGiver.length)
+    //             setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 20))
     //     }
     // })
 
