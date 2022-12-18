@@ -56,7 +56,7 @@ const addHours = (date: Date): Date => {
         // console.log(img);
         
         const prisma = res.prisma
-        const existingRestaurant = await prisma.restaurant_Like_By_User.findFirst({
+        const existingRestaurant = await prisma.restaurant_Like_By_User.findMany({
             where: {
                 userId: user,
                 resId: id,

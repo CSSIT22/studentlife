@@ -5,7 +5,7 @@ const showDetail = async (req: Request, res: Response) => {
     const resid = req.query.resId + ""
     const id = parseInt(req.query.id + "")
     const userId = req.user?.userId || ""
-    var d = new Date();
+    var d = new Date()
     var dayNo = d.getDay()
     try {
         const prisma = res.prisma
@@ -23,9 +23,10 @@ const showDetail = async (req: Request, res: Response) => {
                     where: {
                         day: dayNo,
                     },
-                },userFav:{
-                    where:{userId:userId}
-                }
+                },
+                userFav: {
+                    where: { userId: userId },
+                },
             },
         })
 
