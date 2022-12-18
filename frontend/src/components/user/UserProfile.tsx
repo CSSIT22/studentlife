@@ -20,6 +20,7 @@ import { ShowFollowingModal } from "./customModal/ShowFollowingModal"
 import { userProfileButtons } from "./userProfileButton/userProfileButtons"
 import { userFriendProfileButtons } from "./userFriendProfileButton/userFriendProfileButtons"
 import FriendProfileImages from "./UserProfileImages/FriendProfileImages"
+import UserProfileImages from "./UserProfileImages/UserProfileImage"
 import UserProfileImages from "./UserProfileImages/userProfileImage"
 import API from "src/function/API"
 import { useParams } from "react-router-dom"
@@ -45,11 +46,11 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
 
     useEffect(() => {
         async function fetch() {
-            const res_follower = await API.get(`/user/profile/getFollower/${param.userId}`)
-            setFollower(res_follower.data.length)
+            const res_follower = await API.get(`/user/getFollower/${param.userId}`)
+            setFollower(res_follower.data.follower.length)
 
-            const res_following = await API.get(`/user/profile/getFollowering/${param.userId}`)
-            setFollowing(res_following.data.length)
+            const res_following = await API.get(`/user/getFollowering/${param.userId}`)
+            setFollowing(res_following.data.followering.length)
         }
 
 
