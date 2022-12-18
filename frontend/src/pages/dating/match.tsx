@@ -21,7 +21,7 @@ const DatingMatch = () => {
     let count = 1
     const [heartGiver, setHeartGiver] = useState<HeartReceiver[]>([])
     const [isError, setIsError] = useState(false)
-    const [isLoading, { off }] = useBoolean(true)
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -109,16 +109,12 @@ const DatingMatch = () => {
                         })
                     })
             })
+            API.get("/dating/matches/getMatches").then((data) => {
+                console.log(data.data)
+                setPoll(data.data)
+            }).catch(() => setIsError(true)).finally(() => setIsLoading(false))
         }
     })
-
-    useEffect(() => {
-        API.get("/dating/matches/getMatches").then((data) => {
-            console.log(data.data)
-            setPoll(data.data)
-        }).catch(() => setIsError(true)).finally(off)
-    }, [])
-
 
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
@@ -136,15 +132,9 @@ const DatingMatch = () => {
         md: true,
     })
 
-    function handleBottomBar() {
-        let bottomBar = document.getElementById("bottomBar") as HTMLInputElement
-        if (bottomBar) {
-            if (bottomBar.style.display == "none") {
-                bottomBar.style.display = "initial"
-            } else {
-                bottomBar.style.display = "none"
-            }
-        }
+    function handleChat(id: string) {
+        setIsLoading(true)
+        API.post<{ chatWith_id: string }>("/chat/createRoom", { chatWith_id: id }).then(() => navigate("/chat/"))
     }
 
     function goToProfile(userId: string) {
@@ -187,17 +177,18 @@ const DatingMatch = () => {
                     </Box>
 
                     <Box>
-                        <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 360,
-                                damping: 20,
-                            }}>
-                            <Box>
-                                {poll.map((values: any) => {
-                                    return (
+
+                        <Box>
+                            {poll.map((values: any) => {
+                                return (
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}>
                                         <Box w="100%"
                                             height={{ base: "90px", md: "100px" }}
                                             backgroundColor="white"
@@ -267,7 +258,7 @@ const DatingMatch = () => {
                                                     whileTap={{
                                                         scale: 0.8,
                                                     }}
-                                                    onClick={() => navigate("/chat/")}
+                                                    onClick={() => handleChat(values.userId)}
                                                 >
                                                     <Button
                                                         borderRadius="full"
@@ -282,10 +273,11 @@ const DatingMatch = () => {
                                                 </motion.div>
                                             </Box>
                                         </Box>
-                                    )
-                                })}
-                            </Box>
-                        </motion.div>
+                                    </motion.div>
+                                )
+                            })}
+                        </Box>
+
                     </Box>
                 </>}
 

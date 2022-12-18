@@ -156,9 +156,11 @@ const YourPoll = () => {
             })
             API.get("/dating/yourpoll/getYourPoll/" + params.pollId).then((data) => {
                 setPollInfo(data.data)
-                let pollData = data.data
-                setAllParticipants(pollData.participants)
-                setParticipants(pollData.participants.slice(0, 20))
+                if (data.data) {
+                    let pollData = data.data
+                    setAllParticipants(pollData.participants)
+                    setParticipants(pollData.participants.slice(0, 20))
+                }
             }).catch(on).finally(() => setIsLoading(false))
         }
     })
@@ -184,9 +186,10 @@ const YourPoll = () => {
 
     const handleAccept = (userId: string) => {
         if (pollInfo != undefined) {
+            let routeToGroupChat = "/chat/" + pollInfo.roomId + "/inviteToGroup"
+            API.post<{ target_id: string }>(routeToGroupChat, { target_id: userId })
             API.put<{ userId: string, pollId: string }>("/dating/yourpoll/updatePollApplicants", { userId: userId, pollId: pollInfo.pollId }).finally(() => fetch())
         }
-
 
     }
     const isMobile = useBreakpointValue({
@@ -194,7 +197,7 @@ const YourPoll = () => {
         md: true,
     })
 
-    function disableButton(id : string) {
+    function disableButton(id: string) {
         let button = document.getElementById(id) as HTMLInputElement
         button.disabled = true
     }
@@ -217,9 +220,12 @@ const YourPoll = () => {
 
     window.addEventListener('scroll', function () {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
-            if(allParticipants.length != participants.length) {
-                setParticipants(allParticipants.slice(0, participants.length + 20))
-            }
+            setParticipants(allParticipants.slice(0, participants.length + 20))
+        }
+    })
+    window.removeEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
+            setParticipants(allParticipants.slice(0, participants.length + 20))
         }
     })
 
@@ -433,7 +439,7 @@ const YourPoll = () => {
                                     border="1px solid"
                                     mr={{ base: "12px", md: "24px" }}
                                     boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    onClick={() => {handleAccept(participant.user.userId), disableButton(participant.user.userId)}}
+                                    onClick={() => { handleAccept(participant.user.userId), disableButton(participant.user.userId) }}
                                 >
                                         <Image src={CheckImg} />
                                     </Button></motion.div>}

@@ -177,24 +177,24 @@ const YouLiked = () => {
         <DatingAppBody>
             {isLoading || isError ? <>
             </> : giveToUser.length == heartGiver.length ? <><Center>
-                <Box
-                    mt={{ base: "-20px", md: "7px" }}
-                    pr="500px"
-                    pl="500px"
-                    pt={{ base: "-20px", md: "20px" }}
-                    zIndex="4"
-                    pb="30px"
-                    position="fixed"
-                    top={{ base: 20, md: 150 }}
-                    justifyContent="center"
-                    bg="#FFF2E5"
-                >
-                    <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
-                        <DatingLikedYouButton backgroundColor="orange.800" />
-                        <DatingYouLikedButton backgroundColor="orange.600" />
-                    </HStack>
-                </Box>
-            </Center><Box display="flex" justifyContent="center">
+                        <Box
+                            mt={{ base: "-20px", md: "7px" }}
+                            pr="500px"
+                            pl="500px"
+                            pt={{ base: "-20px", md: "20px" }}
+                            zIndex="4"
+                            pb="30px"
+                            position="fixed"
+                            top={{ base: 20, md: 150 }}
+                            justifyContent="center"
+                            bg="#FFF2E5"
+                        >
+                            <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
+                                <DatingLikedYouButton backgroundColor="orange.600" />
+                                <DatingYouLikedButton backgroundColor="orange.800" />
+                            </HStack>
+                        </Box>
+                    </Center><Box display="flex" justifyContent="center">
                 </Box>
                 <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
                     <motion.div
@@ -233,7 +233,7 @@ const YouLiked = () => {
 
 
                 {isMobile ? (
-                <Box mt="80px"></Box>
+                <Box mt="130px"></Box>
             ) : (
                 <Box mt="10px"></Box>
             )}

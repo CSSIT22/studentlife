@@ -50,6 +50,7 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                 pollAppointAt: true,
                 pollPlace: true,
                 isOpen: true,
+                roomId: true,
                 participants: {
                     select: {
                         isAccepted: true,
@@ -68,8 +69,8 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                         },
                         {
                             user: {
-                                fName: "asc"
-                            }
+                                fName: "asc",
+                            },
                         },
                     ],
                 },
@@ -217,6 +218,24 @@ yourPollRoutes.put("/closeAndAcceptAllYourPoll", verifyUser, async (req: Request
             data: {
                 isAccepted: true,
             },
+        })
+
+        const roomIdDB = await prisma.activity_Poll.findFirst({
+            where: {
+                pollId: pollId,
+            },
+            select: {
+                roomId: true,
+            },
+        })
+
+        let payload: any = []
+        unacceptedUserId.map((target_id) => {
+            payload.push({ roomId: roomIdDB?.roomId, userId: target_id })
+        })
+
+        await prisma.user_To_Room.createMany({
+            data: payload,
         })
 
         for (let i = 0; i < unacceptedUserId.length; i++) {

@@ -125,6 +125,7 @@ export type PollInfo = {
   pollAppointAt: any;
   pollPlace: string;
   isOpen: boolean;
+  roomId: string;
   participants: {
     isAccepted: boolean;
     user: {

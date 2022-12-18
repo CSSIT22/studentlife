@@ -1,5 +1,5 @@
 import { HeartGiver, AllInterests } from "@apiType/dating"
-import { Box, Center, HStack, SimpleGrid, Text, useBoolean, useBreakpointValue, useToast } from "@chakra-ui/react"
+import { Box, Center, HStack, SimpleGrid, Spinner, Text, useBoolean, useBreakpointValue, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingCheckDesktopDetails from "src/components/dating/DatingCheckDesktopDetails"
@@ -138,12 +138,17 @@ const LikedYou = () => {
         return didMount
     }
 
+    function lockButton(id: string) {
+        (document.getElementById(id) as HTMLInputElement).style.display = "none";
+        (document.getElementById(id + "a") as HTMLInputElement).style.display = "flex";
+    }
+
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             if (heartGiver.length != allHeartGiver.length)
                 setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 20))
@@ -152,15 +157,11 @@ const LikedYou = () => {
 
     function handleClick(type: string, UserId: string) {
         if (type == "skip") {
-            if (heartGiver.length != allHeartGiver.length && (heartGiver.length - giveToUser.length <= 20)) 
-                setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 1))
-            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/likedyou/setHeartHistory", { anotherUserId: UserId, isSkipped: true })
-            setGiveToUser(giveToUser => [...giveToUser, UserId])
+            lockButton(UserId)
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/likedyou/setHeartHistory", { anotherUserId: UserId, isSkipped: true }).catch(() => setIsError(true)).finally(() => { setGiveToUser(giveToUser => [...giveToUser, UserId]), setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 1)) })
         } else if (type == "like") {
-            if (heartGiver.length != allHeartGiver.length && (heartGiver.length - giveToUser.length <= 20)) 
-            setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 1))
-            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/likedyou/setHeartHistory", { anotherUserId: UserId, isSkipped: false })
-            setGiveToUser(giveToUser => [...giveToUser, UserId])
+            lockButton(UserId)
+            API.post<{ anotherUserId: string, isSkipped: boolean, }>("/dating/likedyou/setHeartHistory", { anotherUserId: UserId, isSkipped: false }).catch(() => setIsError(true)).finally(() => { setGiveToUser(giveToUser => [...giveToUser, UserId]), setHeartGiver(allHeartGiver.slice(0, heartGiver.length + 1)) })
         }
     }
 
@@ -168,24 +169,24 @@ const LikedYou = () => {
         <DatingAppBody>
             {isLoading || isError ? <>
             </> : giveToUser.length == heartGiver.length ? <><Center>
-                        <Box
-                            mt={{ base: "-20px", md: "7px" }}
-                            pr="500px"
-                            pl="500px"
-                            pt={{ base: "-20px", md: "20px" }}
-                            zIndex="4"
-                            pb="30px"
-                            position="fixed"
-                            top={{ base: 20, md: 150 }}
-                            justifyContent="center"
-                            bg="#FFF2E5"
-                        >
-                            <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
-                                <DatingLikedYouButton backgroundColor="orange.600" />
-                                <DatingYouLikedButton backgroundColor="orange.800" />
-                            </HStack>
-                        </Box>
-                    </Center>
+                <Box
+                    mt={{ base: "-20px", md: "7px" }}
+                    pr="500px"
+                    pl="500px"
+                    pt={{ base: "-20px", md: "20px" }}
+                    zIndex="4"
+                    pb="30px"
+                    position="fixed"
+                    top={{ base: 20, md: 150 }}
+                    justifyContent="center"
+                    bg="#FFF2E5"
+                >
+                    <HStack gap={{ base: "10px", md: "40px", lg: "40px" }} display="flex" justifyContent="center" pt="20px">
+                        <DatingLikedYouButton backgroundColor="orange.600" />
+                        <DatingYouLikedButton backgroundColor="orange.800" />
+                    </HStack>
+                </Box>
+            </Center>
 
                 <Box display="block" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "35%" }}>
                     <motion.div
@@ -224,6 +225,11 @@ const LikedYou = () => {
                         </Box>
                     </Center>
 
+                    {isMobile ? (
+                        <Box mt="130px"></Box>
+                    ) : (
+                        <Box mt="10px"></Box>
+                    )}
 
                     <Box
                         display={{ base: "grid", md: "block" }}
@@ -255,10 +261,12 @@ const LikedYou = () => {
                                                     gap={{ base: "15px", md: "30px" }}
                                                     mt={{ base: "6px", md: "12px" }}
                                                     mb={{ md: "12px" }}
+                                                    id={heartGiver.userId}
                                                 >
                                                     <DatingLikedYouCrossButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
                                                     <DatingLikedYouHeartButton isMobile={isMobile} handleClick={handleClick} UserId={heartGiver.userId} />
                                                 </HStack>
+                                                <Spinner display="none" id={heartGiver.userId + "a"} size={{ base: "md", md: "xl" }} ml={{ base: "65px", md: "80px" }} mt="20px" mb="15px" />
                                             </Box>
                                             <DatingCheckDesktopDetails
                                                 Fname={heartGiver.fName}

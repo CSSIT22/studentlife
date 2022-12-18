@@ -148,41 +148,40 @@ const YourAppliedActivityPoll = () => {
                     })
                 })
             })
+            API.get("/dating/appliedpoll/getAppliedPolls").then((data) => {
+                // setInfo(data.data)
+                setPoll(
+
+                    data.data.map((item: any) => ({
+                        ...item,
+                        ...item.poll,
+                        pollStatus: item.isAccepted ? "Accepted" : "Pending..."
+
+                        // creator: {
+                        //     ...item.poll.pollCreator,
+                        //     Fname: item.poll.pollCreator.fName,
+                        //     Lname: item.poll.pollCreator.lName,
+                        //     img: {
+                        //         type: item.poll.pollCreator.type,
+                        //         data: item.poll.pollCreator.data
+                        //     },
+                        //     url: (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item.poll.pollCreator.userId
+                        // },
+                        // participants: [
+                        //     ...item.poll.participants,
+                        // ],
+                        // interests: [
+                        //     ...item.poll.interests
+                        // ],
+                        // pollStatus: item.isAccepted ? "Accepted" : "Pending...",
+                    }))
+                )
+            }).catch(on).finally(() => setIsLoading(false))
         }
     })
 
-    useEffect(() => {
-        API.get("/dating/appliedpoll/getAppliedPolls").then((data) => {
-            // setInfo(data.data)
-            setPoll(
-
-                data.data.map((item: any) => ({
-                    ...item,
-                    ...item.poll,
-                    pollStatus: item.isAccepted ? "Accepted" : "Pending..."
-
-                    // creator: {
-                    //     ...item.poll.pollCreator,
-                    //     Fname: item.poll.pollCreator.fName,
-                    //     Lname: item.poll.pollCreator.lName,
-                    //     img: {
-                    //         type: item.poll.pollCreator.type,
-                    //         data: item.poll.pollCreator.data
-                    //     },
-                    //     url: (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item.poll.pollCreator.userId
-                    // },
-                    // participants: [
-                    //     ...item.poll.participants,
-                    // ],
-                    // interests: [
-                    //     ...item.poll.interests
-                    // ],
-                    // pollStatus: item.isAccepted ? "Accepted" : "Pending...",
-                }))
-            )
-        }).catch(on).finally(() => setIsLoading(false))
-    }, [])
     console.log(poll)
+
 
     const isMobile = useBreakpointValue({
         base: false,
@@ -356,7 +355,7 @@ const YourAppliedActivityPoll = () => {
                                             whileTap={{
                                                 scale: 0.8,
                                             }}
-                                            onClick={() => navigate("/chat/")}
+                                            onClick={() => handleChat(values.pollCreator.userId)}
                                         ><Button
                                             borderRadius="full"
                                             w={{ base: "50px", md: "72px" }}
