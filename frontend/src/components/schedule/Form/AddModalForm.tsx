@@ -45,7 +45,7 @@ const AddModalForm = () => {
             endTime: endtime,
             desc: description,
             eventTypeId: type,
-            placeId: location,
+            place: location,
             isNoti: isNoti
         }).then((res) => console.log(res))
             .catch((err => console.log("Error")))

@@ -13,7 +13,7 @@ const editEvent = async (req: Request, res: Response) => {
         endTime: req.body.endTime,
         desc: req.body.desc,
         eventTypeId: req.body.eventTypeId,
-        placeId: req.body.placeId,
+        place: req.body.place,
     }
 
     if (!req.body.eventId) {

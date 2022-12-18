@@ -42,6 +42,7 @@ export type Event = {
     // endDate: Date
     desc: string
     eventTypeId: Eventtype[]
+    place: string
 }
 
 export type Eventtype = {
@@ -66,6 +67,7 @@ export let events: Event[] = [
         // startDate: new Date(), //createDate
         // endDate: new Date(),
         eventTypeId: [{ id: "1", name: "Course" }],
+        place: "ZOOM Meeting",
     },
 ]
 
