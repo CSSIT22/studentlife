@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react"
-import { ReactElement } from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import FriendList from "../user/FriendList"
 import {
@@ -28,7 +27,6 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs"
 import { useParams, useNavigate } from "react-router-dom"
 import API from "src/function/API"
-import { user } from "../transaction/shared/testuser"
 
 export default function SimpleThreeColumns() {
     const navigate = useNavigate();
@@ -56,7 +54,7 @@ export default function SimpleThreeColumns() {
 
     useEffect(() => {
         async function fetch() {
-            const res = await API.get(`/profile/ratinguser/${param.userID}`)
+            const res = await API.get(`/user/profile/ratinguser/${param.userID}`)
             setRating(res.data.Rating)
         }
         fetch()
