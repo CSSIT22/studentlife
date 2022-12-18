@@ -22,8 +22,7 @@ const getMember = async (req: Request, res: Response) => {
                     select:{
                         userId :true,
                         image:true,
-                        fName:true,
-                        lName:true,
+                        fName:true
                     }
                 }
             },
