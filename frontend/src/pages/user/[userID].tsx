@@ -28,6 +28,7 @@ function index() {
     const [userData, setUserData] = useState<any>({})
     const [isMe, setIsMe] = useState<boolean>(false)
     const [rating, setRating] = useState<number>(0)
+    const [isLoading, setisLoading] = useState(true)
 
     // get user data
     const getCurrentExp = async () => {
@@ -51,31 +52,42 @@ function index() {
         getCurrentExp()
         getUserData()
         getUserRating()
+        setisLoading(false)
         if (user.userId === param.userID) {
             setIsMe(true)
         }
-    }, [])
+    }, [user.userId])
 
     return (
         <AppBody>
             <Box bg="orange.50">
                 <Grid
                     margin={"3"}
-                    templateAreas={{ base: `"header" "nav" "nav2"`, md: `"header header" "nav main" "nav2 footer"` }}
-                    gridTemplateColumns={{ base: "100%", md: "35% 1fr" }}
+                    templateAreas=
+                    {{
+                        base: `
+                            "header" 
+                            "nav"
+                            "nav2"`,
+                        md: `
+                        "header header"
+                        "nav main" 
+                        "nav2 footer"` }}
+
+                    gridTemplateColumns={{ base: "100%", md: "40% 1fr" }}
                     gap="1"
                     color="blackAlpha.700"
                     fontWeight="bold"
                     justifyContent="center"
                 >
                     <GridItem alignItems="center" area={"header"}>
-                        <UserProfile isMe={isMe} userData={userData} rating={rating} />
+                        {!isLoading && <UserProfile isMe={isMe} userData={userData} rating={rating} />}
                     </GridItem>
-                    <GridItem area={"nav"}>
+                    <GridItem area={"nav"} >
                         <ExpSystem exp={userExp?.exp} level={userExp?.level} />
                         <AboutMe aboutMe={userData} />
                     </GridItem>
-                    <GridItem area={{ base: "nav2", md: "main" }}>
+                    <GridItem area={{ base: "nav2", md: "main" }}  >
                         <BlogHistory />
                     </GridItem>
                 </Grid>
