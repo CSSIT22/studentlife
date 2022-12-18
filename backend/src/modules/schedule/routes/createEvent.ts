@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 
 const createEvent = async (req: Request, res: Response) => {
     const prisma = res.prisma
-    const userId = req.user?.userId
+    const userId = req.user?.userId || ""
     const body = req.body
     const eventId = req.body.eventId
 
@@ -13,7 +13,7 @@ const createEvent = async (req: Request, res: Response) => {
         console.log(body)
 
         const assignment = await prisma.assignment.create({
-            data:{
+            data: {
                 assignmentName: body.assignmentName,
                 courseId: body.courseId,
             },
@@ -37,7 +37,7 @@ const createEvent = async (req: Request, res: Response) => {
             },
         })
         const createEventType = await prisma.event_Type.create({
-            data:{
+            data: {
                 eventTypeId: body.eventTypeId,
                 eventType: body.event_Type,
             },
