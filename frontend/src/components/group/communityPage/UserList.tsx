@@ -139,14 +139,7 @@ const UserList: FC<{
     const threeDotsBtn = [
         //Manage
         [
-            {
-                //Report -> display to all
-                name: "Report",
-                icon: <TiWarning fontSize='20px' />,
-                conditions: true,
-                // to: `/groups/id/${data?.community.id}/edit`,
-                onClick: () => { }
-            },
+            
             {
                 //Ban -> display only the group's owner and admin
                 //Only owner and admin can ban

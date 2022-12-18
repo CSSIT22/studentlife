@@ -1,14 +1,42 @@
-import { Text, Box, Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger, Portal } from "@chakra-ui/react"
+import { Text, Box, Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger, Portal, useBoolean, useToast } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { BsFillFileEarmarkTextFill, BsThreeDots } from "react-icons/bs"
 import { FaDownload } from "react-icons/fa"
 import { RiDeleteBinFill } from "react-icons/ri"
+import { Link, useNavigate } from "react-router-dom"
 import API from "src/function/API"
+
 
 
 
 const FileList: FC<{ fileName: string; owner: string; type: string;fileId:string }> = ({ fileName, owner, type,fileId}) => {
 
+    const [isDownload, { off: offDownload, on: onDownload }] = useBoolean()
+    const toast = useToast()
+    async function downloadFunc(data: any, name: any, type: any) {
+        try {
+            let fileBlob = new Blob([new Uint8Array(data)], { type: type })
+            const urlCreator = window.URL || window.webkitURL
+            const blobUrl = urlCreator.createObjectURL(fileBlob)
+            const a = document.createElement("a")
+            a.download = name
+            a.href = blobUrl
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const handleDownload = async (name: string, sid: string, fid: string, event: any) => {
+        const downloadFile = await API.get(`/airdrop/file/download/${fileId}` , {
+            responseType: "arraybuffer",
+        }).then((res) => {
+            onDownload()
+            downloadFunc(res.data, name, res.headers["content-type"])
+            toast({ title: "File Downloaded", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
+        })
+    }
     const onDelete = async () => {
         
         
@@ -46,10 +74,14 @@ const FileList: FC<{ fileName: string; owner: string; type: string;fileId:string
                 <Portal>
                     <PopoverContent width="180px">
                         <PopoverBody>
-                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"}>
+                        
+                            <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"} onClick={async (e) => {
+                                handleDownload( fileName, owner, fileId, e.target)
+                            }}>
                                 <FaDownload />
                                 <Text>Download</Text>
                             </Box>
+
                             <Box gap={1} _hover={{ cursor: "pointer" }} display="flex" alignItems={"center"} //onClick={onDelete()}
                             >
                                 <RiDeleteBinFill />

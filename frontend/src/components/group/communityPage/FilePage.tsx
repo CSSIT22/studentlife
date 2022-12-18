@@ -115,7 +115,12 @@ const FilePage: FC<{
                     </Text>
                 </Flex>
                 {file &&
-                    file?.map(( item: any,index: number) => {
+                    file?.filter((item: any) => {
+                        return searchValue.toLowerCase() == ""
+                            ? item
+                            : item.file.fileName.toLowerCase().includes(searchValue)
+                    })
+                        .map(( item: any,index: number) => {
                         return (
                             <>
                                 <FileList 
