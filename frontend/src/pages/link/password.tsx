@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text, Input, InputGroup, InputRightElement } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text, Input, InputGroup, InputRightElement, Alert, AlertIcon, Toast } from "@chakra-ui/react"
 import React, { useState } from "react"
 import AppBody from "src/components/share/app/AppBody"
 import { LockIcon } from "@chakra-ui/icons"
@@ -15,13 +15,31 @@ const breakpoints = {
 // const [show, setShow] = useState(false)
 // const handleClick = () => setShow(!show)
 const password = () => {
+    const [pw1, setpw1] = useState("")
+    const [pw2, setpw2] = useState("")
     const navigate = useNavigate()
-        const complete = () => {
+    const complete = () => {
+        navigate("/link/complete")
+    }
+    const shortlink = () => {
+        navigate("/link/shortlink")
+    }
+
+    function onSend() {
+        if (pw1 == "" && pw2 == "") {
+            return (
+                <Toast title={"ยังไม่ใส่เลยไอ้สัส"} status={"error"} isClosable={true} />
+            )
+        }
+        else if (pw1 === pw2 && pw1 != "" && pw2 != "") {
             navigate("/link/complete")
         }
-        const shortlink = () => {
-            navigate("/link/shortlink")
+        else {
+            return (
+                <Toast title={"ยังไม่ใส่เลยไอ้สัส"} status={"error"} isClosable={true} />
+            )
         }
+    }
     return (
         <AppBody>
             <Center>
@@ -48,20 +66,20 @@ const password = () => {
                         <Box h="70px">
                             <Center >
 
-                                <Input type={'password'} placeholder='Create Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"}/>
+                                <Input onChange={(e) => setpw1(e.target.value)} type={'password'} placeholder='Create Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
 
 
                             </Center>
                         </Box>
                         <Box h="70px">
                             <Center >
-                                <Input type={'password'} placeholder='Confirm Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
+                                <Input onChange={(e) => setpw2(e.target.value)} type={'password'} placeholder='Confirm Password:' w={'75%'} height={"60px"} border={"4px"} borderColor={"black"} backgroundColor={"white"} />
                             </Center>
                         </Box>
                         <Box h="70px">
                             <Link>
                                 <Center>
-                                    <Button bg={ "green.400"} w={"75%"} height={"60px"} onClick={complete}>
+                                    <Button bg={"green.400"} w={"75%"} height={"60px"} onClick={onSend}>
                                         <Text as={"b"}>SAVE</Text>
                                     </Button>
                                 </Center>
@@ -70,7 +88,7 @@ const password = () => {
                             <Box h="70px">
                                 <Link>
                                     <Center>
-                                        <Button bg={"orange.600"} w={"75%"} height={"60px"}  onClick={shortlink}>
+                                        <Button bg={"orange.600"} w={"75%"} height={"60px"} onClick={shortlink}>
                                             <Text as={"b"}>Back</Text>
                                         </Button>
                                     </Center>

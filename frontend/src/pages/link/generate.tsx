@@ -140,7 +140,7 @@ const generate = () => {
                                                 <Button bg={"orange.600"} w={"100%"} mt={3} onClick={password} textColor="white">
                                                     Shortlink Password
                                                 </Button>
-                                                <Button textColor="white"
+                                                {/* <Button textColor="white"
                                                     bg={"orange.600"}
                                                     w={"100%"}
                                                     mt={3}
@@ -155,7 +155,7 @@ const generate = () => {
                                                     }
                                                 >
                                                     Shortlink Unblock
-                                                </Button>
+                                                </Button> */}
                                                 <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
                                                     Shortlink Permission
                                                 </Button>

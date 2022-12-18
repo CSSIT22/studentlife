@@ -159,7 +159,7 @@ const customize = () => {
                                             <Button bg={"orange.600"} w={"100%"} mt={3} onClick={password} textColor="white">
                                                 Shortlink Password
                                             </Button>
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} textColor="white"
+                                            {/* <Button bg={"orange.600"} w={"100%"} mt={3} textColor="white"
                                                 onClick={() =>
                                                     toast({
                                                         title: "Add Unblock features!",
@@ -172,7 +172,7 @@ const customize = () => {
                                                 }
                                             >
                                                 Shortlink Unblock
-                                            </Button>
+                                            </Button> */}
                                             <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white"> 
                                                 Shortlink Permission
                                             </Button>
