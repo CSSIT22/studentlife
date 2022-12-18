@@ -37,12 +37,15 @@ const shopId = () => {
     window.scrollTo(0, 0)
 
 
+
     const submit = () => {
         const form = new FormData();
         form.append("text", text);
         form.append("rating", rating + "");
         form.append("shopId", param.shopId + "");
-        form.append("file", files);
+        files.map((item: any) => {
+            form.append("upload", item.file)
+        })
 
         API.post("/shopreview/postmyreview",
             form,
@@ -52,31 +55,43 @@ const shopId = () => {
                 }
             }
         ).then((res) => {
-            // console.log(res)
+            console.log(res)
             window.location.reload()
         })
     }
-
     // fetch shop detail data
     useEffect(() => {
         API.get(`/shopreview/shopdetails/shop/${param.shopId}`)
             .then((res) => setDetail(res.data))
     }, [param])
+
     const [review, setReview] = useState<any>([])
     const getReview = API.get("/shopreview/getmyreviewDb")
+    //show setreview 
     useEffect(() => {
         getReview.then((res) => {
             setReview(res.data)
         })
     }, [])
+    console.log(review)
+    // const [amo_rate, setAmountRate] = useState<any>([])
+    // const getamo_rate = API.get("/shopreview/getcountRate")
+    // useEffect(() => {
+    //     getamo_rate.then((res) => {
+    //         setAmountRate(res.data)
+    //     })
+    // }, [])
+
     useEffect(() => {
         // console.log(files)
     }, [files])
     const navigate = useNavigate()
+
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
         window.scrollTo(0, 0)
     }
+
     return (
         <AppBody>
             {detail.map((item: any, index: any) => (
@@ -136,7 +151,16 @@ const shopId = () => {
             {detail.map((item: any, index: any) => (
                 <LocationShop key={index} location={item.address} phoneNumber={item.phoneNo} />
             ))}
-            <Rate />
+            <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
+                {/* {amo_rate.map((item:any, index:any) => { */}
+                <Rate ratting={"5"} background={"#FF3939"} amo_rate={"3k"} />
+                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={"2"} />
+                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={"1"} />
+                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={"55"} />
+                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={"80"} />
+                <Rate ratting={"0"} background={"#838383"} amo_rate={"26"} />
+                {/* })} */}
+            </SimpleGrid>
 
             <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
@@ -152,7 +176,7 @@ const shopId = () => {
                     if (param.shopId === item.shopId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail key={index} image={item.images[0]} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
+                                <ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
                             </b>
                         )
                     }
@@ -187,7 +211,7 @@ const shopId = () => {
                         >
                         </Textarea>
                         <Input type={"file"} id="fileInput" hidden multiple></Input>
-                        <Box
+                        {/* <Box
                             onClick={() => {
                                 document.getElementById("fileInput")?.click()
                             }}
@@ -203,7 +227,7 @@ const shopId = () => {
                                 width={"40px"}
                                 borderRadius="full"
                             />
-                        </Box>
+                        </Box> */}
                         <TempUpload files={files} setFiles={setFiles} />
 
 

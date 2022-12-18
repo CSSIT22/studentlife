@@ -1,19 +1,23 @@
 import { Request, Response } from "express"
 
-const getcountRate = async (req: Request, res: Response) => {
+const getcountReview = async (req: Request, res: Response) => {
     try {
         const id = req.params.id
         const prisma = res.prisma
         const count = await prisma.sReview_Shop.findMany({
             select: {
+                reviews: {
+                    select: {
+                        reviewId: true,
+                        rating: true,
+                        shopId: true,
+                    },
+                },
                 _count: {
                     select: {
                         reviews: true,
                     },
                 },
-            },
-            where: {
-                shopId: id,
             },
         })
         res.send(count)
@@ -22,4 +26,4 @@ const getcountRate = async (req: Request, res: Response) => {
     }
 }
 
-export default getcountRate
+export default getcountReview

@@ -33,7 +33,7 @@ const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
 }
 
-type memberType = {
+export type memberType = {
     roomId: string,
     joined: string,
     lefted: string,
