@@ -1,8 +1,10 @@
-import { FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, Text, Button, Box, HStack, useBreakpointValue } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, Text, Button, Box, HStack, useBreakpointValue, useDisclosure } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import API from 'src/function/API'
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddModalForm = () => {
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onAddClose } = useDisclosure()
     const [event, setEvent] = useState("")
     const handleInputEventChange = (e: any) => setEvent(e.target.value)
 
@@ -35,20 +37,26 @@ const AddModalForm = () => {
         return etime
     }
     const [isNoti, setIsNoti] = useState(false)
-
+    const param = useParams()
+    const navigate = useNavigate()
     const handleSubmit = () => {
         console.log(time, endtime);
-
+        onAddClose()
         API.post<Event>("/schedule/createEvent", {
             eventName: event,
             stTime: time,
             endTime: endtime,
             desc: description,
             eventTypeId: type,
-            placeId: location,
+            place: location,
             isNoti: isNoti
         }).then((res) => console.log(res))
             .catch((err => console.log("Error")))
+            .then(() => {
+                navigate({
+                    pathname: "/schedule"
+                })
+            })
         if (type == "Assignment") {
             API.post<{
                 taskName: string,
@@ -65,6 +73,7 @@ const AddModalForm = () => {
 
             }).then((res) => console.log(res))
                 .catch((err => console.log("Error")))
+
         }
 
     }
@@ -201,8 +210,14 @@ const AddModalForm = () => {
                     height="40px"
                     bg="#E65300"
                     type="submit"
-                    onClick={handleSubmit}>
-                    Add
+                    onClick={() => {
+                        onAddClose()
+                        handleSubmit()
+                    }}
+
+                // onClick={handleSubmit onAddClose()}>
+
+                >Add
                 </Button>
             </HStack>
 
