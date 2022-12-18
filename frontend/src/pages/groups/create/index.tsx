@@ -65,17 +65,18 @@ const createCommunity = () => {
         }
     }
 
+
     //Send data to backend
     const submit = () => {
+        let Privacy: any = (!communityPrivacy).toString();
         const form = new FormData()
-        let Privacy: any = !communityPrivacy.toString();
         form.append("communityName", communityName);
         form.append("communityDesc", communityDesc);
-        form.append("communityPrivacy", Privacy);
+        form.append("communityPrivacy", communityPrivacy.toString());
         form.append("communityTags", createTag);
         form.append("upload", communityCoverPhoto);
         for (var pair of form.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
+            console.log(pair[0] + ', ' + pair[1]);
         }
 
         API.post("/group/createCommunity", form, {
@@ -453,7 +454,7 @@ const createCommunity = () => {
                                                 bg={tag.isSelected ? "#444444" : "#FFFFFF"}
                                                 color={tag.isSelected ? "#FFFFFF" : "#444444"}
                                                 onClick={() => handleAddTag(tag)}
-                                                >
+                                            >
                                                 {tag.tagName}
                                             </Tag>
                                         </Tooltip>)

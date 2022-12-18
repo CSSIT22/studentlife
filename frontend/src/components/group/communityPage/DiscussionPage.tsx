@@ -43,13 +43,10 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
         console.log("data:", data)
     }, [])
 
-    useEffect(() => {
-        console.log(files)
-    }, [files])
 
     const aboutMap = [
         {
-            icon: data?.communityprivacy ?
+            icon: data?.community.privacy ?
                 <HiLockClosed fontSize='20px' /> :
                 <MdPublic fontSize='20px' />,
             title: data?.community.privacy ? 'Private community' : 'Public community',
