@@ -407,26 +407,18 @@ model Timetable {
 }
 
 model Event {
-  eventId      String       @id @default(cuid())
+  eventId      String      @id @default(cuid())
   eventName    String
   desc         String
-  placeId      String?
-  stTime       DateTime     @db.Timestamp(0)
-  endTime      DateTime     @db.Timestamp(0)
+  place        String
+  stTime       DateTime    @db.Timestamp(0)
+  endTime      DateTime    @db.Timestamp(0)
   eventTypeId  String
-  hostAt       Event_Place? @relation(fields: [placeId], references: [placeId])
   courseId     String?
-  course       Course?      @relation(fields: [courseId], references: [courseId])
+  course       Course?     @relation(fields: [courseId], references: [courseId])
   assignmentId String?
-  assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId])
+  assignment   Assignment? @relation(fields: [assignmentId], references: [assignmentId])
   // alert Schedule_Alert?
-}
-
-model Event_Place {
-  placeId  String  @id @default(cuid())
-  building String
-  room     String
-  events   Event[]
 }
 
 model Event_Type {
