@@ -110,9 +110,17 @@ const snDetail: FC<{
 
     const handleDeleteSn = () => {
         API.delete("/shortnotes/deleteShortnote/" + param.id).then(() => {
-            navigate({
-                pathname: "../shortnotes",
+        }).then(() => {
+            toast({
+                title: "Shortnote deleted",
+                description: "You've deleted the shortnote.",
+                status: 'success',
+                duration: 4000,
+                isClosable: true,
             })
+        })
+        navigate({
+            pathname: "../shortnotes",
         })
     }
 

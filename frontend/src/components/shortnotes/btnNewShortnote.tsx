@@ -164,7 +164,7 @@ const btnNewShortnote = () => {
                         }).then((res) => {
                             toast({
                                 title: "Upload success",
-                                description: "Your file has been uploaded",
+                                description: "Your shortnote has been posted",
                                 status: "success",
                                 duration: 4000,
                                 isClosable: true,
