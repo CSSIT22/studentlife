@@ -287,7 +287,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                             damping: 20,
                         }}>
                         <Text textAlign="center" mt="-20px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                            Right now, there are no activity polls.
+                            Right now, there are no activity polls. Please wait a moment.
                         </Text></motion.div>
                 </Box>)}
         </Box >
