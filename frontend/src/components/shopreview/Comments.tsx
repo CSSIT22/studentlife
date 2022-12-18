@@ -58,10 +58,10 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
                                     <Flex direction={"row"} justifyContent={"center"} alignItems={"center"}>
 
                                         <Box onClick={onOpen}>
-
                                             <DeleteIcon mr={2} />
                                             Delete
                                         </Box>
+                                        
                                     </Flex>
                                     <AlertDialog
                                         isOpen={isOpen}
