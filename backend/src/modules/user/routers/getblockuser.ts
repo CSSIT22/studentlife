@@ -9,7 +9,7 @@ const getblockuser = async (req: Request, res: Response) => {
             // include: { anotherUserId: true },
             where: {
                 userId: userId,
-                anotherUserId: req.params.userId,
+                anotherUserId: req.params.id,
             },
         })
 

@@ -11,6 +11,7 @@ import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import UserProfile from "../../components/user/UserProfile"
 
+
 // Main component
 function index() {
     const user = useContext(authContext)
@@ -21,6 +22,12 @@ function index() {
     const [isMe, setIsMe] = useState<boolean>(false)
     const [rating, setRating] = useState<number>(0)
     const [isLoading, setisLoading] = useState(true)
+    const [block, setblock] = useState(true)
+
+    const getblock = async () => {
+        const res = await API.get(`/user/profile/getblockuser/${param.userID}`)
+        setblock(res.data)
+    }
 
     // get user EXP
     const getCurrentExp = async () => {
