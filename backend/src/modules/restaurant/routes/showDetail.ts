@@ -2,13 +2,15 @@ import { Request, Response } from "express"
 import { getRestaurant } from ".."
 import { Restaurant } from "@apiType/restaurant"
 const showDetail = async (req: Request, res: Response) => {
-    const id = req.params.id
+    const resid = req.query.resId + ""
+    const id = parseInt(req.query.id + "")
+    const userId = req.user?.userId || ""
     var d = new Date()
     var dayNo = d.getDay()
     try {
         const prisma = res.prisma
         const restaurant = await prisma.restaurant.findUnique({
-            where: { resId: id },
+            where: { resId: resid },
             include: {
                 detail: true,
                 images: true,
@@ -22,12 +24,16 @@ const showDetail = async (req: Request, res: Response) => {
                         day: dayNo,
                     },
                 },
+                userFav: {
+                    where: { userId: userId },
+                },
             },
         })
 
         res.send([restaurant])
     } catch (err) {
         console.log("Error")
+        res.status(400)
     }
     // let selectedRes: Restaurant | null = null
     // getRestaurant().forEach((res) => {

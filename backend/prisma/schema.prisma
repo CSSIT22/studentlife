@@ -223,7 +223,7 @@ model Student_Post {
   score           Int               @default(0)
   seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  images          Image_Container[]
+  files           File_Container[]
   studentsReacted Student_Reacted[]
   studentsComment Post_Comment[]
   rePost          Repost[]
@@ -232,11 +232,12 @@ model Student_Post {
   communityPost   Community_Post?
 }
 
-model Image_Container {
-  imgId        String       @id @default(cuid())
+model File_Container {
+  fileId       String       @id @default(cuid())
   postId       String
-  imageAddress String
-  postImage    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  fileAddress  String
+  fileUploaded DateTime     @default(now()) @db.Timestamp(0)
+  postFile     Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Student_Reacted {
@@ -394,7 +395,6 @@ enum Module {
 
 enum Noti_Type {
   ALL
-  MENTION
   IGNORE
 }
 
@@ -1501,7 +1501,6 @@ model SReview_Review {
   text         String
   rating       Int
   likeReceived Int                    @default(0)
-  images       SReview_Review_Image[]
   reviewer     User_Profile           @relation(fields: [userId], references: [userId])
   restaurant   Restaurant?            @relation(fields: [resId], references: [resId])
   shop         SReview_Shop?          @relation(fields: [shopId], references: [shopId])
@@ -1517,13 +1516,6 @@ model SReview_Review_File {
   file     File_Info      @relation(fields: [fileId], references: [fileId])
 
   @@id([reviewId, fileId])
-}
-
-model SReview_Review_Image {
-  imageId  Int            @id @default(autoincrement())
-  reviewId String
-  image    String
-  imageOf  SReview_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
 }
 
 model SReview_Comment {
