@@ -1,4 +1,4 @@
-import { Box, Text, VStack, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Textarea, HStack, Button, Flex, Heading, useBoolean } from '@chakra-ui/react'
+import { Box, Text, VStack, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Textarea, HStack, Button, Flex, Heading, useBoolean, Toast, useToast } from '@chakra-ui/react'
 
 import React, { FC, useEffect, useState } from 'react'
 import { BsEyeFill, BsFillClockFill, BsFillPersonFill } from 'react-icons/bs'
@@ -15,7 +15,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
     const [postText, setPostText] = useState('')
     const [post, setPost] = useState<any>()
     const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
+    const [isLoading, { off, on: onLoading }] = useBoolean(true)
 
     const joinedDate = new Date(data?.user.joined || "")
     //Date format February 21, 2015. 12:00:00 AM
@@ -32,8 +32,10 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
         }
     }
     useEffect(() => {
+
         fetchPost()
         // console.log(post);
+        console.log("data:", data)
     }, [])
 
     const aboutMap = [
@@ -69,10 +71,48 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
             display: data?.user.status,
         }
     ]
+    const toast = useToast()
+    const onCreatePost = async () => {
+        try {
+            const result = await API.post("/group/createPost",
+                {
+                    postText:
+                        postText,
+                    communityID:
+                        communityID
+                })
+            console.log(result)
+            toast({
+                title: "Post created",
+                description: "Your post has been created",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+                position: 'top'
+            })
+            setPostText('')
+            fetchPost()
+        } catch (err) {
+            toast({
+                title: "Error",
+                description: "Something went wrong",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: 'top'
+            })
+            console.log(err)
+        }
+    }
+
     if (isError) return <Text>Something went wrong</Text>
     if (isLoading) return <Text>Loading...</Text>
     return (
-        <HStack position='relative' px={{ base: 'none', md: '1rem', lg: '3rem' }} >
+        <HStack
+            align='flex-start'
+            mb='4'
+            position='relative'
+            px={{ base: 'none', md: '1rem', lg: '3rem' }} >
             <VStack mt='3' mb='6' width='full' >
 
                 <Accordion maxW='580px' width='full' allowToggle>
@@ -116,6 +156,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                             />
                             <HStack justify='flex-end'>
                                 <Button
+                                    onClick={onCreatePost}
                                     color='white'
                                     bg='orange.400'
                                     size='sm'
@@ -129,61 +170,101 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                     </AccordionItem>
                 </Accordion>
 
+                {post?.post.filter((post: any) => post.isPinned == true).length > 0 ?
+                    <HStack
+                        maxW='580px'
+                        width='full'>
+                        <Text
+                            alignSelf='flex-start'
+                            shadow='md'
+                            fontSize='12px'
+                            bg='#e65300'
+                            px='2'
+                            borderRadius='md'
+                            py='0.5'
+                            color='white'
+                            as='b'
+                        >
+                            Pinned Post
+                        </Text>
+                    </HStack> : null
+                }
+                {
+                    post?.post.filter((post: any) => post.isPinned == true).map((post: any) => {
+                        return (
+                            <Post
+                                key={post.postId}
 
-                <HStack
-                    maxW='580px'
-                    width='full'>
-                    <Text
-                        alignSelf='flex-start'
-                        shadow='md'
-                        fontSize='12px'
-                        bg='#e65300'
-                        px='2'
-                        borderRadius='md'
-                        py='0.5'
-                        color='white'
-                        as='b'
-                    >
-                        Pinned Post
-                    </Text>
-                </HStack>
-                <Post
-                    likeCount={10}
-                    isPinned={false}
-                    avatar={'test'}
-                    userName='bost'
-                    userRole='Admin'
-                    isHigherPriority={true}
-                    isOwn={false}
-                    postText='อยากรู้จักก็ทิ้งเลขบัญชี แต่ถ้าอยากหอมสักทีก็ทิ้งเลขที่บ้าน'
-                />
-                <HStack
-                    maxW='580px'
-                    width='full'>
-                    <Text
-                        alignSelf='flex-start'
-                        shadow='md'
-                        fontSize='12px'
-                        bg='#e65300'
-                        px='2'
-                        borderRadius='md'
-                        py='0.5'
-                        color='white'
-                        as='b'
-                    >
-                        Post
-                    </Text>
-                </HStack>
-                <Post
-                    likeCount={10}
-                    postText="test"
-                    isPinned={false}
-                    avatar={'test'}
-                    userName='bost'
-                    userRole='Admin'
-                    isHigherPriority={true}
-                    isOwn={false}
-                />
+                                //post
+                                postId={post.id}
+                                postText={post.body}
+                                likeCount={post.score}
+                                isPinned={post.isPinned}
+                                fetchPost={fetchPost}
+
+                                //user
+                                checkid={data.user.id}
+                                checkRole={data.user.role}
+                                //member
+                                userId={post.user.id}
+                                userRole={post.user.role}
+                                userName={post.user.name}
+                                avatar={post.user.image}
+                                lastEdit={post.date}
+                                seen={post.seen}
+                            />
+                        )
+                    })
+                }
+                {
+                    post?.post.filter((post: any) => post.isPinned == false).length > 0 ?
+                        <HStack
+                            //Post
+                            maxW='580px'
+                            width='full'>
+                            <Text
+                                alignSelf='flex-start'
+                                shadow='md'
+                                fontSize='12px'
+                                bg='#e65300'
+                                px='2'
+                                borderRadius='md'
+                                py='0.5'
+                                color='white'
+                                as='b'
+                            >
+                                Post
+                            </Text>
+                        </HStack>
+                        : null}
+                {
+                    post?.post.filter((post: any) => post.isPinned == false).map((post: any) => {
+                        return (
+                            <Post
+                                key={post.postId}
+
+                                //post
+                                postId={post.id}
+                                postText={post.body}
+                                likeCount={post.score}
+                                isPinned={post.isPinned}
+                                fetchPost={fetchPost}
+
+                                //user
+                                checkid={data.user.id}
+                                checkRole={data.user.role}
+                                //member
+                                userId={post.user.id}
+                                userRole={post.user.role}
+                                userName={post.user.name}
+                                avatar={post.user.image}
+                                lastEdit={post.date}
+                                seen={post.seen}
+
+                            />
+                        )
+                    })
+                }
             </VStack >
             <VStack
                 align='flex-start'

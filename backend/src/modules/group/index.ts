@@ -21,7 +21,13 @@ import unBanMember from "./routes/community/member/unBanMember"
 import getCommunityId from "./routes/community/getCommunityId"
 import getTag from "./routes/getTag"
 import multer from "multer"
-
+import createPost from "./routes/community/post/createPost"
+import deletePost from "./routes/community/post/deletePost"
+import pinPost from "./routes/community/post/pinPost"
+import unPinPost from "./routes/community/post/unPinPost"
+import editPost from "./routes/community/post/editPost"
+import likePost from "./routes/community/post/likePost"
+import dislikePost from "./routes/community/post/dislikePost"
 const upload = multer()
 const groupRoutes = express()
 groupRoutes.use(express.json())
@@ -54,5 +60,14 @@ groupRoutes.delete("/unBanMember", unBanMember)
 groupRoutes.get("/getCommunityId/:id", getCommunityId)
 groupRoutes.get("/communityTest", communityTest)
 groupRoutes.get("/getTag", getTag)
+
+//Post
+groupRoutes.post("/createPost", createPost)
+groupRoutes.delete("/deletePost", deletePost)
+groupRoutes.post("/pinPost", pinPost)
+groupRoutes.post("/unPinPost", unPinPost)
+groupRoutes.post("/editPost", editPost)
+groupRoutes.post("/likePost", likePost)
+groupRoutes.post("/dislikePost", dislikePost)
 
 export default groupRoutes

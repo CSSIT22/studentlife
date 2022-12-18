@@ -1,111 +1,331 @@
-import { Avatar, Box, Flex, Heading, HStack, Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Text } from '@chakra-ui/react'
+import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
+import { Avatar, Badge, Box, Button, ButtonGroup, Editable, EditableInput, EditablePreview, Flex, Heading, HStack, IconButton, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Text, Textarea, useEditableControls, useToast } from '@chakra-ui/react'
 import React, { FC, useState } from 'react'
-import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai'
-import { BsThreeDots } from 'react-icons/bs'
-import { FaDownload } from 'react-icons/fa'
+import { AiFillDislike, AiFillLike, AiFillPushpin, AiOutlineDislike, AiOutlineLike, AiOutlinePushpin } from 'react-icons/ai'
+import { BsPinFill, BsThreeDots } from 'react-icons/bs'
+import { FaBan, FaDownload, FaEdit } from 'react-icons/fa'
 import { FcLike } from 'react-icons/fc'
 import { RiDeleteBinFill } from 'react-icons/ri'
+import { TiWarning } from 'react-icons/ti'
+import API from 'src/function/API'
 
-const Post: FC<{ avatar: string, userName: string, userRole: string, isOwn: boolean, isHigherPriority: boolean, isPinned: boolean, postText: string, likeCount: number }> = ({
-    avatar,
+const Post: FC<{
+    userId?: string,
+    avatar?: string,
+    userName?: string,
+    userRole?: string, //member role
+    isOwn?: boolean,
+    isHigherPriority?: boolean,
+    isPinned?: boolean,
+    postText?: string,
+    likeCount?: number,
+    communityId?: string,
+    fetchPost?: any,
+    checkRole?: any, //user role
+    postId?: string,
+    checkid?: string,
+    lastEdit?: Date,
+    seen?: boolean,
+}> = ({
     userName,
     userRole,
-    isHigherPriority,
-    isOwn,
-    isPinned,
     postText,
-    likeCount
+    likeCount,
+    userId,
+    communityId,
+    fetchPost,
+    checkRole,
+    postId,
+    checkid,
+    lastEdit,
+    isPinned,
+    seen
 }) => {
-    const [like, setLike] = useState(false)
-    const [dislike, setDislike] = useState(false)
-    const handleOnLikeClick = () => {
-        setLike(!like)
-        setDislike(false)
-    }
-    const handleOnDislikeClick = () => {
-        setDislike(!dislike)
-        setLike(false)
-    }
-    // const [unLike, setUnLike] = useState(false)
-    return (
-        <Box maxW='580px' width='full' shadow='lg' bg='white' p='4' borderRadius='md'>
-            <HStack mb='1' justify='space-between'>
-                <HStack>
-                    <Avatar size={"sm"} src={avatar} />
-                    <Text fontSize='sm' as='b'>{userName}</Text>
-                    <Text
-                        shadow='md'
-                        fontSize='12px'
-                        bg='#e65300'
-                        px='2'
-                        borderRadius='md'
-                        py='0.5'
-                        color='white'
-                        as='b'
-                    >{userRole}
-                    </Text>
-                </HStack>
-                <Popover>
-                    <PopoverTrigger>
-                        <Box _hover={{ cursor: "pointer" }} p={2} borderRadius="md">
-                            <BsThreeDots fontSize={"25px"} />
+        const [body, setBody] = useState(postText)
+        const [isEditing, setIsEditing] = useState(false)
+
+        const [like, setLike] = useState(false)
+        const [dislike, setDislike] = useState(false)
+        const handleOnLikeClick = () => {
+
+            setLike(!like)
+            setDislike(false)
+            onLike()
+
+        }
+        const handleOnDislikeClick = () => {
+            setDislike(!dislike)
+            setLike(false)
+            onDislike()
+        }
+        const toast = useToast()
+        const sendAPI = async (
+            title: string,
+            desc: string,
+            url: string,
+            method: string,
+        ) => {
+            try {
+                if (method === "POST") {
+                    await API.post(url, {
+                        postId: postId ? postId : null,
+                        communityId: communityId ? communityId : null,
+                        body: body ? body : null
+                    })
+                    fetchPost()
+                } else if (method === "DELETE") {
+                    await API.delete(url, {
+                        data: {
+                            postId: postId ? postId : null
+                        }
+                    })
+                    fetchPost()
+                }
+                toast({
+                    title: title,
+                    description: desc,
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top',
+                })
+                // fetchCommunity()
+            }
+            catch (err) {
+                toast({
+                    title: "Error",
+                    description: "Something went wrong",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top',
+                })
+            }
+        }
+        const onDeletePost = () => {
+            sendAPI(
+                "Delete post",
+                "Post deleted successfully",
+                "/group/deletePost",
+                "DELETE",
+            )
+        }
+        const onPinPost = () => {
+            sendAPI(
+                "Pin post",
+                "Post pinned successfully",
+                "/group/pinPost",
+                "POST",
+            )
+        }
+        const onUnpinPost = () => {
+            sendAPI(
+                "Unpin post",
+                "Post unpinned successfully",
+                "/group/unpinPost",
+                "POST",
+            )
+        }
+        const onEdit = () => {
+            sendAPI(
+                "Edit post",
+                "Post edited successfully",
+                "/group/editPost",
+                "POST",
+            )
+            setTimeout(() => {
+                setIsEditing(false)
+            }, 2000)
+
+        }
+        const onLike = () => {
+            sendAPI(
+                "Like post",
+                "Post liked successfully",
+                "/group/likePost",
+                "POST",
+            )
+        }
+        const onDislike = () => {
+            sendAPI(
+                "Dislike post",
+                "Post disliked successfully",
+                "/group/dislikePost",
+                "POST",
+            )
+        }
+
+
+
+        const threeDots = [
+            {
+                name: "Pin post",
+                icon: <AiFillPushpin fontSize='20px' />,
+                conditions: !isPinned && (checkRole === "OWNER" || checkRole === "ADMIN"),
+                onClick: () => onPinPost()
+            },
+            {
+                name: "Unpin post",
+                icon: <AiOutlinePushpin fontSize='20px' />,
+                conditions: isPinned && (checkRole === "OWNER" || checkRole === "ADMIN"),
+                onClick: () => onUnpinPost()
+            },
+            {
+                name: "Report",
+                icon: <TiWarning fontSize='20px' />,
+                conditions: true,
+                onClick: () => { }
+            },
+            {
+                name: "Edit",
+                icon: <FaEdit fontSize='20px' />,
+                conditions: checkRole === "OWNER"
+                    || checkid === userId
+                    || checkRole === "ADMIN",
+                onClick: () => setIsEditing(true)
+            },
+            {
+                name: "Delete",
+                icon: <RiDeleteBinFill fontSize='20px' />,
+                conditions: checkRole === "OWNER"
+                    || checkid === userId
+                    || checkRole === "ADMIN",
+                onClick: () => onDeletePost()
+            }
+        ]
+        //date format July 1, 2021 12:00 AM
+        const dateFormater = (dateValue: Date) => {
+            const date = new Date(dateValue)
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+            const formattedDate = date.toLocaleDateString('en-US', dateOptions as any)
+            const formattedTime = date.toLocaleTimeString('en-US', timeOptions as any)
+            return formattedDate + ' ' + formattedTime
+        }
+
+        return (
+            <Box width='full' maxW='580px'>
+                <Box p='4' shadow='lg' bg='white' borderRadius='md'>
+                    <HStack mb='1' justify='space-between'>
+                        <Flex>
+                            <Avatar
+                                size='sm'
+                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + userId}
+                            />
+                            <Box ml='3' lineHeight='1.2'>
+                                <Text fontSize='sm' fontWeight='bold'>
+                                    {userName}
+                                    <Badge ml='1' colorScheme='green'>
+                                        {userRole}
+                                    </Badge>
+                                </Text>
+                                <Text fontSize='xs'>{dateFormater(lastEdit || new Date())}</Text>
+                            </Box>
+                            {/* <Avatar
+                                size={"sm"}
+                                src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + userId}
+
+                            />
+                            <Text fontSize='sm' as='b'>{userName}</Text>
+                            <Badge colorScheme='red' >Default</Badge> */}
+                        </Flex>
+                        <Box>
+                            <Menu>
+                                <MenuButton>
+                                    <BsThreeDots fontSize='25px' />
+                                </MenuButton>
+                                <MenuList>
+                                    {
+                                        threeDots
+                                            .filter((item) => item.conditions)
+                                            .map((item, index) => {
+                                                return (
+                                                    <MenuItem
+                                                        key={index}
+                                                        icon={item.icon}
+                                                        onClick={item.onClick}>
+                                                        {item.name}
+                                                    </MenuItem>
+                                                )
+                                            })
+                                    }
+                                </MenuList>
+                            </Menu>
                         </Box>
-                    </PopoverTrigger>
+                    </HStack>
+                    {
+                        isEditing ? (
+                            <Textarea
+                                value={body}
+                                onChange={(e) => setBody(e.target.value)}
+                                fontSize='lg'
+                                placeholder='Write something...'
+                                autoFocus
+                                variant='unstyled'
+                            />
+                        ) : (
+                            <Text fontSize='lg'>{body}</Text>
+                        )
+                    }
 
-                    <Portal>
-                        <PopoverContent width="180px">
-                            <PopoverHeader as='b'>Manage</PopoverHeader>
-                            <PopoverBody >
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display={isHigherPriority && isPinned ? 'flex' : 'none'} alignItems={"center"}>
-                                    <FaDownload />
-                                    <Text>Unpin Post</Text>
-                                </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display={isHigherPriority && !isPinned ? 'flex' : 'none'} alignItems={"center"}>
-                                    <FaDownload />
-                                    <Text>Pin Post</Text>
-                                </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display={isOwn ? 'none' : 'flex'} alignItems={"center"}>
-                                    <RiDeleteBinFill />
-                                    <Text>Report</Text>
-                                </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display={isHigherPriority || isOwn ? 'flex' : 'none'} alignItems={"center"}>
-                                    <RiDeleteBinFill />
-                                    <Text>Edit</Text>
-                                </Box>
-                                <Box gap={1} _hover={{ cursor: "pointer" }} display={isHigherPriority || isOwn ? 'flex' : 'none'} alignItems={"center"}>
-                                    <RiDeleteBinFill />
-                                    <Text>Delete</Text>
-                                </Box>
-                            </PopoverBody>
-                        </PopoverContent>
-                    </Portal>
-                </Popover>
-            </HStack>
-            <Flex
-                flexWrap='wrap'
-                borderRadius='md'
-                // height='200px'
-                textAlign={'center'}
-                py={{ base: 9, sm: '4rem', md: '6rem' }}
-                px='8'
-                bg='#fff2e6'
-                alignItems={"center"}
-                justifyContent={"center"}
+                    {/* <Flex
+                    flexWrap='wrap'
+                    borderRadius='md'
+                    // height='200px'
+                    textAlign={'center'}
+                    py={{ base: 9, sm: '4rem', md: '6rem' }}
+                    px='8'
+                    bg='#fff2e6'
+                    alignItems={"center"}
+                    justifyContent={"center"}
 
-            >
-                <Text as='b' fontSize={{ base: 'lg', sm: '3xl' }}>{postText}</Text>
-            </Flex>
-            <Flex mt='2' alignItems='center' justifyContent='flex-start' gap='1'>
+                >
+                    <Text as='b' fontSize={{ base: 'lg', sm: '3xl' }}>
+                        {body}
+                    </Text>
+                </Flex> */}
+                    <Flex mt='2' alignItems='center' justifyContent='flex-start' gap='1'>
+                        {!like ? <AiOutlineLike color='#3388ff' size='20px' onClick={handleOnLikeClick} />
+                            : <AiFillLike color='#3388ff' size='20px' />}
+                        <Text color='#3388ff' as='b' fontSize='sm'>{likeCount}</Text>
+                        {!dislike ? <AiOutlineDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick} />
+                            : <AiFillDislike color='#ff2400' size='20px' />}
+                        {/* <Text color='#ff2400' as='b' fontSize='sm'></Text> */}
+                    </Flex>
+                </Box >
+                {
+                    isEditing ? (
+                        <HStack mt='2' justify='flex-end'>
+                            <Button
+                                onClick={() => onEdit()}
+                                disabled={!body || body === postText}
+                                // width={{ base: 'full', sm: 'auto' }}
+                                px='5'
+                                colorScheme='orange'
+                                size='sm'
+                                shadow='lg'
+                            >
+                                Save changes
+                            </Button>
+                            <Button
+                                // width={{ base: 'full', sm: 'auto' }}
+                                onClick={() => {
+                                    setIsEditing(false)
+                                    setBody(postText)
+                                }}
+                                px='5'
+                                colorScheme='red'
+                                size='sm'
+                                shadow='lg'
+                            >
+                                Cancel
+                            </Button>
+                        </HStack>)
+                        : (null)
+                }
+            </Box >
 
-                {!like ? <AiOutlineLike color='#3388ff' size='20px' onClick={handleOnLikeClick} />
-                    : <AiFillLike color='#3388ff' size='20px' onClick={handleOnLikeClick} />}
-                <Text color='#3388ff' as='b' fontSize='sm'>{likeCount}</Text>
-                {!dislike ? <AiOutlineDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick} />
-                    : <AiFillDislike color='#ff2400' size='20px' onClick={handleOnDislikeClick} />}
-                <Text color='#ff2400' as='b' fontSize='sm'>{likeCount}</Text>
-            </Flex>
-        </Box >
 
-    )
-}
+        )
+    }
 export default Post

@@ -1,10 +1,10 @@
-import { 
-    Box, 
-    Heading, 
-    HStack, 
-    Text, 
-    useBoolean, 
-    VStack, 
+import {
+    Box,
+    Heading,
+    HStack,
+    Text,
+    useBoolean,
+    VStack,
 } from "@chakra-ui/react"
 import { useState, useEffect, FC } from "react"
 import { useParams } from "react-router-dom"
@@ -121,7 +121,11 @@ const MemberPage: FC<{
 
 
     return (
-        <HStack position='relative' px={{ base: 'none', md: '1rem', lg: '3rem' }} >
+        <HStack
+            align='flex-start'
+            position='relative'
+            mb='4'
+            px={{ base: 'none', md: '1rem', lg: '3rem' }} >
             <VStack mb='4' width='100%' maxW='760px'>
                 {
                     //Map role
