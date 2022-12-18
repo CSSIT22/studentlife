@@ -27,7 +27,7 @@ const Post: FC<{
     lastEdit?: Date,
     seen?: boolean,
 }> = ({
-    userName,
+    userName = "Unknown user",
     userRole,
     postText,
     likeCount,
@@ -205,16 +205,18 @@ const Post: FC<{
 
         return (
             <Box width='full' maxW='580px'>
-                <Box p='4' shadow='lg' bg='white' borderRadius='md'>
+                <Box p='4' shadow='lg' bg={userName != ' ' ? 'white' : 'gray.100'} borderRadius='md'>
                     <HStack mb='1' justify='space-between'>
-                        <Flex>
+                        <Flex
+
+                        >
                             <Avatar
                                 size='sm'
                                 src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + userId}
                             />
                             <Box ml='3' lineHeight='1.2'>
                                 <Text fontSize='sm' fontWeight='bold'>
-                                    {userName}
+                                    {userName != ' ' ? userName : 'Anonymous'}
                                     <Badge ml='1' colorScheme='green'>
                                         {userRole}
                                     </Badge>
