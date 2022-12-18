@@ -24,9 +24,9 @@ const Historycontent: FC<{
     resName: string
     date: String
     status: boolean
-    img: Array<Image1>
+    img: string
 }> = ({ resName, date, status, img }) => {
-    // console.log(img);
+    console.log(img); 
     // console.log(status);
     // console.log(date.getTime());
     // console.log(date);
@@ -40,9 +40,9 @@ const Historycontent: FC<{
                 <Box width={"100%"} mt={"25px"} backgroundColor={"white"} p={"5"} borderRadius="lg" boxShadow={"lg"}>
                     <Flex>
                         <Box width={"30%"} ml={"1rem"}>
-                            {img?.length == 0 ? null :
-                                <Image boxSize="5rem" src={img[0].image} alt="Dan Abramov" borderRadius={"10px"} />
-                            }
+                          
+                               {img == "undefined" ? <Image boxSize="5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />} 
+                            
                         </Box>
 
                         <Box width={"60%"} height={"6rem"} color={"black"}>
@@ -70,14 +70,9 @@ const Historycontent: FC<{
                         <Heading color={"#E65D10"} fontSize="xl">
                             {resName}
                         </Heading>
-                        {img?.length == 0 ? null :
-                            <Image
-                                boxSize={"12.5rem"}
-                                // height={{ lg: "9.5rem" }}
-                                src={img[0].image}
-                                borderRadius={"10px"}
-                            />
-                        }
+                      
+                        {img == "undefined" ? <Image boxSize="12.5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="12.5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />} 
+                        
                     </Flex>
                     <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>
                         <Text>

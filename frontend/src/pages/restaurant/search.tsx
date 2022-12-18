@@ -80,7 +80,7 @@ const search = () => {
                 {search.map((e1: any) => {
                     return (
                         <GridItem>
-                            <Link to={`/restaurant/detail?resId=${e1.resId}&id=0`}>
+                            {/* <Link to={`/restaurant/detail?resId=${e1.placeId}&id=0`}> */}
 
 
 
@@ -94,7 +94,7 @@ const search = () => {
                                     link={`/restaurant/detail?resId=${e1.placeId}&id=0`}
                                     resid={e1.placeId}
                                 />
-                            </Link>
+                            {/* </Link> */}
                         </GridItem>
                     )
                 })}

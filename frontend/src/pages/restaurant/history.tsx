@@ -26,6 +26,9 @@ const history = () => {
         .finally(off)
     }, [])
 
+    // console.log(property);
+    
+
     // useEffect(() => {
     //     console.log(property);
 
@@ -85,7 +88,7 @@ const history = () => {
                     console.log(e1.upatedAt);
                     return (
                         <GridItem>
-                              <Historycontent resName={e1.restaurant.resName} date={date.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })} status={e1.isLike} img={e1.restaurant.images} />
+                              <Historycontent resName={e1.restaurant.resName} date={date.toLocaleString("th-TH", { timeZone: "Asia/Bangkok" })} status={e1.isLike} img={e1.restaurant.images[0].image} />
                         </GridItem>
                     )
                 })}

@@ -8,9 +8,15 @@ const likedRestaurant = async (req: Request, res: Response) => {
 
     // console.log(id);
 
+
+const addHours = (date: Date): Date => {
+    const result = new Date(date);
+    result.setHours(result.getHours() + 7);
+    return result;
+  };
  
         const detail = axios.get(
-            `https://maps.googleapis.com/maps/api/place/details/json?&place_id=${id}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`
+            `https://maps.googleapis.com/maps/api/place/details/json?&place_id=${id}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`
         )
         
         const detaildata = (await detail).data.result
@@ -36,10 +42,16 @@ const likedRestaurant = async (req: Request, res: Response) => {
         // console.log(closetime);
         
         // console.log(detaildata.photos)
+        let img;
 
-        const img = detaildata?.photos.map((x:any) => {
-            return {image: x.photo_reference}
-        })
+        if(detaildata?.photos == undefined) {
+          img = {image: "undefined"}
+        }
+        else{
+            img = detaildata?.photos.map((x:any) => {
+                return {image: x.photo_reference}
+            })
+        }
        
         // console.log(img);
         
@@ -90,7 +102,7 @@ const likedRestaurant = async (req: Request, res: Response) => {
                         create: {
                             userId: user,
                             isLike: like,
-                            updatedAt: new Date(),
+                            updatedAt: addHours(new Date()),
                         },
                     },
                     images: {

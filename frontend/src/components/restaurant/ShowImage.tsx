@@ -7,9 +7,11 @@ import { Image1 } from "@apiType/restaurant"
 const ShowImage: FC<{
     img: Array<Image1>
 }> = ({ img }) => {
-   console.log(img);
-   
-    if (img == undefined) {
+//    console.log(img);
+   if(img == undefined) {
+    // img[0] = "undefined"
+   }
+    if (img == undefined || img[0].image == "undefined") {
         return(
             <Swiper
             grabCursor={true}
@@ -52,7 +54,7 @@ const ShowImage: FC<{
                                 <Center>
                                     <Image
                                         borderRadius="3xl"
-                                        src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${m.image}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`}
+                                        src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${m.image}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`}
                                         width={{ base: "17rem", sm: "24rem" }}
                                         height={{ base: "23rem", sm: "19rem" }}
                                     ></Image>

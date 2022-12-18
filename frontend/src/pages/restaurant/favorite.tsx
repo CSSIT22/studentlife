@@ -88,12 +88,12 @@ function favorite() {
                                 phone={restaurant.detail?.phoneNo ?? "-"}
                                 openTime={
                                     restaurant.openAt && restaurant.closeAt && restaurant.openAt.length > 0 && restaurant.closeAt.length > 0
-                                        ? `${restaurant.openAt[0]?.open} - ${restaurant.closeAt[0]?.close}`
+                                        ? `${restaurant.openAt[0]?.open.substring(0,2)}:${restaurant.openAt[0]?.open.substring(2,4)} - ${restaurant.closeAt[0]?.close.substring(0,2)}:${restaurant.closeAt[0]?.close.substring(2,4)}`
                                         : "Closed"
                                 }
                                 website={restaurant.detail?.website ?? "-"}
-                                link={`/restaurant/detail/${restaurant.resId}`}
-                                img={restaurant.images}
+                                link={`/restaurant/detail?resId=${restaurant.resId}&id=0`}
+                                img={restaurant.images[0].image}
                                 load={load}
                             />
                         </GridItem>

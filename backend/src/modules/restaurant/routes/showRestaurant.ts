@@ -8,13 +8,13 @@ const showRestaurant = async (req: Request, res: Response) => {
    
     // console.log(radius);
     
-    const google = axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=restaurant&location=13.651215325557505,100.49407892842339&radius=${radius}&type=restaurant&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`);
+    const google = axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=restaurant&location=13.651215325557505,100.49407892842339&radius=${radius}&type=restaurant&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`);
     // console.log((await google).data);
-    console.log(((await google).data.results).length);
+    // console.log(((await google).data.results).length);
     
     const show = (await google).data.results[id]
     // console.log(show.place_id);
-    const detail = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?&place_id=${show.place_id}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`)
+    const detail = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?&place_id=${show?.place_id}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`)
     // console.log(detail.data.result);
     // console.log(detail.data.result);
     

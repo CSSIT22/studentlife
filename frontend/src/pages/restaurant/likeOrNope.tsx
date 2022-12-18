@@ -45,6 +45,25 @@ function LikeorNope() {
     //when like, it will store userId and resId
     const [radius, setradius] = useState(500);
     const [nextres, setnextres] = useState(true);
+    const [rand, setrand] = React.useState<Restaurant2[]>([])
+    // const [finish, setfinish] = useState(false);
+    const getRandom = async(id:number) => {
+        console.log(id);
+        const rand = await API.get("/restaurant/likeOrNope?radius=" + radius + `&id=${id}`)
+        const res = rand.data
+        console.log(rand.data.resId);
+        
+
+        if(!res.resId != null) {
+            console.log("เสร็จยัง" + res);
+            
+            await API.post("restaurant/likeOrNope", { id: res.resId, status: true });
+        navigate(`/restaurant/detail?resId=${res.resId}` + `&id=${id}`  + "&total=" + res.likes)
+        }
+
+    }
+    // console.log(finish);
+    
     const selectRadius = (radius: number) => {
         setradius(radius)
     }
@@ -64,17 +83,25 @@ function LikeorNope() {
 
     //Get restaurant to show on this page
     useEffect(() => {
+        navigate(`/restaurant/likeOrNope?radius=${radius}&id=${id}`)
         API.get("/restaurant/likeOrNope?radius=" + radius + `&id=${parseInt(new URLSearchParams(location.search).get("id") + "") > id ? parseInt(new URLSearchParams(location.search).get("id") + "") : id}`).then((item) => setproperty([item.data]))
             .catch((err) => on())
             .finally(off)
+            
         // API.put("restaurant/" + params.id) 
     }, [nextres])
-
+    
     const likedRestaurant = async () => {
         await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: true })
         navigate(`/restaurant/detail?resId=${property[0]?.resId}` + `&id=${id}`  + "&total=" + property[0].likes)
     }
-    console.log(radius);
+    // console.log(radius);
+
+    useEffect(() => {
+      return () => {
+        setid(0)
+      };
+    }, [radius]);
 
 
 
@@ -115,23 +142,25 @@ function LikeorNope() {
 
 
     const Nope = () => {
-        if (res < 5) {
-            setres(res + 1)
-        } else {
-            setres(0)
-        }
+        // if (res < 5) {
+        //     setres(res + 1)
+        // } else {
+        //     setres(0)
+        // }
         setcount(count + 1)
         if (count % 5 == 0) {
             return onOpen()
         }
     }
 
-    console.log(id);
+    // console.log(id);
 
     globalThis.respage = res
-    globalThis.rand = Math.floor(Math.random() * 5) + 1
+    globalThis.rand = Math.floor(Math.random() * (property[0].likes - id)+ id) 
+    // console.log(globalThis.rand);
+    
     const Random = () => {
-        setres(globalThis.rand)
+        setid(globalThis.rand)
         return onClose()
     }
     return (
@@ -149,7 +178,7 @@ function LikeorNope() {
                 {property.map((e1) => {
                     return (
                         <>
-                            <Box py={5} h="20px" mb={"40px"}>
+                            <Box py={5} >
                                 <Heading textAlign={"center"} color={"#E65300"}>
                                     {e1.resName}{" "}
                                 </Heading>
@@ -199,8 +228,13 @@ function LikeorNope() {
                                     </VStack>
                                     <ModalCloseButton />
                                     <ModalFooter justifyContent={"center"} pt="60px">
-                                        <Button colorScheme="blue" mr={3} onClick={Random} borderRadius={"5px"}>
-                                            <Link to={`/restaurant/detail/${"000" + rand}`}>Random</Link>
+                                        <Button colorScheme="blue" mr={3} onClick={() => {
+                                            Random()
+                                            getRandom(globalThis.rand)
+                                        }
+                                        } 
+                                            borderRadius={"5px"}>
+                                            Random
                                         </Button>
 
                                         <Button colorScheme="red" mr={3} onClick={onClose} borderRadius={"5px"}>

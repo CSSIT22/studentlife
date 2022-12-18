@@ -223,7 +223,7 @@ restaurantRoutes.put("/likeOrNope", addHistory)
 restaurantRoutes.post("/likeOrNope", likedRestaurant)
 restaurantRoutes.get("/detail", showDetail)
 restaurantRoutes.post("/detail", addFavorite)
-restaurantRoutes.get("/review/:id", showReview)
+restaurantRoutes.get("/review", showReview)
 // restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
 
 export default restaurantRoutes

@@ -64,12 +64,14 @@ function detail() {
 
     }, [params.detailRes])
 
+  
+
     const selectRadius = (radius: number) => {
         setradius(radius)
     }
 
     const [room, setRoom] = React.useState("")
-    console.log(room);
+    //console.log(room);
 
 
     const getRoom = API.get("/chat")
@@ -81,7 +83,7 @@ function detail() {
 
     useEffect(() => {
         property.map((el: any) => {
-            console.log(el.userFav.length)
+            //console.log(el.userFav.length)
             if (el.userFav.length == 1) {
                 setIsFavorite(true)
             } else {
@@ -93,7 +95,7 @@ function detail() {
 
 
     const addFavorite = () => {
-        API.post("/restaurant/detail/" + params.detailRes)
+        API.post("/restaurant/detail?resId=" + new URLSearchParams(location.search).get("resId"))
     }
 
     const navigate = useNavigate()
@@ -157,7 +159,7 @@ function detail() {
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
 
-                                    <CloseButton my={-4} ml={-1} onClick={() => nextres()} />
+                                    <CloseButton  my={-1} ml={-1} onClick={() => nextres()} />
 
 
                                     <Heading textAlign={"center"} fontWeight="bold" color={"#E65300"}>
@@ -183,7 +185,7 @@ function detail() {
                                                 <Icon as={AiOutlineLike} fontSize="md" /> {e1.likes} liked
                                             </Box>
                                             <Spacer />
-                                            <Link to={`/restaurant/review/${e1.resId}`}>
+                                            <Link to={`/restaurant/review?resId=${e1.resId}&id=${new URLSearchParams(location.search).get("id")}`}>
                                                 <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
                                                     <Icon as={AiOutlineComment} fontSize="md" /> Review
                                                 </Box>

@@ -15,7 +15,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         // let resData = <any>[]
-       const search = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=13.651215325557505, 100.49407892842339&query=${name}&radius=0.1&type=restaurant&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`)
+       const search = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=13.651215325557505, 100.49407892842339&query=${name}&radius=0.1&type=restaurant&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`)
        .then((res) =>   {return (res.data.results)})
     //    console.log(search);
        
@@ -23,21 +23,21 @@ const searchRestaurant = async (req: Request, res: Response) => {
 
        
        const resdata = await Promise.all(search.map(async(x:any) => {
-        const detail = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?&place_id=${x.place_id}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`)
+        const detail = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?&place_id=${x.place_id}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`)
         // const img = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${x.photos[0].photo_reference}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`)
         // console.log(img.data);
         // console.log(detail);
         
        const detaildata = detail.data
     //   console.log(detaildata.result.formatted_phone_number);
-        console.log(detaildata.result?.photos);
+        // console.log(detaildata.result?.photos);
         
         return (
             {placeId:x.place_id, name:x.name, photos:!detaildata.result?.photos ? null : detaildata.result?.photos[0]?.photo_reference, opening:detaildata.result.opening_hours, website:detaildata.result.website, phone: detaildata.result.formatted_phone_number}
             )
        }))
 
-       console.log("data!!!",resdata);
+    //    console.log("data!!!",resdata);
        
        
         // const search1 = await prisma.restaurant.findMany({
@@ -64,7 +64,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
         res.send(resdata)
     }
     catch(error){
-        console.log(error);
+        // console.log(error);
         
         res.status(400)
     }

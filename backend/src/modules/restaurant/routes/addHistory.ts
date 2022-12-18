@@ -3,6 +3,12 @@ import { Request, Response } from "express"
 const addHistory = async (req: Request, res: Response) => {
     const user = req.user?.userId || ""
     const resid = req.params.id
+
+const addHours = (date: Date): Date => {
+    const result = new Date(date);
+    result.setHours(result.getHours() + 7);
+    return result;
+  };
     try {
         const prisma = res.prisma
         const seen = await prisma.restaurant_Seen_By_User.create({
@@ -10,7 +16,7 @@ const addHistory = async (req: Request, res: Response) => {
             data: {
                 userId: user,
                 resId: resid,
-                seenAt: new Date(),
+                seenAt: addHours(new Date()),
             },
         })
 

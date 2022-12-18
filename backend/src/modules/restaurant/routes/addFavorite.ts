@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 
 const addFavorite = async (req: Request, res: Response) => {
-    const resId = req.params.id
+    const resId = req.query.resId + ""
     const userId = req.user?.userId || ""
     try {
         const prisma = res.prisma
