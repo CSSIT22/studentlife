@@ -15,19 +15,20 @@ import {
 } from "@chakra-ui/react"
 
 import { useNavigate } from "react-router-dom"
-import { ChangeProfileImageModal } from "./customModal/ChangeProfileImageModal"
 import { ShowFollowerModal } from "./customModal/ShowFollowerModal"
 import { ShowFollowingModal } from "./customModal/ShowFollowingModal"
 import { userProfileButtons } from "./userProfileButton/userProfileButtons"
 import { userFriendProfileButtons } from "./userFriendProfileButton/userFriendProfileButtons"
 import FriendProfileImages from "./UserProfileImages/FriendProfileImages"
 import UserProfileImages from "./UserProfileImages/UserProfileImage"
+import API from "src/function/API"
+import { useParams } from "react-router-dom"
 
 const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = ({ isMe, userData, rating }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [follower, setFollower] = useState<number>(0)
     const [following, setFollowing] = useState<number>(0)
-
+    const param = useParams();
     // Following Modal
     const { isOpen: isFollowingListOpen, onOpen: onFollowingListopen, onClose: onFollowingListClose } = useDisclosure()
     // Follower Modal
@@ -42,12 +43,16 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
 
-    useEffect(() =>{
-        function fetch(){
-            // fetch follower/following api 
-            setFollower(10)
-            setFollowing(10)
+    useEffect(() => {
+        async function fetch() {
+            const res_follower = await API.get(`/user/profile/getFollower/${param.userId}`)
+            setFollower(res_follower.data.length)
+
+            const res_following = await API.get(`/user/profile/getFollowering/${param.userId}`)
+            setFollowing(res_following.data.length)
         }
+
+
         fetch()
     }, [])
 
@@ -182,12 +187,9 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number }> = 
                     </Center>
                 </GridItem>
             </Grid>
-
-
-
         </Box>
     )
 }
 
-export default UserProfile
 
+export default UserProfile

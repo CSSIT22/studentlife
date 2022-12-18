@@ -36,8 +36,6 @@ userRoutes.get("/profile/edit/:id", verifyUser, getaboutmeuser)
 
 userRoutes.put("/profile/edit", editaboutmeuser)
 
-userRoutes.put("/profile/changeuserimage/:id", changeimageuser)
-
 userRoutes.put("/profile/blockuser/:id", blockuser)
 
 userRoutes.get("/profile/getblockuser/:id", getblockuser)

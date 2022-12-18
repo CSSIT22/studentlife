@@ -1,19 +1,22 @@
-import React, { useState,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import UserList from "../user/UserList"
 import { people } from "./Mock_UpData"
+import { useParams } from "react-router-dom"
+import API from "src/function/API"
 
 function FriendList() {
     const [search, setSearch] = useState("")
     const [friendList, setFriendList] = useState(people)
+    const param = useParams();
     console.log(search)
 
 
-    useEffect(() =>{
-        async function fetch(){
-            // todo fetch friend list
-            setFriendList([])
+    useEffect(() => {
+        async function fetch() {
+            const res = await API.get(`/user/profile/getFollower/${param.userId}`)
+            setFriendList(res as any)
         }
 
         fetch();
