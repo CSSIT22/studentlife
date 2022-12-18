@@ -253,7 +253,7 @@ const Post: FC<{
                         <Box>
                             <Menu>
                                 {
-                                    (checkRole === "OWNER"  || checkid === userId || checkRole === "ADMIN") ? (
+                                    (checkRole === "OWNER"  || checkid === userId || checkRole === "ADMIN" ) ? (
                                 <><MenuButton>
                                             <BsThreeDots fontSize='25px' />
                                         </MenuButton><MenuList>
@@ -262,10 +262,10 @@ const Post: FC<{
                                                     .map((item, index) => {
                                                         return (
                                                             <MenuItem
-                                                                key={index}
-                                                                icon={item.icon}
-                                                                onClick={item.onClick}>
-                                                                {item.name}
+                                                                key={ index}
+                                                                icon={ item.icon}
+                                                                onClick={ item.onClick}>
+                                                                { item.name}
                                                             </MenuItem>
                                                         )
                                                     })}
