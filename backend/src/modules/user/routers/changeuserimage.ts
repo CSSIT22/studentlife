@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 const fs = require("fs")
 const buffer = require("buffer")
-const changeuserimage = async (req: Request, res: Response) => {
+const changeimageuser = async (req: Request, res: Response) => {
     try {
         const imageData = fs.readFileSync("path/to/image/file.jpg")
         const base64ImageData = buffer.Buffer.from(imageData).toString("base64")
@@ -21,4 +21,4 @@ const changeuserimage = async (req: Request, res: Response) => {
     }
 }
 
-export default changeuserimage
+export default changeimageuser
