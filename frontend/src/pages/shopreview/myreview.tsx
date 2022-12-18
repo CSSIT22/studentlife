@@ -11,12 +11,12 @@ import Comments from "src/components/shopreview/Comments"
 
 const myreview = () => {
     const [myReviews, setMyReview] = useState<any>([])
-    // const getMyReview = API.get("/shopreview/getmyreviewDb")
-    // useEffect(() => {
-    //     getMyReview.then((res) => {
-    //         setMyReview(res.data)
-    //     })
-    // }, [])
+    const getMyReview = API.get("/shopreview/getmyreviewDb")
+    useEffect(() => {
+        getMyReview.then((res) => {
+            setMyReview(res.data)
+        })
+    }, [])
     const [myReviews2, setMyReview2] = useState<any>([])
     // const getMyReview2 = API.get("/shopreview/getmyreviewDb2")
     // useEffect(() => {
@@ -25,12 +25,12 @@ const myreview = () => {
     //     })
     // }, [])
     const [myComments, setMyComment] = useState<any>([])
-    // const getMyComment = API.get("/shopreview/getmycommentDb")
-    // useEffect(() => {
-    //     getMyComment.then((res) => {
-    //         setMyComment(res.data)
-    //     })
-    // }, [])
+    const getMyComment = API.get("/shopreview/getmycommentDb")
+    useEffect(() => {
+        getMyComment.then((res) => {
+            setMyComment(res.data)
+        })
+    }, [])
 
     const user = useContext(authContext)
     const navigate = useNavigate()
@@ -52,6 +52,24 @@ const myreview = () => {
             </Flex>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myReviews.map((item: any) => {
+                    console.log(item)
+                    if (item.reviewer.userId === user?.userId) {
+                        return (
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <Myreview
+                                    image={item.images[0]}
+                                    name={String(user?.fName) + " " + String(user?.lName)}
+                                    ment={item.text}
+                                    date={String(item.reviewedAt).substring(0, 10)}
+                                    am_like={item.likeReceived}
+                                    ratting={item.rating}
+                                    shopName="shopname"
+                                />
+                            </b>
+                        )
+                    }
+                })}
+                {/* {myReviews2.map((item: any) => {
                     if (item.userId === user?.userId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
@@ -61,37 +79,20 @@ const myreview = () => {
                                     }
                                     name={String(user?.fName) + " " + String(user?.lName)}
                                     ment={item.text}
-                                    date={item.reviewedAt}
+                                    date={String(item.reviewedAt).substring(0, 10)}
                                     am_like={item.likeReceived}
                                     ratting={item.rating}
                                 />
                             </b>
                         )
                     }
-                })}
-                {myReviews2.map((item: any) => {
-                    if (item.userId === user?.userId) {
-                        return (
-                            <b onClick={() => Navigate(item.reviewId)}>
-                                <Myreview
-                                    image={
-                                        "https://1.bp.blogspot.com/-jE186jY61HE/V89-xKtfUAI/AAAAAAAAAAo/t1SNZhfDyYYd9NW4zdWTkaNtzm316AK3ACEw/s1600/13775898_977718412347249_9051296491442397857_n%2B%25281%2529.jpg"
-                                    }
-                                    name={String(user?.fName) + " " + String(user?.lName)}
-                                    ment={item.text}
-                                    date={item.reviewedAt}
-                                    am_like={item.likeReceived}
-                                    ratting={item.rating}
-                                />
-                            </b>
-                        )
-                    }
-                })}
-
-                <Container mt={5} textAlign={"center"}>
-                    That's all for your review~
-                </Container>
-                <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
+                })} */}
+            </SimpleGrid>
+            <Container mt={5} textAlign={"center"}>
+                That's all for your review~
+            </Container>
+            <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
+            <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myComments.map((item: any) => {
                     console.log(item)
                     if (item.commentBy.userId === user?.userId) {
