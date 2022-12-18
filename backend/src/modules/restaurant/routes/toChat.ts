@@ -1,23 +1,23 @@
 import { Request, Response } from "express"
-const showReview = async (req: Request, res: Response) => {
-    const id = req.query.resId + ""
+
+const toChat = async (req: Request, res: Response) => {
+    const resid = req.params.resId
+
     try {
         const prisma = res.prisma
         const restaurant = await prisma.restaurant.findUnique({
-            where: { resId: id },
+            where: { resId: resid },
             include: {
+                detail: { select: { website:true,
+                                    vicinity:true }},
                 images: true,
-                reviews: {
-                    include: {
-                        reviewer: true,
-                    },
-                },
             },
         })
 
         res.send([restaurant])
     } catch (err) {
+        console.log("Error")
         res.status(400)
     }
 }
-export default showReview
+export default toChat

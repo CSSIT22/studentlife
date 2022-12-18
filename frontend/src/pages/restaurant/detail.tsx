@@ -12,7 +12,6 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverFooter,
     PopoverHeader,
     PopoverTrigger,
     Show,
@@ -24,77 +23,124 @@ import {
     Icon,
     Heading,
     useBoolean,
+    Radio,
+    RadioGroup,
+    SimpleGrid,
+    Stack,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
-import Searchbar from "../../../components/restaurant/searchbar"
-import AppBody from "../../../components/share/app/AppBody"
-import ShowImage from "../../../components/restaurant/ShowImage"
+import Searchbar from "../../components/restaurant/searchbar"
+import AppBody from "../../components/share/app/AppBody"
+import ShowImage from "../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
-import { useParams, useNavigate, Link } from "react-router-dom"
-import { friend } from "../data/friend"
+import { useParams, useNavigate, Link, Navigate } from "react-router-dom"
 import API from "src/function/API"
-import { a } from "@react-spring/web"
-
+import Lottie from 'lottie-react'
+import loading1 from './animation/loading1.json'
+import notloading2 from './animation/notloading2.json'
 
 function detail() {
     const { onOpen } = useDisclosure()
     const params = useParams()
-    const [numres, setnumres] = useState(params.detailRes)
-    
     const [property, setproperty] = React.useState<any>([])
-    const [isError, {on}] = useBoolean()     
-    const [isLoading, {off}] = useBoolean(false)
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const getdetail = API.get(`/restaurant/detail?resId=${new URLSearchParams(location.search).get("resId")}`)
+    const [radius, setradius] = useState(500);
 
     useEffect(() => {
-        API.get("/restaurant/detail/" + params.detailRes).
-            then((item) => setproperty(item.data))
-            // .catch((err) => on()) 
-            // .finally(off)
+        getdetail.then((item) => setproperty(item.data))
+            .catch((err) => on())
+            .finally(off)
+
     }, [params.detailRes])
 
-    console.log(property)
+    const selectRadius = (radius: number) => {
+        setradius(radius)
+    }
 
-    if (isLoading) 
-    return    (
-    <AppBody
-    secondarynav={[
-        { name: "Like or Nope", to: "/restaurant" },
-        { name: "My Favorite", to: "/restaurant/favorite" },
-        { name: "My History", to: "/restaurant/history" },
-    ]}
->
-     <Heading color={"black"}>Loading</Heading>
-    </AppBody>
-    )
+    const [room, setRoom] = React.useState<any>()
+    const [room2, setRoom2] = React.useState<any>()
 
-    if(isError) return (
-    <AppBody
+    const getRoom = API.get("/chat")
+    useEffect(() => {
+        getRoom.then((item) => setRoom(item.data))
+    }, [setRoom])
+
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
+    }
+
+    let [isFavorite, setIsFavorite] = useState(Boolean)
+
+
+    useEffect(() => {
+        property.map((el: any) => {
+            if (el.userFav.length == 1) {
+                setIsFavorite(true)
+            } else {
+                setIsFavorite(false)
+            }
+        })
+    }, [setIsFavorite, property])
+
+    const addFavorite = () => {
+        API.post("/restaurant/detail?resId=" + new URLSearchParams(location.search).get("resId"))
+    }
+
+    const navigate = useNavigate()
+    const share = () => {
+        navigate(`/chat/${room2}?resId=${new URLSearchParams(location.search).get("resId")}`)
+    }
+
+    const nextres = () => {
+        navigate(`/restaurant/likeOrNope?radius=${radius}&id=${parseInt(new URLSearchParams(location.search).get("id") + "") + 1 > parseInt(new URLSearchParams(location.search).get("total") + "") - 1 ? 0 : parseInt(new URLSearchParams(location.search).get("id") + "") + 1}`)
+    }
+
+    if (isLoading)
+        return (
+            <AppBody
+                secondarynav={[
+                    { name: "Like or Nope", to: "/restaurant" },
+                    { name: "My Favorite", to: "/restaurant/favorite" },
+                    { name: "My History", to: "/restaurant/history" },
+                ]}
+            >
+                <Box w={"100%"} h={"100%"}>
+                    <Flex justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100%"}>
+                        <Lottie animationData={loading1} style={{ scale: 1 }} />
+                    </Flex>
+                </Box>
+            </AppBody>
+        )
+
+    if (isError) return (
+        <AppBody
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-       <Heading color={"red"}> There is an Error</Heading>
-    </AppBody>
+
+            <Box width="100%" height="100%">
+                <Flex justifyContent={"center"} alignItems={"center"} width="100%" height="100%" mt={"8rem"}>
+                    <Lottie animationData={notloading2} style={{ scale: 1 }} />
+                </Flex>
+            </Box>
+        </AppBody>
     )
-   
 
-
-    const [isFavorite, setIsFavorite] = useState(false)
-    useEffect(() => {
-        console.log(isFavorite)
-    }, [isFavorite])
-    const setFavoriteStatus = () => {
-        console.log(isFavorite)
-    }
-    const addFavorite = () => {
-        API.post("/restaurant/detail/" + params.detailRes)
-    }
-    
-    console.log(property);
-    
     return (
         <AppBody
             secondarynav={[
@@ -103,7 +149,7 @@ function detail() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Searchbar />
+            <Searchbar selectRadius={selectRadius} />
             <Center w={"full"} mt={4}>
                 {property.map((e1: any) => {
 
@@ -111,9 +157,8 @@ function detail() {
                         <>
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
-                                    <Link to={`/restaurant/${numres}`}>
-                                        <CloseButton my={-4} ml={-1} />
-                                    </Link>
+
+                                    <CloseButton my={-1} ml={-1} onClick={() => nextres()} />
 
                                     <Heading textAlign={"center"} fontWeight="bold" color={"#E65300"}>
                                         {e1.resName}
@@ -138,7 +183,7 @@ function detail() {
                                                 <Icon as={AiOutlineLike} fontSize="md" /> {e1.likes} liked
                                             </Box>
                                             <Spacer />
-                                            <Link to={`/restaurant/review/${numres}`}>
+                                            <Link to={`/restaurant/review?resId=${e1.resId}&id=${new URLSearchParams(location.search).get("id")}`}>
                                                 <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
                                                     <Icon as={AiOutlineComment} fontSize="md" /> Review
                                                 </Box>
@@ -149,7 +194,7 @@ function detail() {
                                     <GridItem display={"flex"} alignItems={"center"} colSpan={{ base: 8, md: 4 }} fontWeight="600">
                                         <Box w={"full"} textAlign={"center"}>
                                             <Text color="" fontSize="md">
-                                                OPEN - CLOSE : {e1.openAt[0].open} - {e1.closeAt[0].close} <br />
+                                                OPEN - CLOSE : {e1.openAt[0]?.open == undefined ? "Unknown" : e1.openAt[0]?.open.substring(0, 2) + ":" + e1.openAt[0]?.open.substring(2, 4)}  {e1.closeAt[0]?.close == undefined ? "" : "-" + e1.closeAt[0]?.close.substring(0, 2) + ":" + e1.closeAt[0]?.close.substring(2, 4)} <br />
                                                 <Show above="md">
                                                     <br />
                                                 </Show>
@@ -184,12 +229,11 @@ function detail() {
                                             borderRadius={"full"}
                                             p={0}
                                             onClick={() => {
-                                                setIsFavorite(!isFavorite)
-                                                setFavoriteStatus
+                                                setIsFavorite(true)
                                                 addFavorite()
                                             }}
                                         >
-                                            {isFavorite ? <Icon as={AiFillHeart} w={12} h={12} /> : <Icon as={AiOutlineHeart}  w={12} h={12} />}
+                                            {isFavorite ? <Icon as={AiFillHeart} w={12} h={12} /> : <Icon as={AiOutlineHeart} w={12} h={12} />}
                                         </Button>
                                         <Spacer />
                                         <Popover placement="top">
@@ -207,7 +251,7 @@ function detail() {
                                                             py={1}
                                                             onClick={onOpen}
                                                             borderWidth={2}
-                                                            borderColor="black"
+                                                            borderColor="blackAlpha.700"
                                                         >
                                                             <Icon as={SlActionRedo} fontSize="md" mr={2} />
                                                             Share
@@ -216,49 +260,60 @@ function detail() {
                                                     <PopoverContent>
                                                         <PopoverArrow />
                                                         <PopoverCloseButton />
-                                                        <PopoverHeader textAlign={"center"}>Share</PopoverHeader>
+                                                        <PopoverHeader fontWeight='semibold' textAlign={"center"}>Share</PopoverHeader>
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                    {friend.map((f1) => {
-                                                                        return (
-                                                                            <WrapItem>
-                                                                                <Avatar as={"button"} name={f1.name} src={f1.picture} />
-                                                                            </WrapItem>
-                                                                        )
-                                                                    })}
+                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6}>
+                                                                        {room?.map((ro: any) => {
+                                                                            return (
+                                                                                <RadioGroup onChange={setRoom2} value={room2}>
+                                                                                    <Radio value={ro.room.roomId}>
+
+                                                                                        <GridItem>
+                                                                                            <Avatar name={ro.room.nick[0].nickname} src={handleImg(ro.room.nick[0].nameWho.image)} />
+                                                                                            <Center><Text fontSize={"xs"}>{ro.room.nick[0].nickname}</Text></Center>
+                                                                                        </GridItem>
+
+                                                                                    </Radio>
+                                                                                </RadioGroup>
+                                                                            )
+
+                                                                        })}
+                                                                    </Grid>
                                                                 </Wrap>
                                                             </Flex>
-                                                        </PopoverBody>
-                                                        <PopoverFooter>
-                                                            <Flex my={2}>
-                                                                <Box
-                                                                    as="button"
+
+
+                                                            <Flex my={5}>
+                                                                <Button
                                                                     bg={"green.400"}
                                                                     color="white"
                                                                     border={1}
-                                                                    borderRadius={"5px"}
+                                                                    borderRadius={"10px"}
                                                                     px={4}
                                                                     py={2}
-                                                                    onClick={onClose}
+                                                                    onClick={() => {
+                                                                        share()
+                                                                    }}
                                                                 >
                                                                     OK
-                                                                </Box>
+                                                                </Button>
                                                                 <Spacer />
-                                                                <Box
-                                                                    as="button"
+                                                                <Button
                                                                     bg={"tomato"}
                                                                     color="white"
                                                                     border={1}
-                                                                    borderRadius={"5px"}
+                                                                    borderRadius={"10px"}
                                                                     px={2}
                                                                     py={1}
                                                                     onClick={onClose}
                                                                 >
                                                                     Cancel
-                                                                </Box>
+                                                                </Button>
                                                             </Flex>
-                                                        </PopoverFooter>
+
+                                                        </PopoverBody>
                                                     </PopoverContent>
                                                 </>
                                             )}
