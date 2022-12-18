@@ -5,6 +5,7 @@ import editEvent from "./routes/editevent"
 import deleteEvent from "./routes/deleteEvent"
 import getNewEvent from "./routes/getNewEvent"
 import createTask from "./routes/createTask"
+import getCourseName from "./routes/getCourseName"
 
 const scheduleRoutes = express()
 
@@ -84,5 +85,6 @@ scheduleRoutes.post("/createEvent", createEvent)
 scheduleRoutes.post("/createTask", createTask)
 scheduleRoutes.post("/deleteEvent", deleteEvent)
 scheduleRoutes.get("/getNewEvent/:eventId", getNewEvent)
+scheduleRoutes.get("/getCourseName", getCourseName)
 
 export default scheduleRoutes

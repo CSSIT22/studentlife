@@ -1,5 +1,5 @@
 import { FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, Text, Button, Box, HStack, useBreakpointValue, useDisclosure } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import API from 'src/function/API'
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -15,13 +15,21 @@ const AddModalForm = () => {
     const handleInputLocationChange = (e: any) => setLocationInput(e.target.value)
 
     const [time, setStartTimeInput] = useState("")
-    const handleInputTimeChange = (e: any) => setStartTimeInput(e.target.value)
+    const handleInputTimeChange = (e: any) => setStartTimeInput(e.target.value + ":41.000Z")
 
     const [endtime, setEndTimeInput] = useState("")
-    const handleInputEndTimeChange = (e: any) => setEndTimeInput(e.target.value)
+    const handleInputEndTimeChange = (e: any) => setEndTimeInput(e.target.value + ":41.000Z")
 
     const [type, setType] = useState();
     const handleSelectType = (e: any) => setType(e.target.value)
+
+    const [course, setCourse] = useState<string | null>(null);
+
+    const [courses, setCourses] = useState([]);
+    // const handleInputCourseChange = (e: any) => setCourse(e.target.value)
+
+    const [assignment, setAssignment] = useState();
+    const handleInputAssignmentChange = (e: any) => setAssignment(e.target.value)
 
     const isMobile = useBreakpointValue({
         base: true,
@@ -39,6 +47,14 @@ const AddModalForm = () => {
     const [isNoti, setIsNoti] = useState(false)
     const param = useParams()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        API.get("/schedule/getCourseName/").then((res) => {
+            setCourses(res.data)
+            console.log(res.data)
+        }).catch((err) => console.log(err))
+    }, [])
+
     const handleSubmit = () => {
         console.log(time, endtime);
         onAddClose()
@@ -49,14 +65,16 @@ const AddModalForm = () => {
             desc: description,
             eventTypeId: type,
             place: location,
+            courseId: course,
+            assignmentName: assignment,
             isNoti: isNoti
         }).then((res) => console.log(res))
             .catch((err => console.log("Error")))
-            .then(() => {
-                navigate({
-                    pathname: "/schedule"
-                })
-            })
+            // .then(() => {
+            //     navigate({
+            //         pathname: "/schedule"
+            //     })
+            // })
         if (type == "Assignment") {
             API.post<{
                 taskName: string,
@@ -172,6 +190,44 @@ const AddModalForm = () => {
 
                 </FormControl>
             </Box>
+            <Box display={{ md: "flex" }}>
+                <FormControl mt={4} >
+                    <FormLabel color="black">
+                        <Text fontSize={{ base: "20px", md: "24px" }}>Assignment</Text>
+                    </FormLabel>
+                    <Input
+                        id="assignment"
+                        isRequired
+                        value={assignment}
+                        onChange={handleInputAssignmentChange}
+                        placeholder="Assignment"
+                        size="md"
+                        boxShadow="md"
+
+                    />
+                </FormControl>
+                <FormControl mt={4} >
+                    <FormLabel color="black">
+                        <Text fontSize={{ base: "20px", md: "24px" }}>Course</Text>
+                    </FormLabel>
+                    <Box>
+                        <Select placeholder="Select course"
+                            boxShadow="md"
+                            onChange={(e) => { setCourse(e.target.value) }}
+                            size='sm'>
+                            {
+                                courses.map((el: any) => (
+                                    <option value={el.courseId}>{el.courseName}</option>
+                                ))
+                            }
+
+                        </Select>
+                    </Box>
+                </FormControl>
+
+
+            </Box>
+
 
 
             <FormControl mt={4}>

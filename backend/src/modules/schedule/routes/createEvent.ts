@@ -12,20 +12,34 @@ const createEvent = async (req: Request, res: Response) => {
     try {
         console.log(body)
 
+        const assignment = await prisma.assignment.create({
+            data:{
+                assignmentName: body.assignmentName,
+                courseId: body.courseId,
+            },
+        })
         const createEvent = await prisma.event.create({
             data: {
+                userId: userId,
                 eventName: body.eventName,
                 stTime: new Date(body.stTime),
                 endTime: new Date(body.endTime),
                 desc: body.desc,
                 eventTypeId: body.eventTypeId,
                 place: body.place,
-                
+                courseId: body.courseId,
+                assignmentId: assignment.assignmentId,
             },
         })
         const eventId = await prisma.event.findFirst({
             where: {
                 eventId: body.eventId,
+            },
+        })
+        const createEventType = await prisma.event_Type.create({
+            data:{
+                eventTypeId: body.eventTypeId,
+                eventType: body.event_Type,
             },
         })
         const isNoti = req.body.isNoti
