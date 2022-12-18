@@ -190,7 +190,7 @@ const Room = () => {
                     )
                 } else if (e.messageType[0] == "RESTAURANT") {
                     return (
-                        <ResCard resId={e.message} from={e.senderId} myId={Room.userId} image={Room.nameWho.image}/>
+                        <ResCard resId={e.message} from={e.senderId} myId={Room.userId} image={Room.nameWho.image} />
                     )
                 }
             })

@@ -22,7 +22,7 @@ export type Restaurants = {
 
 const ResCard: FC<any> = (props: any) => {
     const navigate = useNavigate()
-    const { resId, from, myId ,image } = props
+    const { resId, from, myId, image } = props
     const [detail, setDetail] = useState<Restaurants[]>([])
     useEffect(() => {
         API.get(`restaurant/${resId}`).then((e) => setDetail(e.data))
@@ -31,7 +31,7 @@ const ResCard: FC<any> = (props: any) => {
     const align = isMe ? "flex-end" : "flex-start"
     function rederAvatar(e: any) {
         if (e == false) {
-            return <Avatar src={(image != null)?buffer_to_img(image.data):""} />
+            return <Avatar src={(image != null) ? buffer_to_img(image.data) : ""} />
         }
     }
     return (
@@ -45,7 +45,7 @@ const ResCard: FC<any> = (props: any) => {
                 bg={'#fafaf7'}
                 maxW={{ base: '70vh', sm: '200px' }}
                 maxH={{ base: '990vh', sm: '250px' }}
-                onClick={() => navigate(`/restaurant/${resId}`)}
+                onClick={() => window.open(`${detail[0]?.detail.website}`)}
             >
                 <Image
                     objectFit='cover'

@@ -21,7 +21,7 @@ type props = {
     name : any
 }
 
-const TextBar = ({ message, timeSent, from, color, myId, image ,name}: props) => {
+const TextBar = ({ message, timeSent, from, color, myId, image ,name }: props) => {
     const isMe = from === myId
     const align = isMe ? "flex-end" : "flex-start"
     const bottomRradius = isMe ? 0 : 32
