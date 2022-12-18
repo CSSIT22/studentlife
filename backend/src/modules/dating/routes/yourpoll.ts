@@ -62,9 +62,16 @@ yourPollRoutes.get("/getYourPoll/:pollId", verifyUser, async (req: Request, res:
                             },
                         },
                     },
-                    orderBy: {
-                        registerTime: "desc",
-                    },
+                    orderBy: [
+                        {
+                            registerTime: "desc",
+                        },
+                        {
+                            user: {
+                                fName: "asc"
+                            }
+                        },
+                    ],
                 },
                 interests: {
                     select: {
@@ -212,7 +219,7 @@ yourPollRoutes.put("/closeAndAcceptAllYourPoll", verifyUser, async (req: Request
             },
         })
 
-        for(let i = 0; i < unacceptedUserId.length; i++) {
+        for (let i = 0; i < unacceptedUserId.length; i++) {
             await calExp(prisma, req.user?.userId || "", "DatingPollJoinActivity")
         }
 

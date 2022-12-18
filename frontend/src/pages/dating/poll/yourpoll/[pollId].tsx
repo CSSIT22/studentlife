@@ -42,6 +42,31 @@ const YourPoll = () => {
     // const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
 
     const [pollInfo, setPollInfo] = useState<PollInfo>()
+    const [allParticipants, setAllParticipants] = useState<{
+        isAccepted: boolean;
+        user: {
+            userId: string;
+            fName: string;
+            lName: string;
+            image: {
+                type: string;
+                data: number[];
+            };
+        };
+    }[]>([])
+    const [participants, setParticipants] = useState<{
+        isAccepted: boolean;
+        user: {
+            userId: string;
+            fName: string;
+            lName: string;
+            image: {
+                type: string;
+                data: number[];
+            };
+        };
+    }[]>([])
+
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -131,9 +156,21 @@ const YourPoll = () => {
             })
             API.get("/dating/yourpoll/getYourPoll/" + params.pollId).then((data) => {
                 setPollInfo(data.data)
+                let pollData = data.data
+                setAllParticipants(pollData.participants)
+                setParticipants(pollData.participants.slice(0, 20))
             }).catch(on).finally(() => setIsLoading(false))
         }
     })
+
+    function fetch() {
+        API.get("/dating/yourpoll/getYourPoll/" + params.pollId).then((data) => {
+            setPollInfo(data.data)
+            let pollData = data.data
+            setAllParticipants(pollData.participants)
+            setParticipants(pollData.participants.slice(0, participants.length))
+        })
+    }
 
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
@@ -147,26 +184,7 @@ const YourPoll = () => {
 
     const handleAccept = (userId: string) => {
         if (pollInfo != undefined) {
-            API.put<{ userId: string, pollId: string }>("/dating/yourpoll/updatePollApplicants", { userId: userId, pollId: pollInfo.pollId })
-            let updatedPollInfo = pollInfo?.participants.map((participant) => {
-                if (participant.user.userId == userId) {
-                    return { ...participant, isAccepted: !participant.isAccepted }
-                }
-                return participant;
-            })
-
-            setPollInfo({
-                pollCreator: pollInfo.pollCreator,
-                pollId: pollInfo.pollId,
-                pollName: pollInfo.pollName,
-                pollText: pollInfo.pollText,
-                participantMin: pollInfo.participantMin,
-                participantMax: pollInfo.participantMax,
-                pollAppointAt: pollInfo.pollAppointAt,
-                pollPlace: pollInfo.pollPlace,
-                isOpen: pollInfo.isOpen,
-                interests: pollInfo.interests, participants: updatedPollInfo
-            })
+            API.put<{ userId: string, pollId: string }>("/dating/yourpoll/updatePollApplicants", { userId: userId, pollId: pollInfo.pollId }).finally(() => fetch())
         }
 
 
@@ -175,6 +193,11 @@ const YourPoll = () => {
         base: false,
         md: true,
     })
+
+    function disableButton(id : string) {
+        let button = document.getElementById(id) as HTMLInputElement
+        button.disabled = true
+    }
 
     function handleBottomBar() {
         let bottomBar = document.getElementById("bottomBar") as HTMLInputElement
@@ -191,6 +214,14 @@ const YourPoll = () => {
         setIsLoading(true)
         API.post<{ chatWith_id: string }>("/chat/createRoom", { chatWith_id: id }).then(() => navigate("/chat/"))
     }
+
+    window.addEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
+            if(allParticipants.length != participants.length) {
+                setParticipants(allParticipants.slice(0, participants.length + 20))
+            }
+        }
+    })
 
     const [isError, { on }] = useBoolean()
     const [isLoading, setIsLoading] = useState(true)
@@ -310,7 +341,7 @@ const YourPoll = () => {
                     </Heading></motion.div> : <></>}
 
 
-                {pollInfo?.participants.map((participant) => (
+                {participants.map((participant) => (
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -402,7 +433,7 @@ const YourPoll = () => {
                                     border="1px solid"
                                     mr={{ base: "12px", md: "24px" }}
                                     boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                    onClick={() => handleAccept(participant.user.userId)}
+                                    onClick={() => {handleAccept(participant.user.userId), disableButton(participant.user.userId)}}
                                 >
                                         <Image src={CheckImg} />
                                     </Button></motion.div>}
