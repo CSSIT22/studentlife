@@ -26,7 +26,6 @@
         "localforage": "^1.10.0",
         "lottie-react": "^2.3.1",
         "match-sorter": "^6.3.1",
-        "multer": "^1.4.5-lts.1",
         "react": "^18.2.0",
         "react-calendar": "^4.0.0",
         "react-dom": "^18.2.0",
@@ -44,8 +43,6 @@
         "vite-tsconfig-paths": "^3.5.2"
     },
     "devDependencies": {
-        "@types/multer": "^1.4.7",
-        "@types/node": "^18.11.15",
         "@types/react": "^18.0.17",
         "@types/react-calendar": "^3.9.0",
         "@types/react-dom": "^18.0.6",
