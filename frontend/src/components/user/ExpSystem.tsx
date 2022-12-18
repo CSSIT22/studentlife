@@ -1,27 +1,6 @@
-import { useState, useEffect } from "react"
-import { VStack, Flex, Heading, Box, Text, Progress, Stack } from "@chakra-ui/react"
-import API from "src/function/API"
-import { useParams } from "react-router-dom"
+import { Flex, Text, Progress, Stack } from "@chakra-ui/react"
 
-
-
-function ExpSystem() {
-    const param = useParams();
-    const [currentExp, setCurrentExp] = useState<number>(0)
-    const [level, setlevel] = useState<number>(0)
-
-
-    useEffect(() => {
-        async function fetch() {
-            const res = await API.get(`/user/profile/exp/${param.userID}`)
-            setCurrentExp(res.data.exp)
-            setlevel(res.data.level)
-        }
-        fetch()
-    }, [])
-
-
-
+const ExpSystem: React.FC<{ exp: number, level: number }> = ({ exp, level }) => {
 
     return (
         <div>
@@ -35,13 +14,13 @@ function ExpSystem() {
                     </Text>
                 </Stack>
 
-                <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={currentExp / 1000} />
+                <Progress mx="3" rounded="xl" position="initial" colorScheme="orange" color="gray.400" size="md" value={exp / 1000} />
                 <Stack direction="row" alignContent="center" ml="5" mb="5" mt={1} spacing={1}>
                     <Text color="black" fontSize="md" fontWeight="500">
                         EXP :
                     </Text>
                     <Text color="black" fontSize="md" fontWeight="500">
-                        {currentExp % 1000}
+                        {exp % 1000}
                     </Text>
                     <Text color="black" fontSize="md" fontWeight="500">
                         /

@@ -1,20 +1,6 @@
-import { useState, useEffect } from "react"
 import { Box, Flex, Text, SimpleGrid, Stack } from "@chakra-ui/react"
-import API from "src/function/API"
 
-const AboutMe = () => {
-
-    const [aboutme, setAboutMe] = useState<any>()
-
-    async function fetch() {
-        const res = await API.get("/user/profile/aboutme")
-        setAboutMe(res.data.aboutMeData)
-    }
-
-    useEffect(() => {
-        fetch()
-    }, [])
-
+const AboutMe: React.FC<{ aboutMe: any }> = ({ aboutMe }) => {
     return (
         <div>
             <Flex rounded="xl" direction="column" my={4} mx={4} bg="white" position="initial" shadow={"lg"}>
@@ -27,7 +13,7 @@ const AboutMe = () => {
                             PHONE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {aboutme?.phone}
+                            {aboutMe?.phone}
                         </Text>
                         {/* <Text color="orange.700" fontSize="md" fontWeight="500">
                             AGE
@@ -39,25 +25,25 @@ const AboutMe = () => {
                             SEX
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {aboutme?.sex}
+                            {aboutMe?.sex}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             HOBBIES
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {aboutme?.hobby}
+                            {aboutMe?.hobby}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             BIRTHDATE
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {new Date(aboutme?.birth).toString().substring(0, 15)}
+                            {new Date(aboutMe?.birth).toString().substring(0, 15)}
                         </Text>
                         <Text color="orange.700" fontSize="md" fontWeight="500">
                             YEARS
                         </Text>
                         <Text color="black" fontSize="lg" fontWeight="700">
-                            {aboutme?.year}
+                            {aboutMe?.year}
                         </Text>
                     </SimpleGrid>
                     <Stack direction={{ base: "column", lg: "row" }} mt="5" spacing={{ md: "5", base: "2" }}>
@@ -65,7 +51,7 @@ const AboutMe = () => {
                             ADDRESS
                         </Text>
                         <Text mb="5" color="black" fontSize="lg" fontWeight="700">
-                            {aboutme?.address}
+                            {aboutMe?.address}
                         </Text></Stack>
 
                 </Box>
