@@ -7,6 +7,7 @@ import DatingRatingAllStar from "src/components/dating/DatingRatingAllStar"
 import API from "src/function/API"
 import { FollowDetail, RateFollow } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
+import { Link } from "react-router-dom"
 
 
 const Rating = () => {
@@ -69,20 +70,22 @@ const Rating = () => {
                     <Box >
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
                             <Flex>
-                                {values.scoreReceiver.image ?
-                                    <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.anotherUserId}
-                                        alt={values.scoreReceiver.fName + " " + values.scoreReceiver.lName}
-                                    /> : <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={NoProfileImg}
-                                        alt={values.scoreReceiver.fName + " " + values.scoreReceiver.lName}
-                                    />}
+                                <Link to={"/user/" + values.anotherUserId}>
+                                    {values.scoreReceiver.image ?
+                                        <Image
+                                            borderRadius="full"
+                                            boxSize="78px"
+                                            objectFit="cover"
+                                            src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.anotherUserId}
+                                            alt={values.scoreReceiver.fName + " " + values.scoreReceiver.lName}
+                                        /> : <Image
+                                            borderRadius="full"
+                                            boxSize="78px"
+                                            objectFit="cover"
+                                            src={NoProfileImg}
+                                            alt={values.scoreReceiver.fName + " " + values.scoreReceiver.lName}
+                                        />}
+                                </Link>
                                 <Center>
                                     <Text ml="30px" fontSize="20px">
                                         {values.scoreReceiver.fName}

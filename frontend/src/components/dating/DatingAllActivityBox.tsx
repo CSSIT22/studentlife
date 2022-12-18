@@ -110,16 +110,17 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                     return (
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                             <Flex>
-                                <Image
-                                    borderRadius="full"
-                                    boxSize="78px"
-                                    objectFit="cover"
-                                    src={values.pollCreator.image ?
-                                        (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
-                                        :
-                                        NoProfileImg
-                                    }
-                                />
+                                <Link to={"/user/" + values.pollCreator.userId}>
+                                    <Image
+                                        borderRadius="full"
+                                        boxSize="78px"
+                                        objectFit="cover"
+                                        src={values.pollCreator.image ?
+                                            (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
+                                            :
+                                            NoProfileImg
+                                        }
+                                    /></Link>
                                 <Center>
                                     <Text ml="30px" fontSize="20px">
                                         {values.pollCreator.fName}

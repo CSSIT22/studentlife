@@ -85,7 +85,7 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                         }}>
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                             <Flex>
-                                <Link to={""}>
+                                <Link to={"/user/" + values.pollCreator.userId}>
                                     <Image
                                         borderRadius="full"
                                         boxSize="78px"
