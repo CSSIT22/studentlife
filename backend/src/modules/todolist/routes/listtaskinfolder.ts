@@ -1,18 +1,16 @@
 import { Request, Response } from "express"
 
-const listtask = async (req: Request, res: Response) => {
+const listtaskinfolder = async (req: Request, res: Response) => {
     const prisma = res.prisma
     const body = req.body
     const userid = req.user?.userId
-    let result
+    let tasks
     if (body.orderBy == "complete" || body.orderBy == "incomplete") {
-        // result = await prisma.$queryRawUnsafe(
-        //     `SELECT * FROM "Task" LEFT JOIN "Task_Check" ON "Task"."taskId" = "Task_Check"."taskId" WHERE "Task"."userId"=$1 AND "Task_Check"."isCheck" = $2`,
-        //     userid,
-        //     body.orderBy == "complete"
-        // )
-        result = await prisma.task_Check.findMany({
+        tasks = await prisma.task_Check.findMany({
             where: {
+                taskCheck: {
+                    folderId: body.folderId,
+                },
                 userId: {
                     equals: userid,
                 },
@@ -23,7 +21,7 @@ const listtask = async (req: Request, res: Response) => {
             },
         })
     } else {
-        result = await prisma.task_Check.findMany({
+        tasks = await prisma.task_Check.findMany({
             orderBy: [
                 {
                     taskCheck: {
@@ -32,9 +30,13 @@ const listtask = async (req: Request, res: Response) => {
                 },
             ],
             where: {
-                userId: {
-                    equals: userid,
+                taskCheck: {
+                    folderId: body.folderId,
                 },
+                userId: userid,
+                // userId: {
+                //     equals: userid,
+                // },
             },
             include: {
                 taskCheck: true,
@@ -42,7 +44,16 @@ const listtask = async (req: Request, res: Response) => {
         })
     }
 
-    res.json(result)
+    const folderInfo = await prisma.task_Folder.findFirst({
+        where: {
+            folderId: body.folderId,
+        },
+    })
+
+    res.json({
+        tasks: tasks,
+        folderInfo: folderInfo,
+    })
 }
 
-export default listtask
+export default listtaskinfolder
