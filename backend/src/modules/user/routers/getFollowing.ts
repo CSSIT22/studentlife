@@ -4,15 +4,14 @@ const getFollowing = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.user ? req.user.userId : ""
-        const followering = await prisma.follow.findMany({
+        const following = await prisma.follow.findMany({
             include: { follower: true },
             where: {
                 userId: userId,
             },
         })
 
-        // res.status(200).json({ user: profile }) ss
-        res.status(200).json({ followering })
+        res.status(200).json({ following })
     } catch (err) {
         return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
     }
