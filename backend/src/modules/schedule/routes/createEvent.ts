@@ -19,7 +19,7 @@ const createEvent = async (req: Request, res: Response) => {
                 endTime: new Date(body.endTime),
                 desc: body.desc,
                 eventTypeId: body.eventTypeId,
-                placeId: body.placeId,
+                place: body.place,
                 
             },
         })

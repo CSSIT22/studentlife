@@ -57,7 +57,7 @@ const showEvent = () => {
 
     return (
         <AppBody>
-            
+
             <IconButton aria-label="previous"
                 icon={<ChevronLeftIcon />}
                 onClick={() => navigate("/schedule/")}
@@ -66,7 +66,7 @@ const showEvent = () => {
                 borderLeftRadius="55" />
             <br />
             <Box boxShadow="md" p="6" rounded="md" bg="white" mt={"6"} >
-                <Text textAlign={["center"]} fontSize="5xl" color={"#000000"} >
+                <Text textAlign={["center"]} fontSize={{ md: "5xl", base: "xl" }} color={"#000000"} >
                     {event.eventName}
                 </Text>
             </Box>
@@ -95,20 +95,20 @@ const showEvent = () => {
                 <Box boxShadow="md" p="6" rounded="md" bg="white" w={{ md: "283px" }} h={{ md: "102px" }}>
                     <Text textAlign={["left"]} color="#858585"> Location </Text>
                     <Text textAlign={["center"]} fontSize="2xl" color={"#000000"}>
-                        {event.placeId}
+                        {event.place}
                     </Text>
                 </Box>
             </SimpleGrid>
-            <Box display="flex" backgroundColor="yellow" mt="6">
+            <Box display="flex" mt="6" ml={{ base: "20", md: "1" }}>
                 <Button id="editEvent"
                     onClick={modal2.onOpen}
                     bg="gray"
                     colorScheme="white"
-                    
+
                     bgColor="#E1AB20">
                     Edit
                 </Button>
-                <EditEventModal {...{ modal2 }} />
+                <EditEventModal {...{ modal2 }} eventId={param.eventId} />
                 {/* this part is for delete modal */}
                 <Button id="deleteEvent" onClick={modal3.onOpen} bgColor="#D92445" colorScheme="white" ml={"25"}>
                     Delete
@@ -130,20 +130,17 @@ const showEvent = () => {
                             <Text textAlign={["center"]} fontSize="sm">
                                 You might not be able to recover it back.
                             </Text>
-                            <Button variant="ghost" bg="#38A169" onClick={() => {
+                            <Box pr="3">
+                                <Button variant="ghost" bg="#38A169" onClick={() => {
                                 onDeleteClose()
                                 deleteEvent(event.eventId)
-                                // toast({
-                                //     title: 'Event Deleted.',
-                                //     desciption: "Event " + event.eventId + " deleted successfully",
-                                //     status: 'success',
-                                //     duration: 9000,
-                                //     isClosable: true,
-                                // })
+                                
                             }}>
                                 <Text color="white">Yes</Text>
                             </Button>
-                            <Button bg="#E53E3E" mr={3} onClick={modal3.onClose}>
+                            </Box>
+                            
+                            <Button bg="#E53E3E" pl="3" onClick={modal3.onClose}>
                                 <Text color="white">No</Text>
                             </Button>
                         </ModalBody>

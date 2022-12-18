@@ -5,7 +5,8 @@ import EditEventForm from '../Form/editEventForm'
 
 const editEventModal: FC<{
     modal2: any
-}> = ({ modal2 }) => {
+    eventId: any
+}> = ({ modal2, eventId }) => {
     const isMobile = useBreakpointValue({
         base: true,
         md: false,
@@ -22,7 +23,7 @@ const editEventModal: FC<{
                 </ModalHeader>
                 {isMobile ? <></> : <ModalCloseButton />}
                 <ModalBody>
-                    <EditEventForm />
+                    <EditEventForm eventId={eventId} />
                 </ModalBody>
                 <ModalFooter>
 
