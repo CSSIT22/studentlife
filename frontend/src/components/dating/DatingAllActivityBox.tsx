@@ -18,7 +18,7 @@ declare global {
 }
 
 // Component of all activity page
-const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, userId }) => {
+const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch: () => void }> = ({ poll, userId, fetch }) => {
     const params = useParams()
     // const [poll, setPoll] = useState(POLL)
 
@@ -44,9 +44,9 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
             API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now, pollCreaterId: pollCreaterId, pollName: pollName })
                 .catch((err) => console.log(err))
                 .finally(() =>
-                    setTimeout(() => {
+                    {setTimeout(() => {
                         setcc(false)
-                    }, 1400))
+                    }, 1400), fetch()})
             // (appiled(pId),
             //     toast({
             //         title: "Applied success",

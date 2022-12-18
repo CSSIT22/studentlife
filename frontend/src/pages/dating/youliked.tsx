@@ -207,7 +207,7 @@ const YouLiked = () => {
                         }}>
                         <Lottie animationData={DatingNoOneLikeYou} loop={true} style={{ scale: "0.7" }} />
                         <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                            Right now, you don't have any new likes.
+                            You didn't like anyone at the moment.
                         </Text>
                     </motion.div>
 
