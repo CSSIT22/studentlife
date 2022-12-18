@@ -8,23 +8,49 @@ const Announce: FC<{
     month: string,
     to: string
 }> = ({ topic, date, month, to }) => {
-    return (
-        <Flex py="3" alignItems={"center"}>
-            <Box pr={"5"} borderRightColor="grey" borderRight={"1px"}>
-                <Flex alignItems={"center"} justifyContent="center" flexDirection={"column"}>
-                    <Text color={"orange.500"} fontWeight="bold">{date}</Text>
-                    <Text color={"orange.500"} fontWeight="bold">{month}</Text>
-                </Flex>
-            </Box>
-            <Box pl={"5"}>
-                <Link to={to}>
-                    <Text fontWeight={"light"} fontSize="sm" _hover={{ color: "orange.500" }} transition="0.2s">{topic}</Text>
-                    <Text fontSize={"sm"} fontWeight="semibold" color={"orange.500"}>Read More</Text>
-                </Link>
-
-            </Box>
-        </Flex>
-    )
+    console.log("test")
+    console.log(date)
+    console.log(month)
+    if(date == "NaN" || month == "Invalid Date"){
+       
+        return (
+            <Flex py="3" alignItems={"center"}>
+                <Box pr={"5"} borderRightColor="grey" borderRight={"1px"}>
+                    <Flex alignItems={"center"} justifyContent="center" flexDirection={"column"}>
+                        <Text color={"orange.500"} fontWeight="bold" padding={1}> — </Text>
+                        {/* <Text color={"orange.500"} fontWeight="bold"></Text> */}
+                    </Flex>
+                </Box>
+                <Box pl={"5"}>
+                    <Link to={to}>
+                        <Text fontWeight={"light"} fontSize="sm" _hover={{ color: "orange.500" }} transition="0.2s">{topic}</Text>
+                        <Text fontSize={"sm"} fontWeight="semibold" color={"orange.500"}>Read More</Text>
+                    </Link>
+    
+                </Box>
+            </Flex>
+        )
+    }
+    else{
+        return (
+            <Flex py="3" alignItems={"center"}>
+                <Box pr={"5"} borderRightColor="grey" borderRight={"1px"}>
+                    <Flex alignItems={"center"} justifyContent="center" flexDirection={"column"}>
+                        <Text color={"orange.500"} fontWeight="bold">{date}</Text>
+                        <Text color={"orange.500"} fontWeight="bold">{month}</Text>
+                    </Flex>
+                </Box>
+                <Box pl={"5"}>
+                    <Link to={to}>
+                        <Text fontWeight={"light"} fontSize="sm" _hover={{ color: "orange.500" }} transition="0.2s">{topic}</Text>
+                        <Text fontSize={"sm"} fontWeight="semibold" color={"orange.500"}>Read More</Text>
+                    </Link>
+    
+                </Box>
+            </Flex>
+        )
+    }
+   
 }
 
 export default Announce

@@ -1,15 +1,11 @@
 import { Flex, Heading, useBoolean } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import ButtonForEvent from "../../components/annoucement/ButtonForEvent"
 import HeaderPage from "../../components/annoucement/HeaderPage"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
 import PostOnRecycle from "../../components/annoucement/PostOnRecycle"
-import AppBody from "../../components/share/app/AppBody"
-import detail from "./detail/[postId]"
-import { postInfoTest } from "./postInfoTest"
 import { announcement_delete, post } from "@apiType/announcement"
 import API from "src/function/API"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
@@ -44,11 +40,15 @@ const recyclebin = () => {
     const [allPost, setAllPost] = React.useState<announcement_delete[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const getData = API.get("/announcement/getdeletepost")
+
+    const load = () => {
+        API.get("/announcement/getdeletepost").then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+    }
+
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+        load()
     }, [toggle])
-    // console.log(toggle);
+
     const click = () => {
         settoggle(!toggle)
     }
@@ -107,28 +107,31 @@ const recyclebin = () => {
                                 {allPost
                                     .filter((fl) => {
                                         const expiredonrecycle = new Date(fl.deleteAt)
-                                        let date: number = new Date(fl.deleteAt).getDate()
-                                        let month: number = new Date(fl.deleteAt).getMonth()
-                                        let year: number = new Date(fl.deleteAt).getFullYear()
+                                        let hours: number = expiredonrecycle.getHours()
+                                        expiredonrecycle.setHours(hours - 7)
+                                        let date: number = expiredonrecycle.getDate()
+                                        let month: number = expiredonrecycle.getMonth()
+                                        let year: number = expiredonrecycle.getFullYear()
                                         expiredonrecycle.setDate(date + 3)
-                                        // console.log(expiredonrecycle);
-
 
                                         const expired = new Date(expiredonrecycle)
                                         const expiredPost = Math.round(expired.getTime() / day)
                                         const diffD = expiredPost - currentD
-                                        // console.log(diffD);
-
 
                                         const hEpd = Math.round(expired.getTime() / hour)
                                         const diffH = hEpd - currentH
+                                        if (diffH < 0) {
+                                            API.post("/announcement/deleteexpiredpost", { postId: fl.post.postId })
 
+                                        }
 
                                         return (diffD > 0 || diffH > 0)
                                     })
                                     .map((el) => {
                                         const expired = new Date(el.deleteAt)
-                                        let date: number = new Date(el.deleteAt).getDate()
+                                        let hours: number = expired.getHours()
+                                        expired.setHours(hours - 7)
+                                        let date: number = expired.getDate()
                                         expired.setDate(date + 3)
                                         const r = showRemaining(expired)
                                         return (
@@ -148,6 +151,7 @@ const recyclebin = () => {
                                     isOpen={isOpen}
                                     onClose={onClose}
                                     onClick={click}
+                                    load={load}
                                     topic={modalRecycle.topic}
                                     detail={modalRecycle.detail}
                                     status={statusPostRequest}

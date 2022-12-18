@@ -1,4 +1,4 @@
-import { Flex, Heading, Spacer, Box, Text, Button } from "@chakra-ui/react"
+import { Flex, Heading, Spacer, Box, Text, Button, useBreakpointValue } from "@chakra-ui/react"
 import React, { FC } from "react"
 import { HiCheckCircle, HiXCircle } from "react-icons/hi"
 import { TbLoader } from "react-icons/tb"
@@ -35,6 +35,10 @@ const PostOnHistory: FC<{
             )
         }
     }
+    const isMobile = useBreakpointValue({
+        base: false,
+        md: true
+    })
     return (
         <Box
             height={"5rem"}
@@ -48,16 +52,33 @@ const PostOnHistory: FC<{
             }}
             boxShadow="md"
             cursor={"pointer"}
-            _hover={{backgroundColor:"rgb(243 244 246)"}}
+            _hover={{ backgroundColor: "rgb(243 244 246)" }}
         >
-            <Flex alignItems={"center"}>
-                <Box pr={"1rem"} width="">
+            <Flex alignItems={"center"} height="100%">
+                <Box pr={"1rem"} >
                     {state(status)}
                 </Box>
-                <Box>
-                    <Heading size={"sm"}>{topic.substring(0, 20)}</Heading>
-                    <Text fontSize={"xs"}>{sender}</Text>
-                </Box>
+                <>
+                    {(() => {
+                        if (!isMobile) {
+                            return (
+                                <Box>
+                                    <Heading size={"sm"} overflow={"hidden"} whiteSpace="nowrap" textOverflow="ellipsis" width={{ base: "180px", md: "100%" }}>{topic}</Heading>
+                                    <Text fontSize={"xs"}>{sender}</Text>
+                                </Box>
+                            )
+                        } else {
+                            return (
+                                <Flex flexDirection={"column"} justifyContent="center" height={"100%"}>
+                                    <Heading size={"sm"}>{topic}</Heading>
+                                    <Text fontSize={"xs"}>{sender}</Text>
+                                </Flex>
+                            )
+                        }
+                    })()}
+                </>
+
+
                 <Spacer />
                 <Box>{button(status)}</Box>
             </Flex>

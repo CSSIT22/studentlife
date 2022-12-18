@@ -19,7 +19,6 @@ const AnnounceList = () => {
     const approveTime: announcement_approve2[] = allPost2.map((el) => {
         const apTime = new Date(el.annApprove.approveTime)
         const dEpd = Math.round(apTime.getTime())
-        // console.log(dEpd);
         return { postId: el.postId, approveTime: dEpd }
     })
 

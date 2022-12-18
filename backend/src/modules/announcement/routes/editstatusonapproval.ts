@@ -1,7 +1,6 @@
 import axios from "axios"
 import { post } from "@apiType/announcement"
 import { Request, Response } from "express"
-import { getPost, setPost } from ".."
 
 const editstatusOnApproval = async (req: Request, res: Response) => {
     const postId = req.body.postId
@@ -24,8 +23,6 @@ const editstatusOnApproval = async (req: Request, res: Response) => {
                 }
             }
         })
-        // console.log(postuserid[0].annLanguage[0].annTopic)
-        // console.log(postuserid[0].userId)
         if (status == "Approve") {
             axios.post("http://localhost:8000/notification/addnotiobject", {
                 template: "ANNOUNCEMENT_APPROVED",
@@ -86,23 +83,10 @@ const editstatusOnApproval = async (req: Request, res: Response) => {
                 },
             })
         }
-    } catch (err: any) {
-        // console.log(err)
-        res.status(404).send(err)
+        res.status(200).send("Edit status on APPROVAL success")
+    } catch (err) {
+        res.status(400).send(err)
     }
-
-    // let editstatusA: post | null = null
-    // const newData = getPost().map((post) => {
-    //     if (post.postId == postId) {
-    //         post.status = status
-    //         post.isApprove = isapprove
-    //         editstatusA = post
-    //     }
-    //     return post
-    // })
-    // setPost(newData)
-    // // console.log(newData);
-    // res.send(editstatusA)
 }
 
 export default editstatusOnApproval

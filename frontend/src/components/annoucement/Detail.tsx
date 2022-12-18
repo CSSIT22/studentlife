@@ -19,8 +19,19 @@ const Detail: FC<{
             <Divider orientation="horizontal" maxW="5rem" borderColor={"black"} />
             <Flex gap={"5"}>
                 <Flex alignItems={"center"}>
-                    <IoIosCalendar size={25}/>
-                    <Text pl="2">{date}</Text>
+                    <IoIosCalendar size={25} />
+                    <>
+                        {(() => {
+                            if (date == "NaN Invalid Date NaN") {
+                                return <Text pl="2">-</Text>
+                            } else {
+                                return (
+                                    <Text pl="2">{date}</Text>
+                                )
+                            }
+                        })()}
+                    </>
+
                 </Flex>
                 <Flex alignItems="center">
                     <GiHumanTarget size={25} />
@@ -36,7 +47,7 @@ const Detail: FC<{
                     {annDetail}
                 </Text>
                 <Flex pt="2rem" gap="2">
-                    <Text  fontWeight={"semibold"}>Author: </Text>
+                    <Text fontWeight={"semibold"}>Author: </Text>
                     <Text>{sender}</Text>
                 </Flex>
 

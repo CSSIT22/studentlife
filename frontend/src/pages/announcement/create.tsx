@@ -1,6 +1,4 @@
 import {
-    Button,
-    Divider,
     Flex,
     FormControl,
     FormLabel,
@@ -18,22 +16,20 @@ import {
     Show,
     Heading,
     useBoolean,
+    FormErrorMessage,
+    FormHelperText,
 } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
-import { BsPlusCircleFill } from "react-icons/bs"
+import React, { useEffect, useRef, useState } from "react"
 import { GrClose } from "react-icons/gr"
-import { Link, To } from "react-router-dom"
+import { Link } from "react-router-dom"
 import ModalForEvent from "../../components/annoucement/ModalForEvent"
-import AppBody from "../../components/share/app/AppBody"
 import { IoAdd } from "react-icons/all"
 import MoreLang from "../../components/annoucement/MoreLang"
-import { postInfoTest } from "./postInfoTest"
 import { addMoreLangType, post, post_to_language2, tgType } from "@apiType/announcement"
 import API from "src/function/API"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
-
 const create = () => {
     const [isOpen, setIsOpen] = React.useState(false)
     const onOpen = () => {
@@ -53,14 +49,30 @@ const create = () => {
     const [targetType, setTargetType] = React.useState(String)
     const [targetValue, setTargetValue] = React.useState("")
     const [expired, setExpired] = React.useState(Date)
-    const [event, setEvent] = React.useState(Date)
+    const [event, setEvent] = React.useState("")
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [tv, settv] = useState<tgType[]>([])
     const value = API.get("/announcement/gettypetarget")
+    const [formState, setFormState] = useState<
+        "unchanged" | "modified" | "saving"
+    >("unchanged");
+
+
     useEffect(() => {
         value.then((res) => settv(res.data)).catch(err => on()).finally(off)
-    }, [])
+
+        const handler = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        if (formState == "modified") {
+            window.addEventListener("beforeunload", handler);
+            return () => {
+                window.removeEventListener("beforeunload", handler);
+            }
+        }
+    }, [formState])
 
 
     const selectTargetValue = (targetType: string) => {
@@ -94,6 +106,30 @@ const create = () => {
     }
 
 
+    const [navi, setNav] = useState(true);
+    useEffect(() => {
+        const history = window.history as any;
+        var pushState = window.history.pushState;
+        history.pushState = function (state: any) {
+            if (typeof history.onpushstate == "function") {
+                history.onpushstate({ state: state });
+            }
+            // const nav = true;
+            // false cannot navigate
+
+            if (navi) {
+                return pushState.apply(history, arguments as any);
+            } else {
+                const cancelRef = useRef()
+            }
+        };
+
+        return () => {
+            window.history.pushState = pushState
+        }
+    }, [navi])
+
+
     const disabledDates = () => {
         var today, dd, mm, yyyy
         today = new Date()
@@ -105,10 +141,10 @@ const create = () => {
     const [addMoreLang, setAddMoreLang] = React.useState<post_to_language2[]>([])
 
 
-    const addPost = (title: string, detail: string, targetType: string, targetValue: string, event:Date,expired: Date, addMoreLang: post_to_language2[]) => {
+    const addPost = (title: string, detail: string, targetType: string, targetValue: string, event: string, expired: Date, addMoreLang: post_to_language2[]) => {
         API.post<post>("/announcement/createpost", {
             topic: title,
-            detail: event+"~"+detail,
+            detail: event + "~" + detail,
             targetType: targetType,
             targetValue: targetValue,
             expiredPost: expired,
@@ -116,14 +152,11 @@ const create = () => {
         })
     }
 
+
     const addLang = (lang: number, topic: string, detail: string) => {
         setAddMoreLang([...addMoreLang, { languageId: lang, annTopic: topic, annDetail: detail }])
     }
 
-    const ALERT = () => {
-        alert("Topic:" + topic + " detail:" + detail + " targetType:" + targetType + " targetValue:" + targetValue + " expired date:" + expired)
-        window.history.go(-1)
-    }
     const AddLang = () => {
         setMoreLangField([...moreLangField, { count: count }])
     }
@@ -145,6 +178,8 @@ const create = () => {
     const onDisable = () => {
         setdisable(!disable)
     }
+    const isErrorForm: boolean = topic.length > 120
+
     return (
         <AnnounceNav>
             {(() => {
@@ -160,7 +195,8 @@ const create = () => {
                                     onSubmit={(e) => {
                                         onOpen()
                                         e.preventDefault()
-                                        addPost(topic, detail, targetType, targetValue,new Date(event), new Date(expired), addMoreLang)
+                                        addPost(topic, detail, targetType, targetValue, event, new Date(expired), addMoreLang)
+                                        setFormState("saving")
                                     }}
                                 >
                                     <Flex alignItems={"center"}>
@@ -185,6 +221,7 @@ const create = () => {
                                                 allPost={""}
                                                 setAllPost={""}
                                                 onClick={onClose}
+                                                load={() => {}}
                                             />
                                         </Box>
                                     </Flex>
@@ -193,18 +230,43 @@ const create = () => {
                                             <FormLabel>Language</FormLabel>
                                             <Select isDisabled placeholder="English" value={1000} bg="white"></Select>
                                         </FormControl>
-                                        <FormControl isRequired>
+                                        <FormControl isRequired isInvalid={isErrorForm}>
                                             <FormLabel>Title</FormLabel>
-                                            <Input placeholder="Title" onChange={(e) => setTopic(e.target.value)} bg="white" />
+                                            <Input placeholder="Title" maxLength={120} onChange={(e) => {
+                                                if (e.target.value !== "") {
+                                                    setFormState("modified");
+                                                    setNav(false);
+                                                } else {
+                                                    setFormState("unchanged");
+                                                    setNav(true)
+                                                }
+                                                setTopic(e.target.value)
+                                            }} bg="white" />
                                         </FormControl>
                                         <FormControl isRequired>
                                             <FormLabel>Detail</FormLabel>
-                                            <Textarea placeholder="Detail" size="sm" onChange={(e) => setDetail(e.target.value)} bg="white" />
+                                            <Textarea placeholder="Detail" rows={10} onChange={(e) => {
+                                                if (e.target.value !== "") {
+                                                    setFormState("modified");
+                                                    setNav(false);
+                                                } else {
+                                                    setFormState("unchanged");
+                                                    setNav(true)
+                                                } setDetail(e.target.value)
+                                            }} bg="white" />
                                         </FormControl>
                                         <FormControl isRequired>
                                             <FormLabel>Target Group</FormLabel>
                                             <Flex>
-                                                <Select placeholder="Select Type" pr={"2"} onChange={(el) => setTargetType(el.target.value)} bg="white">
+                                                <Select placeholder="Select Type" pr={"2"} onChange={(el) => {
+                                                    if (el.target.value !== "") {
+                                                        setFormState("modified");
+                                                        setNav(false);
+                                                    } else {
+                                                        setFormState("unchanged");
+                                                        setNav(true)
+                                                    } setTargetType(el.target.value)
+                                                }} bg="white">
                                                     <option>Everyone</option>
                                                     <option>Year</option>
                                                     <option>Major</option>
@@ -213,14 +275,22 @@ const create = () => {
                                                 {selectTargetValue(targetType)}
                                             </Flex>
                                         </FormControl>
-                                        <FormControl isRequired>
+                                        <FormControl>
                                             <FormLabel>Event Date</FormLabel>
                                             <Input
                                                 placeholder="Select expired date"
                                                 size="md"
                                                 type="date"
                                                 min={disabledDates()}
-                                                onChange={(e) => setEvent(e.target.value)}
+                                                onChange={(e) => {
+                                                    if (e.target.value !== "") {
+                                                        setFormState("modified");
+                                                        setNav(false);
+                                                    } else {
+                                                        setFormState("unchanged");
+                                                        setNav(true)
+                                                    } setEvent(e.target.value)
+                                                }}
                                                 bg="white"
                                             />
                                         </FormControl>
@@ -231,7 +301,15 @@ const create = () => {
                                                 size="md"
                                                 type="date"
                                                 min={disabledDates()}
-                                                onChange={(e) => setExpired(e.target.value)}
+                                                onChange={(e) => {
+                                                    if (e.target.value !== "") {
+                                                        setFormState("modified");
+                                                        setNav(false);
+                                                    } else {
+                                                        setFormState("unchanged");
+                                                        setNav(true)
+                                                    } setExpired(e.target.value)
+                                                }}
                                                 bg="white"
                                             />
                                         </FormControl>

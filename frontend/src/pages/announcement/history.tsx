@@ -1,17 +1,13 @@
 import { Box, Flex, Heading, useBoolean } from "@chakra-ui/react"
 import { Link, useParams } from "react-router-dom"
-
 import { announcement, post } from "@apiType/announcement"
-
 import API from "src/function/API"
-import { postInfoTest } from "./postInfoTest"
 import React, { useEffect, useState } from "react"
 import HeaderPage from "src/components/annoucement/HeaderPage"
 import ModalForEvent from "src/components/annoucement/ModalForEvent"
 import PostOnHistory from "src/components/annoucement/PostOnHistory"
-import AppBody from "src/components/share/app/AppBody"
 import AnnounceLoading from "src/components/annoucement/AnnounceLoading"
-import AnnounceError from "src/components/annoucement/lotties/AnnounceError"
+import AnnounceError from "src/components/annoucement/AnnounceError"
 import AnnounceNav from "src/components/annoucement/AnnounceNav"
 
 const history = () => {
@@ -51,9 +47,11 @@ const history = () => {
     const [allPost, setAllPost] = React.useState<announcement[]>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-    const getData = API.get("/announcement/gethistorypost/")
+    const load = () => {
+        API.get("/announcement/gethistorypost/").then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+    }
     useEffect(() => {
-        getData.then((res) => setAllPost(res.data)).catch((err) => on()).finally(off)
+        load()
     }, [toggle])
 
     const tog = () => {
@@ -65,6 +63,7 @@ const history = () => {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalDelete.topic}
@@ -81,6 +80,7 @@ const history = () => {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalDeleted.topic}
@@ -97,6 +97,7 @@ const history = () => {
             return (
                 <>
                     <ModalForEvent
+                        load={load}
                         isOpen={isOpen}
                         onClose={onClose}
                         topic={modalEdit.topic}

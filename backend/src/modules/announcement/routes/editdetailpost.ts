@@ -1,6 +1,5 @@
 import { checkLanguage, checkNewLanguage, existLang, post, post_to_language, post_to_language2 } from "@apiType/announcement"
 import e, { Request, Response } from "express"
-import { getPost, setPost } from ".."
 
 const editDetailPost = async (req: Request, res: Response) => {
     const postId = req.body.postid
@@ -13,15 +12,10 @@ const editDetailPost = async (req: Request, res: Response) => {
     const addmorelang = req.body.addMoreLang
     const prisma = res.prisma
 
-    // เหลือ update morelang
     try {
         let allLang:post_to_language2[] = []
         allLang.push({ languageId: 1000, annTopic: topic, annDetail: detail })
         addmorelang?.map((el: post_to_language2) => allLang.push({ languageId: el.languageId, annTopic: el.annTopic, annDetail: el.annDetail }))
-        // console.log("HI")
-        // res.send(allLang)
-        // console.log(req.body)
-        // console.log(allLang);
 
         const newTargetUser = await prisma.announcement_Filter.findFirst({
             where: {
@@ -41,6 +35,11 @@ const editDetailPost = async (req: Request, res: Response) => {
                 languageId: true,
             },
         })
+        const addHours = (date: Date): Date => {
+            const result = new Date(date)
+            result.setHours(result.getHours() + 7)
+            return result
+        }
         // update ENG
         const updateL = await prisma.post_To_Language.update({
             where: {
@@ -55,18 +54,15 @@ const editDetailPost = async (req: Request, res: Response) => {
                 post: {
                     update: {
                         annExpired: new Date(expiredpost),
-                        annCreated: new Date(),
+                        annCreated: addHours(new Date()),
                         filterId: newTargetUser?.filterId,
                     },
                 },
             },
         })
 
-        // console.log(existLang);
         const morelangExist = existLang.filter((el) => el.languageId != 1000)
         const morelangNew:post_to_language2[] = allLang.filter((el) => el.languageId != 1000)
-        // console.log(morelangExist)
-        // console.log(morelangNew)
 
         //for old lang
         let checkLang: checkLanguage[] = []
@@ -104,9 +100,6 @@ const editDetailPost = async (req: Request, res: Response) => {
             })
         })
 
-        // console.log(checkLang)
-        // console.log(checknewlang)
-
         // update other lang
         checknewlang.forEach(async (el) => {
             if (el.found == false) {
@@ -132,29 +125,10 @@ const editDetailPost = async (req: Request, res: Response) => {
                 })
             }
         })
-        res.status(200)
+        res.status(200).send("Edit post success")
     } catch (err) {
         res.status(400).send(err)
     }
-
-    // let editpost: post | null = null
-    // const newData = getPost().map((post) => {
-    //     if (post.postId == postId) {
-    //         post.annTopic = topic
-    //         post.annDetail = detail
-    //         post.targetType = targetType
-    //         post.targetValue = targetValue
-    //         post.postAt = postAt
-    //         post.expiredOfPost = expiredpost
-    //         post.addMoreLang = addmorelang
-    //         editpost = post
-    //     }
-    //     return post
-    // })
-    // console.log(newData);
-    // setPost(newData)
-    // console.log(editpost);
-    // res.send(editpost)
 }
 
 export default editDetailPost

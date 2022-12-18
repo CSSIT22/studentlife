@@ -19,10 +19,7 @@ const MoreLang: FC<{
     useEffect(() => {
         newData.then(res => setlang(res.data))
     }, [])
-    // console.log(lang);
     const cutENG = lang.filter((el) => { return el.languageId != 1000 })
-    // console.log(cutENG);
-    // console.log(otherLang);
 
     const usedLangs = useMemo(() => {
         const langs: any = {};
