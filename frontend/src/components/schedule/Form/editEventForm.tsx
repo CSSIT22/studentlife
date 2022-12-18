@@ -180,7 +180,8 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
 
 
             <FormControl mt={4}>
-                <FormLabel color="black">Location</FormLabel>
+                <FormLabel color="black">
+                    <Text fontSize="24px">Location </Text></FormLabel>
                 <Input
                     id="name"
                     type="text"
@@ -195,7 +196,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
 
             <FormControl display="flex" alignItems="center">
                 <Switch id="notification" size="lg" mt={4} />
-                <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={"4"}>
+                <FormLabel htmlFor="notification"  color="#5A5A5A" mt={"4"} ml="2">
                     Notification
                 </FormLabel>
             </FormControl>

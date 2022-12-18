@@ -27,7 +27,7 @@ const AddEventModal: FC<{
                 </ModalHeader>
                 {isMobile?<></> :<ModalCloseButton /> }
                 <ModalBody pb={6}>
-                    <AddModalForm />
+                    <AddModalForm modal1={modal1}/>
                 </ModalBody>
 
                 <ModalFooter>

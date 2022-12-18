@@ -1,10 +1,10 @@
 import { FormControl, FormLabel, Input, Textarea, Flex, Select, Switch, Text, Button, Box, HStack, useBreakpointValue, useDisclosure } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import API from 'src/function/API'
 import { useNavigate, useParams } from "react-router-dom";
 
-const AddModalForm = () => {
-    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onAddClose } = useDisclosure()
+const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
+    const { onClose: onAddClose } = useDisclosure()
     const [event, setEvent] = useState("")
     const handleInputEventChange = (e: any) => setEvent(e.target.value)
 
@@ -58,23 +58,34 @@ const AddModalForm = () => {
     const handleSubmit = () => {
         console.log(time, endtime);
         onAddClose()
-        API.post<Event>("/schedule/createEvent", {
+        const body: any = {
             eventName: event,
             stTime: time,
             endTime: endtime,
             desc: description,
             eventTypeId: type,
             place: location,
-            courseId: course,
-            assignmentName: assignment,
             isNoti: isNoti
-        }).then((res) => console.log(res))
+        }
+
+        if (type == "Assignment") {
+            body.courseId = course
+            body.assignmentName = assignment
+        }
+        if(type == "Course"){
+            body.courseId = course
+            
+            console.log(body);
+            
+        }
+
+        API.post<Event>("/schedule/createEvent", body).then((res) => console.log(res))
             .catch((err => console.log("Error")))
-            // .then(() => {
-            //     navigate({
-            //         pathname: "/schedule"
-            //     })
-            // })
+        // .then(() => {
+        //     navigate({
+        //         pathname: "/schedule"
+        //     })
+        // })
         if (type == "Assignment") {
             API.post<{
                 taskName: string,
@@ -148,7 +159,7 @@ const AddModalForm = () => {
                     <Input placeholder="Select time" size="s"
                         id="time"
                         type="datetime-local"
-                        value={time}
+                        
                         onChange={(e) => { handleInputTimeChange(e) }}
                         boxShadow="md" />
                 </FormControl>
@@ -267,8 +278,10 @@ const AddModalForm = () => {
                     bg="#E65300"
                     type="submit"
                     onClick={() => {
-                        onAddClose()
+                        // onAddClose()
                         handleSubmit()
+                        modal1.onClose()
+                        
                     }}
 
                 // onClick={handleSubmit onAddClose()}>

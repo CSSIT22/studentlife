@@ -11,13 +11,17 @@ const createEvent = async (req: Request, res: Response) => {
     // Event is the table from db
     try {
         console.log(body)
+        let assignmentId = null;
+        if (body.assignmentName != null) {
+            const assignment = await prisma.assignment.create({
+                data: {
+                    assignmentName: body.assignmentName,
+                    courseId: body.courseId,
+                },
+            })
+            assignmentId = assignment.assignmentId
+        }
 
-        const assignment = await prisma.assignment.create({
-            data: {
-                assignmentName: body.assignmentName,
-                courseId: body.courseId,
-            },
-        })
         const createEvent = await prisma.event.create({
             data: {
                 userId: userId,
@@ -28,7 +32,7 @@ const createEvent = async (req: Request, res: Response) => {
                 eventTypeId: body.eventTypeId,
                 place: body.place,
                 courseId: body.courseId,
-                assignmentId: assignment.assignmentId,
+                assignmentId: assignmentId,
             },
         })
         const eventId = await prisma.event.findFirst({
@@ -36,12 +40,7 @@ const createEvent = async (req: Request, res: Response) => {
                 eventId: body.eventId,
             },
         })
-        const createEventType = await prisma.event_Type.create({
-            data: {
-                eventTypeId: body.eventTypeId,
-                eventType: body.event_Type,
-            },
-        })
+        
         const isNoti = req.body.isNoti
         if (createEvent && isNoti) {
             let eventName = createEvent.eventName
