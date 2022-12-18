@@ -5,6 +5,7 @@ const customlink = async(req : Request , res : Response)=>{
     const userId = req.user?.userId || ""
     console.log(req.body.originalLink)
     console.log(req.body.shortenLink)
+    const userids:string[] = req.body.userAccessIds || []
     
     // console.log(req.body.shortenlink)
     // console.log(req.user)
@@ -15,7 +16,12 @@ const customlink = async(req : Request , res : Response)=>{
             data:{
                 userId:userId,
                 originalLink:body.originalLink,
-                shortenLink:body.shortenLink
+                shortenLink:body.shortenLink,
+                userAccess:{
+                    createMany:{
+                        data:[...userids.map(item=>({userId:item}))]
+                    }
+                }
             },
         })
         console.log(result)

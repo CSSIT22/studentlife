@@ -34,7 +34,7 @@ const customize = () => {
     );
 
     const [shortedUrl, setShortedUrl] = useState("");
-    const [permission, setPermission] = useState<any>([]);
+    const [permissionUser, setPermissionUser] = useState<any>([]);
     // const [custom, setcustom] = useState("");
     // const [word, setword] = useState("");
     // const [link, setLink] = useState("");
@@ -64,7 +64,7 @@ const customize = () => {
         }
 
         //TODO: Check if password and coonfirm password is same
-        const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password })
+        const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password, })
         setShortedUrl(response.data.result.shortenLink)
     }
 
@@ -73,12 +73,12 @@ const customize = () => {
         userName: string;
         lastName: string;
     }) => {
-        if (!!(permission.find((sUser: { id: string }) => props.id === (sUser.id)))) {
-            setPermission(permission.filter((item: { id: string }) => item.id !== props.id));
+        if (!!(permissionUser.find((sUser: { id: string }) => props.id === (sUser.id)))) { //Check if user already have a permission
+            setPermissionUser(permissionUser.filter((item: { id: string }) => item.id !== props.id)); //remove user from permission state
         } else {
-            setPermission((prev: any) => [...prev, props])
+            setPermissionUser((prev: any) => [...prev, props])
         }
-    }, [permission])
+    }, [permissionUser])
 
     // ---------------------------
     const [userData, setUserData] = useState<any>()

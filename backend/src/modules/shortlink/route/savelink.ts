@@ -21,5 +21,5 @@ const savelink = async(req : Request , res : Response)=>{
         console.log(err)
         res.status(500).json({message:"error" , err: err})
     }
-}
+}   
 export default savelink
