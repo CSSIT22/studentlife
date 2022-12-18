@@ -24,7 +24,9 @@ import getUser from "./routes/getUser"
 import editShortnote from "./routes/editShortnote"
 import deleteFile from "./routes/deleteFile"
 import getExtraRsn from "./routes/getExtraRsn"
-
+import multer from "multer"
+import uploadFiles from "./routes/uploadFiles"
+const upload = multer()
 const shortnotesRoutes = express()
 
 type s = {
@@ -69,7 +71,9 @@ shortnotesRoutes.get("/getAccess", getAccess)
 
 shortnotesRoutes.get("/getUser", getUser)
 
-shortnotesRoutes.post("/postShortnote", postShortnote)
+shortnotesRoutes.get("/getExtraRsn", getExtraRsn)
+
+shortnotesRoutes.post("/postShortnote", upload.array("myFile"), postShortnote)
 
 shortnotesRoutes.post("/postLibrary", postLibrary)
 
@@ -80,6 +84,8 @@ shortnotesRoutes.post("/postResentShortnote", postResentShortnote)
 shortnotesRoutes.post("/postInLibrary", postInLibrary)
 
 shortnotesRoutes.post("/postAccess", postAccess)
+
+shortnotesRoutes.post("/uploadFiles", upload.array("upload"), uploadFiles)
 
 shortnotesRoutes.put("/editShortnote", editShortnote)
 
@@ -94,6 +100,4 @@ shortnotesRoutes.delete("/deleteComment", deleteComment)
 shortnotesRoutes.delete("/deletePeople", deletePeople)
 
 shortnotesRoutes.delete("/deleteFile", deleteFile)
-
-shortnotesRoutes.get("/getExtraRsn", getExtraRsn)
 export default shortnotesRoutes

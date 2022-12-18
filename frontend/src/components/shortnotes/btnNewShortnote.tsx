@@ -47,8 +47,10 @@ import {
     FormErrorMessage,
     useToast,
 } from "@chakra-ui/react"
+import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiOutlineCloseCircle } from "react-icons/ai"
+import { HiUpload } from "react-icons/hi"
 import { IoMdRemoveCircleOutline } from "react-icons/io"
 import { MdPostAdd } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
@@ -82,7 +84,7 @@ const btnNewShortnote = () => {
         await setFlag.off()
         setRadio("Public")
     }
-
+    const [myFile, setMyFile] = useState("")
     const [findName, setFindName] = useState("")
     const [pName, setpName] = useState("")
     const [people, setPeoples] = useState<string[]>([])
@@ -102,7 +104,7 @@ const btnNewShortnote = () => {
                 isClosable: true,
             })
         } else {
-            if (!/^[a-zA-Z]{3}\d{3}$/.test(course)) {
+            if (!/^[a-zA-Z]{3}\d{3}$/.test(course.replaceAll(" ", ""))) {
                 toast({
                     title: 'Invalid course id, please check again.',
                     status: 'warning',
@@ -127,27 +129,88 @@ const btnNewShortnote = () => {
                     })
 
                 } else {
-                    API.post("/shortnotes/postShortnote", {
-                        courseId: course.toUpperCase().replaceAll(" ", ""),
-                        isPublic: ispublic,
-                        snName: name,
-                        snDesc: desc,
-                        people: people
-                    }).then((res) => {
-                        console.log(res)
+                    const form = new FormData()
+                    form.append("courseId", course.toUpperCase().replaceAll(" ", ""));
+                    form.append("isPublic", ispublic.toString());
+                    form.append("snName", name);
+                    form.append("snDesc", desc);
+                    form.append("myFIle", myFile);
+                    toast({
+                        title: 'Creating shortnote.',
+                        description: "Redirecting to your shortnote, please wait.",
+                        status: 'success',
+                        duration: 6000,
+                        isClosable: true,
+                    })
+                    API.post("/shortnotes/postShortnote", form, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(async (res) => {
                         API.post("/shortnotes/postAccess", {
                             snId: res.data.snId,
                             people: people
+                        })
+                        const fd = new FormData()
+                        fd.append("type", "shortnote")
+                        fd.append("snId", res.data.snId)
+                        files.map((item: any) => {
+                            fd.append("upload", item.file)
+                        })
+                        const ress = await API.post("/shortnotes/uploadFiles", fd, {
+                            headers: {
+                                "Content-Type": "multipart/form-data",
+                            },
+                        }).then((res) => {
+                            toast({
+                                title: "Upload success",
+                                description: "Your file has been uploaded",
+                                status: "success",
+                                duration: 4000,
+                                isClosable: true,
+                            })
+                        }).catch((err) => {
+                            toast({
+                                title: "Upload files failed",
+                                description: "Something went wrong",
+                                status: "error",
+                                duration: 4000,
+                                isClosable: true,
+                            })
                         })
                         navigate("./" + res.data.snId)
                     })
                 }
             }
-
-
         }
     }
     const toast = useToast()
+    const [queryDecode, setQueryDecode] = useState<string>("")
+    const [typeDecode, setTypeDecode] = useState<string>("")
+    const [idDecode, setIdDecode] = useState<string>("")
+    const [postData, setPostData] = useState<any>({})
+    const [imageSrc, setImageSrc] = useState<any>(null)
+    const [files, setFiles] = useState([])
+    const handleDelete = (prop: any) => {
+        setFiles(files.filter((item) => item !== prop))
+    }
+    const updateFile = (file: any) => {
+        setFiles(file)
+    }
+    const handleSee = (imageSource: any) => {
+        setImageSrc(imageSource)
+    }
+    useEffect(() => {
+        if (window.location.href.split("?")[1] !== undefined) {
+            setQueryDecode(atob("shortnote"))
+        }
+    }, [])
+    useEffect(() => {
+        if (queryDecode !== "") {
+            setTypeDecode(queryDecode.split("&")[0].split("=")[1])
+            setIdDecode(queryDecode.split("&")[1].split("=")[1])
+        }
+    }, [queryDecode])
     return (
         <Box>
             <Button leftIcon={<MdPostAdd />} colorScheme={"orange"} onClick={nsOnOpen}>
@@ -191,11 +254,45 @@ const btnNewShortnote = () => {
 
                                         <FormLabel>Description</FormLabel>
 
-                                        <Textarea placeholder="" h={200} focusBorderColor="orange.500" value={desc} onChange={(e) => setDesc(e.target.value)} />
+                                        <Textarea placeholder="" h={100} focusBorderColor="orange.500" value={desc} onChange={(e) => setDesc(e.target.value)} />
                                         <FormErrorMessage>Description is required.</FormErrorMessage>
                                     </FormControl>
 
                                 </Box>
+                            </GridItem>
+                            <GridItem colSpan={3}>
+                                <FormLabel>Upload files</FormLabel>
+                                <Flex flexDirection={"column"} alignItems={"center"} alignContent={"center"} w={"100%"}>
+                                    <>
+                                        <VStack w={"full"} spacing={"5%"}>
+                                            <Dropzone onChange={updateFile} value={files} style={{ borderRadius: "20px", padding: "10%" }}>
+                                                {files &&
+                                                    files?.map((file: any, key) => (
+                                                        <FileItem
+                                                            {...file}
+                                                            preview
+                                                            onDelete={() => {
+                                                                handleDelete(file)
+                                                            }}
+                                                            hd
+                                                            resultOnTooltip
+                                                            onSee={handleSee}
+                                                            id={key}
+                                                            key={key}
+                                                        />
+                                                    ))}
+                                                {files.length == 0 ? (
+                                                    <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                                                        <HiUpload fontSize={"84px"} />
+                                                        <Text fontSize={"2xl"}>Drop the file</Text>
+                                                        <Text fontSize={"md"}>Maximum file size can be up to 200MB</Text>
+                                                    </Flex>
+                                                ) : null}
+                                            </Dropzone>
+                                            <FullScreenPreview imgSource={imageSrc} openImage={imageSrc} onClose={() => handleSee(undefined)} />
+                                        </VStack>
+                                    </>
+                                </Flex>
                             </GridItem>
                             <Spacer />
                             <GridItem colSpan={1}>

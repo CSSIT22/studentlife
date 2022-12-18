@@ -289,7 +289,11 @@ const index = () => {
             </Hide>
 
             {
-                snLoad ? <Lottie style={style} animationData={loading}></Lottie>
+                snLoad ?
+                    <Box mt={100}>
+                        <Lottie style={style} animationData={loading}></Lottie>
+
+                    </Box>
                     :
                     <Collapse in={rsnIsOpen} animateOpacity>
                         <VStack gap={2} pt={4} mb={4}>

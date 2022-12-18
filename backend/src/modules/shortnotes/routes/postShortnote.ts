@@ -2,6 +2,7 @@ import { prisma } from "@prisma/client"
 import { Request, Response } from "express"
 
 const postShortnote = async (req: Request<any>, res: Response<any>) => {
+    const body = req.body
     try {
         const prisma = res.prisma
         const user: any = req.user?.userId
@@ -11,7 +12,7 @@ const postShortnote = async (req: Request<any>, res: Response<any>) => {
                 courseName: req.body.courseId,
             },
         })
-        console.log(findCourse)
+        //console.log(findCourse)
         const payload: any = {
             course: {
                 connectOrCreate: {
@@ -29,7 +30,7 @@ const postShortnote = async (req: Request<any>, res: Response<any>) => {
                     userId: user,
                 },
             },
-            isPublic: req.body.isPublic,
+            isPublic: req.body.isPublic == "true",
             snName: req.body.snName,
             snDesc: req.body.snDesc,
             snLink: "",
