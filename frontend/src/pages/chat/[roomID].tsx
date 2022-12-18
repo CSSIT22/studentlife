@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, calc, Flex, Heading, Hide, HStack, Input, Textarea, useBoolean } from "@chakra-ui/react"
 import { useContext, useEffect, useMemo, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import Clist from "../../components/chat/Chat-list"
 import AppBody from "../../components/share/app/AppBody"
 import { BsBell, BsBellSlash } from "react-icons/bs"
@@ -18,6 +18,8 @@ import chatL from "./animation/chatL.json"
 import socket from "src/function/socket"
 import axios from "axios"
 import { memberType } from "./[roomId]/propertyEvent"
+import { Restaurant } from "@apiType/restaurant"
+import ResCard from "src/components/chat/RestaurantCard"
 
 export type RoomType = {
     chatColor: string
@@ -48,7 +50,9 @@ type quoteType = {
 }
 
 const Room = () => {
-    let param = useParams()
+    const useQuey = () => new URLSearchParams(useLocation().search).get("resId");
+    const query = useQuey();
+    const param = useParams()
     const { socketIO } = useContext(socketContext)
     const [isMute, setIsMute] = useState(false)
     const [Text, setText] = useState("")
@@ -58,6 +62,7 @@ const Room = () => {
     const [isLoading, { off }] = useBoolean(true)
     const [member, setMember] = useState<memberType[]>()
     const [quote, setQuote] = useState<quoteType[]>([])
+    const [rest, setRest] = useState<Restaurant[]>()
     //fetch API
     useEffect(() => {
         API.get(`chat/${param.roomID}`).then((e) => setRoom(e.data))
@@ -65,6 +70,9 @@ const Room = () => {
         API.get(`chat/${param.roomID}/getMessage`)
             .then((e) => setmsg(e.data))
             .finally(() => off())
+        if (query != null) {
+            sendRestaurant(query)
+        }
     }, [param])
 
     useEffect(() => {
@@ -106,6 +114,14 @@ const Room = () => {
         })
     }
 
+    function sendRestaurant(resId: string) {
+        API.post(`chat/${param.roomID}/postMessage`, { type: "RESTAURANT", message: resId })
+    }
+
+    function getRestaurant(resId: string) {
+        return API.get(`restaurant/${resId}`)
+    }
+
     function onSend(e: any, Room: RoomType) {
         e.preventDefault()
         if (Text == "") {
@@ -115,7 +131,7 @@ const Room = () => {
             socketIO.emit("send-msg", { msg: result.text, room_id: Room?.roomId, from: Room?.userId, type: "TEXT" })
             noti(Room)
             setText("")
-            
+
         } else {
             //API.post(`chat/${param.roomID}/postMessage`,{type :"TEXT" ,message:Text}).then(()=> API.get(`chat/${param.roomID}/getMessage`).then((e)=>setmsg(e.data)))
             socketIO.emit("send-msg", { msg: Text, room_id: Room?.roomId, from: Room?.userId, type: "TEXT" })
@@ -152,46 +168,54 @@ const Room = () => {
             )
         }
     }
-
-    function renderMessage(Room: RoomType) {
-        
-    }
-
     const renderedMessage = useMemo(() => {
-        if(!Room){
+        if (!Room) {
             return null;
         }
-        
+
         if (Room?.roomType === "INDIVIDUAL") {
             return msg.map((e) => {
-                return (
-                    <TextBar
-                        key={e._id}
-                        message={e.message}
-                        timeSent={e.created}
-                        from={e.senderId}
-                        color={Room.chatColor}
-                        myId={Room.userId}
-                        name={Room.nickname}
-                        image={Room.nameWho.image}
-                    />
-                )
+                if (e.messageType[0] == "TEXT") {
+                    return (
+                        <TextBar
+                            key={e._id}
+                            message={e.message}
+                            timeSent={e.created}
+                            from={e.senderId}
+                            color={Room.chatColor}
+                            myId={Room.userId}
+                            name={Room.nickname}
+                            image={Room.nameWho.image}
+                        />
+                    )
+                } else if (e.messageType[0] == "RESTAURANT") {
+                    return (
+                        <ResCard resId={e.message} from={e.senderId} myId={Room.userId} image={Room.nameWho.image}/>
+                    )
+                }
             })
         } else {
             return msg.map((e) => {
                 const name = member?.filter((el) => el.user.userId == e.senderId)
-                return (
-                    <TextBar
-                        key={e._id}
-                        message={e.message}
-                        timeSent={e.created}
-                        from={e.senderId}
-                        color={Room.chatColor}
-                        myId={Room.userId}
-                        name={name?.map((e) => e.user.fName)}
-                        image={null}
-                    />
-                )
+                if (e.messageType[0] == "TEXT") {
+                    return (
+                        <TextBar
+                            key={e._id}
+                            message={e.message}
+                            timeSent={e.created}
+                            from={e.senderId}
+                            color={Room.chatColor}
+                            myId={Room.userId}
+                            name={name?.map((e) => e.user.fName)}
+                            image={null}
+                        />
+                    )
+                }
+                else if (e.messageType[0] == "RESTAURANT") {
+                    return (
+                        <ResCard resId={e.message} from={e.senderId} myId={Room.userId} image={null}/>
+                    )
+                }
             })
         }
     }, [Room, msg])
@@ -237,7 +261,7 @@ const Room = () => {
                     justifyContent={"space-between"}
                     height={{ base: "65vh", md: "78vh" }}
                     flexDirection={"column"}
-                    // maxH={'5000px'}
+                // maxH={'5000px'}
                 >
                     <Flex
                         alignItems={"center"}

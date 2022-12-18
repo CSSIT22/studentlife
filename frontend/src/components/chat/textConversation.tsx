@@ -2,6 +2,8 @@ import { Avatar, Box, Flex, HStack, VStack } from "@chakra-ui/react"
 import { Text } from "@chakra-ui/react"
 import dayjs from "dayjs"
 import { buffer_to_img } from "./function/64_to_img"
+import SendCard from "./RestaurantCard"
+import ResCard from "./RestaurantCard"
 
 let d = new Date()
 d.toLocaleString
@@ -46,8 +48,9 @@ const TextBar = ({ message, timeSent, from, color, myId, image ,name}: props) =>
                         borderBottomLeftRadius={bottomLradius}
                     >
                         {message}
-                    </Box>
+                    </Box>                  
                 </Flex>
+                
             </HStack>
             <Text fontSize="xs" color="grey">
                 {dayjs(timeSent).format("H:M")}
