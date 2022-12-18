@@ -61,7 +61,7 @@ function detail() {
         setradius(radius)
     }
 
-    const [room, setRoom] = React.useState("")
+    const [room, setRoom] = React.useState<any>()
 
     const getRoom = API.get("/chat")
     useEffect(() => {
@@ -145,7 +145,6 @@ function detail() {
                                 <Box my={5}>
 
                                     <CloseButton my={-1} ml={-1} onClick={() => nextres()} />
-
 
                                     <Heading textAlign={"center"} fontWeight="bold" color={"#E65300"}>
                                         {e1.resName}
@@ -251,13 +250,12 @@ function detail() {
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                    {/* {room?.map((ro:any) => { */}
-                                                                    {friend.map((ro: any) => {
+                                                                    {room?.map((ro:any) => {
                                                                         return (
                                                                             <RadioGroup onChange={setRoom} value={room}>
                                                                                 <Radio value={ro.roomId}>
                                                                                     <WrapItem>
-                                                                                        <Avatar name={ro.group.roomName} /*src={ro.nick.nameWho.image} */ />
+                                                                                        <Avatar name={ro.group.roomName} src={ro.nick.nameWho.image} />
                                                                                         <Text></Text>
                                                                                     </WrapItem>
                                                                                 </Radio>
