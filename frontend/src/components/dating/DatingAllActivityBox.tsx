@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, Image, Spacer, Tag, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Heading, Image, Spacer, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
 // import { POLL } from "./shared/poll"
 import { Link, useParams } from "react-router-dom"
@@ -105,7 +105,10 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
         }
     }
 
-
+    const isMobile = useBreakpointValue({
+        base: false,
+        md: true,
+    })
 
     return (
         <Box borderRadius="10px" color="black">
@@ -133,7 +136,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                                     <Text ml="30px" fontSize="20px">
                                         {values.pollCreator.fName}
                                         &nbsp;
-                                        {values.pollCreator.lName.substring(0, 1) + "."}
+                                        {!isMobile ? (values.pollCreator.lName.substring(0, 1) + ".") : values.pollCreator.lName}
                                     </Text>
                                 </Center>
                             </Flex>
