@@ -36,7 +36,7 @@ userRoutes.get("/profile/edit/:id", verifyUser, getaboutmeuser)
 
 userRoutes.put("/profile/edit", editaboutmeuser)
 
-userRoutes.put("/profile/blockuser/:id", blockuser)
+userRoutes.post("/profile/blockuser/:id", blockuser)
 
 userRoutes.get("/profile/getblockuser/:id", getblockuser)
 
@@ -45,7 +45,5 @@ userRoutes.put("/profile/insertfollow/:id", insertfollow)
 userRoutes.get("/getFollower/:id", getFollower)
 
 userRoutes.get("/getFollowering/:id", getFollowing)
-
-
 
 export default userRoutes

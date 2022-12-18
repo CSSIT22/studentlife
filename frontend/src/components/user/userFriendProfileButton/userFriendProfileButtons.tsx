@@ -21,6 +21,8 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Radio,
+    RadioGroup,
     Stack,
     useDisclosure
 } from "@chakra-ui/react";
@@ -32,6 +34,7 @@ import { userData } from "src/pages/groups/data";
 
 export function userFriendProfileButtons(onOpen: () => void, initialRef: React.MutableRefObject<null>, finalRef: React.MutableRefObject<null>, onClose: () => void, isOpen: boolean, navigate: NavigateFunction) {
 
+    const [reason, setReason] = useState<string>()
     const { isOpen: isReportModalOpen, onOpen: onReportModalOpen, onClose: onReportModalClose } = useDisclosure()
     const { isOpen: isConfirmRPModalOpen, onOpen: onConfirmRPModalOpen, onClose: onConfirmRPModalClose } = useDisclosure()
     const { isOpen: isBlockModalOpen, onOpen: onBlockModalOpen, onClose: onBlockModalClose } = useDisclosure()
@@ -45,11 +48,7 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
         setblock(user_block)
     }
     function submitHandler() {
-        API.post(`/user/profile/blockuser/${param.userID}`, {
-            block: block,
-
-        }).then().catch(err => console.error("Error happend during updating user profile", err))
-
+    API.post(`/user/profile/blockuser/${param.userID}`).then().catch(err => console.error(err))
 
     }
 
@@ -63,6 +62,17 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
 
     function setIsFolCount(arg0: any) {
         throw new Error("Function not implemented.");
+    }
+
+    function handleReport() {
+        const arr = window.location.href.split("/")
+        const userId = arr[arr.length - 1]
+        API.post('/backendService/banuser', {
+            data: {
+                bannedUserId: userId,
+                reason: reason
+            }
+        }).then().catch(err => console.error(err))
     }
 
     return (
@@ -143,22 +153,20 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                         motionPreset="slideInBottom"
                     >
                         <ModalOverlay />
-                        <ModalContent>
+                        <ModalContent>``
                             <ModalHeader>REPORT</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody pb={6}>
                                 <FormLabel>Why are you reporting this account?</FormLabel>
-                                <Stack spacing={5} direction="column">
-                                    <Checkbox colorScheme="orange">Post inappropriate content</Checkbox>
-                                    <Checkbox colorScheme="orange">Making anxious/guilty</Checkbox>
-                                    <Checkbox colorScheme="orange">Toxic</Checkbox>
-                                    <Checkbox colorScheme="orange">Bullying</Checkbox>
-                                    <Checkbox colorScheme="orange">Harassment</Checkbox>
-                                </Stack>
-                                <FormControl mt={4}>
-                                    <FormLabel>Other :</FormLabel>
-                                    <Input placeholder="Details" />
-                                </FormControl>
+                                <RadioGroup onChange={setReason} value={reason}>
+                                    <Stack spacing={5} direction="column">
+                                        <Radio colorScheme="orange" value="Post inappropriate content">Post inappropriate content</Radio>
+                                        <Radio colorScheme="orange" value="Making anxious/guilty">Making anxious/guilty</Radio>
+                                        <Radio colorScheme="orange" value="Toxic">Toxic</Radio>
+                                        <Radio colorScheme="orange" value="Bullying">Bullying</Radio>
+                                        <Radio colorScheme="orange" value="Harassment">Harassment</Radio>
+                                    </Stack>
+                                </RadioGroup>
                             </ModalBody>
                             <ModalFooter>
                                 <Button colorScheme="orange" mr={3} _hover={{ background: "orange.200" }} onClick={onConfirmRPModalOpen}>
@@ -176,6 +184,7 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                                                 colorScheme="orange"
                                                 mr={3}
                                                 onClick={() => {
+                                                    handleReport()
                                                     onReportModalClose()
                                                     onConfirmRPModalClose()
                                                 }}
@@ -185,7 +194,6 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                                             <Button
                                                 variant="ghost"
                                                 onClick={() => {
-                                                    onReportModalClose()
                                                     onConfirmRPModalClose()
                                                 }}
                                             >
@@ -206,9 +214,13 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                         <ModalContent>
                             <ModalHeader>Are you sure to block this account?</ModalHeader>
                             <ModalCloseButton />
-                            <form onSubmit={(e) => { e.preventDefault(); submitHandler() }}>
+                            <form onSubmit={(e) => { submitHandler() }}>
                                 <ModalFooter>
-                                    <Button colorScheme="orange" mr={3}  onClick={blockHandler}>
+                                    <Button type="submit" colorScheme="orange" mr={3} onClick={() => {
+                                        blockHandler
+                                        onBlockModalClose()
+                                        onConfirmRPModalClose()
+                                    }}>
                                         Block
                                     </Button>
                                     <Button variant="ghost" onClick={onBlockModalClose}>
