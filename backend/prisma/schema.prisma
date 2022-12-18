@@ -1672,7 +1672,6 @@ model ShortLink {
 
 model ShortLink_Save {
   slId   String    @id
-  link   String
   title  String
   desc   String
   metaOf ShortLink @relation(fields: [slId], references: [slId])
