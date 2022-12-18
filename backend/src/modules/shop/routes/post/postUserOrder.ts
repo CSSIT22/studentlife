@@ -78,9 +78,23 @@ const postUserOrder = async (req: Request, res: Response) => {
             const postedProducts = await prisma.shop_Order_Product.createMany({
                 data: orderProducts
             })
+            const postedOrder = await prisma.shop_Order.findUnique({where: {
+                orderId: orderUser.orderId
+            },
+            include: {
+                products: {
+                    include: {
+                        product:{
+                            include:{
+                                contactTo: true
+                            }
+                        }
+                    }
+                }
+            }
+        })
             
-            
-            return res.send(orderUser)
+            return res.send(postedOrder)
         }
         return res.status(404).send("User not found!")
     } catch (error) {

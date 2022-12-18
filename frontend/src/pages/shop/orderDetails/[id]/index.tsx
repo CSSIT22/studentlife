@@ -1,7 +1,7 @@
 import { Shop_OrderInformation, Shop_Order_Details_Show } from '@apiType/shop'
 import { Box, Flex, Heading, Input, Text, Toast, useToast } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { setDataAPI } from 'src/components/shop/functions/usefulFunctions'
 import OrderItems from 'src/components/shop/orders/OrderItems'
 import ShopAppBody from 'src/components/shop/ShopAppBody'
@@ -12,23 +12,21 @@ import API from 'src/function/API'
 
 const OrderDetails = () => {
     const user = useContext(authContext)
+    const param = useParams()
+    const search = useLocation().search
     let userId = user.userId
     const loaction = useLocation()
     const [orderInformation, setOrderInformation] = useState<Shop_Order_Details_Show | null>(null)
     const [orderStaus, setOrderStatus] = useState<string>("")
     const toast = useToast()
     let isAuthorized = false
-    const sellerUserId = loaction.state.sUserId
-    const orderId = loaction.state.orderId
-    const placeUserId = loaction.state.pUserId
-
-    //Testing code
-    // const sellerUserId = "1"
-    // const placeUserId = "y8oicpxVvhSWTuFDIC_xE"
-    // const orderId = "clbqlp3090007uhl8v15fwngz"
-
-    const defaultUserIds = ["9kcmTSjNL2AgGh7b3h7FI", "y8oicpxVvhSWTuFDIC_xE", "TT2ViedZgrmwLwTwTn9Bm"]
-    if (userId == sellerUserId || defaultUserIds.includes(userId)) {
+    let sellerUserId = new URLSearchParams(search).get('sellerUserIds')?.split(',')
+    const orderId = param.id 
+    const completed = setDataAPI('/shop/getOrderInformation/' + orderId, setOrderInformation)
+    if (completed!= true){return completed}
+    
+    const placeUserId = orderInformation?.userId
+    if (sellerUserId != undefined && sellerUserId.includes(userId)) {
         isAuthorized = true
     }
 
@@ -56,8 +54,6 @@ const OrderDetails = () => {
     }
 
     if (isAuthorized == true) {
-        const completed = setDataAPI("/shop/getOrderInformation/" + orderId, setOrderInformation)
-        if (!completed) { return <ShopAppBody>{completed}</ShopAppBody> }
         return <ShopAppBody>
             <TitleBox title={"Order Placed by userId: " + placeUserId} />
             <Box p="10"></Box>

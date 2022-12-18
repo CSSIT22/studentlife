@@ -16,10 +16,12 @@ const ContactUs = () => {
                         <Flex direction="column" gap="4" p="4">
                             {phoneNo("+(66) 92 197 9782")}
                             {phoneNo("+(66) 82 353 6704")}
+                            {phoneNo("+(66) 94 565 6584")}
                         </Flex>
                         <Flex direction="column" justify="center" gap="4" p="4">
                             {phoneNo("Line Id: khush")}
                             {phoneNo("Line Id: oiemagique")}
+                            {phoneNo("Line Id: ulyssus")}
                         </Flex>
                     </Flex>
                 </ContentBox>

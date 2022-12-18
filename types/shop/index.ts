@@ -163,6 +163,7 @@ export type Shop_Contact = {
   phoneNo: string;
   address: string;
   lineId: string;
+  userId?: string;
 };
 
 /**
@@ -248,7 +249,13 @@ export type Shop_OrderInformation = {
       })[]
     | null;
 };
-
+export type Shop_Order_Noti = Shop_Order & {
+  products: (Shop_Order_Product & {
+    product: Shop_Product & {
+      contactTo: Shop_Contact;
+    };
+  })[];
+};
 export type Shop_Order_Details_Show = {
   orderId: string;
   userId: string;
