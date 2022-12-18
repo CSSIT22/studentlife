@@ -12,7 +12,6 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverFooter,
     PopoverHeader,
     PopoverTrigger,
     Show,
@@ -24,12 +23,10 @@ import {
     Icon,
     Heading,
     useBoolean,
-    CheckboxGroup,
-    Stack,
-    Checkbox,
-    FormControl,
     Radio,
     RadioGroup,
+    SimpleGrid,
+    Stack,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { AiFillHeart, AiOutlineComment, AiOutlineGlobal, AiOutlineHeart, AiOutlineLike, AiOutlinePhone } from "react-icons/ai"
@@ -38,19 +35,14 @@ import AppBody from "../../components/share/app/AppBody"
 import ShowImage from "../../components/restaurant/ShowImage"
 import { SlActionRedo } from "react-icons/sl"
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom"
-import { friend } from "./data/friend"
 import API from "src/function/API"
 import Lottie from 'lottie-react'
 import loading1 from './animation/loading1.json'
 import notloading2 from './animation/notloading2.json'
 
-
-
 function detail() {
     const { onOpen } = useDisclosure()
     const params = useParams()
-    const [numres, setnumres] = useState(params.detailRes)
-
     const [property, setproperty] = React.useState<any>([])
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
@@ -64,26 +56,36 @@ function detail() {
 
     }, [params.detailRes])
 
-  
-
     const selectRadius = (radius: number) => {
         setradius(radius)
     }
 
-    const [room, setRoom] = React.useState("")
-    //console.log(room);
-
+    const [room, setRoom] = React.useState<any>()
+    const [room2, setRoom2] = React.useState<any>()
 
     const getRoom = API.get("/chat")
     useEffect(() => {
         getRoom.then((item) => setRoom(item.data))
     }, [setRoom])
 
+    function buffer_to_img(data: any) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
+        return `data:image/png;base64,${base64String}`
+    }
+    function handleImg(e: any) {
+        if (e === null) {
+            return ""
+        }
+        else {
+            return buffer_to_img(e.data)
+        }
+    }
+
     let [isFavorite, setIsFavorite] = useState(Boolean)
+
 
     useEffect(() => {
         property.map((el: any) => {
-            //console.log(el.userFav.length)
             if (el.userFav.length == 1) {
                 setIsFavorite(true)
             } else {
@@ -92,15 +94,13 @@ function detail() {
         })
     }, [setIsFavorite, property])
 
-
-
     const addFavorite = () => {
         API.post("/restaurant/detail?resId=" + new URLSearchParams(location.search).get("resId"))
     }
 
     const navigate = useNavigate()
     const share = () => {
-        navigate(`/chat/${room}/${numres}`)
+        navigate(`/chat/${room2}?resId=${new URLSearchParams(location.search).get("resId")}`)
     }
 
     const nextres = () => {
@@ -140,7 +140,6 @@ function detail() {
             </Box>
         </AppBody>
     )
-    // console.log(parseInt(new URLSearchParams(location.search).get("id") + "") + 1 > parseInt(new URLSearchParams(location.search).get("total") + "") - 1 ? 0 : parseInt(new URLSearchParams(location.search).get("id") + "") + 1);
 
     return (
         <AppBody
@@ -159,8 +158,7 @@ function detail() {
                             <Box px={2} width="full" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} boxShadow={"lg"}>
                                 <Box my={5}>
 
-                                    <CloseButton  my={-1} ml={-1} onClick={() => nextres()} />
-
+                                    <CloseButton my={-1} ml={-1} onClick={() => nextres()} />
 
                                     <Heading textAlign={"center"} fontWeight="bold" color={"#E65300"}>
                                         {e1.resName}
@@ -266,27 +264,29 @@ function detail() {
                                                         <PopoverBody>
                                                             <Flex>
                                                                 <Wrap spacing="30px">
-                                                                    {/* {room?.map((ro:any) => { */}
-                                                                    {friend.map((ro: any) => {
-                                                                        return (
-                                                                            <RadioGroup onChange={setRoom} value={room}>
-                                                                                <Radio value={ro.roomId}>
-                                                                                    <WrapItem>
-                                                                                        <Avatar name={ro.group.roomName} /*src={ro.nick.nameWho.image} */ />
-                                                                                        <Text></Text>
-                                                                                    </WrapItem>
-                                                                                </Radio>
-                                                                            </RadioGroup>
-                                                                        )
+                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6}>
+                                                                        {room?.map((ro: any) => {
+                                                                            return (
+                                                                                <RadioGroup onChange={setRoom2} value={room2}>
+                                                                                    <Radio value={ro.room.roomId}>
 
-                                                                    })}
+                                                                                        <GridItem>
+                                                                                            <Avatar name={ro.room.nick[0].nickname} src={handleImg(ro.room.nick[0].nameWho.image)} />
+                                                                                            <Center><Text fontSize={"xs"}>{ro.room.nick[0].nickname}</Text></Center>
+                                                                                        </GridItem>
+
+                                                                                    </Radio>
+                                                                                </RadioGroup>
+                                                                            )
+
+                                                                        })}
+                                                                    </Grid>
                                                                 </Wrap>
                                                             </Flex>
 
 
                                                             <Flex my={5}>
                                                                 <Button
-                                                                    // type="submit"
                                                                     bg={"green.400"}
                                                                     color="white"
                                                                     border={1}
