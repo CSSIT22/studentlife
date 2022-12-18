@@ -17,7 +17,7 @@ const getaboutmeuser = async (req: Request, res: Response) => {
                 hobby: "",
                 phone: "",
                 sex: "",
-                year: 2000,
+                //year: 2000,
             },
         })
         res.json(detail)

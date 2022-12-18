@@ -29,6 +29,7 @@ import editPost from "./routes/community/post/editPost"
 import likePost from "./routes/community/post/likePost"
 import dislikePost from "./routes/community/post/dislikePost"
 import downloadFile from "../airdrop/routes/functions/downloadFile"
+import creatingCommunityPost from "./routes/community/post/createCommunityPost"
 const upload = multer()
 const groupRoutes = express()
 groupRoutes.use(express.json())
@@ -51,7 +52,7 @@ groupRoutes.get("/getCommunityFile/:id", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
 groupRoutes.get("/downloadFile/:id", downloadFile)
 
-// groupRoutes.post("/creatingCommunityPost/:id", upload.array("upload"), creatingCommunityPost)
+//groupRoutes.post("/creatingCommunityPost", upload.array("upload"), creatingCommunityPost)
 
 groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)
@@ -65,7 +66,7 @@ groupRoutes.get("/getTag", getTag)
 
 //Post
 groupRoutes.get("/getCommunityPost/:id", getCommunityPost)
-groupRoutes.post("/createPost", createPost)
+groupRoutes.post("/createPost", upload.array("upload"), createPost)
 groupRoutes.delete("/deletePost", deletePost)
 groupRoutes.post("/pinPost", pinPost)
 groupRoutes.post("/unPinPost", unPinPost)

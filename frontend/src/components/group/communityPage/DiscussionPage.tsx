@@ -43,6 +43,10 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
         console.log("data:", data)
     }, [])
 
+    useEffect(() => {
+        console.log(files)
+    }, [files])
+
     const aboutMap = [
         {
             icon: data?.communityprivacy ?
@@ -107,13 +111,19 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
     const toast = useToast()
     const onCreatePost = async () => {
         try {
-            const result = await API.post("/group/createPost",
-                {
-                    postText:
-                        postText,
-                    communityID:
-                        communityID
-                })
+            console.log(files)
+            const form = new FormData()
+            form.append("postText", postText);
+            form.append("communityID", communityID);
+            form.append("upload", files[0]);
+            for (var pair of form.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+            const result = await API.post("/group/createPost", form, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
             console.log(result)
             toast({
                 title: "Post created",

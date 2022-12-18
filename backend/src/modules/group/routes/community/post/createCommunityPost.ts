@@ -36,20 +36,32 @@ const creatingCommunityPost = async (req: Request, res: Response | any) => {
             .catch((err: any) => {
                 console.log(err)
             })
+
+        const communityPost = await prisma.Community_Post
+            .create({
+                data: {
+                    communityId:id,
+                    postId: postId
+                },
+            })
+
+            .then((res: any) => {
+                console.log("success")
+            })
+            .catch((err: any) => {
+                console.log(err)
+            })
     }
 
     fileList?.map((file: any) => {
         formData.append("upload", file.buffer, file.originalname)
     })
-
-
+    
     let resFileId: {
         Id: string
         Name: string
     }[] = []
-
-
-    if (fileList.length > 0) {
+    if (fileList) {
         const saveFile = await drive
             .post("/", formData)
             .then((res: any) => {
@@ -60,6 +72,11 @@ const creatingCommunityPost = async (req: Request, res: Response | any) => {
                 console.log(err)
             })
         const fileId = resFileId[0].Id
+
+        console.log(fileId)
+        console.log(postId)
+
+
 
         const file_contain = await prisma.file_Container.create({
             data: {

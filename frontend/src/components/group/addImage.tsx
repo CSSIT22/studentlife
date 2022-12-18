@@ -5,8 +5,8 @@ import { CiImageOn, CiYoutube } from "react-icons/ci"
 
 type ImageInsertProps = {
     children: React.ReactNode;
-    files: File | null;
-    setFiles: (files: File | null) => void;
+    files: any | null;
+    setFiles: (files: any | null) => void;
 };
 
 const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
@@ -29,11 +29,13 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
+        
         if (files) {
             console.log(`previewUrl before update: ${previewUrl}`);
             setPreviewUrl(URL.createObjectURL(files[0]));
             console.log(`previewUrl after update: ${previewUrl}`);
             setPreviewUrl(URL.createObjectURL(files[0]));
+            setFiles(files)
 
             const image = new Image();
             image.src = URL.createObjectURL(files[0]);
@@ -56,7 +58,7 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
         }
     };
 
-    console.log(`Button rendered: ${previewUrl}`);
+    
 
     return (
         <Box>
