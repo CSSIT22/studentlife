@@ -19,19 +19,8 @@ const createEvent = async (req: Request, res: Response) => {
                 endTime: new Date(body.endTime),
                 desc: body.desc,
                 eventTypeId: body.eventTypeId,
-                // descId: body.descId,
-                hostAt: {
-                    connectOrCreate: {
-                        create: {
-                            placeId: body.placeId,
-                            building: "test",
-                            room: "123",
-                        },
-                        where: {
-                            placeId: body.placeId,
-                        },
-                    },
-                },
+                placeId: body.placeId,
+                
             },
         })
         const eventId = await prisma.event.findFirst({
