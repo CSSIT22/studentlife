@@ -10,7 +10,7 @@ const drive = axios.create({
     },
 })
 
-const postCreatingText = async (req: Request, res: Response | any) => {
+const postCreatingText = async (req: Request, res: Response) => {
     console.log(req.body)
     console.log(req.files)
     const formData = new fd()
