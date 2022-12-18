@@ -9,6 +9,28 @@ verifyEnrollRoutes.get("/", (_, res) => {
     return res.send("Dating Module Verify enroll API")
 })
 
+verifyEnrollRoutes.get("/getDetail", verifyUser, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        if (userId == null) {
+            return res.send([])
+        } else {
+            const detailDB = await prisma.detail.findFirst({
+                where: {
+                    userId: userId,
+                },
+                select: {
+                    birth: true,
+                    sex: true,
+                },
+            })
+            return res.send(detailDB)
+        }
+    } catch (err) {
+        return res.status(404).send("Detail not found")
+    }
+})
+
 verifyEnrollRoutes.get("/getDatingEnroll", verifyUser, async (req: Request, res: Response) => {
     try {
         const userId = req.user?.userId
