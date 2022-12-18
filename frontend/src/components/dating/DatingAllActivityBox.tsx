@@ -9,7 +9,7 @@ import API from "src/function/API"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { ApplyPoll, Polls } from "@apiType/dating"
 import Lottie from "lottie-react"
-import { motion } from "framer-motion"
+import { delay, motion } from "framer-motion"
 import NoActivity from "../../components/dating/lottie/NoActivity.json"
 
 
@@ -18,7 +18,7 @@ declare global {
 }
 
 // Component of all activity page
-const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, userId }) => {
+const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }> = ({ poll, userId, fetch }) => {
     const params = useParams()
     // const [poll, setPoll] = useState(POLL)
 
@@ -31,9 +31,10 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
     //     console.log("Is appiled " + pId)
     //     console.log(today)
     // }
-    const [cc, setcc] = useState<boolean>(false)
     const toast = useToast()
     function handleApply(pId: string, apState: boolean, pollName: string, pollCreaterId: string) {
+        let button = document.getElementById(pId) as HTMLInputElement
+        button.disabled = true
         const now = new Date()
         now.setHours(now.getHours() + 7);
         // console.log(pId + " s: " + apState)
@@ -43,6 +44,9 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
             // If user apply -> tost, add data to db, change button state
             API.post<ApplyPoll>("/dating/allpoll/applyPoll", { pollId: pId, isAccepted: false, registerTime: now, pollCreaterId: pollCreaterId, pollName: pollName })
                 .catch((err) => console.log(err))
+                .finally(() => {
+                    fetch()
+                })
             // (appiled(pId),
             //     toast({
             //         title: "Applied success",
@@ -54,6 +58,7 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
             //     }))
         )
     }
+
 
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
@@ -119,161 +124,203 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string }> = ({ poll, use
                     globalThis.date = handlePollDate(values.pollAppointAt)
                     globalThis.time = hanlePollTime(values.pollAppointAt)
                     return (
-                        <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
-                            <Flex>
-                                <Link to={"/user/" + values.pollCreator.userId}>
-                                    <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={values.pollCreator.image ?
-                                            (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
-                                            :
-                                            NoProfileImg
-                                        }
-                                    /></Link>
-                                <Center>
-                                    <Text ml="30px" fontSize="20px">
-                                        {values.pollCreator.fName}
-                                        &nbsp;
-                                        {!isMobile ? (values.pollCreator.lName.substring(0, 1) + ".") : values.pollCreator.lName}
-                                    </Text>
-                                </Center>
-                            </Flex>
-                            <Heading fontSize="20px" pt="10px">
-                                {values.pollName}
-                            </Heading>
-                            {values.interests.length < 1 ? <Text pb="20px"></Text> :
-                                <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
-                                    <Box
-                                        height="70px"
-                                        pt="5px"
-                                        overflowX={{ base: "auto", md: "visible" }}
-                                        whiteSpace={{ base: "nowrap", md: "initial" }}
-                                        style={{ WebkitOverflowScrolling: "touch" }}
-                                    >
-                                        {values.interests.map((i) => (
-                                            <Tag
-                                                backgroundColor="orange.400"
-                                                color="white"
-                                                mr="1"
-                                                mb="1"
-                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                                borderRadius="5px"
-                                                h={{ md: "28px" }}
-                                            >
-                                                <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
-                                                    {i.interest.interestName}
-                                                </Text>
-                                            </Tag>
-
-                                        ))}
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 20,
+                            }}
+                        >
+                            <Box key={values.pollId} mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
+                                <Flex>
+                                    <Link to={"/user/" + values.pollCreator.userId}>
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            whileTap={{ scale: 1 }}
+                                            whileHover={{ scale: 1.2, }}
+                                            transition={{
+                                                type: "spring",
+                                                stiffness: 360,
+                                                damping: 20,
+                                            }}
+                                        >
+                                            <Image
+                                                borderRadius="full"
+                                                boxSize="78px"
+                                                objectFit="cover"
+                                                src={values.pollCreator.image ?
+                                                    (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
+                                                    :
+                                                    NoProfileImg
+                                                }
+                                            />
+                                        </motion.div></Link>
+                                    <Center>
+                                        <Text ml="30px" fontSize="20px">
+                                            {values.pollCreator.fName}
+                                            &nbsp;
+                                            {!isMobile ? (values.pollCreator.lName.substring(0, 1) + ".") : values.pollCreator.lName}
+                                        </Text>
+                                    </Center>
+                                </Flex>
+                                <Heading fontSize="20px" pt="10px">
+                                    {values.pollName}
+                                </Heading>
+                                {values.interests.length < 1 ? <Text pb="20px"></Text> :
+                                    <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
+                                        <Box
+                                            height="70px"
+                                            pt="5px"
+                                            overflowX={{ base: "auto", md: "visible" }}
+                                            whiteSpace={{ base: "nowrap", md: "initial" }}
+                                            style={{ WebkitOverflowScrolling: "touch" }}
+                                        >
+                                            {values.interests.map((i) => (
+                                                <motion.div
+                                                    initial={{ scale: 0 }}
+                                                    animate={{ scale: 1 }}
+                                                    style={{ display: "inline-block" }}
+                                                    whileTap={{ scale: 1 }}
+                                                    whileHover={{ scale: 1.2, }}
+                                                    transition={{
+                                                        type: "spring",
+                                                        stiffness: 360,
+                                                        damping: 20,
+                                                    }}
+                                                >
+                                                    <Tag
+                                                        backgroundColor="orange.400"
+                                                        color="white"
+                                                        mr="1"
+                                                        mb="1"
+                                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                                        borderRadius="5px"
+                                                        h={{ md: "28px" }}
+                                                    >
+                                                        <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
+                                                            {i.interest.interestName}
+                                                        </Text>
+                                                    </Tag>
+                                                </motion.div>
+                                            ))}
+                                        </Box>
                                     </Box>
-                                </Box>
-                            }
-                            <Text fontSize="16px">
-                                {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
-                            </Text>
+                                }
+                                <Text fontSize="16px">
+                                    {values.pollText.length > 1 ? "Description:" : ""} {values.pollText}
+                                </Text>
 
-                            <Text fontSize="16px">Location: {values.pollPlace}</Text>
+                                <Text fontSize="16px">Location: {values.pollPlace}</Text>
 
-                            <Text fontSize="16px">Date: {globalThis.date}</Text>
-                            <Text fontSize="16px">Time: {globalThis.time}</Text>
-                            <Text fontSize="16px">
-                                Number of people: {handlePeople(values.participantMin, values.participantMax)}
-                                {/* {values.participantMin}-{values.participantMax} people */}
-                            </Text>
-                            <Flex justifyContent="end">
-                                {/* Check if poll open or close to display different button */}
-                                {values.pollCreator.userId !== userId ?
-                                    (values.isOpen ? (
-                                        // If the poll have been applied user can click to navigate to appiledpoll page
-                                        <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
-                                            {values.participants.length != 0 ? (<Button
+                                <Text fontSize="16px">Date: {globalThis.date}</Text>
+                                <Text fontSize="16px">Time: {globalThis.time}</Text>
+                                <Text fontSize="16px">
+                                    Number of people: {handlePeople(values.participantMin, values.participantMax)}
+                                    {/* {values.participantMin}-{values.participantMax} people */}
+                                </Text>
+                                <Flex justifyContent="end">
+                                    {/* Check if poll open or close to display different button */}
+                                    {values.pollCreator.userId !== userId ?
+                                        (values.isOpen ? (
+                                            // If the poll have been applied user can click to navigate to appiledpoll page
+                                            <Link to={values.participants.length != 0 ? "/dating/poll/appliedpoll" : ""} style={{ textDecoration: "none" }}>
+                                                {(values.participants.length != 0) ?
+                                                    (<Box><Button
+                                                        display="flex"
+                                                        cursor="pointer"
+                                                        w="150px"
+                                                        m="10px"
+                                                        mt="20px"
+                                                        pr="40px"
+                                                        pl="40px"
+                                                        id="applied"
+                                                        colorScheme="orange.200"
+                                                        backgroundColor={"#B24000"}
+                                                        borderRadius="5px"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                    >
+                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                            {"Applied"}
+                                                        </Text>
+                                                    </Button></Box>) :
+                                                    (<Box><motion.div
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        whileTap={{ scale: 0.9 }}
+                                                        whileHover={{ scale: 1.1, }}
+                                                        transition={{
+                                                            type: "spring",
+                                                            stiffness: 360,
+                                                            damping: 20,
+                                                        }}
+                                                    ><Button
+                                                        display="flex"
+                                                        cursor="pointer"
+                                                        w="150px"
+                                                        m="10px"
+                                                        mt="20px"
+                                                        pr="40px"
+                                                        pl="40px"
+                                                        colorScheme="orange.200"
+                                                        backgroundColor={"#E65300"}
+                                                        borderRadius="5px"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                        id={values.pollId}
+                                                        onClick={() => {
+                                                            handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
+                                                            // , setApplyState(true)
+                                                        }}
+                                                    >
+                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                            {"Apply"}
+                                                        </Text>
+                                                    </Button></motion.div></Box>)
+                                                }
+                                            </Link>
+                                        ) : (
+                                            <Button
                                                 display="flex"
                                                 cursor="pointer"
                                                 w="150px"
                                                 m="10px"
-                                                mt="20px"
+                                                mt="30px"
                                                 pr="40px"
                                                 pl="40px"
-                                                colorScheme="orange.200"
-                                                backgroundColor={"#B24000"}
+                                                colorScheme={"gray.200"}
+                                                backgroundColor={"grey"}
                                                 borderRadius="5px"
                                                 justifyContent="center"
                                                 alignItems="center"
-                                                onClick={() => {
-                                                    handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                }}
-                                            // isDisabled={true}
                                             >
                                                 <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                    {"Applied"}
+                                                    Closed
                                                 </Text>
-                                            </Button>) : (<Button
-                                                display="flex"
-                                                cursor="pointer"
-                                                w="150px"
-                                                m="10px"
-                                                mt="20px"
-                                                pr="40px"
-                                                pl="40px"
-                                                colorScheme="orange.200"
-                                                backgroundColor={"#E65300"}
-                                                borderRadius="5px"
-                                                justifyContent="center"
-                                                alignItems="center"
-
-                                                onClick={() => {
-                                                    handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                    // , setApplyState(true)
-                                                    setcc(true)
-                                                }}
-                                                isDisabled={cc}
-                                            >
-                                                <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                    {"Apply"}
-                                                </Text>
-                                            </Button>)}
-                                        </Link>
-                                    ) : (
-                                        <Button
+                                            </Button>
+                                        )
+                                        ) : (<Box
                                             display="flex"
-                                            cursor="pointer"
-                                            w="150px"
+                                            w="300px"
                                             m="10px"
                                             mt="30px"
-                                            pr="40px"
-                                            pl="40px"
-                                            colorScheme={"gray.200"}
-                                            backgroundColor={"grey"}
-                                            borderRadius="5px"
+                                            pr="-20px"
+                                            pl="140px"
                                             justifyContent="center"
                                             alignItems="center"
+                                            color="gray.600"
                                         >
-                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                Closed
+                                            <Text fontWeight="500" fontSize="20px" lineHeight="120%" textAlign="center" >
+                                                This is your poll.
                                             </Text>
-                                        </Button>
-                                    )
-                                    ) : (<Box
-                                        display="flex"
-                                        w="300px"
-                                        m="10px"
-                                        mt="30px"
-                                        pr="-20px"
-                                        pl="140px"
-                                        justifyContent="center"
-                                        alignItems="center"
-                                        color="gray.600"
-                                    >
-                                        <Text fontWeight="500" fontSize="20px" lineHeight="120%" textAlign="center" >
-                                            This is your poll.
-                                        </Text>
-                                    </Box>)
-                                }
-                            </Flex>
-                        </Box>
+                                        </Box>)
+                                    }
+                                </Flex>
+
+                            </Box></motion.div>
                     )
                 })
                 : (<Box display="block" pt="50px" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "25%" }}>

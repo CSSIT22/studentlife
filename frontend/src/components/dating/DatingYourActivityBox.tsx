@@ -18,17 +18,6 @@ declare global {
 // Component of your activity page
 const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
     // const [poll, setPoll] = useState(POLL)
-    const params = useParams()
-    const didMount = useDidMount()
-
-    function useDidMount() {
-        const [didMount, setDidMount] = useState(true)
-        useEffect(() => {
-            setDidMount(false)
-        }, [])
-
-        return didMount
-    }
 
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
@@ -73,6 +62,13 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
     function goToPoll(pId: string) {
         return "/dating/poll/yourpoll/" + pId + "/"
     }
+
+    // window.addEventListener('scroll', function () {
+    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    //         if (mpolls.length != mpoll.length)
+    //             setmPolls(poll.slice(0, mpolls.length + 20))
+    //     }
+    // })
 
     const isMobile = useBreakpointValue({
         base: false,

@@ -31,6 +31,9 @@ appliedPollRoutes.get("/getAppliedPolls", verifyUser, async (req: Request, res: 
                     },
                 },
             },
+            orderBy: {
+                registerTime: "desc"
+            }
         })
         return res.send(poll.map((i) => ({ ...i, poll: { ...i.poll, interests: i.poll.interests.map((j) => ({ interest: j.interest })) } })))
 
