@@ -11,9 +11,10 @@ const insertfollow = async (req: Request, res: Response) => {
             // },
             data: {
                 userId: userId,
-                anotherUserId: req.params.userId,
+                anotherUserId: req.params.id,
             },
         })
+        res.send(follower)
     } catch (err) {
         console.error(err)
         res.status(400).json({ message_error: err })

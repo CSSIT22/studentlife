@@ -1,5 +1,5 @@
 import { Avatar, Flex, Box, Center, Container, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { AiFillLike, AiOutlineShareAlt } from "react-icons/ai"
 import API from "src/function/API"
 import AppBody from "../share/app/AppBody"
@@ -29,12 +29,22 @@ export const Post = (prop: any) => {
     // const getPost = API.get("/timeline/getPostList") // data from database == User_Profile then Student_Post
     const getPost = API.get("/timeline/getStudentPost/" + prop.i) // data from database == Student_Post then User_Profile
 
+    const didFetch = useRef<boolean>(false);
     useEffect(() => {
+        if (didFetch.current || prop.isLoading) return;
+        if (prop.setLoading)
+            prop.setLoading(true)
         getPost.then(res => {
             setposts(res.data)
+            console.log(res.data)
+        }).finally(() => {
+            if (prop.setLoading)
+                prop.setLoading(false)
         })
+        return () => {
+            didFetch.current = true;
+        }
     }, [])
-    console.log(posts)
 
     // function CurrentDate(): string {
     //     var date: Date = new Date()
