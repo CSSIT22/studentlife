@@ -1,13 +1,22 @@
 import AppBody from "../../components/share/app/AppBody"
 import { Container, Center, Heading, Input, Button, Box, Text, Link, useToast } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
+import API from "src/function/API"
+import { useState } from "react"
 
 const savelink = () => {
     const toast = useToast()
-
+    const [link, setLink] = useState("")
+    const [generated, setGenerated] = useState("")
     const navigate = useNavigate()
     const allLink = () => {
         navigate("/link/allLink")
+
+    }
+    const generateLink = async () => {
+        const response = await API.post("http://localhost:8000/shortlink/generate", { originalLink: link }) //axios will call Http
+        setGenerated(response.data.result.shortenLink)
+        // console.log(response.data)
     }
     return (
         <AppBody>
@@ -27,22 +36,14 @@ const savelink = () => {
                     <Text as={"b"}>SAVELINK FEATURE</Text>
                 </Box>
                 <br />
-                <Input placeholder="link url:" w={"100%"} height={"50px"} border={"4px"} borderColor={"black"} />
+                <Input placeholder="link url:" onChange={(e) => setLink(e.target.value)} w={"100%"} height={"50px"} border={"4px"} borderColor={"black"} />
                 <Box>
                     <br />
                     <Button
                         bg={"green.400"}
                         w={"100%"}
                         rounded={"xl"}
-                        onClick={() =>
-                            toast({
-                                title: "Savelink Complete!",
-
-                                status: "success",
-                                duration: 1500,
-                                isClosable: true,
-                            })
-                        }
+                        onClick={generateLink}
                     >
                         Save
                     </Button>
