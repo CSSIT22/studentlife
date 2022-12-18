@@ -213,7 +213,7 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                         stiffness: 360,
                         damping: 20,
                     }}>
-                    <Text textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                    <Text textAlign="center" mt="-20px" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
                         Right now, you don't have any activity polls.
                     </Text></motion.div>
             </Box>)}
