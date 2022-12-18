@@ -33,13 +33,14 @@ const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
 }
 
-type memberType = {
+export type memberType = {
     roomId: string,
     joined: string,
     lefted: string,
     user: {
         userId: string,
         fName: string,
+        lName: string,
         image: {
             type: string,
             data: string
@@ -50,7 +51,7 @@ type memberType = {
 function propertyEvent(props: any) {
     const [Room, setRoom] = React.useState<RoomType>()
     const [member, setMember] = React.useState<memberType>()
-    
+
     // Change color
     const [roomColor, setRoomColor] = React.useState("")
     const colors = ["#000000", "#AEC6CF", "#808080", "#ff6961", "#C1E1C1", "#C3B1E1", "#ffc0cb", "#E68E5C", "#88aed0", "#FDFD96"]
@@ -58,10 +59,10 @@ function propertyEvent(props: any) {
         return setRoomColor(e.target.value)
     }
     const submitRoomColor = () => {
-        if(Room?.roomType === "INDIVIDUAL"){
+        if (Room?.roomType === "INDIVIDUAL") {
             API.put(`/chat/${param.roomId}?chatColor=${encodeURIComponent(roomColor)}`)
         }
-        if(Room?.roomType === "GROUP"){
+        if (Room?.roomType === "GROUP") {
             API.put(`/chat/${param.roomId}/editGroup?chatColor=${encodeURIComponent(roomColor)}`)
         }
         navigate(`/chat/${param.roomId}`)
@@ -82,10 +83,10 @@ function propertyEvent(props: any) {
             element.map((e: memberType) => {
                 const img = e.user.image
                 return (
-                    <HStack spacing={4} onClick={()=>navigate(`/user/${e.user.userId}`)} cursor={'pointer'}>
-                        <Avatar name={e.user.fName} src={(img === null) ? "" : buffer_to_img(img?.data)}/>
+                    <HStack spacing={4} onClick={() => navigate(`/user/${e.user.userId}`)} cursor={'pointer'}>
+                        <Avatar name={e.user.fName} src={(img === null) ? "" : buffer_to_img(img?.data)} />
                         <Heading size={"md"}>
-                            {e.user.fName}
+                            {e.user.fName} {e.user.lName}
                         </Heading>
                     </HStack>
                 )
@@ -102,10 +103,10 @@ function propertyEvent(props: any) {
     // Set room name
     const [roomName, setRoomName] = useState("")
     const submitRoomName = () => {
-        if(Room?.roomType === "INDIVIDUAL"){
+        if (Room?.roomType === "INDIVIDUAL") {
             API.put(`/chat/${param.roomId}?roomName=${roomName}`)
         }
-        if(Room?.roomType === "GROUP"){
+        if (Room?.roomType === "GROUP") {
             API.put(`/chat/${param.roomId}/editGroup?roomName=${roomName}`)
         }
         navigate(`/chat/${param.roomId}`)
@@ -202,7 +203,7 @@ function propertyEvent(props: any) {
     }
 
     if (props === "Set room name") {
-        if(Room?.roomType == 'INDIVIDUAL') {
+        if (Room?.roomType == 'INDIVIDUAL') {
             return (
                 <VStack spacing={4} p={4}>
                     <Input placeholder={Room?.nickname} onChange={(e: any) => setRoomName(e.target.value)} />
@@ -214,7 +215,7 @@ function propertyEvent(props: any) {
                 </VStack>
             )
         }
-        if(Room?.roomType == 'GROUP') {
+        if (Room?.roomType == 'GROUP') {
             return (
                 <VStack spacing={4} p={4}>
                     <Input placeholder={Room?.group.roomName} onChange={(e: any) => setRoomName(e.target.value)} />
@@ -298,7 +299,7 @@ function propertyEvent(props: any) {
     }
     if (props === "Member") {
         return (
-            <Flex direction={'column'} alignItems={'center'} gap={5} pb={6}>
+            <Flex direction={'column'} alignItems={'flex-start'} gap={5} pb={6} px={'12'} overflowY={"auto"} maxH={'80'}>
                 {renderMemberGroup(member)}
             </Flex>
         )
