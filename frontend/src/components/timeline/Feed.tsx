@@ -25,24 +25,6 @@ export const Feed = () => {
     }, [])
     console.log(posts)
 
-    const [reacts, setreacts] = useState<any>([])
-    const getReact = API.get("/timeline/getReact")
-    useEffect(() => {
-        getReact.then(((res: { data: any }) => {
-            setreacts(res.data)
-        }))
-    })
-
-    function CurrentDate(): string {
-        var date: Date = new Date()
-        var dmy = date.toDateString()
-        var hours = date.getHours().toString()
-        var minutes = date.getMinutes().toString()
-        // var seconds = date.getSeconds().toString()
-        let currentDate: string = dmy + " " + hours + ":" + minutes /* + ":" + seconds */
-        return currentDate
-    }
-
     return (
         <VStack>
             <AnnounceList />
@@ -57,7 +39,7 @@ export const Feed = () => {
                                 <VStack spacing="0.5" align={"-moz-initial"}>
                                     <Text align="left">{userProDt?.fName} {userProDt?.lName}</Text>
                                     <Text align="left" color="gray.500" fontWeight="semibold" fontSize="xs">
-                                        {postDt.lastEdit.CurrentDate()}
+                                        {postDt.lastEdit}
                                     </Text>
                                 </VStack>
                             </HStack>
@@ -68,11 +50,9 @@ export const Feed = () => {
                             </Container>
                             <HStack spacing="0.5">
                                 <Icon as={AiFillLike} color="#E65300"></Icon>
-                                {reacts.map((reactDt: any, i: number) => (
-                                    <Text p="1" fontSize="xs">
-                                        {reactDt.emoteId}
-                                    </Text>
-                                ))}
+                                <Text p="1" fontSize="xs">
+                                    {postDt.likes} {postDt.comments} {postDt.shares}
+                                </Text>
                                 <Icon as={AiOutlineShareAlt}></Icon>
                             </HStack>
                         </Box>
