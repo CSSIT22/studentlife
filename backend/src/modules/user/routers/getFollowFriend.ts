@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 
-const getFriendListuser = async (req: Request, res: Response) => {
+const getFollowFriend = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
         const userId = req.params["id"]
@@ -12,4 +12,4 @@ const getFriendListuser = async (req: Request, res: Response) => {
     }
 }
 
-export default getFriendListuser
+export default getFollowFriend
