@@ -1,28 +1,27 @@
 import { EditIcon } from '@chakra-ui/icons'
 import { useDisclosure, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, Heading, ModalCloseButton, ModalBody, Textarea, Input, ModalFooter, Button, Box, Image } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import API from 'src/function/API'
 import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
-const EditComment = () => {
+const EditComment: FC<{ commentId: number }> = ({ commentId }) => {
     const [text, setText] = useState("") // review description 
     //const [detail, setDetail] = useState<any>([]) // shop's detail fetch from backend
     // const [files, setFiles] = useState<any>([]) // array of user's files (pictures)
     const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
     let param = useParams() // get data from param
 
-    
+
     const submit = () => {
         const form = new FormData();
-        form.append("text", text);
-        form.append("shopId", param.shopId + "");
-        API.put("/shopreview/editcomment",
-            form,
+        console.log(commentId);
+
+        console.log(text);
+        API.post("/shopreview/editcomment",
             {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                commentId: commentId,
+                text: text,
             }
         ).then((res) => {
             // console.log(res)
@@ -48,8 +47,6 @@ const EditComment = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-
-
                         <Textarea
                             colorScheme="white"
                             focusBorderColor="black"

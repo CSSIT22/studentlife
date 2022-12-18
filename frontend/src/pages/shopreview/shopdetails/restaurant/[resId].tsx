@@ -9,6 +9,7 @@ import Rate from 'src/components/shopreview/Rate'
 import RatingStar from 'src/components/shopreview/RatingStar'
 import ReviewDetail from 'src/components/shopreview/ReviewDetail'
 import ShopDetailName from 'src/components/shopreview/ShopDetailName'
+import TempUpload from 'src/components/shopreview/TempUpload'
 import API from 'src/function/API'
 import rating from 'src/pages/dating/rating'
 
@@ -16,14 +17,62 @@ const restId = () => {
     window.scrollTo(0, 0)
     const [rating, setRating] = useState(0) // rating star max = 5
     const { isOpen, onOpen, onClose } = useDisclosure()
-    let param = useParams()
+    const [review, setReview] = useState<any>([])
+    const navigate = useNavigate()
     const [detail, setDetail2] = useState<any>([])
+    let param = useParams()
+    const [text, setText] = useState("") // review description 
+    const [files, setFiles] = useState<any>([]) // array of user's files (pictures)
+
+    const submit = () => {
+        console.log("do");
+
+        if (!text) {
+            console.log("NOT SUBMITTED")
+            return;
+        }
+
+        // const form = new FormData();
+        // form.append("text", text);
+        // form.append("rating", rating + "");
+        // form.append("resId", param.resId + "");
+        // files.map((item: any) => {
+        //     form.append("upload", item.file)
+        //     // shopId: ∏
+        // })
+        // console.log(text, rating, param.resId,);
+
+        // API.post("/shopreview/postmyreview",
+        //     form,
+        //     {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data'
+        //         }
+        //     }
+        // ).then((res) => {
+        //     console.log(res)
+        //     window.location.reload()
+        // })
+
+    }
+
+
+
+    //show setreview 
+    useEffect(() => {
+        getReview.then((res) => {
+            setReview(res.data)
+        })
+    }, [])
+    console.log(review)
+
+
+
     useEffect(() => {
         API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
             .then((res) => setDetail2(res.data))
     }, [param])
     console.log(detail)
-    const [review, setReview] = useState<any>([])
     const getReview = API.get("/shopreview/getmyreviewDb")
     useEffect(() => {
         getReview.then((res) => {
@@ -40,7 +89,6 @@ const restId = () => {
         }
     }
 
-    const navigate = useNavigate()
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
         window.scrollTo(0, 0)
@@ -82,7 +130,7 @@ const restId = () => {
                     </Flex>
                 </Box>
             ))}
-            {detail.map((item: any) => (
+            {detail.map((item: any,) => (
                 <Flex direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
                     <Heading padding={10} paddingLeft={"-1"} color={"green"} size={"lg"}>
                         Opening
@@ -131,16 +179,44 @@ const restId = () => {
 
                     <ModalBody>
                         <RatingStar rating={rating} onClick={onClick} size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
-
+                        {/* input here */}
                         <Textarea
+                            required
                             colorScheme="white"
                             focusBorderColor="black"
                             placeholder="Add review"
                             marginTop={"5"}
                             minHeight={"100px"}
                             maxHeight={"200px"}
-                        ></Textarea>
-                        <Input type={"file"} id="id" hidden multiple></Input>
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+
+
+                        >
+                        </Textarea>
+                        <Input type={"file"} id="fileInput" hidden multiple></Input>
+                        {/* <Box
+                            onClick={() => {
+                                document.getElementById("fileInput")?.click()
+                            }}
+                            as="button"
+                            style={{
+                                position: "absolute",
+                                top: "67%",
+                                left: "7%",
+                            }}
+                        >
+                            <Image
+                                src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
+                                width={"40px"}
+                                borderRadius="full"
+                            />
+                        </Box> */}
+                        <TempUpload files={files} setFiles={setFiles} />
+
+
+
+                        {/* <Input type={"file"} id="id" hidden multiple></Input>
                         <Box
                             onClick={() => {
                                 document.getElementById("id")?.click()
@@ -156,24 +232,25 @@ const restId = () => {
                                 marginTop={"-58px"}
                                 padding={"4px"}
                             />
-                        </Box>
+                        </Box> */}
                     </ModalBody>
 
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button bgColor={"green"} color="white">
+                        <Button bgColor={"green"} color="white" onClick={(e) => {submit(); e.preventDefault()}}>
                             Submit
                         </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
-                {review.map((item: any) => {
+                {review.map((item: any, index: any) => {
                     if (param.resId === item.resId) {
                         return (
-                            <b onClick={() => Navigate(item.reviewId)}>
+                            <b key={index} onClick={() => Navigate(item.reviewId)}>
                                 <ReviewDetail image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
                             </b>
                         )

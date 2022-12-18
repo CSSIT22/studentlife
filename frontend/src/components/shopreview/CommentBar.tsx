@@ -2,15 +2,17 @@ import { Box, Button, Center, color, Flex, Input, Stack, Textarea, useBreakpoint
 import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react"
 import API from "src/function/API"
 import { useParams } from 'react-router-dom'
-const CommentBar: React.FC<{ }> = () => {
+const CommentBar: React.FC<{}> = () => {
 
     const [Text, setText] = useState<any>("")
 
     let param = useParams()
     const onComment = () => {
+        console.log(Text);
+
         API.post<any>("/shopreview/postcomment", {
-            CommentText: Text,
-            commentId: param.commentId
+            reviewId: param.reviewId,
+            text: Text,
         }).then((res) => {
             console.log(res)
             window.location.reload()

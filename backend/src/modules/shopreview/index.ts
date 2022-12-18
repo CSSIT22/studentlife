@@ -267,14 +267,11 @@ shopreviewRoutes.get("/shopdetails/restaurant/:id", getRest)
 shopreviewRoutes.post("/postmyreview", upload.array("upload"), postmyreview)
 shopreviewRoutes.post("/postimage", postimage)
 shopreviewRoutes.post("/editcomment", editcomment)
-shopreviewRoutes.post("/editmyreview", editmyreview)
+shopreviewRoutes.post("/editmyreview", upload.array("upload"), editmyreview)
 shopreviewRoutes.post("/postcomment", postcomment)
 
-shopreviewRoutes.delete("/deletecomment",deletecomment)
+shopreviewRoutes.delete("/deletecomment", deletecomment)
 
-shopreviewRoutes.delete("/deletereview",deletereview)
-
-
-
+shopreviewRoutes.delete("/deletereview", deletereview)
 
 export default shopreviewRoutes

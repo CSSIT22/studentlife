@@ -7,8 +7,10 @@ import { DeleteIcon } from "@chakra-ui/icons"
 import EditReview from "./EditReview"
 import EditComment from "./EditComment"
 import { authContext } from "src/context/AuthContext"
+import API from "src/function/API"
 
-const Comments: FC<{ image: String; name: String; ment: String; date: String }> = ({ image, name, ment, date }) => {
+const Comments: FC<{ commentId: number; image: String; name: String; ment: String; date: String }> = ({ commentId, image, name, ment, date }) => {
+
     const [active, setActive] = useState(false)
     const handleClick = () => {
         setActive(!active)
@@ -23,6 +25,21 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
     const handleMouseOut = () => {
         setIsHovering(false);
     };
+
+
+    const deletecomment = () => {
+        try {
+            // หาcommentId
+            API.delete("/shopreview/deletecomment", { data: { commentId: commentId } }).then((res) => {
+                console.log(res)
+                // window.location.reload()
+            })
+        }
+        catch (e) {
+
+        }
+
+    }
     return (
         <Box _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} p={3} minHeight={32} maxHeight={"1000px"} background={"white"} shadow={"md"} rounded={"2xl"}>
             <Stack mb={3} direction={"row"} spacing={"24px"}>
@@ -50,7 +67,7 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
                         <PopoverContent width={"100px"}>
                             {/* <PopoverCloseButton /> */}
                             <PopoverHeader textAlign={"center"}>
-                                <EditComment />
+                                <EditComment commentId={commentId} />
 
                             </PopoverHeader>
                             <PopoverBody textAlign={"center"}>
@@ -61,7 +78,7 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
                                             <DeleteIcon mr={2} />
                                             Delete
                                         </Box>
-                                        
+
                                     </Flex>
                                     <AlertDialog
                                         isOpen={isOpen}
@@ -78,11 +95,15 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
                                                     Are you sure? You can't undo this action afterwards.
                                                 </AlertDialogBody>
 
+
                                                 <AlertDialogFooter>
                                                     <Button ref={cancelRef} onClick={onClose}>
                                                         Cancel
                                                     </Button>
-                                                    <Button colorScheme='red' onClick={() =>
+                                                    <Button colorScheme='red' onClick={() => {
+
+                                                        deletecomment()
+
                                                         toast({
                                                             title: 'Already deleted',
                                                             description: "Delete this comment",
@@ -90,11 +111,14 @@ const Comments: FC<{ image: String; name: String; ment: String; date: String }> 
                                                             duration: 9000,
                                                             isClosable: true,
                                                         })
+                                                        // console.log(commentId)
+                                                    }
                                                     } ml={3}>
-                                                        <Box width={"100%"} onClick={onClose}>
-                                                            Delete
-                                                        </Box>
+                                                        Delete
                                                     </Button>
+
+
+
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
                                         </AlertDialogOverlay>

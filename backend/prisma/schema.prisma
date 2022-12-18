@@ -1090,7 +1090,7 @@ model Word_Report {
   reporter     User_Profile        @relation(fields: [userId], references: [userId])
   detail       Word_Report_Detail?
 
-  @@unique([word, userId])
+  @@unique([word, userId])  
 }
 
 model Word_Report_Detail {

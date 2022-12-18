@@ -7,6 +7,7 @@ const getmycommentDb = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const mycomment = await prisma.sReview_Comment.findMany({
             select: {
+                commentId : true,
                 likeReceived: true,
                 text: true,
                 commentedAt: true,
