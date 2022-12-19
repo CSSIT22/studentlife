@@ -52,10 +52,22 @@ const DatingYourPollSeeMore: FC<{
         return strTime
     }
 
+    function handlePollDate(dateTime: string) {
+        const chooseDate = new Date(dateTime)
+        chooseDate.setHours(chooseDate.getHours() - 7);
+        // console.log(chooseDate.getMonth())
+        // return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
+        // const d = chooseDate.toLocaleDateString()
+        // const strDate = chooseDate.toLocaleDateString()
+        // return chooseDate.getDay() + "/" + chooseDate.getMonth() + "/" + chooseDate.getFullYear()
+        const d = chooseDate.toISOString()
+        return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + chooseDate.getFullYear()
+    }
+
     console.log(pollInfo.pollAppointAt)
     const dateTime = new Date(pollInfo.pollAppointAt)
     const rawDateTime = delHours(dateTime)
-    const date = rawDateTime.toLocaleDateString()
+    const date = handlePollDate(dateTime.toLocaleString())
     const time = handlePollTime(rawDateTime.toLocaleString())
 
     return (
