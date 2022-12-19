@@ -104,7 +104,7 @@ const Room = () => {
     function noti(Room: RoomType) {
         const result = member?.filter((e) => e.user.userId != Room.userId)
         const name = member?.filter((e) => e.user.userId == Room.userId)
-        axios.post("/notification/addnotiobject", {
+        API.post("/notification/addnotiobject", {
             template: "CHAT_MESSAGE",
             value: [`${name?.map((e) => e.user.fName)}`],
             userId: result?.map((e) => e.user.userId),
