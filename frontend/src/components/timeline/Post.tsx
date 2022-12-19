@@ -11,6 +11,7 @@ import RemodButton from "../blog/RemodButton"
 import Optionbutton from "../blog/Optionbutton"
 import EmojiFeelingTelling from "../blog/EmojiFeelingTelling"
 import PostFile from "../blog/PostFile"
+import { useNavigate, useParams } from "react-router-dom"
 // export type PostProps = { // <= Previous way to get Post properties
 //     id: string
 //     name: string
@@ -47,6 +48,11 @@ export const Post = (prop: any) => {
         }
     }, [])
 
+    let navigate = useNavigate();
+    const routeChange = () => {
+        let path = '/user/' + prop.userId
+        navigate(path)
+    }
     // function CurrentDate(): string {
     //     var date: Date = new Date()
     //     var dmy = date.toDateString()
@@ -69,7 +75,7 @@ export const Post = (prop: any) => {
                         <HStack marginTop={"-60px"}>
                             <Avatar size="md" name={postDt.postOwner.fName} src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + postDt?.postOwner.userId} />
                             <VStack spacing="0.5" align={"-moz-initial"}>
-                                <Text align="left">{postDt.postOwner.fName + " " + postDt.postOwner.lName}</Text>
+                                <Text onClick={routeChange} align="left">{postDt.postOwner.fName + " " + postDt.postOwner.lName}</Text>
                                 <Text align="left" color="gray.500" fontWeight="semibold" fontSize="xs">
                                     {new Date(postDt.lastEdit).toLocaleDateString("th-TH")} {new Date(postDt.lastEdit).toLocaleTimeString("th-TH")}
                                 </Text>
