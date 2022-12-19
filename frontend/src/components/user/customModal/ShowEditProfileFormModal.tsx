@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
     Button, FormControl,
@@ -13,6 +13,7 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Box,
 } from "@chakra-ui/react";
 import API from "src/function/API";
 
@@ -23,6 +24,14 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
     const [sex, setSex] = useState<string>()
     const [hobby, setHobby] = useState<string>()
     const [address, setAddress] = useState<string>()
+
+    const buttonDisable = useMemo(() => {
+        if (phone && birthDate && sex && hobby && address) {
+            return false
+        } else {
+            return true
+        }
+    }, [phone, birthDate, sex, hobby, address])
 
     function refreshClick() {
         window.location.reload()
@@ -76,7 +85,7 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
 
                         <FormControl>
                             <FormLabel>Phone</FormLabel>
-                            <Input ref={initialFocusRef} placeholder="Phone Number" value={phone} onChange={(e) => phoneHandler(e.target.value)} />
+                            <Input ref={initialFocusRef} placeholder="Phone Number" id="textbox1" value={phone} onChange={(e) => phoneHandler(e.target.value)} required />
                         </FormControl>
 
                         <HStack mt={4}>
@@ -87,14 +96,14 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
                                     size="md"
                                     type="date"
                                     value={birthDate}
-                                    onChange={(e) => birthDateHandler(e.target.value)}
+                                    onChange={(e) => birthDateHandler(e.target.value)} required
                                 />
                             </FormControl>
                         </HStack>
 
                         <FormControl mt={4}>
                             <FormLabel>Sex</FormLabel>
-                            <Select value={sex} onChange={(e) => sexHandler(e.target.value)}>
+                            <Select value={sex} onChange={(e) => sexHandler(e.target.value)} required>
                                 <option> </option>
                                 <option>Male</option>
                                 <option>Female</option>
@@ -104,19 +113,21 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
 
                         <FormControl mt={4}>
                             <FormLabel>Hobby</FormLabel>
-                            <Input placeholder="your favorite free time activity" value={hobby} onChange={(e) => hobbyHandler(e.target.value)} />
+                            <Input placeholder="your favorite free time activity" value={hobby} onChange={(e) => hobbyHandler(e.target.value)} required />
                         </FormControl>
 
                         <FormControl mt={4}>
                             <FormLabel>Address</FormLabel>
-                            <Input placeholder="your address" value={address} onChange={(e) => addressHandler(e.target.value)} />
+                            <Input placeholder="your address" value={address} onChange={(e) => addressHandler(e.target.value)} required />
                         </FormControl>
+                        <Box color={"red.400"} fontSize={"xs"} mt={"5"}>**This form is required to fill all information to update your detail.</Box>
                     </ModalBody>
                     <ModalFooter>
                         <motion.div whileHover={{ scale: 0.9 }}>
                             <Button type='submit' color="white" bg="orange.600"
                                 _hover={{ background: "orange.200" }} mr={3}
                                 onClick={refreshClick}
+                                isDisabled={buttonDisable}
                             >
                                 Save
                             </Button>
