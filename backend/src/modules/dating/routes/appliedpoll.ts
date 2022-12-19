@@ -31,14 +31,13 @@ appliedPollRoutes.get("/getAppliedPolls", verifyUser, async (req: Request, res: 
                 },
             },
             orderBy: {
-                registerTime: "desc"
-            }
+                registerTime: "desc",
+            },
         })
         return res.send(poll.map((i) => ({ ...i, poll: { ...i.poll, interests: i.poll.interests.map((j) => ({ interest: j.interest })) } })))
     } catch (err) {
         return res.status(500).send("Applied poll not found")
     }
-
 })
 
 export default appliedPollRoutes

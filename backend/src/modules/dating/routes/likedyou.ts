@@ -8,9 +8,9 @@ const likedYouRoutes = express()
 const prisma = new PrismaClient()
 
 const addHours = (date: Date): Date => {
-    const result = new Date(date);
-    result.setHours(result.getHours() + 7);
-    return result;
+    const result = new Date(date)
+    result.setHours(result.getHours() + 7)
+    return result
 }
 
 likedYouRoutes.get("/", (_, res) => {
@@ -46,9 +46,9 @@ likedYouRoutes.get("/getHeartHistory", verifyUser, async (req: Request, res: Res
         const blockedDB = await prisma.user_Blocked.findMany({
             where: {
                 userId: reqUserId,
-            }
+            },
         })
-        
+
         blockedDB.map((data) => {
             userFilter.push(data.anotherUserId)
         })
@@ -138,14 +138,14 @@ likedYouRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: Re
                         userId: userId,
                     },
                     select: {
-                        fName: true
-                    }
+                        fName: true,
+                    },
                 })
 
                 if (isSkipped == true) {
                     calExp(prisma, req.user?.userId || "", "DatingSkip")
                 } else if (isSkipped == false) {
-                    if(userProfileDB) {
+                    if (userProfileDB) {
                         let fName = userProfileDB.fName
                         axios.post("http://localhost:8000/notification/addnotiobject", {
                             template: "DATING_MATCH",

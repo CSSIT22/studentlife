@@ -230,10 +230,10 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }>
                                                             handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
                                                         }}
                                                     >
-                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                            {"Apply"}
-                                                        </Text>
-                                                    </Button></motion.div></Box>)
+                                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                                {"Apply"}
+                                                            </Text>
+                                                        </Button></motion.div></Box>)
                                                 }
                                             </Link>
                                         ) : (
