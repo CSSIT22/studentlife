@@ -108,7 +108,7 @@ const index = () => {
     };
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(5)
+    const [postsPerPage, setPostsPerPage] = useState(8)
     let indexOfLastSn = currentPage * postsPerPage
     let indexOfFirstSn = indexOfLastSn - postsPerPage
     let currentSn = ssn.slice(indexOfFirstSn, indexOfLastSn)
