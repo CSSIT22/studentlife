@@ -3,19 +3,19 @@ import { Request, Response } from "express"
 const getRating = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
-        const userId = req.user?.userId || ""
-        const checkRatingUser = await prisma.user_Rating.findFirst({ where: { userId } })
+        const { id } = req.params
+        const checkRatingUser = await prisma.user_Rating.findFirst({ where: { userId: id } })
         if (checkRatingUser === null) {
             await prisma.user_Rating.create({
                 data: {
-                    userId: userId,
-                    anotherUserId: userId,
+                    userId: id,
+                    anotherUserId: id,
                     score: 0,
                 },
             })
         }
 
-        const Rating = await prisma.user_Rating.findFirstOrThrow({ where: { userId }, select: { score: true } })
+        const Rating = await prisma.user_Rating.findFirstOrThrow({ where: { userId: id }, select: { score: true } })
         res.json({
             Rating: Rating.score,
         })

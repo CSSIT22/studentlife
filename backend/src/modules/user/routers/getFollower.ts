@@ -3,11 +3,11 @@ import { Request, Response } from "express"
 export const getFollower = async (req: Request, res: Response) => {
     try {
         const { prisma } = res
-        const userId = req.user ? req.user.userId : ""
+        const { id } = req.params
         const follower = await prisma.follow.findMany({
             include: { follower: true },
             where: {
-                anotherUserId: userId,
+                anotherUserId: id,
             },
         })
 

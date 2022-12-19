@@ -40,7 +40,7 @@ userRoutes.post("/profile/blockuser/:id", blockuser)
 
 userRoutes.get("/profile/getblockuser/:id", getblockuser)
 
-userRoutes.put("/profile/insertfollow/:id", insertfollow)
+userRoutes.post("/profile/insertfollow/:id", insertfollow)
 
 userRoutes.get("/getFollower/:id", getFollower)
 

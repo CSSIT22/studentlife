@@ -45,10 +45,10 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number, abou
 
     useEffect(() => {
         async function fetch() {
-            const res_follower = await API.get(`/user/getFollower/${param.userId}`)
+            const res_follower = await API.get(`/user/getFollower/${param.userID}`)
             setFollower(res_follower.data.follower.length)
 
-            const res_following = await API.get(`/user/getFollowering/${param.userId}`)
+            const res_following = await API.get(`/user/getFollowering/${param.userID}`)
             setFollowing(res_following.data.following.length)
         }
 

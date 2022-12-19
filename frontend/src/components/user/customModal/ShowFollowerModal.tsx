@@ -21,9 +21,15 @@ export const ShowFollowerModal: React.FC<{ isOpen: boolean; onClose: VoidFunctio
 
     useEffect(() => {
         async function fetch() {
-            const res = await API.get(`/user/getFollower/${param.userId}`)
+            const res = await API.get(`/user/getFollower/${param.userID}`)
 
-            setFriendList(res.data.follower)
+            setFriendList(res.data.follower.map((item: any) => {
+                return {
+                    userId: item.follower.userId,
+                    fName: item.follower.fName,
+                    lName: item.follower.lName,
+                }
+            }))
         }
 
         fetch();

@@ -43,21 +43,30 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
     const [isFollow, setIsFollow] = useState<boolean>()
     const [followerCount, setFollowerCount] = useState<number>(0)
     const [block, setblock] = useState<any>()
+    const [follow, setfollow] = useState<any>()
+
     const param = useParams()
+
+    function followHandler(user_block: any) {
+        setfollow(user_block)
+    }
+
+    function followerHandler() {
+        API.post(`/user/profile/insertfollow/${param.userID}`).then().catch(err => console.error(err))
+    }
+
     function blockHandler(user_block: any) {
         setblock(user_block)
     }
+
     function submitHandler() {
-    API.post(`/user/profile/blockuser/${param.userID}`).then().catch(err => console.error(err))
+        API.post(`/user/profile/blockuser/${param.userID}`).then().catch(err => console.error(err))
 
     }
 
     async function handleClickFollow() {
-        if (isFollow) {
-            setIsFollow(!isFollow)
-        } else {
-            setIsFollow(!isFollow)
-        }
+        setIsFollow(!isFollow)
+        await followerHandler()
     }
 
     function setIsFolCount(arg0: any) {

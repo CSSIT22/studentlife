@@ -54,6 +54,7 @@ function index() {
     }
 
     useEffect(() => {
+        getblock()
         getAboutme()
         getCurrentExp()
         getUserData()
