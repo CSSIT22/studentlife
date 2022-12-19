@@ -11,13 +11,6 @@ import {
     Spacer,
     Badge,
     useDisclosure,
-    ModalHeader,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    Modal,
-    Heading,
-    ModalOverlay,
     useBoolean,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
@@ -26,13 +19,10 @@ import DatingAllActivityButton from "src/components/dating/DatingAllActivityButt
 import DatingAppliedActivityButton from "src/components/dating/DatingAppliedActivityButton"
 import DatingYourActivityButton from "src/components/dating/DatingYourActivityButton"
 import Lottie from "lottie-react"
-import DatingYourPollSeeMore from "src/components/dating/DatingYourPollSeeMore"
-import NoProfileImg from "../../../components/dating/pic/noprofile.png"
 import API from "src/function/API"
 import DatingAppBody from "../../../components/dating/DatingAppBody"
 import ChatImg from "../../../components/dating/pic/chat.png"
 import GroupChatImg from "../../../components/dating/pic/groupchat.png"
-import { POLL } from "src/components/dating/shared/poll"
 import { motion } from "framer-motion"
 import ModalPoll from "src/components/dating/DatingYourPollSeeMore"
 import DatingLoading from "../../../components/dating/lottie/DatingLoading.json"

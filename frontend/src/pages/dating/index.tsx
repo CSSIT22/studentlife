@@ -1,4 +1,4 @@
-import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Skeleton, Spinner, Text, useBoolean, useToast } from "@chakra-ui/react"
+import { Box, Button, Center, Image, ResponsiveValue, SimpleGrid, Spinner, Text, useBoolean, useToast } from "@chakra-ui/react"
 import DatingAppBody from "src/components/dating/DatingAppBody"
 import React, { useState, useMemo, useRef, FC, RefObject, useEffect } from "react"
 import { AnimationControls, useAnimation } from "framer-motion"

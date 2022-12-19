@@ -1,5 +1,5 @@
 import { PollInfo } from "@apiType/dating"
-import { HStack, Stack, Box, Center, Flex, Container, useToast, useBoolean, Text } from "@chakra-ui/react"
+import { HStack, Stack, Box, Center, useToast, useBoolean, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingAllActivityButton from "src/components/dating/DatingAllActivityButton"

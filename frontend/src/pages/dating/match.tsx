@@ -1,4 +1,4 @@
-import { Box, Button, GridItem, Heading, useBreakpointValue, useToast, Image, Text, useBoolean } from "@chakra-ui/react"
+import { Box, Button, GridItem, Heading, useBreakpointValue, useToast, Image, Text } from "@chakra-ui/react"
 import Lottie from "lottie-react"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"

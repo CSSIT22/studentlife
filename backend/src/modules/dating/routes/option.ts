@@ -1,9 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import { pushArgumentsWithLength } from "@redis/search/dist/commands"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
-import { UserOption } from "@apiType/dating"
-import createCommunity from "./../../group/routes/createCommunity"
 import calExp from "../../user/expsystem/calExp"
 
 const optionRoutes = express()

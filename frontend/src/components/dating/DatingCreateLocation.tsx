@@ -1,7 +1,6 @@
 import { Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Select } from "@chakra-ui/react"
-import React, { useEffect, useState, FC } from "react"
+import { useEffect, useState, FC } from "react"
 import API from "src/function/API"
-import restId from './../../pages/shopreview/shopdetails/restaurant/[resId]';
 
 const DatingCreateLocation: FC<{
     getLocation: any

@@ -1,5 +1,5 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Stack, Text } from "@chakra-ui/react"
-import React, { FC, useEffect, useState } from "react"
+import React, { FC } from "react"
 import { DatingOptionMultipleChoose } from "./DatingOptionMultipleChoose"
 import { AllFaculty } from "@apiType/dating"
 

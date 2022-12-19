@@ -1,6 +1,6 @@
 import { RateFollow } from "@apiType/dating"
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 
 // const DatingRatingSearch: FC<{

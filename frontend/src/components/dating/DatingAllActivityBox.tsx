@@ -1,15 +1,14 @@
-import { Box, Button, Center, Flex, Heading, Image, Spacer, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
-import React, { FC, useEffect, useState } from "react"
+import { Box, Button, Center, Flex, Heading, Image, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
+import { FC } from "react"
 // import { POLL } from "./shared/poll"
 import { Link, useParams } from "react-router-dom"
-import { POLL_APPLICANT } from "./shared/poll_applicant"
 import { useToast } from "@chakra-ui/react"
 // import { INTERESTS } from "./shared/interests"
 import API from "src/function/API"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { ApplyPoll, Polls } from "@apiType/dating"
 import Lottie from "lottie-react"
-import { delay, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import NoActivity from "../../components/dating/lottie/NoActivity.json"
 
 

@@ -1,4 +1,4 @@
-import { PrismaClient, User_Rating } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
