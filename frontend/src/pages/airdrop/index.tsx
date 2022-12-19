@@ -226,12 +226,12 @@ export default function Index<FC>() {
                 },
             })
                 .then((res) => {
-                    console.log(res)
                     setConfirmDrop(true)
                 })
                 .catch((err) => {
                     on()
-                    console.log(err)
+                }).finally(()=>{
+                    setConfirmDrop(true)
                 })
         } catch {
             console.log("error")
@@ -240,7 +240,6 @@ export default function Index<FC>() {
     //useEffect
     useEffect(() => {
         if (clickDrop == false) {
-            // setSelectedType("Everyone")
             if (selectedType === "Everyone") {
                 setReceiver(["everyone"])
             }

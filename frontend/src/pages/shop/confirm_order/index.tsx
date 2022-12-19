@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Flex, Text, GridItem, Checkbox, Grid, useBoolean } from "@chakra-ui/react"
 import ShopAppBody from '../../../components/shop/ShopAppBody';
 import TitleBox from '../../../components/shop/TItleBox'
@@ -9,13 +9,15 @@ import { DeleteIcon } from "@chakra-ui/icons"
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import ContentBox from "../../../components/shop/ContentBox"
 import ThemedButton from "../../../components/shop/ThemedButton"
-import { Shop_Cart } from '@apiType/shop';
+import { Shop_Cart, Shop_OrderInformation, Shop_Order_Noti } from '@apiType/shop';
 import API from 'src/function/API';
+import { authContext } from 'src/context/AuthContext';
 const ConfirmOrder = () => {
     const [cartProducts, setCartProducts] = useState<Shop_Cart[] | null>(null)
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
-
+    const user = useContext(authContext)
+    const userName = user.fName +" " + user.lName
     const navigate = useNavigate()
     const location = useLocation()
     const couponDiscount = location.state.couponDiscount
@@ -26,7 +28,7 @@ const ConfirmOrder = () => {
     const getData = API.get("/shop/getAllProductsInCart")
     useEffect(() => {
         getData.then((res) => { setCartProducts(res.data) }).catch((err) => on()).finally(() => off())
-    }, [cartProducts])
+    }, [])
 
     let st = 0, dt = 0
     cartProducts?.forEach(cartProduct => {
@@ -50,13 +52,24 @@ const ConfirmOrder = () => {
     )
 
     const handleOrder = () => {
-        const navToTransaction = (data: any) => {
-            navigate('../transaction/shoptransaction', {state: {orderId: data.orderId, tranactionId: data.transId}})
+        const navToTransaction = (data: Shop_Order_Noti) => {
+            let receiveUserId: string[] = ["9kcmTSjNL2AgGh7b3h7FI", "y8oicpxVvhSWTuFDIC_xE", "TT2ViedZgrmwLwTwTn9Bm"]
+            data.products?.forEach((product) => product.product.contactTo.userId && receiveUserId.indexOf(product.product.contactTo.userId) === -1 ? receiveUserId.push(product.product.contactTo.userId) : null)
+            console.log(receiveUserId)
+            API.post("/notification/addnotiobject",{
+                "template": "SHOP_PLACED_ORDER",
+                "value":[userName, data.orderId],
+                "userId": receiveUserId, 
+                "module": "SHOP",
+                "url":"/shop/orderDetails/" + data.orderId + "?sellerUserIds=" + receiveUserId,
+                "sender": user.userId
+            }).catch(err => console.log(err))
+            navigate('../transaction/shoptransaction', { state: { orderId: data.orderId, tranactionId: data.transId } })
         }
         if (couponCode && couponCode != "") {
-            API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log('1'))
+            API.post('/shop/postUserOrder', { couponCode: couponCode, totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data as Shop_Order_Noti)).catch((err) => console.log(err))
         } else {
-            API.post('/shop/postUserOrder', { totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data)).catch((err) => console.log('2'))
+            API.post('/shop/postUserOrder', { totalPrice: summeryData.total, totalDeliveryFees: summeryData.deliveryTotal, shipping: add, orderPlaced: new Date(), orderStatus: "Processing Transaction" }).then((res) => navToTransaction(res.data as Shop_Order_Noti)).catch((err) => console.log(err))
         }
     }
     const orderSummary = (
@@ -111,21 +124,17 @@ const ConfirmOrder = () => {
 }
 export function generateCartProducts(cartProducts: Shop_Cart[] | null) {
     if (cartProducts != null) {
-        let products = []
-        for (let i = 0; i < cartProducts.length; i++) {
-            products.push(
-                <GridItem bg="" borderBottom="1px" pl='2'>
-                    <OrderConfirmProduct
-                        id={cartProducts[i].productId}
-                        name={cartProducts[i].product.productName}
-                        price={parseFloat(cartProducts[i].product.productPrice)}
-                        quantity={cartProducts[i].quantity}
-                        image={cartProducts[i].product.images[0].image}
-                    ></OrderConfirmProduct>
-                </GridItem>
-            )
-        }
-        return products
+        return cartProducts.map((product, key) => (
+            <GridItem key={key} bg="" borderBottom="1px" pl='2'>
+                <OrderConfirmProduct
+                    id={product.productId}
+                    name={product.product.productName}
+                    price={parseFloat(product.product.productPrice)}
+                    quantity={product.quantity}
+                    image={product.product.images[0].image}
+                ></OrderConfirmProduct>
+            </GridItem>
+        ))
     }
 
 }

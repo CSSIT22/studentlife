@@ -414,18 +414,19 @@ model Event {
   place        String
   stTime       DateTime     @db.Timestamp(0)
   endTime      DateTime     @db.Timestamp(0)
-  eventTypeId  String
   eventCreator User_Profile @relation(fields: [userId], references: [userId])
+  eventTypeId  String
+  type         Event_Type   @relation(fields: [eventTypeId], references: [eventTypeId])
   courseId     String?
   course       Course?      @relation(fields: [courseId], references: [courseId])
   assignmentId String?
   assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId])
-  // alert Schedule_Alert?
 }
 
 model Event_Type {
-  eventTypeId String @id @default(cuid())
+  eventTypeId String  @id @default(cuid())
   eventType   String
+  event       Event[]
 }
 
 model Course {
@@ -1661,6 +1662,7 @@ model ShortLink {
   originalLink  String
   shortenLink   String
   password      String                         @default("")
+  type          Link_Permission                @default(PUBLIC)
   expired       DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   meta          ShortLink_Save?
   linkCreator   User_Profile                   @relation(fields: [userId], references: [userId], onDelete: Cascade)
@@ -1688,6 +1690,12 @@ enum ShortLink_Permission_Type {
   MAJOR
   FACULTY
   YEAR
+}
+
+enum Link_Permission {
+  PUBLIC
+  PASSWORD
+  PERMISSION
 }
 
 model ShortLink_Permission_User {

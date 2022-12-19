@@ -14,10 +14,7 @@ import React, { useContext, useEffect, useState } from "react"
 import MarkRead from "../../components/notification/MarkRead"
 import Modulelist from "../../components/notification/Modulelist"
 import NotiListViewAll from "../../components/notification/viewAll/NotiListViewAll"
-import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectViewAll"
 import AppBody from "../../components/share/app/AppBody"
-import { showDescription } from "../../components/notification/functions/replaceValue"
-import { showUser } from "../../components/notification/functions/showUser"
 
 
 import API from "src/function/API"

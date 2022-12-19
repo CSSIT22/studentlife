@@ -1,5 +1,5 @@
-import { File_Access, PrismaClient, User_Show_File } from "@prisma/client"
-const getAllFile = async (req: Request | any, res: Response | any) => {
+import { Request, Response } from "express";
+const getAllFile = async (req: Request<any>, res: Response<any>) => {
     //fetch everone type
     try {
         const { prisma } = res
@@ -28,7 +28,7 @@ const getAllFile = async (req: Request | any, res: Response | any) => {
                 accessType: "MAJOR",
                 major: {
                     some: {
-                        majorId: user_depart?.majorId,
+                        majorId: user_depart?.majorId+"",
                     },
                 },
             },
@@ -135,6 +135,7 @@ const getAllFile = async (req: Request | any, res: Response | any) => {
                     include: {
                         commentor: {
                             select: {
+                                userId: true,
                                 fName: true,
                                 lName: true,
                             },
