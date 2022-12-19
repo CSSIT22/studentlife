@@ -52,8 +52,8 @@ backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, 
         const bannedUser = await res.prisma.ban_Status.upsert({
             where: {
                 userId_reason: {
-                    userId: req.body.data.bannedUserId,
-                    reason: req.body.data.reason,
+                    userId: req.body.bannedUserId,
+                    reason: req.body.reason,
                 },
             },
             update: {
@@ -62,9 +62,9 @@ backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, 
                 },
             },
             create: {
-                userId: req.body.data.bannedUserId || "",
+                userId: req.body.bannedUserId || "",
                 banTo: banTo,
-                reason: req.body.data.reason,
+                reason: req.body.reason,
                 instance: 1,
             },
         })
