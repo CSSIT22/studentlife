@@ -37,7 +37,7 @@ const editEvent = async (req: Request, res: Response) => {
         })
         const isNoti = req.body.isNoti
         if (editEvent && isNoti) {
-            let eventName = req.body.eventName 
+            let eventName = req.body.eventName
             let stTime = new Date(new Date(req.body.stTime).getTime() - 7 * 60 * 60 * 1000).toLocaleString()
             let eventId = req.body.eventId
             let url = "/schedule/showEvent/" + eventId
