@@ -58,8 +58,6 @@ ratingRoutes.get("/getRating", verifyUser, async (req: Request, res: Response) =
                     scoreReceiver: item.following,
                 }
             })
-
-            // console.log(buildres)
             return res.send(buildres)
         }
     } catch (err) {
@@ -90,20 +88,6 @@ ratingRoutes.get("/getUserProfile", verifyUser, async (req: Request, res: Respon
                 },
             })
 
-            // const followingIds = followDB.map((el) => el.following.userId)
-
-            // const rating = await prisma.user_Rating.findMany({
-            //     where: {
-            //         userId: userId,
-            //         anotherUserId: {
-            //             in: followingIds as string[],
-            //         },
-            //     },
-            //     include: {
-            //         scoreReceiver: true,
-            //     },
-            // })
-            // return res.send(rating)
             return res.send(followDB)
         }
     } catch (err) {

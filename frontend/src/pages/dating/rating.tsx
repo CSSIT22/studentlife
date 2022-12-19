@@ -14,27 +14,17 @@ import DatingWentWrong from "src/components/dating/DatingWentWrong"
 
 
 const Rating = () => {
-    // const [friend, setFriend] = useState(FRIEND)
-    // const [followRate, setFollowRate] = useState<RateFollow[]>([])
     const [rate, setRate] = useState<RateFollow[]>([])
     const [allRate, setAllRate] = useState<RateFollow[]>([])
-    // const [friend, setFriend] = useState<FollowDetail[]>([])
-    // const [allFriend, setAllFriend] = useState<FollowDetail[]>([])
     const [searchQuery, setSearchQuery] = useState("")
     const [isLoading, setIsloading] = useState(true)
     const [isError, { on }] = useBoolean()
-    // const didMount = useDidMount()
     let count = 1
 
     useEffect(() => {
         if (count != 0) {
             count--
             window.scrollTo(0, 0)
-            // API.get("/dating/rating/getUserProfile").then((followDB) => {
-            //     setFriend(followDB.data)
-            //     setAllFriend(followDB.data)
-            // })
-            //     .catch((err) => console.log(err));
             API.get("/dating/rating/getRating").then((rating) => {
                 setRate(rating.data)
                 setAllRate(rating.data)
@@ -58,8 +48,6 @@ const Rating = () => {
                                         <DatingRatingSearch
                                             searchQuery={searchQuery}
                                             setSearchQuery={setSearchQuery}
-                                            // setFriends={setFriend}
-                                            // FRIENDS={allFriend}
                                             setFriends={setRate}
                                             FRIENDS={allRate}
                                         />
@@ -72,7 +60,6 @@ const Rating = () => {
 
 
                 {rate.map((values) => {
-                    // console.log("Check value " + values.fName)
                     return (
                         <Box >
                             <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
@@ -158,42 +145,6 @@ const Rating = () => {
                     <></>
                 )
             }
-            {/* {globalThis.followR.map((values) => {
-                console.log("Check value " + values)
-                return (
-                    <Box >
-                        <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl">
-                            <Flex>
-                                {values.image ?
-                                    <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.userId}
-                                        alt={values.fName + " " + values.lName}
-                                    /> : <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={NoProfileImg}
-                                        alt={values.fName + " " + values.lName}
-                                    />}
-                                <Center>
-                                    <Text ml="30px" fontSize="20px">
-                                        {values.fName}
-                                        &nbsp;
-                                        {values.lName}
-                                    </Text>
-                                </Center>
-                            </Flex>
-                            {/* Need defaultFill from database 
-            <DatingRatingAllStar defaultFill={2} rateFor={values.userId} />
-        </Box>
-                    </Box >
-                )
-            })} * /}
-    <Box Box pb = "60px" ></Box >
-    */}
         </AppBody >
     )
 }

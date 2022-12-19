@@ -38,7 +38,6 @@ const YouLiked = () => {
     const [heartGiver, setHeartGiver] = useState<HeartReceiver[]>([])
     const [allInterests, setAllInterests] = useState<AllInterests[]>([])
     const [allHeartGiver, setAllHeartGiver] = useState<HeartReceiver[]>([])
-    // const [giveToUser, setGiveToUser] = useState<string[]>([])
 
     useEffect(() => {
         if (didMount && count != 0) {

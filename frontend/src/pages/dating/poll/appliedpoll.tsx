@@ -35,21 +35,10 @@ const YourAppliedActivityPoll = () => {
     const navigate = useNavigate()
     const toast = useToast()
     const [poll, setPoll] = useState<PollInfo[]>([])
-    const { isOpen, onOpen, onClose } = useDisclosure()
     let count = 1
     const [isLoading, setIsLoading] = useState(true)
     const [isError, { on }] = useBoolean()
     const [allPoll, setAllPoll] = useState<PollInfo[]>([])
-
-    function handlePeople(min: number, max: number) {
-        if (max === min && max === 1) {
-            return min + " person"
-        } else if (max === min && max !== 1) {
-            return min + " people"
-        } else {
-            return min + "-" + max + " people"
-        }
-    }
 
     function handleStatus(status: string) {
         if (status === "Accepted") {
@@ -142,7 +131,6 @@ const YourAppliedActivityPoll = () => {
             })
             API.get("/dating/appliedpoll/getAppliedPolls").then((data) => {
                 let pollData = data.data
-                // setInfo(data.data)
                 setAllPoll(pollData.map((item: any) => ({
                     ...item,
                     ...item.poll,
@@ -182,10 +170,6 @@ const YourAppliedActivityPoll = () => {
         }, [])
 
         return didMount
-    }
-
-    function goToProfile(userId: string) {
-        navigate("/user/" + userId)
     }
 
     function handleChat(id: string) {
@@ -267,8 +251,6 @@ const YourAppliedActivityPoll = () => {
                     {poll.length > 0 ?
                         (
                             poll.map((values) => {
-                                // console.log("v", values);
-
                                 return (
                                     <motion.div
                                         initial={{ scale: 0 }}
@@ -367,19 +349,6 @@ const YourAppliedActivityPoll = () => {
                                             </Flex>
 
                                             <Box display="flex" w="100%" justifyContent="right" pt="10px" mr="30px">
-                                                {/* <Text
-                                        lineHeight="150%"
-                                        color="black"
-                                        fontWeight="400"
-                                        fontSize={{ base: "14px", md: "16px" }}
-                                        as="u"
-                                        mb="20px"
-                                        cursor="pointer"
-                                        onClick={onOpen}
-                                    >
-                                        Click to see more
-                                    </Text> */}
-
                                                 {values && <ModalPoll pollInfo={values} />}
                                             </Box>
                                         </Box>
@@ -416,7 +385,3 @@ const YourAppliedActivityPoll = () => {
 }
 
 export default YourAppliedActivityPoll
-
-function handlePeople(participantMin: any, participantMax: any): import("react").ReactNode {
-    throw new Error("Function not implemented.")
-}

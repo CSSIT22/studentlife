@@ -35,38 +35,10 @@ appliedPollRoutes.get("/getAppliedPolls", verifyUser, async (req: Request, res: 
             }
         })
         return res.send(poll.map((i) => ({ ...i, poll: { ...i.poll, interests: i.poll.interests.map((j) => ({ interest: j.interest })) } })))
-
-        const userName = await prisma.user_Profile.findMany()
-        return res.send(userName)
-        res.send(userName)
-
-        const statusPoll = await prisma.poll_Applicant.findMany()
-        return res.send(statusPoll)
-        res.send(statusPoll)
     } catch (err) {
         return res.status(500).send("Applied poll not found")
     }
 
-    let userName: any
-    // if (userName?.pollName){
-    //     pollName = await prisma.user_Profile.findFirst({
-    //         where: {
-    //             userId: userName.pollName,
-    //         },
-    //         select: {
-    //             userId: true,
-    //             fName: true,
-    //             lName: true,
-    //             image: true,
-    //             details: {
-    //                 select: {
-    //                     birth: true,
-    //                     sex: true,
-    //                 },
-    //             },
-    //         }
-    //     })
-    // }
 })
 
 export default appliedPollRoutes

@@ -20,7 +20,6 @@ matchesRoutes.get("/getMatches", verifyUser, async (req: Request, res: Response)
         WHERE h1."userId" = $1 AND h1."isSkipped" = false AND h2."isSkipped" = false`,
             reqUserId
         )
-        // return res.send(hearthistoryDB)
 
         const userIds = hearthistoryDB.map((d) => {
             return d.userId

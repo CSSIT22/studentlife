@@ -14,7 +14,6 @@ optionRoutes.get("/", (_, res) => {
 optionRoutes.get("/getFaculty", verifyUser, async (req: Request, res: Response) => {
     try {
         const allFacultyDB = await prisma.faculty.findMany()
-        // console.log(allFacultyDB)
         return res.send(allFacultyDB)
     } catch (err) {
         return res.status(404).send("Faculty no found")
@@ -36,8 +35,6 @@ optionRoutes.get("/getOption", verifyUser, async (req: Request, res: Response) =
                     faculties: true,
                 },
             })
-
-            // console.log(userOptionDB)
             return res.send(userOptionDB)
         }
     } catch (err) {
@@ -59,8 +56,6 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
             facultyPrefs.push({ userId: userId, facultyPref: faculty })
         })
         const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge }
-        // console.log("Plz work " + facultyPrefs.userId)
-        // console.log(setPref)
         await prisma.dating_Options.create({
             data: setPref,
         })
@@ -74,27 +69,6 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
         return res.status(400).send("Cannot set Option")
     }
 })
-
-// optionRoutes.post("/setOptionF", verifyUser, async (req: Request, res: Response) => {
-//     try {
-//         const userId: string | undefined = req.user?.userId
-//         const facPref: string[] = req.body.facultyPref
-//         const facultyPrefs: any = []
-//         console.log("Pref: " + req.body.facultyPref)
-//         for (let index = 0; index < facPref.length; index++) {
-//             facultyPrefs.push({ userId: userId, facultyPref: facPref[index] })
-//         }
-
-//         console.log("Plz work " + facultyPrefs)
-//         await prisma.faculty_Pref.createMany({
-//             data: facultyPrefs,
-//         })
-
-//         return res.send("Success")
-//     } catch {
-//         return res.status(400).send("Cannot set Option")
-//     }
-// })
 
 // Update the option
 optionRoutes.put("/updateOption", verifyUser, async (req: Request, res: Response) => {
@@ -116,23 +90,10 @@ optionRoutes.put("/updateOption", verifyUser, async (req: Request, res: Response
             },
         })
 
-        // await prisma.faculty_Pref.deleteMany({
-        //     where: {
-        //         userId: userId,
-        //     },
-        // })
-
         await prisma.dating_Options.create({
             data: setPref,
         })
 
-        // await prisma.dating_Options.update({
-        //     where: {
-        //         userId: userId,
-        //     },
-        //     data: setPref,
-        // })
-        // console.log(req.body.facultyPref)
         await prisma.faculty_Pref.createMany({
             data: facultyPrefs,
         })

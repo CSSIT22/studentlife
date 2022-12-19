@@ -35,31 +35,10 @@ youLikedRoutes.get("/getHeartHistory", verifyUser, async (req: Request, res: Res
             userFilter.push(data.anotherUserId)
         })
 
-        // const blockedDB = await prisma.user_Blocked.findMany({
-        //     where: {
-        //         userId: reqUserId,
-        //     }
-        // })
-
-        // blockedDB.map((data) => {
-        //     userFilter.push(data.anotherUserId)
-        // })
-
         const hearthistoryDB = await prisma.heart_History.findMany({
             where: {
                 userId: reqUserId,
                 isSkipped: false,
-                // heartReceiver: {
-                //     userId: reqUserId,
-                // },
-
-                // heartGiver: {
-                //     // NOT: {
-                //     userId: {
-                //         in: userFilter,
-                //     },
-                //     // },
-                // },
             },
             select: {
                 heartReceiver: {

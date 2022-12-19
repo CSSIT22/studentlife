@@ -67,20 +67,7 @@ const DatingRatingAllStar: FC<{
                 value = value + 1
             }
         }
-        // console.log(rateFor + ": " + value)
         if (value != 0) {
-            // if (defaultFill === 0) {
-            //     console.log("POST")
-            //     API.post<Rating>("/dating/rating/setRating", { anotherUserId: rateFor, score: value })
-            //         .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
-            //         .finally(() => setTimer(false))
-            // }
-            // else {
-            //     console.log("PUT")
-            //     API.put<Rating>("/dating/rating/updateRating", { anotherUserId: rateFor, score: value })
-            //         .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
-            //         .finally(() => setTimer(false))
-            // }
             API.post<Rating>("/dating/rating/setRating", { anotherUserId: rateFor, score: value })
                 .catch(() => API.put<Rating>("/dating/rating/updateRating", { anotherUserId: rateFor, score: value })
                     .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) })))

@@ -19,7 +19,6 @@ const DatingCreateLocation: FC<{
             setRes(favRes.data)
         })
     }, [])
-    // const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
 
     const isTooLongLocation = location.length >= 100
     const isTooShortLocation = location.length < 5

@@ -11,7 +11,6 @@ const DatingCreateTime: FC<{
     //Validate the date (I don't know why it worked, but it worked lol)
     const isNoTime = time === undefined || time === null
     let isValidTime = !isNoTime && !timePass // Use for check all Date validate
-    // const [timeValid, setTimeValid] = useState<boolean>(isValidTime)
 
     return (
         <FormControl isInvalid={!isValidTime} isRequired>

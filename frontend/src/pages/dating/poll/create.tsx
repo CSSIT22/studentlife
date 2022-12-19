@@ -145,10 +145,6 @@ const CreateActivityPoll = () => {
 
     }, [])
 
-    useEffect(() => {
-
-    }, [])
-
     function useDidMount() {
         const [didMount, setDidMount] = useState(true)
         useEffect(() => {
@@ -171,12 +167,9 @@ const CreateActivityPoll = () => {
     const [validTime, setValidTime] = useState(false)
 
     const [sliderValue, setSliderValue] = useState<number[]>([2, 5]) //For age min,max
-    // globalThis.people = [2, 5] //need db + condition
 
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
-    // const [interests, setInterests] = useState(INTERESTS)
-    // const [interests, setInterests] = useState(INTERESTS)
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
     const [interests, setInterests] = useState<AllInterests[]>([])
     const [searchQuery, setSearchQuery] = useState("")
@@ -207,11 +200,8 @@ const CreateActivityPoll = () => {
         globalThis.topic = []
         for (let i = 0; i < selectedInterests.length; i++) {
             for (let j = 0; j < allInterests.length; j++) {
-                // for (let j = 0; j < interests.length; j++) {
                 if (selectedInterests[i] === allInterests[j].interestId) {
-                    // if (selectedInterests[i] === interests[j].interestId) {
                     globalThis.topic.push(allInterests[j].interestName)
-                    // globalThis.topic.push(interests[j].interestName)
                     break
                 }
             }
@@ -223,19 +213,15 @@ const CreateActivityPoll = () => {
     }
 
     function handleDateTime() {
-        // const dateTime = new Date(date + " " + time)
         const selectDate = new Date(date)
         const dateTime =
-            // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
             date + "T" + time + ":00.000+0700"
         return dateTime
     }
 
     function handleDateTime2() {
-        // const dateTime = new Date(date + " " + time)
         const selectDate = new Date(date)
         const dateTime =
-            // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
             date + "T" + time + ":00.000Z"
         return dateTime
     }
@@ -260,28 +246,8 @@ const CreateActivityPoll = () => {
             !isNoTime &&
             !timePass
         ) {
-            // console.log(
-            //     "Header: " +
-            //     header +
-            //     " Tag: " +
-            //     selectedInterests +
-            //     " Description: " +
-            //     description +
-            //     " Location: " +
-            //     location +
-            //     " Date & Time: " +
-            //     // { d: handleDateTime() } +
-            //     // handleDateTime() +
-            //     date +
-            //     " Now: " +
-            //     new Date() +
-            //     " people: " +
-            //     sliderValue
-            // )
             setClicked(true)
-            // handleChat(header)
             setIsLoading(true)
-            // handleChat(header)
             API.post<PollDetail | UserInterests>(`/dating/create/setPoll?name=${header}`, {
                 pollName: header,
                 pollPlace: location,
@@ -294,15 +260,6 @@ const CreateActivityPoll = () => {
             })
                 .then(() => navigate("/dating/poll"))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request! " + err) }))
-
-            // toast({
-            //     title: "Poll created.",
-            //     description: "You have successfully created a poll.",
-            //     status: "success",
-            //     duration: 5000,
-            //     isClosable: true,
-            //     position: "top",
-            // })
         } else {
             // Error message
             toast({
@@ -315,9 +272,6 @@ const CreateActivityPoll = () => {
             })
         }
     }
-    // function handleChat(name: string) {
-    //     API.post<{ name: string }>(`/chat/createGroup?name=${name}`)
-    // }
 
     return (
         <DatingAppBody>
@@ -479,7 +433,7 @@ const CreateActivityPoll = () => {
                                     isOpen ? <></> : <FormHelperText color="gray">
                                         You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."}
                                         {/* You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."} */}
-                                    </FormHelperText> 
+                                    </FormHelperText>
                                 )}
                             </FormControl>
                         </Center>
@@ -487,9 +441,8 @@ const CreateActivityPoll = () => {
 
                         <DatingCreateDescription getDescription={setDescriptionInput} />
                         {/* Location input & error control */}
-                        {/* <FormControl isInvalid={!isValidLocation} isRequired>
 
-                    {/* IMPORTANT!!! */}
+                        {/* IMPORTANT!!! */}
                         {/* If that user haven't use the restaurant function we should block this feature*/}
 
                         <DatingCreateLocation getLocation={setLocationInput} />
