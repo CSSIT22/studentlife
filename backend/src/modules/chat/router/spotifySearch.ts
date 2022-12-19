@@ -24,7 +24,7 @@ const spotify = async (req: Request, res: Response) => {
             headers: {
                 "Content-Type": "application/json",
                 Authorization:
-                    "Bearer BQBquS5BojCOjx4TAjv4bJZollnams97LfUlockpNrqFCtvx7hxC4MsotALAZ2JuzfAvDKWInl0hwW_mtDGV3ZRGZbOOouaBzYvZxAtcEEkpYiPDtH5yM3vtpMNdYyg_6p0hTOySKMjjhtamgDI7OF5eQCq8-pkiFumA1cDlnnRIlgd5n7PHQNpZwYOXP1AWYw_HyLs",
+                    "Bearer BQBTLo5bnSLv3H_LrmFVLuwz0cC5CPzWdGE9aTk0D5vy3OSkH1dNlcF_VD01UDdgHSnjYByVY5ZdNKfzL95l_3dms2v1uCg3oAQaC3ajfqNVhuwYCWdIGgIOphlIq7ZRU0ZSvqTemez14hQJIuPZFOODUuSs7MX66IVsnU9d3AoMNDYHIQBFs3iizDre_NgaDlMPi3g",
             },
         }
         fetch(`https://api.spotify.com/v1/search?q=${params.q}&type=${params.type}`, Authparameters)

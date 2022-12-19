@@ -49,6 +49,7 @@ const FileList: FC<{
         fileExpired: string
         comments: {
             commentor: {
+                userId: string
                 fName: string
                 lName: string
             }
@@ -101,6 +102,7 @@ const FileList: FC<{
         fileExpired: string
         comments: {
             commentor: {
+                userId: string | undefined
                 fName: string | undefined
                 lName: string | undefined
             }
@@ -144,7 +146,7 @@ const FileList: FC<{
         return (
             <>
                 <HStack>
-                    <Text fontSize={"xl"}>File Name:</Text>
+                    <Text fontSize={"lg"}>File Name:</Text>
                     <Text>
                         {modalData.fileName.split(".")[0].length > 25
                             ? isMobile
@@ -154,13 +156,13 @@ const FileList: FC<{
                     </Text>
                 </HStack>
                 <HStack>
-                    <Text fontSize={"xl"}>File Type:</Text>
+                    <Text fontSize={"lg"}>File Type:</Text>
                     <Text>{modalData.fileName.split(".")[1]}</Text>
                 </HStack>
                 <HStack ref={initRef}>
-                    <Text fontSize={"xl"}>File Sender:</Text>
+                    <Text fontSize={"lg"}>File Sender:</Text>
                     <Box
-                        fontSize={"lg"}
+                        fontSize={"md"}
                         onMouseEnter={() => {
                             proOpenFunc()
                             fetchSenderProfile()
@@ -178,7 +180,13 @@ const FileList: FC<{
                             <ModalBody pb={6}>
                                 {senderProfile && (
                                     <>
-                                        <Flex justify={"space-around"} gap={5} flexDirection={"row"} alignItems={"center"} flexWrap={"wrap"}>
+                                        <Flex
+                                            justify={"space-around"}
+                                            gap={[1, 2, 3, 4, 5]}
+                                            flexDirection={"row"}
+                                            alignItems={"center"}
+                                            flexWrap={"wrap"}
+                                        >
                                             {senderImg === "" ? (
                                                 <MdAccountCircle fontSize={"1.5rem"} />
                                             ) : (
@@ -190,8 +198,9 @@ const FileList: FC<{
                                                     style={{ borderRadius: "20%" }}
                                                 />
                                             )}
-
-                                            <Text>{senderNameModal}</Text>
+                                            <Hide below={"sm"}>
+                                                <Text>{senderNameModal}</Text>
+                                            </Hide>
                                             <Text>{senderProfile.studentId}</Text>
                                             <Text>{senderProfile.majorId + " Student"}</Text>
                                         </Flex>
@@ -222,9 +231,11 @@ const FileList: FC<{
     const RenderModalComments = () => {
         const componentArr: any = []
         modalData.comments.map((item: any) => {
+            console.log(item.commentor.userId)
+
             componentArr.push(
                 <>
-                    <FileComment name={item.commentor.fName + " " + item.commentor.lName} comment={item.commentText} />
+                    <FileComment name={item.commentor.fName + " " + item.commentor.lName} comment={item.commentText} cid={item.commentor.userId} />
                     <Divider />
                 </>
             )
@@ -314,6 +325,7 @@ const FileList: FC<{
         const modifiedModalData = modalData
         modifiedModalData.comments.push({
             commentor: {
+                userId: user?.userId,
                 fName: user?.fName,
                 lName: user?.lName,
             },
@@ -341,18 +353,10 @@ const FileList: FC<{
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <Text fontSize={"2xl"}> Image Preview</Text>
-                        </AlertDialogHeader>
+                    </AlertDialogHeader>
                     <AlertDialogCloseButton />
                     <AlertDialogBody>
-                        <Box p={4}>
-                        {previewImg && imgMime ? (
-                            <img
-                                src={previewImg}
-                                alt="no image"
-                            />
-                        ) : null}
-                        </Box>
-                        
+                        <Box p={4}>{previewImg && imgMime ? <img src={previewImg} alt="no image" /> : null}</Box>
                     </AlertDialogBody>
                 </AlertDialogContent>
             </AlertDialog>
