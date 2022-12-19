@@ -476,10 +476,10 @@ const CreateActivityPoll = () => {
                                 {isNoTopic ? (
                                     <></>
                                 ) : (
-                                    <FormHelperText color="gray">
+                                    isOpen ? <></> : <FormHelperText color="gray">
                                         You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."}
                                         {/* You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."} */}
-                                    </FormHelperText>
+                                    </FormHelperText> 
                                 )}
                             </FormControl>
                         </Center>
