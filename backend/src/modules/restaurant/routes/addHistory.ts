@@ -3,13 +3,20 @@ import { Request, Response } from "express"
 const addHistory = async (req: Request, res: Response) => {
     const user = req.user?.userId || ""
     const resid = req.params.id
+
+const addHours = (date: Date): Date => {
+    const result = new Date(date);
+    result.setHours(result.getHours());
+    return result;
+  };
     try {
         const prisma = res.prisma
         const seen = await prisma.restaurant_Seen_By_User.create({
+            
             data: {
                 userId: user,
                 resId: resid,
-                seenAt: new Date(),
+                seenAt: addHours(new Date()) ,
             },
         })
 
@@ -25,7 +32,8 @@ const addHistory = async (req: Request, res: Response) => {
         // console.log(isSeen);
         res.send(seen)
     } catch (error) {
-        console.log("Error store")
+        // console.log("Error store")
+        res.status(400)
     }
 }
 

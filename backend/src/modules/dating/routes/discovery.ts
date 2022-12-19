@@ -146,6 +146,17 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                     }
                 }
             }
+        } else {
+            if (cardQueueUserId?.frontUserId && frontUser?.details?.birth) {
+                if (getAge(frontUser.details.birth) < 18 || getAge(frontUser.details.birth) > 40) {
+                    cardQueueUserId.frontUserId = null
+                }
+            }
+            if (cardQueueUserId?.backUserId && backUser?.details?.birth) {
+                if (getAge(backUser.details.birth) < 18 || getAge(backUser.details.birth) > 40) {
+                    cardQueueUserId.backUserId = null
+                }
+            }
         }
         if (datingOptionsDB?.genderPref != "Everyone") {
             if (cardQueueUserId) {
@@ -312,7 +323,9 @@ discoveryRoutes.get("/getCards", verifyUser, async (req: Request, res: Response)
                 datingOptionsDB?.useAge == false &&
                 user.details?.birth &&
                 user.userId != cardQueueUserId?.frontUserId &&
-                user.userId != cardQueueUserId?.backUserId
+                user.userId != cardQueueUserId?.backUserId &&
+                getAge(user.details.birth) >= 18 &&
+                getAge(user.details.birth) <= 40
             ) {
                 ageObtainedUser.push(user)
             }

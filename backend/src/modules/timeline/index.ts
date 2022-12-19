@@ -20,7 +20,7 @@ export let posts: Post[] = [
         name: "Mr. Cat 1",
         dateTime: "23m",
         message: "Hello from the other side!",
-        likes: 253,
+        likes: 253,                         
         comments: 110,
         shares: 10,
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",

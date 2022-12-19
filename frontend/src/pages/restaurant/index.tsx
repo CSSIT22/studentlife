@@ -35,7 +35,7 @@ function Homepage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        navigate("/restaurant/0001")
+        navigate("/restaurant/likeOrNope")
         API.get("/restaurant/" + 0).then((item) => setproperty(item.data))
         // .catch((err) => on())
         // .finally(off)
@@ -48,9 +48,9 @@ function Homepage() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Box mb={"30px"}>
+            {/* <Box mb={"30px"}>
                 <Searchbar />
-            </Box>
+            </Box> */}
             {/* <Box px={2} borderWidth="1px" borderRadius="lg" h={"100%"} pb={6} pt={2}>
                 {property.map((e1) => {
                     return (

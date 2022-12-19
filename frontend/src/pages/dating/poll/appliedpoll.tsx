@@ -49,6 +49,7 @@ const YourAppliedActivityPoll = () => {
     let count = 1
     const [isLoading, setIsLoading] = useState(true)
     const [isError, { on }] = useBoolean()
+    const [allPoll, setAllPoll] = useState<PollInfo[]>([])
 
     function handlePeople(min: number, max: number) {
         if (max === min && max === 1) {
@@ -150,31 +151,18 @@ const YourAppliedActivityPoll = () => {
                 })
             })
             API.get("/dating/appliedpoll/getAppliedPolls").then((data) => {
+                let pollData = data.data
                 // setInfo(data.data)
+                setAllPoll(pollData.map((item: any) => ({
+                    ...item,
+                    ...item.poll,
+                    pollStatus: item.isAccepted ? "Accepted" : "Pending..."
+                })))
                 setPoll(
-
-                    data.data.map((item: any) => ({
+                    pollData.slice(0, 20).map((item: any) => ({
                         ...item,
                         ...item.poll,
                         pollStatus: item.isAccepted ? "Accepted" : "Pending..."
-
-                        // creator: {
-                        //     ...item.poll.pollCreator,
-                        //     Fname: item.poll.pollCreator.fName,
-                        //     Lname: item.poll.pollCreator.lName,
-                        //     img: {
-                        //         type: item.poll.pollCreator.type,
-                        //         data: item.poll.pollCreator.data
-                        //     },
-                        //     url: (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + item.poll.pollCreator.userId
-                        // },
-                        // participants: [
-                        //     ...item.poll.participants,
-                        // ],
-                        // interests: [
-                        //     ...item.poll.interests
-                        // ],
-                        // pollStatus: item.isAccepted ? "Accepted" : "Pending...",
                     }))
                 )
             }).catch(on).finally(() => setIsLoading(false))
@@ -183,6 +171,15 @@ const YourAppliedActivityPoll = () => {
 
     console.log(poll)
 
+    window.addEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            setPoll(allPoll.slice(0, poll.length + 20).map((item: any) => ({
+                ...item,
+                ...item.poll,
+                pollStatus: item.isAccepted ? "Accepted" : "Pending..."
+            })))
+        }
+    })
 
     const isMobile = useBreakpointValue({
         base: false,
@@ -275,7 +272,7 @@ const YourAppliedActivityPoll = () => {
                 </Box>
             </Center>
 
-                <Box mt="130px"></Box>
+                <Box mt="160px"></Box>
                 {/* Test 2: click to see more at medium bottom + group chat and chat button */}
                 <Box>
                     {poll.length > 0 ?
@@ -284,96 +281,104 @@ const YourAppliedActivityPoll = () => {
                                 // console.log("v", values);
 
                                 return (
-                                    <Box
-                                        backgroundColor="white"
-                                        boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                                        borderRadius="10px"
-                                        mb={{ base: "8px", md: "25px" }}
-                                    >
-                                        <Flex>
-                                            <Box>
-                                                <Text
-                                                    pt="17px"
-                                                    pl="30px"
-                                                    pr="31px"
-                                                    color="black"
-                                                    fontWeight="700"
-                                                    fontSize={{ base: "20px", md: "26px" }}
-                                                    lineHeight="120%"
-                                                >
-                                                    {values.pollName}
-                                                </Text>
-                                            </Box>
-                                            <Spacer />
-                                            <Box>
-                                                <Badge mt="17px" mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus((values as any).pollStatus)}>
-                                                    {(values as any).pollStatus}
-                                                </Badge>
-                                            </Box>
-                                        </Flex>
-
-                                        <Flex>
-                                            <Box pt="6" pb="6">
-                                                {isMobile ? (
-                                                    <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
-                                                        {values?.pollCreator?.fName}
-                                                        &nbsp;
-                                                        {values?.pollCreator?.lName}
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}>
+                                        <Box
+                                            backgroundColor="white"
+                                            boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                                            borderRadius="10px"
+                                            mb={{ base: "8px", md: "25px" }}
+                                        >
+                                            <Flex>
+                                                <Box overflow="hidden">
+                                                    <Text
+                                                        pt="17px"
+                                                        pl="30px"
+                                                        pr="31px"
+                                                        color="black"
+                                                        fontWeight="700"
+                                                        fontSize={{ base: "20px", md: "26px" }}
+                                                        lineHeight="120%"
+                                                    >
+                                                        {values.pollName}
                                                     </Text>
-                                                ) : (
-                                                    <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
-                                                        {values?.pollCreator?.fName}
-                                                        &nbsp;
-                                                        {values?.pollCreator?.lName.substring(0, 1) + "."}
-                                                    </Text>
-                                                )}
-                                            </Box>
-                                            <Spacer />
-                                            <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
-                                                {(values as any).pollStatus == "Accepted" ? <motion.div
-                                                    initial={
-                                                        { cursor: "pointer" }
-                                                    }
-                                                    whileHover={{ scale: 1.2, }}
-                                                    whileTap={{
-                                                        scale: 0.8,
-                                                    }}
-                                                    onClick={() => navigate("/chat/")}
-                                                ><Button
-                                                    borderRadius="full"
-                                                    w={{ base: "50px", md: "72px" }}
-                                                    h={{ base: "50px", md: "72px" }}
-                                                    backgroundColor="white"
-                                                    border="1px solid"
-                                                    mr={{ base: "12px", md: "24px" }}
-                                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                                >
-                                                        <Image src={GroupChatImg} />
-                                                    </Button></motion.div> : <></>}
-                                                <motion.div
-                                                    initial={
-                                                        { cursor: "pointer" }
-                                                    }
-                                                    whileHover={{ scale: 1.2, }}
-                                                    whileTap={{
-                                                        scale: 0.8,
-                                                    }}
-                                                    onClick={() => handleChat(values.pollCreator.userId)}
-                                                ><Button
-                                                    borderRadius="full"
-                                                    w={{ base: "50px", md: "72px" }}
-                                                    h={{ base: "50px", md: "72px" }}
-                                                    backgroundColor="white"
-                                                    border="1px solid"
-                                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                                >
-                                                        <Image src={ChatImg} />
-                                                    </Button></motion.div>
-                                            </Box>
-                                        </Flex>
+                                                </Box>
+                                                <Spacer />
+                                                <Box>
+                                                    <Badge mt="17px" mr="30px" lineHeight="133%" fontSize="15px" colorScheme={handleStatus((values as any).pollStatus)}>
+                                                        {(values as any).pollStatus}
+                                                    </Badge>
+                                                </Box>
+                                            </Flex>
 
-                                        <Box display="flex" w="100%" justifyContent="right" pt="10px" mr="30px">
-                                            {/* <Text
+                                            <Flex>
+                                                <Box pt="6" pb="6">
+                                                    {isMobile ? (
+                                                        <Text ml="30px" fontWeight="500" fontSize="20px" lineHeight="133%" color="black">
+                                                            {values?.pollCreator?.fName}
+                                                            &nbsp;
+                                                            {values?.pollCreator?.lName}
+                                                        </Text>
+                                                    ) : (
+                                                        <Text ml="30px" fontWeight="500" fontSize="16px" lineHeight="133%" color="black">
+                                                            {values?.pollCreator?.fName}
+                                                            &nbsp;
+                                                            {values?.pollCreator?.lName.substring(0, 1) + "."}
+                                                        </Text>
+                                                    )}
+                                                </Box>
+                                                <Spacer />
+                                                <Box display="flex" justifyContent="end" w="35%" alignItems="center" mr={{ base: "20px", md: "24px" }}>
+                                                    {(values as any).pollStatus == "Accepted" ? <motion.div
+                                                        initial={
+                                                            { cursor: "pointer" }
+                                                        }
+                                                        whileHover={{ scale: 1.2, }}
+                                                        whileTap={{
+                                                            scale: 0.8,
+                                                        }}
+                                                        onClick={() => navigate("/chat/")}
+                                                    ><Button
+                                                        borderRadius="full"
+                                                        w={{ base: "50px", md: "72px" }}
+                                                        h={{ base: "50px", md: "72px" }}
+                                                        backgroundColor="white"
+                                                        border="1px solid"
+                                                        mr={{ base: "12px", md: "24px" }}
+                                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                                    >
+                                                            <Image src={GroupChatImg} />
+                                                        </Button></motion.div> : <></>}
+                                                    <motion.div
+                                                        initial={
+                                                            { cursor: "pointer" }
+                                                        }
+                                                        whileHover={{ scale: 1.2, }}
+                                                        whileTap={{
+                                                            scale: 0.8,
+                                                        }}
+                                                        onClick={() => handleChat(values.pollCreator.userId)}
+                                                    ><Button
+                                                        borderRadius="full"
+                                                        w={{ base: "50px", md: "72px" }}
+                                                        h={{ base: "50px", md: "72px" }}
+                                                        backgroundColor="white"
+                                                        border="1px solid"
+                                                        boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                                    >
+                                                            <Image src={ChatImg} />
+                                                        </Button></motion.div>
+                                                </Box>
+                                            </Flex>
+
+                                            <Box display="flex" w="100%" justifyContent="right" pt="10px" mr="30px">
+                                                {/* <Text
                                         lineHeight="150%"
                                         color="black"
                                         fontWeight="400"
@@ -386,11 +391,13 @@ const YourAppliedActivityPoll = () => {
                                         Click to see more
                                     </Text> */}
 
-                                            {values && <ModalPoll pollInfo={values} />}
+                                                {values && <ModalPoll pollInfo={values} />}
+                                            </Box>
                                         </Box>
-                                    </Box>
+                                    </motion.div>
                                 )
                             })
+
                         ) : (<Box display="block" pt="50px" position="fixed" left="50%" transform="translateX(-50%)" top={{ base: "30%", md: "25%" }}>
                             <motion.div
                                 initial={{ scale: 0 }}
