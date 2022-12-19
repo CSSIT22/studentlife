@@ -16,7 +16,9 @@ export const SuggestedFriend = () => {
             setSugg(res.data)
         })
     }, [])
-    console.log(sugg)
+    // console.log(sugg)
+    // const suggValue = [...sugg.value()]
+    // console.log(suggValue)
 
     return (
         sugg.map((suggFS: any, index: any) =>
