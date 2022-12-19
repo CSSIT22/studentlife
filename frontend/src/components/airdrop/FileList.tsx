@@ -18,16 +18,24 @@ import {
     useToast,
     useBreakpointValue,
     useBoolean,
+    useMediaQuery,
+    Badge,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogCloseButton,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
-import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy } from "react-icons/md"
+import { MdDone, MdOutlineClose, MdInfoOutline, MdImage, MdFileCopy, MdAccountCircle, MdRemoveRedEye } from "react-icons/md"
 import FileComment from "./FileComment"
 import { fileListContext } from "src/pages/airdrop/receive"
 import { authContext } from "src/context/AuthContext"
 import Lottie from "lottie-react"
 import download from "../../components/airdrop/animation/download.json"
-
 
 const FileList: FC<{
     elementid: number
@@ -54,14 +62,19 @@ const FileList: FC<{
     }
     fadeToggle: any
 }> = ({ elementid, info, fadeToggle }) => {
+    const [isMobile] = useMediaQuery("(max-width: 768px)")
     const [commentText, setComment] = useState("")
     const toast = useToast()
     const fileContext = useContext(fileListContext)
     const user = useContext(authContext)
     const initRef = useRef(null)
+    const cancleRef = useRef(null)
     const [senderImg, setSenderImg] = useState<string>("")
+    const [previewImg, setPreviewImg] = useState<any>(null)
+    const [imgMime, setMime] = useState<any>(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [isDownload, {off: offDownload,on:onDownload}] = useBoolean()
+    const { isOpen: alertIsOpen, onOpen: alertOnOpen, onClose: alertOnClose } = useDisclosure()
+    const [isDownload, { off: offDownload, on: onDownload }] = useBoolean()
     const { isOpen: proOpen, onOpen: proOpenFunc, onClose: proCloseFunc } = useDisclosure()
     //modal page
     const [modalPage, setModalPage] = useState(0)
@@ -134,7 +147,9 @@ const FileList: FC<{
                     <Text fontSize={"xl"}>File Name:</Text>
                     <Text>
                         {modalData.fileName.split(".")[0].length > 25
-                            ? modalData.fileName.split(".")[0].slice(0, 25) + "..."
+                            ? isMobile
+                                ? modalData.fileName.split(".")[0].substring(0, 25) + "..."
+                                : modalData.fileName.split(".")[0].substring(0, 25) + "..."
                             : modalData.fileName.split(".")[0]}
                     </Text>
                 </HStack>
@@ -164,7 +179,18 @@ const FileList: FC<{
                                 {senderProfile && (
                                     <>
                                         <Flex justify={"space-around"} gap={5} flexDirection={"row"} alignItems={"center"} flexWrap={"wrap"}>
-                                            <img src={`data:image/jpg;base64,${senderImg}`} alt="" />
+                                            {senderImg === "" ? (
+                                                <MdAccountCircle fontSize={"1.5rem"} />
+                                            ) : (
+                                                <img
+                                                    src={`data:image/jpg;base64,${senderImg}`}
+                                                    alt="no profile"
+                                                    width={"48px"}
+                                                    height={"48px"}
+                                                    style={{ borderRadius: "20%" }}
+                                                />
+                                            )}
+
                                             <Text>{senderNameModal}</Text>
                                             <Text>{senderProfile.studentId}</Text>
                                             <Text>{senderProfile.majorId + " Student"}</Text>
@@ -185,8 +211,8 @@ const FileList: FC<{
                         {new Date(modalData.fileExpired).getFullYear() == 2000
                             ? "Permanent"
                             : new Date(modalData.fileExpired).toLocaleString("en-US", {
-                                  timeZone: "Asia/Bangkok",
-                              })}
+                                timeZone: "Asia/Bangkok",
+                            })}
                     </Text>
                 </HStack>
             </>
@@ -229,6 +255,7 @@ const FileList: FC<{
         }).then((res) => {
             onDownload()
             downloadFunc(res.data, name, res.headers["content-type"])
+            toast({ title: "File Downloaded", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
         })
 
         const hideFile = await API.post("/airdrop/file/hidefile", {
@@ -236,9 +263,35 @@ const FileList: FC<{
         })
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== fid))
     }
+    async function previewFunc(data: any, name: any, type: any) {
+        try {
+            let fileBlob = new Blob([new Uint8Array(data)], { type: type })
+            const urlCreator = window.URL || window.webkitURL
+            const blobUrl = urlCreator.createObjectURL(fileBlob)
+            const a = document.createElement("a")
+            if (type == "image/jpeg" || type == "image/png" || type == "image/jpg") {
+                await setPreviewImg(blobUrl)
+                await setMime(type)
+                alertOnOpen()
+            } else {
+                window.open(blobUrl)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const handlePreview = async (type: string, name: string, sid: string, fid: string, event: any) => {
+        const getFile = await API.get(`/airdrop/file/getfile/${fid}`, {
+            responseType: "arraybuffer",
+        }).then((res) => {
+            previewFunc(res.data, name, res.headers["content-type"])
+        })
+    }
     const handleDecline = async (id: string, event: any) => {
         const hideFile = await API.post("/airdrop/file/hidefile", {
             fileId: id,
+        }).then((res) => {
+            toast({ title: "File Declined", status: "error", variant: "top-accent", duration: 2000, isClosable: true })
         })
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== id))
     }
@@ -247,7 +300,7 @@ const FileList: FC<{
             fileId: modalData.fileId,
             commentTxt: commentText,
         })
-            .then((res) => {})
+            .then((res) => { })
             .catch((err) => {
                 console.log(err)
                 toast({ title: "Comment Failed", status: "error", duration: 3000, isClosable: true })
@@ -271,21 +324,43 @@ const FileList: FC<{
 
     return (
         <>
-                            {
-                    isDownload ? (
-                        <Box position={"absolute"} m={"auto"} w={["50%","30%","30%","30%"]} zIndex={1} top={10}>
-                        <Lottie animationData={download} onLoopComplete={()=>{
+            {isDownload ? (
+                <Box position={"absolute"} m={"auto"} w={["50%", "30%", "30%", "30%"]} zIndex={1} top={10}>
+                    <Lottie
+                        animationData={download}
+                        onLoopComplete={() => {
                             offDownload()
-                        }} loop={true}
-                        ></Lottie>
-                    </Box>
-                    ) : null
-                }
+                        }}
+                        loop={true}
+                    ></Lottie>
+                </Box>
+            ) : null}
+            <AlertDialog motionPreset="slideInBottom" onClose={alertOnClose} isOpen={alertIsOpen} isCentered leastDestructiveRef={cancleRef}>
+                <AlertDialogOverlay />
+
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <Text fontSize={"2xl"}> Image Preview</Text>
+                    </AlertDialogHeader>
+                    <AlertDialogCloseButton />
+                    <AlertDialogBody>
+                        <Box p={4}>
+                            {previewImg && imgMime ? (
+                                <img
+                                    src={previewImg}
+                                    alt="no image"
+                                />
+                            ) : null}
+                        </Box>
+
+                    </AlertDialogBody>
+                </AlertDialogContent>
+            </AlertDialog>
             <div id={elementid.toString()}>
                 <Flex
                     direction={"row"}
                     justifyContent={{
-                        base: "space-evenly",
+                        base: "space-between",
                         md: "space-between",
                         lg: "space-between",
                     }}
@@ -294,12 +369,43 @@ const FileList: FC<{
                     py={"3"}
                     gap={3}
                 >
-                    <Box as={MdFileCopy} size={"2rem"} />
+                    <Box>
+                        {info.fileName.split(".")[1].toLowerCase() == "pdf" ||
+                            info.fileName.split(".")[1].toLowerCase() == "jpg" ||
+                            info.fileName.split(".")[1].toLowerCase() == "png" ||
+                            info.fileName.split(".")[1].toLowerCase() == "jpeg" ? (
+                            <Box
+                                position={"absolute"}
+                                zIndex={"999"}
+                                ml={2}
+                                mt={1}
+                                onClick={async (e) => {
+                                    handlePreview(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
+                                }}
+                                _hover={{
+                                    cursor: "pointer",
+                                }}
+                            >
+                                <Badge colorScheme="green" size={"sm"}>
+                                    <MdRemoveRedEye />
+                                </Badge>
+                            </Box>
+                        ) : null}
+                        <Box>
+                            <MdFileCopy fontSize={"28px"} />
+                        </Box>
+                    </Box>
                     <Hide below={"md"}>
-                        <Text>{info.fileName.length > 12 ? info.fileName.slice(0, 12) + "..." : info.fileName}</Text>
+                        <Text>{info.fileName.length > 17 ? info.fileName.slice(0, 17) + "..." : info.fileName}</Text>
                     </Hide>
 
-                    <Text fontSize={["0.76rem", "md"]}>{senderName && senderName?.length > 7 ? senderName?.slice(0, 7) + "..." : senderName}</Text>
+                    <Text fontSize={["0.76rem", "md"]}>
+                        {senderName && senderName?.length > 18
+                            ? senderName?.slice(0, 18) + "..."
+                            : isMobile && senderName && senderName?.length > 7
+                                ? senderName?.slice(0, 7) + "..."
+                                : senderName}
+                    </Text>
 
                     <HStack spacing={0}>
                         <IconButton

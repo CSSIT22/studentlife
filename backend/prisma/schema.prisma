@@ -22,8 +22,8 @@ model User_Profile {
   majorId             String?
   studentMajor        Major?                        @relation(fields: [majorId], references: [majorId], onDelete: SetNull)
   roles               User_To_Role[]
-  userFollowers       Follow[]                      @relation("following")
-  userFollowing       Follow[]                      @relation("follower")
+  userFollowers       Follow[]                      @relation("following") //มีใครฟอลเราบ้าง
+  userFollowing       Follow[]                      @relation("follower") //เราฟอลใครบ้าง
   userReporters       User_Report[]                 @relation("reporting")
   userReporting       User_Report[]                 @relation("reporter")
   userBlockers        User_Blocked[]                @relation("blocking")
@@ -40,6 +40,7 @@ model User_Profile {
   notis               Noti_User?
   sendNoti            Noti_Object[]
   userTimetable       Timetable[]
+  events              Event[]
   tasks               Task[]
   taskfolders         Task_Folder[]
   groups              User_To_Group[]
@@ -121,7 +122,6 @@ model Detail {
   address String
   hobby   String
   phone   String
-  year    Int
   student User_Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
@@ -223,8 +223,7 @@ model Student_Post {
   score           Int               @default(0)
   seen            Boolean           @default(false)
   postOwner       User_Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  images          Image_Container[]
-  vids            Video_Container[]
+  files           File_Container[]
   studentsReacted Student_Reacted[]
   studentsComment Post_Comment[]
   rePost          Repost[]
@@ -233,18 +232,12 @@ model Student_Post {
   communityPost   Community_Post?
 }
 
-model Image_Container {
-  imgId        String       @id @default(cuid())
+model File_Container {
+  fileId       String       @id @default(cuid())
   postId       String
-  imageAddress String
-  postImage    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
-}
-
-model Video_Container {
-  vidId      String       @id @default(cuid())
-  postId     String
-  vidAddress String
-  postVid    Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  fileAddress  String
+  fileUploaded DateTime     @default(now()) @db.Timestamp(0)
+  postFile     Student_Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 }
 
 model Student_Reacted {
@@ -402,7 +395,6 @@ enum Module {
 
 enum Noti_Type {
   ALL
-  MENTION
   IGNORE
 }
 
@@ -418,23 +410,17 @@ model Event {
   eventId      String       @id @default(cuid())
   eventName    String
   desc         String
-  placeId      String?
+  userId       String
+  place        String
   stTime       DateTime     @db.Timestamp(0)
   endTime      DateTime     @db.Timestamp(0)
   eventTypeId  String
-  hostAt       Event_Place? @relation(fields: [placeId], references: [placeId])
+  eventCreator User_Profile @relation(fields: [userId], references: [userId])
   courseId     String?
   course       Course?      @relation(fields: [courseId], references: [courseId])
   assignmentId String?
   assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId])
   // alert Schedule_Alert?
-}
-
-model Event_Place {
-  placeId  String  @id @default(cuid())
-  building String
-  room     String
-  events   Event[]
 }
 
 model Event_Type {
@@ -1501,18 +1487,17 @@ model SReview_Shop_Image {
 }
 
 model SReview_Review {
-  reviewId     String                 @id @default(cuid())
+  reviewId     String                @id @default(cuid())
   resId        String?
   shopId       String?
   userId       String
-  reviewedAt   DateTime               @default(now()) @db.Timestamp(0)
+  reviewedAt   DateTime              @default(now()) @db.Timestamp(0)
   text         String
   rating       Int
-  likeReceived Int                    @default(0)
-  images       SReview_Review_Image[]
-  reviewer     User_Profile           @relation(fields: [userId], references: [userId])
-  restaurant   Restaurant?            @relation(fields: [resId], references: [resId])
-  shop         SReview_Shop?          @relation(fields: [shopId], references: [shopId])
+  likeReceived Int                   @default(0)
+  reviewer     User_Profile          @relation(fields: [userId], references: [userId])
+  restaurant   Restaurant?           @relation(fields: [resId], references: [resId])
+  shop         SReview_Shop?         @relation(fields: [shopId], references: [shopId])
   likes        SReview_Review_Like[]
   comments     SReview_Comment[]
   files        SReview_Review_File[]
@@ -1525,13 +1510,6 @@ model SReview_Review_File {
   file     File_Info      @relation(fields: [fileId], references: [fileId])
 
   @@id([reviewId, fileId])
-}
-
-model SReview_Review_Image {
-  imageId  Int            @id @default(autoincrement())
-  reviewId String
-  image    String
-  imageOf  SReview_Review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
 }
 
 model SReview_Comment {
@@ -1595,18 +1573,18 @@ model Question_Setting {
 }
 
 model Question_Tag {
-  tagKey Int                  @id
-  tagId  Int
+  tagKey Int
   qId    String
   tagOf  Question             @relation(fields: [qId], references: [qId], onDelete: Cascade)
   tagIs  Question_Default_Tag @relation(fields: [tagKey], references: [tagKey], onDelete: Cascade)
+
+  @@id([tagKey, qId])
 }
 
 model Question_Default_Tag {
-  tagKey  Int           @id @default(autoincrement())
-  tagId   Int
+  tagKey  Int            @id @default(autoincrement())
   tagName String
-  tag     Question_Tag?
+  tag     Question_Tag[]
 }
 
 model Question_Embed_File {
@@ -1684,11 +1662,19 @@ model ShortLink {
   shortenLink   String
   password      String                         @default("")
   expired       DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
+  meta          ShortLink_Save?
   linkCreator   User_Profile                   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   permission    ShortLink_Permission?
   userAccess    ShortLink_Permission_User[]
   majorAccess   ShortLink_Permission_Major[]
   facultyAccess ShortLink_Permission_Faculty[]
+}
+
+model ShortLink_Save {
+  slId   String    @id
+  title  String
+  desc   String
+  metaOf ShortLink @relation(fields: [slId], references: [slId])
 }
 
 model ShortLink_Permission {

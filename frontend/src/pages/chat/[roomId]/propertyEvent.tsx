@@ -33,13 +33,14 @@ const propertyDetail = (props: any) => {
     return <Box>{propertyEvent(props)}</Box>
 }
 
-type memberType = {
-    userId: string,
+export type memberType = {
     roomId: string,
     joined: string,
     lefted: string,
     user: {
+        userId: string,
         fName: string,
+        lName: string,
         image: {
             type: string,
             data: string
@@ -58,7 +59,12 @@ function propertyEvent(props: any) {
         return setRoomColor(e.target.value)
     }
     const submitRoomColor = () => {
-        API.post(`/chat/${param.roomId}?chatColor=${encodeURIComponent(roomColor)}`)
+        if (Room?.roomType === "INDIVIDUAL") {
+            API.put(`/chat/${param.roomId}?chatColor=${encodeURIComponent(roomColor)}`)
+        }
+        if (Room?.roomType === "GROUP") {
+            API.put(`/chat/${param.roomId}/editGroup?chatColor=${encodeURIComponent(roomColor)}`)
+        }
         navigate(`/chat/${param.roomId}`)
     }
 
@@ -67,7 +73,6 @@ function propertyEvent(props: any) {
         API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data)
         )
     }, [param])
-
 
     useEffect(() => {
         API.get(`/chat/${param.roomId}/getMember`).then((e) => setMember(e.data)
@@ -78,10 +83,10 @@ function propertyEvent(props: any) {
             element.map((e: memberType) => {
                 const img = e.user.image
                 return (
-                    <HStack spacing={4}>
+                    <HStack spacing={4} onClick={() => navigate(`/user/${e.user.userId}`)} cursor={'pointer'}>
                         <Avatar name={e.user.fName} src={(img === null) ? "" : buffer_to_img(img?.data)} />
                         <Heading size={"md"}>
-                            {e.user.fName}
+                            {e.user.fName} {e.user.lName}
                         </Heading>
                     </HStack>
                 )
@@ -98,7 +103,12 @@ function propertyEvent(props: any) {
     // Set room name
     const [roomName, setRoomName] = useState("")
     const submitRoomName = () => {
-        API.post(`/chat/${param.roomId}?roomName=${roomName}`)
+        if (Room?.roomType === "INDIVIDUAL") {
+            API.put(`/chat/${param.roomId}?roomName=${roomName}`)
+        }
+        if (Room?.roomType === "GROUP") {
+            API.put(`/chat/${param.roomId}/editGroup?roomName=${roomName}`)
+        }
         navigate(`/chat/${param.roomId}`)
     }
 
@@ -185,42 +195,40 @@ function propertyEvent(props: any) {
         }
     }
 
+
+    // Leave group
+    const leaveGroup = () => {
+        API.delete(`/chat/${param.roomId}/leaveGroup`)
+        navigate(`/chat`)
+    }
+
     if (props === "Set room name") {
-        return (
-            <VStack spacing={4} p={4}>
-                <Input placeholder={Room?.room.roomName} onChange={(e: any) => setRoomName(e.target.value)} />
-                <Box alignItems={'center'}>
-                    <Button colorScheme="orange" onClick={submitRoomName}>
-                        Done
-                    </Button>
-                </Box>
-            </VStack>
-        )
-    }
-    if (props === "Set nickname") {
-        return (
-            <VStack m={4} spacing={6}>
-                <HStack spacing={4}>
-                    <Avatar name="Nong neng" src="https://picsum.photos/200/300" />
-                    <Flex direction={"column"}>
-                        <Heading size={"md"}>Neng</Heading>
-                        <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
-                            rename
+        if (Room?.roomType == 'INDIVIDUAL') {
+            return (
+                <VStack spacing={4} p={4}>
+                    <Input placeholder={Room?.nickname} onChange={(e: any) => setRoomName(e.target.value)} />
+                    <Box alignItems={'center'}>
+                        <Button colorScheme="orange" onClick={submitRoomName}>
+                            Done
                         </Button>
-                    </Flex>
-                </HStack>
-                <HStack spacing={4}>
-                    <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-                    <Flex direction={"column"}>
-                        <Heading size={"md"}>Dan</Heading>
-                        <Button variant={"ghost"} size={"sm"} width={"12"} fontWeight={"normal"}>
-                            rename
+                    </Box>
+                </VStack>
+            )
+        }
+        if (Room?.roomType == 'GROUP') {
+            return (
+                <VStack spacing={4} p={4}>
+                    <Input placeholder={Room?.group.roomName} onChange={(e: any) => setRoomName(e.target.value)} />
+                    <Box alignItems={'center'}>
+                        <Button colorScheme="orange" onClick={submitRoomName}>
+                            Done
                         </Button>
-                    </Flex>
-                </HStack>
-            </VStack>
-        )
+                    </Box>
+                </VStack>
+            )
+        }
     }
+
     if (props === "Add quote") {
         return (
             <Flex justifyContent={"center"} pb={6}>
@@ -262,7 +270,7 @@ function propertyEvent(props: any) {
                     </VStack>
                     <VStack>
                         <Text as="b">color code</Text>
-                        <Input placeholder={Room?.room.chatColor} bgColor={roomColor} onChange={(e) => colorRoom(e)} />
+                        <Input placeholder={Room?.chatColor} bgColor={roomColor} onChange={(e) => colorRoom(e)} />
                     </VStack>
                     <Button colorScheme="orange" onClick={submitRoomColor}>
                         Done
@@ -291,7 +299,7 @@ function propertyEvent(props: any) {
     }
     if (props === "Member") {
         return (
-            <Flex direction={'column'} alignItems={'center'} gap={5} pb={6}>
+            <Flex direction={'column'} alignItems={'flex-start'} gap={5} pb={6} px={'12'} overflowY={"auto"} maxH={'80'}>
                 {renderMemberGroup(member)}
             </Flex>
         )
@@ -369,22 +377,8 @@ function propertyEvent(props: any) {
                     Are you sure you want to leave group?
                 </Text>
                 <Box alignItems={'center'} p={6}>
-                    <Button colorScheme="orange">
+                    <Button colorScheme="orange" onClick={leaveGroup}>
                         Leave group
-                    </Button>
-                </Box>
-            </VStack>
-        )
-    }
-    if (props === "Create group chat") {
-        return (
-            <VStack justifyContent={"center"}>
-                <Text textAlign={"center"}>
-                    Do you want to create group chat?
-                </Text>
-                <Box alignItems={'center'} p={6}>
-                    <Button colorScheme="orange">
-                        Create
                     </Button>
                 </Box>
             </VStack>
