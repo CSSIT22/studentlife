@@ -13,10 +13,6 @@ import {
     Spacer,
     ListItem,
     UnorderedList,
-    Image,
-    Editable,
-    EditablePreview,
-    EditableInput,
     InputRightElement,
     Select,
 } from "@chakra-ui/react"
@@ -26,7 +22,7 @@ import { AiFillBug, AiOutlinePlus } from "react-icons/ai"
 import { FaCircle } from "react-icons/fa"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
-import { Navigate, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { RoomType } from "../[roomID]"
 import { buffer_to_img } from "src/components/chat/function/64_to_img"
 
@@ -118,7 +114,6 @@ function propertyEvent(props: any) {
                 type: string,
                 data: string
             } | null
-            press: boolean,
         }
     }
 
@@ -159,24 +154,6 @@ function propertyEvent(props: any) {
             return resultSearch.map((e: any) => renderMemberInvite(e))
         }
     }
-
-    // function selectedMemberHandler(member: any) {
-    //     setSelectedMember([...selectedMember, member])
-    //     // console.log(selectedMember)
-    // }
-    // const renderSelectedMember = () => {
-    //     // Coding if select that member, they won't render up
-    //     return (
-    //         selectedMember.map((e: any) => (
-    //             <Box key={e.id} pb={4}>
-    //                 <Flex direction={'column'} alignItems={'center'}>
-    //                     <Avatar name={e.memberName} src={e.memberPic} />
-    //                     <Box>{e.memberName}</Box>
-    //                 </Flex>
-    //             </Box>
-    //         ))
-    //     )
-    // }
 
     // Add quote
     const [quoteList, setQuote] = useState<any>([])
