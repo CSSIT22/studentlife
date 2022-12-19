@@ -14,8 +14,8 @@ const savelink = () => {
 
     }
     const generateLink = async () => {
-        const response = await API.post("http://localhost:8000/shortlink/generate", { originalLink: link }) //axios will call Http
-        setGenerated(response.data.result.shortenLink)
+        const response = await API.post("http://localhost:8000/shortlink/funcsavelink", { title : link }) //axios will call Http
+        setGenerated(response.data.result.savelink)
         // console.log(response.data)
     }
     return (
