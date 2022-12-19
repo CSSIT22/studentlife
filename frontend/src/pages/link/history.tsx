@@ -55,52 +55,54 @@ const history = () => {
 
     return (
         <AppBody>
-            <Center>
-                <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
-                    <Box>
-                        <Heading
-                            width={"300px"}
-                            height={"50px"}
-                            marginLeft={"10%"}
-                            marginTop={"-5"}
-                            background={"orange.200"}
-                            borderRadius={"10px"}
-                            fontSize={"xl"}
-                            border={"3px solid white"}
-                            textAlign={"center"}
-                            textColor="white"
-                        >
-                            SHORTLINK HISTORY
-                        </Heading>
-                    </Box>
+            <Box>
+                <Center>
+                    <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
+                        <Box>
+                            <Heading
+                                width={"300px"}
+                                height={"50px"}
+                                marginLeft={"10%"}
+                                marginTop={"-5"}
+                                background={"orange.200"}
+                                borderRadius={"10px"}
+                                fontSize={"xl"}
+                                border={"3px solid white"}
+                                textAlign={"center"}
+                                textColor="white"
+                            >
+                                SHORTLINK HISTORY
+                            </Heading>
+                        </Box>
 
-                    <VStack spacing={5} align="stretch" marginBottom={"100%"} >
-                        <Center>
-                            <Box w="100" p={5} color="white" alignItems={"center"}>
+                        <VStack spacing={5} align="stretch" marginBottom={"100%"} >
+                            <Center>
+                                <Box w="100" p={5} color="white" alignItems={"center"}>
 
-                                {/* ------------------------ */}
-                                <HStack spacing="24px">
+                                    {/* ------------------------ */}
+                                    <HStack spacing="24px">
 
-                                    <Box w="400px" h="430px" overflowWrap={'normal'} overflow="scroll">
-                                        <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                                            {linkdata && linkdata.map((link: { shortenLink: string, slId: string }, index: any) =>
-                                                (<LList key={index} shortenLink={link.shortenLink} slId={link.slId} handleSelect={handleDelete} />))}
-                                        </Flex>
-                                    </Box>
-                                </HStack>
-                                {/* ------------------------ */}
+                                        <Box w="400px" h="430px" overflowWrap={'normal'} overflow="scroll">
+                                            <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
+                                                {linkdata && linkdata.map((link: { shortenLink: string, slId: string }, index: any) =>
+                                                    (<LList key={index} shortenLink={link.shortenLink} slId={link.slId} handleSelect={handleDelete} />))}
+                                            </Flex>
+                                        </Box>
+                                    </HStack>
+                                    {/* ------------------------ */}
 
-                            </Box>
-                        </Center>
-                        {/* ----- problem 1 ----- */}
-                        {/* <Box>
+                                </Box>
+                            </Center>
+                            {/* ----- problem 1 ----- */}
+                            {/* <Box>
                             <Button bg={"orange.600"} w={"20%"} height={"60px"} onClick={shortlink}  marginTop={"43%"}>
                                 <Text as={"b"}>Return</Text>
                             </Button>
                         </Box> */}
-                    </VStack>
-                </Box>
-            </Center>
+                        </VStack>
+                    </Box>
+                </Center>
+            </Box>
         </AppBody>
     )
 }

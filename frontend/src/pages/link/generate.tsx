@@ -70,7 +70,7 @@ const generate = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"white"} borderRadius="20px" marginTop={"10%"} >
+                <Box width={"80%"} height={"300px"} background={"white"} borderRadius="20px" marginTop={"10%"}>
                     <Box>
                         <Heading
                             width={"300px"}
@@ -115,6 +115,7 @@ const generate = () => {
 
             {/*  */}
 
+            
             <Center>
                 {" "}
                 <Box width={"80%"} height={"200px"} background={"white"} borderRadius="20px" marginTop={"1%"}>
@@ -125,8 +126,6 @@ const generate = () => {
                                 <Button colorScheme="blue" w={"50%"} height={"60px"} onClick={generateLink} textColor="white" disabled={link.length === 0}>
                                     GENERATE
                                 </Button>
-
-
                             </Center>
                         </Box>
 

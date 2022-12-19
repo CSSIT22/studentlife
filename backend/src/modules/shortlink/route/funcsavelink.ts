@@ -1,5 +1,5 @@
 import {Request , Response } from "express"
-import { customAlphabet } from "nanoid"
+import { customAlphabet, nanoid } from "nanoid"
 
 const funcsavelink = async(req : Request , res : Response)=>{
     
@@ -14,7 +14,7 @@ const funcsavelink = async(req : Request , res : Response)=>{
 
         const result = await prisma.shortLink_Save.create({
             data: {
-                slId:userId,
+                slId: nanoid(),
                 title:req.body.title,
                 desc:""
             },

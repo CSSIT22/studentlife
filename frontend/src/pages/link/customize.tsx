@@ -58,7 +58,7 @@ const customize = () => {
     const generateLink = async () => {
         // if link or word is empty do nothing
         if (!shortUrlData.link || !shortUrlData.word) {
-            return;  
+            return;
         }
 
         // password from both input tag are the same then navigate to /link/history
@@ -92,145 +92,112 @@ const customize = () => {
 
     return (
         <AppBody>
-            <Center>
-                {" "}
-                <Box width={"80%"} height={shortUrlData.password.length > 0 ? "450px" : "400px"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
-                    <Box>
-                        <Heading
-                            width={"300px"}
-                            height={"50px"}
-                            marginLeft={"10%"}
-                            marginTop={"-5"}
-                            background={"orange.200"}
-                            borderRadius={"10px"}
-                            fontSize={"xl"}
-                            border={"3px solid white"}
-                            textAlign={"center"}
-                        >
-                            SHORTLINK CUSTOMIZE
-                        </Heading>
-                    </Box>
+            <Box>
+                <Center>
+                    {" "}
+                    <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
+                        <Box>
+                            <Heading
+                                width={"300px"}
+                                height={"50px"}
+                                marginLeft={"10%"}
+                                marginTop={"-5"}
+                                background={"orange.200"}
+                                borderRadius={"10px"}
+                                fontSize={"xl"}
+                                border={"3px solid white"}
+                                textAlign={"center"}
+                            >
+                                SHORTLINK CUSTOMIZE
+                            </Heading>
+                        </Box>
 
-                    <VStack spacing={4} align="stretch" marginTop={"5%"}>
-                        <Box h="100px">
-                            <VStack gap="1%">
-                                <Box width={"100%"}>
-                                    <Center>
-                                        <Input
-                                            name="link"
-                                            placeholder="Link URL*:"
-                                            onChange={handleChange}
-                                            w={"75%"} height={"60px"}
-                                            border={"4px"} borderColor={"black"}
-                                            backgroundColor={"white"}
-                                            textColor="black" />
-                                    </Center>
-                                </Box>
-                                <Box width={"100%"}>
-                                    {/* custom word */}
-                                    {/* handle change */}
-                                    <Center>
-                                        <Input
-                                            name="word"
-                                            placeholder="Custom Word*:"
-                                            onChange={handleChange}
-                                            w={"75%"} height={"60px"}
-                                            border={"4px"} borderColor={"black"}
-                                            backgroundColor={"white"}
-                                            textColor="black" />
-                                    </Center>
-                                </Box>
-                                <Box width={"100%"}>
-                                    {/* custom password */}
-                                    {/* handle change */}
-                                    <Center>
-                                        <Input
-                                            type="password"
-                                            name="password"
-                                            placeholder="Password (Optional):"
-                                            onChange={handleChange}
-                                            w={"75%"} height={"60px"}
-                                            border={"4px"} borderColor={"black"}
-                                            backgroundColor={"white"}
-                                            textColor="black" />
-                                    </Center>
-                                </Box>
-                                {
-                                    shortUrlData.password.length > 0 &&
-                                    (<Box width={"100%"}>
+                        <VStack spacing={4} align="stretch" marginTop={"5%"}>
+                            <Box h="100px">
+                                <VStack gap="1%">
+                                    <Box width={"100%"}>
                                         <Center>
                                             <Input
-                                                type="password"
-                                                name="confirmPassword"
-                                                placeholder="Confirm Password*:"
+                                                name="link"
+                                                placeholder="Link URL*:"
                                                 onChange={handleChange}
                                                 w={"75%"} height={"60px"}
                                                 border={"4px"} borderColor={"black"}
                                                 backgroundColor={"white"}
                                                 textColor="black" />
                                         </Center>
-                                    </Box>)
-                                }
-                            </VStack>
-                            <Box h="70px" w={"100%"} marginTop={"2%"}>
-                                <Center>
-                                    <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
-                                        <a>
-                                            {shortUrlData.word &&
-                                                "https://ss.modlifes.me/" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
-                                        </a>
-                                    </Editable>
-                                </Center>
-                            </Box>
-                        </Box>
-
-
-                    </VStack>
-                </Box>
-            </Center>
-
-            {/*  */}
-
-            <Center>
-                {" "}
-                <Box width={"80%"} height={"200px"} background={"white"} borderRadius="20px" marginTop={"1%"}>
-                    <VStack spacing={4} align="stretch" marginTop={"5%"}>
-                        <Box h="70px">
-                            <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-                                <AlertDialogOverlay>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                                    </Box>
+                                    <Box width={"100%"}>
+                                        {/* custom word */}
+                                        {/* handle change */}
+                                        <Center>
+                                            <Input
+                                                name="word"
+                                                placeholder="Custom Word*:"
+                                                onChange={handleChange}
+                                                w={"75%"} height={"60px"}
+                                                border={"4px"} borderColor={"black"}
+                                                backgroundColor={"white"}
+                                                textColor="black" />
+                                        </Center>
+                                    </Box>
+                                    <Box width={"100%"}>
+                                        {/* custom password */}
+                                        {/* handle change */}
+                                        <Center>
+                                            <Input
+                                                type="password"
+                                                name="password"
+                                                placeholder="Password (Optional):"
+                                                onChange={handleChange}
+                                                w={"75%"} height={"60px"}
+                                                border={"4px"} borderColor={"black"}
+                                                backgroundColor={"white"}
+                                                textColor="black" />
+                                        </Center>
+                                    </Box>
+                                    {
+                                        shortUrlData.password.length > 0 &&
+                                        (<Box width={"100%"}>
+                                            <Center>
+                                                <Input
+                                                    type="password"
+                                                    name="confirmPassword"
+                                                    placeholder="Confirm Password*:"
+                                                    onChange={handleChange}
+                                                    w={"75%"} height={"60px"}
+                                                    border={"4px"} borderColor={"black"}
+                                                    backgroundColor={"white"}
+                                                    textColor="black" />
+                                            </Center>
+                                        </Box>)
+                                    }
+                                </VStack>
+                                <Box h="70px" w={"100%"} marginTop={"2%"}>
+                                    <Center>
+                                        <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
+                                            <a>
+                                                {shortUrlData.word &&
+                                                    "https://ss.modlifes.me/" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
+                                            </a>
+                                        </Editable>
+                                    </Center>
+                                </Box>
+                                <Box width={"100%"} marginTop={"5%"}>
+                                    <Center>
+                                        {/* onClick={onOpen} */}
+                                        {/* onClick of this button (save button) called function named generateLink */}
+                                        {/* isDisable: the save button is set to disable (cannot press) if one of link or word is not filled */}
+                                        <Button isDisabled={!shortUrlData.link || !shortUrlData.word} colorScheme="green" w={"50%"} height={"60px"} onClick={generateLink}>
                                             SAVE
-                                        </AlertDialogHeader>
-
-                                        <AlertDialogBody>Are you sure?</AlertDialogBody>
-
-                                        <AlertDialogFooter>
-                                            <Button colorScheme='green' onClick={complete} ml={3}>
-                                                SAVE
-                                            </Button>
-                                            <Button ref={cancelRef} onClick={onClose} ml={3}>
-                                                Cancel
-                                            </Button>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialogOverlay>
-                            </AlertDialog>
-                            <Box width={"100%"}>
-                                <Center>
-                                    {/* onClick={onOpen} */}
-                                    {/* onClick of this button (save button) called function named generateLink */}
-                                    {/* isDisable: the save button is set to disable (cannot press) if one of link or word is not filled */}
-                                    <Button isDisabled={!shortUrlData.link || !shortUrlData.word} colorScheme="green" w={"50%"} height={"60px"} onClick={generateLink}>
-                                        SAVE
-                                    </Button>
-                                </Center>
+                                        </Button>
+                                    </Center>
+                                </Box>
                             </Box>
-                        </Box>
-                        
-                    </VStack>
-                </Box>
-            </Center>
+                        </VStack>
+                    </Box>
+                </Center>
+            </Box>
         </AppBody>
     )
 }

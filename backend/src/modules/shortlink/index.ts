@@ -14,13 +14,13 @@ const shortlinkRoutes = express()
 shortlinkRoutes.use(express.json())
 shortlinkRoutes.post("/generate", verifyUser, shortenlink)
 shortlinkRoutes.post("/custom", verifyUser, customlink)
+shortlinkRoutes.post("/funcsavelink",funcsavelink )
 shortlinkRoutes.get("/redirect", verifyUser, getRedirect)
 shortlinkRoutes.post("/checkpassword", checkpassword)
 shortlinkRoutes.get("/getUser", getUserData)
 shortlinkRoutes.get("/getlink", getlinkData)
 shortlinkRoutes.post("/deletelink", verifyUser, deletelink)
 
-shortlinkRoutes.get("/funcsavelink",funcsavelink )
 
 
 export default shortlinkRoutes

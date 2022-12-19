@@ -8,6 +8,7 @@ const complete = () => {
 
     return (
         <AppBody>
+            
             <Center>
                 <Box width={"80%"} height={"500px"} background={"white"} borderRadius="20px" marginTop={"10%"}>
                    
