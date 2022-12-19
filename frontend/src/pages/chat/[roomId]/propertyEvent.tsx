@@ -51,12 +51,11 @@ export type memberType = {
 
 function propertyEvent(props: any) {
     const [Room, setRoom] = React.useState<RoomType>()
-    const [member, setMember] = React.useState<memberType>()
+    const [member, setMember] = React.useState<memberType[]>()
     const [roomName, setRoomName] = React.useState("")
     const [roomColor, setRoomColor] = React.useState("")
     const [followList, setFollowList] = React.useState<followType[]>([])
     const [searchMember, setSearchMember] = React.useState("")
-    const [addMemberWarning, setMemberWarning] = React.useState("")
     const [reportContext, setReportContext] = React.useState("")
     const [reportReason, setReportReason] = React.useState("")
 
@@ -119,13 +118,13 @@ function propertyEvent(props: any) {
                 type: string,
                 data: string
             } | null
+            press: boolean,
         }
-        added: boolean,
     }
 
-    const renderMember = (members: any) => {
-        const added = false
+    const renderMemberInvite = (members: any) => {
         const img = members.following.image
+
         return (
             <Flex justifyContent={"space-between"} alignItems={"center"} key={members.following.userId}>
                 <Flex alignItems={"center"}>
@@ -135,30 +134,29 @@ function propertyEvent(props: any) {
                 </Flex>
                 <Spacer />
                 <Box>
-                    <Button onClick={() => { added ? setMemberWarning("This person already in group") : inviteMember(members.following.userId); }}>
-                        {added ? "Added" : "Invite"}
-                    </Button>
+                    <Button colorScheme={'orange'} onClick={() => inviteMember(members.following.userId)}>Invite</Button>
                 </Box>
             </Flex>
         )
     }
 
     const inviteMember = (memberId: any) => {
-        setMemberWarning("")
-        return (
-            API.post(`/chat/${param.roomId}/inviteToGroup`, { target_id: memberId })
-        )
+        API.post(`/chat/${param.roomId}/inviteToGroup`, { target_id: memberId })
+        const result = followList.filter((e)=> e.following.userId != memberId)
+        setFollowList(result)
     }
 
     const renderSearchMember = (searchMember: any) => {
+        const result = followList.filter((e) => !member?.some((f)=>f.user.userId == e.following.userId))
+
         if (searchMember === "") {
             return (
-                followList.map((e: any) => renderMember(e))
+                result.map((e: any) => renderMemberInvite(e))
             )
         }
         else {
-            const result = followList.filter((e: any) => e.following.fName.includes(searchMember))
-            return result.map((e: any) => renderMember(e))
+            const resultSearch = result.filter((e: any) => e.following.fName.includes(searchMember))
+            return resultSearch.map((e: any) => renderMemberInvite(e))
         }
     }
 
@@ -202,7 +200,7 @@ function propertyEvent(props: any) {
 
     // Report
     const sendReport = () => {
-        API.post("/backendService/reportword",{word: reportContext, roomId : param.roomId , reason : reportReason}).then(()=> console.log("success")
+        API.post("/backendService/reportword", { word: reportContext, roomId: param.roomId, reason: reportReason }).then(() => console.log("success")
         )
         setReportContext("")
         setReportReason("")
@@ -213,7 +211,7 @@ function propertyEvent(props: any) {
         API.delete(`/chat/${param.roomId}/leaveGroup`)
         navigate(`/chat`)
     }
-    
+
     if (props === "Set room name") {
         if (Room?.roomType === 'INDIVIDUAL') {
             return (
@@ -297,7 +295,7 @@ function propertyEvent(props: any) {
                 <VStack>
                     <AiFillBug size={"40px"} />
                     <Text>Context you require to report</Text>
-                    <Input placeholder="Context" w={96} onChange={(e) => setReportContext(e.target.value)}/>
+                    <Input placeholder="Context" w={96} onChange={(e) => setReportContext(e.target.value)} />
                     <Text>Reason for reporting</Text>
                     <Select placeholder="Reason" onChange={(e) => setReportReason(e.target.value)}>
                         <option value="bully">Bully</option>
@@ -324,7 +322,7 @@ function propertyEvent(props: any) {
     if (props === "Invite people") {
         return (
             <VStack>
-                <Flex w={"96"} direction={"column"} gap={4}>
+                <Flex w={"96"} direction={"column"} gap={4} pb='6'>
                     <InputGroup>
                         <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
                         <Input placeholder="Search name" borderColor={"black"} onChange={(e) => setSearchMember(e.target.value)} />
@@ -339,9 +337,6 @@ function propertyEvent(props: any) {
                         </Flex>
                     </Box>
                 </Flex>
-                <Box alignItems={'center'} color="red" fontSize={'12'} pb={'6'}>
-                    {addMemberWarning}
-                </Box>
             </VStack>
         )
     }
