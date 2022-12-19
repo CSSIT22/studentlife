@@ -53,6 +53,10 @@ const customize = () => {
         }
 
         if (shortUrlData.password === shortUrlData.confirmPassword) {
+            //TODO: Check if password and coonfirm password is same
+            const response = await API.post("/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password, userAccessIds: permissionUser.map((i: any) => i.id) })
+            setShortedUrl(response.data.result.shortenLink)
+            
             navigate("/link/history")
         } else {
             return toast({
@@ -63,9 +67,6 @@ const customize = () => {
             })
         }
 
-        //TODO: Check if password and coonfirm password is same
-        const response = await API.post("/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password, userAccessIds: permissionUser.map((i: any) => i.id) })
-        setShortedUrl(response.data.result.shortenLink)
     }
 
     const addNewPermession = useCallback((props: {

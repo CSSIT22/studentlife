@@ -17,8 +17,9 @@ const getRedirect = async (req: Request, res: Response) => {
     })
 
     // console.log(shortLink)
-    if (shortLink?.type === "PASSWORD") {
+    if (shortLink?.type === "PASSWORD") { //If type == password
         return res.redirect(process.env.SUCCESS_REDIRECT_URL + "/link/pwd/" + shortLink.slId)
+        //navigate to password entering for user to enter password ]
     }
     //Permission
     if (shortLink?.type === "PERMISSION" && shortLink.userId !== req.user?.userId) {
