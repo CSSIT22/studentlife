@@ -4,6 +4,7 @@ import deleteCommunity from "./routes/community/deleteCommunity"
 import editCommunity from "./routes/community/editCommunity"
 import getCommunity from "./routes/getCommunity"
 import getFile from "./routes/community/file/getCommunityFile"
+import getPic from "./routes/community/file/getCommunityPic"
 import getCommunityMember from "./routes/community/member/getCommunityMember"
 import getCommunityPost from "./routes/community/post/getCommunityPost"
 import searchCommunity from "./routes/searchCommunity"
@@ -19,33 +20,28 @@ import banMember from "./routes/community/member/banMember"
 import setRole from "./routes/community/member/setRole"
 import unBanMember from "./routes/community/member/unBanMember"
 import getCommunityId from "./routes/community/getCommunityId"
-
+import getTag from "./routes/getTag"
+import multer from "multer"
+import createPost from "./routes/community/post/createPost"
+import deletePost from "./routes/community/post/deletePost"
+import pinPost from "./routes/community/post/pinPost"
+import unPinPost from "./routes/community/post/unPinPost"
+import editPost from "./routes/community/post/editPost"
+import likePost from "./routes/community/post/likePost"
+import dislikePost from "./routes/community/post/dislikePost"
+import downloadFile from "../airdrop/routes/functions/downloadFile"
+import creatingCommunityPost from "./routes/community/post/createCommunityPost"
+import { group } from "console"
+const upload = multer()
 const groupRoutes = express()
 groupRoutes.use(express.json())
 
 groupRoutes.get("/getCommunity", getCommunity)
-groupRoutes.post("/createtest", (req, res) => {
-    const body = req.body
-    const userid = req.user?.userId
-    const createCommunity: any = {
-        communityName: body.communityName,
-        communityOwnerId: userid,
-        communityDesc: body.communityDesc,
-        communityPrivacy: body.communityPrivacy,
-        communityPhoto: body.communityCoverPhoto,
-        communityTags: body.communityTags,
-    }
-    console.log("hello")
-    console.log(createCommunity)
-    console.log(req.body.communityName)
-    console.log(req.body.communityTags)
-    res.sendStatus(201)
-})
 
-groupRoutes.post("/createCommunity", createCommunity)
+groupRoutes.post("/createCommunity", upload.array("upload"), createCommunity)
 groupRoutes.delete("/deleteCommunity", deleteCommunity)
 groupRoutes.get("/searchCommunity", searchCommunity)
-groupRoutes.post("/editCommunity", editCommunity)
+groupRoutes.patch("/editCommunity:id", upload.array("upload"), editCommunity)
 groupRoutes.get("/getCommunity", getCommunity)
 
 groupRoutes.post("/pendingRequest", pendingRequest)
@@ -54,12 +50,15 @@ groupRoutes.post("/joinCommunity", joinCommunity)
 groupRoutes.post("/acceptRequest", acceptRequest)
 groupRoutes.delete("/declineRequest", declineRequest)
 
-groupRoutes.get("/getCommunityFile", getFile)
+groupRoutes.get("/getCommunityFile/:id", getFile)
 groupRoutes.delete("/deleteFile", deleteFile)
+groupRoutes.get("/downloadFile/:id", downloadFile)
 
-groupRoutes.get("/getCommunityPost", getCommunityPost)
+//groupRoutes.post("/creatingCommunityPost", upload.array("upload"), creatingCommunityPost)
 
-groupRoutes.get("/getCommunityMember", getCommunityMember)
+groupRoutes.get("/getpic/:id", getPic)
+
+groupRoutes.get("/getCommunityMember/:id", getCommunityMember)
 groupRoutes.delete("/deleteCommunityMember", deleteCommunityMember)
 groupRoutes.post("/banMember", banMember)
 groupRoutes.post("/setRole", setRole)
@@ -67,5 +66,16 @@ groupRoutes.delete("/unBanMember", unBanMember)
 
 groupRoutes.get("/getCommunityId/:id", getCommunityId)
 groupRoutes.get("/communityTest", communityTest)
+groupRoutes.get("/getTag", getTag)
+
+//Post
+groupRoutes.get("/getCommunityPost/:id", getCommunityPost)
+groupRoutes.post("/createPost", upload.array("upload"), createPost)
+groupRoutes.delete("/deletePost", deletePost)
+groupRoutes.post("/pinPost", pinPost)
+groupRoutes.post("/unPinPost", unPinPost)
+groupRoutes.post("/editPost", editPost)
+groupRoutes.post("/likePost", likePost)
+groupRoutes.post("/dislikePost", dislikePost)
 
 export default groupRoutes

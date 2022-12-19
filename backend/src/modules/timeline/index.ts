@@ -1,5 +1,11 @@
+import { prisma } from "@prisma/client"
 import express from "express"
 import editedPost from "./routes/editspost"
+import getPostList from "./routes/getPostList"
+import getReacted from "./routes/getReacted"
+import getStudentPost from "./routes/getStudentPost"
+import getSuggestion from "./routes/getSuggestion"
+import getUserName from "./routes/getUserName"
 import searchPost from "./routes/searchpost"
 
 export type Post = {
@@ -13,6 +19,7 @@ export type Post = {
     avatar: string
     media: string
 }
+// ต้องเก็บและดึง post ต่างๆ จาก datagrip มา
 
 export let posts: Post[] = [
     {
@@ -20,7 +27,7 @@ export let posts: Post[] = [
         name: "Mr. Cat 1",
         dateTime: "23m",
         message: "Hello from the other side!",
-        likes: 253,                         
+        likes: 253,
         comments: 110,
         shares: 10,
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
@@ -73,10 +80,24 @@ const timelineRoutes = express()
 timelineRoutes.use(express.json())
 
 timelineRoutes.get("/getposts", (req, res) => {
-    res.send(posts)
+    try {
+        res.send(posts)
+    } catch (error) {
+        res.status(400).send("Error no post")
+    }
 })
 
 timelineRoutes.get("/searchpost/:id", searchPost)
+
+timelineRoutes.get("/getPostList", getPostList)
+
+timelineRoutes.get("/getUserName", getUserName)
+
+timelineRoutes.get("/getReacted", getReacted)
+
+timelineRoutes.get("/getStudentPost/:i", getStudentPost)
+
+timelineRoutes.get("/getSuggestion", getSuggestion)
 
 timelineRoutes.post("/editspost", editedPost)
 
