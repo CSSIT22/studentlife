@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - infra-*
-    #   - main
+      - main
     # paths:
     #   - "backend/**"
 

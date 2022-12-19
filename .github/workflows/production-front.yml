@@ -1,10 +1,10 @@
-name: 👾 Deployment Production-front(┬┬﹏┬┬)
+name: 👾 Deployment Production-front
 
 on:
   push:
     branches:
       - infra-*
-    #   - main
+      - main
     # paths:
     #   - "frontend/**"
 
@@ -29,48 +29,28 @@ jobs:
       - name: 🆙 Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: p-frontend-build-artifact
+          name: frontend-build-artifact
           path: ./frontend/dist
+
   upload:
     name: 🍱 Preview Server Uploading
     runs-on: [self-hosted, linux, x64]
+    environment: develop
     timeout-minutes: 2
     container: alpine
     needs: [frontend-build]
+    env:
+      REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP_PRODUCTION }}
+      MIRROR_DIST: ${{ secrets.MIRROR_DIST }}
     steps:
       - name: 📥 Download artifacts
         uses: actions/download-artifact@v2
         with:
           path: .
-      - name: Deploy to server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          username: ${{secrets.FRONT_SSH_USERNAME}}
-          server: ${{secrets.FRONT_SSH_HOST}}
-          password: ${{ secrets.PRODUCTION_SSH_PASSWORD}}
-          port: ${{secrets.FRONT_SSH_PORT}}
-          local_path: "./p-frontend-build-artifact/*"
-          remote_path: "/home/sharegun34/production/fronted/web"
-          args: "-o ConnectTimeout=5"
-  # upload:
-  #   name: 🍱 Preview Server Uploading
-  #   runs-on: [self-hosted, linux, x64]
-  #   environment: develop
-  #   timeout-minutes: 2
-  #   container: alpine
-  #   needs: [frontend-build]
-  #   env:
-  #     REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP_PRODUCTION }}
-  #     MIRROR_DIST: ${{ secrets.MIRROR_DIST }}
-  #   steps:
-  #     - name: 📥 Download artifacts
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         path: .
 
-  #     - name: Install packages
-  #       run: |
-  #         apk add openssh-client sshpass lftp
-  #     - name: 🖨️ Upload artifacts to server
-  #       run: |
-  #         lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; $MIRROR_DIST; bye"
+      - name: Install packages
+        run: |
+          apk add openssh-client sshpass lftp
+      - name: 🖨️ Upload artifacts to server
+        run: |
+          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; $MIRROR_DIST; bye"
