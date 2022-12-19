@@ -6,15 +6,15 @@ const getOrderInformation = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const orderDetails: Shop_Order | null = await prisma.shop_Order.findUnique({
             include: {
-                products : {
+                products: {
                     include: {
                         product: {
                             include: {
-                                images: true
-                            }
-                        }
-                    }
-                }
+                                images: true,
+                            },
+                        },
+                    },
+                },
             },
             where: {
                 orderId: req.params.orderId,

@@ -1,6 +1,5 @@
 import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
-import { FaDumpsterFire } from "react-icons/fa"
 import { templates } from "../functions/templates"
 import { showUser } from "../functions/showUser"
 

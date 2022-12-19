@@ -26,6 +26,8 @@ const getProductInformation = async (req: Request, res: Response) => {
                         }
                     }
                 },
+                contactTo: true,
+            },
             where: { productId: parseInt(prodId) },
         })
         if (selectedProduct != null) {

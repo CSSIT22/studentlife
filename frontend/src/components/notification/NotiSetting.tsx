@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { Stack, Text, RadioGroup, Radio, Box, Button, Center, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
 import API from "src/function/API"
 import { NotiUser } from "@apiType/notification"
@@ -7,21 +7,11 @@ import { SettingsIcon } from "@chakra-ui/icons"
 
 
 
-const NotiSetting = () => {
-    const [settingApp, setSettingApp] = React.useState<any>([])
-
+const NotiSetting: FC<{ notiUser: NotiUser }> = ({ notiUser }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
 
-
-
-    const [notiUser, setNotiUser] = useState<NotiUser>()
-    React.useEffect(() => {
-        API.get("/notification/getnotiuser").then((res) => {
-            setNotiUser(res.data)
-        })
-    }, [])
 
     const [appValue, setAppValue] = React.useState(notiUser?.notiSettingApp as string)
     const [emailValue, setEmailValue] = React.useState(notiUser?.notiSettingEmail as string)

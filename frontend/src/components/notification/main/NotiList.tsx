@@ -1,6 +1,5 @@
 import { Notiobject } from "@apiType/notification";
 import { Box, Center, Show, Stack, Text } from "@chakra-ui/react"
-import { Any } from "@react-spring/types";
 import React, { FC } from "react"
 import NotiObject from "./NotiObject"
 

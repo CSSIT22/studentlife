@@ -2,6 +2,7 @@ import { Avatar } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import API from "src/function/API";
 
+//thx to Chat module for handleImg+bufferToImg kub
 function buffer_to_img(data: any) {
     const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
     return `data:image/png;base64,${base64String}`
@@ -14,6 +15,7 @@ function handleImg(e: any) {
         return buffer_to_img(e.data)
     }
 }
+
 export function showUser(sender: string | null, userId: string, module: string) {
     const [senderImg, setsenderImg] = useState([])
 
@@ -32,8 +34,5 @@ export function showUser(sender: string | null, userId: string, module: string) 
             <Avatar src={handleImg(senderImg)} size={"sm"} />
         )
     }
-
-
-
 
 }

@@ -58,7 +58,7 @@ const DatingInterestModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                                 h={{ base: "40px", md: "70px" }}
                             >
                                 <Text fontWeight="700" fontSize={{ base: "16px", md: "24px" }} lineHeight="120%">
-                                    I understand!!!
+                                    I understand!
                                 </Text>
                             </Button>
                         </Center>
