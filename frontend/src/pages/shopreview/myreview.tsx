@@ -44,23 +44,39 @@ const myreview = () => {
             </Flex>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myReviews.map((item: any) => {
-                    console.log(item)
+                    // console.log(item)
                     if (item.reviewer.userId === user?.userId) {
-                        return (
-                            <b onClick={() => Navigate(item.reviewId)}>
-                                <Myreview
-                                    shopId={item.shopId}
-                                    reviewId={item.reviewId}
-                                    image={""}
-                                    name={String(user?.fName) + " " + String(user?.lName)}
-                                    ment={item.text}
-                                    date={String(item.reviewedAt).substring(0, 10)}
-                                    am_like={item.likeReceived}
-                                    ratting={item.rating}
-                                    shopName="shopname"
-                                />
-                            </b>
-                        )
+                        if (item.shopId !== null) {
+                            return (
+                                <b onClick={() => Navigate(item.reviewId)}>
+                                    <Myreview
+                                        shopId={item.shopId}
+                                        reviewId={item.reviewId}
+                                        image={""}
+                                        name={String(user?.fName) + " " + String(user?.lName)}
+                                        ment={item.text}
+                                        date={String(item.reviewedAt).substring(0, 10)}
+                                        am_like={item._count.likes}
+                                        ratting={item.rating}
+                                        shopName={item.shop.shopName} />
+                                </b>
+                            )
+                        } else if (item.resId !== null) {
+                            return (
+                                <b onClick={() => Navigate(item.reviewId)}>
+                                    <Myreview
+                                        shopId={item.shopId}
+                                        reviewId={item.reviewId}
+                                        image={""}
+                                        name={String(user?.fName) + " " + String(user?.lName)}
+                                        ment={item.text}
+                                        date={String(item.reviewedAt).substring(0, 10)}
+                                        am_like={item._count.likes}
+                                        ratting={item.rating}
+                                        shopName={item.restaurant.resName} />
+                                </b>
+                            )
+                        }
                     }
                 })}
                 {/* {myReviews2.map((item: any) => {
@@ -89,10 +105,12 @@ const myreview = () => {
 
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myComments.map((item: any) => {
-                    console.log(item)
+                    // console.log(item)
                     if (item.commentBy.userId === user?.userId) {
                         return (
-                            <Comments commentId={item.commentId} image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={item.commentedAt} />
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <Comments commentId={item.commentId} image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={String(item.commentedAt).substring(0, 10)} am_like={item._count.userLike} />
+                            </b>
                         )
                     }
                 })}

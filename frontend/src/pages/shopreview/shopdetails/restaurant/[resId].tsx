@@ -14,7 +14,14 @@ import API from 'src/function/API'
 import rating from 'src/pages/dating/rating'
 
 const restId = () => {
-    window.scrollTo(0, 0)
+    var numCount = 0
+    var numCount2 = 0
+    var numCount3 = 0
+    var numCount4 = 0
+    var numCount5 = 0
+    var numCount6 = 0
+    var sumRating = 0;
+    var AAA = 0;
     const [rating, setRating] = useState(0) // rating star max = 5
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [review, setReview] = useState<any>([])
@@ -25,34 +32,34 @@ const restId = () => {
     const [files, setFiles] = useState<any>([]) // array of user's files (pictures)
 
     const submit = () => {
-        console.log("do");
+        // console.log("do");
 
-        if (!text) {
-            console.log("NOT SUBMITTED")
-            return;
-        }
+        // if (!text) {
+        //     console.log("NOT SUBMITTED")
+        //     return;
+        // }
 
-        // const form = new FormData();
-        // form.append("text", text);
-        // form.append("rating", rating + "");
-        // form.append("resId", param.resId + "");
-        // files.map((item: any) => {
-        //     form.append("upload", item.file)
-        //     // shopId: ∏
-        // })
-        // console.log(text, rating, param.resId,);
+        const form = new FormData();
+        form.append("text", text);
+        form.append("rating", rating + "");
+        form.append("resId", param.resId + "");
+        files.map((item: any) => {
+            form.append("upload", item.file)
+            // shopId: ∏
+        })
+        console.log(text, rating, param.resId,);
 
-        // API.post("/shopreview/postmyreview",
-        //     form,
-        //     {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data'
-        //         }
-        //     }
-        // ).then((res) => {
-        //     console.log(res)
-        //     window.location.reload()
-        // })
+        API.post("/shopreview/postmyreview",
+            form,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        ).then((res) => {
+            console.log(res)
+            window.location.reload()
+        })
 
     }
 
@@ -72,7 +79,7 @@ const restId = () => {
         API.get(`/shopreview/shopdetails/restaurant/${param.resId}`)
             .then((res) => setDetail2(res.data))
     }, [param])
-    console.log(detail)
+    // console.log(detail)
     const getReview = API.get("/shopreview/getmyreviewDb")
     useEffect(() => {
         getReview.then((res) => {
@@ -89,22 +96,62 @@ const restId = () => {
         }
     }
 
+    const [amo_rate, setAmountRate] = useState<any>([])
+    useEffect(() => {
+        API.get(`/shopreview/shopdetails/restaurant/${param.resId}/getcountrevieweachraterestaurant`)
+            .then((res) => setAmountRate(res.data))
+    }, [param])
+
     function Navigate(target: any) {
         navigate(`/shopreview/review/${target}`)
         window.scrollTo(0, 0)
     }
 
+    const [rates, setRate] = useState<string[]>([])
+    function handleSetRate(rate: any) {
+        if (!rates.includes(rate)) {
+            setRate([...rates, rate])
+        } else {
+            const newArr = rates.filter((value) => value !== rate)
+            setRate(newArr)
+        }
+    }
     return (
         <AppBody>
-            {detail.map((item: any) => {
+            {detail.map((item: any, index: any) => {
                 return (
-                    <ShopDetailName name={item.resName} />
+                    <ShopDetailName key={index} name={item.resName} />
                 )
             })}
-            {detail.map((item: any) => (
+            {amo_rate.map((item: any) => {
+                // console.log(item.rating)
+                if (item.rating === 5) {
+                    numCount += 1
+                    sumRating += 5
+                } else if (item.rating === 4) {
+                    sumRating += 4
+                    numCount2 += 1
+                } else if (item.rating === 3) {
+                    numCount3 += 1
+                    sumRating += 3
+                } else if (item.rating === 2) {
+                    numCount4 += 1
+                    sumRating += 2
+                } else if (item.rating === 1) {
+                    numCount5 += 1
+                    sumRating += 1
+                } else if (item.rating === 0) {
+                    numCount6 += 1
+                }
+                let summ = numCount + numCount2 + numCount3 + numCount4 + numCount5 + numCount6
+                AAA = sumRating / summ
+            })}
+            {detail.map((item: any, index: any) => (
                 <Box
+                    key={index}
+                    backgroundSize={"cover"}
                     flex={1}
-                    bgImage={item.images[0].image}
+                    bgImage={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.images[0].image}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`}
                     shadow={"lg"}
                     w={"100%"}
                     height={"sm"}
@@ -116,13 +163,13 @@ const restId = () => {
                     <Spacer height={"95%"}></Spacer>
                     <Flex direction="row" justifyContent={"space-between"} alignItems="flex-end">
                         <Heading color="white">
-                            <AmountRate ratting={item.aveRating} />
+                            <AmountRate ratting={String(AAA).substring(0, 3)} />
                             {/* ดีงข้อมูลมาจาก database */}
                         </Heading>
                         <Box p={1} minWidth={"60px"} maxWidth={"200px"} height={"25px"} rounded={"2xl"} background={"#FF3939"}>
                             <Flex mb={1} direction={"row"} justifyContent={"center"} alignItems={"center"}>
                                 <Heading textAlign={"center"} size={"xs"} color="white">
-                                    <AmountReview am_re={item.reviewReceived} />
+                                    <AmountReview am_re={item._count.reviews} />
                                     {/* ดีงข้อมูลมาจาก database */}
                                 </Heading>
                             </Flex>
@@ -130,12 +177,12 @@ const restId = () => {
                     </Flex>
                 </Box>
             ))}
-            {detail.map((item: any,) => (
+            {detail.map((item: any, index: any) => (
                 <Flex direction="row" justifyContent={"start"} alignItems="start" shadow={"20"}>
                     <Heading padding={10} paddingLeft={"-1"} color={"green"} size={"lg"}>
                         Opening
                     </Heading>
-                    <Heading padding={10} size={"lg"}>
+                    <Heading key={index} padding={10} size={"lg"}>
                         {item.openAt[0].open} - {item.closeAt[0].close}
                     </Heading>
                 </Flex>
@@ -150,19 +197,19 @@ const restId = () => {
                 </AspectRatio>
             </Box>
 
-            {detail.map((item: any) => (
-                <LocationShop location={item.detail.zone} phoneNumber={item.detail.phoneNo} />
+            {detail.map((item: any, index: any) => (
+                <LocationShop key={index} location={item.detail.zone} phoneNumber={item.detail.phoneNo} />
             ))}
             <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-                <Rate ratting={"5"} background={"#FF3939"} amo_rate={"3k"} />
-                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={"2"} />
-                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={"1"} />
-                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={"55"} />
-                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={"80"} />
-                <Rate ratting={"0"} background={"#838383"} amo_rate={"26"} />
+                <Rate ratting={"5"} background={"#FF3939"} amo_rate={String(numCount)} handleSetRate={handleSetRate} />
+                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={String(numCount2)} handleSetRate={handleSetRate} />
+                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={String(numCount3)} handleSetRate={handleSetRate} />
+                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={String(numCount4)} handleSetRate={handleSetRate} />
+                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={String(numCount5)} handleSetRate={handleSetRate} />
+                <Rate ratting={"0"} background={"#838383"} amo_rate={String(numCount6)} handleSetRate={handleSetRate} />
             </SimpleGrid>
 
-            <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
+            <Box onClick={onOpen} as="button" mt={5} mb={3} width={"100%"}>
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
                     + Addyour
                 </Heading>
@@ -239,7 +286,7 @@ const restId = () => {
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button bgColor={"green"} color="white" onClick={(e) => {submit(); e.preventDefault()}}>
+                        <Button bgColor={"green"} color="white" onClick={(e) => { submit(); e.preventDefault() }}>
                             Submit
                         </Button>
                     </ModalFooter>
@@ -249,11 +296,11 @@ const restId = () => {
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
                 {review.map((item: any, index: any) => {
                     if (param.resId === item.resId) {
-                        return (
-                            <b key={index} onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={item.reviewedAt} amo_rate={item.rating} amo_like={item.likeReceived} />
-                            </b>
-                        )
+                        if (rates.length === 0) {
+                            return (<b key={index} onClick={() => Navigate(item.reviewId)}><ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} /></b>)
+                        } else if (rates.includes(String(item.rating))) {
+                            return (<b key={index} onClick={() => Navigate(item.reviewId)}><ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} /></b>)
+                        }
                     }
                 })}
             </SimpleGrid>
