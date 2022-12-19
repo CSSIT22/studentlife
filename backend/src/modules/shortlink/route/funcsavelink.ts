@@ -15,8 +15,10 @@ const funcsavelink = async(req : Request , res : Response)=>{
         const result = await prisma.shortLink_Save.create({
             data: {
                 slId: nanoid(),
-                title:req.body.title,
-                desc:""
+                userId:userId,
+                title:"",
+                desc:"",
+                link:req.body.title,
             },
         })
         console.log(result)
