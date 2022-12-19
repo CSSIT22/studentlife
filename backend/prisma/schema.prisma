@@ -1223,16 +1223,7 @@ model Transaction_Detail {
   transCreated DateTime          @default(now()) @db.Timestamp(0)
   transStatus  String
   isShip       Boolean
-  errKey       Int               @unique @default(autoincrement())
   detailOf     Transaction       @relation(fields: [transId], references: [transId], onDelete: Cascade)
-  haveError    Transaction_Error @relation(fields: [errKey], references: [errKey], onDelete: Cascade)
-}
-
-model Transaction_Error {
-  errKey  Int                 @id @default(autoincrement())
-  errId   Int
-  errDesc String
-  error   Transaction_Detail?
 }
 
 model Credit_Card {
