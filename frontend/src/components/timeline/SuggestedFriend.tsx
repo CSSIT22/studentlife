@@ -21,6 +21,7 @@ export const SuggestedFriend = () => {
     // console.log(suggValue)
     const [isFollow, setIsFollow] = useState<boolean>()
     const [followerCount, setFollowerCount] = useState<number>(0)
+    const [color, setColor] = useState('orange')
 
     async function handleClickFollow() {
         if (isFollow) {
@@ -28,6 +29,7 @@ export const SuggestedFriend = () => {
         } else {
             setIsFollow(!isFollow)
         }
+        setColor("Grey")
     }
 
     return (
@@ -36,18 +38,18 @@ export const SuggestedFriend = () => {
                 <Card align="center" minW="2xs" maxW="2xs" backgroundColor={"white"}>
                     <CardHeader>
                         <Grid justifyContent="center">
-                            <Avatar marginLeft={"30px"} size="xl" src={import.meta.env.VITE_APP_ORIGIN + "/user/profile/" + suggFS?.postOwner.userId} />
-                            <Text fontSize={"small"}>{suggFS.postOwner.fName + " " + suggFS.postOwner.lName}</Text>
+                            <Avatar marginLeft={"40px"} justifyContent={'center'} size="xl" src={import.meta.env.VITE_APP_ORIGIN + "/user/profile/" + suggFS?.postOwner.userId} />
+                            <Text justifyContent={'center'} fontSize={"small"}>{suggFS.postOwner.fName + " " + suggFS.postOwner.lName}</Text>
                         </Grid>
                     </CardHeader>
                     <CardBody>
-                        <Text fontSize="sm">{suggFS.postOwner.majorId}</Text>
+                        <Text fontSize="sm">Department : {suggFS.postOwner.majorId}</Text>
                         <HStack spacing="5" align="-moz-initial">
                             <Text align="left" fontSize="sm">
                                 {/* Faculty: Computer Sci */}
                             </Text>
                             <Text align="left" fontSize="sm">
-                                {/* Year: 2 */}
+
                             </Text>
                         </HStack>
                     </CardBody>
@@ -67,3 +69,7 @@ export const SuggestedFriend = () => {
 }
 
 export default SuggestedFriend
+function setColor(arg0: string) {
+    throw new Error("Function not implemented.")
+}
+
