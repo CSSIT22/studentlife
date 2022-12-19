@@ -28,7 +28,7 @@ const editCommunity = async (req: Request, res: Response) => {
     let a: any = []
 
     let x: any = {
-        any: tag2id.map((item) => a.push({ communityId: id,tagId: item.tagId })),//req.params.communityId
+        any: tag2id.map((item:any) => a.push({ communityId: id,tagId: item.tagId })),//req.params.communityId
     }
 
 
