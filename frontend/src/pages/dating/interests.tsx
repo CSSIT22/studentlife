@@ -1,4 +1,4 @@
-import { Heading, Box, Grid, GridItem, useDisclosure, Container, useBoolean, Center, Flex, Text, useToast } from "@chakra-ui/react"
+import { Heading, Box, Grid, GridItem, useDisclosure, Container, useBoolean, Text, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import DatingAppBody from "../../components/dating/DatingAppBody"
 import DatingInterestModal from "../../components/dating/DatingInterestModal"

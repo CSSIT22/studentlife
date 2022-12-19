@@ -9,7 +9,11 @@ const getWeekTasks = async (req: Request, res: Response) => {
         }
         const startDate = new Date(req.params.startDate)
         const tasks = await res.prisma.event.findMany({
-            where: { stTime: { gte: startDate }, endTime: { lte: addDays(startDate, 6) }, userId: req.user?.userId || "" },
+            where: {
+                stTime: { gte: addDays(startDate, -1) },
+                endTime: { lte: addDays(startDate, 7) },
+                userId: req.user?.userId || "",
+            },
             select: { eventName: true, eventId: true, place: true, stTime: true, endTime: true },
         })
         res.send(tasks)

@@ -63,7 +63,7 @@ backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, 
             },
             create: {
                 userId: req.body.bannedUserId || "",
-                banTo: req.body.banTo,
+                banTo: banTo,
                 reason: req.body.reason,
                 instance: 1,
             },

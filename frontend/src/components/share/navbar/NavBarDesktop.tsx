@@ -52,7 +52,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                         <img src={logo} style={{ width: "150px" }} />
                         <Stack gap={5} alignItems="center" direction="row">
                             <Link to="/chat">
-                                <NavBarWithNoti label="Chat" notiCount={20} Icon={AiOutlineMail} />
+                                <NavBarWithNoti label="Chat" Icon={AiOutlineMail} />
                             </Link>
                             <Popover>
                                 <PopoverTrigger>

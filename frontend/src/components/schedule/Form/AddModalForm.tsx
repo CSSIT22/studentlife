@@ -3,7 +3,8 @@ import React, { FC, useEffect, useState } from 'react'
 import API from 'src/function/API'
 import { useNavigate, useParams } from "react-router-dom";
 
-const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
+const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload }) => {
+
     const { onClose: onAddClose } = useDisclosure()
     const [event, setEvent] = useState("")
     const handleInputEventChange = (e: any) => setEvent(e.target.value)
@@ -57,6 +58,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
     const handleSubmit = () => {
         console.log(time, endtime);
+
         onAddClose()
         const body: any = {
             eventName: event,
@@ -72,11 +74,11 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
             body.courseId = course
             body.assignmentName = assignment
         }
-        if(type == "Course"){
+        if (type == "Course") {
             body.courseId = course
-            
+
             console.log(body);
-            
+
         }
 
         API.post<Event>("/schedule/createEvent", body).then((res) => console.log(res))
@@ -109,9 +111,9 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
     return (
         <>
 
-            <FormControl >
+            <FormControl borderColor="black">
 
-                <FormLabel color="black">
+                <FormLabel color="black" >
                     <Box display="flex">
                         <Text fontSize={{ base: "20px", md: "24px" }} pr="2">Event name</Text>
                         <Text color="red">*</Text>
@@ -132,7 +134,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
 
 
-            <FormControl mt={4} >
+            <FormControl mt={4} borderColor="black">
                 <FormLabel color="black">
                     <Text fontSize={{ base: "20px", md: "24px" }}>Description</Text>
                 </FormLabel>
@@ -149,7 +151,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
             </FormControl>
 
             <Box display={{ md: "flex" }} >
-                <FormControl mt={4} pr="4" >
+                <FormControl mt={4} pr="4" borderColor="black">
                     <FormLabel color="black">
                         <Box display="flex">
                             <Text fontSize={{ base: "20px", md: "24px" }}>Start Time</Text>
@@ -159,12 +161,12 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                     <Input placeholder="Select time" size="s"
                         id="time"
                         type="datetime-local"
-                        
+
                         onChange={(e) => { handleInputTimeChange(e) }}
                         boxShadow="md" />
                 </FormControl>
 
-                <FormControl mt={4} pr="4" >
+                <FormControl mt={4} pr="4" borderColor="black">
                     <FormLabel color="black" >
                         <Box display="flex">
                             <Text fontSize={{ base: "20px", md: "24px" }}>End Time</Text>
@@ -180,7 +182,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
                 </FormControl>
 
-                <FormControl mt={4} >
+                <FormControl mt={4} borderColor="black">
                     <FormLabel color="black" >
                         <Box display="flex">
                             <Text fontSize={{ base: "20px", md: "24px" }}>Event Type</Text>
@@ -192,7 +194,8 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                         <Select placeholder="Select Event Type"
                             boxShadow="md"
                             onChange={(e) => { handleSelectType(e) }}
-                            size='sm'>
+                            size='sm'
+                            borderColor="black">
                             <option value="Course">Course</option>
                             <option value="Assignment">Assignment</option>
                             <option value="Activity">Activity</option>
@@ -202,7 +205,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                 </FormControl>
             </Box>
             <Box display={{ md: "flex" }}>
-                <FormControl mt={4} >
+                <FormControl mt={4} pr="5" borderColor="black" >
                     <FormLabel color="black">
                         <Text fontSize={{ base: "20px", md: "24px" }}>Assignment</Text>
                     </FormLabel>
@@ -225,7 +228,8 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                         <Select placeholder="Select course"
                             boxShadow="md"
                             onChange={(e) => { setCourse(e.target.value) }}
-                            size='sm'>
+                            size='sm'
+                            borderColor="black">
                             {
                                 courses.map((el: any) => (
                                     <option value={el.courseId}>{el.courseName}</option>
@@ -241,7 +245,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
 
 
-            <FormControl mt={4}>
+            <FormControl mt={4} borderColor="black">
                 <FormLabel color="black">
                     <Box display="flex">
                         <Text fontSize={{ base: "20px", md: "24px" }}>Location</Text>
@@ -264,15 +268,18 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                 />
             </FormControl>
 
-            <FormControl display="flex" alignItems="center">
+            <FormControl display="flex" alignItems="center" borderColor="black">
                 <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)} />
-                <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4} pl="3">
+                <FormLabel htmlFor="notification"
+                    mb="0" color="#5A5A5A"
+                    mt={4} pl="3"
+                >
                     Notification
                 </FormLabel>
             </FormControl>
             <HStack mt={5} w="100%" justifyContent={"flex-end"}>
                 <Button
-                    colorScheme="blue"
+                    colorScheme=""
                     width="239px"
                     height="40px"
                     bg="#E65300"
@@ -281,7 +288,8 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                         // onAddClose()
                         handleSubmit()
                         modal1.onClose()
-                        
+                        reload()
+
                     }}
 
                 // onClick={handleSubmit onAddClose()}>
