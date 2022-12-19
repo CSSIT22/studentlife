@@ -29,6 +29,7 @@ import {
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs";
 import API from "src/function/API";
 import { userData } from "src/pages/groups/data";
+import { Tooltip } from '@chakra-ui/react'
 
 // follow, message, 3 dots
 
@@ -89,27 +90,52 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
         <ButtonGroup color="white" variant="solid" spacing={{ base: "1.5", sm: "3" }}>
             <HStack position="initial">
                 {/* FOLLOW BUTTON */}
-                <motion.div whileHover={{ scale: 0.9 }}>
-                    <Button
-                        _hover={{ cursor: "pointer", background: "orange.200" }}
-                        onClick={() => {
-                            handleClickFollow()
-                        }}
-                        pl={5}
-                        width={{ lg: "6rem", base: "" }}
-                        height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
-                        fontSize={{ base: "", lg: "lg" }}
-                        bg="orange.600"
-                        position="initial"
-                        value="inside"
-                        shadow={"lg"}
-                    >
-                        Follow
-                    </Button>
-                </motion.div>
+                {isFollow ? (
+                    <motion.div whileHover={{ scale: 0.9 }}>
+                        {/* <Button
+                            _hover={{ cursor: "pointer", background: "orange.200" }}
+                            onClick={() => {
+                                handleClickFollow()
+                            }}
+                            pl={5}
+                            width={{ lg: "6rem", base: "" }}
+                            height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
+                            fontSize={{ base: "", lg: "lg" }}
+                            bg="orange.600"
+                            position="initial"
+                            value="inside"
+                            shadow={"lg"}
+                        >
+                            Follow
+                        </Button> */}
+                    </motion.div>
+                ) : (
+                    <Tooltip label='Think Wisely THEY WILL BE YOU FRIEND FOREVER but you block them later.' placement='left-start'>
+                        <motion.div whileHover={{ scale: 0.9 }}>
+                            <Button
+                                _hover={{ cursor: "pointer", background: "orange.200" }}
+                                onClick={() => {
+                                    handleClickFollow()
+                                }}
+                                pl={5}
+                                width={{ lg: "6rem", base: "" }}
+                                height={{ xl: "3rem", lg: "2.5rem", base: "2rem" }}
+                                fontSize={{ base: "", lg: "lg" }}
+                                bg="orange.600"
+                                position="initial"
+                                value="inside"
+                                shadow={"lg"}
+                                display={"block"}
+                            >
+                                Follow
+                            </Button>
+                        </motion.div>
+                    </Tooltip>
+                )}
                 {/* FOLLOW BUTTON */}
             </HStack>
             {/* MESSAGE BUTTON */}
+
             <motion.div whileHover={{ scale: 0.9 }}>
                 <Button
                     pl={5}
