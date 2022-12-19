@@ -1,25 +1,29 @@
 import {Shop_Categories } from "@apiType/shop"
 import { Flex} from "@chakra-ui/react"
 import { useState } from "react"
-import { CategoryItem } from "./CategoryItem"
+import CategoryItem  from "./CategoryItem"
 import { setDataAPI } from "./functions/usefulFunctions"
-// Get info from database
+
 const CategoryList = () => { 
+
     const [categoryList, setCategoryList] = useState<null | Shop_Categories[]>(null)
     let completed = setDataAPI("shop/getAllCategories", setCategoryList)
-    if (completed != true) {return completed}
+    // Shows Error or Loading
+    if (completed != true) {return completed} 
+
     return (
         <Flex justify="center" align="center" p="2" wrap="wrap" gap="1rem">
-            {generateCategories(categoryList)}
+            {categoryList && generateCategories(categoryList)}
         </Flex>
     )
 }
-function generateCategories(categoryList: Shop_Categories[] | null) {
-    if (categoryList != null){
-    let dummy = categoryList.map((category) => {
-        return <CategoryItem id={category.categoryId} name={category.categoryName} image={category.image}></CategoryItem>
-    })
-    return dummy}
+
+function generateCategories(categoryList: Shop_Categories[]) {
+    try{
+        return categoryList.map((category, key) => 
+           <div key = {key}><CategoryItem id={category.categoryId} name={category.categoryName} image={category.image}></CategoryItem></div>
+        )
+    } catch(err){console.log(err)}
 }
 //testing
 export default CategoryList

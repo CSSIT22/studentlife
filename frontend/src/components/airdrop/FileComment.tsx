@@ -1,14 +1,14 @@
-import { Heading, Box, Text, Flex, Divider } from "@chakra-ui/react"
+import { Heading, Box, Text, Flex, Divider, Avatar } from "@chakra-ui/react"
 import React from "react"
 import { FC } from "react"
 import { BsFillPersonFill } from "react-icons/bs"
 import { BiCommentDetail } from "react-icons/bi"
 
-const FileComment: FC<{ name: string; comment: string }> = ({ name, comment }) => {
+const FileComment: FC<{ name: string; comment: string ;cid:string}> = ({ name, comment,cid}) => {
     return (
         <Flex width={"100%"} p={2} flexDirection={"row"}>
             <Box p={2}>
-                <BsFillPersonFill fontSize={"2rem"}></BsFillPersonFill>
+            <Avatar size="sm" src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + cid} />
             </Box>
             <Flex p={1} flexDirection={"column"} alignItems={"start"}>
                 <Text fontSize="xl"> {name}</Text>

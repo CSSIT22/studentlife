@@ -40,6 +40,7 @@ model User_Profile {
   notis               Noti_User?
   sendNoti            Noti_Object[]
   userTimetable       Timetable[]
+  events              Event[]
   tasks               Task[]
   taskfolders         Task_Folder[]
   groups              User_To_Group[]
@@ -107,6 +108,7 @@ model User_Profile {
   modvotes            Question_Modvote[]
   shortlinkQuota      ShortLink_Quota?
   shortlink           ShortLink[]
+  savelink            ShortLink_Save[]
   shortlinkAccess     ShortLink_Permission_User[]
   report              Analytic_Report[]
   userAccess          Analytic_User_Access?
@@ -406,23 +408,26 @@ model Timetable {
 }
 
 model Event {
-  eventId      String      @id @default(cuid())
+  eventId      String       @id @default(cuid())
   eventName    String
   desc         String
+  userId       String
   place        String
-  stTime       DateTime    @db.Timestamp(0)
-  endTime      DateTime    @db.Timestamp(0)
+  stTime       DateTime     @db.Timestamp(0)
+  endTime      DateTime     @db.Timestamp(0)
+  eventCreator User_Profile @relation(fields: [userId], references: [userId])
   eventTypeId  String
+  type         Event_Type   @relation(fields: [eventTypeId], references: [eventTypeId])
   courseId     String?
-  course       Course?     @relation(fields: [courseId], references: [courseId])
+  course       Course?      @relation(fields: [courseId], references: [courseId])
   assignmentId String?
-  assignment   Assignment? @relation(fields: [assignmentId], references: [assignmentId])
-  // alert Schedule_Alert?
+  assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId])
 }
 
 model Event_Type {
-  eventTypeId String @id @default(cuid())
+  eventTypeId String  @id @default(cuid())
   eventType   String
+  event       Event[]
 }
 
 model Course {
@@ -1658,12 +1663,23 @@ model ShortLink {
   originalLink  String
   shortenLink   String
   password      String                         @default("")
+  type          Link_Permission                @default(PUBLIC)
   expired       DateTime                       @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
   linkCreator   User_Profile                   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   permission    ShortLink_Permission?
   userAccess    ShortLink_Permission_User[]
   majorAccess   ShortLink_Permission_Major[]
   facultyAccess ShortLink_Permission_Faculty[]
+}
+
+model ShortLink_Save {
+  slId    String       @id @default(cuid())
+  userId  String
+  link    String
+  title   String
+  desc    String
+  expired DateTime     @default(dbgenerated("make_timestamp(3000, 1, 1, 0, 0, 0)")) @db.Timestamp(0)
+  user    User_Profile @relation(fields: [userId], references: [userId])
 }
 
 model ShortLink_Permission {
@@ -1677,6 +1693,12 @@ enum ShortLink_Permission_Type {
   MAJOR
   FACULTY
   YEAR
+}
+
+enum Link_Permission {
+  PUBLIC
+  PASSWORD
+  PERMISSION
 }
 
 model ShortLink_Permission_User {
