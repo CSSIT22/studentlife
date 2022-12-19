@@ -1,5 +1,5 @@
 import { Polls } from "@apiType/dating"
-import { Box, Center, Container, Flex, HStack, Stack, useBoolean, useToast } from "@chakra-ui/react"
+import { Box, Center, HStack, Stack, useBoolean, useToast } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 import Lottie from "lottie-react"
 import { useEffect, useState } from "react"

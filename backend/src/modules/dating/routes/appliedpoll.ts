@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
-import { getEvent } from "src/modules/schedule"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 
 const appliedPollRoutes = express()
