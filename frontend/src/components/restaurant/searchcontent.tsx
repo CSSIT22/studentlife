@@ -39,7 +39,7 @@ const Searchcontent: FC<{
     // console.log(img);
     
     const likedRestaurant = async() => {
-        await API.post(`restaurant/likeOrNope`, { id: resid, status: true })
+        await API.post(`restaurant/search`, { id: resid, status: true })
         // navigate(`restaurant/detail?resId=${resid}&id=0`)
         navigate(link)
     }
