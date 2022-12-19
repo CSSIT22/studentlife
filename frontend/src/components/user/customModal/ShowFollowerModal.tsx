@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FriendList from "../FriendList";
 import {
     Button, Modal,
@@ -10,7 +10,26 @@ import {
     ModalOverlay
 } from "@chakra-ui/react";
 
+import { useParams } from "react-router-dom";
+import API from "src/function/API";
+
+
 export const ShowFollowerModal: React.FC<{ isOpen: boolean; onClose: VoidFunction; finalFocusRef: React.MutableRefObject<null>; onClick: VoidFunction; }> = ({ isOpen, onClose, finalFocusRef, onClick }) => {
+    const [friendList, setFriendList] = useState([])
+    const param = useParams();
+
+
+    useEffect(() => {
+        async function fetch() {
+            const res = await API.get(`/user/getFollower/${param.userId}`)
+
+            setFriendList(res.data.follower)
+        }
+
+        fetch();
+    }, [])
+
+
     return (
         <Modal onClose={onClose} finalFocusRef={finalFocusRef} isOpen={isOpen}>
             <ModalOverlay />
@@ -18,7 +37,7 @@ export const ShowFollowerModal: React.FC<{ isOpen: boolean; onClose: VoidFunctio
                 <ModalHeader>Follower</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody rounded="xl">
-                    <FriendList />
+                    <FriendList FriendList={friendList} />
                 </ModalBody>
                 <ModalFooter>
                     <Button onClick={onClick} display={{ base: "none", md: "block" }}>

@@ -49,7 +49,7 @@ const UserProfile: React.FC<{ isMe: boolean, userData: any, rating: number, abou
             setFollower(res_follower.data.follower.length)
 
             const res_following = await API.get(`/user/getFollowering/${param.userId}`)
-            setFollowing(res_following.data.followering.length)
+            setFollowing(res_following.data.following.length)
         }
 
 

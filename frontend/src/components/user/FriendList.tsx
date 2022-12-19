@@ -7,25 +7,13 @@ import { useParams } from "react-router-dom"
 import API from "src/function/API"
 
 interface FriendListProps {
-    props: any
+    FriendList: any
 }
 
-const FriendList: FC<(FriendListProps: any)> = ({ FriendListProps: any }) => {
+const FriendList: FC<FriendListProps> = (props) => {
     const [search, setSearch] = useState("")
-    const [friendList, setFriendList] = useState([])
-    const param = useParams();
-    console.log(search)
+    console.log(props.FriendList)
 
-
-    useEffect(() => {
-        async function fetch() {
-            const res = await API.get(`/user/profile/getFollower/${param.userId}`)
-            console.log(res.data)
-            setFriendList(res.data.follower)
-        }
-
-        fetch();
-    }, [])
 
     const breakpoints = {
         sm: "400px",
@@ -68,11 +56,13 @@ const FriendList: FC<(FriendListProps: any)> = ({ FriendListProps: any }) => {
                 }}
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                    {friendList
-                        .filter((user: any) => user.follower.fName.toLowerCase().includes(search) || user.follower.lName.toLowerCase().includes(search))
-                        .map((user: any) => (
-                            <UserList userProfile={""} userName={user.follower.fName} key={user.userId} lastName={user.follower.lName} />
-                        ))}
+
+
+                    {//@ts-ignore
+                        props.FriendList.filter((user: any) => user.follower.fName.toLowerCase().includes(search) || user.follower.lName.toLowerCase().includes(search))
+                            .map((user: any) => (
+                                <UserList userProfile={""} userName={user.follower.fName} key={user.follower.userId} lastName={user.follower.lName} />
+                            ))}
                 </Flex>
             </Box>
         </Box>

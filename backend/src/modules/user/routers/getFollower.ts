@@ -7,7 +7,7 @@ export const getFollower = async (req: Request, res: Response) => {
         const follower = await prisma.follow.findMany({
             include: { follower: true },
             where: {
-                userId: userId,
+                anotherUserId: userId,
             },
         })
 
