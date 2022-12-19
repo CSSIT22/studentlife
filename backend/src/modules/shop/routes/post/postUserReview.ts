@@ -24,7 +24,6 @@ const postUserReview = async (req: Request, res: Response) => {
                     reviewName: req.body.reviewName,
                     reviewDesc: req.body.reviewDesc,
                     reviewRating: req.body.reviewRating,
-                    reviewAt: req.body.reviewAt,
                     image: req.body.image
                 }
             })

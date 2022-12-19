@@ -64,41 +64,6 @@ const index = () => {
 
 
     const [sortType, setSortType] = useState("")
-    // useMemo(() => {
-    //     if (sortType == "1") {
-    //         sn.sort((a: any, b: any) => {
-    //             if (a.snName < b.snName) {
-    //                 return -1;
-    //             }
-    //             if (a.snName > b.snName) {
-    //                 return 1;
-    //             }
-    //             return 0;
-    //         })
-    //     }
-    //     else if (sortType == "2") {
-    //         sn.sort((a: any, b: any) => {
-    //             if (a.created < b.created) {
-    //                 return -1;
-    //             }
-    //             if (a.created > b.created) {
-    //                 return 1;
-    //             }
-    //             return 0;
-    //         })
-    //     }
-    //     else if (sortType == "") {
-    //         sn.sort((a: any, b: any) => {
-    //             if (a.created < b.created) {
-    //                 return 1;
-    //             }
-    //             if (a.created > b.created) {
-    //                 return -1;
-    //             }
-    //             return 0;
-    //         })
-    //     }
-    // }, [sortType, sn])
 
     const [searchSn, setSearchSn] = useState("")
 
@@ -107,32 +72,6 @@ const index = () => {
     const [coursePicked, setCoursePicked] = useState("")
 
     const [snByCourse, setSnByCourse] = useState<any>([])
-
-    // useEffect(() => {
-    //     setSnByCourse(sn.filter((items: any) => items.courseId == coursePicked)) //what to do
-    // }, [coursePicked]) // what to track
-
-    // useEffect(() => {
-    //     const sortedSn = sn.sort((a: any, b: any) => {
-    //         if (a.snName < b.snName) {
-    //             return -1;
-    //         }
-    //         if (a.snName > b.snName) {
-    //             return 1;
-    //         }
-    //         return 0;
-    //     });
-    //     const filteredSn = sortedSn.filter((items: any) => {
-    //         return items.snName.toLowerCase().includes(searchSn);
-    //     });
-    //     setSsn(filteredSn);
-    // }, [searchSn]);
-
-
-
-    // useEffect(() => {
-    //     setSsn(sn.filter((items: any) => items.courseId == coursePicked))
-    // }, [coursePicked])
 
     const picked = (e: any) => {
         setCoursePicked(e.target.value)
@@ -167,39 +106,39 @@ const index = () => {
             filteredSn = filteredSn.filter((items: any) => items.courseId == coursePicked);
         }
 
-        if (sortType || sortType == "") {
-            if (sortType === "") {
-                filteredSn.sort((a: any, b: any) => {
-                    if (a.created > b.created) {
-                        return -1;
-                    }
-                    if (a.created < b.created) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            } else if (sortType === "2") {
-                filteredSn.sort((a: any, b: any) => {
-                    if (a.created < b.created) {
-                        return -1;
-                    }
-                    if (a.created > b.created) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            } else if (sortType === "3") {
-                filteredSn.sort((a: any, b: any) => {
-                    if (a.snName < b.snName) {
-                        return -1;
-                    }
-                    if (a.snName > b.snName) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            }
-        }
+        // if (sortType || sortType == "") {
+        //     if (sortType === "") {
+        //         filteredSn.sort((a: any, b: any) => {
+        //             if (a.created > b.created) {
+        //                 return -1;
+        //             }
+        //             if (a.created < b.created) {
+        //                 return 1;
+        //             }
+        //             return 0;
+        //         });
+        //     } else if (sortType === "2") {
+        //         filteredSn.sort((a: any, b: any) => {
+        //             if (a.created < b.created) {
+        //                 return -1;
+        //             }
+        //             if (a.created > b.created) {
+        //                 return 1;
+        //             }
+        //             return 0;
+        //         });
+        //     } else if (sortType === "3") {
+        //         filteredSn.sort((a: any, b: any) => {
+        //             if (a.snName < b.snName) {
+        //                 return -1;
+        //             }
+        //             if (a.snName > b.snName) {
+        //                 return 1;
+        //             }
+        //             return 0;
+        //         });
+        //     }
+        // }
         return filteredSn;
     }, [sn, searchSn, coursePicked, sortType]);
 
@@ -265,14 +204,13 @@ const index = () => {
                     <Input variant={"filled"} focusBorderColor="orange.500" bg={"gray.50"} borderColor={"gray.200"} placeholder={"Search here."} mx={4} onChange={(e) => setSearchSn(e.target.value)}></Input>
                 </Show>
                 <Stack direction={"row"}>
-                    <VStack>
+                    {/* <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
                         <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="Newest" onChange={((e: any) => setSortType(e.target.value))}>
-                            {/* <option value="1">Newest</option> */}
                             <option value="2">Oldest</option>
                             <option value="3">Name</option>
                         </Select>
-                    </VStack>
+                    </VStack> */}
                     <VStack>
                         <Text alignSelf={"start"}>Course</Text>
                         <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="All" onChange={(e) => picked(e)}>
