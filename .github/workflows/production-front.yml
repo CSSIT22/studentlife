@@ -3,10 +3,10 @@ name: 👾 Deployment Production-front
 on:
   push:
     branches:
-      # - infra-*
+      - infra-*
       - main
-    paths:
-      - "frontend/**"
+    # paths:
+    #   - "frontend/**"
 
 jobs:
   frontend-build:
