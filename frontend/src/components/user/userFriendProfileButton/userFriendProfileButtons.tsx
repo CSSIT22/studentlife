@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { NavigateFunction, useParams } from "react-router-dom";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import {
     Button,
     ButtonGroup,
@@ -24,6 +24,7 @@ import {
     Radio,
     RadioGroup,
     Stack,
+    useBoolean,
     useDisclosure
 } from "@chakra-ui/react";
 import { BsThreeDotsVertical, BsFillFlagFill, BsXOctagonFill, BsHandIndexThumbFill } from "react-icons/bs";
@@ -45,6 +46,8 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
     const [followerCount, setFollowerCount] = useState<number>(0)
     const [block, setblock] = useState<any>()
     const [follow, setfollow] = useState<any>()
+    const [isBlocking, setIsBlocking] = useBoolean()
+    // const nv = useNavigate()
 
     const param = useParams()
 
@@ -58,10 +61,17 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
 
     function blockHandler(user_block: any) {
         setblock(user_block)
+        // API.post("/user/block",{})
     }
 
     function submitHandler() {
-        API.post(`/user/profile/blockuser/${param.userID}`).then().catch(err => console.error(err))
+        setIsBlocking.on()
+        API.post(`/user/profile/blockuser/${param.userID}`).then(i => {
+
+            navigate("/")
+
+        }
+        ).catch(err => console.error(err)).finally(() => { setIsBlocking.off(); onBlockModalClose() })
 
     }
 
@@ -249,12 +259,14 @@ export function userFriendProfileButtons(onOpen: () => void, initialRef: React.M
                         <ModalContent>
                             <ModalHeader>Are you sure to block this account?</ModalHeader>
                             <ModalCloseButton />
-                            <form onSubmit={(e) => { submitHandler() }}>
+                            <form onSubmit={(e) => { e.preventDefault() }}>
                                 <ModalFooter>
-                                    <Button type="submit" colorScheme="orange" mr={3} onClick={() => {
-                                        blockHandler
-                                        onBlockModalClose()
-                                        onConfirmRPModalClose()
+                                    <Button isLoading={isBlocking} type="submit" colorScheme="orange" mr={3} onClick={() => {
+                                        // blockHandler()
+                                        // onBlockModalClose()
+                                        // onConfirmRPModalClose(
+                                        submitHandler()
+                                        // )
                                     }}>
                                         Block
                                     </Button>

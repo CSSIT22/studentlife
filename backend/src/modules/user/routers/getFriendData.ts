@@ -30,6 +30,22 @@ const getFriendData = async (req: Request, res: Response) => {
                 },
             },
         })
+
+        const blocked = await prisma.user_Blocked.findFirst({
+            where: {
+                userId: req.user?.userId,
+                anotherUserId: userId,
+            },
+        })
+        const blockedre = await prisma.user_Blocked.findFirst({
+            where: {
+                userId: userId,
+                anotherUserId: req.user?.userId || "",
+            },
+        })
+        console.log(blocked)
+        if (blocked || blockedre) throw new Error("This user is blocked!")
+
         res.status(200).json({
             user: {
                 studentId: profile.studentId,
@@ -47,7 +63,7 @@ const getFriendData = async (req: Request, res: Response) => {
         })
     } catch (err) {
         console.log(err)
-        return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
+        return res.status(400).send("Error")
     }
 }
 

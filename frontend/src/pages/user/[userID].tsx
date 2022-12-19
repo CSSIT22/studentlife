@@ -3,13 +3,14 @@ import AboutMe from "../../components/user/AboutMe"
 import BlogHistory from "../../components/user/BlogHistory"
 import ExpSystem from "../../components/user/ExpSystem"
 import AppBody from "../../components/share/app/AppBody"
-import { Box, Grid, GridItem } from "@chakra-ui/react"
+import { Box, Grid, GridItem, useBoolean } from "@chakra-ui/react"
 import { useContext, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useEffect } from "react"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
 import UserProfile from "../../components/user/UserProfile"
+import NotFound from "src/config/pages/NotFound"
 
 
 // Main component
@@ -23,6 +24,8 @@ function index() {
     const [rating, setRating] = useState<number>(0)
     const [isLoading, setisLoading] = useState(true)
     const [block, setblock] = useState(true)
+    const navigate = useNavigate()
+    const [isNotfound, setIsNotfound] = useBoolean(false)
 
     const getblock = async () => {
         const res = await API.get(`/user/profile/getblockuser/${param.userID}`)
@@ -37,8 +40,13 @@ function index() {
 
     // get user data
     const getUserData = async () => {
-        const res = await API.get(`/user/friendprofile/${param.userID}`)
-        setUserData(res.data.user)
+        try {
+            const res = await API.get(`/user/friendprofile/${param.userID}`)
+            setUserData(res.data.user)
+
+        } catch (err) {
+            setIsNotfound.on()
+        }
     }
 
     // get user Aboutme
@@ -64,7 +72,9 @@ function index() {
             setIsMe(true)
         }
     }, [user.userId])
-
+    if (isNotfound) {
+        return <NotFound />
+    }
     return (
         <AppBody>
             <Box bg="orange.50">

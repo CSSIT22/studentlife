@@ -14,13 +14,12 @@ const getblockuser = async (req: Request, res: Response) => {
         })
 
         if (isBlocked) {
-            console.log("6255")
-            return res.redirect(process.env.SUCCESS_REDIRECT_URL || "")
+            return res.send(true)
         }
 
         // res.status(200).json({ user: profile })
     } catch (err) {
-        return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/NotFound`)
+        return res.status(400).send(err)
     }
 }
 
