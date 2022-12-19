@@ -38,7 +38,7 @@ const EditComment: FC<{ commentId: number }> = ({ commentId }) => {
             </Box>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent >
                     <ModalHeader mt={3}>
                         {/* edit the comment */}
                         <Heading>Edit Your Comment</Heading>

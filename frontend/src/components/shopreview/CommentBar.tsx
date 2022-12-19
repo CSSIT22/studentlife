@@ -21,6 +21,7 @@ const CommentBar: React.FC<{}> = () => {
     }
     function handleSubmit(c: any) {
         c.preventDefault()
+        onComment()
     }
     return (
         <Center>
@@ -34,7 +35,7 @@ const CommentBar: React.FC<{}> = () => {
                 p={2}
                 border={"1px solid rgba(0, 0, 0, 0.1)"}
             >
-                <Stack direction="row" alignItems="center" onSubmit={handleSubmit}>
+                <Stack as="form"  direction="row" alignItems="center" onSubmit={handleSubmit}>
                     <Box mb={5} height={"20px"} width={{ base: "500%" }}>
                         <Center>
                             <Input

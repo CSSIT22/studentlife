@@ -19,9 +19,11 @@ const postmyreview = async (req: Request<any>, res: Response<any> | any) => {
         //console.log(req)
         console.log(req.body.shopId)
         console.log(req.body.resId)
+        
+       
 
         if (req.body.shopId === undefined) {
-            console.log("Bomb1===================================")
+           // console.log("Bomb1===================================")
 
             const postmyreview: any = {
                 //ให้ไปทำงานที่ sre_re ก่อน เอาไอดีมาก่่อน
@@ -108,7 +110,7 @@ const postmyreview = async (req: Request<any>, res: Response<any> | any) => {
                 res.send("some error")
             }
         } else {
-            console.log("Bomb2===================================")
+          //  console.log("Bomb2===================================")
             // console.log(" Bomb ")
 
             const postmyreview: any = {
