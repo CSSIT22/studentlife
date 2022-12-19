@@ -19,7 +19,6 @@ import PostButton from "../../../components/blog/PostButton"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
-import User from "../../link/data/user"
 import FileUpload from '../../../components/blog/FileUpload';
 
 
@@ -44,7 +43,7 @@ const Create = () => {
             const form = new FormData();
             console.log(files)
             form.append("text", text);
-            form.append("upload", files );
+            form.append("upload", files);
             API.post<any>("/blog/postCreatingX",
                 form, {
                 headers: {
