@@ -9,7 +9,7 @@ const getTag = async (req: Request, res: Response) => {
         const tags = await prisma.tag.findMany({})
         let a : any = []
         let x: any = {
-            any: tags.map((item) => a.push({tagId:item.tagId,tagName:item.tagName.trim(),tagDesc:item.tagDesc , isSelected: false })),
+            any: tags.map((item:any) => a.push({tagId:item.tagId,tagName:item.tagName.trim(),tagDesc:item.tagDesc , isSelected: false })),
         }
         
 

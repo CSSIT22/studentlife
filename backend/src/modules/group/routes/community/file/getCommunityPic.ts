@@ -13,7 +13,7 @@ const getPic = async (req: Request, res: Response) => {
                     communityId: id,
                 },
             })
-            .then((result) => {
+            .then((result:any) => {
                 res.end(result.communityPhoto)
             })
             .catch((err) => {
