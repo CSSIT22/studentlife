@@ -47,8 +47,8 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.1
         with:
           username: ${{secrets.STAGING_SSH_USERNAME}}
-          server: ${{secrets.STAGING_SSH_PASSWORD}}
-          password: ${{ secrets.STAGING_SSH_HOST }}
+          server: ${{secrets.STAGING_SSH_HOST}}
+          password: ${{ secrets.STAGING_SSH_PASSWORD}}
           port: ${{secrets.STAGING_SSH_PORT}}
           local_path: "./frontend-build-artifact/*"
           remote_path: "/home/sharegun34/staging/web"
