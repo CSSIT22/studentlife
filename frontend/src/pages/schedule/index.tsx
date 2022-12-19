@@ -103,10 +103,15 @@ const timetable = () => {
     const [events, setEvents] = useState<{ startTime: Date, endTime: Date, title: string }[]>([])
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
+        
+        const getTasks = API.get("/schedule/getWeekTasks/" + dateRange[0])
+        const [toggle,setToggle] = useState(false)
+        const reload = () => {
+            setToggle(!toggle)
+        }
     //set State for add event 
     useEffect(() => {
-        API.get("/schedule/getWeekTasks/" + dateRange[0])
-            .then(i => {
+        getTasks.then(i => {
                 setEvents(
                     [...i.data.map(
                         (item: any) =>
@@ -116,7 +121,7 @@ const timetable = () => {
                         }))])
                 // console.log(i.data)
             });
-    }, [dateRange])
+    }, [dateRange,toggle])
 
     const hadelDateChange = (d: Date | null) => {
         if (d) {
@@ -174,7 +179,7 @@ const timetable = () => {
 
                 />
             </SimpleGrid>}
-            <AddEventModal {...{ initialRef, finalRef, modal1 }} />
+            <AddEventModal {...{ initialRef, finalRef, modal1,reload }} />
 
             {isMobile && <HStack justifyContent={"space-between"}>
                 <DatePicker firstDayOfWeek="sunday" clearable={false} dropdownType="modal" value={targetDate} onChange={(e) => hadelDateChange(e)} />
@@ -204,7 +209,10 @@ const timetable = () => {
                                 initialView={"timeGridDay"}
                                 headerToolbar={{ right: "" }}
                                 validRange={(now) => ({ start: targetDate, end: targetDate })}
-                                initialDate={dateRange[0] as Date} />
+                                initialDate={dateRange[0] as Date} 
+                                eventClick={(info) => {
+                                    navigate("/schedule/showEvent/" + info.event.id)
+                                }}/>
                         </Box>
                         :
                         <FullCalendar

@@ -1,5 +1,5 @@
 import { PollInfo } from "@apiType/dating"
-import { HStack, Stack, Box, Center, Flex, Container, useToast, useBoolean, Text } from "@chakra-ui/react"
+import { HStack, Stack, Box, Center, useToast, useBoolean, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DatingAllActivityButton from "src/components/dating/DatingAllActivityButton"
@@ -115,7 +115,6 @@ const YourActivityPoll = () => {
             API.get("/dating/youractivitypoll/getYourPolls").then((data) => {
                 setPollS(data.data)
                 const x = data.data
-                console.log(data.data)
                 setPoll(x.slice(0, 20))
             }).catch(on).finally(() => setIsloading(false))
         }

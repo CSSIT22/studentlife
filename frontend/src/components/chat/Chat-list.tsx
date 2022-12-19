@@ -76,9 +76,6 @@ const Clist: FC<any> = () => {
                     <MenuList color={"black"}>
                         <MenuItem>Mute</MenuItem>
                         <MenuItem onClick={() => DeleteRoom(room)}>Deteleroom</MenuItem>
-                        <MenuItem>
-                            <Nmodal />
-                        </MenuItem>
                     </MenuList>
                 </Menu>
             )
@@ -144,7 +141,9 @@ const Clist: FC<any> = () => {
                         w={"93%"}
                     >
                         <Avatar name={e.room.nick[0].nickname} src={handleImg(e.room.nick[0].nameWho.image)} />
-                        <Box marginLeft={"5"} overflowX={"auto"}>{e.room.nick[0].nickname} </Box>
+                        <Box marginLeft={"5"} overflowX={"auto"}>
+                            {e.room.nick[0].nickname}{" "}
+                        </Box>
                     </Flex>
                     <Show above="md">
                         <Cmenu room={e} />
@@ -170,7 +169,9 @@ const Clist: FC<any> = () => {
                         w={"93%"}
                     >
                         <Avatar name={e.room.group.roomName} src="https://picsum.photos/200/300" />
-                        <Box marginLeft={"5"} overflowX={"auto"}>{e.room.group.roomName} </Box>
+                        <Box marginLeft={"5"} overflowX={"auto"}>
+                            {e.room.group.roomName}{" "}
+                        </Box>
                     </Flex>
                     <Show above="md">
                         <Cmenu room={e} />
@@ -182,12 +183,22 @@ const Clist: FC<any> = () => {
             )
         }
     }
-    const renderSearch = (search: string) => {
+    const renderSearch = (search: any) => {
         if (search === "") {
             return userRoom.map((e: any) => renderRoom(e))
         } else {
-            const result = userRoom.filter((e: any) => e.roomName.includes(search))
-            return result.map((e: any) => renderRoom(e))
+            // const result = userRoom.filter((e: Room) => e.room.nick[0].nickname.includes(search))
+            // return result.map((e: any) => renderRoom(e))
+            if(target == 2){
+                const group = userRoom.filter((e:Room)=>e.room.roomType === "GROUP")
+                const search1 = group.filter((e:Room)=>e.room.group.roomName.toLowerCase().includes(search.toLowerCase()))      
+                return search1.map((e)=>renderRoom(e))
+            }
+            else{
+                const individual = userRoom.filter((e:Room)=>e.room.roomType === "INDIVIDUAL")
+                const search1 = individual.filter((e:Room)=>e.room.nick[0].nickname.toLowerCase().includes(search.toLowerCase()))      
+                return search1.map((e)=>renderRoom(e))
+            }
         }
     }
 
@@ -196,7 +207,7 @@ const Clist: FC<any> = () => {
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
-                <Box overflowX={"auto"} maxH={"380px"}>
+                <Box overflowX={"hidden"} maxH={"380px"}>
                     {renderSearch(search)}
                 </Box>
             </Flex>

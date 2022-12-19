@@ -1,5 +1,5 @@
 import { Polls } from "@apiType/dating"
-import { Box, Center, Container, Flex, HStack, Stack, useBoolean, useToast } from "@chakra-ui/react"
+import { Box, Center, HStack, Stack, useBoolean, useToast } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 import Lottie from "lottie-react"
 import { useEffect, useState } from "react"
@@ -120,14 +120,6 @@ const AllActivityPoll = () => {
                     setUserId(data.data)
                 }).catch(on)
             })
-            // API.get("/dating/allpoll/getAllPoll").then((data) => {
-            //     setPoll(data.data)
-            //     // console.log("Poll data " + data.data);
-            //     // console.log("Poll raw data " + data.data[0].userId);
-            // }).catch((err) => console.log(err));
-            // API.get("/dating/allpoll/getAllPollUserId").then((data) => {
-            //     setUserId(data.data)
-            // }).catch((err) => console.log(err));
         }
     })
 

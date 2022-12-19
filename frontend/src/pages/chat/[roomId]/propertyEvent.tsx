@@ -13,10 +13,6 @@ import {
     Spacer,
     ListItem,
     UnorderedList,
-    Image,
-    Editable,
-    EditablePreview,
-    EditableInput,
     InputRightElement,
     Select,
 } from "@chakra-ui/react"
@@ -26,7 +22,7 @@ import { AiFillBug, AiOutlinePlus } from "react-icons/ai"
 import { FaCircle } from "react-icons/fa"
 import { SearchIcon } from "@chakra-ui/icons"
 import API from "src/function/API"
-import { Navigate, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { RoomType } from "../[roomID]"
 import { buffer_to_img } from "src/components/chat/function/64_to_img"
 
@@ -51,10 +47,23 @@ export type memberType = {
 
 function propertyEvent(props: any) {
     const [Room, setRoom] = React.useState<RoomType>()
-    const [member, setMember] = React.useState<memberType>()
+    const [member, setMember] = React.useState<memberType[]>()
+    const [roomName, setRoomName] = React.useState("")
+    const [roomColor, setRoomColor] = React.useState("")
+    const [followList, setFollowList] = React.useState<followType[]>([])
+    const [searchMember, setSearchMember] = React.useState("")
+    const [reportContext, setReportContext] = React.useState("")
+    const [reportReason, setReportReason] = React.useState("")
+
+    const navigate = useNavigate()
+    let param = useParams()
+    useEffect(() => {
+        API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data))
+        API.get(`/chat/${param.roomId}/getMember`).then((e) => setMember(e.data))
+        API.get(`/chat/${param.roomId}/getFollowList`).then((e) => setFollowList(e.data))
+    }, [param])
 
     // Change color
-    const [roomColor, setRoomColor] = React.useState("")
     const colors = ["#000000", "#AEC6CF", "#808080", "#ff6961", "#C1E1C1", "#C3B1E1", "#ffc0cb", "#E68E5C", "#88aed0", "#FDFD96"]
     function colorRoom(e: any) {
         return setRoomColor(e.target.value)
@@ -68,13 +77,6 @@ function propertyEvent(props: any) {
         }
         navigate(`/chat/${param.roomId}`)
     }
-
-    let param = useParams()
-    useEffect(() => {
-        API.get(`/chat/${param.roomId}`).then((e) => setRoom(e.data))
-        API.get(`/chat/${param.roomId}/getMember`).then((e) => setMember(e.data))
-        API.get(`/chat/${param.roomId}/getFollowList`).then((e) => setFollowList(e.data))
-    }, [param])
 
     const renderMemberGroup = (element: any) => {
         return (
@@ -92,14 +94,7 @@ function propertyEvent(props: any) {
         )
     }
 
-    const navigate = useNavigate()
-
-    function NavigateCreateCommu() {
-        return navigate('/groups/create')
-    }
-
     // Set room name
-    const [roomName, setRoomName] = useState("")
     const submitRoomName = () => {
         if (Room?.roomType === "INDIVIDUAL") {
             API.put(`/chat/${param.roomId}?roomName=${roomName}`)
@@ -110,9 +105,7 @@ function propertyEvent(props: any) {
         navigate(`/chat/${param.roomId}`)
     }
 
-    const [followList, setFollowList] = React.useState<followType[]>([])
-    const [searchMember, setSearchMember] = React.useState("")
-
+    // Invite
     type followType = {
         following: {
             userId: String,
@@ -122,13 +115,11 @@ function propertyEvent(props: any) {
                 data: string
             } | null
         }
-        added: boolean,
     }
-    const [addMemberWarning, setMemberWarning] = React.useState("")
 
-    const renderMember = (members: any) => {
-        const added = false
+    const renderMemberInvite = (members: any) => {
         const img = members.following.image
+
         return (
             <Flex justifyContent={"space-between"} alignItems={"center"} key={members.following.userId}>
                 <Flex alignItems={"center"}>
@@ -138,50 +129,31 @@ function propertyEvent(props: any) {
                 </Flex>
                 <Spacer />
                 <Box>
-                    <Button onClick={() => { added ? setMemberWarning("This person already in group") : inviteMember(members.following.userId); }}>
-                        {added ? "Added" : "Add"}
-                    </Button>
+                    <Button colorScheme={'orange'} onClick={() => inviteMember(members.following.userId)}>Invite</Button>
                 </Box>
             </Flex>
         )
     }
 
     const inviteMember = (memberId: any) => {
-        setMemberWarning("")
-        return (
-            API.post(`/chat/${param.roomId}/inviteToGroup`, { target_id: memberId })
-        )
+        API.post(`/chat/${param.roomId}/inviteToGroup`, { target_id: memberId })
+        const result = followList.filter((e)=> e.following.userId != memberId)
+        setFollowList(result)
     }
 
     const renderSearchMember = (searchMember: any) => {
+        const result = followList.filter((e) => !member?.some((f)=>f.user.userId == e.following.userId))
+
         if (searchMember === "") {
             return (
-                followList.map((e: any) => renderMember(e))
+                result.map((e: any) => renderMemberInvite(e))
             )
         }
         else {
-            const result = followList.filter((e: any) => e.following.fName.includes(searchMember))
-            return result.map((e: any) => renderMember(e))
+            const resultSearch = result.filter((e: any) => e.following.fName.includes(searchMember))
+            return resultSearch.map((e: any) => renderMemberInvite(e))
         }
     }
-
-    // function selectedMemberHandler(member: any) {
-    //     setSelectedMember([...selectedMember, member])
-    //     // console.log(selectedMember)
-    // }
-    // const renderSelectedMember = () => {
-    //     // Coding if select that member, they won't render up
-    //     return (
-    //         selectedMember.map((e: any) => (
-    //             <Box key={e.id} pb={4}>
-    //                 <Flex direction={'column'} alignItems={'center'}>
-    //                     <Avatar name={e.memberName} src={e.memberPic} />
-    //                     <Box>{e.memberName}</Box>
-    //                 </Flex>
-    //             </Box>
-    //         ))
-    //     )
-    // }
 
     // Add quote
     const [quoteList, setQuote] = useState<any>([])
@@ -203,6 +175,13 @@ function propertyEvent(props: any) {
         }
     }
 
+    // Report
+    const sendReport = () => {
+        API.post("/backendService/reportword", { word: reportContext, roomId: param.roomId, reason: reportReason }).then(() => console.log("success")
+        )
+        setReportContext("")
+        setReportReason("")
+    }
 
     // Leave group
     const leaveGroup = () => {
@@ -211,7 +190,7 @@ function propertyEvent(props: any) {
     }
 
     if (props === "Set room name") {
-        if (Room?.roomType == 'INDIVIDUAL') {
+        if (Room?.roomType === 'INDIVIDUAL') {
             return (
                 <VStack spacing={4} p={4}>
                     <Input placeholder={Room?.nickname} onChange={(e: any) => setRoomName(e.target.value)} />
@@ -223,7 +202,7 @@ function propertyEvent(props: any) {
                 </VStack>
             )
         }
-        if (Room?.roomType == 'GROUP') {
+        if (Room?.roomType === 'GROUP') {
             return (
                 <VStack spacing={4} p={4}>
                     <Input placeholder={Room?.group.roomName} onChange={(e: any) => setRoomName(e.target.value)} />
@@ -235,17 +214,6 @@ function propertyEvent(props: any) {
                 </VStack>
             )
         }
-    }
-
-    // Report
-    const [reportContext, setReportContext] = React.useState("")
-    const [reportReason, setReportReason] = React.useState("")
-
-    const sendReport = () => {
-        API.post("/backendService/reportword",{word: reportContext, roomId : param.roomId , reason : reportReason}).then(()=> console.log("success")
-        )
-        setReportContext("")
-        setReportReason("")
     }
 
     if (props === "Add quote") {
@@ -304,11 +272,12 @@ function propertyEvent(props: any) {
                 <VStack>
                     <AiFillBug size={"40px"} />
                     <Text>Context you require to report</Text>
-                    <Input placeholder="Context" w={96} onChange={(e) => setReportContext(e.target.value)}/>
+                    <Input placeholder="Context" w={96} onChange={(e) => setReportContext(e.target.value)} />
                     <Text>Reason for reporting</Text>
                     <Select placeholder="Reason" onChange={(e) => setReportReason(e.target.value)}>
                         <option value="bully">Bully</option>
                         <option value="Toxic">Toxic</option>
+                        <option value="Harassment">Harassment</option>
                         <option value="I don't like this word">I don't like this word</option>
                     </Select>
                     <Box alignItems={'center'} p={6}>
@@ -330,10 +299,10 @@ function propertyEvent(props: any) {
     if (props === "Invite people") {
         return (
             <VStack>
-                <Flex w={"96"} direction={"column"} gap={4}>
+                <Flex w={"96"} direction={"column"} gap={4} pb='6'>
                     <InputGroup>
                         <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
-                        <Input placeholder="Search name or user id" borderColor={"black"} onChange={(e) => setSearchMember(e.target.value)} />
+                        <Input placeholder="Search name" borderColor={"black"} onChange={(e) => setSearchMember(e.target.value)} />
                     </InputGroup>
                     {/* <Flex gap={4} overflowX={"auto"}>
                         {renderSelectedMember()}
@@ -345,48 +314,10 @@ function propertyEvent(props: any) {
                         </Flex>
                     </Box>
                 </Flex>
-                <Box alignItems={'center'} color="red" fontSize={'12'} pb={'6'}>
-                    {addMemberWarning}
-                </Box>
             </VStack>
         )
     }
-    if (props === "Set room profile") {
-        return (
-            <Flex justifyContent={"center"}>
-                <VStack spacing={4}>
-                    <Image
-                        borderRadius="full"
-                        boxSize="150px"
-                        src="https://www.macmillandictionary.com/us/external/slideshow/full/Grey_full.png"
-                        alt="Room profile"
-                    />
-                    <Button>Choose from my library</Button>
-                    <Box alignItems={'center'} p={3}>
-                        <Button colorScheme="orange">
-                            Done
-                        </Button>
-                    </Box>
-                </VStack>
-            </Flex>
-        )
-    }
-    if (props === "Create community") {
-        return (
-            <VStack justifyContent={"center"}>
-                <Text textAlign={"center"}>
-                    Are you sure that you want to create
-                    <br />
-                    community from this group chat?
-                </Text>
-                <Box alignItems={'center'} p={6} onClick={NavigateCreateCommu}>
-                    <Button colorScheme="orange">
-                        Create
-                    </Button>
-                </Box>
-            </VStack>
-        )
-    }
+
     if (props === "Leave group") {
         return (
             <VStack justifyContent={"center"}>
