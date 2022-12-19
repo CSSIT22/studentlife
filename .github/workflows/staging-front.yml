@@ -38,19 +38,24 @@ jobs:
     timeout-minutes: 2
     container: alpine
     needs: [frontend-build]
-    env:
-      REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP }}
-      # REMOTE_SSH_ARGS: ${{ secrets.REMOTE_SSH_ARGS }}
-      # REMOTE_SSH_PASSWORD: ${{ secrets.REMOTE_SSH_PASSWORD }}
     steps:
       - name: 📥 Download artifacts
         uses: actions/download-artifact@v2
         with:
           path: .
-
-      - name: Install packages
-        run: |
-          apk add openssh-client sshpass lftp
-      - name: 🖨️ Upload artifacts to server
-        run: |
-          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /home/sharegun34/staging/web; bye"
+      - name: Deploy to server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{secrets.STAGING_SSH_USERNAME}}
+          server: ${{secrets.STAGING_SSH_HOST}}
+          password: ${{ secrets.STAGING_SSH_PASSWORD}}
+          port: ${{secrets.STAGING_SSH_PORT}}
+          local_path: "./frontend-build-artifact/*"
+          remote_path: "/home/sharegun34/staging/web"
+          args: "-o ConnectTimeout=5"
+      # - name: Install packages
+      #   run: |
+      #     apk add openssh-client sshpass lftp
+      # - name: 🖨️ Upload artifacts to server
+      #   run: |
+      #     lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /home/sharegun34/staging/web; bye"
