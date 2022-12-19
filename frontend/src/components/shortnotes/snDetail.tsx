@@ -118,9 +118,9 @@ const snDetail: FC<{
                 duration: 4000,
                 isClosable: true,
             })
-        })
-        navigate({
-            pathname: "../shortnotes",
+            navigate({
+                pathname: "../shortnotes",
+            })
         })
     }
 
