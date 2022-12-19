@@ -1,4 +1,4 @@
-import { Box, Button, Center, Image, Spinner, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Image, Text } from "@chakra-ui/react"
 import { FC } from "react"
 import DatingOutOfCard from "./lottie/DatingOutOfCard.json"
 import DatingDiscoveryLoading from "./lottie/DatingDiscoveryLoading.json"

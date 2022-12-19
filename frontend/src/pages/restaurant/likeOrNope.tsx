@@ -171,14 +171,14 @@ function LikeorNope() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Box mb={"30px"}>
+            <Box mb={"1rem"}>
                 <Searchbar selectRadius={selectRadius} />
             </Box>
             <Box px={2} h={"100%"} pb={6} pt={2}>
                 {property.map((e1) => {
                     return (
                         <>
-                            <Box py={5} >
+                            <Box py={4} >
                                 <Heading textAlign={"center"} color={"#E65300"}>
                                     {e1.resName}{" "}
                                 </Heading>

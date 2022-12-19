@@ -48,14 +48,14 @@ const Historycontent: FC<{
                         <Box width={"60%"} height={"6rem"} color={"black"} display={"flex"} flexDirection="column" justifyContent={"center"}>
                             <Flex direction={"column"} justifyContent={"center"} height={"80%"}>
 
-                                <Text fontSize={"sm"}>
+                                <Text fontSize={"small"}>
                                     <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                                 </Text>
 
-                                <Text fontSize={"sm"}>
+                                <Text fontSize={"small"}>
                                     <span style={{ fontWeight: "bold" }}>Date: </span> {date.toString()}
                                 </Text>
-                                <Text fontSize={"sm"}>
+                                <Text fontSize={"small"}>
                                     <span style={{ fontWeight: "bold" }}>Status: </span> {status ? "Liked" : "Nope"}
                                 </Text>
                             </Flex>

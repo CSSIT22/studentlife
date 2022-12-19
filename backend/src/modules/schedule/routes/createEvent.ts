@@ -27,7 +27,7 @@ const createEvent = async (req: Request, res: Response) => {
                 userId: userId,
                 eventName: body.eventName,
                 stTime: new Date(new Date(body.stTime).getTime() - 7 * 60 * 60 * 1000),
-                endTime: new Date(new Date(body.endTime).getTime() -7 * 60 *60 *1000),
+                endTime: new Date(new Date(body.endTime).getTime() - 7 * 60 * 60 * 1000),
                 desc: body.desc,
                 eventTypeId: body.eventTypeId,
                 place: body.place,
@@ -35,9 +35,15 @@ const createEvent = async (req: Request, res: Response) => {
                 assignmentId: assignmentId,
             },
         })
-        const eventId = await prisma.event.findFirst({
+        const event = await prisma.event.findFirst({
             where: {
                 eventId: body.eventId,
+            },
+        })
+        const createTimetable = await prisma.timetable.create({
+            data: {
+                userId: userId,
+                eventId: event!.eventId,
             },
         })
 

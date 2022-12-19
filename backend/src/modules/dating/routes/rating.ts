@@ -1,4 +1,4 @@
-import { PrismaClient, User_Rating } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
@@ -58,8 +58,6 @@ ratingRoutes.get("/getRating", verifyUser, async (req: Request, res: Response) =
                     scoreReceiver: item.following,
                 }
             })
-
-            // console.log(buildres)
             return res.send(buildres)
         }
     } catch (err) {
@@ -90,20 +88,6 @@ ratingRoutes.get("/getUserProfile", verifyUser, async (req: Request, res: Respon
                 },
             })
 
-            // const followingIds = followDB.map((el) => el.following.userId)
-
-            // const rating = await prisma.user_Rating.findMany({
-            //     where: {
-            //         userId: userId,
-            //         anotherUserId: {
-            //             in: followingIds as string[],
-            //         },
-            //     },
-            //     include: {
-            //         scoreReceiver: true,
-            //     },
-            // })
-            // return res.send(rating)
             return res.send(followDB)
         }
     } catch (err) {
@@ -161,7 +145,6 @@ ratingRoutes.put("/deleteRating", verifyUser, async (req: Request, res: Response
     try {
         const userId = req.user?.userId
         const anotherUserId: string = req.body.anotherUserId
-        console.log("RATE " + userId + " " + anotherUserId)
         if (userId != undefined) {
             await prisma.user_Rating.delete({
                 where: {

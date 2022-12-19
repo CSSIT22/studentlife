@@ -34,7 +34,7 @@ import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
 import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
-import mongoose, { mongo } from "mongoose"
+import mongoose from "mongoose"
 import { filterWord } from "./modules/backendService/middleware/filterWord"
 import { banned } from "./modules/backendService/middleware/banned"
 

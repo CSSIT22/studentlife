@@ -113,8 +113,6 @@ function showProperty() {
         { eventIcon: MdPostAdd, eventName: "Add quote", buttonValue : 'Done'},
         { eventIcon: MdColorLens, eventName: "Change room color" },
         { eventIcon: MdFlag, eventName: "Report"},
-        //Test
-        { eventIcon: FaUserFriends, eventName: "Member"},
     ]
     const eventsGroup = [
         { eventIcon: FaUserFriends, eventName: "Member"},

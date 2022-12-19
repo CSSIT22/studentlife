@@ -16,7 +16,6 @@ yourActivityPollRoutes.get("/getYourPolls", verifyUser, async (req: Request, res
         const pollId = req.params.pollId
         const findPollDB = await prisma.activity_Poll.findFirst({
             where: {
-                // pollId: pollId,
                 userId: reqUserId,
             },
             select: {
@@ -54,9 +53,6 @@ yourActivityPollRoutes.get("/getYourPolls", verifyUser, async (req: Request, res
                 pollPlace: true,
                 isOpen: true,
                 participants: {
-                    // where: {
-                    //     userId: req.user?.userId,
-                    // },
                     select: {
                         isAccepted: true,
                         user: {
@@ -83,7 +79,6 @@ yourActivityPollRoutes.get("/getYourPolls", verifyUser, async (req: Request, res
                 },
             },
         })
-        // console.log("WOW " + activityPollDB[0].pollName)
         return res.send(activityPollDB)
     } catch (err) {
         return res.status(404).send("Activity poll not found")
