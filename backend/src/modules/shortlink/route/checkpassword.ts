@@ -7,14 +7,14 @@ const checkpassword = async (req: Request, res: Response) => {
         const shortlink = req.body.data.shorten
         const result = await prisma.shortLink.findFirstOrThrow({
             where: {
-                shortenLink: shortlink,
+                slId: shortlink,
                 password: password,
-            }
+            },
         })
-        res.json({link: result.originalLink})
+        res.json({ link: result.originalLink })
     } catch (err: any) {
         console.log(err)
-        res.status(404).json({err: err, message: "link not found or incorrect password"})
+        res.status(404).json({ err: err, message: "link not found or incorrect password" })
     }
 }
 

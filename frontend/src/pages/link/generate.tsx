@@ -53,7 +53,7 @@ const generate = () => {
     const toast = useToast()
 
     const generateLink = async () => {
-        const response = await API.post("http://localhost:8000/shortlink/generate", { originalLink: link }) //axios will call Http
+        const response = await API.post("/shortlink/generate", { originalLink: link }) //axios will call Http
         setGenerated(response.data.result.shortenLink)
         // console.log(response.data)
     }
@@ -92,7 +92,7 @@ const generate = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"}  border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} backgroundColor={"white"} />
+                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} backgroundColor={"white"} />
                                 </Center>
                             </Box>
                         </Box>
@@ -106,7 +106,7 @@ const generate = () => {
                                     rounded={"md"}
                                     textAlign="center"
                                     backgroundColor={"white"}
-                                >{generated != "" ? "http://localhost:8000/shortlink/redirect?shorten=" : ""}{generated}</Editable>
+                                >{generated != "" ? "https://ss.modlifes.me/" : ""}{generated}</Editable>
                             </Center>
                         </Box>
                     </VStack>
@@ -121,17 +121,17 @@ const generate = () => {
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
                         <Box h="70px">
                             <Center>
-                                
-                                    <Button colorScheme="blue" w={"50%"} height={"60px"} onClick={generateLink} textColor="white"  disabled={link.length === 0}>
-                                        GENERATE
-                                    </Button>
-                                    
-                                
+
+                                <Button colorScheme="blue" w={"50%"} height={"60px"} onClick={generateLink} textColor="white" disabled={link.length === 0}>
+                                    GENERATE
+                                </Button>
+
+
                             </Center>
                         </Box>
 
                         <Box h="70px">
-                            
+
                             <Box width={"100%"}>
                                 <Center>
                                     <Button colorScheme="green" w={"50%"} height={"60px"} onClick={history}>

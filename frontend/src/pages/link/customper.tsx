@@ -64,7 +64,7 @@ const customize = () => {
         }
 
         //TODO: Check if password and coonfirm password is same
-        const response = await API.post("http://localhost:8000/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password, })
+        const response = await API.post("/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password, userAccessIds: permissionUser.map((i: any) => i.id) })
         setShortedUrl(response.data.result.shortenLink)
     }
 
@@ -166,16 +166,16 @@ const customize = () => {
                                     <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
                                         <a>
                                             {shortUrlData.word &&
-                                                "http://localhost:8000/shortlink/redirect?shorten=" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
+                                                "https://ss.modlifes.me/" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
                                         </a>
                                     </Editable>
                                 </Center>
                             </Box>
 
-                            {permission.length > 0 &&
+                            {permissionUser.length > 0 &&
                                 <HStack wrap="wrap" rowGap="12px" justifyContent="center">
                                     {
-                                        permission.map((data: { id: string; userName: string; lastName: string }) => (
+                                        permissionUser.map((data: { id: string; userName: string; lastName: string }) => (
                                             <Box style={{ backgroundColor: "gray" }} padding="2" borderRadius="full" key={data.id}>
                                                 <Text fontSize='xs'>
                                                     {data.userName} {data.lastName}
@@ -198,7 +198,7 @@ const customize = () => {
                                             <ModalCloseButton />
                                             <ModalBody rounded="xl">
                                                 <React.Suspense fallback={<>Loading...</>} >
-                                                    <SearchUserList handleSelect={addNewPermession} selectedUser={permission} userData={userData} />
+                                                    <SearchUserList handleSelect={addNewPermession} selectedUser={permissionUser} userData={userData} />
                                                 </React.Suspense>
                                             </ModalBody>
                                             <ModalFooter>

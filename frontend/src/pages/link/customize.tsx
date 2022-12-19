@@ -177,7 +177,7 @@ const customize = () => {
                                     <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
                                         <a>
                                             {shortUrlData.word &&
-                                                "http://localhost:8000/shortlink/redirect?shorten=" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
+                                                "https://ss.modlifes.me/" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
                                         </a>
                                     </Editable>
                                 </Center>

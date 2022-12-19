@@ -40,7 +40,8 @@ const LList: FC<{ shortenLink: string; handleSelect?: (shortenLink: string, slId
                             <div>
                                 <Box display="flex" alignItems="center" gap={1}>
                                     <Text as="b" fontSize="sm">
-                                        http://localhost:8000/shortlink/redirect?shorten={shortenLink}
+                                    {/* https://ss.modlifes.me/ */}
+                                    https://ss.modlifes.me/{shortenLink}
                                     </Text>
                                 </Box>
                             </div>

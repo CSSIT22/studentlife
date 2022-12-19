@@ -17,6 +17,8 @@ const customlink = async (req: Request, res: Response) => {
                 userId: userId,
                 originalLink: body.originalLink,
                 shortenLink: body.shortenLink,
+                password: body.password,
+                type: body.password ? "PASSWORD" : userids.length > 0 ? "PERMISSION" : "PUBLIC",
                 userAccess: {
                     createMany: {
                         data: [...userids.map((item) => ({ userId: item }))],
