@@ -37,12 +37,11 @@ const approvalDetail = () => {
 
     async function getPost() {
         await API.get("/announcement/getdetailedit/" + params.postId).then((item) => {
-            setpost(item.data)
-            setTargetType(item.data[0].annFilter.filterType)
-            setTargetValue(item.data[0].annFilter.value)
+            setpost([item.data])
+            setTargetType(item.data.annFilter.filterType)
+            setTargetValue(item.data.annFilter.value)
         }).catch(err => on()).finally(off)
-        const lang = await API.get("/announcement/getotherlang")
-        setlanginfos(lang.data)
+        await API.get("/announcement/getotherlang").then((item) => setlanginfos(item.data))
     }
 
 

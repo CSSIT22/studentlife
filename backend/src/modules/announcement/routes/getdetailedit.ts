@@ -5,7 +5,7 @@ const getDetailEdit = async (req: Request, res: Response) => {
     const prisma = res.prisma
 
     try {
-        const getdetail = await prisma.announcement.findMany({
+        const getdetail = await prisma.announcement.findFirstOrThrow({
             where: {
                 postId: id,
             },

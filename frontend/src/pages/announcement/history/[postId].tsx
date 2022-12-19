@@ -66,12 +66,12 @@ const history = () => {
     async function getPost() {
         await API.get("/announcement/getdetailedit/" + params.postId).then((item) => {
             setpost(item.data)
-            setTopic(item.data[0].annLanguage[0].annTopic)
-            setDetail((item.data[0].annLanguage[0].annDetail.split("~"))[1])
-            setTargetType(item.data[0].annFilter.filterType)
-            setTargetValue(item.data[0].annFilter.value)
+            setTopic(item.data.annLanguage[0].annTopic)
+            setDetail((item.data.annLanguage[0].annDetail.split("~"))[1])
+            setTargetType(item.data.annFilter.filterType)
+            setTargetValue(item.data.annFilter.value)
 
-            e = new Date((item.data[0].annLanguage[0].annDetail.split("~"))[0])
+            e = new Date((item.data.annLanguage[0].annDetail.split("~"))[0])
             if (e.getMonth() + 1 < 10) {
                 const nm2 = "0" + (e.getMonth() + 1)
                 if (e.getDate() < 10) {
@@ -92,7 +92,7 @@ const history = () => {
                 setEvent(e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + e.getDate())
             }
 
-            d = new Date(item.data[0].annExpired)
+            d = new Date(item.data.annExpired)
             if (d.getMonth() + 1 < 10) {
                 const nm = "0" + (d.getMonth() + 1)
                 if (d.getDate() < 10) {
@@ -115,9 +115,9 @@ const history = () => {
                 setExpired(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
             }
 
-            setexMoreLang(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000))
+            setexMoreLang(item.data.annLanguage.filter((el: any) => el.languageId > 1000))
 
-            setmorelanglength(item.data[0].annLanguage.filter((el: any) => el.languageId > 1000).length)
+            setmorelanglength(item.data.annLanguage.filter((el: any) => el.languageId > 1000).length)
         }).catch(err => toast({ title: "Something went wrong with Loading information", duration: 5000, status: "error", position: "top" }))
 
         await API.get("/announcement/gettypetarget").then(item => settv(item.data))
