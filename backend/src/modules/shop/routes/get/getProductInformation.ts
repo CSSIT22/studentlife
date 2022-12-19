@@ -6,13 +6,26 @@ const getProductInformation = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const prodId = req.params.id
 
-        let selectedProduct: Shop_Product | null = await prisma.shop_Product.findUnique({
-            include: {
-                images: {
-                    select: { image: true },
+        
+        let selectedProduct: Shop_Product | null = await prisma.shop_Product.findUnique(
+            {
+                include: {
+                    images: {
+                        select: {image: true}
+                    },
+                    contactTo: true,
+                    userReview: {
+                        include:{
+                            user: {
+                                select: {
+                                    userId: true,
+                                    fName: true,
+                                    lName: true,
+                                }
+                            }
+                        }
+                    }
                 },
-                contactTo: true,
-            },
             where: { productId: parseInt(prodId) },
         })
         if (selectedProduct != null) {

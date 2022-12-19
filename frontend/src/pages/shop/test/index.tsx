@@ -8,9 +8,14 @@ import { Flex, Box, Image, Text, useDisclosure, Button, Spacer, Checkbox, Grid, 
 import React, { FC } from "react"
 import { BsStarFill } from "react-icons/bs"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
+import { useLocation, useParams } from "react-router-dom"
 
 const index = () => {
     const testDate = new Date(2022, 10, 10, 0, 30, 10)
+    const search = useLocation().search
+    const name = new URLSearchParams(search).get('name');
+    const id = new URLSearchParams(search).get('id');
+    try{console.log(name)}catch(err){} 
     return (
         <ShopAppBody>
             <PageTitle title= "Explore" />

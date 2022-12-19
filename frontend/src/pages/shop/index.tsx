@@ -3,7 +3,7 @@ import PageTitle from "../../components/shop/PageTitle"
 import ProductList from "../../components/shop/ProductList"
 import Searchbar from "../../components/shop/SearchBar"
 import ShopAppBody from "../../components/shop/ShopAppBody"
-import { Shop_Product, Shop_Product_With_Images } from "@apiType/shop"
+import { Shop_Product_With_Images } from "@apiType/shop"
 import { setDataAPI } from "src/components/shop/functions/usefulFunctions"
 
 const Shop = () => {
@@ -18,7 +18,7 @@ const Shop = () => {
         <ShopAppBody>
             <PageTitle title="Explore" />
             <Searchbar setProducts={setProductList} setSearchQuery={setSearchQuery} searchQuery={searchQuery}></Searchbar>
-            <ProductList products={productList} repeat={false} />
+            <ProductList products={productList} />
         </ShopAppBody>
     )
 }

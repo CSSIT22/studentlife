@@ -3,7 +3,6 @@ import { Text, Flex, IconButton, Box, Image } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 import React, { FC } from "react"
 import { Link } from "react-router-dom"
-import API from "src/function/API"
 import ContentBox from "./ContentBox"
 import convertCurrency from "./functions/usefulFunctions"
 import QtyButton from "./QtyButton"
@@ -17,11 +16,10 @@ const CartProduct: FC<{
     productName: string
     productPrice: number
     productStock: number
-    setUpdates: React.Dispatch<React.SetStateAction<number>>
-}> = ({ productId, quantity, images, productName, productPrice, productStock, setUpdates }) => {
-    const deleteProduct = () => {
-        API.delete("/shop/deleteCartProduct/" + productId).then(res => setUpdates(prev => prev +1)).catch(err => console.log(err))
-    }
+    increaseQty: (productId: number) => void
+    decreaseQty: (productId: number) => void
+    onDelete:  (productId: number) => void
+}> = ({ productId, quantity, images, productName, productPrice, productStock, increaseQty, decreaseQty, onDelete}) => {
     const displayTextStyle = {
         fontWeight: "semibold",
         fontSize: "lg",
@@ -71,10 +69,10 @@ const CartProduct: FC<{
                             <Text sx={displayTextStyle}>Price: {convertCurrency(productPrice)}</Text>
                         </Flex>
                         <Flex direction="column" justify="center" align="center">
-                            <QtyButton productId={productId} quantity={quantity} stock={productStock} setUpdates = {setUpdates}></QtyButton>
+                            <QtyButton productId={productId} quantity={quantity} stock={productStock} increaseQty = {increaseQty} decreaseQty={decreaseQty}></QtyButton>
                         </Flex>
                 </Flex>
-                <IconButton icon={<DeleteIcon />} onClick={deleteProduct} aria-label={"Delete"} colorScheme="red" _hover={{ transform: "scale(1.1)" }} _active={{ transform: "scale(1.0)" }} transitionDuration="300ms"></IconButton>
+                <IconButton icon={<DeleteIcon />} onClick={() => onDelete(productId)} aria-label={"Delete"} colorScheme="red" _hover={{ transform: "scale(1.1)" }} _active={{ transform: "scale(1.0)" }} transitionDuration="300ms"></IconButton>
             </Flex>
         </ContentBox>
         </motion.div>
