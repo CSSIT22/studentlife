@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
-import { Box, Flex, Input, Button } from "@chakra-ui/react";
+import { Box, Flex, Input, Button, Center } from "@chakra-ui/react";
 import API from "src/function/API";
 import { useLocation, useParams } from "react-router-dom";
+import { motion } from "framer-motion"
+
 
 const EnterPassword = () => {
     const [password, setPassword] = useState<any>()
@@ -21,19 +23,24 @@ const EnterPassword = () => {
 
     return (
         <>
-          <Box width={{ base: '100%', sm: '70%', md: '50%', lg: '30%', xl: '30%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} > <Flex width={"100%"} height={"100vh"} justifyContent={"center"} alignItems={"center"}>
-                <Flex width="40vw" height="40vh" border="2px solid black" justifyContent={"center"} alignItems={"center"} >
-                    <Box>
-                        <label>Enter Password: <br /></label>
-                        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} border={"4px"} borderColor={"black"}
-                            backgroundColor={"white"}
-                            textColor="black" />
-                        <Button onClick={handleSubmit} bg={"#E68E5C"} marginTop="1rem">Submit</Button>
-                    </Box>
-                </Flex>
-            </Flex>
-            </Box>   
-           
+            <Box width={"80%"} height={"500px"} background={"white"} borderRadius="20px" border="2px solid orange" marginTop={"10%"} mx={"4rem"} >
+                <Center>
+                    <Flex width="40vw" height="40vh" justifyContent={"center"} alignItems={"center"} >
+                        <Box>
+                            <label>Enter Password: <br /></label>
+                            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} border={"4px"} borderColor={"black"}
+                                backgroundColor={"white"}
+                                textColor="black" />
+                                <motion.div whileHover={{ scale: 0.9 }}
+                            onHoverStart={e => { }}
+                            onHoverEnd={e => { }}>
+                            <Button onClick={handleSubmit} bg={"orange"} marginTop="1rem">Submit</Button>
+                            </motion.div>
+                        </Box>
+                    </Flex>
+                </Center>
+            </Box>
+
         </>
     )
 }

@@ -43,7 +43,7 @@ const Create = () => {
             const form = new FormData();
             console.log(files)
             form.append("text", text);
-            form.append("upload", files );
+            form.append("upload", files);
             API.post<any>("/blog/postCreatingX",
                 form, {
                 headers: {
