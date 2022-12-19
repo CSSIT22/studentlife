@@ -82,7 +82,7 @@ const FavoriteContent: FC<{
                             </>
                         )}
                     </Popover>
-
+                    <Link to={link}>
                     <Flex alignItems={"center"} maxWidth="100%">
                     <Box  width={"30%"} ml={"1rem"}>
                           
@@ -106,7 +106,9 @@ const FavoriteContent: FC<{
                             </Text>
                         </Box>
                     </Flex>
+                    </Link>
                 </Box>
+                
             </Show>
             <Show above="sm">
                 <Box width={"100%"} height={"90%"} p={5} shadow="md" backgroundColor={"white"} borderWidth="1px" mt={"35px"} borderRadius={"lg"} display={"flex"} flexDirection={"column"}  justifyContent={"center"} >

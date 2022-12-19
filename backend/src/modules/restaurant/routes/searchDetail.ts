@@ -13,7 +13,7 @@ const searchDetail = async (req: Request, res: Response) => {
 
 const addHours = (date: Date): Date => {
     const result = new Date(date);
-    result.setHours(result.getHours());
+    result.setHours(result.getHours() + 7);
     return result;
   };
  
@@ -64,13 +64,15 @@ const addHours = (date: Date): Date => {
                 resId: id,
             },
         })
+        // console.log(existingRestaurant);
+        
         if (existingRestaurant == null) {
             const liked = await prisma.restaurant.create({
                 data: {
                     resId: id,
                     resName: detaildata.name,
                     likes: detaildata.user_ratings_total,
-                    lastupdated: new Date(),
+                    lastupdated: addHours(new Date()),
                     detail: {
                         create: {
                             phoneNo: detaildata.formatted_phone_number,
