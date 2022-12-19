@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - infra-*
-      - main
-    paths:
-      - "frontend/**"
+    #   - main
+    # paths:
+    #   - "frontend/**"
 
 jobs:
   frontend-build:
@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.PRODUCTION_SSH_PASSWORD}}
           port: ${{secrets.FRONT_SSH_PORT}}
           local_path: "./p-frontend-build-artifact/*"
-          remote_path: "/home/sharegun34/production/front/web"
+          remote_path: "/home/sharegun34/production/fronted/web"
           args: "-o ConnectTimeout=5"
   # upload:
   #   name: 🍱 Preview Server Uploading
