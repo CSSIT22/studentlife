@@ -3,10 +3,10 @@ name: 🎅 Deploy to Production
 on:
   push:
     branches:
-      - infra-*
+      # - infra-*
       - main
-    # paths:
-    #   - "backend/**"
+    paths:
+      - "backend/**"
 
 jobs:
   build:
