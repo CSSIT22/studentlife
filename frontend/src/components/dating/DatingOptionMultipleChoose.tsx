@@ -34,7 +34,6 @@ export function DatingOptionMultipleChoose(props: any) {
                     {...htmlProps}
                     onClick={(e: any) => {
                         props.handelClick(props.value)
-                        // console.log("Original : " + props.value)
                     }}
                 >
                     <Flex alignItems="center" justifyContent="center" border="2px solid" borderColor="orange.600" w={4} h={4} {...getCheckboxProps()}>
@@ -68,7 +67,6 @@ export function DatingOptionMultipleChoose(props: any) {
                         {...htmlProps}
                         onClick={(e: any) => {
                             props.handelClick(props.value)
-                            // console.log("Original : " + props.value)
                         }}
                     >
                     <Flex alignItems="center" justifyContent="center" border="2px solid" borderColor="white" w={4} h={4} {...getCheckboxProps()}>

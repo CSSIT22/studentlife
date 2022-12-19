@@ -17,12 +17,12 @@ const DatingCheckImage: FC<{
         <Link to={link}>
             {image ?
                 <motion.div
-                    whileHover={{ scale: 1.1,}}
+                    whileHover={{ scale: 1.1, }}
                     whileTap={{
                         scale: 0.9,
                     }}
 
-                    >
+                >
                     <Box
                         mt={{ base: "32px", md: "46px" }}
                         backgroundImage={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + url}

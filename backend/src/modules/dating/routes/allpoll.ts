@@ -23,27 +23,7 @@ allPollRoutes.get("/getAllPollUserId", verifyUser, async (req: Request, res: Res
 // Get all poll and join with Poll applicants and user profiles table
 allPollRoutes.get("/getAllPoll", verifyUser, async (req: Request, res: Response) => {
     try {
-        // const reqUserId = req.user?.userId
-        // const pollId = req.params.pollId
-        // const findPollDB = await prisma.activity_Poll.findFirst({
-        //     where: {
-        //         pollId: pollId,
-        //         userId: reqUserId,
-        //     },
-        //     select: {
-        //         pollId: true,
-        //     },
-        // })
-
-        // if (!findPollDB?.pollId) {
-        //     return res.send()
-        // }
-
         const activityPollDB = await prisma.activity_Poll.findMany({
-            // where: {
-            //     pollId: pollId,
-            //     userId: req.user?.userId,
-            // },
             select: {
                 pollCreator: {
                     select: {
@@ -96,7 +76,6 @@ allPollRoutes.get("/getAllPoll", verifyUser, async (req: Request, res: Response)
                 pollcreated: "desc",
             },
         })
-        // console.log("WOW " + activityPollDB[0].participants.length)
         return res.send(activityPollDB)
     } catch (err) {
         return res.status(404).send("Activity poll not found")
@@ -116,7 +95,6 @@ allPollRoutes.post("/applyPoll", verifyUser, async (req: Request, res: Response)
         const registerTime: Date = req.body.registerTime
         const setApply: any = { userId: userId, pollId: pollId, isAccepted: isAccepted, registerTime: registerTime }
         const name: string = fName + " " + lName
-        // console.log(name + " " + pollCreaterId + " " + pollName + " /dating/poll/yourpoll/" + pollId)
         await prisma.poll_Applicant.create({
             data: setApply,
         })

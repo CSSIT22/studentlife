@@ -1,5 +1,5 @@
-import { Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react"
-import React, { useState, FC } from "react"
+import { Center, FormControl, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react"
+import { useState, FC } from "react"
 
 const DatingCreateDescription: FC<{
     getDescription: any

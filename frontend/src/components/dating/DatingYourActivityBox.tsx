@@ -1,9 +1,7 @@
 import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
-import React, { FC, useEffect, useState } from "react"
+import { FC } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
-import { POLL } from "./shared/poll"
-import { Link, useParams } from "react-router-dom"
-import API from "src/function/API"
+import { Link } from "react-router-dom"
 import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { motion } from "framer-motion"
@@ -17,17 +15,10 @@ declare global {
 
 // Component of your activity page
 const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
-    // const [poll, setPoll] = useState(POLL)
-
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
         const chooseDate = new Date(dateTime)
         chooseDate.setHours(chooseDate.getHours() - 7);
-        // console.log(chooseDate.getMonth())
-        // return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
-        // const d = chooseDate.toLocaleDateString()
-        // const strDate = chooseDate.toLocaleDateString()
-        // return chooseDate.getDay() + "/" + chooseDate.getMonth() + "/" + chooseDate.getFullYear()
         const d = chooseDate.toISOString()
         return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + chooseDate.getFullYear()
     }
@@ -63,13 +54,6 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
         return "/dating/poll/yourpoll/" + pId + "/"
     }
 
-    // window.addEventListener('scroll', function () {
-    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    //         if (mpolls.length != mpoll.length)
-    //             setmPolls(poll.slice(0, mpolls.length + 20))
-    //     }
-    // })
-
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
@@ -79,9 +63,6 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
         <Box borderRadius="10px" color="black">
             {poll ? poll.map((values: PollInfo) => {
                 // Need number of apply people from database
-                // const [applyPeople, setApplyPeople] = useState(2)
-                // Need number of people who haven't approve in database
-                // const [notApprovePeople, setNotApprovePeople] = useState(2)
                 globalThis.date = handlePollDate(values.pollAppointAt)
                 globalThis.time = hanlePollTime(values.pollAppointAt)
                 return (
@@ -132,7 +113,6 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                                 <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
                                     <Box
                                         height="70px"
-                                        //pt="5px"
                                         overflowX={{ base: "auto", md: "visible" }}
                                         whiteSpace={{ base: "nowrap", md: "initial" }}
                                         style={{ WebkitOverflowScrolling: "touch" }}
@@ -216,7 +196,6 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                                                 <Text fontSize="12px" color="white" as="b">
                                                     {values.participants.length - values.participants.filter(i => i.isAccepted).length > 99 ? "99+" : values.participants.length - values.participants.filter(i => i.isAccepted).length}
                                                     {/* Number of people that haven't accept need to replace 2 with data from db*/}
-                                                    {/* {2 > 99 ? "99+" : 2} */}
                                                 </Text>
                                             </Circle>
                                         </Link>
