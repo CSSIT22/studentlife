@@ -12,9 +12,9 @@ jobs:
   frontend-build:
     name: 🐳 Build React.js Frontend
     runs-on: [self-hosted, linux, x64]
+    environment: develop
     timeout-minutes: 5
     container: node:16-alpine
-    environment: develop
     steps:
       - name: 🎤 Checkout
         uses: actions/checkout@v2
