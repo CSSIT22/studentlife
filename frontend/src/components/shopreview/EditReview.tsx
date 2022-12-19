@@ -3,24 +3,23 @@ import { Flex, Box, useDisclosure, Button, Heading, Input, Modal, ModalBody, Mod
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import API from 'src/function/API'
-import review from 'src/pages/restaurant/review/[reviewRes]'
 import RatingStar from './RatingStar'
 import TempUpload from './TempUpload'
 
-const EditReview: React.FC<{ shopId:number, reviewId:String ,  isOpen: any, onClose: any }> = ({shopId, reviewId,isOpen, onClose }) => {
+const EditReview: React.FC<{ shopId: number, reviewId: String, isOpen: any, onClose: any }> = ({ shopId, reviewId, isOpen, onClose }) => {
 
     const finalRef = React.useRef();
-   
-    
+
+
     const [files, setFiles] = useState<any>([]) // array of user's files (pictures)
     const [text, setText] = useState("");
     const [rating, setRating] = useState(0) // rating star max = 5
     let param = useParams() // get data from param
-    
+
     const save = () => {
         const form = new FormData();
-        form.append("shopId",shopId+"") ;
-        form.append("reviewId",reviewId+"") ;
+        form.append("shopId", shopId + "");
+        form.append("reviewId", reviewId + "");
         form.append("text", text);
         form.append("rating", rating + "");
         form.append("shopId", param.shopId + "");
@@ -43,7 +42,7 @@ const EditReview: React.FC<{ shopId:number, reviewId:String ,  isOpen: any, onCl
 
 
 
-   
+
 
 
 
@@ -131,7 +130,7 @@ const EditReview: React.FC<{ shopId:number, reviewId:String ,  isOpen: any, onCl
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button bgColor={"green"} color="white"  onClick={save}  >
+                        <Button bgColor={"green"} color="white" onClick={save}  >
                             Save
                         </Button>
                     </ModalFooter>
