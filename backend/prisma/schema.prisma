@@ -419,9 +419,9 @@ model Event {
   eventTypeId  String
   type         Event_Type   @relation(fields: [eventTypeId], references: [eventTypeId])
   courseId     String?
-  course       Course?      @relation(fields: [courseId], references: [courseId])
+  course       Course?      @relation(fields: [courseId], references: [courseId], onDelete: Cascade)
   assignmentId String?
-  assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId])
+  assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId], onDelete: Cascade)
 }
 
 model Event_Type {
