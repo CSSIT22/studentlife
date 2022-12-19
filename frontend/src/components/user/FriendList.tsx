@@ -59,9 +59,9 @@ const FriendList: FC<FriendListProps> = (props) => {
 
 
                     {//@ts-ignore
-                        props.FriendList.filter((user: any) => user.follower.fName.toLowerCase().includes(search) || user.follower.lName.toLowerCase().includes(search))
+                        props.FriendList.filter((user: any) => user.fName.toLowerCase().includes(search) || user.lName.toLowerCase().includes(search))
                             .map((user: any) => (
-                                <UserList userProfile={""} userName={user.follower.fName} key={user.follower.userId} lastName={user.follower.lName} />
+                                <UserList userProfile={""} userName={user.fName} key={user.userId} lastName={user.lName} />
                             ))}
                 </Flex>
             </Box>

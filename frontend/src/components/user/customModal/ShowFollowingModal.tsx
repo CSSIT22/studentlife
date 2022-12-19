@@ -21,7 +21,13 @@ export const ShowFollowingModal: React.FC<{ onClose: VoidFunction; finalFocusRef
     useEffect(() => {
         async function fetch() {
             const res = await API.get(`/user/getFollowering/${param.userId}`)
-            setFriendList(res.data.following)
+            setFriendList(res.data.following.map((item: any) => {
+                return {
+                    userId: item.following.userId,
+                    fName: item.following.fName,
+                    lName: item.following.lName,
+                }
+            }))
         }
 
         fetch();

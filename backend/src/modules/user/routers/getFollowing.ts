@@ -5,7 +5,7 @@ const getFollowing = async (req: Request, res: Response) => {
         const { prisma } = res
         const userId = req.user ? req.user.userId : ""
         const following = await prisma.follow.findMany({
-            include: { follower: true },
+            include: { following: true },
             where: {
                 userId: userId,
             },
