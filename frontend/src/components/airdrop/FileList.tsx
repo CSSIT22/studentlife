@@ -180,7 +180,13 @@ const FileList: FC<{
                             <ModalBody pb={6}>
                                 {senderProfile && (
                                     <>
-                                        <Flex justify={"space-around"} gap={[1,2,3,4,5]} flexDirection={"row"} alignItems={"center"} flexWrap={"wrap"}>
+                                        <Flex
+                                            justify={"space-around"}
+                                            gap={[1, 2, 3, 4, 5]}
+                                            flexDirection={"row"}
+                                            alignItems={"center"}
+                                            flexWrap={"wrap"}
+                                        >
                                             {senderImg === "" ? (
                                                 <MdAccountCircle fontSize={"1.5rem"} />
                                             ) : (
