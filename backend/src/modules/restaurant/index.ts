@@ -12,6 +12,8 @@ import deleteFavorite from "./routes/deleteFavorite"
 import addFavorite from "./routes/addFavorite"
 import { Request, Response } from "express"
 import addHistory from "./routes/addHistory"
+import toChat from "./routes/toChat"
+import searchDetail from "./routes/searchDetail"
 
 const restaurantRoutes = express()
 restaurantRoutes.use(express.json())
@@ -218,12 +220,13 @@ restaurantRoutes.get("/search", searchRestaurant)
 restaurantRoutes.get("/favorite", showFavorite)
 restaurantRoutes.post("/favorite", deleteFavorite)
 restaurantRoutes.get("/history", showHistory)
-restaurantRoutes.get("/:id", verifyUser, showRestaurant)
-restaurantRoutes.put("/:id", addHistory)
-restaurantRoutes.post("/:id", likedRestaurant)
-restaurantRoutes.get("/detail/:id", showDetail)
-restaurantRoutes.post("/detail/:id", addFavorite)
-restaurantRoutes.get("/review/:id", showReview)
-// restaurantRoutes.post("/addRestaurant/:id", addRestaurant)
+restaurantRoutes.get("/likeOrNope", verifyUser, showRestaurant)
+restaurantRoutes.put("/likeOrNope", addHistory)
+restaurantRoutes.post("/likeOrNope", likedRestaurant)
+restaurantRoutes.post("/search", searchDetail)
+restaurantRoutes.get("/detail", showDetail)
+restaurantRoutes.post("/detail", addFavorite)
+restaurantRoutes.get("/review", showReview)
+restaurantRoutes.get("/:resId", toChat )
 
 export default restaurantRoutes

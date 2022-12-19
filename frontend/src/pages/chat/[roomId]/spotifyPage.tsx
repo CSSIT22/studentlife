@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, Flex, Heading, HStack, Stack, Text, Image, Button, ButtonGroup, CardFooter, Divider, SimpleGrid, Hide, Input } from "@chakra-ui/react"
+import { Box, Card, CardBody, Flex, Heading, HStack, Stack, Text, Image, Button, ButtonGroup, CardFooter, Divider, SimpleGrid, Hide, Input, InputGroup, InputRightElement } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { FaSpotify } from "react-icons/fa"
 import { Form, Link, useNavigate, useParams } from "react-router-dom"
@@ -6,6 +6,7 @@ import Clist from "src/components/chat/Chat-list"
 import AppBody from "src/components/share/app/AppBody"
 import { BsMusicNoteList } from "react-icons/bs"
 import API from "src/function/API"
+import { SearchIcon } from "@chakra-ui/icons"
 
 type Tracks = {
     tracks: {
@@ -13,7 +14,7 @@ type Tracks = {
             {
                 album: {
                     artists: [
-                        {name :string}
+                        { name: string }
                     ],
                     images: [
                         {
@@ -64,8 +65,8 @@ function SpotifyPage() {
     }, [])
 
     // const searchSong = (search: string) => {
-    //     // if(search===?){
-    //     //     const result = ?.filter
+    //     // if(search===""){
+    //     //     return userRoom.map((e:any) => renderCard)
     //     // }else{
     //         return (
     //         <AppBody>
@@ -82,20 +83,34 @@ function SpotifyPage() {
     //     }
     // }
     function renderCard(props: any) {
-        const { srcs, data,link } = props
+        const { srcs, name, link,artist} = props
         return (
-            <Card maxW="md" bg={"#f1f1f2"} height='200px' overflow={'hidden'} onClick={()=>window.open(link)}>
-                <CardBody>
-                    <Image
-                        src={srcs}
-                        alt={data}
-                        borderRadius='lg'
-                        w={'30'}
-                    />
-                    <Stack mt='6' spacing='3'>
-                        {/* <Heading fontSize={'6vm'} >{data}</Heading> */}
-                        {/* <Divider/> */}
-                        <Text as='b' textAlign={'center'}>{data}</Text>
+            <Card maxW="md" bg={"#f1f1f2"} height='200px' overflow={'hidden'} onClick={() => window.open(link)}>
+                <CardBody justifyContent={'center'}>
+                    <Stack direction={["row", "row", "column"]}>
+                        <Image
+                            src={srcs}
+                            alt={name}
+                            borderRadius='lg'
+                            w={['150px','150px','75px']}
+                        />
+                        <Stack mt='3' spacing='1'>
+                            {/* <Heading fontSize={'6vm'} >{data}</Heading> */}
+                            <Text
+                                fontWeight='bold'
+                                textTransform='uppercase'
+                                fontSize='xs'
+                                letterSpacing='wide'
+                                color='teal.600'
+                            >
+                                {artist}
+                            </Text>
+                            <Divider />
+                            <Text textAlign={'center'}>{name}</Text>
+                            <Button colorScheme='teal' size='xs'>
+                               Button
+                            </Button>
+                        </Stack>
                     </Stack>
                 </CardBody>
             </Card>
@@ -116,19 +131,14 @@ function SpotifyPage() {
                 // alignContent={'center'}
                 // justifyContent={'flex-start'}
                 >
-                    <Flex alignItems={"center"} marginY={"10"}>
-                        <Box cursor={"pointer"} marginLeft={4}>
-                            <BsMusicNoteList size={80} />
+                    <Flex alignItems={"center"} margin={"10"}>
+                        <Box cursor={"pointer"} marginX={4}>
+                            <BsMusicNoteList size={30} />
                         </Box>
-                        <Input
-                            width={{ base: "40vw", md: "md" }}
-                            size={'lg'}
-                            placeholder="Search..."
-                            _placeholder={{ color: "#F4A460" }}
-                            focusBorderColor="#F4A460"
-                            errorBorderColor="#606070"
-                            margin={'20px'}
-                        />
+                        <InputGroup>
+                        <InputRightElement pointerEvents="none" children={<SearchIcon />} />
+                        <Input placeholder="Search..." borderColor={"#F4A460"} />
+                    </InputGroup>
                     </Flex>
                     {/* </Form> */}
 
@@ -147,8 +157,8 @@ function SpotifyPage() {
                                 </Stack>
                             </CardBody>
                         </Card> */}
-                        {tracks?.tracks.items.map((e) => renderCard({data : e.name , srcs:e.album.images[1].url,link:e.external_urls.spotify}))}
-
+                        {/* {tracks?.tracks.items.map((e) => renderCard({ data: e.name, srcs: e.album.images[1].url, link: e.external_urls.spotify }))} */}
+                        {tracks?.tracks.items.map((e) => renderCard({ name: e.name, artist: e.album.artists.map((el) => el.name).join(", "), srcs: e.album.images[1].url, link: e.external_urls.spotify }))}
                     </SimpleGrid>
                 </Flex>
             </HStack>

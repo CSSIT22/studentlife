@@ -28,6 +28,8 @@ import { AddIcon } from "@chakra-ui/icons"
 import AppBody from "src/components/share/app/AppBody"
 import ToDoListAppBody from "src/components/todolist/ToDoListAppBody"
 import { useControllableProp, useControllableState } from "@chakra-ui/react"
+import API from "src/function/API"
+import { user } from "src/components/transaction/shared/testuser"
 
 // const [isControlled, value] = useControllableProp(propValue, stateValue){
 // function Example() {
@@ -43,7 +45,26 @@ import { useControllableProp, useControllableState } from "@chakra-ui/react"
 //   )
 // }}
 
+
 const creategroup = () => {
+    const [userList, setUserList] = useState<any[]>([])
+    const [userId, setUserId] = useState("")
+
+    // const deleteTask = (taskId: string) => {
+    //     API.post("/todolist/deleteTask", { taskId: taskId }).then((res) => {
+    //         console.log(res.data);
+    //     }).then(() => {
+    //         navigate({
+    //             pathname: "/todolist/"
+    //         })
+    //     })
+    // }
+
+    const fetchData = (userId: string) => {
+        API.post("http://localhost:8000/todolist/listnamefromid", { userId: userId }).then((res) => {
+            setUserList(res.data);
+        })
+    }
     const [members, setMembers] = useState([
         {
             uid: "",
@@ -79,12 +100,15 @@ const creategroup = () => {
                 {members.map((member, index) => (
                     <Box display="flex" flexWrap={"wrap"} marginY={10}>
                         {index + 1}.
-                        <Input variant="flushed" placeholder="Insert UID" ml={4} flex={1} value={member.uid} />
-                        <Input variant="flushed" placeholder="Member Name" ml={4} flex={1} />
+                        <Input variant="flushed" placeholder="Insert UID" ml={4} flex={1} onChange={(e) => setUserId(e.target.value)} />
+                        <Input variant="flushed" placeholder="Member Name" ml={4} flex={1} value={userList[index]?.fName} />
                     </Box>
                 ))}
 
-                <IconButton bgColor={"grey.900"} aria-label="AddIcon" padding="20px" marginX="5px" icon={<AddIcon />} onClick={addRow} />
+                <IconButton bgColor={"grey.900"} aria-label="AddIcon" padding="20px" marginX="5px" icon={<AddIcon />} onClick={() => {
+                    addRow()
+                    fetchData(userId)
+                }} />
 
                 <Box display="flex" justifyContent="center" alignItems="center" marginY={10}>
                     <Button colorScheme="teal" size="lg" bgColor={"orange.500"}>

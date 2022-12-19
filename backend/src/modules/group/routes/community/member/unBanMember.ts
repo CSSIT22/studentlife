@@ -8,12 +8,32 @@ const unBanMember = async (req: Request, res: Response) => {
     }
 
     try {
-        const Blist = await prisma.community_Blacklist.delete({
+        // res.send(req.body.userId)
+        await prisma.community_Blacklist.delete({
             where: {
-                userId_communityId: user,
+                userId_communityId: {
+                    userId: req.body.userId,
+                    communityId: req.body.communityId,
+                },
             },
         })
-
+        await prisma.community_User.create({
+            data: {
+                userId: req.body.userId,
+                communityId: req.body.communityId,
+                roleId: "clavjs04i0004v32wxmjn3kvk",
+                joined: new Date(),
+                status: true,
+            },
+        })
+        // await prisma.community_User.delete({
+        //     where: {
+        //         userId_communityId: {
+        //             userId: req.body.userId,
+        //             communityId: req.body.communityId,
+        //         },
+        //     },
+        // })
         res.status(200).send("Unban Success")
     } catch (err) {
         console.log(err)

@@ -22,7 +22,7 @@ const selectmastercard = () => {
                             </Button>
                         </Link>
                     </Container>
-                    <Center gap={"30px"}>
+                    {/* <Center gap={"30px"}>
                         <Link to="/transaction/shoptransaction/selectmethod">
                             <Button colorScheme="red" w={"100px"}>
                                 Cancel
@@ -34,7 +34,7 @@ const selectmastercard = () => {
                                 Save
                             </Button>
                         </Link>
-                    </Center>
+                    </Center> */}
                 </Show>
             </AppBody>
         </div>

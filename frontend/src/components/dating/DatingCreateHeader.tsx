@@ -1,5 +1,5 @@
-import { Box, Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from "@chakra-ui/react"
-import React, { useState, FC } from "react"
+import { Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from "@chakra-ui/react"
+import { useState, FC } from "react"
 
 const DatingCreateHeader: FC<{
     getHeader: any
@@ -35,7 +35,7 @@ const DatingCreateHeader: FC<{
                 {!isTooShortHeader ? (
                     <FormHelperText></FormHelperText>
                 ) : (
-                    <FormErrorMessage color="red">The minimum header length is 10 characters. Type something.</FormErrorMessage>
+                    <FormErrorMessage color="red">The minimum header length is 10 characters. Type something</FormErrorMessage>
                 )}
                 {!isTooLongHeader ? (
                     <FormHelperText></FormHelperText>

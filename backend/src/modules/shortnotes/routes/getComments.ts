@@ -14,10 +14,14 @@ const getComments = async (req: Request, res: Response) => {
                     include: {
                         commentor: {
                             select: {
+                                userId: true,
                                 fName: true,
                                 lName: true,
                             },
                         },
+                    },
+                    orderBy: {
+                        commentedAt: "asc",
                     },
                 },
             },

@@ -88,20 +88,27 @@ const btnMyLibrary = () => {
             libName: name
         }).then((res) => {
             console.log(res)
-            window.location.reload()
+            //window.location.reload()           
+            setNewLi((newLi: any) => [...newLi, { libId: res.data.libId, name: name }])
         }
         )
+        setName("")
     }
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const deleteLibrary = () => {
+        let x = li.filter((li: any) => li.libId != liPicked)
+        let y = newLi.filter((nli: any) => nli.libId != liPicked)
+        setLi(x)
+        setNewLi(y)
+        inliOnClose()
         API.delete("/shortnotes/deleteLibrary", {
             data: {
                 libId: liPicked
             }
         }).then((res) => {
             console.log(res);
-            window.location.reload()
+            //window.location.reload()
         })
     }
 
@@ -118,10 +125,11 @@ const btnMyLibrary = () => {
             window.location.reload()
         })
     }
+    const [newLi, setNewLi] = useState<any>([])
     return (
         <Box>
-            <Button colorScheme="orange" onClick={mliOnOpen}>
-                <BiLibrary /> My library
+            <Button leftIcon={<BiLibrary />} colorScheme="orange" onClick={mliOnOpen}>
+                My library
             </Button>
             <Drawer isOpen={mliIsOpen} placement="right" onClose={mliOnClose} size={"sm"}>
                 <DrawerOverlay />
@@ -139,6 +147,7 @@ const btnMyLibrary = () => {
                         <Stack gap={4}>
                             {li.map((li: any, key) => (
                                 <Box
+                                    key={key}
                                     as="button"
                                     onClick={() => {
                                         setNPicked(li.libName) //collect selected li.name
@@ -146,10 +155,29 @@ const btnMyLibrary = () => {
                                         inliOnOpen()
                                     }}
                                 >
-                                    <LiList key={key} name={li.libName}></LiList>
+                                    <LiList name={li.libName}></LiList>
                                 </Box>
                             ))}
+
+                            {newLi.map((nli: any, key: any) => (
+                                <Box
+                                    as="button"
+                                    onClick={() => {
+                                        setNPicked(nli.name) //collect selected li.name
+                                        setliPicked(nli.libId) //collect selected li.id
+                                        inliOnOpen()
+                                    }}
+                                >
+                                    <LiList key={key} name={nli.name}></LiList>
+                                </Box>
+                            )
+
+
+                            )}
                         </Stack>
+                        <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
+                            <Text color={"gray.500"}>{li[0] == null && newLi[0] == null ? "No libraries here, let's add some!!" : null}</Text>
+                        </Flex>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>
@@ -168,21 +196,36 @@ const btnMyLibrary = () => {
                         <Box bg={"white"} rounded={8} p={10} w={"100%"}>
                             <VStack spacing={4}>
                                 <Heading size={"lg"}>Create new library</Heading>
-
                                 <Box w={"100%"}>
                                     <Text>Name</Text>
-                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <Input focusBorderColor="orange.500" variant="outline" placeholder="" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            if (name.replaceAll(" ", "") != "") {
+                                                submit()
+                                                nliOnClose()
+                                                toast({
+                                                    title: 'Library created.',
+                                                    description: "ํYou've created a new library.",
+                                                    status: 'success',
+                                                    duration: 4000,
+                                                    isClosable: true,
+                                                })
+                                            }
+                                        }
+                                    }} />
                                 </Box>
                                 <Button colorScheme="orange" w={"100%"} onClick={() => {
-                                    submit()
-                                    nliOnClose()
-                                    toast({
-                                        title: 'Library created.',
-                                        description: "ํYou've created a new library.",
-                                        status: 'success',
-                                        duration: 4000,
-                                        isClosable: true,
-                                    })
+                                    if (name.replaceAll(" ", "") != "") {
+                                        submit()
+                                        nliOnClose()
+                                        toast({
+                                            title: 'Library created.',
+                                            description: "ํYou've created a new library.",
+                                            status: 'success',
+                                            duration: 4000,
+                                            isClosable: true,
+                                        })
+                                    }
                                 }}>
                                     Create
                                 </Button>
@@ -213,10 +256,8 @@ const btnMyLibrary = () => {
                     </DrawerHeader>
                     <DrawerBody>
                         <VStack spacing={4}>
-
-
                             {snByLi.map((sn: any, key) => (
-                                <Box as="button" w={"100%"} boxShadow={"md"} >
+                                <Box w={"100%"} boxShadow={"md"} >
                                     <Grid templateColumns="repeat(7, 1fr)">
                                         <GridItem colSpan={6} onClick={() => {
                                             navigate({
@@ -242,11 +283,12 @@ const btnMyLibrary = () => {
                                             </Flex>
                                         </GridItem>
                                     </Grid>
-
                                 </Box>
                             ))}
-
                         </VStack>
+                        <Flex h={"100%"} alignItems={"center"} justifyContent={"center"}>
+                            <Text color={"gray.500"}>{snByLi[0] == null ? "No shortnotes here, let's add some!!" : null}</Text>
+                        </Flex>
                     </DrawerBody>
                     <DrawerFooter></DrawerFooter>
                 </DrawerContent>
@@ -279,7 +321,7 @@ const btnMyLibrary = () => {
                 <ModalContent>
                     <ModalHeader>Delete library</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>Are you sure to remove this shortntoe from the library?</ModalBody>
+                    <ModalBody>Are you sure to remove this shortnote from the library?</ModalBody>
                     <ModalFooter>
                         <Button onClick={() => {
                             deleteInLibrary()

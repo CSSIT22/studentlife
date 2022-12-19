@@ -29,20 +29,48 @@ export const calExp = async (prisma: PrismaClient, userId: string, exp: expType)
                 currentXP: true,
             },
         })
-        const result = await prisma.eXP.upsert({
+
+        const oldlevel = await prisma.eXP.findUnique({
             where: {
                 userId: userId,
             },
-            update: {
-                currentXP: (oldXP?.currentXP || 0) + Math.floor(addexp), //Math.floor(Math.random() * 100)
-            },
-            create: {
-                userId: userId,
-                currentXP: 0,
+            select: {
+                level: true,
             },
         })
 
-        console.log(result)
+        const expuser = await prisma.eXP.findFirstOrThrow({ where: { userId }, select: { currentXP: true } })
+
+        if (expuser.currentXP == 1000) {
+            const result1 = await prisma.eXP.upsert({
+                where: {
+                    userId: userId,
+                },
+                update: {
+                    level: {
+                        increment: 1,
+                    },
+                    currentXP: 0, //Math.floor(Math.random() * 100)
+                },
+                create: {
+                    userId: userId,
+                    level: 1,
+                },
+            })
+        } else {
+            const result = await prisma.eXP.upsert({
+                where: {
+                    userId: userId,
+                },
+                update: {
+                    currentXP: (oldXP?.currentXP || 0) + Math.floor(addexp), //Math.floor(Math.random() * 100)
+                },
+                create: {
+                    userId: userId,
+                    currentXP: 0,
+                },
+            })
+        }
     } catch (err: any) {
         console.log(err)
     }
