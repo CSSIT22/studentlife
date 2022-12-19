@@ -48,8 +48,8 @@ import EditReview from "./EditReview"
 import RatingStar from "./RatingStar"
 import ShopName from "./ShopName"
 
-const Myreview: FC<{  shopId:number;reviewId: String; shopName: String; image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
-    shopId ,
+const Myreview: FC<{ reviewId: String; shopId: number; shopName: String; image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
+    shopId,
     reviewId,
     image,
     name,
@@ -58,7 +58,7 @@ const Myreview: FC<{  shopId:number;reviewId: String; shopName: String; image: S
     am_like,
     ratting,
     shopName,
-    
+
 
 }) => {
     const [show, setShow] = React.useState(false)
@@ -222,7 +222,7 @@ const Myreview: FC<{  shopId:number;reviewId: String; shopName: String; image: S
 
             </Box>
 
-            <EditReview shopId = {shopId} reviewId={reviewId} isOpen={isModalOpen} onClose={onModalClose} />
+            <EditReview shopId={shopId} isOpen={isModalOpen} onClose={onModalClose} reviewId={reviewId} />
         </>
     )
 }
