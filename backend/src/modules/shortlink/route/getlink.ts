@@ -4,10 +4,11 @@ const getlinkData = async (req:Request , res: Response) =>{
         const{ prisma } = res
         const savelink = await prisma.shortLink.findMany({
             select:{
-                userId: true,
-                originalLink: true,
-                shortenLink:true,
-                slId:true
+                slId:true,
+                userId:true,
+                title:"",
+                desc:"",
+                link:req.body.title,
             },take:100
         })
         res.status(200).json({link:savelink})
