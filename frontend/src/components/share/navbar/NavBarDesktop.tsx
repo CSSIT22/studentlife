@@ -44,7 +44,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
     const { countUnread } = useContext(NavBarContext)
 
     return (
-        <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
+        <Box zIndex={100} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
                 <Container w="container.lg" maxW={"100%"}>
                     <Stack maxW="100%" direction={"row"} justifyContent="space-between">

@@ -10,10 +10,10 @@ const OrderConfirmProduct: FC<{
     price: number
     quantity: number
     image: string
-}> = ({ id, name, price, quantity, image}) => {
+}> = ({ id, name, price, quantity, image }) => {
     return (
         <LinkBox>
-            <Link to={"/shop/product/" + id }>
+            <Link to={"/shop/product/" + id}>
                 <Flex justify={"space-evenly"} direction={"row"} wrap={"wrap"}>
                     <Image
                         width={{ base: 100, xl: 135 }}
@@ -24,6 +24,7 @@ const OrderConfirmProduct: FC<{
                         placeholder="blur"
                         borderRadius="5%"
                         objectFit="cover"
+                        border='3px solid black'
                     />
                     <Flex wrap="wrap" align="center" justify="space-around" my="5" >
                         <Box fontWeight="semibold" as="h4" lineHeight="tight" px={10}>

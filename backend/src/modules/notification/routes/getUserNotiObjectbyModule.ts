@@ -21,6 +21,7 @@ const getUserNotiObjectbyModule = async (req: Request, res: Response) => {
                     },
                 ],
             })
+
             //console.log(userNotiObject)
 
             return res.send(userNotiObject)

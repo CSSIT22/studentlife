@@ -1,13 +1,13 @@
 import { Button, Avatar, AvatarBadge, Badge, Box, Center, Circle, Spacer, Stack, Text } from "@chakra-ui/react"
 import React, { FC, useEffect, useState } from "react"
-import { FaDumpsterFire } from "react-icons/fa"
-import { templates } from "../templates"
-import { USER } from "../main/mockupData/userProfile"
+import { templates } from "../functions/templates"
+import { showUser } from "../functions/showUser"
+
 import API from "src/function/API"
 import { NotiValue } from "@apiType/notification"
 
 const NotiObjectViewAll: FC<{
-    id: string
+    objectId: string
     template: string
     isRead: boolean
     date: Date
@@ -16,15 +16,9 @@ const NotiObjectViewAll: FC<{
     onClick: Function
     sender: string
     values: NotiValue[]
-}> = ({ id, template, isRead, date, module, url, onClick, sender, values }) => {
+    userId: string
+}> = ({ userId, objectId, template, isRead, date, module, url, onClick, sender, values }) => {
 
-    const [senderImg, setsenderImg] = useState([])
-
-    useEffect(() => {
-        API.get("/notification/getsenderimage/" + sender).then(
-            item => setsenderImg(item.data.image)
-        )
-    }, [])
 
     //console.log(senderImg);
 
@@ -45,9 +39,9 @@ const NotiObjectViewAll: FC<{
         const day = hour * 24
         const year = day * 365
 
-        let sendDay = Math.round(date.getTime() / day)
+        let sendDay = Math.floor(date.getTime() / day)
         // console.log(sendDay)
-        let currentDay = Math.round(current.getTime() / day)
+        let currentDay = Math.floor(current.getTime() / day)
         // console.log(currentDay)
         let diffDay = currentDay - sendDay
         // console.log(diffDay)
@@ -115,18 +109,9 @@ const NotiObjectViewAll: FC<{
     let v3 = ""
     function showDescription() {
 
-        //console.log(getvalue)
-        // const [valueNotiObject, setValueNotiObject] = useState([])
-        // useEffect(() => {
-        //     const getvalue = API.get("/notification/getvalue/?notiobjectId=" + id)
-        //     getvalue.then((res: { data: React.SetStateAction<never[]> }) => {
-        //         setValueNotiObject(res.data)
-        //     })
-        // }, [])
-        //console.log(valueNotiObject)
 
         values.forEach((item: NotiValue) => {
-            if (item.notiObjectId == id) {
+            if (item.notiObjectId == objectId) {
                 if (v1 == "") {
                     v1 = item.value
                 } else if (v2 == "") {
@@ -159,49 +144,8 @@ const NotiObjectViewAll: FC<{
         }
     }
 
-    function buffer_to_img(data: any) {
-        const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
-        return `data:image/png;base64,${base64String}`
-    }
-    function handleImg(e: any) {
-        if (e === null) {
-            return ""
-        }
-        else {
-            return buffer_to_img(e.data)
-        }
-    }
-
-    function showUser() {
-        // var user = USER.filter((el) => el.id == userId)
-        // var userStatus = user[0].isOnline
-        // //console.log(user)
-
-        // if (userStatus) {
-        //     return (
-        //         <Avatar src={user[0].avatarImg} size={"md"}>
-        //             <AvatarBadge boxSize="1em" bg="green.500" />
-        //         </Avatar>
-        //     )
-        // } else {
-        //     return (
-        //         <Avatar src={user[0].avatarImg} size={"md"}>
-        //             <AvatarBadge boxSize="1em" bg="gray" />
-        //         </Avatar>
-        //     )
-        // }
-        if (sender == null) {
-            return (
-                <Avatar src="./Logo_01.png" size={"sm"} />
-            )
-        } else {
-            return (
-                <Avatar src={handleImg(senderImg)} size={"sm"} />
-            )
-        }
-    }
     function read() {
-        API.post("/notification/readnotiobject/" + id)
+        API.post("/notification/readnotiobject/" + objectId)
     }
 
     return (
@@ -213,7 +157,8 @@ const NotiObjectViewAll: FC<{
             borderRadius="2xl"
             padding={2}
             onClick={() => {
-                read(), onClick()
+                { read() }
+                { onClick() }
             }}
         >
             <a href={url}>
@@ -223,19 +168,17 @@ const NotiObjectViewAll: FC<{
                             <Center paddingRight={3} paddingLeft={4}>
                                 {showStatus()}
                             </Center>
-                            <Center>{showUser()}</Center>
+                            <Center>{showUser(sender, userId, module)}</Center>
                             <Stack direction={"row"} spacing={5} padding={5}>
                                 {showDescription()}
-                                {/* <Box as="button"
-                                    shadow={"lg"}
-                                    borderRadius="1xl"
-                                    bg="#D6D6D6"> */}
-                                <Button shadow={"lg"}
-                                    size='xs'
-                                    padding={1}
-                                    bg="#E3E3E3">
-                                    {module}
-                                </Button>
+                                <Center>
+                                    <Button shadow={"lg"}
+                                        size='xs'
+                                        padding={1}
+                                        bg="#E3E3E3">
+                                        {module}
+                                    </Button>
+                                </Center>
                             </Stack>
                         </Stack>
                     </Box>

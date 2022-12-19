@@ -50,6 +50,12 @@ export type Image1 = {
   imageOf: Restaurant
 }
 
+export type Opening = {
+  open_now: boolean
+  periods: Array<object>
+  weekday: Array<string>
+}
+
 export type Open = {
   openId: number
   resId: string
