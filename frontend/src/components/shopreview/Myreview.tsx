@@ -48,7 +48,7 @@ import EditReview from "./EditReview"
 import RatingStar from "./RatingStar"
 import ShopName from "./ShopName"
 
-const Myreview: FC<{ reviewId: String; shopId: number; shopName: String; image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
+const Myreview: FC<{ shopId: number; reviewId: String; shopName: String; image: String; name: String; ment: String; date: String; am_like: String; ratting: String }> = ({
     shopId,
     reviewId,
     image,
@@ -214,7 +214,7 @@ const Myreview: FC<{ reviewId: String; shopId: number; shopName: String; image: 
                         { }
                     </Box>
                     <ShopName name={shopName} />
-                    <AmountLike am_like={am_like} />
+                    <AmountLike am_like={am_like} reviewId={reviewId} />
                     {/* ดีงข้อมูลมาจาก database */}
                     <AmountRate ratting={ratting} />
                     {/* ดีงข้อมูลมาจาก database */}
@@ -222,7 +222,7 @@ const Myreview: FC<{ reviewId: String; shopId: number; shopName: String; image: 
 
             </Box>
 
-            <EditReview shopId={shopId} isOpen={isModalOpen} onClose={onModalClose} reviewId={reviewId} />
+            <EditReview shopId={shopId} reviewId={reviewId} isOpen={isModalOpen} onClose={onModalClose} />
         </>
     )
 }

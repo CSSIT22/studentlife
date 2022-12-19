@@ -47,13 +47,14 @@ const review = () => {
             </Flex>
             {detail.map((item: any, index: any) => {
                 return (
-                    <ReviewCards key={index} image={item.files} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item._count.likes} />
+                    <ReviewCards reviewId={item.reviewId} key={index} image={item.files} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item._count.likes} />
                 )
             })}
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {com.map((item: any, index: any) => {
                     return (
                         <CommentReview
+                            reviewId={""}
                             key={index}
                             commentId={item.commentId}
                             image={""}
@@ -66,7 +67,7 @@ const review = () => {
             <Container mt={5} mb={20} textAlign={"center"}>
                 That's all~
             </Container>
-            <CommentBar />
+            {/* <CommentBar /> */}
             {/* {com.map((item: any, index: any) => {
                 console.log(item)
                 if (item !== null) {
@@ -75,9 +76,9 @@ const review = () => {
                     return <CommentBar key={index} fName={""} userIdRecieve={""} reviewId={""} userId={""} />
                 }
             })} */}
-            {/* {detail.map((item: any, index: any) => {
+            {detail.map((item: any, index: any) => {
                 return <CommentBar key={index} fName={user?.fName} userIdRecieve={item.reviewer.userId} reviewId={item.reviewId} userId={user?.userId} />
-            })} */}
+            })}
         </AppBody>
     )
 }

@@ -9,7 +9,7 @@ import EditComment from "./EditComment"
 import { authContext } from "src/context/AuthContext"
 import API from "src/function/API"
 
-const Comments: FC<{ commentId: number; image: String; name: String; ment: String; date: String; am_like: String; }> = ({ commentId, image, name, ment, date, am_like, }) => {
+const Comments: FC<{ reviewId: String; commentId: number; image: String; name: String; ment: String; date: String; am_like: String; }> = ({ commentId, image, name, ment, date, am_like, reviewId, }) => {
 
     const [active, setActive] = useState(false)
     const handleClick = () => {
@@ -139,10 +139,10 @@ const Comments: FC<{ commentId: number; image: String; name: String; ment: Strin
                 {/* <Spacer width={"100%"} as="button"></Spacer> */}
             </Flex>
             {/* ดีงข้อมูลมาจาก database */}
-            <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
-                <AmountLike am_like={am_like} />
-                {/* ดีงข้อมูลมาจาก database */}
-            </Flex>
+            {/* <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
+                <AmountLike reviewId={reviewId} am_like={am_like} /> */}
+            {/* ดีงข้อมูลมาจาก database */}
+            {/* </Flex> */}
         </Box>
     )
 }

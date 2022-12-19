@@ -260,7 +260,6 @@ shopreviewRoutes.get("/getcountReview", getcountReview)
 // shopreviewRoutes.get("/shopdetails/shop/:id/getcounteachrate", getCountEachRate)
 shopreviewRoutes.get("/shopdetails/shop/:id/getcountrevieweachrate", getCountReviewEachRate)
 shopreviewRoutes.get("/shopdetails/restaurant/:id/getcountrevieweachraterestaurant", getCountReviewEachRateRestaurant)
-shopreviewRoutes.post("/:id", insertlikeReview)
 
 shopreviewRoutes.get("/getrestaurant", (req, res) => {
     res.send(restaurants)
@@ -282,5 +281,6 @@ shopreviewRoutes.post("/postcomment", postcomment)
 shopreviewRoutes.delete("/deletecomment", deletecomment)
 
 shopreviewRoutes.delete("/deletereview", deletereview)
+shopreviewRoutes.post("/:id", insertlikeReview)
 
 export default shopreviewRoutes

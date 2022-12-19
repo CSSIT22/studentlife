@@ -5,7 +5,7 @@ import AmountRate from "./AmountRate"
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 
-const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String; amo_rate: String; amo_like: String; }> = ({ image, name, ment, date, amo_rate, amo_like, }) => {
+const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String; amo_rate: String; amo_like: String; reviewId: String; }> = ({ image, name, ment, date, amo_rate, amo_like, reviewId }) => {
     const [show, setShow] = React.useState(false)
     const handleToggle = () => setShow(!show)
 
@@ -48,7 +48,7 @@ const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String
                         src="https://toppng.com/public/uploads/thumbnail/white-location-icon-png-location-logo-png-white-11562856661b4wsud8br0.png"
                     ></img>
                 </Box>
-                <AmountLike am_like={amo_like} />
+                <AmountLike am_like={amo_like} reviewId={reviewId} />
                 {/* ดีงข้อมูลมาจาก database */}
                 <AmountRate ratting={amo_rate} />
                 {/* ดีงข้อมูลมาจาก database */}

@@ -2,7 +2,7 @@ import { Stack, Avatar, Flex, Spacer, Box, Text } from '@chakra-ui/react';
 import React, { FC } from 'react'
 import AmountLike from './AmountLike';
 
-const CommentReview: FC<{ commentId: number; image: String; name: String; ment: String; date: String; am_like: String; }> = ({ commentId, image, name, ment, date, am_like, }) => {
+const CommentReview: FC<{ commentId: number; image: String; name: String; ment: String; date: String; am_like: String; reviewId: String; }> = ({ commentId, image, name, ment, date, am_like, reviewId, }) => {
 
     function onComment() {
         console.log(commentId)
@@ -31,9 +31,9 @@ const CommentReview: FC<{ commentId: number; image: String; name: String; ment: 
                     </Box>
                     {/* <Spacer width={"100%"} as="button"></Spacer> */}
                 </Flex>
-                <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
-                    <AmountLike am_like={am_like} />
-                </Flex>
+                {/* <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
+                    <AmountLike reviewId={reviewId} am_like={am_like} />
+                </Flex> */}
             </Box >
         </>
     )

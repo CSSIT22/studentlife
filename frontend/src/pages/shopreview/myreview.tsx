@@ -109,7 +109,7 @@ const myreview = () => {
                     if (item.commentBy.userId === user?.userId) {
                         return (
                             <b onClick={() => Navigate(item.reviewId)}>
-                                <Comments commentId={item.commentId} image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={String(item.commentedAt).substring(0, 10)} am_like={item._count.userLike} />
+                                <Comments reviewId={""} commentId={item.commentId} image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={String(item.commentedAt).substring(0, 10)} am_like={item._count.userLike} />
                             </b>
                         )
                     }

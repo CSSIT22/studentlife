@@ -297,9 +297,9 @@ const restId = () => {
                 {review.map((item: any, index: any) => {
                     if (param.resId === item.resId) {
                         if (rates.length === 0) {
-                            return (<b key={index} onClick={() => Navigate(item.reviewId)}><ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} /></b>)
+                            return (<b key={index} onClick={() => Navigate(item.reviewId)}><ReviewDetail reviewId={""} key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} /></b>)
                         } else if (rates.includes(String(item.rating))) {
-                            return (<b key={index} onClick={() => Navigate(item.reviewId)}><ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} /></b>)
+                            return (<b key={index} onClick={() => Navigate(item.reviewId)}><ReviewDetail reviewId={""} key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} /></b>)
                         }
                     }
                 })}
