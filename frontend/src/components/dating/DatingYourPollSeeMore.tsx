@@ -64,7 +64,6 @@ const DatingYourPollSeeMore: FC<{
         return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + chooseDate.getFullYear()
     }
 
-    console.log(pollInfo.pollAppointAt)
     const dateTime = new Date(pollInfo.pollAppointAt)
     const rawDateTime = delHours(dateTime)
     const date = handlePollDate(dateTime.toLocaleString())

@@ -115,7 +115,6 @@ const YourActivityPoll = () => {
             API.get("/dating/youractivitypoll/getYourPolls").then((data) => {
                 setPollS(data.data)
                 const x = data.data
-                console.log(data.data)
                 setPoll(x.slice(0, 20))
             }).catch(on).finally(() => setIsloading(false))
         }

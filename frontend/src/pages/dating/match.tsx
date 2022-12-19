@@ -110,7 +110,6 @@ const DatingMatch = () => {
                     })
             })
             API.get("/dating/matches/getMatches").then((data) => {
-                console.log(data.data)
                 setPoll(data.data)
             }).catch(() => setIsError(true)).finally(() => setIsLoading(false))
         }
@@ -152,7 +151,6 @@ const DatingMatch = () => {
         }[]
     >([])
 
-    console.log(poll);
 
 
     return (

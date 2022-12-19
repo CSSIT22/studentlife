@@ -228,7 +228,6 @@ const CreateActivityPoll = () => {
         const dateTime =
             // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
             date + "T" + time + ":00.000+0700"
-        console.log(dateTime)
         return dateTime
     }
 
@@ -238,7 +237,6 @@ const CreateActivityPoll = () => {
         const dateTime =
             // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
             date + "T" + time + ":00.000Z"
-        console.log(dateTime)
         return dateTime
     }
 
@@ -284,7 +282,6 @@ const CreateActivityPoll = () => {
             // handleChat(header)
             setIsLoading(true)
             // handleChat(header)
-            console.log(handleDateTime())
             API.post<PollDetail | UserInterests>(`/dating/create/setPoll?name=${header}`, {
                 pollName: header,
                 pollPlace: location,
@@ -322,7 +319,6 @@ const CreateActivityPoll = () => {
     //     API.post<{ name: string }>(`/chat/createGroup?name=${name}`)
     // }
 
-    console.log("Date :" + date)
     return (
         <DatingAppBody>
             {isLoading || isError ? <></> : <motion.div

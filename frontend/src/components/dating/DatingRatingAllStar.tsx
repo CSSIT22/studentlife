@@ -69,7 +69,6 @@ const DatingRatingAllStar: FC<{
         }
         // console.log(rateFor + ": " + value)
         if (value != 0) {
-            console.log(defaultFill)
             // if (defaultFill === 0) {
             //     console.log("POST")
             //     API.post<Rating>("/dating/rating/setRating", { anotherUserId: rateFor, score: value })
