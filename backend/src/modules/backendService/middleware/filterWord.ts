@@ -22,7 +22,7 @@ const replaceBadWords = (obj: any, badWords: Array<string>): any => {
     for (let prop in obj) {
         if (typeof obj[prop] === "string") {
             badWords.forEach((word) => {
-                obj[prop] = obj[prop].replace(word, "*".repeat(word.length))
+                obj[prop] = obj[prop].toLowerCase().replace(word, "*".repeat(word.length))
             })
         } else if (typeof obj[prop] === "object") {
             obj[prop] = replaceBadWords(obj[prop], badWords)
