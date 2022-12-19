@@ -1,6 +1,5 @@
-import { Button, Center, Circle, useBreakpointValue } from "@chakra-ui/react"
+import { Button, Center, useBreakpointValue } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
-import React from "react"
 import { BsPencil } from "react-icons/bs"
 import { motion } from "framer-motion"
 

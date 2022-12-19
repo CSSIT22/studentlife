@@ -92,16 +92,16 @@ const FavoriteContent: FC<{
                         {/* </Show> */}
 
                         <Box width={"60%"} color={"black"} pl={"5"}>
-                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                            <Text fontSize={{ base: "small", lg: "lg" }}>
                                 <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                             </Text>
-                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                            <Text fontSize={{ base: "small", lg: "lg" }}>
                                 <span style={{ fontWeight: "bold" }}>Open:</span> {openTime}
                             </Text>
-                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                            <Text fontSize={{ base: "small", lg: "lg" }}>
                                 <span style={{ fontWeight: "bold" }}>Phone:</span> {phone}
                             </Text>
-                            <Text fontSize={{ base: "sm", lg: "lg" }}>
+                            <Text fontSize={{ base: "small", lg: "lg" }}>
                                 <span style={{ fontWeight: "bold" }}>Website:</span> <a href={website}>{resName}</a>
                             </Text>
                         </Box>

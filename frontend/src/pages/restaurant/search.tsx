@@ -1,6 +1,6 @@
 import { Open, Restaurant2 } from "@apiType/restaurant"
 import { Box, Button, Flex, Grid, GridItem, Heading, Input, Menu, MenuButton, MenuItem, MenuList, useBoolean } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import FavoriteContent from "src/components/restaurant/FavoriteContent"
 import API from "src/function/API"
@@ -14,19 +14,61 @@ const search = () => {
     const location = useLocation()
     // const params = useParams()
     const [search, setsearch] = useState<Restaurant2[]>([])
+    const [page, setPage] = useState(1)
     const [open, setopen] = useState<Open>();
     const [isError, { on }] = useBoolean()
     const [isLoading, { off }] = useBoolean(true)
     const [radius, setradius] = useState(500);
+    const [isAll, setIsAll] = useState(false);
 
     const selectRadius = (radius: number) => {
         setradius(radius)
     }
-    useEffect(() => {
-        API.get("/restaurant/search?name=" + new URLSearchParams(location.search).get("name")).then((item) => setsearch(item.data))
+
+    // console.log('rerender!')
+
+    // useEffect(() => {
+
+    // }, []);
+
+    const fetchRestaurant = async () => {
+        if (isAll) return;
+        return API.get("/restaurant/search?name=" + new URLSearchParams(location.search).get("name") + "&page=" + page).then((item) => {
+            if (item.data.length != 0) {
+                setsearch([...search, ...item.data])
+            } else {
+                setIsAll(true)
+                window.removeEventListener('scroll', onScroll)
+            }
+        })
             .catch((err) => on())
             .finally(off)
-    }, [new URLSearchParams(location.search).get("name")])
+    }
+    const isFetching = useRef(false);
+
+    useEffect(() => {
+        console.log('name reredered!')
+        fetchRestaurant().then(() => isFetching.current = false)
+    }, [new URLSearchParams(location.search).get("name"), page])
+
+    function onScroll(event: Event) {
+        console.log("scroll", window.scrollY, document.body.scrollHeight - window.innerHeight);
+
+        if (window.scrollY > document.body.scrollHeight - window.innerHeight - 80) {
+            if (!isFetching.current) {
+                console.log("Fetched");
+                setPage(page => page + 1)
+                isFetching.current = true;
+            }
+        }
+    }
+
+    useEffect(() => {
+        const target = window;
+        if (!target) return () => { };
+        target.addEventListener('scroll', onScroll);
+        return () => target.removeEventListener('scroll', onScroll);
+    }, []);
 
     if (isLoading)
         return (
@@ -61,13 +103,17 @@ const search = () => {
         </AppBody>
     )
 
+
+
     return (
         <AppBody
+            id="container"
             secondarynav={[
                 { name: "Like or Nope", to: "/restaurant" },
                 { name: "My Favorite", to: "/restaurant/favorite" },
                 { name: "My History", to: "/restaurant/history" },
             ]}
+            onScroll={(e) => console.log("scroll")}
         >
             <Searchbar selectRadius={selectRadius} />
 
@@ -95,7 +141,7 @@ const search = () => {
                     )
                 })}
             </Grid>
-        </AppBody>
+        </AppBody >
     )
 }
 
