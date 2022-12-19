@@ -17,7 +17,6 @@ import NotiListViewAll from "../../components/notification/viewAll/NotiListViewA
 import NotiObjectViewAll from "../../components/notification/viewAll/NotiObjectViewAll"
 import AppBody from "../../components/share/app/AppBody"
 import { showDescription } from "../../components/notification/functions/replaceValue"
-import ShowUser from "../../components/transaction/TransactionShowUser"
 import { showUser } from "../../components/notification/functions/showUser"
 
 
