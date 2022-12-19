@@ -80,8 +80,6 @@ const search = () => {
                         <GridItem>
                             {/* <Link to={`/restaurant/detail?resId=${e1.placeId}&id=0`}> */}
 
-
-
                             <Searchcontent
                                 resName={e1.name}
                                 phone={e1.phone}

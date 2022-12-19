@@ -13,6 +13,7 @@ import addFavorite from "./routes/addFavorite"
 import { Request, Response } from "express"
 import addHistory from "./routes/addHistory"
 import toChat from "./routes/toChat"
+import searchDetail from "./routes/searchDetail"
 
 const restaurantRoutes = express()
 restaurantRoutes.use(express.json())
@@ -222,6 +223,7 @@ restaurantRoutes.get("/history", showHistory)
 restaurantRoutes.get("/likeOrNope", verifyUser, showRestaurant)
 restaurantRoutes.put("/likeOrNope", addHistory)
 restaurantRoutes.post("/likeOrNope", likedRestaurant)
+restaurantRoutes.post("/search", searchDetail)
 restaurantRoutes.get("/detail", showDetail)
 restaurantRoutes.post("/detail", addFavorite)
 restaurantRoutes.get("/review", showReview)
