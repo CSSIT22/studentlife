@@ -16,36 +16,46 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 import LList from "src/components/shortlink/LList"
 import API from "src/function/API"
 
 const history = () => {
-    //
-
     const [linkdata, setlinkdata] = useState<any>()
 
     async function fetch() {
         const res = await API.get(`/shortlink/getlink`)
+        console.log(res)
         setlinkdata([...res.data.link])
     }
 
+    const didFetchRef = useRef(false)
     useEffect(() => {
+        if (didFetchRef.current) return
         fetch()
+
+        return () => {
+            didFetchRef.current = true;
+        }
     }, [])
 
     console.log(linkdata)
     // ---------------------------------
-    const navigate = useNavigate()
-    const shortlink = () => {
-        navigate("/link/shortlink")
+    const handleDelete = async (shortenLink: string, slId: string) => {
+        try {
+            await API.post("/shortlink/deletelink", { slId })
+            setlinkdata(linkdata.filter((item: { shortenLink: string }) => item.shortenLink !== shortenLink))
+
+        } catch (err) {
+
+        }
     }
+
     return (
         <AppBody>
             <Center>
-                {" "}
                 <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
                     <Box>
                         <Heading
@@ -73,8 +83,8 @@ const history = () => {
 
                                     <Box w="400px" h="430px" overflowWrap={'normal'} overflow="scroll">
                                         <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                                            {linkdata && linkdata.map((link: { shortenLink: string }, index: any) =>
-                                                (<LList key={index} shortenLink={link.shortenLink} />))}
+                                            {linkdata && linkdata.map((link: { shortenLink: string, slId: string }, index: any) =>
+                                                (<LList key={index} shortenLink={link.shortenLink} slId={link.slId} handleSelect={handleDelete} />))}
                                         </Flex>
                                     </Box>
                                 </HStack>

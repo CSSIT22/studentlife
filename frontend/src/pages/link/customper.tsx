@@ -1,5 +1,5 @@
 import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack, Text, useToast, Editable, HStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Input } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
@@ -16,22 +16,12 @@ import {
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
-import SearchUserList from "src/components/shortlink/SearchUserList"
+
+
+const SearchUserList = React.lazy(() => import("src/components/shortlink/SearchUserList"))
 
 const customize = () => {
     const navigate = useNavigate()
-    const password = () => {
-        navigate("/link/password")
-    }
-    const history = () => {
-        navigate("/link/history")
-    }
-    const permission = () => {
-        navigate("/link/permission")
-    }
-    const complete = () => {
-        navigate("/link/complete")
-    }
     const toast = useToast()
     // ---------------------------
     const [shortUrlData, setShortUrlData] = useState(
@@ -42,7 +32,9 @@ const customize = () => {
             confirmPassword: ""
         }
     );
+
     const [shortedUrl, setShortedUrl] = useState("");
+    const [permission, setPermission] = useState<any>([]);
     // const [custom, setcustom] = useState("");
     // const [word, setword] = useState("");
     // const [link, setLink] = useState("");
@@ -76,7 +68,36 @@ const customize = () => {
         setShortedUrl(response.data.result.shortenLink)
     }
 
+    const addNewPermession = useCallback((props: {
+        id: string;
+        userName: string;
+        lastName: string;
+    }) => {
+        if (!!(permission.find((sUser: { id: string }) => props.id === (sUser.id)))) {
+            setPermission(permission.filter((item: { id: string }) => item.id !== props.id));
+        } else {
+            setPermission((prev: any) => [...prev, props])
+        }
+    }, [permission])
+
     // ---------------------------
+    const [userData, setUserData] = useState<any>()
+
+    const fetch = async () => {
+        const res = await API.get(`/shortlink/getUser`);
+        setUserData([...res.data.users]);
+    }
+
+    const didFetchRef = useRef(false)
+    useEffect(() => {
+        if (didFetchRef.current) return
+
+        fetch();
+
+        return () => {
+            didFetchRef.current = true;
+        }
+    }, [])
 
 
 
@@ -89,8 +110,7 @@ const customize = () => {
     return (
         <AppBody>
             <Center>
-                {" "}
-                <Box width={"80%"} height={shortUrlData.password.length > 0 ? "450px" : "400px"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
+                <Box width={"80%"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
                     <Box>
                         <Heading
                             width={"300px"}
@@ -108,39 +128,38 @@ const customize = () => {
                     </Box>
 
                     <VStack spacing={4} align="stretch" marginTop={"5%"}>
-                        <Box h="100px">
-                            <VStack gap="1%">
-                                <Box width={"100%"}>
-                                    <Center>
-                                        <Input
-                                            name="link"
-                                            placeholder="Link URL*:"
-                                            onChange={handleChange}
-                                            w={"75%"} height={"60px"}
-                                            border={"4px"} borderColor={"black"}
-                                            backgroundColor={"white"}
-                                            textColor="black" />
-                                    </Center>
-                                </Box>
-                                <Box width={"100%"}>
-                                    {/* custom word */}
-                                    {/* handle change */}
-                                    <Center>
-                                        <Input
-                                            name="word"
-                                            placeholder="Custom Word*:"
-                                            onChange={handleChange}
-                                            w={"75%"} height={"60px"}
-                                            border={"4px"} borderColor={"black"}
-                                            backgroundColor={"white"}
-                                            textColor="black" />
-                                    </Center>
-                                </Box>
-                               
-                                
-                            </VStack>
+                        <VStack gap="1%">
+                            <Box width={"100%"}>
+                                <Center>
+                                    <Input
+                                        name="link"
+                                        placeholder="Link URL*:"
+                                        onChange={handleChange}
+                                        w={"75%"} height={"60px"}
+                                        border={"4px"} borderColor={"black"}
+                                        backgroundColor={"white"}
+                                        textColor="black" />
+                                </Center>
+                            </Box>
+                            <Box width={"100%"}>
+                                {/* custom word */}
+                                {/* handle change */}
+                                <Center>
+                                    <Input
+                                        name="word"
+                                        placeholder="Custom Word*:"
+                                        onChange={handleChange}
+                                        w={"75%"} height={"60px"}
+                                        border={"4px"} borderColor={"black"}
+                                        backgroundColor={"white"}
+                                        textColor="black" />
+                                </Center>
+                            </Box>
 
-                            <VStack gap="1%">
+
+                        </VStack>
+
+                        <VStack gap="1%">
 
                             <Box h="70px" w={"100%"} marginTop={"2%"}>
                                 <Center>
@@ -153,100 +172,62 @@ const customize = () => {
                                 </Center>
                             </Box>
 
+                            {permission.length > 0 &&
+                                <HStack wrap="wrap" rowGap="12px" justifyContent="center">
+                                    {
+                                        permission.map((data: { id: string; userName: string; lastName: string }) => (
+                                            <Box style={{ backgroundColor: "gray" }} padding="2" borderRadius="full" key={data.id}>
+                                                <Text fontSize='xs'>
+                                                    {data.userName} {data.lastName}
+                                                </Text>
+                                            </Box>
+                                        ))
+                                    }
+                                </HStack>
+                            }
+
                             <Box>
                                 <Center>
                                     <Button bg={"orange.600"} w={"100%"} height={"60px"} onClick={onListOpen}>
-                                                <Text as={"b"}>Add people to access your link!</Text>
-                                            </Button>
-                                            <Modal onClose={onListClose} finalFocusRef={btnUse} isOpen={isListOpen}>
-                                                <ModalOverlay />
-                                                <ModalContent>
-                                                    <ModalHeader>Select user(s) to access your link!</ModalHeader>
-                                                    <ModalCloseButton />
-                                                    <ModalBody rounded="xl">
-                                                        <SearchUserList/>
-                                                    </ModalBody>
-                                                    <ModalFooter>
-                                                        <Button onClick={complete} bg={"green.400"}>
-                                                               Close
-                                                        </Button>
-                                                    </ModalFooter>
-                                                </ModalContent>
-                                            </Modal>
+                                        <Text as={"b"}>Add people to access your link!</Text>
+                                    </Button>
+                                    <Modal onClose={onListClose} finalFocusRef={btnUse} isOpen={isListOpen}>
+                                        <ModalOverlay />
+                                        <ModalContent>
+                                            <ModalHeader>Select user(s) to access your link!</ModalHeader>
+                                            <ModalCloseButton />
+                                            <ModalBody rounded="xl">
+                                                <React.Suspense fallback={<>Loading...</>} >
+                                                    <SearchUserList handleSelect={addNewPermession} selectedUser={permission} userData={userData} />
+                                                </React.Suspense>
+                                            </ModalBody>
+                                            <ModalFooter>
+                                                <Button onClick={onListClose} bg={"green.400"}>
+                                                    Close
+                                                </Button>
+                                            </ModalFooter>
+                                        </ModalContent>
+                                    </Modal>
                                 </Center>
                             </Box>
 
-                            </VStack>
-                           
-
-                        </Box>
-
-
+                            < Box h="70px" w={"100%"} marginTop={"2%"}>
+                                <Center>
+                                    {/* onClick={onOpen} */}
+                                    <Button colorScheme="green" w={"30%"} height={"60px"} onClick={generateLink} disabled={shortUrlData.link.length === 0}>
+                                        SAVE
+                                    </Button>
+                                </Center>
+                            </Box>
+                        </VStack>
                     </VStack>
                 </Box>
             </Center>
 
             {/*  */}
 
-            <Center>
-                {" "}
-                <Box width={"80%"} height={"200px"} background={"white"} borderRadius="20px" marginTop={"1%"}>
-                    <VStack spacing={4} align="stretch" marginTop={"5%"}>
-                        <Box h="70px">
-                            
-                            <Box width={"100%"}>
-                                <Center>
-                                    {/* onClick={onOpen} */}
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={generateLink} disabled={shortUrlData.link.length === 0}>
-                                        SAVE
-                                    </Button>
-                                </Center>
-                            </Box>
-                        </Box>
-                        <Box h="70px">
-                            <Center>
-                                <Popover>
-                                    <PopoverTrigger>
-                                        <Button colorScheme="orange" w={"50%"} height={"60px"}>
-                                            ADD-ON
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverCloseButton />
-                                        <PopoverHeader>
-                                            <Text as={"b"}>Select the Shortlink Add on!</Text>
-                                        </PopoverHeader>
-                                        <PopoverBody>
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={password} textColor="white">
-                                                Shortlink Password
-                                            </Button>
-                                            {/* <Button bg={"orange.600"} w={"100%"} mt={3} textColor="white"
-                                                onClick={() =>
-                                                    toast({
-                                                        title: "Add Unblock features!",
-                                                        description: "Unblock shortlink success",
-                                                        status: "success",
-                                                        duration: 3000,
-                                                        isClosable: true,
-                                                    })
 
-                                                }
-                                            >
-                                                Shortlink Unblock
-                                            </Button> */}
-                                            <Button bg={"orange.600"} w={"100%"} mt={3} onClick={permission} textColor="white">
-                                                Shortlink Permission
-                                            </Button>
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Popover>
-                            </Center>
-                        </Box>
-                    </VStack>
-                </Box>
-            </Center>
-        </AppBody>
+        </AppBody >
     )
 }
 export default customize

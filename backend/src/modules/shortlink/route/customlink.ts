@@ -3,23 +3,33 @@ import { customAlphabet } from "nanoid"
 const customlink = async(req : Request , res : Response)=>{
     const body = req.body
     const userId = req.user?.userId || ""
-    console.log(req.body.originalLink)
-    console.log(req.body.shortenLink)
-    
-    // console.log(req.body.shortenlink)
-    // console.log(req.user)
-
     try{
         const prisma = res.prisma
-        const result = await prisma.shortLink.create({
-            data:{
-                userId:userId,
-                originalLink:body.originalLink,
-                shortenLink:body.shortenLink
-            },
-        })
+        let result = {}
+        // check if password is send from client to server
+        // if password exists then create new row in database
+        if (body.password.length !== 0) {
+            result = await prisma.shortLink.create({
+                data: {
+                    userId: userId,
+                    originalLink: body.originalLink,
+                    shortenLink: body.shortenLink,
+                    password: body.password,
+                },
+            })
+            // else create new row in database without password column empty
+        } else {
+            result = await prisma.shortLink.create({
+                data: {
+                    userId: userId,
+                    originalLink: body.originalLink,
+                    shortenLink: body.shortenLink
+                },
+            })
+        }
+
         console.log(result)
-        res.status(200).json({result:result})
+        res.status(200).json({ result: result })
     }catch (err){
         console.log(err)
         res.status(500).json({message:"error" , err: err})

@@ -6,18 +6,21 @@ import { prisma } from "@prisma/client"
 import customlink from "./route/customlink"
 import getUserData from "./route/getUserData"
 import getlinkData from "./route/getlinkData"
-import savelink from "./route/funcsavelink"
+import checkpassword from "./route/checkpassword"
+import deletelink from "./route/deletelink"
 import funcsavelink from "./route/funcsavelink"
 
 const shortlinkRoutes = express()
 shortlinkRoutes.use(express.json())
 shortlinkRoutes.post("/generate", verifyUser, shortenlink)
 shortlinkRoutes.post("/custom", verifyUser, customlink)
-shortlinkRoutes.post("/funcsavelink", verifyUser, funcsavelink)
 shortlinkRoutes.get("/redirect", verifyUser, getRedirect)
+shortlinkRoutes.post("/checkpassword", checkpassword)
 shortlinkRoutes.get("/getUser", getUserData)
 shortlinkRoutes.get("/getlink", getlinkData)
+shortlinkRoutes.post("/deletelink", verifyUser, deletelink)
 
+shortlinkRoutes.get("/funcsavelink",funcsavelink )
 
 
 export default shortlinkRoutes

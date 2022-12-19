@@ -7,16 +7,26 @@ const getRedirect = async (req: Request, res: Response) => {
     console.log(req.query.shorten)
 
     // Query returns User or null
-    const getUser: ShortLink | null = await res.prisma.shortLink.findFirst({
-        //Select statement like a sql
-        where: {
-            shortenLink: (req.query.shorten as string) || "",
-        },
-    })
 
-    console.log(getUser)
+    try {
+        const getUser: ShortLink | null = await res.prisma.shortLink.findFirst({
+            //Select statement like a sql
+            where: {
+                shortenLink: (req.query.shorten as string) || "",
+            },
+        })
+    
+        console.log(getUser)
 
-    res.redirect(getUser?.originalLink || "") //getUser could be Null, thus we use or || ""  in case it is null.
+        if (getUser?.password) {
+            return res.redirect(`${process.env.SUCCESS_REDIRECT_URL}/link/enterpassword?shorten=${getUser.shortenLink}` || "") //getUser could be Null, thus we use or || ""  in case it is null.
+        }
+        return res.redirect(getUser?.originalLink || "")
+    } catch (err: any) {
+        console.log(err)
+        res.status(400).json({err: "error in getRedirect shortlink"})
+    }
+    
     
 }
 
