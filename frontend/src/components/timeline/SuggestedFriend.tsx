@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Center, Co
 import React from "react"
 import API from "src/function/API"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 export const SuggestedFriend = () => {
@@ -19,6 +19,16 @@ export const SuggestedFriend = () => {
     // console.log(sugg)
     // const suggValue = [...sugg.value()]
     // console.log(suggValue)
+    const [isFollow, setIsFollow] = useState<boolean>()
+    const [followerCount, setFollowerCount] = useState<number>(0)
+
+    async function handleClickFollow() {
+        if (isFollow) {
+            setIsFollow(!isFollow)
+        } else {
+            setIsFollow(!isFollow)
+        }
+    }
 
     return (
         sugg.map((suggFS: any, index: any) =>
@@ -26,7 +36,7 @@ export const SuggestedFriend = () => {
                 <Card align="center" minW="2xs" maxW="2xs" backgroundColor={"white"}>
                     <CardHeader>
                         <Grid justifyContent="center">
-                            <Avatar marginLeft={"50px"} size="xl" src={import.meta.env.VITE_APP_ORIGIN + "/user/profile/" + suggFS?.postOwner.userId} />
+                            <Avatar marginLeft={"30px"} size="xl" src={import.meta.env.VITE_APP_ORIGIN + "/user/profile/" + suggFS?.postOwner.userId} />
                             <Text fontSize={"small"}>{suggFS.postOwner.fName + " " + suggFS.postOwner.lName}</Text>
                         </Grid>
                     </CardHeader>
@@ -43,7 +53,9 @@ export const SuggestedFriend = () => {
                     </CardBody>
                     <CardFooter>
                         <Grid justifyContent="center" alignItems="center">
-                            <Button bgColor="orange.300" color="white">
+                            <Button bgColor="orange.300" color="white" onClick={() => {
+                                handleClickFollow()
+                            }}>
                                 Follow
                             </Button>
                         </Grid>
