@@ -24,10 +24,10 @@ const ShopAppBody = (props: any) => {
             name: "Your Coupons",
             to: "/shop/other/coupons"
         },
-        // {
-        //     name: "Recommended Items",
-        //     to: "/shop/recommendation"
-        // },
+        {
+            name: "Available Coupons",
+            to: "/shop/other/availCoupons"
+        },
         {
             name: "",
             to: "/shop/cart",
