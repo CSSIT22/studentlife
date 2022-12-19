@@ -8,7 +8,6 @@ function App() {
         <AppConfig>
             <BrowserRouter>
                 <AuthContextProvider>
-                    <h1>test5</h1>
                     <Routes>
                         {router.map((item) => (
                             <Route key={item.path} element={item.element} path={item.path} />
