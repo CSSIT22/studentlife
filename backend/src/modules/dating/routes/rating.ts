@@ -161,7 +161,6 @@ ratingRoutes.put("/deleteRating", verifyUser, async (req: Request, res: Response
     try {
         const userId = req.user?.userId
         const anotherUserId: string = req.body.anotherUserId
-        console.log("RATE " + userId + " " + anotherUserId)
         if (userId != undefined) {
             await prisma.user_Rating.delete({
                 where: {

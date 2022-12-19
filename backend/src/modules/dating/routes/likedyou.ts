@@ -99,7 +99,6 @@ likedYouRoutes.get("/getHeartHistory", verifyUser, async (req: Request, res: Res
             },
         })
 
-        console.log(heartHistoryDB)
         return res.send(heartHistoryDB)
     } catch (err) {
         return res.status(404).send("Heart history not found")
