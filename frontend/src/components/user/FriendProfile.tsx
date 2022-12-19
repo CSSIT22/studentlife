@@ -400,7 +400,7 @@ export default function SimpleThreeColumns() {
                                         <ModalHeader>Follower</ModalHeader>
                                         <ModalCloseButton />
                                         <ModalBody rounded="xl">
-                                            <FriendList />
+                                            <FriendList FriendList/>
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button onClick={onFriendListClose} display={{ base: "none", md: "block" }}>
@@ -425,7 +425,7 @@ export default function SimpleThreeColumns() {
                                         <ModalHeader>Following</ModalHeader>
                                         <ModalCloseButton />
                                         <ModalBody rounded="xl">
-                                            <FriendList />
+                                            <FriendList FriendList />
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button onClick={onFriendListClose} display={{ base: "none", md: "block" }}>
