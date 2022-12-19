@@ -63,6 +63,10 @@ const customize = () => {
 
         // password from both input tag are the same then navigate to /link/history
         if (shortUrlData.password === shortUrlData.confirmPassword) {
+            // send data to database
+            const response = await API.post("/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password })
+            setShortedUrl(response.data.result.shortenLink) // set shortenlink generated from server
+
             navigate("/link/history")
         } else {
             // if password doesn't equal to each other then render a toast (toast = popup)
@@ -73,10 +77,6 @@ const customize = () => {
                 isClosable: true,
             })
         }
-
-        // send data to database
-        const response = await API.post("/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password })
-        setShortedUrl(response.data.result.shortenLink) // set shortenlink generated from server
     }
 
     const { isOpen, onOpen, onClose } = useDisclosure()

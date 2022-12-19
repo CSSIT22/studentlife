@@ -25,8 +25,10 @@ const EnterPassword = () => {
                 <Flex width="40vw" height="40vh" border="2px solid black" justifyContent={"center"} alignItems={"center"} >
                     <Box>
                         <label>Enter Password: <br /></label>
-                        <Input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <Button onClick={handleSubmit}>Submit</Button>
+                        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} border={"4px"} borderColor={"black"}
+                            backgroundColor={"white"}
+                            textColor="black" />
+                        <Button onClick={handleSubmit} bg={"#E68E5C"} marginTop="1rem">Submit</Button>
                     </Box>
                 </Flex>
             </Flex>
