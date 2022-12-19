@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - staging
-      # - infra-*
-    paths:
-      - "frontend/**"
+      - infra-*
+    # paths:
+    # - "frontend/**"
 
 jobs:
   frontend-build:
@@ -53,4 +53,4 @@ jobs:
           apk add openssh-client sshpass lftp
       - name: 🖨️ Upload artifacts to server
         run: |
-          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /home/pongsapuk_1619255971/staging/web; bye"
+          lftp -e "set sftp:auto-confirm yes; open $REMOTE_SFTP_LOGIN; mirror -X .* -X .*/ --reverse --delete ./frontend-build-artifact /home/sharegun34/staging/web; bye"
