@@ -1,4 +1,4 @@
-import { Box, Image, Text, Stack, Center, useMediaQuery, StackItem } from "@chakra-ui/react"
+import { Image, Text, Stack, Show, Hide } from "@chakra-ui/react"
 import React, { FC } from "react"
 
 const OrderList: FC<{
@@ -8,11 +8,51 @@ const OrderList: FC<{
     price: string
     quantity: number
 }> = ({ imageUrl, imageAlt, product, price, quantity }) => {
-    const [isSmallerThan768] = useMediaQuery("(max-width: 1000px)")
-
     return (
         <div>
-            <Box p={4} display={{ md: "flex" }} bg="#fff2e5" borderRadius="lg">
+            <Show above={"md"}>
+                <Stack direction={"row"} bg={"#fff2e5"} borderRadius="lg" p={4} justifyContent="space-between" alignItems="center">
+                    <Image src={imageUrl} alt={imageAlt} borderRadius="lg" shadow={"lg"} boxSize="100px" />
+
+                    <Stack w={"100%"} direction={"row"} justifyContent="start">
+                        <Stack w={"50%"}>
+                            <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"} color="black">
+                                Product: {product}
+                            </Text>
+                        </Stack>
+                        <Stack w={"20%"}>
+                            <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"} color="black">
+                                Quantity: {quantity}
+                            </Text>
+                        </Stack>
+                        <Stack w={"30%"}>
+                            <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"} color="black">
+                                Price: {price}
+                            </Text>
+                        </Stack>
+                    </Stack>
+                </Stack>
+            </Show>
+            <Hide above="md">
+                <Stack direction={"row"} bg={"#fff2e5"} borderRadius="lg" p={4} justifyContent="space-between" alignItems="center">
+                    <Image src={imageUrl} alt={imageAlt} borderRadius="lg" shadow={"lg"} boxSize="100px" />
+
+                    <Stack w={"100%"} direction={"column"} justifyContent="start">
+                        <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"} color="black">
+                            Product: {product}
+                        </Text>
+
+                        <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"} color="black">
+                            Quantity: {quantity}
+                        </Text>
+
+                        <Text fontSize={{ base: "md", lg: "lg" }} fontWeight={"bold"} color="black">
+                            Price: {price}
+                        </Text>
+                    </Stack>
+                </Stack>
+            </Hide>
+            {/* <Box p={4} display={{ md: "flex" }} bg="#fff2e5" borderRadius="lg">
                 <Center>
                     <Box flexShrink={0}>
                         <Image src={imageUrl} alt={imageAlt} borderRadius="lg" shadow={"lg"} boxSize="100px" />
@@ -47,7 +87,7 @@ const OrderList: FC<{
 
 
                 </Stack>
-            </Box>
+            </Box> */}
         </div>
     )
 }
