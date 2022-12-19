@@ -29,7 +29,7 @@ jobs:
       - name: 🆙 Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: frontend-build-artifact
+          name: p-frontend-build-artifact
           path: ./frontend/dist
 
   upload:
