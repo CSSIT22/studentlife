@@ -21,7 +21,7 @@ const EnterPassword = () => {
 
     return (
         <>
-            <Flex width={"100%"} height={"100vh"} justifyContent={"center"} alignItems={"center"}>
+          <Box width={{ base: '100%', sm: '70%', md: '50%', lg: '30%', xl: '30%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} > <Flex width={"100%"} height={"100vh"} justifyContent={"center"} alignItems={"center"}>
                 <Flex width="40vw" height="40vh" border="2px solid black" justifyContent={"center"} alignItems={"center"} >
                     <Box>
                         <label>Enter Password: <br /></label>
@@ -32,6 +32,8 @@ const EnterPassword = () => {
                     </Box>
                 </Flex>
             </Flex>
+            </Box>   
+           
         </>
     )
 }

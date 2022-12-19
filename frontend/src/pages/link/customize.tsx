@@ -95,10 +95,10 @@ const customize = () => {
             <Box>
                 <Center>
                     {" "}
-                    <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
+                    <Box width={{ base: '100%', sm: '70%', md: '50%', lg: '30%', xl: '30%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
                         <Box>
                             <Heading
-                                width={"300px"}
+                                width={{base:'300px', sm: '70%', md: '70%', lg: '70%', xl: '70%'}}
                                 height={"50px"}
                                 marginLeft={"10%"}
                                 marginTop={"-5"}

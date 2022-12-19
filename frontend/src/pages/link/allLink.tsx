@@ -3,6 +3,7 @@ import { Container, Center, Box, Text } from "@chakra-ui/react"
 const allLink = () => {
     return (
         <AppBody>
+            
             <Container borderWidth="1px" padding="10" borderRadius="xl" background={"white"} gap={2}>
                 <Box
                     width={"200px"}

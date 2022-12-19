@@ -16,6 +16,8 @@ import {
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
+import { motion } from "framer-motion"
+import { extendTheme } from '@chakra-ui/react'
 
 
 const SearchUserList = React.lazy(() => import("src/components/shortlink/SearchUserList"))
@@ -56,7 +58,7 @@ const customize = () => {
             //TODO: Check if password and coonfirm password is same
             const response = await API.post("/shortlink/custom", { originalLink: shortUrlData.link, shortenLink: shortUrlData.word, password: shortUrlData.password, userAccessIds: permissionUser.map((i: any) => i.id) })
             setShortedUrl(response.data.result.shortenLink)
-            
+
             navigate("/link/history")
         } else {
             return toast({
@@ -101,28 +103,32 @@ const customize = () => {
     }, [])
 
 
-
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<any>()
 
     const { isOpen: isListOpen, onOpen: onListOpen, onClose: onListClose } = useDisclosure()
     const btnUse = React.useRef(null)
 
+
+
     return (
         <AppBody>
             <Center>
-                <Box width={"80%"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
+                <Box width={"80%"} borderColor={"white"} border={"2px"}
+                    background={"linear-gradient(117deg, rgba(255,234,0,1) 0%, rgba(255,152,0,1) 99%)"}
+                    borderRadius="20px" marginTop={"10%"} textColor="white">
                     <Box>
                         <Heading
-                            width={"300px"}
-                            height={"50px"}
+                            width={{ base: "200px", md: "300px" }}
+                            height={{ base: "50px", md: "60px" }}
                             marginLeft={"10%"}
                             marginTop={"-5"}
-                            background={"orange.200"}
+                            background={"linear-gradient(180deg, rgba(255,130,0,1) 0%, rgba(255,177,0,1) 100%)"}
                             borderRadius={"10px"}
-                            fontSize={"xl"}
+                            fontSize={{ base: "sm", md: "xl" }}
                             border={"3px solid white"}
                             textAlign={"center"}
+                            alignSelf={"center"}
                         >
                             SHORTLINK  CUSTOMIZE (PERMISSION)
                         </Heading>
@@ -136,8 +142,8 @@ const customize = () => {
                                         name="link"
                                         placeholder="Link URL*:"
                                         onChange={handleChange}
-                                        w={"75%"} height={"60px"}
-                                        border={"4px"} borderColor={"black"}
+                                        w={"75%"} height={{ base: "40px", md: "60px" }}
+                                        border={{ base: "2px", md: "4px" }} borderColor={"black"}
                                         backgroundColor={"white"}
                                         textColor="black" />
                                 </Center>
@@ -150,8 +156,8 @@ const customize = () => {
                                         name="word"
                                         placeholder="Custom Word*:"
                                         onChange={handleChange}
-                                        w={"75%"} height={"60px"}
-                                        border={"4px"} borderColor={"black"}
+                                        w={"75%"} height={{ base: "40px", md: "60px" }}
+                                        border={{ base: "2px", md: "4px" }} borderColor={"black"}
                                         backgroundColor={"white"}
                                         textColor="black" />
                                 </Center>
@@ -164,7 +170,8 @@ const customize = () => {
 
                             <Box h="70px" w={"100%"} marginTop={"2%"}>
                                 <Center>
-                                    <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
+                                    <Editable defaultValue='Take some chakra' w={"75%"} height={{ base: "45px", md: "60px" }}
+                                        border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
                                         <a>
                                             {shortUrlData.word &&
                                                 "https://ss.modlifes.me/" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
@@ -177,8 +184,8 @@ const customize = () => {
                                 <HStack wrap="wrap" rowGap="12px" justifyContent="center">
                                     {
                                         permissionUser.map((data: { id: string; userName: string; lastName: string }) => (
-                                            <Box style={{ backgroundColor: "gray" }} padding="2" borderRadius="full" key={data.id}>
-                                                <Text fontSize='xs'>
+                                            <Box style={{ backgroundColor: "#ffe492" ,color:"black",}} padding="2" borderRadius="full" key={data.id}>
+                                                <Text fontSize='xs' fontWeight={"bold"}>
                                                     {data.userName} {data.lastName}
                                                 </Text>
                                             </Box>
@@ -215,9 +222,12 @@ const customize = () => {
                             < Box h="70px" w={"100%"} marginTop={"2%"}>
                                 <Center>
                                     {/* onClick={onOpen} */}
-                                    <Button colorScheme="green" w={"30%"} height={"60px"} onClick={generateLink} disabled={shortUrlData.link.length === 0}>
-                                        SAVE
-                                    </Button>
+                                    <motion.div whileHover={{ scale: 0.9 }}
+                                        onHoverStart={e => { }}
+                                        onHoverEnd={e => { }}>
+                                        <Button colorScheme="green" w={"5rem"} height={"60px"} onClick={generateLink} disabled={shortUrlData.link.length === 0}>
+                                            SAVE
+                                        </Button></motion.div>
                                 </Center>
                             </Box>
                         </VStack>
