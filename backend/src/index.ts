@@ -184,7 +184,6 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
         deleteKey(socket.id)
     })
 
-    // console.log(socket.handshake.headers)
     console.log("Hello")
 })
 
