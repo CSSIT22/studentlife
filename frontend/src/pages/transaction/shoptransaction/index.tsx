@@ -70,7 +70,7 @@ const shopTransaction = () => {
                 <Text fontSize="xl" fontWeight={"bold"}>
                     Order List
                 </Text>
-                <Stack direction={{ base: "row", lg: "column" }}>{generateConfirmCartProducts(orderDetails)}</Stack>
+                <Stack direction={"column"}>{generateConfirmCartProducts(orderDetails)}</Stack>
             </Container>
 
             <PaymentMethod />
