@@ -30,8 +30,8 @@ const getAllUserCoupons = async (req: Request, res: Response) => {
                     couponDetails.push(userCoupons[i])
                 }
             }
-        }
-            return res.send(userCoupons)
+        } 
+            return res.send(couponDetails)
         }
         return res.status(404).send("User not found!")
     } catch (error) {
