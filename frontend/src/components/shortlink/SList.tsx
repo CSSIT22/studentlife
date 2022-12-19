@@ -2,12 +2,11 @@ import { Flex, HStack, Box, Text, Button, useBoolean } from "@chakra-ui/react"
 import React, { FC, useContext } from "react"
 import { authContext } from "src/context/AuthContext"
 
-const LList: FC<{ shortenLink: string; handleSelect?: (shortenLink: string, slId: string) => Promise<void>, slId: string }> = ({
-    shortenLink,
+const SList: FC<{ fullLink: string; handleSelect?: (shortenLink: string, slId: string) => Promise<void>, slId: string }> = ({
+    fullLink,
     slId,
     handleSelect
 }) => {
-
     const user = useContext(authContext)
     const [isSelect, setIsSelect] = React.useState(true)
     const [isLoading, { off, on }] = useBoolean(false)
@@ -15,7 +14,7 @@ const LList: FC<{ shortenLink: string; handleSelect?: (shortenLink: string, slId
         setIsSelect(!isSelect)
         if (handleSelect) {
             on()
-            handleSelect(shortenLink, slId).finally(off)
+            handleSelect(fullLink, slId).finally(off)
         }
     }
     return (
@@ -37,8 +36,7 @@ const LList: FC<{ shortenLink: string; handleSelect?: (shortenLink: string, slId
                             <div>
                                 <Box display="flex" alignItems="center" gap={1}>
                                     <Text as="b" fontSize="sm">
-                                    {/* https://ss.modlifes.me/ */}
-                                    https://ss.modlifes.me/{shortenLink}
+                                   {fullLink}
                                     </Text>
                                 </Box>
                             </div>
@@ -54,4 +52,4 @@ const LList: FC<{ shortenLink: string; handleSelect?: (shortenLink: string, slId
         </>
     )
 }
-export default LList
+export default SList

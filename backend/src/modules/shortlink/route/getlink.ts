@@ -1,14 +1,14 @@
 import { Request , Response } from "express";
-const getlinkData = async (req:Request , res: Response) =>{
+const getlink = async (req:Request , res: Response) =>{
     try {
         const{ prisma } = res
-        const savelink = await prisma.shortLink.findMany({
+        const savelink = await prisma.shortLink_Save.findMany({
             select:{
-                slId:true,
-                userId:true,
-                title:"",
-                desc:"",
-                link:req.body.title,
+                userId: true,
+                link: true,
+                title:true,
+                slId:true
+
             },take:100
         })
         res.status(200).json({link:savelink})
@@ -17,4 +17,4 @@ const getlinkData = async (req:Request , res: Response) =>{
         res.status(400).json({message:error})   
     }
 }
-export default getlinkData
+export default getlink
