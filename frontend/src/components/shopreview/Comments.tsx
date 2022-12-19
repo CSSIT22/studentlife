@@ -9,7 +9,7 @@ import EditComment from "./EditComment"
 import { authContext } from "src/context/AuthContext"
 import API from "src/function/API"
 
-const Comments: FC<{ commentId: number; image: String; name: String; ment: String; date: String }> = ({ commentId, image, name, ment, date }) => {
+const Comments: FC<{ commentId: number; image: String; name: String; ment: String; date: String; am_like: String; }> = ({ commentId, image, name, ment, date, am_like, }) => {
 
     const [active, setActive] = useState(false)
     const handleClick = () => {
@@ -31,8 +31,8 @@ const Comments: FC<{ commentId: number; image: String; name: String; ment: Strin
         try {
             // หาcommentId
             API.delete("/shopreview/deletecomment", { data: { commentId: commentId } }).then((res) => {
-                console.log(res)
-                // window.location.reload()
+                // console.log(res)
+                window.location.reload()
             })
         }
         catch (e) {
@@ -59,12 +59,12 @@ const Comments: FC<{ commentId: number; image: String; name: String; ment: Strin
                     {isHovering && <Popover placement="bottom">
                         <PopoverTrigger>
                             {/* on this way  */}
-                            <Box as="button">
+                            <Box onClick={(e: any) => { e.stopPropagation() }} as="button">
                                 <Image width={15} src="https://cdn1.iconfinder.com/data/icons/web-and-user-interface-21/512/30-512.png"></Image>
                             </Box>
 
                         </PopoverTrigger>
-                        <PopoverContent width={"100px"}>
+                        <PopoverContent onClick={(e: any) => { e.stopPropagation() }} width={"100px"}>
                             {/* <PopoverCloseButton /> */}
                             <PopoverHeader textAlign={"center"}>
                                 <EditComment commentId={commentId} />
@@ -140,7 +140,7 @@ const Comments: FC<{ commentId: number; image: String; name: String; ment: Strin
             </Flex>
             {/* ดีงข้อมูลมาจาก database */}
             <Flex mt={3} direction={"row"} justifyContent={"flex-end"}>
-                <AmountLike am_like={"100"} />
+                <AmountLike am_like={am_like} />
                 {/* ดีงข้อมูลมาจาก database */}
             </Flex>
         </Box>
