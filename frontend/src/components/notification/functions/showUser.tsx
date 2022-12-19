@@ -25,6 +25,7 @@ export function showUser(sender: string | null, userId: string, module: string) 
         )
     }, [])
 
+
     if (sender == userId) {
         return (
             <Avatar bgColor="orange.500" name={module} size={"sm"} />

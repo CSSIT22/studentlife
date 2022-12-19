@@ -18,8 +18,8 @@ const getOrderInformation = async (req: Request, res: Response) => {
             },
             where: {
                 orderId: req.params.orderId,
-            },
-        })
+            }
+    })
         return res.send(orderDetails)
     } catch (error) {
         return res.status(404).send("An error has occured | " + error)

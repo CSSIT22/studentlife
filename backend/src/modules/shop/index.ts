@@ -18,6 +18,9 @@ import postUserOrder from "./routes/post/postUserOrder"
 import postUserCoupon from "./routes/post/postUserCoupon"
 import getAllUserCoupons from "./routes/get/getAllUserCoupons"
 import getOrderInformation from "./routes/get/getOrderInformation"
+import getAllOrders from "./routes/get/getAllOrders"
+import getCouponInformation from "./routes/get/getCouponInformation"
+import setOrderStatus from "./routes/put/setOrderStatus"
 const shopRoutes = express()
 
 shopRoutes.use(express.json())
@@ -37,6 +40,7 @@ shopRoutes.get("/getContactInfo/:id", getContactInfo)
 shopRoutes.get("/getAllCoupons", getAllCoupons)
 shopRoutes.post("/postUserCoupon", postUserCoupon)
 shopRoutes.get("/getAllUserCoupons", getAllUserCoupons)
+shopRoutes.get("/getCouponInformation/:couponCode", getCouponInformation)
 // Cart routes
 shopRoutes.post("/postCartProduct", postCartProduct)
 shopRoutes.get("/getAllProductsInCart", getAllProductsInCart)
@@ -46,6 +50,8 @@ shopRoutes.put("/decreaseCPQuantity/:productId", decreaseCPQuantity)
 // Order routes
 shopRoutes.post("/postUserOrder", postUserOrder)
 shopRoutes.get("/getOrderInformation/:orderId", getOrderInformation)
+shopRoutes.get("/getAllOrders", getAllOrders)
+shopRoutes.put("/setOrderStatus", setOrderStatus)
 //Test
 shopRoutes.get("/gestTestPrisma", gestTestPrisma)
 
