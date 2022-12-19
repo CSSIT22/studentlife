@@ -189,4 +189,3 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
 
 setIO(io)
 server.listen(PORT, () => console.log(`running on ${PORT} !`))
-// app.listen(PORT, () => console.log(`running on ${PORT} !`))
