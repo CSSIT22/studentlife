@@ -1,5 +1,5 @@
+import { Transaction_Detail } from "@prisma/client"
 import axios from "axios"
-import { log } from "console"
 import { Request, Response } from "express"
 import { nanoid } from "nanoid"
 
@@ -7,8 +7,17 @@ const createQRPayment = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
         const body = req.body
+        let reqUID = nanoid(10)
         // const userID = "Wpj1j-ExAOjlYwApIodF8"
-        const userID = req.user?.userId || ""
+        console.log(body)
+        const createTransDetail: Transaction_Detail = await prisma.transaction_Detail.create({
+            data: {
+                transId: body.transactionid,
+                transDesc: "QR Payment",
+                transStatus: "Pending",
+                isShip: false,
+            },
+        })
 
         axios
             .post(
@@ -20,13 +29,14 @@ const createQRPayment = async (req: Request, res: Response) => {
                 {
                     headers: {
                         resourceOwnerId: process.env.SCB_RESOURCE_OWNER_ID,
-                        requestUId: nanoid(),
+                        requestUId: reqUID,
                         "Content-Type": "application/json",
                     },
                 }
             )
             .then(function (response) {
                 console.log(response.data)
+                console.log(createTransDetail)
                 console.log(1111)
 
                 const createQrBody = {
@@ -44,7 +54,7 @@ const createQRPayment = async (req: Request, res: Response) => {
                     .post("https://api-sandbox.partners.scb/partners/sandbox/v1/payment/qrcode/create", createQrBody, {
                         headers: {
                             resourceOwnerId: process.env.SCB_RESOURCE_OWNER_ID,
-                            requestUId: nanoid(),
+                            requestUId: reqUID,
                             "Content-Type": "application/json",
                             Authorization: "Bearer " + response.data.data.accessToken,
                         },

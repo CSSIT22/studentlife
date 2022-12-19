@@ -16,6 +16,7 @@ const qrpayment = ({ }) => {
         API.post("http://localhost:8000/transaction/QRpayment", {
             transactionid: transactionId,
             totalPrice: parseFloat(totalPrice),
+
         }).then(function (response) {
             setRawData(response.data.Qr)
         })
