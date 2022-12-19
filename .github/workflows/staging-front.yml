@@ -44,7 +44,7 @@ jobs:
         with:
           path: .
       - name: Deploy to server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.1
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: ${{secrets.STAGING_SSH_USERNAME}}
           server: ${{secrets.STAGING_SSH_HOST}}
