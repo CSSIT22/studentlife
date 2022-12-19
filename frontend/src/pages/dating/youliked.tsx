@@ -13,7 +13,6 @@ import DatingYouLikedButton from "src/components/dating/DatingYouLikedButton"
 import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
 import API from "src/function/API"
 import DatingAppBody from "../../components/dating/DatingAppBody"
-import { HEART_HISTORY } from "../../components/dating/shared/heart_history"
 import { motion } from "framer-motion"
 
 interface state {
@@ -160,7 +159,6 @@ const YouLiked = () => {
         base: false,
         md: true,
     })
-    let HState = { heart_history: HEART_HISTORY }
 
     const [giveToUser, setGiveToUser] = useState<
         | {
