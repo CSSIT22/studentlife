@@ -1,12 +1,11 @@
 import AppBody from "../../components/share/app/AppBody"
-import { Container, Center, Heading, Input, Button, Box, Text, Link, useToast } from "@chakra-ui/react"
+import { Center, Heading, Input, Button, Box } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 import { useState } from "react"
 import { motion } from "framer-motion"
 
 const savelink = () => {
-    const toast = useToast()
     const [link, setLink] = useState("")
     const [generated, setGenerated] = useState("")
     const navigate = useNavigate()

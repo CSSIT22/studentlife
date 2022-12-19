@@ -3,56 +3,27 @@ import {
     Button,
     Center,
     Heading,
-    Link,
-    Portal,
-    StackDivider,
     useDisclosure,
     VStack,
-    Text,
-    ButtonGroup,
     useToast,
     Editable,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { Input } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
-import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
-import {
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverHeader,
-    PopoverBody,
-    PopoverFooter,
-    PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
-} from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
 import API from "src/function/API"
 import { motion } from "framer-motion"
 
 
 const generate = () => {
     const navigate = useNavigate()
-    const password = () => {
-        navigate("/link/password")
-    }
-    const unblock = () => {
-        navigate("/link/unblock")
-    }
-    const permission = () => {
-        navigate("/link/permission")
-    }
+    
     const history = () => {
         navigate("/link/history")
     }
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = React.useRef<any>()
     const [link, setLink] = useState("")
     const [generated, setGenerated] = useState("")
-    const toast = useToast()
 
     const generateLink = async () => {
         const response = await API.post("/shortlink/generate", { originalLink: link }) //axios will call Http
@@ -61,13 +32,7 @@ const generate = () => {
     }
 
 
-    const breakpoints = {
-        sm: "320px",
-        md: "768px",
-        lg: "960px",
-        xl: "1200px",
-        "2xl": "1536px",
-    }
+
     return (
         <AppBody>
             <Center>

@@ -1,36 +1,12 @@
-import { Box, Button, Center, Heading, Link, Portal, StackDivider, useDisclosure, VStack, Text, useToast, Editable, HStack } from "@chakra-ui/react"
+import { Box, Button, Center, Heading,  useDisclosure, VStack, useToast, Editable } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { Input } from "@chakra-ui/react"
 import AppBody from "src/components/share/app/AppBody"
-import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from "@chakra-ui/react"
-import {
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverHeader,
-    PopoverBody,
-    PopoverFooter,
-    PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
-} from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"
 
 const customize = () => {
     const navigate = useNavigate()
-    const password = () => {
-        navigate("/link/password")
-    }
-    const history = () => {
-        navigate("/link/history")
-    }
-    const permission = () => {
-        navigate("/link/permission")
-    }
-    const complete = () => {
-        navigate("/link/complete")
-    }
     const toast = useToast()
     // ---------------------------
     const [shortUrlData, setShortUrlData] = useState(
@@ -77,17 +53,6 @@ const customize = () => {
                 isClosable: true,
             })
         }
-    }
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = React.useRef<any>()
-
-    const breakpoints = {
-        sm: "320px",
-        md: "768px",
-        lg: "960px",
-        xl: "1200px",
-        "2xl": "1536px",
     }
 
     return (

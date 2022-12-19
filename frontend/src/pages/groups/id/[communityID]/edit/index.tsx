@@ -50,17 +50,28 @@ import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
 import { Link, useParams } from "react-router-dom"
 import { userData } from "../../../data"
 import useWindowDimensions from "src/components/group/hooks/useWindowDimensions"
-import NavCommunity from "src/components/group/NavCommunity"
+import NavCommunity from "src/components/group/communityPage/NavCommunity"
 import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import FriendInviteList from "src/components/group/FriendInviteList"
+import CreateEditNav from "src/components/group/CreateEditNav"
 
-const createCommunity = () => {
+const editCommunity = () => {
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isTagBarOpen, setIsTagBarOpen] = useState(false)
     const { height, width } = useWindowDimensions()
     const [preview, setPreview] = useState(true) //true = desktop, false = mobile
     const [searchValue, setSearchValue] = useState("") //for store search value
+
+
+    //tags
+    const [tags, setTags] = useState<any>([])
+    const [createTag, setCreateTag] = useState<any>([]);
+    const [selectedTag, setSelectedTag] = useState<any>([])
+    const [updatedTag, setUpdatedTag] = useState<any>([])
+
+
+
 
     let isDesktop = (width || 0) > 768
     //form values
@@ -71,12 +82,46 @@ const createCommunity = () => {
         "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"
     )
 
-    //tags
-    const [tags, setTags] = useState(userData.Tag)
-    // const [isAdded, setIsAdded] = useState(false)
-    // const [showTag, setShowTag] = useState(false)
-    const [selectedTag, setSelectedTag] = useState<any>([])
-    const [updatedTag, setUpdatedTag] = useState<any>([])
+    let { communityID }: any = useParams()
+
+
+    const [isError, { on }] = useBoolean()
+    const [isLoading, { off }] = useBoolean(true)
+    const [data, setData] = useState<any>()
+
+    const fetchCommunity = async () => {
+        try {
+            const communityResult = (await API.get("/group/getCommunityId/" + communityID)).data
+            setCommunityName(communityResult?.community.name)
+            setCommunityDesc(communityResult?.community.desc)
+            setCommunityPrivacy(communityResult?.community.privacy)
+            setCommunityCoverPhoto(communityResult?.community.photo)
+
+            setUpdatedTag(communityResult?.community.tags)
+            setCreateTag(communityResult?.community.tags)
+            setTags((await API.get("/group/getTag/")).data)
+            
+            
+            console.log(communityResult)
+            console.log(updatedTag)
+        } catch (err) {
+            on()
+        } finally {
+            off()
+        }
+    }
+    useEffect(() => {
+        fetchCommunity()
+    }, [])
+
+
+    useEffect(() => {
+        console.log(createTag)
+        console.log(updatedTag)
+        console.log(selectedTag)
+       
+
+    }, [updatedTag])
 
     const handleAddTag = (tag: any) => {
         if (!tag.isSelected) {
@@ -84,9 +129,15 @@ const createCommunity = () => {
             setSelectedTag([...selectedTag, tag])
         } else {
             tag.isSelected = false
-            setSelectedTag(selectedTag.filter((item: any) => item.tagID !== tag.tagID))
+            setSelectedTag(selectedTag.filter((item: any) => item.tagId !== tag.tagId))
         }
     }
+
+    const [previewPhoto, setPreviewPhoto] = useState("")
+
+    //program confuse with data at data:image but patial accept
+
+
     //form styles
     const desktopStyle = {
         input: {
@@ -143,28 +194,26 @@ const createCommunity = () => {
     }
 
 
-    let { communityID }: any = useParams()
-    const [community, setCommunity] = useState<any>()
-    const [isError, { on }] = useBoolean()
-    const [isLoading, { off }] = useBoolean(true)
-
-    useEffect(() => {
-        API.get("/group/getCommunityId/" + communityID)
-            .then((res) => setCommunity(res.data))
-            .catch((err) => on())
-            .finally(() => off())
-    }, [])
 
 
 
     //Send data to backend
     const submit = () => {
-        API.post("/group/createtest", {
-            communityName: communityName,
-            communityDesc: communityDesc,
-            communityPrivacy: communityPrivacy,
-            communityCoverPhoto: communityCoverPhoto,
-            communityTags: updatedTag,
+        const form = new FormData()
+        let Privacy: any = !communityPrivacy.toString();
+        form.append("communityName", communityName);
+        form.append("communityDesc", communityDesc);
+        form.append("communityPrivacy", Privacy);
+        form.append("communityTags", createTag);
+        form.append("upload", communityCoverPhoto);
+        for (var pair of form.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        API.patch("/group/editCommunity" + communityID, form,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         })
             .then((res) => {
                 toast({
@@ -205,7 +254,7 @@ const createCommunity = () => {
                 >
                     <Flex gap='0.25' fontSize={'xs'} color="white" display={{ md: 'flex', base: 'none' }} >
                         <Box _hover={{ textDecoration: 'underline' }}>
-                            <Link to={"/groups"}>Community</Link>
+                            <Link to={`/groups/id/${communityID}/`}>Community</Link>
                         </Box>
                         <Box mt={'-0.25'}>
                             <ChevronRightIcon />
@@ -214,7 +263,7 @@ const createCommunity = () => {
                     </Flex>
                     <Heading color={{ base: "gray.600", md: "white" }} size={{ base: "lg", md: "md" }} display="flex" alignItems="center" mb={{ md: '3', base: '2' }}>
                         <Box display={{ base: 'block', md: 'none' }} ml='-6' mb={'1'}>
-                            <Link to={"/groups/id/1000"} >
+                            <Link to={`/groups/id/${communityID}/`}>
                                 <ChevronLeftIcon />
                             </Link>
                         </Box>
@@ -226,15 +275,16 @@ const createCommunity = () => {
                             focusBorderColor="none"
                             sx={isDesktop ? desktopStyle.input : mobileStyle.input}
                             type="name"
-                            value={community.communityName}
+                            value={communityName}
                             placeholder="Community Name"
                             onChange={(e) => setCommunityName(e.target.value)}
                         />
                     </FormControl>
 
                     <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>Tags</FormLabel>
-                    <Box
-                        onClick={() => setIsTagBarOpen(true)}
+                    <Box onClick={() => {
+                        setIsTagBarOpen(true)
+                    }}
                         sx={{
                             bg: "white",
                             color: "#848383",
@@ -250,7 +300,7 @@ const createCommunity = () => {
                     >
                         Choose Tags
                     </Box>
-                    <Collapse in={updatedTag.length != 0} animateOpacity>
+                    <Collapse in={updatedTag?.length != 0} animateOpacity>
                         <Box
                             bg="gray.200"
                             p={{ base: 4, md: 2 }}
@@ -262,11 +312,11 @@ const createCommunity = () => {
                             mt={{ base: 2, md: 0 }}
                             mb="2"
                         >
-                            {updatedTag.map((tag: any) => {
+                            {updatedTag?.map((tag: any) => {
                                 return (
-                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
+                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag?.tagDesc}>
                                         <Tag
-                                            key={tag.tagID}
+                                            key={tag.tagId}
                                             shadow="lg"
                                             fontSize={{ base: "md", md: "xs" }}
                                             borderRadius="full"
@@ -276,7 +326,7 @@ const createCommunity = () => {
                                             py={{ base: 2, md: 1 }}
                                             fontWeight="bold"
                                         >
-                                            {tag.tagName}
+                                            {tag?.tagName}
                                         </Tag>
                                     </Tooltip>
                                 )
@@ -319,6 +369,40 @@ const createCommunity = () => {
                             </AccordionPanel>
                         </AccordionItem>
                     </Accordion>
+
+
+                    <FormLabel sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
+                        Upload Community cover photo
+                    </FormLabel>
+                    <Box
+                        sx={{
+                            bg: "white",
+                            color: "#848383",
+                            shadow: "md",
+                            fontWeight: 500,
+
+                        }}
+                        fontSize={{ base: 'md', md: 'sm' }}
+                        borderRadius={{ base: 'xl', md: 'md' }}
+                        mb='2'
+                        _hover={{ bg: 'gray.50', cursor: 'pointer' }}
+                        p='2' pl='4'
+                    >
+
+                        <input type="file"
+                            id="avatar" name="avatar"
+                            accept="image/png, image/jpeg"
+                            onChange={(e: any) => {
+                                let x = URL.createObjectURL(e.target.files[0])
+                                
+                                setPreviewPhoto(x)
+                                setCommunityCoverPhoto(e.target.files[0])
+                            }
+                            }>
+                        </input>
+
+                    </Box>
+
 
                     {/* Cant get friend from another module */}
                     <FormLabel display="none" sx={isDesktop ? desktopStyle.title : mobileStyle.title}>
@@ -426,9 +510,11 @@ const createCommunity = () => {
                                 Are you sure you want to save?
                             </ModalBody>
                             <ModalFooter>
-                                <Button onClick={submit} colorScheme="blue" mr={3} boxShadow='md'>
-                                    Sure
-                                </Button>
+                                <Link to={`/groups/id/${communityID}/`}>
+                                    <Button onClick={submit} colorScheme="blue" mr={3} boxShadow='md'>
+                                        Sure
+                                    </Button>
+                                </Link>
                                 <Button variant="cancel" onClick={onClose} boxShadow='md'>Cancel</Button>
                             </ModalFooter>
                         </ModalContent>
@@ -439,18 +525,23 @@ const createCommunity = () => {
                         placement="bottom"
                         onClose={() => {
                             setIsTagBarOpen(false)
-                            // setShowTag(true)
-                            setUpdatedTag(selectedTag)
+                            if (selectedTag.length != 0) {
+                                setUpdatedTag(selectedTag)
+                                setCreateTag([])
+                                selectedTag.forEach((item: any) => {
+                                    setCreateTag((createTag: any) => [...createTag, item.tagName])
+                                });
+                            }
                         }}
                         isOpen={isTagBarOpen}
                     >
                         <DrawerOverlay />
                         <DrawerContent mx={{ base: "5", md: "10%", lg: "20%" }} width="auto" backgroundColor="#e67f45" borderTopRadius="3rem" pb="20">
                             <DrawerBody pt="6" display="flex" flexWrap="wrap" gap="2">
-                                {tags.map((tag) => (
-                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag.tagDescription}>
+                                {tags.map((tag:any) => (
+                                    <Tooltip hasArrow arrowSize={5} borderRadius="xl" label={tag?.tagDesc}>
                                         <Tag
-                                            key={tag.tagID}
+                                            key={tag.tagId}
                                             _hover={{ cursor: "pointer" }}
                                             shadow="lg"
                                             borderRadius="full"
@@ -516,21 +607,19 @@ const createCommunity = () => {
                                 </Flex>
                             </Box>
                             <Box p="5" px="3" bg="#e67f45" paddingTop="5rem" borderBottomRadius="xl">
-                                <NavCommunity
-                                    disableBtn={true}
-                                    communityName={communityName ? communityName : "Community Name"}
-                                    isPrivate={!communityPrivacy}
-                                    isMember={true}
+                                <CreateEditNav
+                                    disabled={true}
+                                    name={communityName ? communityName : "Community Name"}
+                                    privacy={communityPrivacy}
+
                                     desc={
                                         communityDesc
                                             ? communityDesc
                                             : "Lorem eiei ipsum dolor sit, amet consectetur adipisicing elit. Dicta vitae non voluptates nisi quisquam necessitatibus doloremque neque voluptatum. Maiores facilis nulla sit quam laborum nihil illum culpa incidunt tempore obcaecati!"
                                     }
-                                    coverPhoto={communityCoverPhoto}
-                                    members={1}
-                                    communityID={"1"}
+                                    photo={previewPhoto ? previewPhoto : (import.meta.env.VITE_APP_ORIGIN || "") + "/group/getpic/" + data?.community.id}
+                                    memberCount={1}
                                     tags={updatedTag}
-                                    disableInvite={true}
                                 />
                             </Box>
                         </Box>
@@ -541,4 +630,4 @@ const createCommunity = () => {
     )
 }
 
-export default createCommunity;
+export default editCommunity

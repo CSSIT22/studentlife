@@ -1,5 +1,4 @@
-import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text, PopoverBody, PopoverHeader, PopoverContent, Popover, PopoverCloseButton, PopoverArrow, PopoverTrigger } from "@chakra-ui/react"
-import React from "react"
+import { Box, Button, Center, Heading, Link, VStack, Text, PopoverBody, PopoverContent, Popover, PopoverCloseButton, PopoverArrow, PopoverTrigger } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 import { motion } from "framer-motion"

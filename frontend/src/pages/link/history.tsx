@@ -1,23 +1,12 @@
 import {
-    Avatar,
     Box,
-    Button,
     Center,
-    Checkbox,
-    Editable,
-    EditablePreview,
-    EditableTextarea,
     Flex,
-    Grid,
-    GridItem,
     Heading,
     HStack,
-    Link,
-    Text,
     VStack,
 } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
 import LList from "src/components/shortlink/LList"
 import API from "src/function/API"
@@ -96,12 +85,6 @@ const history = () => {
 
                                 </Box>
                             </Center>
-                            {/* ----- problem 1 ----- */}
-                            {/* <Box>
-                            <Button bg={"orange.600"} w={"20%"} height={"60px"} onClick={shortlink}  marginTop={"43%"}>
-                                <Text as={"b"}>Return</Text>
-                            </Button>
-                        </Box> */}
                         </VStack>
                     </Box>
                 </Center>

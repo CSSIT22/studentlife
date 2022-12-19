@@ -8,10 +8,20 @@ const complete = () => {
 
     return (
         <AppBody>
-            
             <Center>
-                <Box width={"80%"} height={"500px"} background={"white"} borderRadius="20px" marginTop={"10%"}>
-                   
+                <Box width={"80%"} height={"500px"} background={"orange.200"} borderRadius="20px" marginTop={"10%"}>
+                    <Box p={5} className='my-box' marginLeft={"5%"}
+                        width={"80%"}
+                        marginTop={"-5"}
+                        background={"#f2f2f2"}
+                        borderRadius={"10px"}>
+                        <Center>
+                            <Heading size='sm'>
+                                SHORTLINK COMPLETE
+                            </Heading>
+                        </Center>
+
+                    </Box>
 
                     <VStack spacing={4} align="stretch" marginTop={"10%"}>
                         <Box h="70px">
