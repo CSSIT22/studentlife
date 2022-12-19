@@ -37,7 +37,7 @@ function CancelButton() {
     return (
         <>
             <Box alignSelf={"center"}>
-                <IconButton onClick={onOpen} colorScheme="red" aria-label="Open post option" size="lg" icon={<CloseIcon />} />
+                <IconButton onClick={onOpen} colorScheme="orange" aria-label="Open post option" size="lg" icon={<CloseIcon />} />
             </Box>
             <AlertDialog motionPreset="slideInBottom" leastDestructiveRef={cancelRef} onClose={onClose} isOpen={isOpen} isCentered>
                 <AlertDialogOverlay />

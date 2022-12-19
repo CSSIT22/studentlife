@@ -19,6 +19,7 @@ import postMessage from "./router/postMessage"
 import getMessage from "./router/getMessage"
 import inviteToGroup from "./router/inviteToGroup"
 import getUserProp from "./router/getUserProp"
+import getFollowList from "./router/getFollowList"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -52,6 +53,8 @@ chatRoutes.post("/:id/postMessage",postMessage)
 chatRoutes.get("/:id/getQuote", getQuote)
 
 chatRoutes.get("/:id/getMember", getMember)
+
+chatRoutes.get("/:id/getFollowList", getFollowList)
 
 chatRoutes.get("/:id/getUserID", getUserIDChatWith)
 

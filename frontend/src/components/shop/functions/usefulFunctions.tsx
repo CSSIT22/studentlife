@@ -3,7 +3,8 @@ import { useEffect } from "react"
 import API from "src/function/API"
 
 function convertCurrency(amount: number) {
-    return "฿" + amount.toFixed(2)
+    let commas = amount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return "฿" + commas
 }
 export function dateFormat(date: Date): string {
     let hours = date.getHours() % 12
