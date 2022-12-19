@@ -5,7 +5,7 @@ import AmountRate from "./AmountRate"
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 
-const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String; amo_rate: String; amo_like: String }> = ({ image, name, ment, date, amo_rate, amo_like }) => {
+const ReviewDetail: FC<{ image: String; name: String; ment: String; date: String; amo_rate: String; amo_like: String; }> = ({ image, name, ment, date, amo_rate, amo_like, }) => {
     const [show, setShow] = React.useState(false)
     const handleToggle = () => setShow(!show)
 
