@@ -19,6 +19,8 @@ import API from "src/function/API"
 import { motion } from "framer-motion"
 import { extendTheme } from '@chakra-ui/react'
 
+import { FiUserPlus } from 'react-icons/fi'
+
 
 const SearchUserList = React.lazy(() => import("src/components/shortlink/SearchUserList"))
 
@@ -114,21 +116,22 @@ const customize = () => {
     return (
         <AppBody>
             <Center>
-                <Box width={"80%"} borderColor={"white"} border={"2px"}
-                    background={"linear-gradient(117deg, rgba(255,234,0,1) 0%, rgba(255,152,0,1) 99%)"}
-                    borderRadius="20px" marginTop={"10%"} textColor="white">
+                <Box width={"80%"} border={"4px"} 
+                borderColor={"orange"} background={"white"} borderRadius="20px" 
+                marginTop={"10%"} textColor="white">
                     <Box>
                         <Heading
                             width={{ base: "200px", md: "300px" }}
                             height={{ base: "50px", md: "60px" }}
                             marginLeft={"10%"}
                             marginTop={"-5"}
-                            background={"linear-gradient(180deg, rgba(255,130,0,1) 0%, rgba(255,177,0,1) 100%)"}
+                            background={"white"}
                             borderRadius={"10px"}
                             fontSize={{ base: "sm", md: "xl" }}
-                            border={"3px solid white"}
+                            border={"3px solid orange"}
                             textAlign={"center"}
                             alignSelf={"center"}
+                            color={"orange"}
                         >
                             SHORTLINK  CUSTOMIZE (PERMISSION)
                         </Heading>
@@ -143,7 +146,7 @@ const customize = () => {
                                         placeholder="Link URL*:"
                                         onChange={handleChange}
                                         w={"75%"} height={{ base: "40px", md: "60px" }}
-                                        border={{ base: "2px", md: "4px" }} borderColor={"black"}
+                                        border={"4px"} borderColor={"black"}
                                         backgroundColor={"white"}
                                         textColor="black" />
                                 </Center>
@@ -157,7 +160,7 @@ const customize = () => {
                                         placeholder="Custom Word*:"
                                         onChange={handleChange}
                                         w={"75%"} height={{ base: "40px", md: "60px" }}
-                                        border={{ base: "2px", md: "4px" }} borderColor={"black"}
+                                        border={"4px"} borderColor={"black"}
                                         backgroundColor={"white"}
                                         textColor="black" />
                                 </Center>
@@ -171,7 +174,7 @@ const customize = () => {
                             <Box h="70px" w={"100%"} marginTop={"2%"}>
                                 <Center>
                                     <Editable defaultValue='Take some chakra' w={"75%"} height={{ base: "45px", md: "60px" }}
-                                        border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
+                                        border={"2px"} borderColor={"black"} rounded={"md"} backgroundColor={"orange"} textColor="black">
                                         <a>
                                             {shortUrlData.word &&
                                                 "https://ss.modlifes.me/" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}
@@ -184,7 +187,7 @@ const customize = () => {
                                 <HStack wrap="wrap" rowGap="12px" justifyContent="center">
                                     {
                                         permissionUser.map((data: { id: string; userName: string; lastName: string }) => (
-                                            <Box style={{ backgroundColor: "#ffe492" ,color:"black",}} padding="2" borderRadius="full" key={data.id}>
+                                            <Box style={{ backgroundColor: "#ffe492", color: "black", }} padding="2" borderRadius="full" key={data.id}>
                                                 <Text fontSize='xs' fontWeight={"bold"}>
                                                     {data.userName} {data.lastName}
                                                 </Text>
@@ -196,8 +199,8 @@ const customize = () => {
 
                             <Box>
                                 <Center>
-                                    <Button bg={"orange.600"} w={"100%"} height={"60px"} onClick={onListOpen}>
-                                        <Text as={"b"}>Add people to access your link!</Text>
+                                    <Button bg={"orange.600"} gap={"4px"} w={"100%"} height={"60px"} onClick={onListOpen}>
+                                        <Text as={"b"}>Add people</Text><FiUserPlus />
                                     </Button>
                                     <Modal onClose={onListClose} finalFocusRef={btnUse} isOpen={isListOpen}>
                                         <ModalOverlay />
@@ -225,7 +228,7 @@ const customize = () => {
                                     <motion.div whileHover={{ scale: 0.9 }}
                                         onHoverStart={e => { }}
                                         onHoverEnd={e => { }}>
-                                        <Button colorScheme="green" w={"5rem"} height={"60px"} onClick={generateLink} disabled={shortUrlData.link.length === 0}>
+                                        <Button colorScheme="green" w={"5rem"} height={"40px"} onClick={generateLink} mt={"1rem"} disabled={shortUrlData.link.length === 0}>
                                             SAVE
                                         </Button></motion.div>
                                 </Center>

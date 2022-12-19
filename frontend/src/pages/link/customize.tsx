@@ -95,18 +95,23 @@ const customize = () => {
             <Box>
                 <Center>
                     {" "}
-                    <Box width={{ base: '100%', sm: '70%', md: '50%', lg: '30%', xl: '30%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
+                    <Box width={{ base: '100%', sm: '70%', md: '50%', lg: '80%' }} height={"500px"} 
+                    border={"4px"} 
+                    borderColor={"orange"} background={"white"} borderRadius="20px" 
+                    marginTop={"10%"} textColor="white" 
+                    alignContent={"center"} >
                         <Box>
                             <Heading
-                                width={{base:'300px', sm: '70%', md: '70%', lg: '70%', xl: '70%'}}
-                                height={"50px"}
+                                width={{ base: "200px", md: "300px" }}
+                                height={{ base: "2rem", md: "3rem" }}
                                 marginLeft={"10%"}
                                 marginTop={"-5"}
-                                background={"orange.200"}
+                                background={"white"}
                                 borderRadius={"10px"}
-                                fontSize={"xl"}
-                                border={"3px solid white"}
+                                fontSize={{ md: "xl", base: "md" }}
+                                border={"3px solid orange"}
                                 textAlign={"center"}
+                                color={"orange"}
                             >
                                 SHORTLINK CUSTOMIZE
                             </Heading>
@@ -121,7 +126,7 @@ const customize = () => {
                                                 name="link"
                                                 placeholder="Link URL*:"
                                                 onChange={handleChange}
-                                                w={"75%"} height={"60px"}
+                                                w={"75%"} height={"3rem"}
                                                 border={"4px"} borderColor={"black"}
                                                 backgroundColor={"white"}
                                                 textColor="black" />
@@ -135,7 +140,7 @@ const customize = () => {
                                                 name="word"
                                                 placeholder="Custom Word*:"
                                                 onChange={handleChange}
-                                                w={"75%"} height={"60px"}
+                                                w={"75%"} height={"3rem"}
                                                 border={"4px"} borderColor={"black"}
                                                 backgroundColor={"white"}
                                                 textColor="black" />
@@ -150,7 +155,7 @@ const customize = () => {
                                                 name="password"
                                                 placeholder="Password (Optional):"
                                                 onChange={handleChange}
-                                                w={"75%"} height={"60px"}
+                                                w={"75%"} height={"3rem"}
                                                 border={"4px"} borderColor={"black"}
                                                 backgroundColor={"white"}
                                                 textColor="black" />
@@ -165,7 +170,7 @@ const customize = () => {
                                                     name="confirmPassword"
                                                     placeholder="Confirm Password*:"
                                                     onChange={handleChange}
-                                                    w={"75%"} height={"60px"}
+                                                    w={"75%"} height={"3rem"}
                                                     border={"4px"} borderColor={"black"}
                                                     backgroundColor={"white"}
                                                     textColor="black" />
@@ -175,7 +180,9 @@ const customize = () => {
                                 </VStack>
                                 <Box h="70px" w={"100%"} marginTop={"2%"}>
                                     <Center>
-                                        <Editable defaultValue='Take some chakra' w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} rounded={"md"} backgroundColor={"white"} textColor="black">
+                                        <Editable defaultValue='Take some chakra' w={"75%"} height={"3rem"} 
+                                        border={"2px"} borderColor={"black"} rounded={"md"} backgroundColor={"orange"} 
+                                        textColor="black" fontWeight={"bold"}>
                                             <a>
                                                 {shortUrlData.word &&
                                                     "https://ss.modlifes.me/" + (shortUrlData.word != "" ? shortUrlData.word : shortedUrl)}

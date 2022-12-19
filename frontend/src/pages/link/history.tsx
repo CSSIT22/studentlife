@@ -57,19 +57,22 @@ const history = () => {
         <AppBody>
             <Box>
                 <Center>
-                    <Box width={{ base: '100%', sm: '70%', md: '70%', lg: '70%', xl: '70%' }} height={"500px"} background={"white"} borderRadius="20px" alignSelf={"center"} alignItems={"center"} alignContent={"center"} marginTop={"10%"} >
+                    <Box width={"100%"} border={"4px"} height={"40rem"}
+                borderColor={"orange"} background={"white"} borderRadius="20px" 
+                marginTop={"10%"} textColor="black"  >
                         <Box>
                             <Heading
-                                width={"300px"}
-                                height={"50px"}
+                                width={{ base: "200px", md: "300px" }}
+                                height={{ base: "2rem", md: "2rem" }}
                                 marginLeft={"10%"}
                                 marginTop={"-5"}
-                                background={"orange.200"}
+                                background={"white"}
                                 borderRadius={"10px"}
-                                fontSize={"xl"}
-                                border={"3px solid white"}
+                                fontSize={{ base: "sm", md: "xl" }}
+                                border={"3px solid orange"}
                                 textAlign={"center"}
-                                textColor="white"
+                                alignSelf={"center"}
+                                color={"orange"}
                             >
                                 SHORTLINK HISTORY
                             </Heading>
@@ -82,7 +85,7 @@ const history = () => {
                                     {/* ------------------------ */}
                                     <HStack spacing="24px">
 
-                                        <Box w="400px" h="430px" overflowWrap={'normal'} overflow="scroll">
+                                        <Box w={{md:"30rem",base:"100%"}} h="30rem" overflowWrap={'normal'} overflow="scroll">
                                             <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
                                                 {linkdata && linkdata.map((link: { shortenLink: string, slId: string }, index: any) =>
                                                     (<LList key={index} shortenLink={link.shortenLink} slId={link.slId} handleSelect={handleDelete} />))}

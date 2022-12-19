@@ -24,25 +24,25 @@ const SList: FC<{ fullLink: string; handleSelect?: (shortenLink: string, slId: s
                 backgroundColor="white"
                 minWidth={"265px"}
                 maxWidth={"800px"}
-                width="100%"
+                width={{md:"100%", base: "80%"}}
                 boxShadow={"md"}
                 border="1px"
-                borderColor={{ md: "", base: "gray.200" }}
+                borderColor={{ md: "", base: "green" }}
                 marginTop={"3"}
             >
-                <Box p={2} borderRadius="md" >
-                    <Flex direction={"row"} gap={2} justify={"space-between"} mr={2} ml={2}>
+                 <Box p={2} borderRadius="md">
+                    <Flex direction={"row"} gap={2} justify={"flex-start"} ml={2} width={"10rem"}>
                         <HStack gap={2}>
                             <div>
-                                <Box display="flex" alignItems="center" gap={1}>
-                                    <Text as="b" fontSize="sm">
+                            <Box display="flex" alignItems="center" gap={1}>
+                                    <Text as="b" fontSize={{base:"xx-small" ,md:"lg"}} width={{base:"170px" ,  md:"23rem"}} whiteSpace={"nowrap"} overflow={"hidden"} textOverflow={"ellipsis"}>
                                    {fullLink}
                                     </Text>
                                 </Box>
                             </div>
                         </HStack>
-                        <HStack width={"6rem"} justify={{ base: "flex-end" }}>
-                            <Button isLoading={isLoading} _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="solid">
+                        <HStack width={{md:"6rem",base:"4rem"}} justify={{ base: "flex-end" }}>
+                            <Button isLoading={isLoading} _hover={{ cursor: "pointer" }} fontSize="xx-small" onClick={handleOnSelect} colorScheme="red" variant="solid">
                                 DELETE
                             </Button>
                         </HStack>

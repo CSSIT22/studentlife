@@ -2,7 +2,12 @@ import { Box, Button, Center, Heading, Link, StackDivider, VStack, Text, Popover
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import AppBody from "src/components/share/app/AppBody"
-
+import { motion } from "framer-motion"
+import { RiHistoryLine } from 'react-icons/ri'
+import { FaPlus } from 'react-icons/fa'
+import {TbTools} from 'react-icons/tb'
+import {RiLockPasswordLine} from 'react-icons/ri'
+import {BiUserCheck} from 'react-icons/bi'
 
 const shortlink = () => {
     const navigate = useNavigate()
@@ -22,45 +27,52 @@ const shortlink = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"500px"} background={"white"} borderRadius="20px" marginTop={"10%"} textColor="white">
+                <Box width={"80%"} height={"25rem"} border={"4px"}
+                    borderColor={"orange"} background={"white"} borderRadius="20px"
+                    marginTop={"10%"} textColor="white">
+
                     <Box>
                         <Heading
-                            width={"300px"}
-                            height={"50px"}
+                            width={{ base: "200px", md: "300px" }}
+                            height={{ base: "2rem", md: "3rem" }}
                             marginLeft={"10%"}
                             marginTop={"-5"}
-                            background={"orange.200"}
+                            background={"white"}
                             borderRadius={"10px"}
-                            fontSize={"xl"}
-                            border={"3px solid white"}
+                            fontSize={{ md: "xl", base: "md" }}
+                            border={"3px solid orange"}
                             textAlign={"center"}
+                            color={"orange"}
                         >
                             SHORTLINK FEATURE
                         </Heading>
                     </Box>
 
-                    <VStack spacing={4} align="stretch" marginTop={"10%"}>
-                        <Box h="70px">
+                    <VStack spacing={10} align="center" marginTop={"10%"} ml={"-2rem"} >
+                        <Box h="2rem">
                             <Box width={"100%"}>
 
                                 <Center>
                                     <Popover>
                                         <PopoverTrigger>
-                                            <Button bg={"#E65300"} w={"50%"} height={"60px"} textColor="white">
-                                                <Text as={"b"}>SHORTLINK CUSTOMIZE</Text>
-                                            </Button>
+                                            <motion.div whileHover={{ scale: 0.9 }}
+                                                onHoverStart={e => { }}
+                                                onHoverEnd={e => { }}>
+                                                <Button bg={"#E65300"} w={"130%"} height={"3rem"} textColor="white" gap={"0.5rem"}>
+                                                <TbTools/><Text fontSize={"md"} as={"b"}>CUSTOMIZE</Text>
+                                                </Button></motion.div>
                                         </PopoverTrigger>
                                         <PopoverContent>
                                             <PopoverArrow />
                                             <PopoverCloseButton />
 
                                             <PopoverBody>
-                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customize} textColor="white">
-                                                    Customize Password
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customize} textColor="white" gap={"0.5rem"}>
+                                                <RiLockPasswordLine/> Password
                                                 </Button>
 
-                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customper} textColor="white">
-                                                    Customize Permission
+                                                <Button bg={"orange.600"} w={"100%"} mt={3} onClick={customper} textColor="white" gap={"0.5rem"}>
+                                                <BiUserCheck/> Permission
                                                 </Button>
                                             </PopoverBody>
                                         </PopoverContent>
@@ -69,21 +81,27 @@ const shortlink = () => {
 
                             </Box>
                         </Box>
-                        <Box h="70px">
+                        <Box h="2rem">
                             <Center>
-
-                                <Button bg={"#E65300"} w={"50%"} height={"60px"} textColor="white" onClick={generate}>
-                                    <Text as={"b"}>SHORTLINK GENERATOR</Text>
-                                </Button>
-
+                                <motion.div whileHover={{ scale: 0.9 }}
+                                    onHoverStart={e => { }}
+                                    onHoverEnd={e => { }}>
+                                    <Button bg={"#E65300"} w={"130%"} height={"3rem"} textColor="white" onClick={generate} gap={"0.5rem"}>
+                                        <FaPlus /><Text as={"b"}>GENERATOR</Text>
+                                    </Button>
+                                </motion.div>
                             </Center>
                         </Box>
-                        <Box h="70px">
+                        <Box h="2rem">
                             <Link>
                                 <Center>
-                                    <Button bg={"#E65300"} w={"50%"} height={"60px"} onClick={history} textColor="white">
-                                        <Text as={"b"}>SHORTLINK HISTORY</Text>
-                                    </Button>
+                                    <motion.div whileHover={{ scale: 0.9 }}
+                                        onHoverStart={e => { }}
+                                        onHoverEnd={e => { }}>
+                                        <Button bg={"#E65300"} w={"130%"} height={"3rem"} onClick={history} textColor="white" gap={"0.5rem"} >
+                                            <RiHistoryLine /><Text as={"b"}>HISTORY</Text>
+                                        </Button>
+                                    </motion.div>
                                 </Center>
                             </Link>
                         </Box>

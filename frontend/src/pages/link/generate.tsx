@@ -31,6 +31,8 @@ import {
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import API from "src/function/API"
+import { motion } from "framer-motion"
+
 
 const generate = () => {
     const navigate = useNavigate()
@@ -70,19 +72,22 @@ const generate = () => {
         <AppBody>
             <Center>
                 {" "}
-                <Box width={"80%"} height={"300px"} background={"white"} borderRadius="20px" marginTop={"10%"}>
+                <Box width={"80%"} border={"4px"} 
+                borderColor={"orange"} background={"white"} borderRadius="20px" 
+                marginTop={"10%"} textColor="black">
                     <Box>
                         <Heading
-                            width={"300px"}
-                            height={"50px"}
+                            width={{ base: "200px", md: "300px" }}
+                            height={{ base: "2rem", md: "2rem" }}
                             marginLeft={"10%"}
                             marginTop={"-5"}
-                            background={"orange.200"}
+                            background={"white"}
                             borderRadius={"10px"}
-                            fontSize={"xl"}
-                            border={"3px solid white"}
+                            fontSize={{ base: "sm", md: "xl" }}
+                            border={"3px solid orange"}
                             textAlign={"center"}
-                            textColor="white"
+                            alignSelf={"center"}
+                            color={"orange"}
                         >
                             SHORTLINK GENERATOR
                         </Heading>
@@ -92,40 +97,33 @@ const generate = () => {
                         <Box h="70px">
                             <Box width={"100%"}>
                                 <Center>
-                                    <Input placeholder="link url:" w={"75%"} height={"60px"} border={"4px"} borderColor={"black"} onChange={(e) => setLink(e.target.value)} backgroundColor={"white"} />
+                                    <Input placeholder="link url:"  w={"75%"} height={{ base: "40px", md: "60px" }}
+                                        border={"4px"} borderColor={"black"}
+                                        backgroundColor={"white"}
+                                        textColor="black" onChange={(e) => setLink(e.target.value)}/>
                                 </Center>
                             </Box>
                         </Box>
                         <Box h="70px" w={"100%"}>
                             <Center>
                                 <Editable
-                                    w={"75%"}
-                                    height={"60px"}
-                                    border={"4px"}
-                                    borderColor={"black"}
-                                    rounded={"md"}
-                                    textAlign="center"
-                                    backgroundColor={"white"}
+                                     w={"75%"} height={"3rem"} 
+                                     border={"2px"} borderColor={"black"} rounded={"md"} backgroundColor={"orange"} 
+                                     textColor="black" fontWeight={"bold"}
                                 >{generated != "" ? "https://ss.modlifes.me/" : ""}{generated}</Editable>
                             </Center>
                         </Box>
-                    </VStack>
-                </Box>
-            </Center>
-
-            {/*  */}
-
-            
-            <Center>
-                {" "}
-                <Box width={"80%"} height={"200px"} background={"white"} borderRadius="20px" marginTop={"1%"}>
-                    <VStack spacing={4} align="stretch" marginTop={"5%"}>
+                        <Box width={"80%"} height={"200px"} background={"white"} borderRadius="20px" marginTop={"1%"}>
+                    <VStack spacing={4} align="stretch" marginTop={"5%"} ml={"4em"}>
                         <Box h="70px">
                             <Center>
+                            <motion.div whileHover={{ scale: 0.9 }}
+                                                onHoverStart={e => { }}
+                                                onHoverEnd={e => { }}>
 
-                                <Button colorScheme="blue" w={"50%"} height={"60px"} onClick={generateLink} textColor="white" disabled={link.length === 0}>
+                                <Button colorScheme="blue" w={"100%"} height={"60px"} onClick={generateLink} textColor="white" disabled={link.length === 0}>
                                     GENERATE
-                                </Button>
+                                </Button></motion.div>
                             </Center>
                         </Box>
 
@@ -133,15 +131,27 @@ const generate = () => {
 
                             <Box width={"100%"}>
                                 <Center>
-                                    <Button colorScheme="green" w={"50%"} height={"60px"} onClick={history}>
+                                <motion.div whileHover={{ scale: 0.9 }}
+                                                onHoverStart={e => { }}
+                                                onHoverEnd={e => { }}>
+                                    <Button colorScheme="green" w={"100%"} height={"60px"} onClick={history}>
                                         Go to Shortlink History
-                                    </Button>
+                                    </Button></motion.div>
                                 </Center>
                             </Box>
                         </Box>
                     </VStack>
                 </Box>
+                    </VStack>
+
+                </Box>
+                
             </Center>
+
+            {/*  */}
+
+            
+        
         </AppBody>
     )
 }
