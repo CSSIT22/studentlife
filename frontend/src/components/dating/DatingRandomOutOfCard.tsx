@@ -1,4 +1,4 @@
-import { Box, Text, useBreakpointValue } from "@chakra-ui/react"
+import { Box, Text } from "@chakra-ui/react"
 import { FC } from "react"
 import { motion } from "framer-motion"
 

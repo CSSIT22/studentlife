@@ -1,5 +1,6 @@
 import { Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Select } from "@chakra-ui/react"
-import React, { useState, FC } from "react"
+import { useEffect, useState, FC } from "react"
+import API from "src/function/API"
 
 const DatingCreateLocation: FC<{
     getLocation: any
@@ -10,8 +11,14 @@ const DatingCreateLocation: FC<{
     const [locationD, setLocationInputD] = useState("")
     const handleInputLocationChangeD = (e: any) => setLocationInputD(e.target.value)
 
+    const [res, setRes] = useState([])
     //Restaurant name
-    const res = ["Somchai Hotel", "Somsri Resturant", "Sompong Muu Ka Tra"]
+
+    useEffect(() => {
+        API.get("/dating/create/getFavRestaurants").then((favRes) => {
+            setRes(favRes.data)
+        })
+    }, [])
 
     const isTooLongLocation = location.length >= 100
     const isTooShortLocation = location.length < 5
@@ -65,12 +72,12 @@ const DatingCreateLocation: FC<{
             {!isTooShortLocation ? (
                 <FormHelperText color="gray">You have selected {location} as a location.</FormHelperText>
             ) : (
-                <FormErrorMessage color="red">The minimum header length is 5 characters. Type something.</FormErrorMessage>
+                <FormErrorMessage color="red">The minimum locator length is 5 characters. Please write the location clearly.</FormErrorMessage>
             )}
             {!isTooLongLocation ? (
                 <FormHelperText></FormHelperText>
             ) : (
-                <FormErrorMessage color="orange">The maximum header length is 100 characters. You cannot type more.</FormErrorMessage>
+                <FormErrorMessage color="orange">The maximum locator length is 100 characters. You cannot type more.</FormErrorMessage>
             )}
         </FormControl>
     )

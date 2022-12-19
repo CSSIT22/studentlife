@@ -11,13 +11,16 @@ const getaboutmeuser = async (req: Request, res: Response) => {
             },
             update: {},
             create: {
-                userId: userId || "",
-                address: "",
-                birth: "",
-                hobby: "",
-                phone: "",
-                sex: "",
-                year: 2000,
+                address: "s",
+                birth: new Date(),
+                hobby: "s",
+                phone: "s",
+                sex: "s",
+                student: {
+                    connect: {
+                        userId: userId
+                    }
+                }
             },
         })
         res.json(detail)

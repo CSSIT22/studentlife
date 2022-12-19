@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 const showReview = async (req: Request, res: Response) => {
-    const id = req.params.id
+    const id = req.query.resId + ""
     try {
         const prisma = res.prisma
         const restaurant = await prisma.restaurant.findUnique({
@@ -16,6 +16,8 @@ const showReview = async (req: Request, res: Response) => {
         })
 
         res.send([restaurant])
-    } catch (err) {}
+    } catch (err) {
+        res.status(400)
+    }
 }
 export default showReview

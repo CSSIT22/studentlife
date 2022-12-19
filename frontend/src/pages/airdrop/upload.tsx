@@ -5,8 +5,11 @@ import { Flex, VStack, Button, Text, useToast } from "@chakra-ui/react"
 import { Dropzone, FileItem, FullScreenPreview } from "@dropzone-ui/react"
 import { HiUpload } from "react-icons/hi"
 import API from "src/function/API"
+import { useNavigate } from "react-router-dom"
 
 export default function upload(){
+
+    const navigate = useNavigate();
     const [queryDecode, setQueryDecode] = useState<string>("")
     const [typeDecode, setTypeDecode] = useState<string>("")
     const [idDecode, setIdDecode] = useState<string>("")
@@ -43,6 +46,11 @@ export default function upload(){
                 duration: 3000,
                 isClosable: true,
             })
+            if(typeDecode == "shortnote"){
+                navigate("../../shortnotes/"+idDecode)
+            }else if(typeDecode == "community"){
+                navigate("../../groups/id/"+idDecode)
+            }
         }).catch((err) => {
             toast({
                 title: "Upload failed",

@@ -3,7 +3,7 @@ import NotFound from "./pages/NotFound"
 
 const ROUTES: Record<string, any> = import.meta.globEager("/src/pages/**/[a-z[]*.tsx")
 
-const routes: RouteObject[] = Object.keys(ROUTES).map((route) => {
+const routes: RouteObject[] = Object.keys(ROUTES).filter(item => item.endsWith(".tsx")).map((route) => {
     const path = route
         .replace(/\/src\/pages|index|\.tsx$/g, "")
         .replace(/\[\.{3}.+\]/, "*")

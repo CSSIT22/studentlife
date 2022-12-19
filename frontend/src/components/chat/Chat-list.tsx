@@ -10,21 +10,23 @@ import API from "src/function/API"
 import { buffer_to_img } from "./function/64_to_img"
 
 type Room = {
-    room:{
-        nick:[
+    room: {
+        nick: [
             {
-                nickname : string
-                nameWho:{
-                    image:{
-                       type : string
-                       data : string
+                nickname: string
+                nameWho: {
+                    image: {
+                        type: string
+                        data: string
                     }
                 }
             }
-        ],
-        chatColor: string,
-        roomName: string,
-        roomId: string,
+        ]
+        group: {
+            roomName: string
+        }
+        chatColor: string
+        roomId: string
         roomType: string
     }
 }
@@ -40,41 +42,56 @@ const Clist: FC<any> = () => {
 
     //function handle
     function Navigate(target: any) {
-        return navigate(`/chat/${target}`)
+        location.href = `/chat/${target}`
+        // return navigate(`/chat/${target}`,{replace:false})
     }
     function Seach(e: any) {
         return setSearch(e.target.value)
     }
 
-    function DeleteRoom(e: any) {
-        const result = userRoom.filter((el: any) => el.roomId !== e.roomId)
-        setuserRoom(result)
+    async function DeleteRoom(e: Room) {
+        await API.delete(`/chat/${e.room.roomId}/deleteRoom`)
+        const result = await API.get(`/chat`)
+        //const result = API.get
+        setuserRoom(result.data)
+        navigate(`/chat`)
+        // console.log(e.room.roomIsd SAd);
     }
-    function handleImg(e : any){
-        if(e === null){
+    function handleImg(e: any) {
+        if (e === null) {
             return ""
-        }
-        else{
+        } else {
             return buffer_to_img(e.data)
         }
     }
 
     //component FC
 
-    const Cmenu: FC<any> = (props) => {
-        const room = props.room
-        return (
-            <Menu>
-                <MenuButton>:</MenuButton>
-                <MenuList color={"black"}>
-                    <MenuItem>Mute</MenuItem>
-                    <MenuItem onClick={() => DeleteRoom(room)}>Deteleroom</MenuItem>
-                    <MenuItem>
-                        <Nmodal />
-                    </MenuItem>
-                </MenuList>
-            </Menu>
-        )
+    const Cmenu: FC<any> = (props: any) => {
+        const room: Room = props.room
+        if (room.room.roomType === "INDIVIDUAL") {
+            return (
+                <Menu>
+                    <MenuButton>:</MenuButton>
+                    <MenuList color={"black"}>
+                        <MenuItem>Mute</MenuItem>
+                        <MenuItem onClick={() => DeleteRoom(room)}>Deteleroom</MenuItem>
+                    </MenuList>
+                </Menu>
+            )
+        } else {
+            return (
+                <Menu>
+                    <MenuButton>:</MenuButton>
+                    <MenuList color={"black"}>
+                        <MenuItem>Mute</MenuItem>
+                        <MenuItem>
+                            <Nmodal />
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
+            )
+        }
     }
 
     const renderButton = () => {
@@ -107,7 +124,7 @@ const Clist: FC<any> = () => {
             </Flex>
         )
     }
-    
+
     const renderRoom = (e: Room) => {
         if (target === 1 && e.room.roomType === "INDIVIDUAL") {
             return (
@@ -124,7 +141,9 @@ const Clist: FC<any> = () => {
                         w={"93%"}
                     >
                         <Avatar name={e.room.nick[0].nickname} src={handleImg(e.room.nick[0].nameWho.image)} />
-                        <Box marginLeft={"5"}>{e.room.nick[0].nickname} </Box>
+                        <Box marginLeft={"5"} overflowX={"auto"}>
+                            {e.room.nick[0].nickname}{" "}
+                        </Box>
                     </Flex>
                     <Show above="md">
                         <Cmenu room={e} />
@@ -136,39 +155,50 @@ const Clist: FC<any> = () => {
             )
         }
         if (target === 2 && e.room.roomType === "GROUP") {
-            // const img = e.room.?.groupImg
-            // return (
-            //     <Flex justify={"space-between"} alignItems={"center"} key={e.roomId} paddingRight={5} paddingLeft={5}>
-            //         <Flex
-            //             alignItems={"center"}
-            //             key={e.roomId}
-            //             marginY={3}
-            //             _hover={{
-            //                 transform: "scale(1.1)",
-            //             }}
-            //             transitionDuration="300ms"
-            //             onClick={() => Navigate(e.roomId)}
-            //             w={"93%"}
-            //         >
-            //             <Avatar name={e.roomName} src={(img === null) ? "" : img} />
-            //             <Box marginLeft={"5"}>{e.roomName} </Box>
-            //         </Flex>
-            //         <Show above="md">
-            //             <Cmenu room={e} />
-            //         </Show>
-            //         <Show below="md">
-            //             <DrawerExample item={e} setuserRoom={setuserRoom} userRoom={userRoom} />
-            //         </Show>
-            //     </Flex>
-            // )
+            return (
+                <Flex justify={"space-between"} alignItems={"center"} key={e.room.roomId} paddingRight={5} paddingLeft={5}>
+                    <Flex
+                        alignItems={"center"}
+                        key={e.room.roomId}
+                        marginY={3}
+                        _hover={{
+                            transform: "scale(1.1)",
+                        }}
+                        transitionDuration="300ms"
+                        onClick={() => Navigate(e.room.roomId)}
+                        w={"93%"}
+                    >
+                        <Avatar name={e.room.group.roomName} src="https://picsum.photos/200/300" />
+                        <Box marginLeft={"5"} overflowX={"auto"}>
+                            {e.room.group.roomName}{" "}
+                        </Box>
+                    </Flex>
+                    <Show above="md">
+                        <Cmenu room={e} />
+                    </Show>
+                    <Show below="md">
+                        <DrawerExample item={e} setuserRoom={setuserRoom} userRoom={userRoom} />
+                    </Show>
+                </Flex>
+            )
         }
     }
-    const renderSearch = (search: string) => {
+    const renderSearch = (search: any) => {
         if (search === "") {
             return userRoom.map((e: any) => renderRoom(e))
         } else {
-            const result = userRoom.filter((e: any) => e.roomName.includes(search))
-            return result.map((e: any) => renderRoom(e))
+            // const result = userRoom.filter((e: Room) => e.room.nick[0].nickname.includes(search))
+            // return result.map((e: any) => renderRoom(e))
+            if(target == 2){
+                const group = userRoom.filter((e:Room)=>e.room.roomType === "GROUP")
+                const search1 = group.filter((e:Room)=>e.room.group.roomName.toLowerCase().includes(search.toLowerCase()))      
+                return search1.map((e)=>renderRoom(e))
+            }
+            else{
+                const individual = userRoom.filter((e:Room)=>e.room.roomType === "INDIVIDUAL")
+                const search1 = individual.filter((e:Room)=>e.room.nick[0].nickname.toLowerCase().includes(search.toLowerCase()))      
+                return search1.map((e)=>renderRoom(e))
+            }
         }
     }
 
@@ -177,7 +207,7 @@ const Clist: FC<any> = () => {
             <Flex width={"100%"} height={"20%"} p={5} rounded={"lg"} fontWeight={"bold"} color={"white"} direction={"column"}>
                 {renderButton()}
                 <Input placeholder="Search" marginY={2} focusBorderColor={"white"} onChange={(e) => Seach(e)} />
-                <Box overflowX={"auto"} maxH={"380px"}>
+                <Box overflowX={"hidden"} maxH={"380px"}>
                     {renderSearch(search)}
                 </Box>
             </Flex>
@@ -185,3 +215,4 @@ const Clist: FC<any> = () => {
     )
 }
 export default Clist
+

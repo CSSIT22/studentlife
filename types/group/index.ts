@@ -3,7 +3,7 @@ export type createCommunity = {
   communityOwnerId: any;
   communityDesc: string;
   communityPrivacy: boolean;
-  communityPhoto?: Blob;
+  communityPhoto?: any;
 };
 
 export type editCommunity = {
@@ -11,15 +11,16 @@ export type editCommunity = {
   communityName: string;
   communityDesc: string;
   communityPrivacy: boolean;
-  communityPhoto?: Blob;
+  communityPhoto?: any;
 };
 
 //Owning community
 export type OwnCommunity = {
+  pendingRequest?: boolean;
   communityName: string;
   communityPrivacy: boolean;
-  communityCoverPhoto: string;
-  communityId: number;
+  communityPhoto: any;
+  communityId: string;
 
   communityOwnerId?: string;
   communityMember?: number;
@@ -32,8 +33,8 @@ export type OwnCommunity = {
 export type JoinedCommunity = {
   communityName: string;
   communityPrivacy: boolean;
-  communityCoverPhoto: string;
-  communityId: number;
+  communityPhoto: any;
+  communityId: string;
 
   communityOwnerId?: number;
   communityMember?: number;
@@ -44,13 +45,17 @@ export type JoinedCommunity = {
 };
 //Invited community
 export type InvitedCommunity = {
+  ownerFname?: string;
+  ownerLname?: string;
   communityId: number;
   communityName: string;
   communityMember: number;
-  communityCoverPhoto: string;
-  userName: string; //inviter name
-  expired: number;
+  communityPhoto: any;
+  userName?: string; //inviter name
+  expired?: number;
   communityPrivacy: boolean;
+  joined?: Date;
+  userId?: string;
 
   communityOwnerId?: number;
   //   communityTags: number[];
@@ -60,9 +65,9 @@ export type InvitedCommunity = {
 //Suggestions community
 export type SuggestionsCommunity = {
   communityName: string;
-  communityMember: number;
+  communityMember?: number;
   communityPrivacy: boolean;
-  communityCoverPhoto: string;
+  communityPhoto: any;
 
   communityId?: number;
   communityOwnerId?: number;

@@ -1,5 +1,5 @@
-import { Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react"
-import React, { useState, FC } from "react"
+import { Center, FormControl, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react"
+import { useState, FC } from "react"
 
 const DatingCreateDescription: FC<{
     getDescription: any
@@ -7,11 +7,11 @@ const DatingCreateDescription: FC<{
     const [description, setDescriptionInput] = useState("")
     const handleInputDescriptionChange = (e: any) => setDescriptionInput(e.target.value)
     //Validate the Description
-    const isTooLongDescription = description.length >= 250
+    const isTooLongDescription = description.length > 250
     return (
         <Center>
             {/* Description input & error control */}
-            <FormControl isInvalid={isTooLongDescription} pt="8px">
+            <FormControl isInvalid={false} pt="8px">
                 <FormLabel color={"white"}>Poll description</FormLabel>
                 <Textarea
                     borderRadius={"6px"}
@@ -30,10 +30,10 @@ const DatingCreateDescription: FC<{
                     shadow="lg"
                     borderColor="black"
                 />
-                {!isTooLongDescription ? (
+                {!(description.length == 250) ? (
                     <FormHelperText></FormHelperText>
                 ) : (
-                    <FormErrorMessage color="orange">The maximum description length is 250 characters. You cannot type more.</FormErrorMessage>
+                    <FormHelperText color="orange">The maximum description length is 250 characters. You cannot type more.</FormHelperText>
                 )}
             </FormControl>
         </Center>

@@ -1,6 +1,8 @@
-import { Center, Flex, IconButton } from "@chakra-ui/react"
+import { Rating } from "@apiType/dating"
+import { Center, Flex, IconButton, useToast } from "@chakra-ui/react"
 import { FC, useState } from "react"
 import { AiFillStar, AiOutlineStar } from "react-icons/ai"
+import API from "src/function/API"
 
 const star = [<AiOutlineStar color="#E65300" size="30px" />, <AiFillStar color="#E65300" size="30px" />]
 let index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -13,7 +15,9 @@ const DatingRatingAllStar: FC<{
     defaultFill: number
     rateFor: string
 }> = ({ defaultFill, rateFor }) => {
+    const [timer, setTimer] = useState<boolean>(false)
     const [selected, setSelected] = useState<boolean[]>(handleFill(defaultFill))
+    const toast = useToast()
 
     //First time fill
     globalThis.starState = [false, false, false, false, false, false, false, false, false, false]
@@ -63,7 +67,18 @@ const DatingRatingAllStar: FC<{
                 value = value + 1
             }
         }
-        console.log(rateFor + ": " + value)
+        if (value != 0) {
+            API.post<Rating>("/dating/rating/setRating", { anotherUserId: rateFor, score: value })
+                .catch(() => API.put<Rating>("/dating/rating/updateRating", { anotherUserId: rateFor, score: value })
+                    .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) })))
+                .finally(() => setTimer(false))
+        }
+        else {
+            const anotherUser: any = rateFor
+            API.put<any>("/dating/rating/deleteRating", { anotherUserId: anotherUser })
+                .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request " + err) }))
+                .finally(() => setTimer(false))
+        }
     }
 
     return (
@@ -80,9 +95,12 @@ const DatingRatingAllStar: FC<{
                             colorScheme="none"
                             variant="unstyled"
                             size={{ base: "0px", md: "20px" }}
+                            isDisabled={timer}
                             onClick={() => {
+                                setTimer(true)
                                 handleClick(s)
-                            }}
+                            }
+                            }
                         />
                     )
                 })}

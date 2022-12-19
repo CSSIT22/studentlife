@@ -1,4 +1,5 @@
 import {
+    background,
     Box,
     Button,
     Collapse,
@@ -45,6 +46,19 @@ const Zone: FC<{
                             <SelectZone handleSetZones={handleSetZones} name={"หน้ามอ"} />
                             <SelectZone handleSetZones={handleSetZones} name={"หลังมอ"} />
                             <SelectZone handleSetZones={handleSetZones} name={"Library"} />
+                        </Flex>
+                        <Flex mb={3} direction={"row"} justifyContent={"center"}>
+                            <Button mr={2}
+                                ml={2}
+                                transitionDuration="300ms"
+                                width={"100px"}
+                                rounded={"3xl"} backgroundColor={"white"} _hover={{ backgroundColor: "white" }}></Button>
+                            <SelectZone handleSetZones={handleSetZones} name={"อื่นๆ"} />
+                            <Button mr={2}
+                                ml={2}
+                                transitionDuration="300ms"
+                                width={"100px"}
+                                rounded={"3xl"} backgroundColor={"white"} _hover={{ backgroundColor: "white" }} ></Button>
                         </Flex>
                         <br></br>
                     </PopoverBody>
