@@ -419,9 +419,9 @@ model Event {
   eventTypeId  String
   type         Event_Type   @relation(fields: [eventTypeId], references: [eventTypeId])
   courseId     String?
-  course       Course?      @relation(fields: [courseId], references: [courseId])
+  course       Course?      @relation(fields: [courseId], references: [courseId], onDelete: Cascade)
   assignmentId String?
-  assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId])
+  assignment   Assignment?  @relation(fields: [assignmentId], references: [assignmentId], onDelete: Cascade)
 }
 
 model Event_Type {
@@ -1223,16 +1223,7 @@ model Transaction_Detail {
   transCreated DateTime          @default(now()) @db.Timestamp(0)
   transStatus  String
   isShip       Boolean
-  errKey       Int               @unique @default(autoincrement())
   detailOf     Transaction       @relation(fields: [transId], references: [transId], onDelete: Cascade)
-  haveError    Transaction_Error @relation(fields: [errKey], references: [errKey], onDelete: Cascade)
-}
-
-model Transaction_Error {
-  errKey  Int                 @id @default(autoincrement())
-  errId   Int
-  errDesc String
-  error   Transaction_Detail?
 }
 
 model Credit_Card {
