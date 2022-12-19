@@ -6,9 +6,19 @@ const getshopDb = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const shop = await prisma.sReview_Shop.findMany({
             include: {
+                // reviews: {
+                //     select: {
+                //         rating: true,
+                //     },
+                // },
                 images: {
                     select: {
                         image: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        reviews: true,
                     },
                 },
             },
@@ -16,7 +26,17 @@ const getshopDb = async (req: Request, res: Response) => {
                 shopId: id,
             },
         })
-        res.send(shop)
+        const sr = await prisma.sReview_Review.groupBy({
+            by: ["shopId"],
+            _avg: {
+                rating: true,
+            },
+        })
+        // console.log(sr)
+
+        const response = shop.map((item) => ({ ...item, rating: sr.filter((i) => i.shopId === item.shopId)[0]._avg.rating || 0 }))
+
+        res.send(response)
         // res.send(shop.map((e) => e.images))
     } catch {
         res.status(400).send("Error can't find shop")

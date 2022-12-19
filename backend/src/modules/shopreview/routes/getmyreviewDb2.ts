@@ -10,6 +10,18 @@ const getmyreviewDb2 = async (req: Request, res: Response) => {
                     select: {
                         fName: true,
                         lName: true,
+                        userId: true,
+                    },
+                },
+                comments: {
+                    select: {
+                        commentBy: {
+                            select: {
+                                fName: true,
+                                lName: true,
+                                userId: true,
+                            },
+                        },
                     },
                 },
             },
