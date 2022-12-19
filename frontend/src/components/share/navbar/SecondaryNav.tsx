@@ -7,7 +7,7 @@ const SecondaryNav: FC<{ to: string; name: string; Icon: IconType }> = ({ to, na
     let router = useLocation()
     return (
         <Link to={to}>
-            <HStack cursor={"pointer"} _hover={{ color: "orange.300" }} {...(router.pathname === to && { color: "orange.300" })} transition="0.25s">
+            <HStack cursor={"pointer"} _hover={{ color: "orange.300" }} {...(router.pathname.includes(to) && { color: "orange.300" })} transition="0.25s">
                 <Heading fontWeight={"normal"} size="md">
                     <Icon />
                 </Heading>
