@@ -3,7 +3,7 @@ import { Request, Response } from "express"
 const setTransStatus = async (req: Request, res: Response) => {
     try {
         const prisma = res.prisma
-        const transId = req.body.transId
+        const transId = req.body.transactionid
         const setStatus = await prisma.transaction_Detail.update({
             where: { transId: transId },
             data: {

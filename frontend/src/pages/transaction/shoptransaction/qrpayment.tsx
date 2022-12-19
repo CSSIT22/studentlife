@@ -7,13 +7,13 @@ import QRcode from "src/components/transaction/methodpayment/QRcode"
 import { Link, useLocation } from "react-router-dom"
 import API from "src/function/API"
 
-const qrpayment = ({}) => {
+const qrpayment = ({ }) => {
     const totalPrice = useLocation().state.totalPrice
     const transactionId = useLocation().state.transactionId
     const [rawData, setRawData] = React.useState("")
 
     useEffect(() => {
-        API.post("http://localhost:8000/transaction/QRpayment", {
+        API.post("/transaction/QRpayment", {
             transactionid: transactionId,
             totalPrice: parseFloat(totalPrice),
 
@@ -42,11 +42,15 @@ const qrpayment = ({}) => {
     const [showModal, setShowModal] = useState(false)
     useEffect(() => {
         if (showModal) {
-            const timer = setTimeout(() => {
-                setShowModal(false)
-                window.location.replace("/")
-            }, 10000)
-            return () => clearTimeout(timer)
+            API.put("/transaction/updatestatus", {
+                transactionid: transactionId,
+            }).then(res => {
+                const timer = setTimeout(() => {
+                    setShowModal(false)
+                    window.location.replace("/")
+                }, 10000)
+                return () => clearTimeout(timer)
+            })
         }
     }, [showModal])
 
