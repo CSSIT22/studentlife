@@ -122,7 +122,7 @@ app.use(filterWord)
 app.use(banned)
 
 app.get("/", (_, res) => {
-    return res.send("Welcome to integrated project 2022! Eiei- " + process.env.MODE)
+    return res.send("Welcome to integrated project 2022! Eiei " + process.env.MODE)
 })
 app.use("/auth", loginRoutes)
 app.use("/airdrop", airdropRoutes)
