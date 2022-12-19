@@ -34,14 +34,10 @@ const DatingYourPollSeeMore: FC<{
         }
     }
 
-    const delHours = (date: Date): Date => {
-        const result = new Date(date);
-        result.setHours(result.getHours() - 7);
-        return result;
-    };
-
     function handlePollTime(dateTime: string) {
-        const time = new Date(dateTime)
+        const result = new Date(dateTime);
+        result.setHours(result.getHours() - 7);
+        const time = new Date(result)
         let hours = time.getHours()
         let minutes = time.getMinutes()
         let ampm = hours >= 12 ? "pm" : "am"
@@ -59,10 +55,8 @@ const DatingYourPollSeeMore: FC<{
         return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + chooseDate.getFullYear()
     }
 
-    const dateTime = new Date(pollInfo.pollAppointAt)
-    const rawDateTime = delHours(dateTime)
-    const date = handlePollDate(dateTime.toLocaleString())
-    const time = handlePollTime(rawDateTime.toLocaleString())
+    const date = handlePollDate(pollInfo.pollAppointAt)
+    const time = handlePollTime(pollInfo.pollAppointAt)
 
     return (
         <>
