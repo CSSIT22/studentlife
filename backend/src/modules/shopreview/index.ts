@@ -14,11 +14,15 @@ import getcommentDb from "./routes/getcommentDb"
 import getresDbPls from "./routes/getresDbPls"
 import getcountReview from "./routes/getcountReview"
 import postmyreview from "./routes/postMyreview"
-import postimage from "./routes/postImage"
 import editcomment from "./routes/editcomment"
 import editmyreview from "./routes/editmyreview"
 import deletecomment from "./routes/deletecomment"
 import deletereview from "./routes/deletereview"
+import getCountEachRate from "./routes/getcounteachrate"
+import getCountReviewEachRate from "./routes/getcountrevieweachrae"
+import getCountReviewEachRateRestaurant from "./routes/getcountrevieweachraterestaurant"
+import getAvgshopDb from "./routes/getAvgshopDb"
+import insertlikeReview from "./routes/insertlikeReview"
 
 const shopreviewRoutes = express()
 
@@ -250,9 +254,12 @@ shopreviewRoutes.get("/getmycommentDb", getmycommentDb)
 shopreviewRoutes.get("/getshopImageDb", getshopImage)
 shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
 shopreviewRoutes.get("/shopdetails/restaurant/:id", getrestDb)
-shopreviewRoutes.get("/getreview/:id", getreviewDb)
-shopreviewRoutes.get("/getcommentDb/:id", getcommentDb)
+shopreviewRoutes.get("/getreview/:id", getmyreviewDb)
+shopreviewRoutes.get("/getcommentDb/:id", getmycommentDb)
 shopreviewRoutes.get("/getcountReview", getcountReview)
+// shopreviewRoutes.get("/shopdetails/shop/:id/getcounteachrate", getCountEachRate)
+shopreviewRoutes.get("/shopdetails/shop/:id/getcountrevieweachrate", getCountReviewEachRate)
+shopreviewRoutes.get("/shopdetails/restaurant/:id/getcountrevieweachraterestaurant", getCountReviewEachRateRestaurant)
 
 shopreviewRoutes.get("/getrestaurant", (req, res) => {
     res.send(restaurants)
@@ -264,17 +271,16 @@ shopreviewRoutes.get("/getcomment", (req, res) => {
 
 shopreviewRoutes.get("/shopdetails/shop/:id", getshopDb)
 shopreviewRoutes.get("/shopdetails/restaurant/:id", getRest)
+shopreviewRoutes.get("/shopdetails/shop/avg/:id", getAvgshopDb)
+// shopreviewRoutes.get("/shopdetails/restaurant/avg/:id", getAvgRest)
 shopreviewRoutes.post("/postmyreview", upload.array("upload"), postmyreview)
-shopreviewRoutes.post("/postimage", postimage)
 shopreviewRoutes.post("/editcomment", editcomment)
-shopreviewRoutes.post("/editmyreview", editmyreview)
+shopreviewRoutes.post("/editmyreview", upload.array("upload"), editmyreview)
 shopreviewRoutes.post("/postcomment", postcomment)
 
-shopreviewRoutes.delete("/deletecomment",deletecomment)
+shopreviewRoutes.delete("/deletecomment", deletecomment)
 
-shopreviewRoutes.delete("/deletereview",deletereview)
-
-
-
+shopreviewRoutes.delete("/deletereview", deletereview)
+shopreviewRoutes.post("/:id", insertlikeReview)
 
 export default shopreviewRoutes

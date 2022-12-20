@@ -19,6 +19,9 @@ const getcountReview = async (req: Request, res: Response) => {
                     },
                 },
             },
+            where: {
+                shopId: id,
+            },
         })
         res.send(count)
     } catch {

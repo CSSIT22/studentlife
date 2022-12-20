@@ -41,6 +41,8 @@ const TempUpload: FC<{ files: any, setFiles: Function }> = ({ files, setFiles })
     //state for click drop
     const [clickDrop, setClickDrop] = useState(false)
 
+    const hiddenFileInput = useRef<any>(null);
+
 
     // drop duration check
     const [dropDuration, setDropDuration] = useState({
@@ -48,7 +50,7 @@ const TempUpload: FC<{ files: any, setFiles: Function }> = ({ files, setFiles })
         perm: false,
     })
     //state for modal
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    // const { isOpen, onOpen, onClose } = useDisclosure()
     // state for user select
     const [selectedType, setSelectedType] = useState("Everyone")
     //state for select receiver
@@ -115,26 +117,25 @@ const TempUpload: FC<{ files: any, setFiles: Function }> = ({ files, setFiles })
             {/* setCam */}
             <Flex flexDirection={"column"} w={"full"}  >
 
-                <Box w={"30px"} borderRadius="full"
-
-                >
+                <Box w={"30px"} borderRadius="full">
                     <AiFillCamera size={"80%"}
-
-
                         align-items="center"
                         display="flex"
                         enableBackground={1} color="black"
-                        onClick={() => {
-                            document.getElementById("test")?.click()
+                        onClick={(e) => {
+                            if (hiddenFileInput.current)
+                                hiddenFileInput.current.click();
                         }}>
 
                     </AiFillCamera>
                 </Box>
 
                 <Input type={"file"}
-                    id="test" hidden multiple
+                    id="uploadImg" multiple hidden
+                    ref={hiddenFileInput}
                     display={"flex"} htmlSize={4}
                     onChange={(e) => {
+                        e.preventDefault()
                         updateFile2(e.target.files)
                     }}>
 
@@ -172,109 +173,7 @@ const TempUpload: FC<{ files: any, setFiles: Function }> = ({ files, setFiles })
 
 
                 {/* select receiver modal */}
-                <Modal isOpen={isOpen} onClose={onClose} isCentered size={["sm", "md", "lg"]}>
-                    <ModalOverlay bg={"none"} />
-                    <ModalContent>
-                        <ModalHeader>
 
-                            <Text align={"center"}>{!clickDrop ? "Select Receiver" : "Set Drop Duration"}d</Text>
-                        </ModalHeader>
-
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <Flex flexDirection={"column"} justifyContent={"space-around"} w={"80%"} m={"auto"} gap={4}>
-                                {!clickDrop ? (
-                                    <>
-                                        <HStack spacing={5}>
-                                            <Text fontSize={"lg"}>Type: </Text>
-
-                                        </HStack>
-
-                                    </>
-                                ) : (
-                                    <>
-                                        <VStack spacing={5}>
-                                            <SetDropBox>
-                                                <HStack>
-                                                    <Switch
-                                                        id="temp"
-                                                        isChecked={dropDuration.temp}
-                                                        onChange={(e) => {
-                                                            handleDuration(e)
-                                                        }}
-                                                    />
-
-                                                    <Text>Temporary</Text>
-                                                </HStack>
-                                                <Text color={"gray.400"}>Set Timer</Text>
-                                                <HStack spacing={[1, 2, 3]}>
-                                                    <NumberInput
-                                                        defaultValue={0}
-                                                        min={0}
-                                                        max={20}
-                                                        placeholder={"00"}
-                                                        minW={["60px", "65px"]}
-                                                        size={["sm", "md"]}
-                                                    >
-                                                        <NumberInputField />
-                                                        <NumberInputStepper>
-                                                            <NumberIncrementStepper />
-                                                            <NumberDecrementStepper />
-                                                        </NumberInputStepper>
-                                                    </NumberInput>
-                                                    <Text>H</Text>
-
-                                                    <NumberInput
-                                                        defaultValue={0}
-                                                        min={0}
-                                                        max={60}
-                                                        placeholder={"00"}
-                                                        minW={"65px"}
-                                                        size={["sm", "md"]}
-                                                    >
-                                                        <NumberInputField />
-                                                        <NumberInputStepper>
-                                                            <NumberIncrementStepper />
-                                                            <NumberDecrementStepper />
-                                                        </NumberInputStepper>
-                                                    </NumberInput>
-                                                    <Text>M</Text>
-                                                    <NumberInput
-                                                        defaultValue={0}
-                                                        min={0}
-                                                        max={60}
-                                                        placeholder={"00"}
-                                                        minW={"65px"}
-                                                        size={["sm", "md"]}
-                                                    >
-                                                        <NumberInputField />
-                                                        <NumberInputStepper>
-                                                            <NumberIncrementStepper />
-                                                            <NumberDecrementStepper />
-                                                        </NumberInputStepper>
-                                                    </NumberInput>
-                                                    <Text>S</Text>
-                                                </HStack>
-                                            </SetDropBox>
-                                            <SetDropBox>
-                                                <HStack>
-                                                    <Switch
-                                                        id="perm"
-                                                        isChecked={dropDuration.perm}
-                                                        onChange={(e) => {
-                                                            handleDuration(e)
-                                                        }}
-                                                    />
-                                                    <Text>Permanent</Text>
-                                                </HStack>
-                                            </SetDropBox>
-                                        </VStack>
-                                    </>
-                                )}
-                            </Flex>
-                        </ModalBody>
-                    </ModalContent>
-                </Modal>
             </Flex>
 
         </>
