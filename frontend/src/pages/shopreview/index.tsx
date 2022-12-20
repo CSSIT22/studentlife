@@ -122,12 +122,12 @@ const shopreview = () => {
                             if (zones.length === 0) {
                                 return (
                                     <b onClick={() => Navigate2(item.resId)}>
-                                        <DetailBox key={item.id} heading={item.resName} image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.images[0].image}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} rate={item.rating} amo_re={item._count.reviews} />
+                                        <DetailBox key={item.id} heading={item.resName} image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.images[0].image}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} rate={String(item.rating).substring(0, 3)} amo_re={item._count.reviews} />
                                     </b>
                                 )
                             } else if (zones.includes(item.detail.zone)) {
                                 return (
-                                    <DetailBox key={item.id} heading={item.resName} image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.images[0].image}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} rate={item.rating} amo_re={item._count.reviews} />
+                                    <DetailBox key={item.id} heading={item.resName} image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.images[0].image}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} rate={String(item.rating).substring(0, 3)} amo_re={item._count.reviews} />
                                 )
                             }
                         })}

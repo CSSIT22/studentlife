@@ -171,11 +171,11 @@ export default function Index<FC>() {
                 })
             }
         }
-        const socketIO = socket()
-        socketIO.emit("upload")
     }
     //Function for handle file drop
     const handleDrop = async () => {
+        const socketIO = socket()
+        socketIO.emit("upload")
         const fd = new FormData()
         if (selectedType == "everyone") {
             fd.append("receiver", "everyone")
@@ -216,8 +216,8 @@ export default function Index<FC>() {
             fd.append("upload", item.file)
         })
         
-        const socketIO = socket()
-        socketIO.emit("upload")
+
+        
 
         try {
             const res = await API.post("/airdrop/file/upload", fd, {
@@ -230,6 +230,8 @@ export default function Index<FC>() {
                 })
                 .catch((err) => {
                     on()
+                }).finally(()=>{
+                    socketIO.emit("upload")
                 })
         } catch {
             console.log("error")

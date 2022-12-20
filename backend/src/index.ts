@@ -100,7 +100,7 @@ app.use(
     })
 )
 
-// config app to use passport
+// config app to use passport/
 app.use(passport.initialize())
 app.use(passport.session())
 
