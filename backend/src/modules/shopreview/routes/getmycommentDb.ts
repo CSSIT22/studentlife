@@ -7,6 +7,23 @@ const getmycommentDb = async (req: Request, res: Response) => {
         const prisma = res.prisma
         const mycomment = await prisma.sReview_Comment.findMany({
             select: {
+                commentId: true,
+                reviewId: true,
+                commentOf: {
+                    select: {
+                        reviewer: {
+                            select: {
+                                userId: true,
+                                fName: true,
+                                _count: {
+                                    select: {
+                                        comment: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
                 likeReceived: true,
                 text: true,
                 commentedAt: true,
@@ -17,14 +34,22 @@ const getmycommentDb = async (req: Request, res: Response) => {
                         userId: true,
                     },
                 },
+                _count: {
+                    select: {
+                        userLike: true,
+                    },
+                },
             },
             where: {
                 reviewId: id,
             },
+            orderBy: {
+                commentedAt: "desc",
+            },
         })
         res.send(mycomment)
     } catch {
-        res.status(400).send("Error can't find room")
+        res.status(400).send("Error can't find comment")
     }
 }
 

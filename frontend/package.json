@@ -37,6 +37,8 @@
         "react-sticky": "^6.0.3",
         "react-textarea-autosize": "^8.4.0",
         "react-tinder-card": "^1.6.2",
+        "react-use": "^17.4.0",
+        "react-use-clipboard": "^1.0.9",
         "socket.io-client": "^4.5.4",
         "sort-by": "^0.0.2",
         "swiper": "^8.4.4",

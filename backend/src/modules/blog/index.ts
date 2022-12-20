@@ -5,7 +5,9 @@ import postCreatingText from "./routes/postCreatingText"
 // import searchCreate from "./routes/searchCreate"
 
 import searchPost from "./routes/searchPost"
-
+import reactToPost from "./routes/reactToPost"
+import createComment from "./routes/createComment"
+import searchComment from "./searchComment"
 
 const multer = require("multer")
 const upload = multer({})
@@ -73,12 +75,17 @@ export const setPostDetail = (postcreated: Structure[]) => {
 
 blogRoutes.get("/getpost", getPostId)
 
+blogRoutes.get("/searchComment/:postId", searchComment)
+
 blogRoutes.get("/search/:postId", searchPost)
 
 blogRoutes.post("/postCreating", postCreating)
 
 blogRoutes.post("/postCreatingX", upload.array("upload"), postCreatingText)
 
+blogRoutes.post("/reactopost", reactToPost)
+
+blogRoutes.post("/comment/:postId", createComment)
 
 // blogRoutes.post("/uploadfileintopost", upLoadFile)
 

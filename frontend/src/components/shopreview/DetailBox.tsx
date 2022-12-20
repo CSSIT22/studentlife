@@ -10,7 +10,7 @@ const DetailBox: FC<{ heading: String; image: String; rate: String; amo_re: Stri
     //     navigate("/shopreview/shopdetails")
     // }
     return (
-        <Box backgroundSize={"100%"} backgroundImage={`url('${image}')`} _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" as="button" p={3} h={32} width={"100%"} shadow={"md"} rounded={"2xl"}>
+        <Box backgroundSize={"cover"} backgroundImage={`url('${image}')`} _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }} transitionDuration="300ms" as="button" p={3} h={32} width={"100%"} shadow={"md"} rounded={"2xl"}>
             <Flex>
                 <Heading overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipsis"} size="md" textAlign={"left"} color="white">
                     {heading}
