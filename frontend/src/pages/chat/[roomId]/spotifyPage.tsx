@@ -83,7 +83,7 @@ function SpotifyPage() {
     //     }
     // }
     function renderCard(props: any) {
-        const { srcs, name, link,artist} = props
+        const { srcs, name, link, artist } = props
         return (
             <Card maxW="md" bg={"#f1f1f2"} height='200px' overflow={'hidden'} onClick={() => window.open(link)}>
                 <CardBody justifyContent={'center'}>
@@ -92,7 +92,7 @@ function SpotifyPage() {
                             src={srcs}
                             alt={name}
                             borderRadius='lg'
-                            w={['150px','150px','75px']}
+                            w={['150px', '150px', '75px']}
                         />
                         <Stack mt='3' spacing='1'>
                             {/* <Heading fontSize={'6vm'} >{data}</Heading> */}
@@ -102,13 +102,23 @@ function SpotifyPage() {
                                 fontSize='xs'
                                 letterSpacing='wide'
                                 color='teal.600'
+                                overflow={'hidden'}
+                                textOverflow={'ellipsis'}
+                                whiteSpace={'nowrap'}
                             >
                                 {artist}
                             </Text>
                             <Divider />
-                            <Text textAlign={'center'}>{name}</Text>
+                            <Text
+                                textAlign={'center'}
+                                overflow={'hidden'}
+                                textOverflow={'ellipsis'}
+                                whiteSpace={'nowrap'}
+                                fontSize={'sm'}>
+                                {name}
+                            </Text>
                             <Button colorScheme='teal' size='xs'>
-                               Button
+                                Share
                             </Button>
                         </Stack>
                     </Stack>
@@ -136,9 +146,9 @@ function SpotifyPage() {
                             <BsMusicNoteList size={30} />
                         </Box>
                         <InputGroup>
-                        <InputRightElement pointerEvents="none" children={<SearchIcon />} />
-                        <Input placeholder="Search..." borderColor={"#F4A460"} />
-                    </InputGroup>
+                            <InputRightElement pointerEvents="none" children={<SearchIcon />} />
+                            <Input placeholder="Search..." borderColor={"#F4A460"} />
+                        </InputGroup>
                     </Flex>
                     {/* </Form> */}
 
