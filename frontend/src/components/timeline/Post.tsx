@@ -61,9 +61,9 @@ export const Post = (prop: any) => {
     const param = useParams()
     const navigate = useNavigate()
 
-    const goToPost = () => {
+    const goToPost = (go: any) => {
 
-        let path = "/blog/search/" + param.postId
+        let path = "/blog/search/" + go
         navigate(path);
     }
 
@@ -98,23 +98,24 @@ export const Post = (prop: any) => {
                         </HStack>
 
                         <Container p="1" fontWeight="normal">
-                            {postDt.body}
-                            {<PostFile file={postDt.files[0]?.fileAddress} />}
+                            {postDt?.files.length === 1 &&
+                                < PostFile file={postDt.files[0]?.fileAddress}
+                                />}
                             {/* <Image src={postDt.media} alt="" p="1" fit={"cover"} /> */}
                         </Container>
                         <Center>
                             <Box marginTop={"6"} display="flex" gap={10}>
                                 <Box>
-                                    <EmojiReaction setSelectedEmoji={handleSetSelectedEmoji} emojiname={"Angry"} />
+                                    <EmojiReaction setSelectedEmoji={handleSetSelectedEmoji} emojiname={postDt?.reacted.emoteId} />
                                 </Box>
                                 <Box>
                                     <EmojiFeelingTelling number={postDt._count.studentsReacted} />
                                 </Box>
                                 <Box>
-                                    <ReRouteButton onClick={goToPost}>Go To This Post</ReRouteButton>
+                                    <ReRouteButton onClick={() => goToPost(postDt.postId)}>Go To This Post</ReRouteButton>
                                 </Box>
                                 <Box>
-                                    <RemodButton text={"/blog/search/" + param.postId} />
+                                    <RemodButton text={"modlifes.me/blog/search/" + postDt.postId} />
                                 </Box>
                             </Box>
                         </Center>
