@@ -17,6 +17,9 @@ import joinGroup from "./router/joinGroup"
 import getUserIDChatWith from "./router/getUserIDChatWith"
 import postMessage from "./router/postMessage"
 import getMessage from "./router/getMessage"
+import inviteToGroup from "./router/inviteToGroup"
+import getUserProp from "./router/getUserProp"
+import getFollowList from "./router/getFollowList"
 const chatRoutes = express.Router()
 chatRoutes.use(express.json())
 
@@ -35,6 +38,8 @@ chatRoutes.post("/createGroup",createGroup)
 
 chatRoutes.post("/joinGroup",joinGroup)
 
+chatRoutes.get("/getUserProps",getUserProp)
+
 chatRoutes.get("/:id", room_prop)
 
 chatRoutes.delete("/:id/deleteRoom",deleteRoom)
@@ -49,6 +54,8 @@ chatRoutes.get("/:id/getQuote", getQuote)
 
 chatRoutes.get("/:id/getMember", getMember)
 
+chatRoutes.get("/:id/getFollowList", getFollowList)
+
 chatRoutes.get("/:id/getUserID", getUserIDChatWith)
 
 chatRoutes.put("/:id", editRoomProp)
@@ -56,5 +63,7 @@ chatRoutes.put("/:id", editRoomProp)
 chatRoutes.put("/:id/editGroup",editGroupProp)
 
 chatRoutes.post("/:id/addQuote", addQuote)
+
+chatRoutes.post("/:id/inviteToGroup",inviteToGroup)
 
 export default chatRoutes

@@ -1,15 +1,20 @@
 import { Avatar, Flex, HStack, Box, Text, Button } from "@chakra-ui/react"
-import React, { FC } from "react"
+import React, { FC, useContext } from "react"
+import { authContext } from "src/context/AuthContext"
 
-const UList: FC<{ isSelected?: boolean; userProfile: string; userName: string; lastName: string }> = ({
+const UList: FC<{ id: string, userProfile: string; userName: string; lastName: string, handleSelect?: (id: { id: string; userName: string; lastName: string; }) => void; isSelected: boolean }> = ({
+    id,
     userProfile,
     userName,
-    isSelected,
     lastName,
+    handleSelect,
+    isSelected = false
 }) => {
-    const [isSelect, setIsSelect] = React.useState(true)
+    const [isSelect, setIsSelect] = React.useState(isSelected)
     const handleOnSelect = () => {
         setIsSelect(!isSelect)
+        if (handleSelect)
+            handleSelect({ id: id, userName: userName, lastName: lastName })
     }
     return (
         <Box
@@ -27,13 +32,13 @@ const UList: FC<{ isSelected?: boolean; userProfile: string; userName: string; l
                     <HStack gap={2}>
                         {/* {people.map((person) => (
                         <div key={person.id}> */}
-                        <Avatar boxSize="55px"  src='https://bit.ly/broken-link' />
+                        <Avatar boxSize="55px" src={userProfile} name={userName} />
                         <div>
                             <Box display="flex" alignItems="center" gap={1}>
                                 <Text as="b" fontSize="sm">
                                     {userName}
                                 </Text>
-                                <Text as="b" fontSize="sm">
+                                <Text as="b" fontSize="sm" width={"100px"} whiteSpace={"nowrap"} overflow={"hidden"} textOverflow={"ellipsis"}>
                                     {lastName}
                                 </Text>
                             </Box>
@@ -41,18 +46,14 @@ const UList: FC<{ isSelected?: boolean; userProfile: string; userName: string; l
                         </div>
                         {/* </div>
                     ))} */}
+
                     </HStack>
                     <HStack width={"6rem"} justify={{ base: "flex-end" }}>
-                        {isSelect ? (
-                            <Button _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="solid">
-                                Add
-                            </Button>
-                        ) : (
-                            <Button _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="outline">
-                                Add
-                            </Button>
-                        )}
+                        <Button _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant={isSelect ? "solid" : "outline"}>
+                            {isSelect ? "Added" : "Add"}
+                        </Button>
                     </HStack>
+
                 </Flex>
             </Box>
         </Box>

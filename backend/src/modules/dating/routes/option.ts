@@ -1,9 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import { pushArgumentsWithLength } from "@redis/search/dist/commands"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
-import { UserOption } from "@apiType/dating"
-import createCommunity from "./../../group/routes/createCommunity"
 import calExp from "../../user/expsystem/calExp"
 
 const optionRoutes = express()
@@ -17,7 +14,6 @@ optionRoutes.get("/", (_, res) => {
 optionRoutes.get("/getFaculty", verifyUser, async (req: Request, res: Response) => {
     try {
         const allFacultyDB = await prisma.faculty.findMany()
-        // console.log(allFacultyDB)
         return res.send(allFacultyDB)
     } catch (err) {
         return res.status(404).send("Faculty no found")
@@ -35,23 +31,10 @@ optionRoutes.get("/getOption", verifyUser, async (req: Request, res: Response) =
                 where: {
                     userId: userId,
                 },
-            })
-            const userFacDB = await prisma.faculty_Pref.findMany({
-                where: {
-                    userId: userId,
+                include: {
+                    faculties: true,
                 },
             })
-            let allData: any = []
-            // allData.push(userOptionDB)
-            // userOptionDB.map((user: any) => {
-            //     userFacDB.map((faculty: any) => {
-            //         if (faculty.facultyPref == user.studentMajor.majorFaculty.facultyId && !facultyObtainedUser.includes(user)) {
-            //             facultyObtainedUser.push(user)
-            //         }
-            //     })
-            // })
-            // const option: any = {userOptionDB?.useAge, userOptionDB?.ageMin, userOptionDB?.ageMax, userOptionDB?.genderPref}
-            // return res.send(allData)
             return res.send(userOptionDB)
         }
     } catch (err) {
@@ -73,8 +56,6 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
             facultyPrefs.push({ userId: userId, facultyPref: faculty })
         })
         const setPref: any = { userId: userId, ageMin: ageMin, ageMax: ageMax, genderPref: genderPref, useAge: useAge }
-        // console.log("Plz work " + facultyPrefs.userId)
-        // console.log(setPref)
         await prisma.dating_Options.create({
             data: setPref,
         })
@@ -88,27 +69,6 @@ optionRoutes.post("/setOption", verifyUser, async (req: Request, res: Response) 
         return res.status(400).send("Cannot set Option")
     }
 })
-
-// optionRoutes.post("/setOptionF", verifyUser, async (req: Request, res: Response) => {
-//     try {
-//         const userId: string | undefined = req.user?.userId
-//         const facPref: string[] = req.body.facultyPref
-//         const facultyPrefs: any = []
-//         console.log("Pref: " + req.body.facultyPref)
-//         for (let index = 0; index < facPref.length; index++) {
-//             facultyPrefs.push({ userId: userId, facultyPref: facPref[index] })
-//         }
-
-//         console.log("Plz work " + facultyPrefs)
-//         await prisma.faculty_Pref.createMany({
-//             data: facultyPrefs,
-//         })
-
-//         return res.send("Success")
-//     } catch {
-//         return res.status(400).send("Cannot set Option")
-//     }
-// })
 
 // Update the option
 optionRoutes.put("/updateOption", verifyUser, async (req: Request, res: Response) => {
@@ -130,23 +90,10 @@ optionRoutes.put("/updateOption", verifyUser, async (req: Request, res: Response
             },
         })
 
-        // await prisma.faculty_Pref.deleteMany({
-        //     where: {
-        //         userId: userId,
-        //     },
-        // })
-
         await prisma.dating_Options.create({
             data: setPref,
         })
 
-        // await prisma.dating_Options.update({
-        //     where: {
-        //         userId: userId,
-        //     },
-        //     data: setPref,
-        // })
-        console.log(req.body.facultyPref)
         await prisma.faculty_Pref.createMany({
             data: facultyPrefs,
         })

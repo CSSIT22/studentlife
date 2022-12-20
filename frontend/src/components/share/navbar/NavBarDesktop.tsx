@@ -44,7 +44,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
     const { countUnread } = useContext(NavBarContext)
 
     return (
-        <Box zIndex={"dropdown"} shadow={"md"} position="fixed" w="100%">
+        <Box zIndex={100} shadow={"md"} position="fixed" w="100%">
             <Box w="100%" bg="white" py={3}>
                 <Container w="container.lg" maxW={"100%"}>
                     <Stack maxW="100%" direction={"row"} justifyContent="space-between">
@@ -52,7 +52,7 @@ const NavBarDesktop: FC<{ secondarynav?: secondaryNavProps[] }> = ({ secondaryna
                         <img src={logo} style={{ width: "150px" }} />
                         <Stack gap={5} alignItems="center" direction="row">
                             <Link to="/chat">
-                                <NavBarWithNoti label="Chat" notiCount={20} Icon={AiOutlineMail} />
+                                <NavBarWithNoti label="Chat" Icon={AiOutlineMail} />
                             </Link>
                             <Popover>
                                 <PopoverTrigger>

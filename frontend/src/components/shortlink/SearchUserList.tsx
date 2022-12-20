@@ -1,22 +1,28 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef, useMemo } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
-import std from "./MUser"
+import std from "./RUser"
 import UList from "./UList"
+import API from "src/function/API"
+import { useParams } from "react-router-dom"
 
-function SearchUserList() {
+interface SearchUserListProps {
+    handleSelect?: ((id: {
+        id: string;
+        userName: string;
+        lastName: string;
+    }) => void);
+    selectedUser?: {
+        id: string;
+        userName: string;
+        lastName: string;
+    }[];
+    userData: any;
+}
+
+function SearchUserList({ handleSelect, selectedUser, userData }: SearchUserListProps) {
     const [search, setSearch] = useState("")
-    console.log(search)
 
-    const breakpoints = {
-        sm: "400px",
-        md: "800px",
-        lg: "960px",
-        xl: "1200px",
-        "2xl": "1536px",
-    }
-
-    const theme = extendTheme({ breakpoints })
     return (
         <Box borderRadius={"md"}>
             <HStack borderRadius={"md"} boxShadow="md" position="initial" padding={1} mb={{ md: 1, sm: 4 }} background={"white"}>
@@ -49,10 +55,11 @@ function SearchUserList() {
                 }}
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                    {std
-                        .filter((user) => user.name.toLowerCase().includes(search) || user.last.toLowerCase().includes(search))
-                        .map((user) => (
-                            <UList userProfile={""} userName={user.name} key={user.id} lastName={user.last} />
+                    {userData && userData
+                        ?.filter((user: { fName: string; lName: string }) => (`${user.fName} ${user.lName}`).toLowerCase().includes(search.toLowerCase())).slice(0, 65)
+                        ?.map((user: { userId: string; fName: string; lName: string }, index: any) => (
+                            <UList id={user.userId} userProfile={""} userName={user.fName} key={index} lastName={user.lName} handleSelect={handleSelect}
+                                isSelected={!!(selectedUser?.find(sUser => sUser.id === user.userId)) || false} />
                         ))}
                 </Flex>
             </Box>

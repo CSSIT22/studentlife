@@ -1,22 +1,27 @@
 import { Flex, Text, Box, Grid, SimpleGrid, useBoolean } from "@chakra-ui/react"
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 import Details from "./Detials"
 import { dateFormat } from "../functions/usefulFunctions"
 import ContentBox from "../ContentBox"
 import OrderedProductDisplay from "./OrderedProductDisplay"
+import {Shop_Order_Details_Show, Shop_Product_With_Images } from "@apiType/shop"
+import API from "src/function/API"
 
 const OrderItems: FC<{
-    orderNo: number
-}> = ({ orderNo }) => {
-    const [isCollapse, { on, off }] = useBoolean(true)
+    orderDetails: Shop_Order_Details_Show
+    defaultCollapse?: boolean
+}> = ({orderDetails, defaultCollapse}) => {
+    const [couponDiscount, setCouponDiscount] = useState<string | null>(null)
+    useEffect(() => {
+      API.get("/shop/getCouponInformation/" + orderDetails.couponCode).then((res) => {
+        setCouponDiscount(res.data.discount)
+      }).catch((error) => console.log(error))
+    }, [])
+    const [isCollapse, { on, off }] = useBoolean(defaultCollapse != undefined ? defaultCollapse : true)
+    let orderNo = orderDetails.orderId
     // TODO: Get Order Info from backend
-    let orderStatus = "Out For Delivery"
-    let orderDateTime = dateFormat(new Date(2021, 10, 10, 10, 10, 10))
-    let subtotal = 10000,
-        deliveryFee = 30,
-        couponDiscount = 20,
-        address = "No.1111, Blahxxxxxxx  Blah Quarter, Bangkok Thailand",
-        paymentMethod = "Master Card"
+    let orderStatus = orderDetails.orderStatus
+    let orderDateTime = dateFormat(new Date(orderDetails.orderPlaced))
 
     // Style Text
     const detailText = {
@@ -26,7 +31,7 @@ const OrderItems: FC<{
 
     // Components
     const orderSummary = (
-        <Flex p="4" wrap="wrap" justify="space-between" gap={5} onClick={isCollapse ? off : on}>
+        <Flex p="4" wrap="wrap" justify="space-between" gap={5} onClick={isCollapse ? off : on} cursor= "pointer">
             <Text sx={detailText}>{"#" + orderNo}</Text>
             <Text sx={detailText}>{orderDateTime}</Text>
             <Text sx={detailText}>{orderStatus}</Text>
@@ -35,7 +40,7 @@ const OrderItems: FC<{
     const divide = <Box h="min" w="full" bg="black" p="0.3"></Box>
     const productsComp = (
         <SimpleGrid columns={{ base: 1, md: 2 }} p={{ base: 3, sm: 7 }} gap={4}>
-            {generateProducts()}
+            {generateProducts(orderDetails)}
         </SimpleGrid>
     )
     return (
@@ -47,11 +52,12 @@ const OrderItems: FC<{
                 {productsComp}
                 {divide}
                 <Details
-                    subtotal={subtotal}
-                    deliveryFee={deliveryFee}
-                    couponDiscount={couponDiscount}
-                    address={address}
-                    paymentMethod={paymentMethod}
+                    totalPrice={parseFloat(orderDetails.totalPrice)}
+                    subtotal={parseFloat(orderDetails.totalPrice) - parseFloat(orderDetails.totalDeliveryFees)}
+                    deliveryFee={parseFloat(orderDetails.totalDeliveryFees)}
+                    couponDiscount={couponDiscount? parseFloat(couponDiscount) : null}
+                    address={orderDetails.shipping}
+                    paymentMethod={"QR Code"}
                 />
             </>}
 
@@ -59,29 +65,16 @@ const OrderItems: FC<{
     )
 }
 
-function generateProducts() {
-    let products = []
-    for (let i = 0; i < 1; i++) {
-        products.push(
-            <OrderedProductDisplay
-                productId={1}
-                name="Pen"
-                price={10000}
-                quantity={2}
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-            ></OrderedProductDisplay>
-        )
-        products.push(
-            <OrderedProductDisplay
-                productId={1}
-                name="Pen New Limited Edition Exuisite 2022"
-                price={10000}
-                quantity={2}
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-            ></OrderedProductDisplay>
-        )
+function generateProducts(orderDetails: Shop_Order_Details_Show) {
+    let products = orderDetails.products
+    try {
+        if (products.length > 0){
+            return products.map((product, key) => (
+                <OrderedProductDisplay key= {key} productId={product.productId} name={product.product.productName} price={parseFloat(product.product.productPrice)} quantity={product.quantity} image={product.product.images[0].image} />
+            ))
+        }
+    } catch (error) {
     }
-    return products
 }
 
 export default OrderItems

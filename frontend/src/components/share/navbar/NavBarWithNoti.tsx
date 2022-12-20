@@ -6,7 +6,7 @@ const NavBarWithNoti: FC<{ label: string; notiCount?: number; Icon: IconType }> 
     return (
         <Tooltip label={label}>
             <Box pos={"relative"}>
-                {notiCount && (
+                {notiCount ? (
                     <Flex
                         justifyContent={"center"}
                         alignItems="center"
@@ -22,7 +22,7 @@ const NavBarWithNoti: FC<{ label: string; notiCount?: number; Icon: IconType }> 
                             {notiCount > 10 ? "9+" : notiCount}
                         </Text>
                     </Flex>
-                )}
+                ) : <></>}
                 <Heading _hover={{ color: "black" }} fontWeight="normal" color="gray.600" transition="0.5s">
                     <Icon />
                 </Heading>
