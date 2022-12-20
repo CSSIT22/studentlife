@@ -129,7 +129,7 @@ const likedRestaurant = async (req: Request, res: Response) => {
             })
             res.send(liked)
         }
-         else {
+         else if(like == true){
                 const liked = await prisma.restaurant_Like_By_User.updateMany({
                     where: {
                         userId: user,
