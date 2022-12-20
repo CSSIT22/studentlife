@@ -37,11 +37,7 @@ function review() {
             .catch((err) => on())
             .finally(off)
     }, [params.reviewRes])
-    // property.reviews?.map((e2: any) => {
-    //     console.log(e2)
-    // })
 
-    //    console.log([property]);
     if (isLoading)
         return (
             <AppBody
@@ -125,8 +121,10 @@ function review() {
                                     </Link>
                                 </Box>
                                 {e1.reviews.map((e2: any) => {
+                                    console.log(e2);
+                                    
                                     return (
-                                        <ReviewContent name={e2.reviewBy?.fName} picture={e2.reviewsBy?.image} rate={e2?.rating} review={e2?.text} />
+                                        <ReviewContent name={e2.reviewer?.fName} picture={e2.reviewer?.image} rate={e2?.rating} review={e2?.text} />
                                     )
                                 })}
                             </Box>
