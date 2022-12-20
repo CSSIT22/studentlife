@@ -35,7 +35,7 @@ const editCommunity = async (req: Request, res: Response) => {
     const editCommunity: any = {
         communityName: body.communityName,
         communityDesc: body.communityDesc,
-        communityPrivacy: privacy,
+        communityPrivacy: body.communityPrivacy == "false" ? true : false,
         communityPhoto: pic[0]?.buffer,
         
     }
