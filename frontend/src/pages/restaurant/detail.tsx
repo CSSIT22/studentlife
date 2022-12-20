@@ -81,6 +81,23 @@ function detail() {
         }
     }
 
+    function handleGroup(ro: any) {
+        if (ro.room.roomType == "INDIVIDUAL") {
+            return (
+                <Box ><Avatar name={ro?.room?.nick[0]?.nickname} src={handleImg(ro?.room?.nick[0]?.nameWho?.image)} />
+                    <Center><Text fontSize={"xs"}>{ro?.room?.nick[0]?.nickname}</Text></Center></Box>
+
+            )
+        } else {
+            return (
+                <Box>
+                    <Avatar name={ro?.room?.group.roomName} src={handleImg("")} />
+                    <Center><Text fontSize={"xs"}>{ro?.room?.group.roomName}</Text></Center>
+                </Box>
+            )
+        }
+    }
+
     let [isFavorite, setIsFavorite] = useState(Boolean)
 
 
@@ -262,17 +279,18 @@ function detail() {
                                                         <PopoverCloseButton />
                                                         <PopoverHeader fontWeight='semibold' textAlign={"center"}>Share</PopoverHeader>
                                                         <PopoverBody>
-                                                            <Flex>
+                                                            <Flex >
                                                                 <Wrap spacing="30px">
-                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6}>
+                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6} overflowX={"scroll"} maxW={"100%"}>
                                                                         {room?.map((ro: any) => {
                                                                             return (
                                                                                 <RadioGroup onChange={setRoom2} value={room2}>
                                                                                     <Radio value={ro.room.roomId}>
 
                                                                                         <GridItem>
-                                                                                            <Avatar name={ro.room.nick[0].nickname} src={handleImg(ro.room.nick[0].nameWho.image)} />
-                                                                                            <Center><Text fontSize={"xs"}>{ro.room.nick[0].nickname}</Text></Center>
+                                                                                            {/* <Avatar name={ro?.room?.nick[0]?.nickname} src={handleImg(ro?.room?.nick[0]?.nameWho?.image)} />
+                                                                                            <Center><Text fontSize={"xs"}>{ro?.room?.nick[0]?.nickname}</Text></Center> */}
+                                                                                            {handleGroup(ro)}
                                                                                         </GridItem>
 
                                                                                     </Radio>
