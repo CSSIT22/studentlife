@@ -99,7 +99,9 @@ export const Post = (prop: any) => {
 
                         <Container p="1" fontWeight="normal">
                             {postDt.body}
-                            < PostFile file={postDt.files[0]?.fileAddress} />
+                            {postDt?.files.length === 1 &&
+                                <PostFile file={postDt.files[0].fileAddress}
+                                />}
                             {/* <Image src={postDt.media} alt="" p="1" fit={"cover"} /> */}
                         </Container>
                         <Center>
