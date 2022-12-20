@@ -1,5 +1,5 @@
 import { AllInterests, UserInterests } from "@apiType/dating"
-import { Box, Button, Text, useBoolean, useToast } from "@chakra-ui/react"
+import { Box, Button, useToast } from "@chakra-ui/react"
 import { Dispatch, FC, SetStateAction } from "react"
 import { useNavigate } from "react-router-dom"
 import API from "src/function/API"

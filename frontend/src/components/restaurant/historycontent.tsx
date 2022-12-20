@@ -41,21 +41,21 @@ const Historycontent: FC<{
                     <Flex>
                         <Box display={"flex"} flexDirection="column" justifyContent={"center"} width={"30%"} ml={"1rem"} mr={"1rem"}>
                           
-                               {img == "undefined" ? <Image boxSize="5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />} 
+                               {img == "undefined" ? <Image boxSize="5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} alt="Dan Abramov" borderRadius={"10px"} />} 
                             
                         </Box>
 
                         <Box width={"60%"} height={"6rem"} color={"black"} display={"flex"} flexDirection="column" justifyContent={"center"}>
                             <Flex direction={"column"} justifyContent={"center"} height={"80%"}>
 
-                                <Text fontSize={"sm"}>
+                                <Text fontSize={"small"}>
                                     <span style={{ fontWeight: "bold" }}>Name:</span> {resName}
                                 </Text>
 
-                                <Text fontSize={"sm"}>
+                                <Text fontSize={"small"}>
                                     <span style={{ fontWeight: "bold" }}>Date: </span> {date.toString()}
                                 </Text>
-                                <Text fontSize={"sm"}>
+                                <Text fontSize={"small"}>
                                     <span style={{ fontWeight: "bold" }}>Status: </span> {status ? "Liked" : "Nope"}
                                 </Text>
                             </Flex>
@@ -71,7 +71,7 @@ const Historycontent: FC<{
                             {resName}
                         </Heading>
                       
-                        {img == "undefined" ? <Image boxSize="12.5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="12.5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />} 
+                        {img == "undefined" ? <Image boxSize="12.5rem" src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"} alt="Dan Abramov" borderRadius={"10px"} /> :<Image boxSize="12.5rem" src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} alt="Dan Abramov" borderRadius={"10px"} />} 
                         
                     </Flex>
                     <Box ml={{ lg: "2rem" }} mt={"1rem"} gap={"4"} textAlign={{ sm: "center", lg: "left" }}>

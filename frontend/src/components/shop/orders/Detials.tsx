@@ -3,13 +3,13 @@ import { FC } from "react"
 import convertCurrency from "../functions/usefulFunctions"
 
 const Details: FC<{
+    totalPrice: number
     subtotal: number
     deliveryFee: number
-    couponDiscount?: number
+    couponDiscount?: number | null
     address: string
     paymentMethod: string
-}> = ({ subtotal, deliveryFee, couponDiscount, address, paymentMethod }) => {
-    let totalPrice = couponDiscount ? subtotal + deliveryFee - couponDiscount : subtotal + deliveryFee
+}> = ({ totalPrice, subtotal, deliveryFee, couponDiscount, address, paymentMethod }) => {
     
     function labelData(label: string, value: string | number, isAdd?: boolean) {
         return <Flex>

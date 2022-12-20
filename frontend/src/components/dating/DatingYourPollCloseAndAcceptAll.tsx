@@ -43,25 +43,25 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
                 <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
                     Close & accept all
                 </Text>
-            </Button>: <motion.div
-            initial={
-                { cursor: "pointer" }
-            }
-            whileHover={{ scale: 1.1, }}
-            whileTap={{
-                scale: 0.9,
-            }}
-            onClick={onOpen}
-        ><Button
+            </Button> : <motion.div
+                initial={
+                    { cursor: "pointer" }
+                }
+                whileHover={{ scale: 1.1, }}
+                whileTap={{
+                    scale: 0.9,
+                }}
+                onClick={onOpen}
+            ><Button
                 colorScheme="orange"
                 w={{ base: "167px", md: "172px" }}
                 h="36px"
                 boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
             >
-                <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
-                    Close & accept all
-                </Text>
-            </Button></motion.div> : <></>}
+                    <Text fontWeight="700" fontSize="14px" lineHeight="120%" color="white">
+                        Close & accept all
+                    </Text>
+                </Button></motion.div> : <></>}
 
 
             <Modal isCentered isOpen={isOpen} onClose={onClose} size={{ base: "md", md: "lg" }} scrollBehavior="inside">
@@ -97,9 +97,9 @@ const DatingYourPollCloseAndAcceptAll: FC<{ numOfParticipants: number | undefine
                                     }
                                 }}
                             >
-                            <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
-                                CLOSING AND ACCEPTING&nbsp;.&nbsp;.&nbsp;.
-                            </Text>
+                                <Text mt="-20%" textAlign="center" color="black" fontWeight="700" fontSize={{ base: "20px", md: "2xl" }} lineHeight="120%" pl="18px" >
+                                    CLOSING AND ACCEPTING&nbsp;.&nbsp;.&nbsp;.
+                                </Text>
                             </motion.div>
 
                         </Box></> : <><Box ml="40px" mr="40px" mt={{ base: "5px", md: "31px" }} mb={{ base: "24px", md: "50px" }}>

@@ -8,7 +8,7 @@ function QAnsInsertfile() {
     }
 
     return (
-        <Dropzone onChange={updateFiles} value={files} maxFileSize={2097152} accept={".jpg, .pdf, .zip, .png, .jpeg"}>
+        <Dropzone onChange={updateFiles} value={files} maxFileSize={2097152} maxFiles={1} accept={".jpg, .pdf, .zip, .png, .jpeg"}>
             {files.map((file: any) => (
                 <FileItem {...file} preview />
             ))}

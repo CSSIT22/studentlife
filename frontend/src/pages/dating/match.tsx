@@ -1,4 +1,4 @@
-import { Box, Button, GridItem, Heading, useBreakpointValue, useToast, Image, Text, useBoolean } from "@chakra-ui/react"
+import { Box, Button, GridItem, Heading, useBreakpointValue, useToast, Image, Text } from "@chakra-ui/react"
 import Lottie from "lottie-react"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -9,7 +9,6 @@ import ChatImg from "../../components/dating/pic/chat.png"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import DatingLoading from "../../components/dating/lottie/DatingLoading.json"
 import DatingNoOneLikeYou from "../../components/dating/lottie/DatingNoOneLikeYou.json"
-import { HeartReceiver } from "@apiType/dating"
 import { motion } from "framer-motion"
 
 
@@ -19,7 +18,6 @@ const DatingMatch = () => {
     const toast = useToast()
     const [poll, setPoll] = useState([])
     let count = 1
-    const [heartGiver, setHeartGiver] = useState<HeartReceiver[]>([])
     const [isError, setIsError] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
@@ -110,7 +108,6 @@ const DatingMatch = () => {
                     })
             })
             API.get("/dating/matches/getMatches").then((data) => {
-                console.log(data.data)
                 setPoll(data.data)
             }).catch(() => setIsError(true)).finally(() => setIsLoading(false))
         }
@@ -124,8 +121,6 @@ const DatingMatch = () => {
 
         return didMount
     }
-    const { pollId } = useParams()
-    // const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
 
     const isMobile = useBreakpointValue({
         base: false,
@@ -140,20 +135,6 @@ const DatingMatch = () => {
     function goToProfile(userId: string) {
         navigate("/user/" + userId)
     }
-
-    const [giveToUser, setGiveToUser] = useState<
-        | {
-            UserId: string
-            isSkipped: boolean
-        }[]
-        | {
-            UserId: string
-            isSkipped: boolean
-        }[]
-    >([])
-
-    console.log(poll);
-
 
     return (
         <DatingAppBody>

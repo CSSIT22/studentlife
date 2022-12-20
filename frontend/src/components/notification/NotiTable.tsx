@@ -126,11 +126,11 @@ const NotiTable = () => {
             </Stack>
             <Center paddingTop={2}>
                 <Show above="md">
-                    <Button size={"sm"} width={"100%"} bg={"orange.500"} color={"white"}>
-                        <Link to="/notification/viewAll">
+                    <Link style={{ width: "100%" }} to="/notification/viewAll">
+                        <Button size={"sm"} width={"100%"} bg={"orange.500"} color={"white"}>
                             <Text>View All</Text>
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 </Show>
             </Center>
         </Box>

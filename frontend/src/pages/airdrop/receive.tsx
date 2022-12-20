@@ -44,7 +44,7 @@ export default function Receivedrop<FC>() {
             withCredentials: true,
         })
             .then((res) => {
-                setFileList(res.data)
+                setFileList(res.data)    
             })
             .catch((err) => {
                 on()

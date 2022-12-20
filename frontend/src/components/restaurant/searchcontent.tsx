@@ -39,7 +39,7 @@ const Searchcontent: FC<{
     // console.log(img);
     
     const likedRestaurant = async() => {
-        await API.post(`restaurant/likeOrNope`, { id: resid, status: true })
+        await API.post(`restaurant/search`, { id: resid, status: true })
         // navigate(`restaurant/detail?resId=${resid}&id=0`)
         navigate(link)
     }
@@ -54,7 +54,7 @@ const Searchcontent: FC<{
                     {/* }} to={link} >  */}
                     <Flex mb={"15px"} alignItems={"center"}>
                         <Box  width={"30%"} ml={"1rem"} mr={"1rem"}>
-                            <Image boxSize="5rem" src={img == null ? "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png" :`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`} alt="Dan Abramov" borderRadius={"10px"} />
+                            <Image boxSize="5rem" src={img == null ? "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png" :`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} alt="Dan Abramov" borderRadius={"10px"} />
                         </Box>
                         <Box width={"60%"} height={"6rem"} color={"black"} display={"flex"} flexDirection={"column" } justifyContent={"center"}>
                             <Text fontSize={"sm"}>
@@ -88,7 +88,7 @@ const Searchcontent: FC<{
                         <Image
                             boxSize={"12.5rem"}
                             // height={{ lg: "9.5rem" }}
-                            src={img == null ? "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png" :`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`}
+                            src={img == null ? "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png" :`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${img}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`}
                             alt="Dan Abramov"
                             borderRadius={"10px"}
                         />

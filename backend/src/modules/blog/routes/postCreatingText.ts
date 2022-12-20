@@ -11,67 +11,71 @@ const drive = axios.create({
 })
 
 const postCreatingText = async (req: Request, res: Response) => {
-    console.log(req.body)
-    console.log(req.files)
-    const formData = new fd()
-    const fileList: any = req.files
+    try {
+        console.log(req.body)
+        console.log(req.files)
+        const formData = new fd()
+        const fileList: any = req.files
 
-    let postId = ""
+        let postId = ""
 
-    const prisma = res.prisma
-    const body = req.body
-    if (req.body != null) {
-        const post = await prisma.student_Post
-            .create({
-                data: {
-                    userId: req.user?.userId || "",
-                    body: req.body.text,
-                },
-            })
+        const prisma = res.prisma
+        const body = req.body
+        if (req.body != null) {
+            const post = await prisma.student_Post
+                .create({
+                    data: {
+                        userId: req.user?.userId || "",
+                        body: req.body.text,
+                    },
+                })
 
-            .then((res: any) => {
-                postId = res.postId
-            })
-            .catch((err: any) => {
-                console.log(err)
-            })
+                .then((res: any) => {
+                    postId = res.postId
+                })
+                .catch((err: any) => {
+                    console.log(err)
+                })
+        }
+
+        fileList?.map((file: any) => {
+            formData.append("upload", file.buffer, file.originalname)
+        })
+        let resFileId: {
+            Id: string
+            Name: string
+        }[] = []
+        if (fileList.length > 0) {
+            const saveFile = await drive
+                .post("/", formData)
+                .then((res: any) => {
+                    resFileId = res.data
+                    console.log("File ID from drive:" + resFileId[0].Id)
+                })
+                .catch((err: any) => {
+                    console.log(err)
+                })
+            const fileId = resFileId[0].Id
+
+            const file_contain = await prisma.file_Container
+                .create({
+                    data: {
+                        fileId: fileId || "",
+                        postId: postId,
+                        fileAddress: "https://staging-api.modlifes.me/airdrop/file/getfile/" + fileId || "",
+                    },
+                })
+                .then((res: any) => {
+                    postId = res.postId
+                })
+                .catch((err: any) => {
+                    console.log(err)
+                })
+        }
+        res.json({ status: "upload sucessfully" })
+    } catch (err) {
+        console.log(err)
     }
-
-    fileList?.map((file: any) => {
-        formData.append("upload", file.buffer, file.originalname)
-    })
-    let resFileId: {
-        Id: string
-        Name: string
-    }[] = []
-    if (fileList.length > 0) {
-        const saveFile = await drive
-            .post("/", formData)
-            .then((res: any) => {
-                resFileId = res.data
-                console.log("File ID from drive:" + resFileId[0].Id)
-            })
-            .catch((err: any) => {
-                console.log(err)
-            })
-        const fileId = resFileId[0].Id
-
-        const file_contain = await prisma.file_Container
-            .create({
-                data: {
-                    fileId: fileId || "",
-                    postId: postId,
-                    fileAddress: "https://staging-api.modlifes.me/airdrop/file/getfile/" + fileId || "",
-                },
-            })
-            .then((res: any) => {
-                postId = res.postId
-            })
-            .catch((err: any) => {
-                console.log(err)
-            })
-    }
-    res.json({ status: "upload sucessfully" })
 }
 
 export default postCreatingText

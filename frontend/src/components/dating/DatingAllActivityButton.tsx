@@ -6,12 +6,12 @@ import { motion } from "framer-motion"
 const DatingAllActivityButton: FC<{ backgroundColor: string }> = ({ backgroundColor }) => {
 
     function handleClick() {
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     return (
         <Link to="/dating/poll" style={{ textDecoration: "none" }} onClick={handleClick}>
-                        <motion.div
+            <motion.div
                 initial={
                     { cursor: "pointer", scale: 0 }
                 }

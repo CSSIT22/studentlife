@@ -45,6 +45,9 @@ backendserviceRoutes.post("/reportword", verifyUser, async (req: Request, res: R
 })
 
 backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, reportRequest>, res: Response) => {
+    let currentDate = new Date()
+    const banDate = currentDate.setMonth(currentDate.getMonth() + 1)
+    const banTo = new Date(banDate)
     try {
         const bannedUser = await res.prisma.ban_Status.upsert({
             where: {
@@ -60,7 +63,7 @@ backendserviceRoutes.post("/banuser", verifyUser, async (req: Request<any, any, 
             },
             create: {
                 userId: req.body.bannedUserId || "",
-                banTo: req.body.banTo,
+                banTo: banTo,
                 reason: req.body.reason,
                 instance: 1,
             },

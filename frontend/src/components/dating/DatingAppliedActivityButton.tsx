@@ -25,7 +25,7 @@ const DatingAppliedActivityButton: FC<{ backgroundColor: string }> = ({ backgrou
                     stiffness: 360,
                     damping: 20,
                 }}>
-                    
+
                 <Box
                     display="flex"
                     cursor="pointer"

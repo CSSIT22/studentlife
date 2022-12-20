@@ -226,12 +226,10 @@ export default function Index<FC>() {
                 },
             })
                 .then((res) => {
-                    console.log(res)
                     setConfirmDrop(true)
                 })
                 .catch((err) => {
                     on()
-                    console.log(err)
                 })
         } catch {
             console.log("error")
@@ -240,7 +238,6 @@ export default function Index<FC>() {
     //useEffect
     useEffect(() => {
         if (clickDrop == false) {
-            // setSelectedType("Everyone")
             if (selectedType === "Everyone") {
                 setReceiver(["everyone"])
             }
@@ -674,11 +671,11 @@ export default function Index<FC>() {
                                                             textAlign={"center"}
                                                             onClick={() => {
                                                                 handleDrop()
-                                                                // if (isError == false) {
-                                                                //     setConfirmDrop(true)
-                                                                // } else {
-                                                                //     setConfirmDrop(false)
-                                                                // }
+                                                                if (isError == false) {
+                                                                    setConfirmDrop(true)
+                                                                } else {
+                                                                    setConfirmDrop(false)
+                                                                }
                                                             }}
                                                         >
                                                             Confirm

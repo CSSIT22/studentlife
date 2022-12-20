@@ -13,20 +13,31 @@ const getrestDb = async (req: Request, res: Response) => {
                         phoneNo: true,
                     },
                 },
-                images: {
-                    select: {
-                        image: true,
-                    },
-                },
+                images: true,
                 openAt: true,
                 closeAt: true,
+                _count: {
+                    select: {
+                        reviews: true,
+                    },
+                },
             },
             where: {
                 resId: id,
             },
         })
-        res.send(rest)
-    } catch {
+        const rv = await prisma.sReview_Review.groupBy({
+            by: ["resId"],
+            _avg: {
+                rating: true,
+            },
+        })
+        console.log(rv)
+        const resp = rest.map((item) => ({ ...item, rating: rv.filter((i) => i.resId === item.resId)[0]?._avg?.rating || 0 }))
+        console.log(resp)
+        res.send(resp)
+    } catch (err) {
+        console.log(err)
         res.status(400).send("Error can't find restaurant")
     }
 }

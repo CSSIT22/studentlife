@@ -119,12 +119,10 @@ const DatingOption = () => {
                     globalThis.age = [selectedOption.ageMin, selectedOption.ageMax]
                     globalThis.gender = selectedOption.genderPref
                     globalThis.faculty = selectedOption.faculties
-                    // console.log(globalThis.faculty)
                 }
             })
             API.get("/dating/option/getFaculty").then((allFaculty) => {
                 setFaculties(allFaculty.data)
-                // setSelectedFac()
             })
                 .catch(on).finally(() => setIsLoading(false));
         }
@@ -141,35 +139,14 @@ const DatingOption = () => {
 
     //set default value from database by using condition from here
 
-    // const [isError, { on }] = useBoolean()
     const options = ["Male", "Female", "LGBTQ+", "Everyone"] // Gender type
     const [faculties, setFaculties] = useState<AllFaculty[] | AllFaculty[]>([]) //For Faculties
-    // globalThis.faculty
-
-
-    // const faculties = [
-    //     "All Faculty",
-    //     "Faculty of Engineering",
-    //     "Faculty of Science",
-    //     "Faculty of Industrial Education and Technology",
-    //     "School of Information Technology (SIT)",
-    //     "School of Architecture and Design",
-    //     "Faculty of Energy, Environment and Materials",
-    //     "School of Bioresources and Technology ",
-    //     "School of Liberal Arts",
-    //     "Graduate School of Management and Innovation (GMI)",
-    //     "Institute of FIeld RoBOtics (FIBO)",
-    //     "The Joint Graduate School of Energy and Environment (JGSEE)",
-    //     "Collage of Multidiscliplinary Sciences",
-    // ] // All faculties
 
     //For RadioBox
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "Gender",
         defaultValue: "Everyone",
-        // defaultValue: globalThis.gender,
         value: selected,
-        //onChange: console.log,
     })
     const group = getRootProps()
     const toast = useToast()
@@ -178,11 +155,6 @@ const DatingOption = () => {
     const { value, getCheckboxProps } = useCheckboxGroup({
         defaultValue: ["All Faculty"],
     })
-
-    // globalThis.useAge = true //need db + condition
-    // globalThis.age = [19, 25] //need db + condition
-    // globalThis.gender = "Everyone" //need db + condition
-    // globalThis.faculty = ["All Faculty"] //need db + condition
 
     useEffect(() => {
         setSelectedFac(faculties)
@@ -194,7 +166,6 @@ const DatingOption = () => {
     }
 
     function sendFac(SF: any[]) {
-        //console.log(SF)
         let arr: string[] = []
         if (SF[0] !== null && Object.keys(SF[0]).length !== 0) {
             for (let index = 0; index < selectedFac.length; index++) {
@@ -206,13 +177,11 @@ const DatingOption = () => {
             }
         }
         else {
-            //console.log("Oh no")
             for (let index = 0; index < faculties.length; index++) {
                 arr.push(faculties[index].facultyId)
             }
 
         }
-        //console.log("Heh " + arr)
         return arr
     }
 
@@ -222,19 +191,6 @@ const DatingOption = () => {
         globalThis.age = sliderValue
         globalThis.gender = selected
         globalThis.faculty = selectedFac
-        //console.log(selectedFac)
-        // console.log(
-        //     "Age min =" +
-        //     globalThis.age[0] +
-        //     " | Age max =" +
-        //     globalThis.age[1] +
-        //     " | Use age: " +
-        //     globalThis.useAge +
-        //     " | Gender : " +
-        //     globalThis.gender +
-        //     " | Selected Faculty: " +
-        //     globalThis.faculty
-        // )
         if (globalThis.faculty.length < 1) {
             toast({
                 title: "Faculty Setting Incomplete!",
@@ -249,7 +205,6 @@ const DatingOption = () => {
             setIsLoading(true)
         }
 
-        // console.log("Test str " + sendFac(selectedFac))
         if (globalThis.firstTime) {
             API.post<UserOption | AllFaculty>("/dating/option/setOption", { ageMin: globalThis.age[0], ageMax: globalThis.age[1], genderPref: globalThis.gender, useAge: globalThis.useAge, facultyPref: sendFac(globalThis.faculty) })
                 .then(() => navigate("/dating/interests"))
@@ -457,7 +412,6 @@ const DatingOption = () => {
                                     faculties={faculties}
                                     selectedFac={selectedFac}
                                     setSelectedFac={setSelectedFac}
-                                    // setSelectedFac={setSelectedFac}
                                     getCheckboxProps={getCheckboxProps}
                                 />
                             </motion.div>

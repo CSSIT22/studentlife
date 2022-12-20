@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from "react"
-import { Box, Heading, useBoolean, VStack } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, HStack, useBoolean, VStack } from "@chakra-ui/react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import AppBody from "src/components/share/app/AppBody"
@@ -41,6 +41,16 @@ const extraRsn = () => {
     const style = {
         height: 100,
     };
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(8)
+    let indexOfLastSn = currentPage * postsPerPage
+    let indexOfFirstSn = indexOfLastSn - postsPerPage
+    let currentSn = recent.slice(indexOfFirstSn, indexOfLastSn)
+    let pageNumbers = []
+    for (let i = 1; i <= Math.ceil(recent.length / postsPerPage); i++) {
+        pageNumbers.push(i)
+
+    }
     return (
         <AppBody>
             <Heading fontSize={"2xl"}>Recent View</Heading>
@@ -51,7 +61,7 @@ const extraRsn = () => {
                 </Box>
                 :
                 <VStack gap={2}>
-                    {recent.map((recent: any, key: any) => (
+                    {currentSn.map((recent: any, key: any) => (
                         <Box as="button"
                             w={"100%"} onClick={() => {
 
@@ -69,7 +79,17 @@ const extraRsn = () => {
                     ))}
                 </VStack>
             }
-
+            <Flex w={"100%"} justifyContent={"center"} mt={4}>
+                <HStack >
+                    {pageNumbers.map((no: any, key: any) => (
+                        <Button key={key} onClick={() => { setCurrentPage(no) }} bg={"white"} rounded={"full"} size={"md"}  {...(currentPage === no && {
+                            _hover: { bg: "orange.500" },
+                            bg: "orange.500",
+                            color: "white",
+                        })}>{no}</Button>
+                    ))}
+                </HStack>
+            </Flex>
         </AppBody>
     )
 }
