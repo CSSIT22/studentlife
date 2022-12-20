@@ -1,8 +1,33 @@
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Box, Flex, Spacer, Text, Container, extendTheme } from "@chakra-ui/react"
 import Feed from "../timeline/Feed"
+import Postuser from "../timeline/getuserpost";
+
+
+
 
 function BlogHistory() {
+    const [isLoading, setLoading] = useState(false);
+    const [postset, setpostset] = useState(1)
+
+    const handleScroll = () => {
+        if (isLoading) return
+        const windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
+        // user scrolled enough
+        if (windowRelativeBottom <= document.documentElement.clientHeight) {
+            // fetch 20 post every 5000 px
+            setpostset(prev => prev + 1);
+        }
+        // console.log(postset, currentScrollY);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        };
+    });
+
     const breakpoints = {
         sm: "400px",
         md: "800px",
@@ -19,7 +44,8 @@ function BlogHistory() {
             </Text>
 
             <Flex padding="2" mx={{ base: "10", md: "2" }} alignContent="center" alignSelf="center">
-                <Feed />
+                {[...Array(postset).keys()].map(item => <Postuser i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)}
+                {/* <Feed /> */}
             </Flex>
         </Flex>
     )
