@@ -1,4 +1,5 @@
 import { useDisclosure, Spacer, Flex, Heading, Image, AspectRatio, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Textarea, Input, ModalFooter, Button, SimpleGrid, Container, Box } from '@chakra-ui/react'
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppBody from 'src/components/share/app/AppBody'
@@ -16,32 +17,39 @@ import index from 'src/pages/announcement'
 
 // main component
 const shopId = () => {
-    const [rating, setRating] = useState(0) // rating star max = 5
+    const [rating2, setRating] = useState(0) // rating star max = 5
     const [text, setText] = useState("") // review description 
     const [detail, setDetail] = useState<any>([]) // shop's detail fetch from backend
     const [files, setFiles] = useState<any>([]) // array of user's files (pictures)
     const { isOpen, onOpen, onClose } = useDisclosure() // chakra disclosure for open/close modal
     let param = useParams() // get data from param
     const buttons = []
+    var numCount = 0
+    var numCount2 = 0
+    var numCount3 = 0
+    var numCount4 = 0
+    var numCount5 = 0
+    var numCount6 = 0
+    var sumRating = 0;
+    var AAA = 0;
 
     // handle onclick
     const onClick = (idx: any) => {
         var x = idx
         // allow user to click first icon and set rating to zero if rating is already 1
-        if (rating === 1 && parseInt(x) === 1) {
+        if (rating2 === 1 && parseInt(x) === 1) {
             setRating(0)
         } else {
             setRating(parseInt(x))
         }
     }
-    window.scrollTo(0, 0)
 
 
 
     const submit = () => {
         const form = new FormData();
         form.append("text", text);
-        form.append("rating", rating + "");
+        form.append("rating", rating2 + "");
         form.append("shopId", param.shopId + "");
         files.map((item: any) => {
             form.append("upload", item.file)
@@ -55,7 +63,7 @@ const shopId = () => {
                 }
             }
         ).then((res) => {
-            console.log(res)
+            // console.log(res)
             window.location.reload()
         })
     }
@@ -65,6 +73,18 @@ const shopId = () => {
             .then((res) => setDetail(res.data))
     }, [param])
 
+    // const [rateCheck, setRateCheck] = useState<any>()
+    const [amo_rate, setAmountRate] = useState<any>([])
+    // useEffect(() => {
+    //     API.get(`/shopdetails/shop/${param.shopId}/getcounteachrate?rating=${rateCheck}`)
+    //         .then((res) => setAmountRate(res.data))
+    // }, [param])
+    useEffect(() => {
+        API.get(`/shopreview/shopdetails/shop/${param.shopId}/getcountrevieweachrate`)
+            .then((res) => setAmountRate(res.data))
+    }, [param])
+    // console.log(amo_rate)
+
     const [review, setReview] = useState<any>([])
     const getReview = API.get("/shopreview/getmyreviewDb")
     //show setreview 
@@ -73,14 +93,7 @@ const shopId = () => {
             setReview(res.data)
         })
     }, [])
-    console.log(review)
-    // const [amo_rate, setAmountRate] = useState<any>([])
-    // const getamo_rate = API.get("/shopreview/getcountRate")
-    // useEffect(() => {
-    //     getamo_rate.then((res) => {
-    //         setAmountRate(res.data)
-    //     })
-    // }, [])
+    // console.log(review)
 
     useEffect(() => {
         // console.log(files)
@@ -91,12 +104,44 @@ const shopId = () => {
         navigate(`/shopreview/review/${target}`)
         window.scrollTo(0, 0)
     }
-
+    const [rates, setRate] = useState<string[]>([])
+    function handleSetRate(rate: any) {
+        if (!rates.includes(rate)) {
+            setRate([...rates, rate])
+        } else {
+            const newArr = rates.filter((value) => value !== rate)
+            setRate(newArr)
+        }
+    }
+    // console.log(rates)
     return (
         <AppBody>
             {detail.map((item: any, index: any) => (
                 <ShopDetailName key={index} name={item.shopName} />
             ))}
+            {amo_rate.map((item: any) => {
+                // console.log(item.rating)
+                if (item.rating === 5) {
+                    numCount += 1
+                    sumRating += 5
+                } else if (item.rating === 4) {
+                    sumRating += 4
+                    numCount2 += 1
+                } else if (item.rating === 3) {
+                    numCount3 += 1
+                    sumRating += 3
+                } else if (item.rating === 2) {
+                    numCount4 += 1
+                    sumRating += 2
+                } else if (item.rating === 1) {
+                    numCount5 += 1
+                    sumRating += 1
+                } else if (item.rating === 0) {
+                    numCount6 += 1
+                }
+                let summ = numCount + numCount2 + numCount3 + numCount4 + numCount5 + numCount6
+                AAA = sumRating / summ
+            })}
             {detail.map((item: any, index: any) => (
                 <Box
                     key={index}
@@ -114,13 +159,13 @@ const shopId = () => {
                     <Spacer height={"95%"}></Spacer>
                     <Flex direction="row" justifyContent={"space-between"} alignItems="flex-end">
                         <Heading color="white">
-                            <AmountRate ratting={item.aveRating} />
+                            <AmountRate ratting={String(AAA).substring(0, 3)} />
                             {/* ดีงข้อมูลมาจาก database */}
                         </Heading>
                         <Box p={1} minWidth={"60px"} maxWidth={"200px"} height={"25px"} rounded={"2xl"} background={"#FF3939"}>
                             <Flex mb={1} direction={"row"} justifyContent={"center"} alignItems={"center"}>
                                 <Heading textAlign={"center"} size={"xs"} color="white">
-                                    <AmountReview am_re={item.reviewReceived} />
+                                    <AmountReview am_re={item._count.reviews} />
                                     {/* ดีงข้อมูลมาจาก database */}
                                 </Heading>
                             </Flex>
@@ -151,18 +196,39 @@ const shopId = () => {
             {detail.map((item: any, index: any) => (
                 <LocationShop key={index} location={item.address} phoneNumber={item.phoneNo} />
             ))}
+            {/* {amo_rate.map((item: any) => {
+                    // console.log(item.rating)
+                    if (item.rating === 5) {
+                        numCount += 1
+                        sumRating += 5
+                    } else if (item.rating === 4) {
+                        sumRating += 4
+                        numCount2 += 1
+                    } else if (item.rating === 3) {
+                        numCount3 += 1
+                        sumRating += 3
+                    } else if (item.rating === 2) {
+                        numCount4 += 1
+                        sumRating += 2
+                    } else if (item.rating === 1) {
+                        numCount5 += 1
+                        sumRating += 1
+                    } else if (item.rating === 0) {
+                        numCount6 += 1
+                    }
+                    let summ = numCount + numCount2 + numCount3 + numCount4 + numCount5 + numCount6
+                    AAA = sumRating / summ
+                })} */}
             <SimpleGrid columns={{ base: 3, lg: 6 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-                {/* {amo_rate.map((item:any, index:any) => { */}
-                <Rate ratting={"5"} background={"#FF3939"} amo_rate={"3k"} />
-                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={"2"} />
-                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={"1"} />
-                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={"55"} />
-                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={"80"} />
-                <Rate ratting={"0"} background={"#838383"} amo_rate={"26"} />
-                {/* })} */}
+                <Rate ratting={"5"} background={"#FF3939"} amo_rate={String(numCount)} handleSetRate={handleSetRate} />
+                <Rate ratting={"4"} background={"#1DBC03"} amo_rate={String(numCount2)} handleSetRate={handleSetRate} />
+                <Rate ratting={"3"} background={"#1DBC03"} amo_rate={String(numCount3)} handleSetRate={handleSetRate} />
+                <Rate ratting={"2"} background={"#39A0FF"} amo_rate={String(numCount4)} handleSetRate={handleSetRate} />
+                <Rate ratting={"1"} background={"#39A0FF"} amo_rate={String(numCount5)} handleSetRate={handleSetRate} />
+                <Rate ratting={"0"} background={"#838383"} amo_rate={String(numCount6)} handleSetRate={handleSetRate} />
             </SimpleGrid>
 
-            <Box onClick={onOpen} as="button" mt={5} width={"100%"}>
+            <Box onClick={onOpen} as="button" mt={5} mb={3} width={"100%"}>
                 <Heading shadow={"md"} bgColor={"white"} padding={"10"} textAlign={"center"} size={"sm"} rounded={10}>
                     + Addyour
                 </Heading>
@@ -172,13 +238,20 @@ const shopId = () => {
 
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={3}>
                 {review.map((item: any, index: any) => {
-                    console.log(item)
+                    // console.log(item)
                     if (param.shopId === item.shopId) {
-                        return (
-                            <b onClick={() => Navigate(item.reviewId)}>
-                                <ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
-                            </b>
-                        )
+                        // return (
+                        //     <b onClick={() => Navigate(item.reviewId)}>
+                        //         <ReviewDetail key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item.likeReceived} />
+                        //     </b>
+                        // )
+                        if (rates.length === 0) {
+                            return (
+                                <b key={index} onClick={() => Navigate(item.reviewId)}>
+                                    <ReviewDetail reviewId={item.reviewId} key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item._count.likes} /></b>)
+                        } else if (rates.includes(String(item.rating))) {
+                            return (<b key={index} onClick={() => Navigate(item.reviewId)}><ReviewDetail reviewId={item.reviewId} key={index} image={""} name={item.reviewer.fName + " " + item.reviewer.lName} ment={item.text} date={String(item.reviewedAt).substring(0, 10)} amo_rate={item.rating} amo_like={item._count.likes} /></b>)
+                        }
                     }
                 })}
             </SimpleGrid>
@@ -195,7 +268,7 @@ const shopId = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <RatingStar rating={rating} onClick={onClick} size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
+                        <RatingStar rating={rating2} onClick={onClick} size={45} icon="star" scale={5} fillColor="black" strokeColor="grey" />
                         {/* input here */}
                         <Textarea
                             colorScheme="white"

@@ -29,7 +29,7 @@ const createCommunity = async (req: Request, res: Response) => {
         communityOwnerId: userid,
         communityDesc: body.communityDesc,
         communityPrivacy: body.communityPrivacy == "false" ? true : false,
-        communityPhoto: pic[0].buffer,
+        communityPhoto: pic[0]?.buffer,
         tags: { create: tag2id },
     }
 

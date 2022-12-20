@@ -7,13 +7,13 @@ const postcomment = async (req: Request<any>, res: Response<any>) => {
         const user = req.user?.userId
 
         const postcomment: any = {
-            //ให้ไปทำงานที่ sre_re ก่อน เอาไอดีมาก่่อน
-            reviewId : req.body.reviewId , 
-            commentId: req.body.commentId,
+            reviewId: req.body.reviewId,
             userId: user,
             text: req.body.text,
-            likeReceived: req.body.likeReceived,
+            likeReceived: 0,
         }
+        console.log(user)
+
         const rev = await prisma.sReview_Comment.create({
             data: {
                 ...postcomment,

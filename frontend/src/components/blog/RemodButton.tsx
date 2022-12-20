@@ -1,4 +1,3 @@
-import { CloseIcon } from "@chakra-ui/icons"
 import {
     Button,
     Box,
@@ -9,30 +8,60 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogOverlay,
-    IconButton,
-    useDisclosure,
-    Spacer,
     Input,
-} from "@chakra-ui/react"
-import React from "react"
-import { Center } from "@chakra-ui/react"
-import PostType_modal from "./PostType_modal"
-import PostType_modal_reMOD from "./PostType_modal_reMOD"
-import CopyLinkToast from "./CopyLinkToast"
+    useDisclosure,
+    useToast,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Center } from "@chakra-ui/react";
 
-// const RemodButton = () => {
-//     return (
-//         <Box>
-//             <Button colorScheme="orange" size="lg">
-//                 Remod
-//             </Button>
-//         </Box>
-//     )
-// }
+interface Props {
+    text: string;
+}
 
-function RemodButton() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = React.useRef<HTMLDivElement>(null)
+
+
+function RemodButton(props: Props) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [link, setLink] = useState(props.text);
+    const cancelRef = React.useRef(null);
+    const toast = useToast();
+
+    const copyToClipboard = (str: string) => {
+        const el = document.createElement('textarea');
+        el.value = str;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        console.log(`Copying to clipboard: ${str}`);
+    };
+
+    // function copyToClipboard(str: string) {
+
+    //     const el = document.createElement('textarea');
+    //     el.textContent = str;
+    //     el.setAttribute('readonly', '');
+    //     el.style.position = 'absolute';
+    //     el.style.left = '-9999px';
+    //     document.body.appendChild(el);
+    //     const selected =
+    //         document.getSelection().rangeCount > 0 ?
+    //             document.getSelection().getRangeAt(0) :
+    //             false;
+    //     el.select();
+    //     document.execCommand('copy');
+    //     document.body.removeChild(el);
+    //     if (selected) {
+    //         document.getSelection().removeAllRanges();
+    //         document.getSelection().addRange(selected);
+    //     }
+    //     alert("Copy Text: " + str);
+    // }
+
 
     return (
         <>
@@ -41,7 +70,13 @@ function RemodButton() {
                     Remod
                 </Button>
             </Box>
-            <AlertDialog motionPreset="slideInBottom" leastDestructiveRef={cancelRef} onClose={onClose} isOpen={isOpen} isCentered>
+            <AlertDialog
+                motionPreset="slideInBottom"
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+                isOpen={isOpen}
+                isCentered
+            >
                 <AlertDialogOverlay />
 
                 <AlertDialogContent>
@@ -51,24 +86,42 @@ function RemodButton() {
                     <AlertDialogCloseButton />
                     <AlertDialogBody>
                         <Box>
-                            <Center>
-                                <PostType_modal_reMOD />
-                            </Center>
+                            <Center />
                         </Box>
-                        <Input placeholder="Basic usage" marginTop={5} />
+                        <Input
+                            placeholder="Post's Link"
+                            marginTop={5}
+                            value={link}
+                            onChange={(e) => setLink(e.target.value)}
+                            id="myInput"
+                        />
                     </AlertDialogBody>
                     <AlertDialogFooter>
                         <Box display="flex" gap={5}>
                             <Button colorScheme="orange" onClick={onClose}>
-                                Comfirm
+                                OK
                             </Button>
-                            <CopyLinkToast />
+                            <Button
+                                onClick={() => {
+                                    // console.log(`Clicked CopyLink button`);
+                                    copyToClipboard(link);
+                                    copyToClipboard('Your Function Copied')
+                                    toast({
+                                        title: "Link Copied!",
+                                        status: "success",
+                                        duration: 1000,
+                                        isClosable: true,
+                                    });
+                                }}
+                            >
+                                CopyLink
+                            </Button>
                         </Box>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
         </>
-    )
+    );
 }
 
-export default RemodButton
+export default RemodButton;

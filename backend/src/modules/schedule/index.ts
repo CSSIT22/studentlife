@@ -8,6 +8,7 @@ import createTask from "./routes/createTask"
 import getCourseName from "./routes/getCourseName"
 import getWeekTasks from "./routes/getWeekTasks"
 
+
 const scheduleRoutes = express()
 
 scheduleRoutes.use(express.json())

@@ -28,15 +28,15 @@ const editCommunity = async (req: Request, res: Response) => {
     let a: any = []
 
     let x: any = {
-        any: tag2id.map((item) => a.push({ communityId: id,tagId: item.tagId })),//req.params.communityId
+        any: tag2id.map((item:any) => a.push({ communityId: id,tagId: item.tagId })),//req.params.communityId
     }
 
 
     const editCommunity: any = {
         communityName: body.communityName,
         communityDesc: body.communityDesc,
-        communityPrivacy: privacy,
-        communityPhoto: pic[0].buffer,
+        communityPrivacy: body.communityPrivacy == "false" ? true : false,
+        communityPhoto: pic[0]?.buffer,
         
     }
 
