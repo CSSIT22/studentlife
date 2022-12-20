@@ -29,6 +29,8 @@ const downloadFile = async (req: Request | any, res: Response | any) => {
             const file = fileRes.data
             res.header("Content-Type", fileRes.headers["content-type"])
             res.send(file)
+        }).catch((err: any) => {
+            console.log(err)
         })
 }
 export default downloadFile
