@@ -92,7 +92,7 @@ function LikeorNope() {
     }, [nextres])
 
     const likedRestaurant = async () => {
-        await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: true })
+    await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: true })
         navigate(`/restaurant/detail?resId=${property[0]?.resId}` + `&id=${id}` + "&total=" + property[0].likes)
     }
     // console.log(radius);

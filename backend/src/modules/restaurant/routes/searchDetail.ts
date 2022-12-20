@@ -11,11 +11,11 @@ const searchDetail = async (req: Request, res: Response) => {
 
 
 
-const addHours = (date: Date): Date => {
-    const result = new Date(date);
-    result.setHours(result.getHours() + 7);
-    return result;
-  };
+// const addHours = (date: Date): Date => {
+//     const result = new Date(date);
+//     result.setHours(result.getHours() + 7);
+//     return result;
+//   };
  
         const detail = axios.get(
             `https://maps.googleapis.com/maps/api/place/details/json?&place_id=${id}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`
@@ -72,7 +72,7 @@ const addHours = (date: Date): Date => {
                     resId: id,
                     resName: detaildata.name,
                     likes: detaildata.user_ratings_total,
-                    lastupdated: addHours(new Date()),
+                    lastupdated: new Date(),
                     detail: {
                         create: {
                             phoneNo: detaildata.formatted_phone_number,
@@ -106,7 +106,7 @@ const addHours = (date: Date): Date => {
                         create: {
                             userId: user,
                             isLike: like,
-                            updatedAt: addHours(new Date()),
+                            updatedAt: new Date(),
                         },
                     },
                     images: {
@@ -126,7 +126,7 @@ const addHours = (date: Date): Date => {
                     },
                     data: {
                         isLike: like,
-                        updatedAt:  addHours(new Date()),
+                        updatedAt:  new Date(),
                     },
                 })
                 res.send(liked)

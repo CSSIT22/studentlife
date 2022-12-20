@@ -11,11 +11,11 @@ const likedRestaurant = async (req: Request, res: Response) => {
 
 
 
-const addHours = (date: Date): Date => {
-    const result = new Date(date);
-    result.setHours(result.getHours() + 7);
-    return result;
-  };
+// const addHours = (date: Date): Date => {
+//     const result = new Date(date);
+//     result.setHours(result.getHours() + 7);
+//     return result;
+//   };
  
         const detail = axios.get(
             `https://maps.googleapis.com/maps/api/place/details/json?&place_id=${id}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`
@@ -58,21 +58,20 @@ const addHours = (date: Date): Date => {
         // console.log(img);
         
         const prisma = res.prisma
-        const existingRestaurant = await prisma.restaurant_Like_By_User.findMany({
+        const existingRestaurant = await prisma.restaurant.findFirst({
             where: {
-                userId: user,
-                resId: id,
+                resId: id
             },
         })
         // console.log("problem "+!existingRestaurant + " d");
         
-        if (existingRestaurant.length == 0) {
+        if (existingRestaurant == null) {
             const liked = await prisma.restaurant.create({
                 data: {
                     resId: id,
                     resName: detaildata.name,
                     likes: detaildata.user_ratings_total,
-                    lastupdated: addHours(new Date()),
+                    lastupdated:new Date(),
                     detail: {
                         create: {
                             phoneNo: detaildata.formatted_phone_number,
@@ -102,19 +101,31 @@ const addHours = (date: Date): Date => {
                             data:closetime == undefined ? {day: 0, close: "undefined"} : closetime
                         }
                     },
-                    userLike: {
-                        create: {
-                            userId: user,
-                            isLike: like,
-                            updatedAt: addHours(new Date()),
-                        },
-                    },
                     images: {
                         createMany: {
                             data: img
                         }
                     }
                 },
+            })
+            res.send(liked)
+        }
+
+        // hhhhhhhhhhhh
+        const checkLike = await prisma.restaurant_Like_By_User.findFirst({
+            where: {
+                userId: user,
+                resId: id
+            },
+        })
+        if(checkLike == null){
+            const liked = await prisma.restaurant_Like_By_User.create({
+               data: {
+                userId: user,
+                resId: id,
+                isLike: like,
+                updatedAt:  new Date(),
+               }
             })
             res.send(liked)
         }
@@ -126,7 +137,7 @@ const addHours = (date: Date): Date => {
                     },
                     data: {
                         isLike: like,
-                        updatedAt:  addHours(new Date()),
+                        updatedAt:  new Date(),
                     },
                 })
                 res.send(liked)
