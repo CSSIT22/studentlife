@@ -1,9 +1,8 @@
 import { Box, Center, Container, Flex, Show, Spacer, Stack, Text, Button, Hide } from "@chakra-ui/react"
 import React, { useState } from "react"
-import MasterCardModal from "./MasterCard"
 
 const PaymentMethod = () => {
-    const [{ mastercard, qrcode }, setBtn] = useState({ mastercard: false, qrcode: false })
+    // const [{ qrcode }, setBtn] = useState({ qrcode: false })
 
     return (
         <>
@@ -13,27 +12,21 @@ const PaymentMethod = () => {
                         <Text fontSize="lg" fontWeight={"bold"}>
                             Payment Method 
                         </Text>
-                        {/* <Spacer /> */}
-                        <Button colorScheme="whiteAlpha" shadow={"lg"} onClick={() => setBtn({ mastercard: true, qrcode: false })}>
-                            <Text fontSize="lg" fontWeight={"bold"} color="black">
-                                MasterCard
-                            </Text>
-                        </Button>
-                        <Button colorScheme="whiteAlpha" shadow={"lg"} onClick={() => setBtn({ mastercard: false, qrcode: true })}>
+
+                        <Button colorScheme="whiteAlpha" shadow={"lg"}>
                             <Text fontSize="lg" fontWeight={"bold"} color="black">
                                 QRCODE
                             </Text>
                         </Button>
                     </Flex>
 
-                    {mastercard ? <MasterCardModal></MasterCardModal> : <></>}
-                    {qrcode ? (
+                    {/* {qrcode ? (
                         <Text fontSize="lg" fontWeight={"bold"} color="white">
                             QR code
                         </Text>
                     ) : (
                         <></>
-                    )}
+                    )} */}
                 </Container>
             {/* </Hide> */}
         </>
