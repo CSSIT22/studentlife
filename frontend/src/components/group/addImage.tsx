@@ -16,7 +16,7 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
     const [imageHeight, setImageHeight] = useState<number | null>(null);
 
     useEffect(() => {
-        console.log(`previewUrl updated: ${previewUrl}`);
+        
         if (previewUrl) {
             const img = new Image();
             img.src = previewUrl;
@@ -31,9 +31,9 @@ const ImageInsert: FC<ImageInsertProps> = ({ children, files, setFiles }) => {
         const files = event.target.files;
 
         if (files) {
-            console.log(`previewUrl before update: ${previewUrl}`);
+            
             setPreviewUrl(URL.createObjectURL(files[0]));
-            console.log(`previewUrl after update: ${previewUrl}`);
+            
             setPreviewUrl(URL.createObjectURL(files[0]));
             setFiles(files)
 

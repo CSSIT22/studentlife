@@ -18,10 +18,10 @@ const joinCommunity = async (req: Request, res: Response) => {
         await prisma.community_User.create({
             data: joinRequest,
         })
-        console.log(joinRequest)
+
         res.status(201).send("Joining Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(400)
     }
 }

@@ -11,7 +11,6 @@ const createPost = async (req: Request, res: Response) => {
 
     let postId = ""
 
-    // console.log(body.communityID)
     const post = await prisma.student_Post.create({
         data: {
             userId: userId || "",
@@ -53,7 +52,6 @@ const createPost = async (req: Request, res: Response) => {
             .post("/", formData)
             .then((res: any) => {
                 resFileId = res.data
-                console.log("File ID from drive:" + resFileId[0].Id)
             })
             .catch((err: any) => {
                 console.log(err)
@@ -70,14 +68,10 @@ const createPost = async (req: Request, res: Response) => {
         })
     }
 
-    
-    
-        
 
-        console.log(userId)
         res.status(201).send("Created Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(403)
     }
 }

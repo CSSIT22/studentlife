@@ -29,7 +29,6 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
         try {
             const postResult = (await API.get("/group/getCommunityPost/" + communityID)).data
             setPost(postResult)
-            console.log("post:", postResult)
         } catch (err) {
             on()
         } finally {
@@ -39,8 +38,6 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
     useEffect(() => {
 
         fetchPost()
-        // console.log(post);
-        console.log("data:", data)
     }, [])
 
 
@@ -108,20 +105,17 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
     const toast = useToast()
     const onCreatePost = async () => {
         try {
-            console.log(files)
+
             const form = new FormData()
             form.append("postText", postText);
             form.append("communityID", communityID);
             form.append("upload", files[0]);
-            for (var pair of form.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
+
             const result = await API.post("/group/createPost", form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            console.log(result)
             toast({
                 title: "Post created",
                 description: "Your post has been created",
@@ -147,7 +141,7 @@ const DiscussionPage: FC<{ data: any }> = ({ data }) => {
                 position: 'top'
             })
             fetchPost()
-            console.log(err)
+            
         }
     }
 

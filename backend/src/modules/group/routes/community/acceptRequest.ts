@@ -20,12 +20,11 @@ const acceptRequest = async (req: Request, res: Response) => {
                 status: true,
             },
         })
-        console.log(req.body.user)
-        console.log(req.body.communityId)
+
         console.log("Accept Success")
         res.status(200).send("Request has been accept")
     } catch (err) {
-        console.log(err)
+        
         res.status(403)
     }
 }

@@ -20,7 +20,7 @@ const pendingRequest = async (req: Request, res: Response) => {
         console.log("pendingRequest", pendingRequest)
         res.status(201).send("Request has been send")
     } catch (err) {
-        console.log(err)
+       
         res.status(400)
     }
 }

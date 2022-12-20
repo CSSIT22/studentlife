@@ -50,11 +50,7 @@ const createCommunity = () => {
     const [createTag, setCreateTag] = useState<any>([]);
 
 
-    useEffect(() => {
-        console.log(createTag)
-        console.log(updatedTag)
-        console.log(selectedTag)
-    }, [createTag])
+    
     const handleAddTag = (tag: any) => {
         if (!tag.isSelected) {
             tag.isSelected = true
@@ -75,10 +71,7 @@ const createCommunity = () => {
         form.append("communityPrivacy", communityPrivacy.toString());
         form.append("communityTags", createTag);
         form.append("upload", communityCoverPhoto);
-        for (var pair of form.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
-
+        
         API.post("/group/createCommunity", form, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -93,7 +86,7 @@ const createCommunity = () => {
                 position: 'top',
             })
         }).catch((err) => {
-            console.log(err)
+            
             toast({
                 title: "Error",
                 description: "Community creation failed",
@@ -285,7 +278,7 @@ const createCommunity = () => {
                             accept="image/png, image/jpeg"
                             onChange={(e: any) => {
                                 let x = URL.createObjectURL(e.target.files[0])
-                                console.log(e.target.files[0] instanceof Blob)
+                                
                                 setPreviewPhoto(x)
                                 setCommunityCoverPhoto(e.target.files[0])
                             }

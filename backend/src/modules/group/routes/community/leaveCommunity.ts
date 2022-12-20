@@ -16,7 +16,7 @@ const leaveCommuntiy = async (req: Request, res: Response) => {
         console.log("Leave Success")
         res.status(200).send("Leave Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(403)
     }
 }

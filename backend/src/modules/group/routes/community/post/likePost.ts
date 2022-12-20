@@ -24,7 +24,7 @@ const likePost = async (req: Request, res: Response) => {
         })
         res.status(200).send("Like post success")
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

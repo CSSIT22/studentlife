@@ -39,7 +39,7 @@ const index = () => {
         try {
             const res = await API.get("/group/getcommunity")
             setCommunity(res.data)
-            console.log(res.data)
+            
         } catch (error) {
             on()
         } finally {
@@ -50,19 +50,17 @@ const index = () => {
     useEffect(() => {
         getCommunity()
     }, [])
-    // useEffect(() => {
-    //     console.log(typeof community?.communityList.own[0].communityPhoto);
-    // }, [community])
+    
     if (isLoading) {
         return (
-            // will fix the design later
+            
             <AppBody>
                 <Text>Loading...</Text>
             </AppBody>
         )
     }
     if (isError) {
-        // will fix the design later
+        
         return (
             <AppBody>
                 <Box>
@@ -169,11 +167,10 @@ const index = () => {
                         communityId={community.communityId}
                         ownerFname={community.owner.fName}
                         ownerLname={community.owner.lName}
-                        // userName={community.member[0].joined}
-                        // expired={community.expired}
+
                         communityMember={community.communityMember}
                         communityPrivacy={community.communityPrivacy}
-                    // userName={community.userName}
+
                     />
                 )
             }))
@@ -353,6 +350,7 @@ const index = () => {
                             display={community?.communityList.own.length == 0 ? "none" : "block"}
                             mt={2}
                             mb={2}
+                            
                             background={{ md: "#E67F45", base: "" }}
                             p={{ md: "4", base: "4" }}
                             borderRadius={"xl"}

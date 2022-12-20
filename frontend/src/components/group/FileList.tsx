@@ -37,7 +37,7 @@ const FileList: FC<{
             a.click()
             a.remove()
         } catch (error) {
-            console.log(error)
+            
         }
     }
     const handleDownload = async (name: string, sid: string, fid: string, event: any) => {
@@ -55,7 +55,7 @@ const FileList: FC<{
         onDelete()
         toast({ position: "top", title: "File Deleted", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
         fetchFile()
-        console.log("delete")
+        
     }
     const threeDots = [
         {

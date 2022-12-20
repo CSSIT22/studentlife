@@ -100,7 +100,7 @@ const communityTest = async (req: Request, res: Response) => {
         res.send(hello)
         
     } catch (err) {
-        console.log(err)
+        
         res.status(403)
     }
 }

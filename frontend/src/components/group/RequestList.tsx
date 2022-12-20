@@ -37,7 +37,7 @@ const RequestList: FC<{
                 position: 'top',
             })
         }).catch((err) => {
-            console.log(err)
+            
             toast({
                 title: "Error",
                 description: "Something went wrong",
@@ -61,7 +61,7 @@ const RequestList: FC<{
                     position: 'top',
                 })
             }).catch((err) => {
-                console.log(err)
+                
                 toast({
                     title: "Error",
                     description: "Something went wrong",

@@ -36,7 +36,6 @@ const FilePage: FC<{
         try {
             const communityFileResult = (await API.get("/group/getCommunityFile/" + communityID)).data
             await setFile(communityFileResult.communityFile)
-            console.log(communityFileResult.communityFile[0])
         } catch (err) {
             on()
         } finally {
@@ -45,14 +44,10 @@ const FilePage: FC<{
     }
     useEffect(() => {
         fetchFile()
-        // console.log("file", file);
+
     }, [])
 
-    // useEffect(() => {
-    //     if (file) {
-    //         console.log(file)
-    //     }
-    // }, [file])
+ 
     if (isLoading) {
         return <Text>Loading...</Text>
     }

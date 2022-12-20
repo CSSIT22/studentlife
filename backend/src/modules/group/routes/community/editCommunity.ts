@@ -35,7 +35,7 @@ const editCommunity = async (req: Request, res: Response) => {
     const editCommunity: any = {
         communityName: body.communityName,
         communityDesc: body.communityDesc,
-        communityPrivacy: body.communityPrivacy == "false" ? true : false,
+        communityPrivacy: body.communityPrivacy == "false" ? false : true,
         communityPhoto: pic[0]?.buffer,
         
     }
@@ -61,10 +61,10 @@ const editCommunity = async (req: Request, res: Response) => {
             data: a,
         })
 
-        console.log("success ?")
+        
         res.status(201).send("Edit Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

@@ -45,7 +45,7 @@ const PendingRequest: FC<InvitedCommunity> = ({
                 position: 'top',
             })
         }).catch((err) => {
-            console.log(err)
+            
             toast({
                 title: "Error",
                 description: "Something went wrong",

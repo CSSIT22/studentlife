@@ -19,7 +19,7 @@ const pinPost = async (req: Request, res: Response) => {
         res.send("test")
         res.status(200).send("Pin post success")
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

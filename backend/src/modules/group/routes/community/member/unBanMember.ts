@@ -36,7 +36,7 @@ const unBanMember = async (req: Request, res: Response) => {
         // })
         res.status(200).send("Unban Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

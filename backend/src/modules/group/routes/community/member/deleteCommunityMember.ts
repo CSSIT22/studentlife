@@ -15,7 +15,7 @@ const deleteCommunityMember = async (req: Request, res: Response) => {
 
         res.status(200).send("Delete Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

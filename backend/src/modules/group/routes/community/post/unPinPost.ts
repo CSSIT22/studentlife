@@ -18,7 +18,7 @@ const pinPost = async (req: Request, res: Response) => {
         res.send(req.body)
         res.status(200).send("Unpin post success")
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

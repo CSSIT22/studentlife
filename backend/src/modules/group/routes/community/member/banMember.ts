@@ -47,7 +47,7 @@ const banMember = async (req: Request, res: Response) => {
 
         res.status(200).send("Ban Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

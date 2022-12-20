@@ -34,7 +34,7 @@ const MemberPage: FC<{
     }
     useEffect(() => {
         fetchMember()
-        console.log("member: ", member)
+        
     }, [])
     if (isLoading) {
         return (
@@ -115,9 +115,7 @@ const MemberPage: FC<{
         },
 
     ]
-    {
-        console.log("checkId:", checkId)
-    }
+    
 
 
     return (

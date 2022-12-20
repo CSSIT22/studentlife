@@ -102,8 +102,7 @@ const editCommunity = () => {
             setTags((await API.get("/group/getTag/")).data)
             
             
-            console.log(communityResult)
-            console.log(updatedTag)
+            
         } catch (err) {
             on()
         } finally {
@@ -115,13 +114,7 @@ const editCommunity = () => {
     }, [])
 
 
-    useEffect(() => {
-        console.log(createTag)
-        console.log(updatedTag)
-        console.log(selectedTag)
-       
-
-    }, [updatedTag])
+    
 
     const handleAddTag = (tag: any) => {
         if (!tag.isSelected) {
@@ -206,9 +199,7 @@ const editCommunity = () => {
         form.append("communityPrivacy", Privacy);
         form.append("communityTags", createTag);
         form.append("upload", communityCoverPhoto);
-        for (var pair of form.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-        }
+        
 
         API.patch("/group/editCommunity" + communityID, form,{
             headers: {
@@ -226,7 +217,7 @@ const editCommunity = () => {
                 })
             })
             .catch((err) => {
-                console.log(err)
+                
                 toast({
                     title: "Error",
                     description: "Community Edit Failed",

@@ -18,7 +18,7 @@ const getTag = async (req: Request, res: Response) => {
 
         res.send(a)
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }

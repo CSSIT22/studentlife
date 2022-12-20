@@ -37,10 +37,9 @@ const createCommunity = async (req: Request, res: Response) => {
         await prisma.community.create({
             data: createCommunity,
         })
-        console.log(body)
         res.status(201).send("Created Success")
     } catch (err) {
-        console.log(err)
+        
         res.status(403)
     }
 }

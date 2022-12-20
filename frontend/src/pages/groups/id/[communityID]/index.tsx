@@ -18,7 +18,7 @@ const index = () => {
         try {
             const communityResult = (await API.get("/group/getCommunityId/" + communityID)).data
             setData(communityResult)
-            console.log(communityResult)
+            
         } catch (err) {
             on()
         } finally {

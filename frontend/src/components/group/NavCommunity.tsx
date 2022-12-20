@@ -91,7 +91,7 @@ const NavCommunity: FC<{
         const [isSureOpen, setSureOpen] = useState(false)
         const sureOnClick = () => {
             setSureOpen(!isSureOpen)
-            console.log(isSureOpen)
+            
         }
         const closeInvite = () => {
             setModalOpen(false)
@@ -151,7 +151,7 @@ const NavCommunity: FC<{
                             position: 'top',
                         })
                     }).catch((err) => {
-                        console.log(err)
+                        
                         toast({
                             title: "Error",
                             description: "Something went wrong",
@@ -179,7 +179,7 @@ const NavCommunity: FC<{
                             position: 'top',
                         })
                     }).catch((err) => {
-                        console.log(err)
+                        
                         toast({
                             title: "Error",
                             description: "Something went wrong",
@@ -211,7 +211,7 @@ const NavCommunity: FC<{
                         position: 'top',
                     })
                 }).catch((err) => {
-                    console.log(err)
+                    
                     toast({
                         title: "Error",
                         description: "Something went wrong",
@@ -239,7 +239,7 @@ const NavCommunity: FC<{
                         position: 'top',
                     })
                 }).catch((err) => {
-                    console.log(err)
+                    
                     toast({
                         title: "Error",
                         description: "Something went wrong",

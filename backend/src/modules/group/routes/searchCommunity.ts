@@ -13,7 +13,7 @@ const searchCommunity = async (req: Request, res: Response) => {
 
         res.status(302).json(searchCommunity)
     } catch (err) {
-        console.log(err)
+        
         res.status(404)
     }
 }
