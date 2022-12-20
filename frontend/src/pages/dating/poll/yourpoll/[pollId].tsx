@@ -29,17 +29,12 @@ import DatingWentWrong from "src/components/dating/DatingWentWrong"
 import GroupChatImg from "../../../../components/dating/pic/groupchat.png"
 import { motion } from "framer-motion"
 
-// import { POLL } from "../../../../components/dating/shared/poll"
-// import POLL_APPLICANT from "../../../../components/dating/shared/poll_applicant"
-
 const YourPoll = () => {
     const didMount = useDidMount()
     const navigate = useNavigate()
     const toast = useToast()
     let count = 1
     const params = useParams()
-
-    // const pollInfo = POLL[POLL.findIndex((e) => e.pollId == pollId)]
 
     const [pollInfo, setPollInfo] = useState<PollInfo>()
     const [allParticipants, setAllParticipants] = useState<{

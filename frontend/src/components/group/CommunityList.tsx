@@ -1,19 +1,18 @@
-import { HStack, Box, Image, Text } from "@chakra-ui/react"
-import React, { FC } from "react"
+import { OwnCommunity } from "@apiType/group"
+import { HStack, Box, Image, Text, Badge } from "@chakra-ui/react"
+import React, { createElement, FC, useEffect } from "react"
 import { MdPublic, MdPublicOff } from "react-icons/md"
 import { Link } from "react-router-dom"
+const CommunityList: FC<OwnCommunity> = ({ pendingRequest, communityName, communityPhoto, communityPrivacy, communityId, communityMember, lastActive }) => {
 
-const CommunityList: FC<{
-    communityId: string
-    communityName: string
-    lastActive: string
-    coverPhoto: any
-    isPrivate: boolean
 
-}> = ({ communityName, lastActive, coverPhoto, isPrivate, communityId }) => {
+
+
+
     return (
         <Link to={`/groups/id/${communityId}`}>
             <Box
+                position='relative'
                 sx={{ transition: "transform ease 300ms" }}
                 _hover={{ cursor: "pointer", transform: "translate(0, -3px)", shadow: "xl" }}
                 borderRadius="md"
@@ -23,19 +22,45 @@ const CommunityList: FC<{
                 color="black"
             >
                 <Box p={2} borderRadius="md">
+
                     <HStack gap={2}>
-                        <Image ml={1} borderRadius="md" boxSize="55px" src={coverPhoto ? coverPhoto:"https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"} alt="Cover Photo" />
+                        <Image ml={1} borderRadius="md" boxSize="55px" src={communityPhoto ? (import.meta.env.VITE_APP_ORIGIN || "") + "/group/getpic/" + communityId : "https://149366088.v2.pressablecdn.com/wp-content/uploads/2017/02/ubuntu-1704-default-wallpaper-750x422.jpg"} alt="Cover Photo" />
                         <div>
-                            <Box display="flex" alignItems="center" gap={1}>
-                                {isPrivate ? <MdPublicOff /> : <MdPublic />}
-                                <Text as="b" fontSize="sm">
-                                    {communityName}test
+                            <HStack >
+                                {communityPrivacy ? <MdPublicOff /> : <MdPublic />}
+                                <Text display={{ base: 'block', md: 'none' }} as="b" fontSize="sm">
+                                    {communityName}
                                 </Text>
-                            </Box>
-                            <Text fontSize="sm">Last active {lastActive} days ago</Text>
+
+                                <Text display={{ base: 'none', md: 'block' }} as="b" fontSize="sm">
+                                    {communityName.length > 16 ? communityName.slice(0, 14) + "..." : communityName}
+                                </Text>
+
+                            </HStack>
+
+                            <Text
+                                //last activity
+                                fontSize="sm"
+                            >
+                                last active {lastActive}
+                            </Text>
+
                         </div>
                     </HStack>
                 </Box>
+                <Badge
+                    display={pendingRequest ? 'block' : 'none'}
+                    colorScheme='red'
+                    position='absolute'
+                    top='5px'
+                    right='5px'
+                    padding='1'
+                    // padding='2px 8px'
+                    // fontSize='10px'
+                    borderRadius='50%'
+                    background='red'
+                // color='white'
+                ></Badge>
             </Box>
         </Link>
     )

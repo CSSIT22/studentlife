@@ -7,7 +7,7 @@ const deleteCommunityMember = async (req: Request, res: Response) => {
         await prisma.community_User.delete({
             where: {
                 userId_communityId: {
-                    userId: req.body.user,
+                    userId: req.body.userId,
                     communityId: req.body.communityId,
                 },
             },

@@ -15,34 +15,14 @@ const FriendSuggestion = (/*{ photoUrl, year, department, faculty }: { photoUrl:
                     <HStack>
                         <SwiperSlide>
                             <Center>
-                                <SuggestedFriend
-                                    photoUrl="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
-                                    year={3}
-                                    department="Computer Science"
-                                    faculty="IT"
-                                ></SuggestedFriend>
+                                <SuggestedFriend></SuggestedFriend>
                             </Center>
                         </SwiperSlide>
-                        <SwiperSlide>
+                        {/* <SwiperSlide>
                             <Center>
-                                <SuggestedFriend
-                                    photoUrl="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
-                                    year={2}
-                                    department="Food Engineering"
-                                    faculty="Engineering"
-                                ></SuggestedFriend>
+                                <SuggestedFriend></SuggestedFriend>
                             </Center>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Center>
-                                <SuggestedFriend
-                                    photoUrl="https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"
-                                    year={2}
-                                    department="Civil Engineering"
-                                    faculty="Engineering"
-                                ></SuggestedFriend>
-                            </Center>
-                        </SwiperSlide>
+                        </SwiperSlide> */}
                     </HStack>
                 </SimpleGrid>
             </Swiper>

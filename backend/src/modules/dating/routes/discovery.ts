@@ -663,7 +663,6 @@ discoveryRoutes.post("/setHeartHistory", verifyUser, async (req: Request, res: R
                                     url: "/dating/match",
                                     sender: anotherUserId,
                                 })
-                                console.log(fName + " " + anotherUserId + " " + userId)
                             }
                         }
                     }

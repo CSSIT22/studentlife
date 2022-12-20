@@ -18,7 +18,7 @@ const detail = () => {
 
     useEffect(() => {
         newData.then(res => setlanginfos(res.data))
-        getData.then((item) => setpost(item.data)).catch((err) => on()).finally(off)
+        getData.then((item) => setpost([item.data])).catch((err) => on()).finally(off)
     }, [])
 
 

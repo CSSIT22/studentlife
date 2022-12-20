@@ -19,13 +19,36 @@ const index = () => {
     const { isOpen, onToggle } = useDisclosure()
     const { isOpen: rsnIsOpen, onToggle: rsnOnToggle } = useDisclosure()
     const [sn, setSn] = useState([])
+    const [snByName, setSnByName] = useState([])
+    const [snByNewest, setSnByNewest] = useState([])
+    const [snByOldest, setSnByOldest] = useState([])
+    const [snOg, setSnOg] = useState([])
     useEffect(() => {
-        API.get("/shortnotes/getShortnotes").then((item) => {
-            setSn(item.data)
+        API.get("/shortnotes/getOgShortnotes").then((item) => {
+            setSnOg(item.data)
+            setSsn(item.data)
+        }).then(() => {
+            API.get("/shortnotes/getShortnotes").then((item) => {
+                setSn(item.data)
+            })
+        }).then(() => {
+            API.get("/shortnotes/getShortnotesByName").then((item) => {
+                setSnByName(item.data)
+            })
+
+        }).then(() => {
+            API.get("/shortnotes/getShortnotesByOldest").then((item) => {
+                setSnByOldest(item.data)
+            })
+        }).then(() => {
+            API.get("/shortnotes/getShortnotesByNewest").then((item) => {
+                setSnByNewest(item.data)
+            })
         }).finally(() => {
             setsnLoad.off()
             onToggle()
         })
+
     }, [])
 
     const [rsn, setRsn] = useState([])
@@ -64,41 +87,6 @@ const index = () => {
 
 
     const [sortType, setSortType] = useState("")
-    // useMemo(() => {
-    //     if (sortType == "1") {
-    //         sn.sort((a: any, b: any) => {
-    //             if (a.snName < b.snName) {
-    //                 return -1;
-    //             }
-    //             if (a.snName > b.snName) {
-    //                 return 1;
-    //             }
-    //             return 0;
-    //         })
-    //     }
-    //     else if (sortType == "2") {
-    //         sn.sort((a: any, b: any) => {
-    //             if (a.created < b.created) {
-    //                 return -1;
-    //             }
-    //             if (a.created > b.created) {
-    //                 return 1;
-    //             }
-    //             return 0;
-    //         })
-    //     }
-    //     else if (sortType == "") {
-    //         sn.sort((a: any, b: any) => {
-    //             if (a.created < b.created) {
-    //                 return 1;
-    //             }
-    //             if (a.created > b.created) {
-    //                 return -1;
-    //             }
-    //             return 0;
-    //         })
-    //     }
-    // }, [sortType, sn])
 
     const [searchSn, setSearchSn] = useState("")
 
@@ -107,32 +95,6 @@ const index = () => {
     const [coursePicked, setCoursePicked] = useState("")
 
     const [snByCourse, setSnByCourse] = useState<any>([])
-
-    // useEffect(() => {
-    //     setSnByCourse(sn.filter((items: any) => items.courseId == coursePicked)) //what to do
-    // }, [coursePicked]) // what to track
-
-    // useEffect(() => {
-    //     const sortedSn = sn.sort((a: any, b: any) => {
-    //         if (a.snName < b.snName) {
-    //             return -1;
-    //         }
-    //         if (a.snName > b.snName) {
-    //             return 1;
-    //         }
-    //         return 0;
-    //     });
-    //     const filteredSn = sortedSn.filter((items: any) => {
-    //         return items.snName.toLowerCase().includes(searchSn);
-    //     });
-    //     setSsn(filteredSn);
-    // }, [searchSn]);
-
-
-
-    // useEffect(() => {
-    //     setSsn(sn.filter((items: any) => items.courseId == coursePicked))
-    // }, [coursePicked])
 
     const picked = (e: any) => {
         setCoursePicked(e.target.value)
@@ -146,18 +108,30 @@ const index = () => {
     };
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(5)
+    const [postsPerPage, setPostsPerPage] = useState(8)
     let indexOfLastSn = currentPage * postsPerPage
     let indexOfFirstSn = indexOfLastSn - postsPerPage
-    let currentSn = sn.slice(indexOfFirstSn, indexOfLastSn)
+    let currentSn = ssn.slice(indexOfFirstSn, indexOfLastSn)
     let pageNumbers = []
-    for (let i = 1; i <= Math.ceil(sn.length / postsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(ssn.length / postsPerPage); i++) {
         pageNumbers.push(i)
 
     }
 
     const filteredSn = useMemo(() => {
-        let filteredSn = sn;
+        let filteredSn = snOg;
+
+        if (sortType || sortType == "") {
+            if (sortType === "") {
+                filteredSn = snOg
+            } else if (sortType === "1") {
+                filteredSn = snByOldest
+            } else if (sortType === "2") {
+                filteredSn = snByNewest
+            } else if (sortType === "3") {
+                filteredSn = snByName
+            }
+        }
 
         if (searchSn) {
             filteredSn = filteredSn.filter((items: any) => items.snName.toLowerCase().includes(searchSn.toLowerCase()));
@@ -167,39 +141,6 @@ const index = () => {
             filteredSn = filteredSn.filter((items: any) => items.courseId == coursePicked);
         }
 
-        if (sortType || sortType == "") {
-            if (sortType === "") {
-                filteredSn.sort((a: any, b: any) => {
-                    if (a.created > b.created) {
-                        return -1;
-                    }
-                    if (a.created < b.created) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            } else if (sortType === "2") {
-                filteredSn.sort((a: any, b: any) => {
-                    if (a.created < b.created) {
-                        return -1;
-                    }
-                    if (a.created > b.created) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            } else if (sortType === "3") {
-                filteredSn.sort((a: any, b: any) => {
-                    if (a.snName < b.snName) {
-                        return -1;
-                    }
-                    if (a.snName > b.snName) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            }
-        }
         return filteredSn;
     }, [sn, searchSn, coursePicked, sortType]);
 
@@ -267,9 +208,9 @@ const index = () => {
                 <Stack direction={"row"}>
                     <VStack>
                         <Text alignSelf={"start"}>Sort by</Text>
-                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="Newest" onChange={((e: any) => setSortType(e.target.value))}>
-                            {/* <option value="1">Newest</option> */}
-                            <option value="2">Oldest</option>
+                        <Select w={"110px"} _focus={{ bg: '#f5f5f5' }} _hover={{ cursor: "pointer", bg: 'gray.200' }} focusBorderColor="orange.500" variant="filled" placeholder="None" onChange={((e: any) => setSortType(e.target.value))}>
+                            <option value="1">Oldest</option>
+                            <option value="2">Newest</option>
                             <option value="3">Name</option>
                         </Select>
                     </VStack>

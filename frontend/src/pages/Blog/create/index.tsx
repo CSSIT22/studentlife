@@ -1,8 +1,7 @@
-import { Center, Flex, Spacer, Box, Button, Textarea, useToast } from "@chakra-ui/react"
+import { Center, Flex, Spacer, Box, Button, Textarea, useToast, Avatar } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import CancelButton from "../../../components/blog/cancleButton"
-import CommentButton from "../../../components/blog/CommentButton"
-import EmojiReaction from "../../../components/blog/EmojiReaction"
+import CommentButton from "../../../components/blog/ReRouteButton"
 import Optionbutton from "../../../components/blog/Optionbutton"
 import PostImage from "../../../components/blog/PostFile"
 import PostText from "../../../components/blog/PostText"
@@ -19,7 +18,6 @@ import PostButton from "../../../components/blog/PostButton"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
-import User from "../../link/data/user"
 import FileUpload from '../../../components/blog/FileUpload';
 
 
@@ -39,12 +37,29 @@ const Create = () => {
     // })
     const toast = useToast()
 
+    // const submit = () => {
+    //     API.post<any>("/blog/postCreatingX", {
+    //         body: text
+    //     })
+
+
+
+    let setValue: number
+
+    setValue = 0
+
+    console.log(text)
+
+    const fileReady = (value: number) => {
+        setValue = 1
+    };
+
     const submit = () => {
-        if (text || files) {
+        if (text != "" && !files.empty) {
             const form = new FormData();
             console.log(files)
             form.append("text", text);
-            form.append("upload", files );
+            form.append("upload", files);
             API.post<any>("/blog/postCreatingX",
                 form, {
                 headers: {
@@ -55,9 +70,10 @@ const Create = () => {
                 .then((res) =>
                     navigate("/"))
         } else {
+            console.log(files)
             toast({
                 title: "Can't still post yet",
-                description: "You have to either have text or image or video in your post.",
+                description: "Your post must have text, but image or video is optional",
                 status: 'warning',
                 duration: 9000,
                 isClosable: true,
@@ -73,7 +89,7 @@ const Create = () => {
                 <Box marginTop={"20px"} marginBottom={"20px"} width={"75%"} padding={5} background={"white"} rounded={"lg"} shadow={"lg"}>
                     <Box>
                         <Flex>
-                            <Profile image={import.meta.env.VITE_APP_ORIGIN + "/user/profile/" + user.userId} />
+                            <Avatar src={(import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + user.userId} size="lg" />
 
                             <Box marginLeft={"4"}>
                                 <UsernameOnly name={user.fName + " " + user.lName} />

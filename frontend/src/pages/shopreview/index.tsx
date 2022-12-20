@@ -1,3 +1,4 @@
+import { Review } from "@apiType/restaurant"
 import {
     Box,
     Button,
@@ -32,7 +33,7 @@ import ShopName from "../../components/shopreview/ShopName"
 const shopreview = () => {
     // const [userRoom, setuserRoom] = useState<room>(mockRoom)
     const [target, setTarget] = useState(1)
-
+    let param = useParams()
     const [shops, setshops] = useState<any>([])
     const [res, setRes] = useState<any>([])
     const getShop = API.get("/shopreview/getshopDb")
@@ -48,13 +49,21 @@ const shopreview = () => {
         })
     }, [])
 
-    const [countRate, setCountRate] = useState<any>([])
-    const getamo_Rate = API.get("/shopreview/getcountRate")
+
+    const [countReview, setCountReview] = useState<any>([])
+    const getamo_Review = API.get("/shopreview/getcountReview")
     useEffect(() => {
-        getamo_Rate.then((res) => {
-            setCountRate(res.data)
+        getamo_Review.then((res) => {
+            setCountReview(res.data)
         })
     }, [])
+    // console.log(countRate)
+
+    // const [avg_rate, setAverageRate] = useState<any>([])
+    // useEffect(() => {
+    //     API.get(`/shopreview/shopdetails/shop/avg/${param.shopId}`)
+    //         .then((res) => setAverageRate(res.data))
+    // }, [param])
 
     function Navigate(target: any) {
         navigate(`/shopreview/shopdetails/shop/${target}`)
@@ -64,24 +73,39 @@ const shopreview = () => {
         navigate(`/shopreview/shopdetails/restaurant/${target}`)
         window.scrollTo(0, 0)
     }
+    // const [Avg, setAverageRate] = useState()
+    // const avg_rate = (id: any) => {
+    //     API.get(`/shopreview/shopdetails/shop/avg/${id}`)
+    //         .then((res) => setAverageRate(res.data.Avg))
+
+    // }
     const renderShop = (e: any) => {
         if (target === 1) {
             return (
                 <>
                     <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
-                        {shops.map((item: any) => {
+                        {shops.map((item: any, index: any) => {
+                            // avg_rate(item.shopId)
+                            // console.log(Avg);
+
+                            // {
+                            //     countReview.map((itom: any, idx: any) => {
+                            //         console.log(itom._count.reviews)
+                            // console.log(item)
                             if (zones.length === 0) {
                                 return (
-                                    <b onClick={() => Navigate(item.shopId)}>
-                                        <DetailBox key={item.id} heading={item.shopName} image={item.images[0].image} rate={item.aveRating} amo_re={item.reviewReceived} />
+                                    <b key={index} onClick={() => Navigate(item.shopId)}>
+                                        <DetailBox heading={item.shopName} image={item.images[0].image} rate={String(item.rating).substring(0, 3)} amo_re={item._count.reviews} />
                                     </b>
                                 )
                             } else if (zones.includes(item.zone)) {
                                 return (
-                                    <DetailBox key={item.id} heading={item.shopName} image={item.images[0].image} rate={item.aveRating} amo_re={item.reviewReceived} />
+                                    <DetailBox key={index} heading={item.shopName} image={item.images[0].image} rate={String(item.rating).substring(0, 3)} amo_re={item._count.reviews} />
                                 )
                             }
-                        })}
+                        })
+                        }
+                        {/* })} */}
                     </SimpleGrid>
 
                     <Container my={5} textAlign={"center"}>
@@ -98,12 +122,12 @@ const shopreview = () => {
                             if (zones.length === 0) {
                                 return (
                                     <b onClick={() => Navigate2(item.resId)}>
-                                        <DetailBox key={item.id} heading={item.resName} image={item.images[0].image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                        <DetailBox key={item.id} heading={item.resName} image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.images[0].image}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} rate={item.rating} amo_re={item._count.reviews} />
                                     </b>
                                 )
                             } else if (zones.includes(item.detail.zone)) {
                                 return (
-                                    <DetailBox key={item.id} heading={item.resName} image={item.images[0].image} rate={item.amo_rate} amo_re={item.amo_review} />
+                                    <DetailBox key={item.id} heading={item.resName} image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.images[0].image}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`} rate={item.rating} amo_re={item._count.reviews} />
                                 )
                             }
                         })}

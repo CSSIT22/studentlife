@@ -6,32 +6,30 @@ const createCommunity = async (req: Request, res: Response) => {
     const body = req.body
     const userid = req.user?.userId
 
-    // const blob = new Blob([req.file?.buffer], {
-    //     type: "image/req.file.type",
-    // });
+    let selectedTag = body.communityTags?.split(",")
 
+    console.log(body.communityTags)
     const tag2id = await prisma.tag.findMany({
         select: {
             tagId: true,
         },
         where: {
             tagName: {
-                in: body.communityTag,
+                in: selectedTag,
             },
         },
     })
 
-    let b: number[] = []
+    let pic: any = req.files
 
-    let y: any = {
-        any: tag2id.map((item) => b.push(item.tagId)),
-    }
+    let privacy = body.communityPrivacy == "false" ? false : true
 
     const createCommunity: any = {
         communityName: body.communityName,
         communityOwnerId: userid,
         communityDesc: body.communityDesc,
-        communityPrivacy: body.communityPrivacy,
+        communityPrivacy: body.communityPrivacy == "false" ? true : false,
+        communityPhoto: pic[0]?.buffer,
         tags: { create: tag2id },
     }
 
@@ -39,9 +37,10 @@ const createCommunity = async (req: Request, res: Response) => {
         await prisma.community.create({
             data: createCommunity,
         })
-
+        console.log(body)
         res.status(201).send("Created Success")
     } catch (err) {
+        console.log(err)
         res.status(403)
     }
 }

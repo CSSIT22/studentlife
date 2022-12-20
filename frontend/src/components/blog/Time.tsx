@@ -5,11 +5,12 @@ const Time: FC<{ date: Date }> = ({ date }) => {
     return (
         <Text color="gray" fontSize="xl">
             <>
-            {date.toISOString()+""}
+                {date.toLocaleString() + ""}
             </>
         </Text>
-        
+
     )
 }
 
 export default Time
+
