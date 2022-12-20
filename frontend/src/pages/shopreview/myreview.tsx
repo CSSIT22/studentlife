@@ -18,16 +18,9 @@ const myreview = () => {
         })
     }, [])
     const [myReviews2, setMyReview2] = useState<any>([])
-    // const getMyReview2 = API.get("/shopreview/getmyreviewDb2")
-    // useEffect(() => {
-    //     getMyReview2.then((res) => {
-    //         setMyReview2(res.data)
-    //     })
-    // }, [])
     const [myComments, setMyComment] = useState<any>([])
-    const getMyComment = API.get("/shopreview/getmycommentDb")
     useEffect(() => {
-        getMyComment.then((res) => {
+        API.get("/shopreview/getmycommentDb").then((res) => {
             setMyComment(res.data)
         })
     }, [])
@@ -51,21 +44,39 @@ const myreview = () => {
             </Flex>
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myReviews.map((item: any) => {
-                    console.log(item)
+                    // console.log(item)
                     if (item.reviewer.userId === user?.userId) {
-                        return (
-                            <b onClick={() => Navigate(item.reviewId)}>
-                                <Myreview
-                                    image={item.images[0]}
-                                    name={String(user?.fName) + " " + String(user?.lName)}
-                                    ment={item.text}
-                                    date={String(item.reviewedAt).substring(0, 10)}
-                                    am_like={item.likeReceived}
-                                    ratting={item.rating}
-                                    shopName="shopname"
-                                />
-                            </b>
-                        )
+                        if (item.shopId !== null) {
+                            return (
+                                <b onClick={() => Navigate(item.reviewId)}>
+                                    <Myreview
+                                        shopId={item.shopId}
+                                        reviewId={item.reviewId}
+                                        image={""}
+                                        name={String(user?.fName) + " " + String(user?.lName)}
+                                        ment={item.text}
+                                        date={String(item.reviewedAt).substring(0, 10)}
+                                        am_like={item._count.likes}
+                                        ratting={item.rating}
+                                        shopName={item.shop.shopName} />
+                                </b>
+                            )
+                        } else if (item.resId !== null) {
+                            return (
+                                <b onClick={() => Navigate(item.reviewId)}>
+                                    <Myreview
+                                        shopId={item.shopId}
+                                        reviewId={item.reviewId}
+                                        image={""}
+                                        name={String(user?.fName) + " " + String(user?.lName)}
+                                        ment={item.text}
+                                        date={String(item.reviewedAt).substring(0, 10)}
+                                        am_like={item._count.likes}
+                                        ratting={item.rating}
+                                        shopName={item.restaurant.resName} />
+                                </b>
+                            )
+                        }
                     }
                 })}
                 {/* {myReviews2.map((item: any) => {
@@ -91,13 +102,15 @@ const myreview = () => {
                 That's all for your review~
             </Container>
             <Heading mt={5} mb={3} color={"black"}>My Comment</Heading>
-            
+
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 3, lg: 6 }} marginTop={5}>
                 {myComments.map((item: any) => {
-                    console.log(item)
+                    // console.log(item)
                     if (item.commentBy.userId === user?.userId) {
                         return (
-                            <Comments image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={item.commentedAt} />
+                            <b onClick={() => Navigate(item.reviewId)}>
+                                <Comments reviewId={""} commentId={item.commentId} image={""} name={String(user?.fName) + " " + String(user?.lName)} ment={item.text} date={String(item.commentedAt).substring(0, 10)} am_like={item._count.userLike} />
+                            </b>
                         )
                     }
                 })}
