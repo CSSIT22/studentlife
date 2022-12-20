@@ -45,7 +45,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
         // }
         searchResults = await axios
         .get(
-            `https://maps.googleapis.com/maps/api/place/textsearch/json?location=13.651215325557505, 100.49407892842339&query=${name}&radius=0.1&type=restaurant&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`
+            `https://maps.googleapis.com/maps/api/place/textsearch/json?location=13.651215325557505, 100.49407892842339&query=${name}&radius=0.1&type=restaurant&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`
         )
         .then((res) => {
             return res.data.results
@@ -58,7 +58,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
         const resdata = await Promise.all(
             filteredSearch.map(async (x: any) => {
                 const detail = await axios.get(
-                    `https://maps.googleapis.com/maps/api/place/details/json?&place_id=${x.place_id}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`
+                    `https://maps.googleapis.com/maps/api/place/details/json?&place_id=${x.place_id}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`
                 )
                 // const img = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${x.photos[0].photo_reference}&key=AIzaSyCkJ_22DpS7aG2EcbXNL3xUEHpFyhFncr8`)
                 // console.log(img.data);
