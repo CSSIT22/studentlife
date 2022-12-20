@@ -30,9 +30,7 @@ const uploadOther = async (req: Request<any>, res: Response<any>) => {
         .then((res: any) => {
             resFileId = res.data
         })
-        .catch((err: any) => {
-            console.log(err)
-        })
+        .catch((err: any) => {        })
     try {
         const payload: {
             fileId: string

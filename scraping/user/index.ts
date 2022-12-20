@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import sts from "./students/students.json";
+// import sts from "./students/students.json";
 import { student } from "./students/studenttype";
 import axios from "axios";
 (async () => {
-
-  const students = sts as student[];
+  const students = [] as student[];
   const prisma = new PrismaClient();
 
   // const profile_pic = await axios.get(`https://graph.microsoft.com/v1.0/me/photos/432x432/$value`, {

@@ -18,13 +18,8 @@ const getFile = async (req: Request | any, res: Response | any) => {
             res.header("Content-Type", fileRes.headers["content-type"])
             res.send(file)
         }).catch((err:any)=>{
-            if(err){
-                console.log("file not found")
-            }
         })
-    }catch(err){
-        console.log(err);
-        
+    }catch(err){        
     }
 
 }
