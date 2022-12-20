@@ -53,7 +53,7 @@ const TextBar = ({ message, timeSent, from, color, myId, image ,name }: props) =
                 
             </HStack>
             <Text fontSize="xs" color="grey">
-                {dayjs(timeSent).format("H:M")}
+                {dayjs(timeSent).format("HH:mm")}
             </Text>
         </VStack>
     )
