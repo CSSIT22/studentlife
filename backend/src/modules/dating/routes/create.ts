@@ -3,8 +3,6 @@ import { Timestamp } from "@redis/time-series/dist/commands"
 import express, { Request, Response } from "express"
 import { verifyUser } from "../../backendService/middleware/verifyUser"
 import calExp from "../../user/expsystem/calExp"
-// import { Room } from ".."
-import axios from "axios"
 import { nanoid } from "nanoid"
 
 const createAPollRoutes = express()
@@ -45,7 +43,6 @@ createAPollRoutes.get("/getFavRestaurants", verifyUser, async (req: Request, res
                     }
                 }
             }
-            // console.log(allRes)
             return res.send(allRes)
         }
     } catch (err) {
@@ -62,13 +59,11 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
         const userId: string | undefined = req.user?.userId
         const pollName: string = req.body.pollName
         const pollPlace: string = req.body.pollPlace
-        // const pollAppointAt: any = req.body.pollAppointAt
         const pollAppointAt: Timestamp = req.body.pollAppointAt
         const pollText: string = req.body.pollText
         const participantMin: number = req.body.participantMin
         const participantMax: number = req.body.participantMax
         const isOpen: boolean = req.body.isOpen
-        // const pollcreated: Date = new Date(req.body.pollcreated)
         const pollTopic: any = []
         const user_id = await prisma.user_Profile.findUniqueOrThrow({
             select: {
@@ -97,24 +92,6 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
                 roomId: room_id,
             },
         })
-        // console.log(
-        //     "NAMEEEEEEE ! " +
-        //         pollName +
-        //         " " +
-        //         pollPlace +
-        //         " " +
-        //         pollAppointAt +
-        //         " " +
-        //         pollText +
-        //         " " +
-        //         participantMin +
-        //         " " +
-        //         participantMax +
-        //         " " +
-        //         isOpen +
-        //         " " +
-        //         pollTopic
-        // )
 
         const pollInfo: any = {
             userId: userId,
@@ -127,9 +104,7 @@ createAPollRoutes.post("/setPoll", verifyUser, async (req: Request, res: Respons
             isOpen: isOpen,
             roomId: room_id,
         }
-        // console.log("HENLO! " + pollInfo.pollAppointAt)
         const poll = await prisma.activity_Poll.create({
-            // data: { ...pollInfo },
             data: pollInfo,
         })
         req.body.activityInterestId.map((topic: string) => {

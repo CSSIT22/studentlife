@@ -92,7 +92,7 @@ function LikeorNope() {
     }, [nextres])
 
     const likedRestaurant = async () => {
-        await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: true })
+    await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: true })
         navigate(`/restaurant/detail?resId=${property[0]?.resId}` + `&id=${id}` + "&total=" + property[0].likes)
     }
     // console.log(radius);
@@ -141,12 +141,13 @@ function LikeorNope() {
     //  console.log(property);
 
 
-    const Nope = () => {
+    const Nope = async() => {
         // if (res < 5) {
         //     setres(res + 1)
         // } else {
         //     setres(0)
         // }
+        await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: false })
         setcount(count + 1)
         if (count % 5 == 0) {
             return onOpen()
@@ -171,14 +172,14 @@ function LikeorNope() {
                 { name: "My History", to: "/restaurant/history" },
             ]}
         >
-            <Box mb={"30px"}>
+            <Box mb={"1rem"}>
                 <Searchbar selectRadius={selectRadius} />
             </Box>
             <Box px={2} h={"100%"} pb={6} pt={2}>
                 {property.map((e1) => {
                     return (
                         <>
-                            <Box py={5} >
+                            <Box py={4} >
                                 <Heading textAlign={"center"} color={"#E65300"}>
                                     {e1.resName}{" "}
                                 </Heading>

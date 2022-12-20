@@ -1,15 +1,12 @@
-import { Box, Button, Center, Flex, Heading, Image, Spacer, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
-import React, { FC, useEffect, useState } from "react"
-// import { POLL } from "./shared/poll"
+import { Box, Button, Center, Flex, Heading, Image, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
+import { FC } from "react"
 import { Link, useParams } from "react-router-dom"
-import { POLL_APPLICANT } from "./shared/poll_applicant"
 import { useToast } from "@chakra-ui/react"
-// import { INTERESTS } from "./shared/interests"
 import API from "src/function/API"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { ApplyPoll, Polls } from "@apiType/dating"
 import Lottie from "lottie-react"
-import { delay, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import NoActivity from "../../components/dating/lottie/NoActivity.json"
 
 
@@ -19,25 +16,11 @@ declare global {
 
 // Component of all activity page
 const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }> = ({ poll, userId, fetch }) => {
-    const params = useParams()
-    // const [poll, setPoll] = useState(POLL)
-
-    // const [interests, setInterests] = useuseState<string>("")State(INTERESTS)
-    // const [pollApplicant, setPollApplicant] = useState(POLL_APPLICANT)
-    // let count = 1
-    // function appiled(pId: string) {
-    //     const today = new Date()
-    //     // NEED TO ADD DATA TO DATABASE HERE!!!!
-    //     console.log("Is appiled " + pId)
-    //     console.log(today)
-    // }
-    const toast = useToast()
     function handleApply(pId: string, apState: boolean, pollName: string, pollCreaterId: string) {
         let button = document.getElementById(pId) as HTMLInputElement
         button.disabled = true
         const now = new Date()
         now.setHours(now.getHours() + 7);
-        // console.log(pId + " s: " + apState)
         apState ? (
             <></>
         ) : (
@@ -47,15 +30,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }>
                 .finally(() => {
                     fetch()
                 })
-            // (appiled(pId),
-            //     toast({
-            //         title: "Applied success",
-            //         description: "You have registered for the poll. Now you can chat with the poll creator.",
-            //         status: "success",
-            //         duration: 4500,
-            //         isClosable: true,
-            //         position: "top",
-            //     }))
         )
     }
 
@@ -64,11 +38,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }>
     function handlePollDate(dateTime: string) {
         const chooseDate = new Date(dateTime)
         chooseDate.setHours(chooseDate.getHours() - 7);
-        // console.log(chooseDate.getMonth())
-        // return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
-        // const d = chooseDate.toLocaleDateString()
-        // const strDate = chooseDate.toLocaleDateString()
-        // return chooseDate.getDay() + "/" + chooseDate.getMonth() + "/" + chooseDate.getFullYear()
         const d = chooseDate.toISOString()
         return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + chooseDate.getFullYear()
     }
@@ -87,17 +56,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }>
         let strTime = hours + ":" + minute + " " + ampm
         return strTime
     }
-
-    // Check for applied poll (Need data from database)
-    // function isApply(pId: string) {
-    //     for (const element of poll) {
-    //         if (pId === element.pollId) {
-    //             return true
-    //         }
-    //     }
-    //     return false
-    // }
-
 
     // Make the number of people into correct grammar
     function handlePeople(min: number, max: number) {
@@ -119,8 +77,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }>
         <Box borderRadius="10px" color="black">
             {poll.length > 0 ?
                 poll.map((values: Polls) => {
-                    // For set the apply state only
-                    // const [applyState, setApplyState] = useState(isApply(values.pollId))
                     globalThis.date = handlePollDate(values.pollAppointAt)
                     globalThis.time = hanlePollTime(values.pollAppointAt)
                     return (
@@ -219,7 +175,6 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }>
                                 <Text fontSize="16px">Time: {globalThis.time}</Text>
                                 <Text fontSize="16px">
                                     Number of people: {handlePeople(values.participantMin, values.participantMax)}
-                                    {/* {values.participantMin}-{values.participantMax} people */}
                                 </Text>
                                 <Flex justifyContent="end">
                                     {/* Check if poll open or close to display different button */}
@@ -273,13 +228,12 @@ const DatingAllActivityBox: FC<{ poll: Polls[]; userId: string; fetch(): void }>
                                                         id={values.pollId}
                                                         onClick={() => {
                                                             handleApply(values.pollId, values.participants.length != 0, values.pollName, values.pollCreator.userId)
-                                                            // , setApplyState(true)
                                                         }}
                                                     >
-                                                        <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
-                                                            {"Apply"}
-                                                        </Text>
-                                                    </Button></motion.div></Box>)
+                                                            <Text fontWeight="700" fontSize="20px" lineHeight="120%" color="white" textAlign="center" p="7px">
+                                                                {"Apply"}
+                                                            </Text>
+                                                        </Button></motion.div></Box>)
                                                 }
                                             </Link>
                                         ) : (

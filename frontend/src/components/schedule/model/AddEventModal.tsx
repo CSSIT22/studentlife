@@ -5,31 +5,31 @@ import { AiOutlineSchedule } from 'react-icons/ai'
 import AddModalForm from '../Form/AddModalForm'
 
 const AddEventModal: FC<{
-    initialRef: any, finalRef: any, modal1: any
-}> = ({ initialRef, finalRef, modal1 }) => {
+    initialRef: any, finalRef: any, modal1: any, reload:Function
+}> = ({ initialRef, finalRef, modal1,reload }) => {
     const isMobile = useBreakpointValue({
         base: true,
         md: false,
     })
-    return ( 
-        <Modal id="addButton" 
-        initialFocusRef={initialRef} 
-        finalFocusRef={finalRef} 
-        isOpen={modal1.isOpen} 
-        onClose={modal1.onClose} size="full">
-            
+    return (
+        <Modal id="addButton"
+            initialFocusRef={initialRef}
+            finalFocusRef={finalRef}
+            isOpen={modal1.isOpen}
+            onClose={modal1.onClose} size="full">
+
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
                     <Box display="flex" alignItems="center" >
-                    {isMobile? <Box onClick={modal1.onClose}><ChevronLeftIcon/></Box>:<></> }
-                    <Heading color="black" pl="1.5">Add Event</Heading>
-                    <Box ml="3"><AiOutlineSchedule size={30}/> </Box></Box>
+                        {isMobile ? <Box onClick={modal1.onClose}><ChevronLeftIcon /></Box> : <></>}
+                        <Heading color="black" pl="1.5">Add Event</Heading>
+                        <Box ml="3"><AiOutlineSchedule size={30} /> </Box></Box>
                     {/* <timetable getName = {setNameInput}/> */}
                 </ModalHeader>
-                {isMobile?<></> :<ModalCloseButton /> }
+                {isMobile ? <></> : <ModalCloseButton />}
                 <ModalBody pb={6}>
-                    <AddModalForm modal1={modal1}/>
+                    <AddModalForm modal1={modal1} reload={reload}/>
                 </ModalBody>
 
                 <ModalFooter>

@@ -230,8 +230,6 @@ export default function Index<FC>() {
                 })
                 .catch((err) => {
                     on()
-                }).finally(()=>{
-                    setConfirmDrop(true)
                 })
         } catch {
             console.log("error")
@@ -673,11 +671,11 @@ export default function Index<FC>() {
                                                             textAlign={"center"}
                                                             onClick={() => {
                                                                 handleDrop()
-                                                                // if (isError == false) {
-                                                                //     setConfirmDrop(true)
-                                                                // } else {
-                                                                //     setConfirmDrop(false)
-                                                                // }
+                                                                if (isError == false) {
+                                                                    setConfirmDrop(true)
+                                                                } else {
+                                                                    setConfirmDrop(false)
+                                                                }
                                                             }}
                                                         >
                                                             Confirm

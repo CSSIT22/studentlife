@@ -18,6 +18,7 @@ const getmyreviewDb = async (req: Request, res: Response) => {
                                 phoneNo: true,
                             },
                         },
+                        images: true,
                     },
                 },
                 shopId: true,
@@ -38,6 +39,16 @@ const getmyreviewDb = async (req: Request, res: Response) => {
                         lName: true,
                     },
                 },
+                files: {
+                    select: {
+                        fileId: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                    },
+                },
                 // images: {
                 //     select: {
                 //         image: true,
@@ -45,7 +56,7 @@ const getmyreviewDb = async (req: Request, res: Response) => {
                 // },
             },
             where: {
-                shopId: id,
+                reviewId: id,
             },
             orderBy: {
                 reviewedAt: "desc",

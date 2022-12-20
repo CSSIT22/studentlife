@@ -40,6 +40,17 @@ type s = {
 
 shortnotesRoutes.use(express.json())
 
+shortnotesRoutes.get("/getOgShortnotes", async (req, res) => {
+    const prisma = res.prisma
+    const sn = await prisma.sn_Head.findMany({
+        include: {
+            course: true,
+        },
+    })
+    //console.log(sn)
+    res.send(sn)
+})
+
 shortnotesRoutes.get("/getShortnotes", async (req, res) => {
     const prisma = res.prisma
     const sn = await prisma.sn_Head.findMany({
@@ -51,6 +62,47 @@ shortnotesRoutes.get("/getShortnotes", async (req, res) => {
     res.send(sn)
 })
 
+shortnotesRoutes.get("/getShortnotesByName", async (req, res) => {
+    const prisma = res.prisma
+    const sn = await prisma.sn_Head.findMany({
+        include: {
+            course: true,
+        },
+        orderBy: {
+            snName: "asc",
+        },
+    })
+    //console.log(sn)
+    res.send(sn)
+})
+
+shortnotesRoutes.get("/getShortnotesByNewest", async (req, res) => {
+    const prisma = res.prisma
+    const sn = await prisma.sn_Head.findMany({
+        include: {
+            course: true,
+        },
+        orderBy: {
+            created: "desc",
+        },
+    })
+    //console.log(sn)
+    res.send(sn)
+})
+
+shortnotesRoutes.get("/getShortnotesByOldest", async (req, res) => {
+    const prisma = res.prisma
+    const sn = await prisma.sn_Head.findMany({
+        include: {
+            course: true,
+        },
+        orderBy: {
+            created: "asc",
+        },
+    })
+    //console.log(sn)
+    res.send(sn)
+})
 shortnotesRoutes.get("/getResentShortnotes", getResentShortnotes)
 
 shortnotesRoutes.get("/getCourses", getCourses)

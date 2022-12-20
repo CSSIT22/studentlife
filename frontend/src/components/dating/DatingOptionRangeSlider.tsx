@@ -20,13 +20,11 @@ const DatingOptionRangeSlider: FC<{
     function handleAge() {
         //Passing data + debug
         globalThis.age = sliderValue
-        // console.log(globalThis.age)
     }
 
     function handleCheck() {
         //Passing data + debug
         globalThis.useAge = !useAgeValue
-        // console.log(globalThis.useAge)
     }
 
     return (

@@ -109,7 +109,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
 
     return (
         <>
-            <FormControl>
+            <FormControl borderColor="black">
                 <FormLabel color="black">
                     <Text fontSize="24px">Event name</Text>
                 </FormLabel>
@@ -125,7 +125,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                 />
             </FormControl>
 
-            <FormControl mt={4}>
+            <FormControl mt={4} borderColor="black">
                 <FormLabel color="black">
                     <Text fontSize="24px">Description</Text>
                 </FormLabel>
@@ -142,7 +142,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
             </FormControl>
 
             <Box display={{ md: "flex" }}>
-                <FormControl mt={4} pr="4">
+                <FormControl mt={4} pr="4" borderColor="black">
                     <FormLabel color="black">
                         <Text fontSize="24px">Start Time</Text>
                     </FormLabel>
@@ -153,7 +153,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                         boxShadow="md" />
                 </FormControl>
 
-                <FormControl mt={4} pr="4">
+                <FormControl mt={4} pr="4" borderColor="black">
                     <FormLabel color="black">
                         <Text fontSize="24px">End Time</Text>
                     </FormLabel>
@@ -164,14 +164,14 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                         boxShadow="md" />
                 </FormControl>
 
-                <FormControl mt={4}>
+                <FormControl mt={4} >
                     <FormLabel color="black">
                         <Text fontSize="24px">Event Type</Text>
                     </FormLabel>
                     <Select placeholder="Select event type"
                         boxShadow="md"
                         onChange={(e) => setType(e.target.value)}
-                        size='sm'>
+                        size='sm'borderColor="black">
                         <option value="Course">Course</option>
                         <option value="Assignment">Assignment</option>
                         <option value="Activity">Activity</option>
@@ -180,7 +180,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
             </Box>
 
 
-            <FormControl mt={4}>
+            <FormControl mt={4} borderColor="black">
                 <FormLabel color="black">
                     <Text fontSize="24px">Location </Text></FormLabel>
                 <Input
@@ -196,11 +196,13 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
             </FormControl>
 
             <FormControl display="flex" alignItems="center">
-                <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)}/>
-                <FormLabel htmlFor="notification"  color="#5A5A5A" mt={"4"} ml="2">
-                    Notification
+                <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)} />
+                <FormLabel htmlFor="notification" color="#5A5A5A" mt={4} pl="3">
+                    <Text fontSize="20">Notification
+                        </Text>
                 </FormLabel>
             </FormControl>
+            <Text color="red"> *This form is required to fill all information to update your detail.</Text>
             <HStack mt={5} w="100%" justifyContent={"flex-end"}>
                 <Button colorScheme="blue" width="239px" height="40px" bg="#E1AB20" onClick={submit}>
                     Edit

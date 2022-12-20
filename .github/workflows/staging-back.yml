@@ -42,7 +42,8 @@ jobs:
       - name: remote ssh
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.STAGING_SSH_HOST }}
+          host: ${{secrets.STAGING_SSH_HOST}}
+          port: ${{secrets.STAGING_SSH_PORT}}
           username: ${{ secrets.STAGING_SSH_USERNAME }}
           password: ${{ secrets.STAGING_SSH_PASSWORD }}
           script: |

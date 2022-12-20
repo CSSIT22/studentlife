@@ -1,12 +1,19 @@
-import React, { useState } from "react"
+import React, { FC, useState, useEffect } from "react"
 import { Box, extendTheme, Flex, HStack, IconButton, Input } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import UserList from "../user/UserList"
 import { people } from "./Mock_UpData"
+import { useParams } from "react-router-dom"
+import API from "src/function/API"
 
-function FriendList() {
+interface FriendListProps {
+    FriendList: any
+}
+
+const FriendList: FC<FriendListProps> = (props) => {
     const [search, setSearch] = useState("")
-    console.log(search)
+    console.log(props.FriendList)
+
 
     const breakpoints = {
         sm: "400px",
@@ -49,11 +56,13 @@ function FriendList() {
                 }}
             >
                 <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
-                    {people
-                        .filter((user) => user.name.toLowerCase().includes(search) || user.last.toLowerCase().includes(search))
-                        .map((user) => (
-                            <UserList userProfile={""} userName={user.name} key={user.id} lastName={user.last} />
-                        ))}
+
+
+                    {//@ts-ignore
+                        props.FriendList.filter((user: any) => user.fName.toLowerCase().includes(search) || user.lName.toLowerCase().includes(search))
+                            .map((user: any) => (
+                                <UserList userProfile={""} userName={user.fName} key={user.userId} lastName={user.lName} />
+                            ))}
                 </Flex>
             </Box>
         </Box>

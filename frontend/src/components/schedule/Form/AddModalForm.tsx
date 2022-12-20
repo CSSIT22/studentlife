@@ -3,7 +3,8 @@ import React, { FC, useEffect, useState } from 'react'
 import API from 'src/function/API'
 import { useNavigate, useParams } from "react-router-dom";
 
-const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
+const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload }) => {
+
     const { onClose: onAddClose } = useDisclosure()
     const [event, setEvent] = useState("")
     const handleInputEventChange = (e: any) => setEvent(e.target.value)
@@ -55,8 +56,11 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
         }).catch((err) => console.log(err))
     }, [])
 
-    const handleSubmit = () => {
+    
+
+    const handleSubmit = async () => {
         console.log(time, endtime);
+
         onAddClose()
         const body: any = {
             eventName: event,
@@ -72,50 +76,54 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
             body.courseId = course
             body.assignmentName = assignment
         }
-        if(type == "Course"){
+        if (type == "Course") {
             body.courseId = course
-            
+
             console.log(body);
-            
+
         }
 
-        API.post<Event>("/schedule/createEvent", body).then((res) => console.log(res))
+        API.post<Event>("/schedule/createEvent", body).then(async (res) => {
+            console.log(res);
+            if (type == "Assignment") {
+                await API.post<{
+                    taskName: string,
+                    taskDesc: string,
+                    created: any,
+                    due: any,
+                    taskType: any
+                }>("/schedule/createTask", {
+                    taskName: event,
+                    taskDesc: description,
+                    created: time,
+                    due: endtime,
+                    taskType: "individual",
+
+                })
+
+            }
+            modal1.onClose();
+            reload();
+        })
             .catch((err => console.log("Error")))
         // .then(() => {
         //     navigate({
         //         pathname: "/schedule"
         //     })
         // })
-        if (type == "Assignment") {
-            API.post<{
-                taskName: string,
-                taskDesc: string,
-                created: any,
-                due: any,
-                taskType: any
-            }>("/schedule/createTask", {
-                taskName: event,
-                taskDesc: description,
-                created: time,
-                due: endtime,
-                taskType: "individual",
 
-            }).then((res) => console.log(res))
-                .catch((err => console.log("Error")))
-
-        }
 
     }
     return (
         <>
 
-            <FormControl >
+            <FormControl borderColor="black" isRequired >
 
-                <FormLabel color="black">
-                    <Box display="flex">
-                        <Text fontSize={{ base: "20px", md: "24px" }} pr="2">Event name</Text>
-                        <Text color="red">*</Text>
-                    </Box>
+                <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }}pr="2">
+                    {/* <Box display="flex"> */}
+                        Event name
+                        {/* <Text color="red">*</Text> */}
+                    {/* </Box> */}
                 </FormLabel>
 
                 <Input
@@ -132,9 +140,9 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
 
 
-            <FormControl mt={4} >
-                <FormLabel color="black">
-                    <Text fontSize={{ base: "20px", md: "24px" }}>Description</Text>
+            <FormControl mt={4} borderColor="black" isRequired>
+                <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                    Description
                 </FormLabel>
                 <Textarea
                     id="description"
@@ -149,27 +157,26 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
             </FormControl>
 
             <Box display={{ md: "flex" }} >
-                <FormControl mt={4} pr="4" >
-                    <FormLabel color="black">
-                        <Box display="flex">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>Start Time</Text>
-                            <Text color="red">*</Text>
-                        </Box>
+                <FormControl mt={4} pr="4" borderColor="black" isRequired>
+                    <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }}>
+                        
+                            Start Time
+            
+                        
                     </FormLabel>
                     <Input placeholder="Select time" size="s"
                         id="time"
                         type="datetime-local"
-                        
+
                         onChange={(e) => { handleInputTimeChange(e) }}
                         boxShadow="md" />
                 </FormControl>
 
-                <FormControl mt={4} pr="4" >
-                    <FormLabel color="black" >
-                        <Box display="flex">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>End Time</Text>
-                            <Text color="red">*</Text>
-                        </Box>
+                <FormControl mt={4} pr="4" borderColor="black" isRequired>
+                    <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                       
+                            End Time
+                        
 
                     </FormLabel>
                     <Input placeholder="Select time"
@@ -180,29 +187,27 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
                 </FormControl>
 
-                <FormControl mt={4} >
-                    <FormLabel color="black" >
-                        <Box display="flex">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>Event Type</Text>
-                            <Text color="red">*</Text>
-                        </Box>
-
+                <FormControl mt={4} borderColor="black" isRequired>
+                    <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                            Event Type
                     </FormLabel>
-                    <Box>
+                    
                         <Select placeholder="Select Event Type"
                             boxShadow="md"
                             onChange={(e) => { handleSelectType(e) }}
-                            size='sm'>
+                            size='sm'
+                            borderColor="black">
+
                             <option value="Course">Course</option>
                             <option value="Assignment">Assignment</option>
                             <option value="Activity">Activity</option>
                         </Select>
-                    </Box>
+                    
 
                 </FormControl>
             </Box>
             <Box display={{ md: "flex" }}>
-                <FormControl mt={4} >
+                <FormControl mt={4} pr="5" borderColor="black" >
                     <FormLabel color="black">
                         <Text fontSize={{ base: "20px", md: "24px" }}>Assignment</Text>
                     </FormLabel>
@@ -216,6 +221,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                         boxShadow="md"
 
                     />
+                    <Text color="red"> If your event type is assignment please fill this field.</Text>
                 </FormControl>
                 <FormControl mt={4} >
                     <FormLabel color="black">
@@ -225,7 +231,8 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                         <Select placeholder="Select course"
                             boxShadow="md"
                             onChange={(e) => { setCourse(e.target.value) }}
-                            size='sm'>
+                            size='sm'
+                            borderColor="black">
                             {
                                 courses.map((el: any) => (
                                     <option value={el.courseId}>{el.courseName}</option>
@@ -234,6 +241,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
                         </Select>
                     </Box>
+                    <Text color="red"> If your event type is course or assignment please select course ID.</Text>
                 </FormControl>
 
 
@@ -241,12 +249,11 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
 
 
 
-            <FormControl mt={4}>
-                <FormLabel color="black">
-                    <Box display="flex">
-                        <Text fontSize={{ base: "20px", md: "24px" }}>Location</Text>
-                        <Text color="red">*</Text>
-                    </Box>
+            <FormControl mt={4} borderColor="black" isRequired>
+                <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                    
+                        Location
+                    
 
                 </FormLabel>
                 <Input
@@ -264,15 +271,18 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                 />
             </FormControl>
 
-            <FormControl display="flex" alignItems="center">
+            <FormControl display="flex" alignItems="center" borderColor="black">
                 <Switch id="notification" size="lg" mt={4} onChange={() => setIsNoti(!isNoti)} />
-                <FormLabel htmlFor="notification" mb="0" color="#5A5A5A" mt={4} pl="3">
+                <FormLabel htmlFor="notification"
+                    mb="0" color="#5A5A5A"
+                    mt={4} pl="3"
+                >
                     Notification
                 </FormLabel>
             </FormControl>
             <HStack mt={5} w="100%" justifyContent={"flex-end"}>
                 <Button
-                    colorScheme="blue"
+                    colorScheme=""
                     width="239px"
                     height="40px"
                     bg="#E65300"
@@ -280,8 +290,7 @@ const AddModalForm : FC<{modal1:any}>= ({modal1}) => {
                     onClick={() => {
                         // onAddClose()
                         handleSubmit()
-                        modal1.onClose()
-                        
+
                     }}
 
                 // onClick={handleSubmit onAddClose()}>
