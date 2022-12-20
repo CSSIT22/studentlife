@@ -443,6 +443,7 @@ const FileList: FC<{
                                     shadow={"xs"}
                                     colorScheme={"green"}
                                     onClick={async (e) => {
+                                        setWaitDownload(true)
                                         handleDownload(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
                                     }}
                                 ></IconButton>
