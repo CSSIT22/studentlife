@@ -98,9 +98,8 @@ export const Post = (prop: any) => {
                         </HStack>
 
                         <Container p="1" fontWeight="normal">
-                            {postDt?.files.length === 1 &&
-                                < PostFile file={postDt.files[0]?.fileAddress}
-                                />}
+                            {postDt.body}
+                            < PostFile file={postDt.files[0]?.fileAddress} />
                             {/* <Image src={postDt.media} alt="" p="1" fit={"cover"} /> */}
                         </Container>
                         <Center>
