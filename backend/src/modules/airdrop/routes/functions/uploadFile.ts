@@ -30,7 +30,6 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
             resFileId = res.data
         })
         .catch((err: any) => {
-            console.log(err)
         })
     try {
         const payload: {
