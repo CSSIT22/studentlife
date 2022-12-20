@@ -34,6 +34,24 @@ const getStudentPost = async (req: Request, res: Response) => {
             },
             select: { postId: true },
         })
+
+        // let react = await prisma.student_Reacted.findFirst({
+        //     where: {
+        //         userId: req.user?.userId,
+        //         postId: selectbyposts1.map((item) => item.postId),
+        //     },
+        // })
+
+        // if (!react) {
+        //     // react = null
+        //     // or
+        //     react = {
+        //         userId: "",
+        //         postId: "",
+        //         emoteId: "",
+        //     }
+        // }
+
         const selectByGroupBy = await res.prisma.student_Reacted.groupBy({
             by: ["postId"],
             where: {
@@ -68,6 +86,7 @@ const getStudentPost = async (req: Request, res: Response) => {
                         fileAddress: true,
                     },
                 },
+                studentsReacted: true,
                 _count: {
                     select: { studentsReacted: true },
                 },
@@ -82,6 +101,10 @@ const getStudentPost = async (req: Request, res: Response) => {
                 ...p,
                 studentsReacted: p._count.studentsReacted,
                 score: p._count.studentsReacted,
+                reacted:
+                    p.studentsReacted.filter((item) => item.userId === req.user?.userId).length === 0
+                        ? [{ userId: "", emoteId: "", postId: "" }]
+                        : p.studentsReacted.filter((item) => item.userId === req.user?.userId),
             }
         })
 

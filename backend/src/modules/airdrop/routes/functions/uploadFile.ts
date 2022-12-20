@@ -30,7 +30,6 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
             resFileId = res.data
         })
         .catch((err: any) => {
-            console.log(err)
         })
     try {
         const payload: {
@@ -41,24 +40,33 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
             fileDesc: string
             fileExpired: Date
         }[] = []
-        ;(req.files as Array<Express.Multer.File>).map((item: any) => {
-            const newDate = new Date(req.body.expireDate)
-            const indexId = resFileId.findIndex((file: any) => file.Name === item.originalname)
-            payload.push({
-                fileId: resFileId[indexId].Id,
-                fileName: item.originalname,
-                fileSender: sender,
-                sendType: req.body.type,
-                fileDesc: req.body.description,
-                fileExpired: newDate,
+        if(resFileId.length > 0){
+            ;(req.files as Array<Express.Multer.File>).map((item: any) => {
+                const newDate = new Date(req.body.expireDate)
+                const indexId = resFileId.findIndex((file: any) => file.Name === item.originalname)
+                payload.push({
+                    fileId: resFileId[indexId].Id,
+                    fileName: item.originalname,
+                    fileSender: sender,
+                    sendType: req.body.type,
+                    fileDesc: req.body.description,
+                    fileExpired: newDate,
+                })
             })
-        })
+        }
+
         // store file info
-        const fileUpload = await prisma.file_Info.createMany({
+        let fileUpload:any
+        const fileUpload2 = await prisma.file_Info.createMany({
             data: payload,
+        }).then((res)=>{
+            fileUpload = res
+        }).catch((err)=>{
+            console.log(err)
         })
         //get recent upload file
-        const recentUpload = await prisma.file_Info.findMany({
+        let recentUpload:any
+        const recentUpload2 = await prisma.file_Info.findMany({
             where: {
                 fileSender: sender,
             },
@@ -68,7 +76,11 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
             select: {
                 fileId: true,
             },
-            take: fileUpload.count,
+            take: fileUpload?.count,
+        }).then((res)=>{
+            recentUpload = res
+        }).catch((err)=>{
+            console.log(err)
         })
         // create file access
         for (const item of recentUpload) {
@@ -95,12 +107,16 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
         })
         const history = await prisma.file_History.createMany({
             data: hisPayload,
+        }).then()
+        .catch((err)=>{
+            console.log(err)
         })
 
         //handle multiple receiver
         if (req.body.receiver != null && req.body.receiver != "everyone") {
             if (req.body.type == "Department") {
-                const recentAccess = await prisma.file_Access.findMany({
+                let recentAccess:any
+                const recentAccess2 = await prisma.file_Access.findMany({
                     orderBy: {
                         accessId: "desc",
                     },
@@ -113,6 +129,10 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                         },
                     },
                     take: fileUpload.count,
+                }).then((res)=>{
+                    recentAccess = res
+                }).catch((err)=>{
+                    console.log(err)
                 })
 
                 const receiverList = []
@@ -150,10 +170,13 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                 }
                 const departmentAccess = await prisma.major_Access.createMany({
                     data: payload,
+                }).then().catch((err)=>{
+                    console.log(err)
                 })
             } else if (req.body.type == "Community") {
                 //get recent file access
-                const recentAccess = await prisma.file_Access.findMany({
+                let recentAccess:any
+                const recentAccess2 = await prisma.file_Access.findMany({
                     orderBy: {
                         accessId: "desc",
                     },
@@ -166,6 +189,10 @@ const uploadFile = async (req: Request<any>, res: Response<any>) => {
                         },
                     },
                     take: fileUpload.count,
+                }).then((res)=>{
+                    recentAccess = res
+                }).catch((err)=>{
+                    console.log(err)
                 })
                 const receiverListId = []
                 if (typeof receiverBody == typeof "string") {

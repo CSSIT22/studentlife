@@ -8,7 +8,11 @@ const hideFile = async (req: Request | any, res: Response | any) => {
     }
     const hide = await prisma.user_Show_File.create({
         data: payload,
-    })
+    }).then((result:any) => {
+        
+    }).catch((err:any) => {
+        console.log(err);
+    });
     res.json("hide file sucessful")
 }
 export default hideFile

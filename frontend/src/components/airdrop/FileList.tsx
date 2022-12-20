@@ -27,6 +27,8 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogOverlay,
+    Fade,
+    Spinner,
 } from "@chakra-ui/react"
 import API from "src/function/API"
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
@@ -70,6 +72,8 @@ const FileList: FC<{
     const user = useContext(authContext)
     const initRef = useRef(null)
     const cancleRef = useRef(null)
+    const [isLoading, { off }] = useBoolean(true)
+    const [waitDownload, setWaitDownload] = useState(false)
     const [senderImg, setSenderImg] = useState<string>("")
     const [previewImg, setPreviewImg] = useState<any>(null)
     const [imgMime, setMime] = useState<any>(null)
@@ -264,15 +268,24 @@ const FileList: FC<{
         const downloadFile = await API.get(`/airdrop/file/download/${fid}`, {
             responseType: "arraybuffer",
         }).then((res) => {
+            setWaitDownload(true)
             onDownload()
             downloadFunc(res.data, name, res.headers["content-type"])
             toast({ title: "File Downloaded", status: "success", variant: "top-accent", duration: 2000, isClosable: true })
+        }).catch((err) => {
+            toast({ title: "File Download Failed", status: "error", variant: "top-accent", duration: 2000, isClosable: true })
+        }).finally(()=>{
+            off()
         })
 
         const hideFile = await API.post("/airdrop/file/hidefile", {
             fileId: fid,
+        }).then((res) => {
+        }).catch((err) => {
+            console.log(err)
         })
         await fileContext.setFileList(fileContext.fileList.filter((item: any) => item.fileId !== fid))
+        setWaitDownload(false)
     }
     async function previewFunc(data: any, name: any, type: any) {
         try {
@@ -336,192 +349,204 @@ const FileList: FC<{
 
     return (
         <>
-            {isDownload ? (
-                <Box position={"absolute"} m={"auto"} w={["50%", "30%", "30%", "30%"]} zIndex={1} top={10}>
-                    <Lottie
-                        animationData={download}
-                        onLoopComplete={() => {
-                            offDownload()
-                        }}
-                        loop={true}
-                    ></Lottie>
+            {waitDownload ? (
+                <Fade in={isLoading} unmountOnExit={true}>
+                <Box w={"100%"} h={"30vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                    <Spinner />
+                    <Text fontSize={"2xl"}> Wait a moment we are processing the file...</Text>
                 </Box>
-            ) : null}
-            <AlertDialog motionPreset="slideInBottom" onClose={alertOnClose} isOpen={alertIsOpen} isCentered leastDestructiveRef={cancleRef}>
-                <AlertDialogOverlay />
-
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <Text fontSize={"2xl"}> Image Preview</Text>
-                    </AlertDialogHeader>
-                    <AlertDialogCloseButton />
-                    <AlertDialogBody>
-                        <Box p={4}>{previewImg && imgMime ? <img src={previewImg} alt="no image" /> : null}</Box>
-                    </AlertDialogBody>
-                </AlertDialogContent>
-            </AlertDialog>
-            <div id={elementid.toString()}>
-                <Flex
-                    direction={"row"}
-                    justifyContent={{
-                        base: "space-between",
-                        md: "space-between",
-                        lg: "space-between",
-                    }}
-                    alignItems={"center"}
-                    px={"10"}
-                    py={"3"}
-                    gap={3}
-                >
-                    <Box>
-                        {info.fileName.split(".")[1].toLowerCase() == "pdf" ||
-                        info.fileName.split(".")[1].toLowerCase() == "jpg" ||
-                        info.fileName.split(".")[1].toLowerCase() == "png" ||
-                        info.fileName.split(".")[1].toLowerCase() == "jpeg" ? (
-                            <Box
-                                position={"absolute"}
-                                zIndex={"999"}
-                                ml={2}
-                                mt={1}
-                                onClick={async (e) => {
-                                    handlePreview(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
+            </Fade>
+            ) : (
+                <>
+                    {isDownload ? (
+                        <Box position={"absolute"} m={"auto"} w={["50%", "30%", "30%", "30%"]} zIndex={1} top={10}>
+                            <Lottie
+                                animationData={download}
+                                onLoopComplete={() => {
+                                    offDownload()
                                 }}
-                                _hover={{
-                                    cursor: "pointer",
-                                }}
-                            >
-                                <Badge colorScheme="green" size={"sm"}>
-                                    <MdRemoveRedEye />
-                                </Badge>
-                            </Box>
-                        ) : null}
-                        <Box>
-                            <MdFileCopy fontSize={"28px"} />
+                                loop={true}
+                            ></Lottie>
                         </Box>
-                    </Box>
-                    <Hide below={"md"}>
-                        <Text>{info.fileName.length > 17 ? info.fileName.slice(0, 17) + "..." : info.fileName}</Text>
-                    </Hide>
+                    ) : null}
+                    <AlertDialog motionPreset="slideInBottom" onClose={alertOnClose} isOpen={alertIsOpen} isCentered leastDestructiveRef={cancleRef}>
+                        <AlertDialogOverlay />
 
-                    <Text fontSize={["0.76rem", "md"]}>
-                        {senderName && senderName?.length > 18
-                            ? senderName?.slice(0, 18) + "..."
-                            : isMobile && senderName && senderName?.length > 7
-                            ? senderName?.slice(0, 7) + "..."
-                            : senderName}
-                    </Text>
-
-                    <HStack spacing={0}>
-                        <IconButton
-                            aria-label="accept"
-                            icon={<MdDone />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            colorScheme={"green"}
-                            onClick={async (e) => {
-                                handleDownload(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <Text fontSize={"2xl"}> Image Preview</Text>
+                            </AlertDialogHeader>
+                            <AlertDialogCloseButton />
+                            <AlertDialogBody>
+                                <Box p={4}>{previewImg && imgMime ? <img src={previewImg} alt="no image" /> : null}</Box>
+                            </AlertDialogBody>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                    <div id={elementid.toString()}>
+                        <Flex
+                            direction={"row"}
+                            justifyContent={{
+                                base: "space-between",
+                                md: "space-between",
+                                lg: "space-between",
                             }}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="deny"
-                            icon={<MdOutlineClose />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            colorScheme={"red"}
-                            onClick={async (e) => {
-                                handleDecline(info.fileId, e.target)
-                            }}
-                        ></IconButton>
-                        <IconButton
-                            aria-label="infomation"
-                            icon={<MdInfoOutline />}
-                            rounded={"3xl"}
-                            border={"1px"}
-                            borderColor={"gray.300"}
-                            shadow={"xs"}
-                            colorScheme={"orange"}
-                            size={"md"}
-                            onClick={async () => {
-                                const setModal = await setModalData(info)
-                                onOpen()
-                            }}
-                        ></IconButton>
-                    </HStack>
-                </Flex>
-                <Divider />
-            </div>
-            <Modal
-                isOpen={isOpen}
-                onClose={() => {
-                    onClose()
-                    setModalPage(0)
-                }}
-                isCentered
-            >
-                <ModalOverlay />
-                <ModalContent textAlign={"center"}>
-                    <ModalHeader>{modalPage == 0 ? "File Properties" : "File Comment"}</ModalHeader>
-                    <ModalBody>
-                        {modalPage == 0 ? (
-                            <>
-                                {RenderModalInfo()}
-                                <Text
-                                    color={"gray.600"}
-                                    decoration={"underline"}
-                                    mt={3}
-                                    onClick={() => {
-                                        setModalPage(1)
-                                    }}
-                                >
-                                    See all comment
-                                </Text>
-                            </>
-                        ) : (
-                            <>
-                                <Divider />
-                                {RenderModalComments()}
-                                <HStack>
-                                    <Input
-                                        type={"text"}
-                                        id="commentin"
-                                        value={commentText}
-                                        onChange={(e) => {
-                                            setComment(e.target.value)
+                            alignItems={"center"}
+                            px={"10"}
+                            py={"3"}
+                            gap={3}
+                        >
+                            <Box>
+                                {info.fileName.split(".")[1].toLowerCase() == "pdf" ||
+                                info.fileName.split(".")[1].toLowerCase() == "jpg" ||
+                                info.fileName.split(".")[1].toLowerCase() == "png" ||
+                                info.fileName.split(".")[1].toLowerCase() == "jpeg" ? (
+                                    <Box
+                                        position={"absolute"}
+                                        zIndex={"999"}
+                                        ml={2}
+                                        mt={1}
+                                        onClick={async (e) => {
+                                            handlePreview(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
                                         }}
-                                    />
-                                    <Button
-                                        onClick={() => {
-                                            handleComment()
-                                            updateComment()
+                                        _hover={{
+                                            cursor: "pointer",
                                         }}
                                     >
-                                        Comment{" "}
-                                    </Button>
-                                </HStack>
+                                        <Badge colorScheme="green" size={"sm"}>
+                                            <MdRemoveRedEye />
+                                        </Badge>
+                                    </Box>
+                                ) : null}
+                                <Box>
+                                    <MdFileCopy fontSize={"28px"} />
+                                </Box>
+                            </Box>
+                            <Hide below={"md"}>
+                                <Text>{info.fileName.length > 17 ? info.fileName.slice(0, 17) + "..." : info.fileName}</Text>
+                            </Hide>
 
-                                <Text
-                                    color={"gray.600"}
-                                    decoration={"underline"}
-                                    mt={3}
-                                    onClick={() => {
-                                        setModalPage(0)
+                            <Text fontSize={["0.76rem", "md"]}>
+                                {senderName && senderName?.length > 18
+                                    ? senderName?.slice(0, 18) + "..."
+                                    : isMobile && senderName && senderName?.length > 7
+                                    ? senderName?.slice(0, 7) + "..."
+                                    : senderName}
+                            </Text>
+
+                            <HStack spacing={0}>
+                                <IconButton
+                                    aria-label="accept"
+                                    icon={<MdDone />}
+                                    rounded={"3xl"}
+                                    border={"1px"}
+                                    borderColor={"gray.300"}
+                                    shadow={"xs"}
+                                    colorScheme={"green"}
+                                    onClick={async (e) => {
+                                        setWaitDownload(true)
+                                        handleDownload(info.sendType, info.fileName, info.sender.userId, info.fileId, e.target)
                                     }}
-                                >
-                                    Go back to file properties
+                                ></IconButton>
+                                <IconButton
+                                    aria-label="deny"
+                                    icon={<MdOutlineClose />}
+                                    rounded={"3xl"}
+                                    border={"1px"}
+                                    borderColor={"gray.300"}
+                                    shadow={"xs"}
+                                    colorScheme={"red"}
+                                    onClick={async (e) => {
+                                        handleDecline(info.fileId, e.target)
+                                    }}
+                                ></IconButton>
+                                <IconButton
+                                    aria-label="infomation"
+                                    icon={<MdInfoOutline />}
+                                    rounded={"3xl"}
+                                    border={"1px"}
+                                    borderColor={"gray.300"}
+                                    shadow={"xs"}
+                                    colorScheme={"orange"}
+                                    size={"md"}
+                                    onClick={async () => {
+                                        const setModal = await setModalData(info)
+                                        onOpen()
+                                    }}
+                                ></IconButton>
+                            </HStack>
+                        </Flex>
+                        <Divider />
+                    </div>
+                    <Modal
+                        isOpen={isOpen}
+                        onClose={() => {
+                            onClose()
+                            setModalPage(0)
+                        }}
+                        isCentered
+                    >
+                        <ModalOverlay />
+                        <ModalContent textAlign={"center"}>
+                            <ModalHeader>{modalPage == 0 ? "File Properties" : "File Comment"}</ModalHeader>
+                            <ModalBody>
+                                {modalPage == 0 ? (
+                                    <>
+                                        {RenderModalInfo()}
+                                        <Text
+                                            color={"gray.600"}
+                                            decoration={"underline"}
+                                            mt={3}
+                                            onClick={() => {
+                                                setModalPage(1)
+                                            }}
+                                        >
+                                            See all comment
+                                        </Text>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Divider />
+                                        {RenderModalComments()}
+                                        <HStack>
+                                            <Input
+                                                type={"text"}
+                                                id="commentin"
+                                                value={commentText}
+                                                onChange={(e) => {
+                                                    setComment(e.target.value)
+                                                }}
+                                            />
+                                            <Button
+                                                onClick={() => {
+                                                    handleComment()
+                                                    updateComment()
+                                                }}
+                                            >
+                                                Comment{" "}
+                                            </Button>
+                                        </HStack>
+
+                                        <Text
+                                            color={"gray.600"}
+                                            decoration={"underline"}
+                                            mt={3}
+                                            onClick={() => {
+                                                setModalPage(0)
+                                            }}
+                                        >
+                                            Go back to file properties
+                                        </Text>
+                                    </>
+                                )}
+                                <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
+                                    (Tap outside to close)
                                 </Text>
-                            </>
-                        )}
-                        <Text color={"gray.300"} decoration={"underline"} textAlign={"center"} mt={5}>
-                            (Tap outside to close)
-                        </Text>
-                    </ModalBody>
-                    <ModalFooter></ModalFooter>
-                </ModalContent>
-            </Modal>
+                            </ModalBody>
+                            <ModalFooter></ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </>
+            )}
         </>
     )
 }
