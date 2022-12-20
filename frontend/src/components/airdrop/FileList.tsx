@@ -353,7 +353,7 @@ const FileList: FC<{
                 <Fade in={isLoading} unmountOnExit={true}>
                 <Box w={"100%"} h={"30vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
                     <Spinner />
-                    <Text fontSize={"2xl"}> Wait a minute we are processing the file...</Text>
+                    <Text fontSize={"2xl"}> Wait a moment we are processing the file...</Text>
                 </Box>
             </Fade>
             ) : (
