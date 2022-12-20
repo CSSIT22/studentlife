@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react"
 import API from "src/function/API"
 import CreatingPost from "./CreatingPost"
 import FriendSuggestion from "./FriendSuggestion"
-import Post from "./Post"
+import Postuser from "./getuserpost"
 import { AiFillLike, AiOutlineShareAlt } from "react-icons/ai"
 import { FaVideo, FaRegImages, FaRegGrinSquint } from "react-icons/fa"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -53,7 +53,7 @@ export const Feed = () => {
             <FriendSuggestion></FriendSuggestion>
             <CreateButton></CreateButton>
             {/* <Post></Post> */}
-            {[...Array(postset).keys()].map(item => <Post i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)}
+            {[...Array(postset).keys()].map(item => <Postuser i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)}
 
             {/* <FriendSuggestion></FriendSuggestion>
             <Post></Post> */}

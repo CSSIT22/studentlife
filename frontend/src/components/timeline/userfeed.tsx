@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react"
 import API from "src/function/API"
 import CreatingPost from "./CreatingPost"
 import FriendSuggestion from "./FriendSuggestion"
-import Postuser from "./getuserpost"
+import Post from "./Post"
 import { AiFillLike, AiOutlineShareAlt } from "react-icons/ai"
 import { FaVideo, FaRegImages, FaRegGrinSquint } from "react-icons/fa"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -15,16 +15,6 @@ import AnnounceList from "../annoucement/AnnounceList"
 
 
 export const Feeduser = () => {
-    // const [posts, setposts] = useState<any>([])
-    // // const getData = API.get("/timeline/getposts") old mockup data
-    // // const getPost = API.get("/timeline/getPostList") // data from database
-    // const getPost = API.get("/timeline/getStudentPost")
-    // useEffect(() => {
-    //     getPost.then(res => {
-    //         setposts(res.data)
-    //     })
-    // }, [])
-    // console.log(posts)
     const [isLoading, setLoading] = useState(false);
     const [postset, setpostset] = useState(1)
 
@@ -49,12 +39,9 @@ export const Feeduser = () => {
 
     return (
         <VStack>
-            <AnnounceList />
-            <FriendSuggestion></FriendSuggestion>
-            <CreateButton></CreateButton>
             {/* <Post></Post> */}
-            {[...Array(postset).keys()].map(item => <Postuser i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)}
-
+            {[...Array(postset).keys()].map(item => <Post i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)}
+            <CreateButton></CreateButton>
             {/* <FriendSuggestion></FriendSuggestion>
             <Post></Post> */}
         </VStack>
