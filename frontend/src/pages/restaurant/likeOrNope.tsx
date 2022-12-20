@@ -71,6 +71,10 @@ function LikeorNope() {
 
 
     const plusId = () => {
+        setcount(count + 1)
+        if  (count % 5 == 0) {
+            return onOpen()
+        }
         setid(parseInt(new URLSearchParams(location.search).get("id") + "") > id ? parseInt(new URLSearchParams(location.search).get("id") + "") : id)
         if (id < property[0].likes - 1) {
             setid(id + 1)
@@ -148,10 +152,6 @@ function LikeorNope() {
         //     setres(0)
         // }
         await API.post("restaurant/likeOrNope", { id: property[0]?.resId, status: false })
-        setcount(count + 1)
-        if (count % 5 == 0) {
-            return onOpen()
-        }
     }
 
     // console.log(id);
