@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Box, Flex, Spacer, Text, Container, extendTheme } from "@chakra-ui/react"
-import Feed from "../timeline/Feed"
+import Feeduser from "../timeline/userfeed"
 import Postuser from "../timeline/getuserpost";
 
 
@@ -44,8 +44,8 @@ function BlogHistory() {
             </Text>
 
             <Flex padding="2" mx={{ base: "10", md: "2" }} alignContent="center" alignSelf="center">
-                {[...Array(postset).keys()].map(item => <Postuser i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)}
-                {/* <Feed /> */}
+                {/* {[...Array(postset).keys()].map(item => <Postuser i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)} */}
+                <Feeduser />
             </Flex>
         </Flex>
     )

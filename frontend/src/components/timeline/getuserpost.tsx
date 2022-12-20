@@ -20,7 +20,7 @@ export const Postuser = (prop: any) => {
     // const getData = API.get("/timeline/getposts") old mockup data
     // const getPost = API.get("/timeline/getPostList") // data from database == User_Profile then Student_Post
     const getPost = API.get("/timeline/getstudentpostuser/" + prop.i) // data from database == Student_Post then User_Profile
-
+    console.log(getPost)
     const didFetch = useRef<boolean>(false);
     useEffect(() => {
         if (didFetch.current || prop.isLoading) return;

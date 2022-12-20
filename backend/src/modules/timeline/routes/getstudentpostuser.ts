@@ -16,17 +16,15 @@ const getstudentpostuser = async (req: Request, res: Response) => {
         const i = parseInt(req.params.i) * 20
         const thisUserId = req.user ? req.user.userId : ""
 
-        const following = await res.prisma.user_Profile.findMany({
-            where: {
-                userId: thisUserId,
-            },
-            select: { userId: true },
-        })
+        // const following = await res.prisma.user_Profile.findMany({
+        //     where: {
+        //         userId: thisUserId,
+        //     },
+        //     select: { userId: true },
+        // })
         const selectbyposts1 = await res.prisma.student_Post.findMany({
             where: {
-                userId: {
-                    in: following.map((item) => item.userId),
-                },
+                userId: thisUserId,
             },
             select: { postId: true },
         })
