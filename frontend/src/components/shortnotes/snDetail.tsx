@@ -44,6 +44,8 @@ import {
     FormErrorMessage,
     FormLabel,
     Textarea,
+    useBoolean,
+    Spinner,
 } from "@chakra-ui/react"
 import { HiDotsHorizontal } from "react-icons/hi"
 import { AiFillDelete, AiOutlineCloseCircle, AiOutlineEdit, AiOutlineUpload, AiOutlineUsergroupAdd } from "react-icons/ai"
@@ -220,6 +222,7 @@ const snDetail: FC<{
 
             responseType: "arraybuffer"
         }).then((_file) => {
+            setFLoad.off()
             //console.log(_file.data);
             //console.log(_file.headers["content-type"]);
             try {
@@ -292,7 +295,7 @@ const snDetail: FC<{
             eeOnOpen()
         }
     }
-
+    const [fLoad, setFLoad] = useBoolean(false)
     return (
         <Box>
             <HStack>
@@ -334,11 +337,20 @@ const snDetail: FC<{
             </Box>
             {allFiles[0] != null ?
                 <>
-                    <Heading size={"sm"} mb={1}>Attached files</Heading>
+                    <Flex direction={"row"}>
+                        <Heading size={"sm"} mr={2} mb={2}>Attached files</Heading>
+
+                        {fLoad ? <Spinner /> : null}
+                    </Flex>
+
+
                     <VStack>
                         {allFiles.map((file: any, key: any) => (
                             <Flex key={key} w={"100%"} justifyContent={"start"}>
-                                <Heading as="button" shadow={"base"} size={"xs"} bg={"gray.100"} rounded={6} p={2} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => { openFile(file.fileId) }}>{file.file.fileName}</Heading>
+                                <Heading as="button" shadow={"base"} size={"xs"} bg={"gray.100"} rounded={6} p={2} _hover={{ cursor: "pointer", bg: "gray.200" }} onClick={() => {
+                                    openFile(file.fileId)
+                                    setFLoad.on()
+                                }}>{file.file.fileName}</Heading>
                             </Flex>
                         ))}
                     </VStack>
