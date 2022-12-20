@@ -58,50 +58,90 @@ const CreateActivityPoll = () => {
             API.get("/dating/verifyEnroll/getDatingEnroll").then((datingEnroll) => {
                 API.get("/dating/verifyEnroll/getDatingOptions")
                     .then((datingOptions) => {
-                        if (!datingEnroll.data.hasCompleteTutorial) {
-                            toast({
-                                title: "Welcome!",
-                                status: "info",
-                                duration: 5000,
-                                isClosable: true,
-                                position: "top",
-                                description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
-                            })
-                            navigate("/dating/tutorial");
-                        }
-                        else if (!datingOptions.data.userId) {
-                            navigate("/dating/option")
-                            toast({
-                                title: "Option Setting Incomplete!",
-                                status: "warning",
-                                duration: 5000,
-                                isClosable: true,
-                                position: "top",
-                                description: "You are required to set your option first before using Dating & Finding Friend."
-                            })
-                        }
-                        else if (!datingEnroll.data.hasCompleteSetting) {
-                            toast({
-                                title: "Interests Selection Incomplete!",
-                                status: "warning",
-                                duration: 5000,
-                                isClosable: true,
-                                position: "top",
-                                description: "You are required to skip or select your interests first before using Dating & Finding Friend."
-                            })
-                            navigate("/dating/interests")
-                        }
-
+                        API.get("/dating/verifyEnroll/getDetail").then((detail) => {
+                            function getAge(dateString: Date) {
+                                var today = new Date()
+                                var birthDate = new Date(dateString)
+                                var age = today.getFullYear() - birthDate.getFullYear()
+                                var m = today.getMonth() - birthDate.getMonth()
+                                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                                    age--
+                                }
+                                return age
+                            }
+                            if (!detail.data.sex || !detail.data.birth) {
+                                toast({
+                                    title: "It looks like some of your details are missing!",
+                                    status: "warning",
+                                    duration: 10000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "Please specify your \"birth date\" and \"sex\" before using Dating & Finding Friend."
+                                })
+                                navigate("/user")
+                            }
+                            else if (getAge(detail.data.birth) < 18) {
+                                toast({
+                                    title: "You don't meet the minimum age requirement!",
+                                    status: "warning",
+                                    duration: 10000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to be at least 18 years old to use Dating & Finding Friend."
+                                })
+                                navigate("/")
+                            }
+                            else if (getAge(detail.data.birth) > 40) {
+                                toast({
+                                    title: "You don't meet the maximum age requirement!",
+                                    status: "warning",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to be at most 40 years old to use Dating & Finding Friend."
+                                })
+                                navigate("/")
+                            }
+                            else if (!datingEnroll.data.hasCompleteTutorial) {
+                                toast({
+                                    title: "Welcome!",
+                                    status: "info",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "Complete the tutorial, option setting, and interests selection to start using Dating & Finding Friend."
+                                })
+                                navigate("/dating/tutorial");
+                            }
+                            else if (!datingOptions.data.userId) {
+                                navigate("/dating/option")
+                                toast({
+                                    title: "Option Setting Incomplete!",
+                                    status: "warning",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to set your option first before using Dating & Finding Friend."
+                                })
+                            }
+                            else if (!datingEnroll.data.hasCompleteSetting) {
+                                toast({
+                                    title: "Interests Selection Incomplete!",
+                                    status: "warning",
+                                    duration: 5000,
+                                    isClosable: true,
+                                    position: "top",
+                                    description: "You are required to skip or select your interests first before using Dating & Finding Friend."
+                                })
+                                navigate("/dating/interests")
+                            }
+                        })
                     })
             })
             API.get("/dating/create/getAllTopic").then((allInterest) => {
                 setAllInterests(allInterest.data)
             }).catch(on).finally(() => setIsLoading(false))
         }
-
-    }, [])
-
-    useEffect(() => {
 
     }, [])
 
@@ -126,13 +166,10 @@ const CreateActivityPoll = () => {
     const [time, setTimeInput] = useState("")
     const [validTime, setValidTime] = useState(false)
 
-    const [sliderValue, setSliderValue] = useState<number[]>(globalThis.people) //For age min,max
-    globalThis.people = [2, 5] //need db + condition
+    const [sliderValue, setSliderValue] = useState<number[]>([2, 5]) //For age min,max
 
     // All states which are used for DatingInterestDynamicButton and DatingInterestTag components
     // to be used with some functions & Some of them are used in this file.
-    // const [interests, setInterests] = useState(INTERESTS)
-    // const [interests, setInterests] = useState(INTERESTS)
     const [allInterests, setAllInterests] = useState<AllInterests[] | AllInterests[]>([])
     const [interests, setInterests] = useState<AllInterests[]>([])
     const [searchQuery, setSearchQuery] = useState("")
@@ -163,11 +200,8 @@ const CreateActivityPoll = () => {
         globalThis.topic = []
         for (let i = 0; i < selectedInterests.length; i++) {
             for (let j = 0; j < allInterests.length; j++) {
-                // for (let j = 0; j < interests.length; j++) {
                 if (selectedInterests[i] === allInterests[j].interestId) {
-                    // if (selectedInterests[i] === interests[j].interestId) {
                     globalThis.topic.push(allInterests[j].interestName)
-                    // globalThis.topic.push(interests[j].interestName)
                     break
                 }
             }
@@ -179,22 +213,16 @@ const CreateActivityPoll = () => {
     }
 
     function handleDateTime() {
-        // const dateTime = new Date(date + " " + time)
         const selectDate = new Date(date)
         const dateTime =
-            // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
             date + "T" + time + ":00.000+0700"
-        console.log(dateTime)
         return dateTime
     }
 
     function handleDateTime2() {
-        // const dateTime = new Date(date + " " + time)
         const selectDate = new Date(date)
         const dateTime =
-            // selectDate.getFullYear() + "-" + selectDate.getMonth() + "-" + selectDate.getDay()
             date + "T" + time + ":00.000Z"
-        console.log(dateTime)
         return dateTime
     }
 
@@ -218,29 +246,8 @@ const CreateActivityPoll = () => {
             !isNoTime &&
             !timePass
         ) {
-            // console.log(
-            //     "Header: " +
-            //     header +
-            //     " Tag: " +
-            //     selectedInterests +
-            //     " Description: " +
-            //     description +
-            //     " Location: " +
-            //     location +
-            //     " Date & Time: " +
-            //     // { d: handleDateTime() } +
-            //     // handleDateTime() +
-            //     date +
-            //     " Now: " +
-            //     new Date() +
-            //     " people: " +
-            //     sliderValue
-            // )
             setClicked(true)
-            // handleChat(header)
             setIsLoading(true)
-            // handleChat(header)
-            console.log(handleDateTime())
             API.post<PollDetail | UserInterests>(`/dating/create/setPoll?name=${header}`, {
                 pollName: header,
                 pollPlace: location,
@@ -253,15 +260,6 @@ const CreateActivityPoll = () => {
             })
                 .then(() => navigate("/dating/poll"))
                 .catch((err) => toast({ status: "error", position: "top", title: "Error", description: ("Something wrong with request! " + err) }))
-
-            // toast({
-            //     title: "Poll created.",
-            //     description: "You have successfully created a poll.",
-            //     status: "success",
-            //     duration: 5000,
-            //     isClosable: true,
-            //     position: "top",
-            // })
         } else {
             // Error message
             toast({
@@ -274,11 +272,7 @@ const CreateActivityPoll = () => {
             })
         }
     }
-    // function handleChat(name: string) {
-    //     API.post<{ name: string }>(`/chat/createGroup?name=${name}`)
-    // }
 
-    console.log("Date :" + date)
     return (
         <DatingAppBody>
             {isLoading || isError ? <></> : <motion.div
@@ -436,7 +430,7 @@ const CreateActivityPoll = () => {
                                 {isNoTopic ? (
                                     <></>
                                 ) : (
-                                    <FormHelperText color="gray">
+                                    isOpen ? <></> : <FormHelperText color="gray">
                                         You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."}
                                         {/* You have selected {handleTopic()} as {selectedInterestsNew.length > 1 ? " the topics." : "the topic."} */}
                                     </FormHelperText>
@@ -447,9 +441,8 @@ const CreateActivityPoll = () => {
 
                         <DatingCreateDescription getDescription={setDescriptionInput} />
                         {/* Location input & error control */}
-                        {/* <FormControl isInvalid={!isValidLocation} isRequired>
 
-                    {/* IMPORTANT!!! */}
+                        {/* IMPORTANT!!! */}
                         {/* If that user haven't use the restaurant function we should block this feature*/}
 
                         <DatingCreateLocation getLocation={setLocationInput} />

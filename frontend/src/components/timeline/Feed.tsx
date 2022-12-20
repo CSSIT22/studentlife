@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Heading, HStack, Image, VStack, Text, Container, Icon, StackDivider, Input, SimpleGrid, Center } from "@chakra-ui/react"
 import { Any } from "@react-spring/types"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import API from "src/function/API"
 import CreatingPost from "./CreatingPost"
 import FriendSuggestion from "./FriendSuggestion"
@@ -11,52 +11,52 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import SuggestedFriend from "./SuggestedFriend"
 import { Postdata } from "./Postdata"
 import CreateButton from "./CreateButton"
+import AnnounceList from "../annoucement/AnnounceList"
+
 
 export const Feed = () => {
-    const [posts, setposts] = useState<any>([])
-    const getData = API.get("/timeline/getposts")
+    // const [posts, setposts] = useState<any>([])
+    // // const getData = API.get("/timeline/getposts") old mockup data
+    // // const getPost = API.get("/timeline/getPostList") // data from database
+    // const getPost = API.get("/timeline/getStudentPost")
+    // useEffect(() => {
+    //     getPost.then(res => {
+    //         setposts(res.data)
+    //     })
+    // }, [])
+    // console.log(posts)
+    const [isLoading, setLoading] = useState(false);
+    const [postset, setpostset] = useState(1)
+
+    const handleScroll = () => {
+        if (isLoading) return
+        const windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
+        // user scrolled enough
+        if (windowRelativeBottom <= document.documentElement.clientHeight) {
+            // fetch 20 post every 5000 px
+            setpostset(prev => prev + 1);
+        }
+        // console.log(postset, currentScrollY);
+    };
+
     useEffect(() => {
-        getData.then(res => {
-            setposts(res.data)
-        })
-    }, [])
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        };
+    });
+
 
     return (
         <VStack>
-            {/* {posts.map((item: any) => (
-                <>
-                    <CreatingPost photoUrl={item.avatar}></CreatingPost>
-                    <FriendSuggestion></FriendSuggestion>
-                    <Box p="3" minW="sm" maxW="sm" borderWidth="1px" borderRadius="lg" backgroundColor={"white"} overflow="hidden" fontWeight="semibold">
-                        <HStack>
-                            <Avatar size="md" name={item.name} src={item.avatar} />
-                            <VStack spacing="0.5" align={"-moz-initial"}>
-                                <Text align="left">{item.name}</Text>
-                                <Text align="left" color="gray.500" fontWeight="semibold" fontSize="xs">
-                                    {item.dateTime}
-                                </Text>
-                            </VStack>
-                        </HStack>
-                        <Container p="1" fontWeight="normal">
-                            {item.message}
-                            <Image src={item.media} alt="" p="1" fit={"cover"} />
-                        </Container>
-                        <HStack spacing="0.5">
-                            <Icon as={AiFillLike} color="#E65300"></Icon>
-                            <Text p="1" fontSize="xs">
-                                {item.likes} {item.comments} {item.shares}
-                            </Text>
-                            <Icon as={AiOutlineShareAlt}></Icon>
-                        </HStack>
-                    </Box>
-                    <Heading key={item.id}>{item.name}</Heading>
-                </>
-            ))} */}
-
-            <CreatingPost photoUrl={"https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg"}></CreatingPost>
+            <AnnounceList />
             <FriendSuggestion></FriendSuggestion>
-            <Post></Post>
             <CreateButton></CreateButton>
+            {/* <Post></Post> */}
+            {[...Array(postset).keys()].map(item => <Post i={item} key={item} isLoading={isLoading} setLoading={setLoading} />)}
+
+            {/* <FriendSuggestion></FriendSuggestion>
+            <Post></Post> */}
         </VStack>
     )
 }

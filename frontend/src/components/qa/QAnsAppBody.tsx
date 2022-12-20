@@ -1,11 +1,15 @@
 import { useBreakpointValue } from "@chakra-ui/react"
+import { useContext } from "react"
 import AppBody from "../share/app/AppBody"
+import { authContext } from "src/context/AuthContext"
 
 const QAnsAppBody = (props: any) => {
     const isMobile = useBreakpointValue({
         base: false,
         md: true,
     })
+
+    const user = useContext(authContext);
 
     return (
         <AppBody
@@ -20,7 +24,7 @@ const QAnsAppBody = (props: any) => {
                 },
                 {
                     name: "My Questions",
-                    to: "/qa/myquestions",
+                    to: `/qa/myquestions/${user.userId}`,
                 },
             ]}
         >

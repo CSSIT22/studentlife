@@ -34,7 +34,7 @@ import chatSocket from "./modules/chat/chatStocket"
 import notiSocket from "./modules/notification/notiSocket"
 import airdropSocket from "./modules/airdrop/airdropSocket"
 import { set, deleteKey } from "./modules/backendService/socketstore/store"
-import mongoose, { mongo } from "mongoose"
+import mongoose from "mongoose"
 import { filterWord } from "./modules/backendService/middleware/filterWord"
 import { banned } from "./modules/backendService/middleware/banned"
 
@@ -122,7 +122,7 @@ app.use(filterWord)
 app.use(banned)
 
 app.get("/", (_, res) => {
-    return res.send("Welcome to integrated project 2022! - " + process.env.MODE)
+    return res.send("Welcome to integrated project 2022!! Eiei👓 " + process.env.MODE)
 })
 app.use("/auth", loginRoutes)
 app.use("/airdrop", airdropRoutes)
@@ -183,12 +183,9 @@ io.on("connection", (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultE
     socket.on("disconnect", (reason) => {
         deleteKey(socket.id)
     })
-    // console.log(store)
 
-    console.log(socket.handshake.headers)
     console.log("Hello")
 })
 
 setIO(io)
 server.listen(PORT, () => console.log(`running on ${PORT} !`))
-// app.listen(PORT, () => console.log(`running on ${PORT} !`))

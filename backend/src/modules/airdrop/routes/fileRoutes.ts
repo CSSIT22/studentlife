@@ -37,6 +37,6 @@ fileRoutes.get("/getfile/:fileid", getFile)
 fileRoutes.get("/gethistory", verifyUser, getHistory)
 
 //check expired file every 5 minutes
-// setInterval(deleteExpiredFile, 5000)
+setInterval(deleteExpiredFile, 10000)
 
 export default fileRoutes

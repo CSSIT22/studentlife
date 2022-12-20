@@ -8,23 +8,28 @@ const postAccess = async (req: Request<any>, res: Response<any>) => {
         let people = req.body.people
 
         people.forEach(async (p: any) => {
-            const pId = await prisma.user_Profile.findFirstOrThrow({
-                where: {
-                    studentId: p.trim(),
-                },
-                select: {
-                    userId: true,
-                },
-            })
-            const payload: any = {
-                snId: req.body.snId,
-                userId: pId.userId,
-            }
+            try {
+                const pId = await prisma.user_Profile.findFirstOrThrow({
+                    where: {
+                        studentId: p.trim(),
+                    },
+                    select: {
+                        userId: true,
+                    },
+                })
+                const payload: any = {
+                    snId: req.body.snId,
+                    userId: pId.userId,
+                }
 
-            const ac = await prisma.sn_Access.create({
-                data: payload,
-            })
-            console.log(ac)
+                const ac = await prisma.sn_Access.create({
+                    data: payload,
+                })
+                console.log(ac)
+            } catch (err) {
+                console.log(err)
+                return res.send(err)
+            }
         })
     } catch (err) {
         console.log(err)

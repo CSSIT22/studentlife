@@ -1,9 +1,7 @@
 import { Box, Button, Center, Circle, Flex, Heading, Image, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
-import React, { FC, useEffect, useState } from "react"
+import { FC } from "react"
 import { BsFillPeopleFill } from "react-icons/bs"
-import { POLL } from "./shared/poll"
-import { Link, useParams } from "react-router-dom"
-import API from "src/function/API"
+import { Link } from "react-router-dom"
 import { PollInfo } from "@apiType/dating"
 import NoProfileImg from "../../components/dating/pic/noprofile.png"
 import { motion } from "framer-motion"
@@ -17,28 +15,10 @@ declare global {
 
 // Component of your activity page
 const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
-    // const [poll, setPoll] = useState(POLL)
-    const params = useParams()
-    const didMount = useDidMount()
-
-    function useDidMount() {
-        const [didMount, setDidMount] = useState(true)
-        useEffect(() => {
-            setDidMount(false)
-        }, [])
-
-        return didMount
-    }
-
     // Convert date in to format that easy to read
     function handlePollDate(dateTime: string) {
         const chooseDate = new Date(dateTime)
         chooseDate.setHours(chooseDate.getHours() - 7);
-        // console.log(chooseDate.getMonth())
-        // return chooseDate.getDate() + "/" + (chooseDate.getMonth() + 1) + "/" + chooseDate.getFullYear()
-        // const d = chooseDate.toLocaleDateString()
-        // const strDate = chooseDate.toLocaleDateString()
-        // return chooseDate.getDay() + "/" + chooseDate.getMonth() + "/" + chooseDate.getFullYear()
         const d = chooseDate.toISOString()
         return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + chooseDate.getFullYear()
     }
@@ -83,9 +63,6 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
         <Box borderRadius="10px" color="black">
             {poll ? poll.map((values: PollInfo) => {
                 // Need number of apply people from database
-                // const [applyPeople, setApplyPeople] = useState(2)
-                // Need number of people who haven't approve in database
-                // const [notApprovePeople, setNotApprovePeople] = useState(2)
                 globalThis.date = handlePollDate(values.pollAppointAt)
                 globalThis.time = hanlePollTime(values.pollAppointAt)
                 return (
@@ -100,16 +77,27 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                         <Box mt="7px" p="20px" bg="white" borderRadius={"10px"} shadow="xl" mb="30px">
                             <Flex>
                                 <Link to={"/user/" + values.pollCreator.userId}>
-                                    <Image
-                                        borderRadius="full"
-                                        boxSize="78px"
-                                        objectFit="cover"
-                                        src={values.pollCreator.image ?
-                                            (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
-                                            :
-                                            NoProfileImg
-                                        }
-                                    /></Link>
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        whileTap={{ scale: 1 }}
+                                        whileHover={{ scale: 1.2, }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 360,
+                                            damping: 20,
+                                        }}
+                                    >
+                                        <Image
+                                            borderRadius="full"
+                                            boxSize="78px"
+                                            objectFit="cover"
+                                            src={values.pollCreator.image ?
+                                                (import.meta.env.VITE_APP_ORIGIN || "") + "/user/profile/" + values.pollCreator.userId
+                                                :
+                                                NoProfileImg
+                                            }
+                                        /></motion.div></Link>
                                 <Center>
                                     <Text ml="30px" fontSize="20px">
                                         {values.pollCreator.fName}
@@ -125,26 +113,37 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                                 <Box pt="20px" height="70px" overflow={{ base: "hidden", md: "visible" }}>
                                     <Box
                                         height="70px"
-                                        //pt="5px"
                                         overflowX={{ base: "auto", md: "visible" }}
                                         whiteSpace={{ base: "nowrap", md: "initial" }}
                                         style={{ WebkitOverflowScrolling: "touch" }}
                                     >
                                         {values.interests.map((i) => (
-                                            <Tag
-                                                backgroundColor="orange.400"
-                                                color="white"
-                                                mr="1"
-                                                mb="1"
-                                                boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                                                borderRadius="5px"
-                                                h={{ md: "28px" }}
+                                            <motion.div
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                style={{ display: "inline-block" }}
+                                                whileTap={{ scale: 1 }}
+                                                whileHover={{ scale: 1.2, }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 360,
+                                                    damping: 20,
+                                                }}
                                             >
-                                                <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
-                                                    {i.interest.interestName}
-                                                </Text>
-                                            </Tag>
-
+                                                <Tag
+                                                    backgroundColor="orange.400"
+                                                    color="white"
+                                                    mr="1"
+                                                    mb="1"
+                                                    boxShadow="0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                                                    borderRadius="5px"
+                                                    h={{ md: "28px" }}
+                                                >
+                                                    <Text mt="5px" mb="5px" ml="15px" mr="15px" fontWeight="400" fontSize={{ base: "12px", md: "16px" }} lineHeight="150%">
+                                                        {i.interest.interestName}
+                                                    </Text>
+                                                </Tag>
+                                            </motion.div>
                                         ))}</Box>
                                 </Box>
                             }
@@ -197,7 +196,6 @@ const DatingYourActivityBox: FC<{ poll: PollInfo[] }> = ({ poll }) => {
                                                 <Text fontSize="12px" color="white" as="b">
                                                     {values.participants.length - values.participants.filter(i => i.isAccepted).length > 99 ? "99+" : values.participants.length - values.participants.filter(i => i.isAccepted).length}
                                                     {/* Number of people that haven't accept need to replace 2 with data from db*/}
-                                                    {/* {2 > 99 ? "99+" : 2} */}
                                                 </Text>
                                             </Circle>
                                         </Link>

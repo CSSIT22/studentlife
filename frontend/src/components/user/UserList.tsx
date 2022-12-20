@@ -35,7 +35,7 @@ const UserList: FC<{ isSelected?: boolean; userProfile: string; userName: string
                                 <Text as="b" fontSize="sm">
                                     {userName}
                                 </Text>
-                                <Text as="b" fontSize="sm">
+                                <Text as="b" fontSize="sm" width={"90px"} whiteSpace="nowrap" overflow={"hidden"} textOverflow={"ellipsis"}>
                                     {lastName}
                                 </Text>
                             </Box>
@@ -45,15 +45,7 @@ const UserList: FC<{ isSelected?: boolean; userProfile: string; userName: string
                     ))} */}
                     </HStack>
                     <HStack width={"6rem"} justify={{ base: "flex-end" }}>
-                        {isSelect ? (
-                            <Button _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="solid">
-                                Follow
-                            </Button>
-                        ) : (
-                            <Button _hover={{ cursor: "pointer" }} onClick={handleOnSelect} colorScheme="orange" variant="outline">
-                                Following
-                            </Button>
-                        )}
+
                     </HStack>
                 </Flex>
             </Box>

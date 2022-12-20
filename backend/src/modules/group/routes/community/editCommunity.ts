@@ -5,12 +5,13 @@ const editCommunity = async (req: Request, res: Response) => {
     const body = req.body
     const id = req.params.id
 
-    const editCommunity: any = {
-        communityName: body.communityName,
-        communityDesc: body.communityDesc,
-        communityPrivacy: body.communityPrivacy,
-        communityPhoto: body.communityCoverPhoto,
-    }
+
+
+    let selectedTag = body.communityTags?.split(',')
+    
+    let pic:any = req.files
+    
+    let privacy = body.communityPrivacy == 'false' ? false : true
 
     const tag2id = await prisma.tag.findMany({
         select: {
@@ -18,21 +19,34 @@ const editCommunity = async (req: Request, res: Response) => {
         },
         where: {
             tagName: {
-                in: body.communityTag,
+                in: selectedTag,
             },
         },
     })
 
+
     let a: any = []
 
     let x: any = {
-        any: tag2id.map((item) => a.push({ tagId: item.tagId, communityId: body.communityId })), //req.params.communityId
+        any: tag2id.map((item:any) => a.push({ communityId: id,tagId: item.tagId })),//req.params.communityId
     }
+
+
+    const editCommunity: any = {
+        communityName: body.communityName,
+        communityDesc: body.communityDesc,
+        communityPrivacy: privacy,
+        communityPhoto: pic[0].buffer,
+        
+    }
+
+
 
     try {
         await prisma.community.update({
             where: {
                 communityId: id,
+                
             },
             data: editCommunity,
         })
@@ -47,6 +61,7 @@ const editCommunity = async (req: Request, res: Response) => {
             data: a,
         })
 
+        console.log("success ?")
         res.status(201).send("Edit Success")
     } catch (err) {
         console.log(err)

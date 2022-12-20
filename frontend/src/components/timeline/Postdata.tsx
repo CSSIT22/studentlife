@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import API from "src/function/API"
+
 
 function CurrentDate(): string {
     var date: Date = new Date()
@@ -18,7 +17,7 @@ function ScoreUp(likes: number, comments: number, shares: number) {
     shares *= 2 // 1 shares = 2 scores
     return likes + comments + shares
 }
-let a = RandomNumber();
+
 export const Postdata = [
     {
         id: "1",
@@ -30,7 +29,11 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "https://img.freepik.com/premium-vector/boy-waving-hand-greeting-cute-people-illustration_107355-500.jpg?w=1380",
-        score: RandomNumber(),
+        score: 0
+        // Since we can't add score right when we declare here, like => "likes + comments + shares", "ScoreUp(likes, comments, shares)",
+        // "Postdata[0].likes, Postdata[0].comments, Postdata[0].shares", or something similar.
+        // The solution that Phon found right now is to assign the score later by using 'for loop' below
+        // if you got any better idea feel free to try it, Thanks!
     },
     {
 
@@ -43,7 +46,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "https://img.freepik.com/premium-vector/smiling-young-man-showing-thumbs-up-illustration-hand-drawn-style_213307-233.jpg?w=1380",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: "3",
@@ -55,7 +58,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "https://img.freepik.com/premium-vector/big-obstacle-concept-illustration_1133-825.jpg?w=1800",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: "4",
@@ -67,7 +70,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -79,7 +82,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -91,7 +94,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -103,7 +106,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -115,7 +118,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -127,7 +130,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -139,7 +142,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -151,7 +154,7 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
     {
         id: RandomNumber(),
@@ -163,6 +166,16 @@ export const Postdata = [
         shares: RandomNumber(),
         avatar: "https://upload.wikimedia.org/wikipedia/commons/4/48/RedCat_8727.jpg",
         media: "",
-        score: RandomNumber(),
+        score: 0
     },
 ]
+
+// for loop use for assigning score to each Post
+for (let i = 0; i < Postdata.length; i++) {
+    let score = ScoreUp(Postdata[i].likes, Postdata[i].comments, Postdata[i].shares)
+    // let score = Postdata[i].likes + Postdata[i].comments + Postdata[i].shares
+    Postdata[i].score = score
+    // Log below for checking score correctness
+    // console.log(Postdata[i].name + ": " + Postdata[i].likes + " + " + "(" + Postdata[i].comments + "*4" + ")"
+    //     + " + " + "(" + Postdata[i].shares + "*2" + ")" + " = " + score)
+}

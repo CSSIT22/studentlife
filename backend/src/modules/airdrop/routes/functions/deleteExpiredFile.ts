@@ -13,30 +13,56 @@ const deleteExpiredFile = async (req: Request<any>, res: Response<any>) => {
     const today = new Date()
     //new prisma
     const prisma = new PrismaClient()
+    let expiredList:any[] = []
     const expiredFile = await prisma.file_Info.findMany({
         where: {
-            AND: [
+            AND:[
                 {
-                    fileExpired: {
-                        lt: today,
-                    },
+                    OR:[
+                        {
+                            sendType: "Everyone"
+                        },{
+                            OR:[
+                                {
+                                    sendType: "Department"
+                                },{
+                                    sendType: "Specific"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
-                    fileExpired: {
-                        gt: new Date(1000000000000),
-                    },
-                },
-            ],
+                    AND: [
+                        {
+                            fileExpired: {
+                                lt: today,
+                            },
+                        },
+                        {
+                            fileExpired: {
+                                gt: new Date(1000000000000),
+                            },
+                        },
+                    ],
+                }
+            ]
+            
         },
+    }).then((res:any)=>{
+        expiredList = res
+    }).catch((err: any) => {
     })
-    expiredFile.map(async (item: any) => {
+    expiredList?.map(async (item: any) => {
         // const deleteFromDrive = await drive.delete(`/${item.fileId}`)
         await prisma.file_Info.delete({
             where: {
                 fileId: item.fileId,
             },
-        })
+        }).then((result:any) => {
+            console.log("delete expired file")
+        }).catch((err:any) => {
+        });
     })
-    console.log("Check expired file")
 }
 export default deleteExpiredFile

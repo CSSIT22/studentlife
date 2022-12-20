@@ -1,10 +1,10 @@
-import { Center, Flex, Spacer, Box, Button, Textarea } from "@chakra-ui/react"
+import { Center, Flex, Spacer, Box, Button, Textarea, useToast } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import CancelButton from "../../../components/blog/cancleButton"
 import CommentButton from "../../../components/blog/CommentButton"
 import EmojiReaction from "../../../components/blog/EmojiReaction"
 import Optionbutton from "../../../components/blog/Optionbutton"
-import PostImage from "../../../components/blog/PostImage"
+import PostImage from "../../../components/blog/PostFile"
 import PostText from "../../../components/blog/PostText"
 import PostType_modal from "../../../components/blog/PostType_modal"
 import Profile from "../../../components/blog/Profile"
@@ -14,17 +14,18 @@ import UsernameOnly from "../../../components/blog/UsernameOnly"
 import AppBody from "../../../components/share/app/AppBody"
 import { CiYoutube, CiImageOn } from "react-icons/ci"
 import TextAreaPost from "../../../components/blog/TextAreaPost"
-import ImageInsert from "../../../components/blog/ImageInsert"
 import VideoInsert from "../../../components/blog/VideoInsert"
-import PostButton from "../../../components/annoucement/PostButton"
+import PostButton from "../../../components/blog/PostButton"
 import { useNavigate, useParams } from "react-router-dom"
 import API from "src/function/API"
 import { authContext } from "src/context/AuthContext"
-import User from "../../link/data/user"
+import FileUpload from '../../../components/blog/FileUpload';
+
 
 const Create = () => {
     const param = useParams()
     const [text, setText] = useState<any>("")
+    const [files, setFiles] = useState<any>([])
     // const [post, setPost] = useState<any>("")
     const navigate = useNavigate()
     const user = useContext(authContext)
@@ -35,11 +36,34 @@ const Create = () => {
     //         /**ตรงนี้ๆ */
     //     })
     // })
+    const toast = useToast()
+
     const submit = () => {
-        API.post<any>("/blog/postCreatingX", {
-            body: text
-        })
-            .then((res) => navigate("/"))
+        if (text || files) {
+            const form = new FormData();
+            console.log(files)
+            form.append("text", text);
+            form.append("upload", files);
+            API.post<any>("/blog/postCreatingX",
+                form, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            )
+                .then((res) =>
+                    navigate("/"))
+        } else {
+            toast({
+                title: "Can't still post yet",
+                description: "You have to either have text or image or video in your post.",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+
+
+        }
     }
 
     return (
@@ -65,10 +89,10 @@ const Create = () => {
 
                     <TextAreaPost onChange={e => setText(e.target.value)} />
 
-                    <Center>
-                        <ImageInsert />
-                        <Spacer />
-                        <VideoInsert />
+                    <Center width={"100"}>
+                        <FileUpload children files={files} setFiles={setFiles} />
+                        {/* <Spacer /> */}
+                        {/* <VideoInsert children files={files} setFiles={setFiles} /> */}
                     </Center>
                     <Center>
                         <Box marginTop={"6"}>

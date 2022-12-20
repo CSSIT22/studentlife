@@ -1,5 +1,5 @@
 import { Polls } from "@apiType/dating"
-import { Box, Center, Container, Flex, HStack, Stack, useBoolean, useToast } from "@chakra-ui/react"
+import { Box, Center, HStack, Stack, useBoolean, useToast } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 import Lottie from "lottie-react"
 import { useEffect, useState } from "react"
@@ -23,6 +23,8 @@ const AllActivityPoll = () => {
     const [userId, setUserId] = useState<string>("")
     const [isLoading, setIsloading] = useState(true)
     const [isError, { on }] = useBoolean()
+    const [allPoll, setAllPoll] = useState<Polls[]>([])
+
     useEffect(() => {
         if (didMount && count != 0) {
             count--
@@ -109,15 +111,15 @@ const AllActivityPoll = () => {
                             }
                         })
                     })
+                API.get("/dating/allpoll/getAllPoll").then((data) => {
+                    setAllPoll(data.data)
+                    let pollData = data.data
+                    setPoll(pollData.slice(0, 20))
+                }).catch(on).finally(() => setIsloading(false))
+                API.get("/dating/allpoll/getAllPollUserId").then((data) => {
+                    setUserId(data.data)
+                }).catch(on)
             })
-            // API.get("/dating/allpoll/getAllPoll").then((data) => {
-            //     setPoll(data.data)
-            //     // console.log("Poll data " + data.data);
-            //     // console.log("Poll raw data " + data.data[0].userId);
-            // }).catch((err) => console.log(err));
-            // API.get("/dating/allpoll/getAllPollUserId").then((data) => {
-            //     setUserId(data.data)
-            // }).catch((err) => console.log(err));
         }
     })
 
@@ -130,14 +132,19 @@ const AllActivityPoll = () => {
         return didMount
     }
 
-    useEffect(() => {
+    function fetch() {
         API.get("/dating/allpoll/getAllPoll").then((data) => {
-            setPoll(data.data)
+            setAllPoll(data.data)
+            let pollData = data.data
+            setPoll(pollData.slice(0, poll.length))
         }).catch(on).finally(() => setIsloading(false))
 
-        API.get("/dating/allpoll/getAllPollUserId").then((data) => {
-            setUserId(data.data)
-        }).catch(on)
+    }
+
+    window.addEventListener('scroll', function () {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            setPoll(allPoll.slice(0, poll.length + 20))
+        }
     })
 
     return (
@@ -165,7 +172,7 @@ const AllActivityPoll = () => {
                 </Center>
                 {/* Calling all activity poll out (Need to order by time)*/}
                 <Stack pt="150px" pb="60px">
-                    <DatingAllActivityBox poll={poll} userId={userId} />
+                    <DatingAllActivityBox poll={poll} userId={userId} fetch={fetch} />
                 </Stack>
                 {/* Create poll button */}
                 <Box zIndex="4" bg="transparent" color="tomato" float="right" position="fixed" right={{ base: "15px", md: "20px" }} bottom={{ base: "70px", md: "30px" }} _hover={{ color: "black" }}>

@@ -8,7 +8,7 @@ const DatingLikedYouCrossButton: FC<{ isMobile: boolean | undefined; handleClick
     handleClick,
     UserId,
 }) => {
-    
+
     return (
         <Box w={{ base: "40px", md: "60px" }} h={{ base: "40px", md: "60px" }} cursor="pointer" onClick={() => handleClick("skip", UserId)}>
             {isMobile ? <motion.div
@@ -16,10 +16,10 @@ const DatingLikedYouCrossButton: FC<{ isMobile: boolean | undefined; handleClick
                 whileTap={{
                     scale: 0.8,
                 }}><AiOutlineStop size="60px" color="black" /></motion.div> : <motion.div
-                whileHover={{ scale: 1.2, }}
-                whileTap={{
-                    scale: 0.8,
-                }}><AiOutlineStop size="40px" color="black" /></motion.div>}
+                    whileHover={{ scale: 1.2, }}
+                    whileTap={{
+                        scale: 0.8,
+                    }}><AiOutlineStop size="40px" color="black" /></motion.div>}
         </Box>
     )
 }

@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { nanoid, customAlphabet } from "nanoid"
 
-const shortenlink = async (req: Request, res: Response) => {
+const shortenLink = async (req: Request, res: Response) => {
     //async = Does not folow the steps ()
     const body = req.body // Request parameter from user
     const userId = req.user?.userId || "" //Request userID from middleware to know who is using it.
@@ -27,4 +27,4 @@ const shortenlink = async (req: Request, res: Response) => {
     }
 }
 
-export default shortenlink
+export default shortenLink

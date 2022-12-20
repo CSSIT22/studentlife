@@ -14,12 +14,14 @@ const ContactUs = () => {
                 <ContentBox bg="#fff" sh="xl">
                     <Flex direction="row" justify="space-evenly" gap="3" wrap="wrap">
                         <Flex direction="column" gap="4" p="4">
-                            {phoneNo("+(66) 921 979 782")}
-                            {phoneNo("+(66) 921 979 782")}
-                            {phoneNo("+(66) 921 979 782")}
+                            {phoneNo("+(66) 92 197 9782")}
+                            {phoneNo("+(66) 82 353 6704")}
+                            {phoneNo("+(66) 94 565 6584")}
                         </Flex>
-                        <Flex direction="column" justify="center" p="4">
+                        <Flex direction="column" justify="center" gap="4" p="4">
                             {phoneNo("Line Id: khush")}
+                            {phoneNo("Line Id: oiemagique")}
+                            {phoneNo("Line Id: ulyssus")}
                         </Flex>
                     </Flex>
                 </ContentBox>
@@ -28,14 +30,14 @@ const ContactUs = () => {
                     <Flex p="6" direction="column" gap="3">
                         <Text>Please send us the following information if you want to sell a product on our platform:</Text>
                         <UnorderedList>
-                            {contactInfo.map((contact) => (
-                                <ListItem>{contact}</ListItem>
+                            {contactInfo.map((contact, key) => (
+                                <ListItem key={key}>{contact}</ListItem>
                             ))}
                         </UnorderedList>
                         <Text>And your product information:</Text>
                         <UnorderedList>
-                            {productInfo.map((productL) => (
-                                <ListItem>{productL}</ListItem>
+                            {productInfo.map((productL, key) => (
+                                <ListItem key= {key}>{productL}</ListItem>
                             ))}
                         </UnorderedList>
                         <Text>If you have any questions, feel free to contact us.</Text>
