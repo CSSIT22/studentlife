@@ -81,6 +81,23 @@ function detail() {
         }
     }
 
+    function handleGroup(ro: any) {
+        if (ro.room.roomType == "INDIVIDUAL") {
+            return (
+                <Box ><Avatar name={ro?.room?.nick[0]?.nickname} src={handleImg(ro?.room?.nick[0]?.nameWho?.image)} />
+                    <Center><Text fontSize={"xs"}>{ro?.room?.nick[0]?.nickname}</Text></Center></Box>
+
+            )
+        } else {
+            return (
+                <Box>
+                    <Avatar name={ro?.room?.group.roomName} src={handleImg("")} />
+                    <Center><Text fontSize={"xs"}>{ro?.room?.group.roomName}</Text></Center>
+                </Box>
+            )
+        }
+    }
+
     let [isFavorite, setIsFavorite] = useState(Boolean)
 
 
@@ -101,6 +118,9 @@ function detail() {
     const navigate = useNavigate()
     const share = () => {
         navigate(`/chat/${room2}?resId=${new URLSearchParams(location.search).get("resId")}`)
+    }
+    const review = () =>{
+        navigate(`/shopreview/shopdetails/restaurant/${new URLSearchParams(location.search).get("resId")}`)
     }
 
     const nextres = () => {
@@ -183,11 +203,12 @@ function detail() {
                                                 <Icon as={AiOutlineLike} fontSize="md" /> {e1.likes} liked
                                             </Box>
                                             <Spacer />
-                                            <Link to={`/restaurant/review?resId=${e1.resId}&id=${new URLSearchParams(location.search).get("id")}`}>
+                                            {/* <Link to={`/restaurant/review?resId=${e1.resId}&id=${new URLSearchParams(location.search).get("id")}`}>
                                                 <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
                                                     <Icon as={AiOutlineComment} fontSize="md" /> Review
                                                 </Box>
-                                            </Link>
+                                            </Link> */}
+                                            <a onClick={()=>{review()}}> <Icon as={AiOutlineComment} fontSize="md" /> Review</a>
                                         </Box>
                                     </GridItem>
 
@@ -262,17 +283,18 @@ function detail() {
                                                         <PopoverCloseButton />
                                                         <PopoverHeader fontWeight='semibold' textAlign={"center"}>Share</PopoverHeader>
                                                         <PopoverBody>
-                                                            <Flex>
+                                                            <Flex >
                                                                 <Wrap spacing="30px">
-                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6}>
+                                                                    <Grid templateColumns='repeat(5, 2fr)' gap={6} overflowX={"scroll"} maxW={"100%"}>
                                                                         {room?.map((ro: any) => {
                                                                             return (
                                                                                 <RadioGroup onChange={setRoom2} value={room2}>
                                                                                     <Radio value={ro.room.roomId}>
 
                                                                                         <GridItem>
-                                                                                            <Avatar name={ro.room.nick[0].nickname} src={handleImg(ro.room.nick[0].nameWho.image)} />
-                                                                                            <Center><Text fontSize={"xs"}>{ro.room.nick[0].nickname}</Text></Center>
+                                                                                            {/* <Avatar name={ro?.room?.nick[0]?.nickname} src={handleImg(ro?.room?.nick[0]?.nameWho?.image)} />
+                                                                                            <Center><Text fontSize={"xs"}>{ro?.room?.nick[0]?.nickname}</Text></Center> */}
+                                                                                            {handleGroup(ro)}
                                                                                         </GridItem>
 
                                                                                     </Radio>
