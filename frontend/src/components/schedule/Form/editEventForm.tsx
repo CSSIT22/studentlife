@@ -202,6 +202,7 @@ export const editEventForm: React.FC<any> = ({ eventId }) => {
                         </Text>
                 </FormLabel>
             </FormControl>
+            <Text color="red"> *This form is required to fill all information to update your detail.</Text>
             <HStack mt={5} w="100%" justifyContent={"flex-end"}>
                 <Button colorScheme="blue" width="239px" height="40px" bg="#E1AB20" onClick={submit}>
                     Edit
