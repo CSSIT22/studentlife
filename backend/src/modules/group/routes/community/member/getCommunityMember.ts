@@ -83,8 +83,8 @@ const getCommunityMember = async (req: Request, res: Response) => {
 
         const list = (role: string) =>
             member
-                .filter((member) => member.role.roleName === role && member.status === true)
-                .map((member) => {
+                .filter((member:any) => member.role.roleName === role && member.status === true)
+                .map((member:any) => {
                     return {
                         id: member.user.userId,
                         image: member.user.image,
@@ -108,8 +108,8 @@ const getCommunityMember = async (req: Request, res: Response) => {
             coAdmin: list("CO_ADMIN"),
             member: list("MEMBER"),
             pending: member
-                .filter((member) => member.status == false)
-                .map((member) => {
+                .filter((member:any) => member.status == false)
+                .map((member:any) => {
                     return {
                         id: member.user.userId,
                         image: member.user.image,
@@ -120,7 +120,7 @@ const getCommunityMember = async (req: Request, res: Response) => {
                         joined: member.joined,
                     }
                 }),
-            blacklist: blacklist.map((blacklist) => {
+            blacklist: blacklist.map((blacklist:any) => {
                 return {
                     id: blacklist.user.userId,
                     image: blacklist.user.image,
