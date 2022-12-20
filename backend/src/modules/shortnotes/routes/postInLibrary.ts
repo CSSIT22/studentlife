@@ -17,7 +17,7 @@ const postInLibrary = async (req: Request<any>, res: Response<any>) => {
         console.log(inli)
         res.json(inli)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

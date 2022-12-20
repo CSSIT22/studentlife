@@ -13,7 +13,7 @@ const deleteShortnote = async (req: Request<any>, res: Response<any>) => {
         })
         res.send(sn)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

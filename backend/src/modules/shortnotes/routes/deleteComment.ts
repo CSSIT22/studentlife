@@ -13,7 +13,7 @@ const deleteComment = async (req: Request<any>, res: Response<any>) => {
         })
         res.send(cm)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

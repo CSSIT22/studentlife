@@ -13,7 +13,7 @@ const deleteLibrary = async (req: Request<any>, res: Response<any>) => {
         })
         res.send(Li)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

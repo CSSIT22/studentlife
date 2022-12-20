@@ -22,7 +22,7 @@ const postResentShortnote = async (req: Request<any>, res: Response<any>) => {
         })
         res.send(rsn)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

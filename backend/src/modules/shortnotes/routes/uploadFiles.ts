@@ -87,7 +87,7 @@ const uploadFiles = async (req: Request<any>, res: Response<any>) => {
         res.status(200).json({ message: "Upload successfully" })
     } catch (err) {
         if (err) throw err
-        console.log(err)
+        //console.log(err)
         res.status(500)
     }
 }

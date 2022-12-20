@@ -24,7 +24,7 @@ const postComment = async (req: Request<any>, res: Response<any>) => {
         })
         res.send({ cm, cmDetail })
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

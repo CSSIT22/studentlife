@@ -62,7 +62,7 @@ const postShortnote = async (req: Request<any>, res: Response<any>) => {
 
         res.json(lastSn)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

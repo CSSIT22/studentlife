@@ -44,7 +44,7 @@ const editShortnote = async (req: Request<any>, res: Response<any>) => {
         })
         res.send(nsn)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }

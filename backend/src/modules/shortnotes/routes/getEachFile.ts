@@ -28,14 +28,16 @@ const getEachFile = async (req: Request<any>, res: Response<any>) => {
                     res.header("Content-Type", fileRes.headers["content-type"])
                     res.send(file)
                 }
-            }).catch((err) =>{
+            })
+            .catch((err) => {
                 res.send(err)
             })
 
         // res.header("Content-Type", (await file).headers["content-type"])
         // res.send((await file).data)
     } catch (err) {
-        console.log(err)
+        //console.log(err)
+        return res.send(err)
     }
 }
 export default getEachFile

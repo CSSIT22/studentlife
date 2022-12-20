@@ -32,7 +32,7 @@ const postAccess = async (req: Request<any>, res: Response<any>) => {
             }
         })
     } catch (err) {
-        console.log(err)
+        //console.log(err)
         return res.send(err)
     }
 }
