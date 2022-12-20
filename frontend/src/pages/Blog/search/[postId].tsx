@@ -40,7 +40,7 @@ import Optionbutton from "../../../components/blog/Optionbutton"
 import PostText from "../../../components/blog/PostText"
 import PostFile from "../../../components/blog/PostFile"
 import EmojiReaction from '../../../components/blog/EmojiReaction';
-// import CommentButton from "../../../components/blog/CommentButton"
+// import CommentButton from "../../../components/blog/ReRouteButton"
 import RemodButton from "../../../components/blog/RemodButton"
 import Username from "../../../components/blog/Username"
 import Time from "../../../components/blog/Time"
@@ -53,6 +53,7 @@ import file from 'src/pages/groups/id/[communityID]/file';
 import { Avatar } from '@chakra-ui/react';
 import { useNavigate } from "react-router-dom"
 import react from '@vitejs/plugin-react';
+import ReRouteButton from "../../../components/blog/ReRouteButton"
 
 const Home = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -104,9 +105,9 @@ const Home = () => {
         navigate(path);
     }
 
-    const goToFullPost = () => {
+    const goBackToHome = () => {
 
-        let path = "/blog/search/" + param.postId + param.postId;
+        let path = "/"
         navigate(path);
     }
 
@@ -157,7 +158,7 @@ const Home = () => {
 
                             <Spacer />
 
-                            <Optionbutton />
+                            {/* <Optionbutton /> */}
                         </Flex>
                     </Box>
                     {post && <PostText
@@ -180,7 +181,8 @@ const Home = () => {
                                 }
                             </Box>
                             <Box>
-                                <Button colorScheme="orange" size="lg" w={250} onClick={goToFullPost}>
+                                <ReRouteButton onClick={goBackToHome}> Go Back To Home</ReRouteButton>
+                                {/* <Button colorScheme="orange" size="lg" w={250} onClick={goToFullPost}>
                                     Go to Post!
                                 </Button>
                                 <Modal
@@ -207,10 +209,10 @@ const Home = () => {
                                             <Button onClick={onClose}>Cancel</Button>
                                         </ModalFooter>
                                     </ModalContent>
-                                </Modal>
+                                </Modal> */}
                             </Box>
                             <Box>
-                                <RemodButton />
+                                <RemodButton text={"modlifes.me/blog/search/" + param.postId} />
                             </Box>
                         </Box>
                         <VStack paddingLeft="12">

@@ -7,6 +7,7 @@ type ImageInsertProps = {
     children: React.ReactNode;
     files: File | null;
     setFiles: (files: File | null) => void;
+    // fileinsert: (value: number) => void;
 };
 
 const FileUpload: FC<ImageInsertProps> = ({ children, files, setFiles }) => {

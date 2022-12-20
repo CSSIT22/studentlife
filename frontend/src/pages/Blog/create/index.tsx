@@ -1,7 +1,7 @@
 import { Center, Flex, Spacer, Box, Button, Textarea, useToast, Avatar } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react"
 import CancelButton from "../../../components/blog/cancleButton"
-import CommentButton from "../../../components/blog/CommentButton"
+import CommentButton from "../../../components/blog/ReRouteButton"
 import Optionbutton from "../../../components/blog/Optionbutton"
 import PostImage from "../../../components/blog/PostFile"
 import PostText from "../../../components/blog/PostText"
@@ -42,8 +42,20 @@ const Create = () => {
     //         body: text
     //     })
 
+
+
+    let setValue: number
+
+    setValue = 0
+
+    console.log(text)
+
+    const fileReady = (value: number) => {
+        setValue = 1
+    };
+
     const submit = () => {
-        if (text || files) {
+        if (text != "" && !files.empty) {
             const form = new FormData();
             console.log(files)
             form.append("text", text);
@@ -58,9 +70,10 @@ const Create = () => {
                 .then((res) =>
                     navigate("/"))
         } else {
+            console.log(files)
             toast({
                 title: "Can't still post yet",
-                description: "You have to either have text or image or video in your post.",
+                description: "Your post must have text, but image or video is optional",
                 status: 'warning',
                 duration: 9000,
                 isClosable: true,

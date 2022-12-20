@@ -6,11 +6,13 @@ import AppBody from "../share/app/AppBody"
 import Feed from "./Feed"
 import { Postdata } from "./Postdata"
 import EmojiReaction from "../blog/EmojiReaction"
-import CommentButton from "../blog/CommentButton"
+import CommentButton from "../blog/ReRouteButton"
 import RemodButton from "../blog/RemodButton"
 import Optionbutton from "../blog/Optionbutton"
 import EmojiFeelingTelling from "../blog/EmojiFeelingTelling"
 import PostFile from "../blog/PostFile"
+import { useNavigate, useParams } from "react-router-dom"
+import ReRouteButton from '../blog/ReRouteButton';
 // export type PostProps = { // <= Previous way to get Post properties
 //     id: string
 //     name: string
@@ -46,6 +48,25 @@ export const Post = (prop: any) => {
             didFetch.current = true;
         }
     }, [])
+
+    const handleSetSelectedEmoji = (emoji: JSX.Element | null) => {
+        // do something with the selected emoji
+        API.post<any>("/blog/reactopost", {
+            postId: posts.postId,
+            emoteId: emoji?.props
+        })
+
+    };
+
+    const param = useParams()
+    const navigate = useNavigate()
+
+    const goToPost = () => {
+
+        let path = "/blog/search/" + param.postId
+        navigate(path);
+    }
+
 
     // function CurrentDate(): string {
     //     var date: Date = new Date()
@@ -84,16 +105,16 @@ export const Post = (prop: any) => {
                         <Center>
                             <Box marginTop={"6"} display="flex" gap={10}>
                                 <Box>
-                                    <EmojiReaction />
+                                    <EmojiReaction setSelectedEmoji={handleSetSelectedEmoji} emojiname={"Angry"} />
                                 </Box>
                                 <Box>
-                                    <EmojiFeelingTelling number={postDt.studentsReacted} emotion=" LIKES" />
+                                    <EmojiFeelingTelling number={postDt._count.studentsReacted} />
                                 </Box>
                                 <Box>
-                                    <CommentButton />
+                                    <ReRouteButton onClick={goToPost}>Go To This Post</ReRouteButton>
                                 </Box>
                                 <Box>
-                                    <RemodButton />
+                                    <RemodButton text={"/blog/search/" + param.postId} />
                                 </Box>
                             </Box>
                         </Center>
