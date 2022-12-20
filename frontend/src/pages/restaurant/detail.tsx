@@ -102,6 +102,9 @@ function detail() {
     const share = () => {
         navigate(`/chat/${room2}?resId=${new URLSearchParams(location.search).get("resId")}`)
     }
+    const review = () =>{
+        navigate(`/shopreview/shopdetails/restaurant/${new URLSearchParams(location.search).get("resId")}`)
+    }
 
     const nextres = () => {
         navigate(`/restaurant/likeOrNope?radius=${radius}&id=${parseInt(new URLSearchParams(location.search).get("id") + "") + 1 > parseInt(new URLSearchParams(location.search).get("total") + "") - 1 ? 0 : parseInt(new URLSearchParams(location.search).get("id") + "") + 1}`)
@@ -183,11 +186,12 @@ function detail() {
                                                 <Icon as={AiOutlineLike} fontSize="md" /> {e1.likes} liked
                                             </Box>
                                             <Spacer />
-                                            <Link to={`/restaurant/review?resId=${e1.resId}&id=${new URLSearchParams(location.search).get("id")}`}>
+                                            {/* <Link to={`/restaurant/review?resId=${e1.resId}&id=${new URLSearchParams(location.search).get("id")}`}>
                                                 <Box display="flex" verticalAlign={"AiOutlineComment"} pr={2}>
                                                     <Icon as={AiOutlineComment} fontSize="md" /> Review
                                                 </Box>
-                                            </Link>
+                                            </Link> */}
+                                            <a onClick={()=>{review()}}> <Icon as={AiOutlineComment} fontSize="md" /> Review</a>
                                         </Box>
                                     </GridItem>
 
