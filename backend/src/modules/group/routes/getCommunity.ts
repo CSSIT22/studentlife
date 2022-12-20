@@ -170,7 +170,7 @@ const getCommunity = async (req: Request, res: Response) => {
                         lastActive: lastActivityFormat(last?.posts[0]?.post?.lastEdit),
                     }
                 }),
-                own: ownCommunitys.map((item: any) => {
+                own: ownCommunitys?.map((item: any) => {
                     const last = lastOwnActivity.find((last: any) => last.communityId === item.communityId)
                     return {
                         ...item,

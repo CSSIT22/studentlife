@@ -123,7 +123,7 @@ const getCommunityPost = async (req: Request, res: Response) => {
 
         res.send({
             postTest: communityPost,
-            post: getStudentPost.map((post) => ({
+            post: getStudentPost.map((post:any) => ({
                 id: post.postId,
                 body: post.body,
                 user: {
@@ -134,16 +134,16 @@ const getCommunityPost = async (req: Request, res: Response) => {
                     role:
                         post.postOwner.userId == community?.owner?.userId
                             ? "OWNER"
-                            : community?.member.find((member) => member.user.userId == post.postOwner.userId)?.role.roleName,
+                            : community?.member.find((member:any) => member.user.userId == post.postOwner.userId)?.role.roleName,
                     undefined:
-                        community?.member.find((member) => member.user.userId == post.postOwner.userId)?.role.roleName == undefined &&
+                        community?.member.find((member:any) => member.user.userId == post.postOwner.userId)?.role.roleName == undefined &&
                         post.postOwner.userId != community?.owner?.userId,
                 },
-                isPinned: communityPost.find((communityPost) => communityPost.post.postId == post.postId)?.isPinned,
+                isPinned: communityPost.find((communityPost:any) => communityPost.post.postId == post.postId)?.isPinned,
                 date: post.lastEdit,
                 score: post.score,
                 seen: post.seen,
-                postMedia: post.files.find((file) => (post.postId = file.postId))?.fileAddress,
+                postMedia: post.files.find((file:any) => (post.postId = file.postId))?.fileAddress,
             })),
             // post: communityPost.map((post) => ({
             //     id: post.post.postId,

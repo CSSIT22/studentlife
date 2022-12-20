@@ -49,7 +49,7 @@ const ResCard: FC<any> = (props: any) => {
             >
                 <Image
                     objectFit='cover'
-                    src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${detail[0]?.images[0]?.image}&key=AIzaSyApH4DrOZv8gyZjUEDWOy3wGDSxtGK6ypM`}
+                    src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${detail[0]?.images[0]?.image}&key=AIzaSyAqb4YbGEyTrN-YuD1HJPimROcG4hVMaTM`}
                     alt='RestaurantShop'
                 />
 
