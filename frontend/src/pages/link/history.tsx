@@ -70,10 +70,8 @@ const history = () => {
                         <VStack spacing={5} align="stretch" marginBottom={"100%"} >
                             <Center>
                                 <Box w="100" p={5} color="white" alignItems={"center"}>
-
                                     {/* ------------------------ */}
                                     <HStack spacing="24px">
-
                                         <Box w={{md:"30rem",base:"100%"}} h="30rem" overflowWrap={'normal'} overflow="scroll">
                                             <Flex rounded="xl" gap={{ md: 1, sm: 3 }} direction="column" ml={1} color={"black"} borderRadius={"md"}>
                                                 {linkdata && linkdata.map((link: { shortenLink: string, slId: string }, index: any) =>
@@ -82,7 +80,6 @@ const history = () => {
                                         </Box>
                                     </HStack>
                                     {/* ------------------------ */}
-
                                 </Box>
                             </Center>
                         </VStack>

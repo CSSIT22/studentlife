@@ -39,6 +39,7 @@ const LList: FC<{ shortenLink: string; handleSelect?: (shortenLink: string, slId
                                     <Text as="b" fontSize={{base:"x-small" ,md:"lg"}} width={{base:"170px" ,  md:"23rem"}} whiteSpace={"nowrap"} overflow={"hidden"} textOverflow={"ellipsis"}>
                                     {/* https://ss.modlifes.me/ */}
                                     https://ss.modlifes.me/{shortenLink}
+                                    
                                     </Text>
                                 </Box>
                             </div>
