@@ -73,7 +73,7 @@ const showEvent = () => {
 
     if (isError) {
         return (
-            <AppBody>Error!!!</AppBody>
+            <AppBody>Event does not exist!</AppBody>
         )
     }
 

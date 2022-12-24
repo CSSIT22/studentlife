@@ -183,7 +183,7 @@ const restId = () => {
                         Opening
                     </Heading>
                     <Heading key={index} padding={10} size={"lg"}>
-                        {item.openAt[0].open} - {item.closeAt[0].close}
+                        {String(item.openAt[0].open).substring(0, 2)}.{String(item.openAt[0].open).substring(2, 4)} - {String(item.closeAt[0].close).substring(0, 2)}.{String(item.closeAt[0].close).substring(2, 4)}
                     </Heading>
                 </Flex>
             ))}

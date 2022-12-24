@@ -13,25 +13,14 @@ import EmojiFeelingTelling from "../blog/EmojiFeelingTelling"
 import PostFile from "../blog/PostFile"
 import { useNavigate, useParams } from "react-router-dom"
 import ReRouteButton from '../blog/ReRouteButton';
-// export type PostProps = { // <= Previous way to get Post properties
-//     id: string
-//     name: string
-//     dateTime: string
-//     message: string
-//     likes: number
-//     comments: number
-//     shares: number
-//     avatar: string
-//     media: string
-//     score?: number
-// }
 
-export const Post = (prop: any) => {
+
+export const Postuser = (prop: any) => {
     const [posts, setposts] = useState<any>([])
     // const getData = API.get("/timeline/getposts") old mockup data
     // const getPost = API.get("/timeline/getPostList") // data from database == User_Profile then Student_Post
-    const getPost = API.get("/timeline/getStudentPost/" + prop.i) // data from database == Student_Post then User_Profile
-
+    const getPost = API.get("/timeline/getstudentpostuser/" + prop.i) // data from database == Student_Post then User_Profile
+    console.log(getPost)
     const didFetch = useRef<boolean>(false);
     useEffect(() => {
         if (didFetch.current || prop.isLoading) return;
@@ -61,24 +50,11 @@ export const Post = (prop: any) => {
     const param = useParams()
     const navigate = useNavigate()
 
-    const goToPost = (go: any) => {
+    const goToPost = () => {
 
-        let path = "/blog/search/" + go
+        let path = "/blog/search/" + param.postId
         navigate(path);
     }
-
-
-    // function CurrentDate(): string {
-    //     var date: Date = new Date()
-    //     var dmy = date.toDateString()
-    //     var hours = date.getHours().toString()
-    //     var minutes = date.getMinutes().toString()
-    //     // var seconds = date.getSeconds().toString()
-    //     let currentDate: string = dmy + " " + hours + ":" + minutes /* + ":" + seconds */
-    //     return currentDate
-    // }
-
-    // let sortedScore = Postdata.sort((a, b) => (a.score > b.score ? -1 : 1))
 
     return (
         posts.map((postDt: any, index: any) =>
@@ -99,24 +75,22 @@ export const Post = (prop: any) => {
 
                         <Container p="1" fontWeight="normal">
                             {postDt.body}
-                            {postDt?.files.length === 1 &&
-                                <PostFile file={postDt.files[0].fileAddress}
-                                />}
+                            {<PostFile file={postDt.files[0]?.fileAddress} />}
                             {/* <Image src={postDt.media} alt="" p="1" fit={"cover"} /> */}
                         </Container>
                         <Center>
                             <Box marginTop={"6"} display="flex" gap={10}>
                                 <Box>
-                                    <EmojiReaction setSelectedEmoji={handleSetSelectedEmoji} emojiname={postDt?.reacted.emoteId} />
+                                    <EmojiReaction setSelectedEmoji={handleSetSelectedEmoji} emojiname={"Angry"} />
                                 </Box>
                                 <Box>
                                     <EmojiFeelingTelling number={postDt._count.studentsReacted} />
                                 </Box>
                                 <Box>
-                                    <ReRouteButton onClick={() => goToPost(postDt.postId)}>Go To This Post</ReRouteButton>
+                                    <ReRouteButton onClick={goToPost}>Go To This Post</ReRouteButton>
                                 </Box>
                                 <Box>
-                                    <RemodButton text={"modlifes.me/blog/search/" + postDt.postId} />
+                                    <RemodButton text={"/blog/search/" + param.postId} />
                                 </Box>
                             </Box>
                         </Center>
@@ -125,12 +99,6 @@ export const Post = (prop: any) => {
             </div>
         )
     )
-
-    // return (
-    //     <div className="mainBox">
-    //         {renderPost}
-    //     </div>
-    // )
 }
 
-export default Post
+export default Postuser

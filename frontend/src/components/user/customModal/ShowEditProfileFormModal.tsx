@@ -69,7 +69,9 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
             phone: phone,
             gender: sex,
         }).then((res) => {
-            console.log(aboutMe)
+            // console.log(aboutMe)
+            // onClose()
+            refreshClick()
         }).catch(err => console.error("Error happend during updating user profile", err))
 
     }
@@ -80,7 +82,7 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
             <ModalContent>
                 <ModalHeader>About Me</ModalHeader>
                 <ModalCloseButton />
-                <form onSubmit={(e) => { e.preventDefault(); submitHandler(); onClose() }}>
+                <form onSubmit={(e) => { e.preventDefault(); }}>
                     <ModalBody pb={6}>
 
                         <FormControl>
@@ -126,7 +128,7 @@ export const ShowEditProfileFormModal: React.FC<{ initialFocusRef: React.Mutable
                         <motion.div whileHover={{ scale: 0.9 }}>
                             <Button type='submit' color="white" bg="orange.600"
                                 _hover={{ background: "orange.200" }} mr={3}
-                                onClick={refreshClick}
+                                onClick={submitHandler}
                                 isDisabled={buttonDisable}
                             >
                                 Save

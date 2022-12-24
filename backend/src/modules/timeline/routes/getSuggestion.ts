@@ -7,7 +7,7 @@ const getSuggestion = async (req: Request, res: Response) => {
         const studentPostCount = await prisma.student_Post.count()
         const skip = Math.floor(Math.random() * studentPostCount) // skip by random number
         const getStudentP = await prisma.student_Post.findMany({
-            take: 5,
+            take: 1,
             skip: skip,
             orderBy: { score: "desc" },
             include: {

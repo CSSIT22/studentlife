@@ -56,7 +56,9 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
         }).catch((err) => console.log(err))
     }, [])
 
-    const handleSubmit = () => {
+    
+
+    const handleSubmit = async () => {
         console.log(time, endtime);
 
         onAddClose()
@@ -81,43 +83,47 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
 
         }
 
-        API.post<Event>("/schedule/createEvent", body).then((res) => console.log(res))
+        API.post<Event>("/schedule/createEvent", body).then(async (res) => {
+            console.log(res);
+            if (type == "Assignment") {
+                await API.post<{
+                    taskName: string,
+                    taskDesc: string,
+                    created: any,
+                    due: any,
+                    taskType: any
+                }>("/schedule/createTask", {
+                    taskName: event,
+                    taskDesc: description,
+                    created: time,
+                    due: endtime,
+                    taskType: "individual",
+
+                })
+
+            }
+            modal1.onClose();
+            reload();
+        })
             .catch((err => console.log("Error")))
         // .then(() => {
         //     navigate({
         //         pathname: "/schedule"
         //     })
         // })
-        if (type == "Assignment") {
-            API.post<{
-                taskName: string,
-                taskDesc: string,
-                created: any,
-                due: any,
-                taskType: any
-            }>("/schedule/createTask", {
-                taskName: event,
-                taskDesc: description,
-                created: time,
-                due: endtime,
-                taskType: "individual",
 
-            }).then((res) => console.log(res))
-                .catch((err => console.log("Error")))
-
-        }
 
     }
     return (
         <>
 
-            <FormControl borderColor="black">
+            <FormControl borderColor="black" isRequired >
 
-                <FormLabel color="black" >
-                    <Box display="flex">
-                        <Text fontSize={{ base: "20px", md: "24px" }} pr="2">Event name</Text>
-                        <Text color="red">*</Text>
-                    </Box>
+                <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }}pr="2">
+                    {/* <Box display="flex"> */}
+                        Event name
+                        {/* <Text color="red">*</Text> */}
+                    {/* </Box> */}
                 </FormLabel>
 
                 <Input
@@ -134,9 +140,9 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
 
 
 
-            <FormControl mt={4} borderColor="black">
-                <FormLabel color="black">
-                    <Text fontSize={{ base: "20px", md: "24px" }}>Description</Text>
+            <FormControl mt={4} borderColor="black" isRequired>
+                <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                    Description
                 </FormLabel>
                 <Textarea
                     id="description"
@@ -151,12 +157,12 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
             </FormControl>
 
             <Box display={{ md: "flex" }} >
-                <FormControl mt={4} pr="4" borderColor="black">
-                    <FormLabel color="black">
-                        <Box display="flex">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>Start Time</Text>
-                            <Text color="red">*</Text>
-                        </Box>
+                <FormControl mt={4} pr="4" borderColor="black" isRequired>
+                    <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }}>
+                        
+                            Start Time
+            
+                        
                     </FormLabel>
                     <Input placeholder="Select time" size="s"
                         id="time"
@@ -166,12 +172,11 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
                         boxShadow="md" />
                 </FormControl>
 
-                <FormControl mt={4} pr="4" borderColor="black">
-                    <FormLabel color="black" >
-                        <Box display="flex">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>End Time</Text>
-                            <Text color="red">*</Text>
-                        </Box>
+                <FormControl mt={4} pr="4" borderColor="black" isRequired>
+                    <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                       
+                            End Time
+                        
 
                     </FormLabel>
                     <Input placeholder="Select time"
@@ -182,25 +187,22 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
 
                 </FormControl>
 
-                <FormControl mt={4} borderColor="black">
-                    <FormLabel color="black" >
-                        <Box display="flex">
-                            <Text fontSize={{ base: "20px", md: "24px" }}>Event Type</Text>
-                            <Text color="red">*</Text>
-                        </Box>
-
+                <FormControl mt={4} borderColor="black" isRequired>
+                    <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                            Event Type
                     </FormLabel>
-                    <Box>
+                    
                         <Select placeholder="Select Event Type"
                             boxShadow="md"
                             onChange={(e) => { handleSelectType(e) }}
                             size='sm'
                             borderColor="black">
+
                             <option value="Course">Course</option>
                             <option value="Assignment">Assignment</option>
                             <option value="Activity">Activity</option>
                         </Select>
-                    </Box>
+                    
 
                 </FormControl>
             </Box>
@@ -219,6 +221,7 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
                         boxShadow="md"
 
                     />
+                    <Text color="red"> If your event type is assignment please fill this field.</Text>
                 </FormControl>
                 <FormControl mt={4} >
                     <FormLabel color="black">
@@ -238,6 +241,7 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
 
                         </Select>
                     </Box>
+                    <Text color="red"> If your event type is course or assignment please select course ID.</Text>
                 </FormControl>
 
 
@@ -245,12 +249,11 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
 
 
 
-            <FormControl mt={4} borderColor="black">
-                <FormLabel color="black">
-                    <Box display="flex">
-                        <Text fontSize={{ base: "20px", md: "24px" }}>Location</Text>
-                        <Text color="red">*</Text>
-                    </Box>
+            <FormControl mt={4} borderColor="black" isRequired>
+                <FormLabel color="black" fontSize={{ base: "20px", md: "24px" }} pr="2">
+                    
+                        Location
+                    
 
                 </FormLabel>
                 <Input
@@ -287,8 +290,6 @@ const AddModalForm: FC<{ modal1: any, reload: Function }> = ({ modal1, reload })
                     onClick={() => {
                         // onAddClose()
                         handleSubmit()
-                        modal1.onClose()
-                        reload()
 
                     }}
 

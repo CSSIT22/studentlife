@@ -101,7 +101,7 @@ const Home = () => {
 
     const goToUser = () => {
 
-        let path = "/user";
+        let path = "/user/" + post.postOwner.userId;
         navigate(path);
     }
 

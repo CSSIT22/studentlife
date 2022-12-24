@@ -7,6 +7,7 @@ import getStudentPost from "./routes/getStudentPost"
 import getSuggestion from "./routes/getSuggestion"
 import getUserName from "./routes/getUserName"
 import searchPost from "./routes/searchpost"
+import getstudentpostuser from "./routes/getstudentpostuser"
 
 export type Post = {
     id: string
@@ -96,6 +97,8 @@ timelineRoutes.get("/getUserName", getUserName)
 timelineRoutes.get("/getReacted", getReacted)
 
 timelineRoutes.get("/getStudentPost/:i", getStudentPost)
+
+timelineRoutes.get("/getstudentpostuser/:i", getstudentpostuser)
 
 timelineRoutes.get("/getSuggestion", getSuggestion)
 
